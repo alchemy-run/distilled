@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -562,7 +562,8 @@ export const cancelApplicationDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CancelApplicationDeploymentRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CancelApplicationDeploymentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -578,7 +579,8 @@ export const cleanApplicationQueues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CleanApplicationQueuesRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CleanApplicationQueuesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -594,7 +596,8 @@ export const clearApplicationDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ClearApplicationDeploymentsRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<ClearApplicationDeploymentsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -610,7 +613,8 @@ export const createApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -626,7 +630,8 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -642,7 +647,8 @@ export const deployApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeployApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeployApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -658,7 +664,8 @@ export const deployApplicationNginxQuickstart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeployApplicationNginxQuickstartRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeployApplicationNginxQuickstartResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -674,7 +681,8 @@ export const disconnectApplicationGitProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DisconnectApplicationGitProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DisconnectApplicationGitProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -690,7 +698,8 @@ export const dropApplicationDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DropApplicationDeploymentRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DropApplicationDeploymentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -706,7 +715,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<GetApplicationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -722,7 +732,8 @@ export const killApplicationBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<KillApplicationBuildRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<KillApplicationBuildResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -738,7 +749,8 @@ export const markApplicationRunning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<MarkApplicationRunningRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<MarkApplicationRunningResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -754,7 +766,8 @@ export const moveApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<MoveApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<MoveApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -770,7 +783,8 @@ export const readApplicationAppMonitoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ReadApplicationAppMonitoringRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationAppMonitoringResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -786,7 +800,8 @@ export const readApplicationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ReadApplicationLogsRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -802,7 +817,8 @@ export const readApplicationTraefikConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ReadApplicationTraefikConfigRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationTraefikConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -818,7 +834,8 @@ export const redeployApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<RedeployApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<RedeployApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -834,7 +851,8 @@ export const refreshApplicationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<RefreshApplicationTokenRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<RefreshApplicationTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -850,7 +868,8 @@ export const reloadApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ReloadApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<ReloadApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -866,7 +885,8 @@ export const saveApplicationBitbucketProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<SaveApplicationBitbucketProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationBitbucketProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -882,7 +902,8 @@ export const saveApplicationBuildType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<SaveApplicationBuildTypeRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationBuildTypeResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -898,7 +919,8 @@ export const saveApplicationDockerProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<SaveApplicationDockerProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationDockerProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -914,7 +936,8 @@ export const saveApplicationEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<SaveApplicationEnvironmentRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationEnvironmentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -930,7 +953,8 @@ export const saveApplicationGiteaProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<SaveApplicationGiteaProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGiteaProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -946,7 +970,8 @@ export const saveApplicationGithubProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<SaveApplicationGithubProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGithubProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -962,7 +987,8 @@ export const saveApplicationGitlabProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<SaveApplicationGitlabProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGitlabProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -978,7 +1004,8 @@ export const saveApplicationGitProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<SaveApplicationGitProviderRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGitProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -994,7 +1021,8 @@ export const searchApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<SearchApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SearchApplicationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1010,7 +1038,8 @@ export const startApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<StartApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<StartApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1026,7 +1055,8 @@ export const stopApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<StopApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<StopApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1042,7 +1072,8 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(884, __c27, 20) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UpdateApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1058,7 +1089,8 @@ export const updateApplicationTraefikConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<UpdateApplicationTraefikConfigRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UpdateApplicationTraefikConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

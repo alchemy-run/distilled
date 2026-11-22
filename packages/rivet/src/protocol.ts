@@ -1,7 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestErrorInfo,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * RivetProtocol -- the shared bearer-REST protocol instantiated for the
  * Rivet engine API.
@@ -15,28 +18,28 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * Per-operation error matchers in `patches/` match that header, so a missing
  * pool and a missing namespace are different tags; status classes from
  * core's shared map cover the rest. The envelope reports `<group>.<code>` as
- * the code of an unknown error.
+ * the code of an unknown error. A 404 without `x-rivet-ray-id` did not come
+ * from the engine, so it is `EngineNotReady`.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { RivetParseError, UnknownRivetError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  EngineNotReady,
+  RivetParseError,
+  UnknownRivetError,
+  type RivetServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Rivet operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, RivetOpError,
- * RivetOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Rivet operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, RivetOpError, RivetOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type RivetOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type RivetOpError = RivetServiceError | ErrorOf<typeof RivetProtocol>;
 
 /** Context (requirements) shared by every generated Rivet operation. */
 export type RivetOpContext = Credentials | HttpClient.HttpClient;
@@ -55,15 +58,29 @@ const errorEnvelope = (body: unknown) => {
   };
 };
 
-export const RivetProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+/**
+ * The engine sends `x-rivet-ray-id` on every response, so a 404 without it
+ * came from whatever sits in front of the engine: a platform's router while
+ * the engine is starting.
+ */
+const engineNotReady = (info: RestErrorInfo): EngineNotReady | undefined =>
+  info.status === 404 && info.headers["x-rivet-ray-id"] === undefined
+    ? new EngineNotReady({
+        message: `The Rivet engine did not answer: its endpoint returned a 404 without x-rivet-ray-id (${info.message})`,
+        ...responseErrorFields(undefined, { body: info.body, headers: info.headers }),
+      })
+    : undefined;
+
+export const RivetProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request, so a rotated token is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  // up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.endpoint,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
   }),
   errorEnvelope,
+  classifyError: engineNotReady,
   unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
 });

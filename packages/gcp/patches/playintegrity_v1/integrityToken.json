@@ -1,0 +1,20 @@
+{
+  "description": "Play Integrity: mark `integrityToken` sensitive on the Android and PC decode requests and on writeDeviceRecall. It is the signed device attestation ('Encoded integrity token.' / 'Integrity token obtained from calling Play Integrity API.') that the app server forwards for decoding.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.playintegrity_v1#DecodeIntegrityTokenRequest/members/integrityToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.playintegrity_v1#DecodePcIntegrityTokenRequest/members/integrityToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.playintegrity_v1#WriteDeviceRecallRequest/members/integrityToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -2,7 +2,7 @@
  * Notion credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, notionVersion }`
- * per request; the protocol layer formats the `Authorization: Bearer
+ * per request; the protocol formats the `Authorization: Bearer
  * <token>` and `Notion-Version` headers from it. The token is an internal
  * integration secret, a personal access token, or an OAuth access token.
  *

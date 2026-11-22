@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -331,7 +331,8 @@ export const changeMysqlPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ChangeMysqlPasswordRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangeMysqlPasswordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -347,7 +348,8 @@ export const changeMysqlStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ChangeMysqlStatusRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangeMysqlStatusResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -363,7 +365,8 @@ export const createMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<CreateMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CreateMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -379,7 +382,8 @@ export const deleteMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeleteMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -395,7 +399,8 @@ export const deployMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeployMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeployMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -411,7 +416,8 @@ export const getMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetMysqlResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -427,7 +433,8 @@ export const moveMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<MoveMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<MoveMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -443,7 +450,8 @@ export const readMysqlLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ReadMysqlLogsRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReadMysqlLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,7 +467,8 @@ export const rebuildMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<RebuildMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<RebuildMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -475,7 +484,8 @@ export const reloadMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ReloadMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReloadMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -491,7 +501,8 @@ export const saveMysqlEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<SaveMysqlEnvironmentRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SaveMysqlEnvironmentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -507,7 +518,8 @@ export const saveMysqlExternalPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<SaveMysqlExternalPortRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SaveMysqlExternalPortResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -523,7 +535,8 @@ export const searchMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<SearchMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SearchMysqlResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -539,7 +552,8 @@ export const startMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<StartMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StartMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -555,7 +569,8 @@ export const stopMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<StopMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StopMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -571,7 +586,8 @@ export const updateMysql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(309, __c9, 21) as any as S.Schema<UpdateMysqlRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<UpdateMysqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

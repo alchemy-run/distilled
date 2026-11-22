@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1183,7 +1183,8 @@ export const addClusterACLRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddClusterACLRulesRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<AddClusterACLRulesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1200,7 +1201,8 @@ export const createCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c3, 4) as any as S.Schema<CreateClusterRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1217,7 +1219,8 @@ export const createPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<CreatePoolRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1234,7 +1237,8 @@ export const deleteACLRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteACLRuleRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<DeleteACLRuleResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1251,7 +1255,8 @@ export const deleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1268,7 +1273,8 @@ export const deleteNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<DeleteNodeRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<Node>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1285,7 +1291,8 @@ export const deletePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<DeletePoolRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1302,7 +1309,8 @@ export const getCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetClusterRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1319,7 +1327,8 @@ export const getClusterKubeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetClusterKubeConfigRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ScalewayStdFile>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1336,7 +1345,8 @@ export const getClusterKubeConfigRaw: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetClusterKubeConfigRawRequest>,
   output: __S(409, __c51, 1) as any as S.Schema<GetClusterKubeConfigRawResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1349,7 +1359,8 @@ export const getNode: API.OperationMethod<GetNodeRequest, Node, GetNodeError, Sc
   /*@__PURE__*/ API.make(() => ({
     input: __S(88, __c11, 0) as any as S.Schema<GetNodeRequest>,
     output: __S(368, __c46, 0) as any as S.Schema<Node>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1362,7 +1373,8 @@ export const getPool: API.OperationMethod<GetPoolRequest, Pool, GetPoolError, Sc
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c12, 0) as any as S.Schema<GetPoolRequest>,
     output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1379,7 +1391,8 @@ export const getUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetUserDataRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ScalewayStdFile>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,7 +1409,8 @@ export const getUserDataRaw: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetUserDataRawRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetUserDataRawResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1413,7 +1427,8 @@ export const getVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetVersionRequest>,
   output: __S(131, __c16, 3) as any as S.Schema<Version>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1432,7 +1447,8 @@ export const listClusterACLRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(136, __c17, 0) as any as S.Schema<ListClusterACLRulesRequest>,
     output: __S(137, __c17, 1) as any as S.Schema<ListClusterACLRulesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1458,7 +1474,8 @@ export const listClusterAvailableTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListClusterAvailableTypesRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<ListClusterAvailableTypesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1475,7 +1492,8 @@ export const listClusterAvailableVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListClusterAvailableVersionsRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<ListClusterAvailableVersionsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1494,7 +1512,8 @@ export const listClusters: API.PaginatedOperationMethod<
   () => ({
     input: __S(176, __c22, 0) as any as S.Schema<ListClustersRequest>,
     output: __S(178, __c22, 2) as any as S.Schema<ListClustersResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1522,7 +1541,8 @@ export const listClusterTypes: API.PaginatedOperationMethod<
   () => ({
     input: __S(184, __c23, 0) as any as S.Schema<ListClusterTypesRequest>,
     output: __S(185, __c23, 1) as any as S.Schema<ListClusterTypesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1550,7 +1570,8 @@ export const listNodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(208, __c26, 0) as any as S.Schema<ListNodesRequest>,
     output: __S(210, __c26, 2) as any as S.Schema<ListNodesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1578,7 +1599,8 @@ export const listPools: API.PaginatedOperationMethod<
   () => ({
     input: __S(216, __c27, 0) as any as S.Schema<ListPoolsRequest>,
     output: __S(218, __c27, 2) as any as S.Schema<ListPoolsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1604,7 +1626,8 @@ export const listUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListUserDataRequest>,
   output: __S(227, __c28, 3) as any as S.Schema<ListUserDataResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1621,7 +1644,8 @@ export const listVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ListVersionsRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<ListVersionsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1638,7 +1662,8 @@ export const rebootNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<RebootNodeRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<Node>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1655,7 +1680,8 @@ export const replaceNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ReplaceNodeRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<Node>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1672,7 +1698,8 @@ export const resetClusterAdminToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ResetClusterAdminTokenRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<ResetClusterAdminTokenResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1689,7 +1716,8 @@ export const setClusterACLRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<SetClusterACLRulesRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<SetClusterACLRulesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1706,7 +1734,8 @@ export const setClusterType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<SetClusterTypeRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1723,7 +1752,8 @@ export const setPoolLabels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<SetPoolLabelsRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1740,7 +1770,8 @@ export const setPoolStartupTaints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<SetPoolStartupTaintsRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1757,7 +1788,8 @@ export const setPoolTaints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<SetPoolTaintsRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1774,7 +1806,8 @@ export const updateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(322, __c40, 2) as any as S.Schema<UpdateClusterRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1791,7 +1824,8 @@ export const updatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<UpdatePoolRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1808,7 +1842,8 @@ export const upgradeCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<UpgradeClusterRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<Cluster>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1825,7 +1860,8 @@ export const upgradePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<UpgradePoolRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Pool>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

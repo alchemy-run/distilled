@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * GrowthBookProtocol -- hand-written.
  *
  * GrowthBook speaks plain bearer-authenticated JSON REST (no response
- * envelope), so the whole protocol is one `makeRestProtocol` call from
+ * envelope), so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
@@ -20,42 +18,37 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownGrowthBookError, GrowthBookParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  UnknownGrowthBookError,
+  GrowthBookParseError,
+  type GrowthBookServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated GrowthBook operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * GrowthBookOpError, GrowthBookOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated GrowthBook operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, GrowthBookOpError, GrowthBookOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type GrowthBookOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownGrowthBookError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | GrowthBookParseError
-  | InvalidInput
-  | SdkError;
+export type GrowthBookOpError = GrowthBookServiceError | ErrorOf<typeof GrowthBookProtocol>;
 
 /** Context (requirements) shared by every generated GrowthBook operation. */
 export type GrowthBookOpContext = Credentials | HttpClient.HttpClient;
 
-export const GrowthBookProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
-  {
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    // GrowthBook's error body is `{ message: string }` -- the factory's
-    // default lenient envelope covers `{ code, message }`.
-    unknownError: (info) => new UnknownGrowthBookError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new GrowthBookParseError({ body, cause }),
-  },
-);
+export const GrowthBookProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  // GrowthBook's error body is `{ message: string }` -- the factory's
+  // default lenient envelope covers `{ code, message }`.
+  unknownError: (info) => new UnknownGrowthBookError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new GrowthBookParseError({ body, cause }),
+});

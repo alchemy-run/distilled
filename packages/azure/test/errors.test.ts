@@ -14,7 +14,7 @@ const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const TestCredentials = Layer.succeed(
   Credentials,
   Effect.succeed({
-    bearerToken: Redacted.make("test"),
+    token: () => Effect.succeed(Redacted.make("test")),
     subscriptionId,
     apiBaseUrl: DEFAULT_API_BASE_URL,
   }),

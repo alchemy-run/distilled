@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -241,7 +242,7 @@ export interface CopyProductInput {
   TargetProductName?: string | undefined;
   SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[] | undefined;
   CopyOptions?: CopyOption[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CopyProductOutput {
   CopyProductToken?: string | undefined;
@@ -256,7 +257,7 @@ export interface CreateConstraintInput {
   Parameters: string;
   Type: string;
   Description?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type AccountId = string;
 export interface ConstraintDetail {
@@ -289,7 +290,7 @@ export interface CreatePortfolioInput {
   Description?: string | undefined;
   ProviderName: string;
   Tags?: Tag[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type ResourceARN = string;
 export type CreationTime = Date;
@@ -390,7 +391,7 @@ export interface CreateProductInput {
   ProductType: ProductType;
   Tags?: Tag[] | undefined;
   ProvisioningArtifactParameters?: ProvisioningArtifactProperties | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   SourceConnection?: SourceConnection | undefined;
 }
 export type ProductViewDistributor = string;
@@ -474,7 +475,7 @@ export interface CreateProvisionedProductPlanInput {
   ProvisionedProductName: string;
   ProvisioningArtifactId: string;
   ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export interface CreateProvisionedProductPlanOutput {
@@ -488,7 +489,7 @@ export interface CreateProvisioningArtifactInput {
   AcceptLanguage?: string | undefined;
   ProductId: string;
   Parameters: ProvisioningArtifactProperties;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
@@ -514,7 +515,7 @@ export interface CreateServiceActionInput {
   Definition: { [key: string]: string | undefined };
   Description?: string | undefined;
   AcceptLanguage?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ServiceActionSummary {
   Id?: string | undefined;
@@ -1076,7 +1077,7 @@ export interface EnableAWSOrganizationsAccessOutput {}
 export interface ExecuteProvisionedProductPlanInput {
   AcceptLanguage?: string | undefined;
   PlanId: string;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ExecuteProvisionedProductPlanOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1085,7 +1086,7 @@ export type ExecutionParameterMap = { [key: string]: string[] | undefined };
 export interface ExecuteProvisionedProductServiceActionInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
-  ExecuteToken: string;
+  ExecuteToken?: string | undefined;
   AcceptLanguage?: string | undefined;
   Parameters?: { [key: string]: string[] | undefined } | undefined;
 }
@@ -1117,7 +1118,7 @@ export interface ImportAsProvisionedProductInput {
   ProvisioningArtifactId: string;
   ProvisionedProductName: string;
   PhysicalId: string;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ImportAsProvisionedProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1393,7 +1394,7 @@ export interface NotifyProvisionProductEngineWorkflowResultInput {
   FailureReason?: string | undefined;
   ResourceIdentifier?: EngineWorkflowResourceIdentifier | undefined;
   Outputs?: RecordOutput[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyProvisionProductEngineWorkflowResultOutput {}
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
@@ -1401,7 +1402,7 @@ export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
   RecordId: string;
   Status: EngineWorkflowStatus;
   FailureReason?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultOutput {}
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
@@ -1410,7 +1411,7 @@ export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
   Status: EngineWorkflowStatus;
   FailureReason?: string | undefined;
   Outputs?: RecordOutput[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultOutput {}
 export interface ProvisioningParameter {
@@ -1443,7 +1444,7 @@ export interface ProvisionProductInput {
   ProvisioningPreferences?: ProvisioningPreferences | undefined;
   Tags?: Tag[] | undefined;
   NotificationArns?: string[] | undefined;
-  ProvisionToken: string;
+  ProvisionToken?: string | undefined;
 }
 export interface ProvisionProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1568,7 +1569,7 @@ export type RetainPhysicalResources = boolean;
 export interface TerminateProvisionedProductInput {
   ProvisionedProductName?: string | undefined;
   ProvisionedProductId?: string | undefined;
-  TerminateToken: string;
+  TerminateToken?: string | undefined;
   IgnoreErrors?: boolean | undefined;
   AcceptLanguage?: string | undefined;
   RetainPhysicalResources?: boolean | undefined;
@@ -1654,7 +1655,7 @@ export interface UpdateProvisionedProductInput {
   ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
   ProvisioningPreferences?: UpdateProvisioningPreferences | undefined;
   Tags?: Tag[] | undefined;
-  UpdateToken: string;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateProvisionedProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1666,7 +1667,7 @@ export interface UpdateProvisionedProductPropertiesInput {
   AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
   ProvisionedProductProperties: { [key: string]: string | undefined };
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface UpdateProvisionedProductPropertiesOutput {
   ProvisionedProductId?: string | undefined;
@@ -1724,6 +1725,7 @@ export const acceptPortfolioShare: API.OperationMethod<
   input: __S(1888, __c118, 0) as any as S.Schema<AcceptPortfolioShareInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<AcceptPortfolioShareOutput>,
   errors: [InvalidParametersException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPortfolioShare",
@@ -1754,6 +1756,7 @@ export const associateBudgetWithResource: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBudgetWithResource",
@@ -1794,6 +1797,7 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<AssociatePrincipalWithPortfolioInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<AssociatePrincipalWithPortfolioOutput>,
   errors: [InvalidParametersException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePrincipalWithPortfolio",
@@ -1820,6 +1824,7 @@ export const associateProductWithPortfolio: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<AssociateProductWithPortfolioInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<AssociateProductWithPortfolioOutput>,
   errors: [InvalidParametersException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProductWithPortfolio",
@@ -1854,6 +1859,7 @@ export const associateServiceActionWithProvisioningArtifact: API.OperationMethod
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceActionWithProvisioningArtifact",
@@ -1888,6 +1894,7 @@ export const associateTagOptionWithResource: API.OperationMethod<
     ResourceNotFoundException,
     TagOptionNotMigratedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTagOptionWithResource",
@@ -1918,6 +1925,7 @@ export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationM
     4,
   ) as any as S.Schema<BatchAssociateServiceActionWithProvisioningArtifactOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateServiceActionWithProvisioningArtifact",
@@ -1948,6 +1956,7 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: API.Operati
     4,
   ) as any as S.Schema<BatchDisassociateServiceActionFromProvisioningArtifactOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateServiceActionFromProvisioningArtifact",
@@ -1979,6 +1988,7 @@ export const copyProduct: API.OperationMethod<
   input: __S(129, __c8, 1) as any as S.Schema<CopyProductInput>,
   output: __S(130, __c8, 2) as any as S.Schema<CopyProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProduct",
@@ -2011,6 +2021,7 @@ export const createConstraint: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConstraint",
@@ -2037,6 +2048,7 @@ export const createPortfolio: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<CreatePortfolioInput>,
   output: __S(272, __c17, 0) as any as S.Schema<CreatePortfolioOutput>,
   errors: [InvalidParametersException, LimitExceededException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolio",
@@ -2089,6 +2101,7 @@ export const createPortfolioShare: API.OperationMethod<
     OperationNotSupportedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolioShare",
@@ -2120,6 +2133,7 @@ export const createProduct: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<CreateProductInput>,
   output: __S(337, __c21, 1) as any as S.Schema<CreateProductOutput>,
   errors: [InvalidParametersException, LimitExceededException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProduct",
@@ -2154,6 +2168,7 @@ export const createProvisionedProductPlan: API.OperationMethod<
   input: __S(448, __c28, 0) as any as S.Schema<CreateProvisionedProductPlanInput>,
   output: __S(449, __c28, 1) as any as S.Schema<CreateProvisionedProductPlanOutput>,
   errors: [InvalidParametersException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedProductPlan",
@@ -2184,6 +2199,7 @@ export const createProvisioningArtifact: API.OperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<CreateProvisioningArtifactInput>,
   output: __S(512, __c32, 0) as any as S.Schema<CreateProvisioningArtifactOutput>,
   errors: [InvalidParametersException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningArtifact",
@@ -2207,6 +2223,7 @@ export const createServiceAction: API.OperationMethod<
   input: __S(528, __c33, 0) as any as S.Schema<CreateServiceActionInput>,
   output: __S(561, __c35, 1) as any as S.Schema<CreateServiceActionOutput>,
   errors: [InvalidParametersException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceAction",
@@ -2231,6 +2248,7 @@ export const createTagOption: API.OperationMethod<
   input: __S(576, __c36, 0) as any as S.Schema<CreateTagOptionInput>,
   output: __S(608, __c38, 0) as any as S.Schema<CreateTagOptionOutput>,
   errors: [DuplicateResourceException, LimitExceededException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTagOption",
@@ -2256,6 +2274,7 @@ export const deleteConstraint: API.OperationMethod<
   input: __S(624, __c39, 0) as any as S.Schema<DeleteConstraintInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeleteConstraintOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConstraint",
@@ -2291,6 +2310,7 @@ export const deletePortfolio: API.OperationMethod<
     ResourceNotFoundException,
     TagOptionNotMigratedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolio",
@@ -2325,6 +2345,7 @@ export const deletePortfolioShare: API.OperationMethod<
     OperationNotSupportedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolioShare",
@@ -2359,6 +2380,7 @@ export const deleteProduct: API.OperationMethod<
     ResourceNotFoundException,
     TagOptionNotMigratedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProduct",
@@ -2382,6 +2404,7 @@ export const deleteProvisionedProductPlan: API.OperationMethod<
   input: __S(688, __c43, 0) as any as S.Schema<DeleteProvisionedProductPlanInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeleteProvisionedProductPlanOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedProductPlan",
@@ -2410,6 +2433,7 @@ export const deleteProvisioningArtifact: API.OperationMethod<
   input: __S(704, __c44, 0) as any as S.Schema<DeleteProvisioningArtifactInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeleteProvisioningArtifactOutput>,
   errors: [InvalidParametersException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningArtifact",
@@ -2434,6 +2458,7 @@ export const deleteServiceAction: API.OperationMethod<
   input: __S(720, __c45, 0) as any as S.Schema<DeleteServiceActionInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeleteServiceActionOutput>,
   errors: [InvalidParametersException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAction",
@@ -2460,6 +2485,7 @@ export const deleteTagOption: API.OperationMethod<
   input: __S(736, __c46, 0) as any as S.Schema<DeleteTagOptionInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeleteTagOptionOutput>,
   errors: [ResourceInUseException, ResourceNotFoundException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagOption",
@@ -2480,6 +2506,7 @@ export const describeConstraint: API.OperationMethod<
   input: __S(752, __c47, 0) as any as S.Schema<DescribeConstraintInput>,
   output: __S(208, __c13, 0) as any as S.Schema<DescribeConstraintOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConstraint",
@@ -2500,6 +2527,7 @@ export const describeCopyProductStatus: API.OperationMethod<
   input: __S(768, __c48, 0) as any as S.Schema<DescribeCopyProductStatusInput>,
   output: __S(769, __c48, 1) as any as S.Schema<DescribeCopyProductStatusOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyProductStatus",
@@ -2522,6 +2550,7 @@ export const describePortfolio: API.OperationMethod<
   input: __S(784, __c49, 0) as any as S.Schema<DescribePortfolioInput>,
   output: __S(785, __c49, 1) as any as S.Schema<DescribePortfolioOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolio",
@@ -2552,6 +2581,7 @@ export const describePortfolioShares: API.PaginatedOperationMethod<
   input: __S(832, __c52, 0) as any as S.Schema<DescribePortfolioSharesInput>,
   output: __S(835, __c52, 3) as any as S.Schema<DescribePortfolioSharesOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolioShares",
@@ -2582,6 +2612,7 @@ export const describePortfolioShareStatus: API.OperationMethod<
   input: __S(848, __c53, 0) as any as S.Schema<DescribePortfolioShareStatusInput>,
   output: __S(852, __c53, 4) as any as S.Schema<DescribePortfolioShareStatusOutput>,
   errors: [InvalidParametersException, OperationNotSupportedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolioShareStatus",
@@ -2611,6 +2642,7 @@ export const describeProduct: API.OperationMethod<
   input: __S(864, __c54, 0) as any as S.Schema<DescribeProductInput>,
   output: __S(867, __c54, 3) as any as S.Schema<DescribeProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProduct",
@@ -2634,6 +2666,7 @@ export const describeProductAsAdmin: API.OperationMethod<
   input: __S(912, __c57, 0) as any as S.Schema<DescribeProductAsAdminInput>,
   output: __S(915, __c57, 3) as any as S.Schema<DescribeProductAsAdminOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductAsAdmin",
@@ -2657,6 +2690,7 @@ export const describeProductView: API.OperationMethod<
   input: __S(928, __c58, 0) as any as S.Schema<DescribeProductViewInput>,
   output: __S(929, __c58, 1) as any as S.Schema<DescribeProductViewOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductView",
@@ -2680,6 +2714,7 @@ export const describeProvisionedProduct: API.OperationMethod<
   input: __S(944, __c59, 0) as any as S.Schema<DescribeProvisionedProductInput>,
   output: __S(947, __c59, 3) as any as S.Schema<DescribeProvisionedProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProduct",
@@ -2703,6 +2738,7 @@ export const describeProvisionedProductPlan: API.OperationMethod<
   input: __S(976, __c61, 0) as any as S.Schema<DescribeProvisionedProductPlanInput>,
   output: __S(983, __c61, 7) as any as S.Schema<DescribeProvisionedProductPlanOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProductPlan",
@@ -2726,6 +2762,7 @@ export const describeProvisioningArtifact: API.OperationMethod<
   input: __S(992, __c62, 0) as any as S.Schema<DescribeProvisioningArtifactInput>,
   output: __S(993, __c62, 1) as any as S.Schema<DescribeProvisioningArtifactOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningArtifact",
@@ -2757,6 +2794,7 @@ export const describeProvisioningParameters: API.OperationMethod<
   input: __S(1024, __c64, 0) as any as S.Schema<DescribeProvisioningParametersInput>,
   output: __S(1032, __c64, 8) as any as S.Schema<DescribeProvisioningParametersOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningParameters",
@@ -2784,6 +2822,7 @@ export const describeRecord: API.OperationMethod<
   input: __S(1056, __c66, 0) as any as S.Schema<DescribeRecordInput>,
   output: __S(1057, __c66, 1) as any as S.Schema<DescribeRecordOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecord",
@@ -2804,6 +2843,7 @@ export const describeServiceAction: API.OperationMethod<
   input: __S(1120, __c70, 0) as any as S.Schema<DescribeServiceActionInput>,
   output: __S(561, __c35, 1) as any as S.Schema<DescribeServiceActionOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAction",
@@ -2827,6 +2867,7 @@ export const describeServiceActionExecutionParameters: API.OperationMethod<
   input: __S(1136, __c71, 0) as any as S.Schema<DescribeServiceActionExecutionParametersInput>,
   output: __S(1139, __c71, 3) as any as S.Schema<DescribeServiceActionExecutionParametersOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceActionExecutionParameters",
@@ -2850,6 +2891,7 @@ export const describeTagOption: API.OperationMethod<
   input: __S(1152, __c72, 0) as any as S.Schema<DescribeTagOptionInput>,
   output: __S(608, __c38, 0) as any as S.Schema<DescribeTagOptionOutput>,
   errors: [ResourceNotFoundException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTagOption",
@@ -2887,6 +2929,7 @@ export const disableAWSOrganizationsAccess: API.OperationMethod<
   input: __S(1168, __c73, 0) as any as S.Schema<DisableAWSOrganizationsAccessInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DisableAWSOrganizationsAccessOutput>,
   errors: [InvalidStateException, OperationNotSupportedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSOrganizationsAccess",
@@ -2907,6 +2950,7 @@ export const disassociateBudgetFromResource: API.OperationMethod<
   input: __S(1184, __c74, 0) as any as S.Schema<DisassociateBudgetFromResourceInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DisassociateBudgetFromResourceOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBudgetFromResource",
@@ -2949,6 +2993,7 @@ export const disassociatePrincipalFromPortfolio: API.OperationMethod<
   input: __S(1200, __c75, 0) as any as S.Schema<DisassociatePrincipalFromPortfolioInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DisassociatePrincipalFromPortfolioOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePrincipalFromPortfolio",
@@ -2975,6 +3020,7 @@ export const disassociateProductFromPortfolio: API.OperationMethod<
   input: __S(1216, __c76, 0) as any as S.Schema<DisassociateProductFromPortfolioInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DisassociateProductFromPortfolioOutput>,
   errors: [InvalidParametersException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProductFromPortfolio",
@@ -3006,6 +3052,7 @@ export const disassociateServiceActionFromProvisioningArtifact: API.OperationMet
     0,
   ) as any as S.Schema<DisassociateServiceActionFromProvisioningArtifactOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceActionFromProvisioningArtifact",
@@ -3029,6 +3076,7 @@ export const disassociateTagOptionFromResource: API.OperationMethod<
   input: __S(1248, __c78, 0) as any as S.Schema<DisassociateTagOptionFromResourceInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<DisassociateTagOptionFromResourceOutput>,
   errors: [ResourceNotFoundException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTagOptionFromResource",
@@ -3066,6 +3114,7 @@ export const enableAWSOrganizationsAccess: API.OperationMethod<
   input: __S(1264, __c79, 0) as any as S.Schema<EnableAWSOrganizationsAccessInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<EnableAWSOrganizationsAccessOutput>,
   errors: [InvalidStateException, OperationNotSupportedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSOrganizationsAccess",
@@ -3090,6 +3139,7 @@ export const executeProvisionedProductPlan: API.OperationMethod<
   input: __S(1280, __c80, 0) as any as S.Schema<ExecuteProvisionedProductPlanInput>,
   output: __S(1296, __c81, 0) as any as S.Schema<ExecuteProvisionedProductPlanOutput>,
   errors: [InvalidParametersException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductPlan",
@@ -3120,6 +3170,7 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
     ResourceNotFoundException,
     ProvisionedProductNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductServiceAction",
@@ -3144,6 +3195,7 @@ export const getAWSOrganizationsAccessStatus: API.OperationMethod<
   input: __S(1328, __c83, 0) as any as S.Schema<GetAWSOrganizationsAccessStatusInput>,
   output: __S(1329, __c83, 1) as any as S.Schema<GetAWSOrganizationsAccessStatusOutput>,
   errors: [OperationNotSupportedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSOrganizationsAccessStatus",
@@ -3168,6 +3220,7 @@ export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
   input: __S(1344, __c84, 0) as any as S.Schema<GetProvisionedProductOutputsInput>,
   output: __S(1345, __c84, 1) as any as S.Schema<GetProvisionedProductOutputsOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedProductOutputs",
@@ -3228,6 +3281,7 @@ export const importAsProvisionedProduct: API.OperationMethod<
     InvalidStateException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportAsProvisionedProduct",
@@ -3254,6 +3308,7 @@ export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
   input: __S(1376, __c86, 0) as any as S.Schema<ListAcceptedPortfolioSharesInput>,
   output: __S(1393, __c87, 1) as any as S.Schema<ListAcceptedPortfolioSharesOutput>,
   errors: [InvalidParametersException, OperationNotSupportedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAcceptedPortfolioShares",
@@ -3283,6 +3338,7 @@ export const listBudgetsForResource: API.PaginatedOperationMethod<
   input: __S(1408, __c88, 0) as any as S.Schema<ListBudgetsForResourceInput>,
   output: __S(1409, __c88, 1) as any as S.Schema<ListBudgetsForResourceOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBudgetsForResource",
@@ -3312,6 +3368,7 @@ export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
   input: __S(1424, __c89, 0) as any as S.Schema<ListConstraintsForPortfolioInput>,
   output: __S(1426, __c89, 2) as any as S.Schema<ListConstraintsForPortfolioOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConstraintsForPortfolio",
@@ -3361,6 +3418,7 @@ export const listLaunchPaths: API.PaginatedOperationMethod<
   input: __S(1440, __c90, 0) as any as S.Schema<ListLaunchPathsInput>,
   output: __S(1443, __c90, 3) as any as S.Schema<ListLaunchPathsOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLaunchPaths",
@@ -3395,6 +3453,7 @@ export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
   input: __S(1456, __c91, 0) as any as S.Schema<ListOrganizationPortfolioAccessInput>,
   output: __S(1458, __c91, 2) as any as S.Schema<ListOrganizationPortfolioAccessOutput>,
   errors: [InvalidParametersException, OperationNotSupportedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationPortfolioAccess",
@@ -3426,6 +3485,7 @@ export const listPortfolioAccess: API.PaginatedOperationMethod<
   input: __S(1472, __c92, 0) as any as S.Schema<ListPortfolioAccessInput>,
   output: __S(1473, __c92, 1) as any as S.Schema<ListPortfolioAccessOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortfolioAccess",
@@ -3452,6 +3512,7 @@ export const listPortfolios: API.PaginatedOperationMethod<
   input: __S(1488, __c93, 0) as any as S.Schema<ListPortfoliosInput>,
   output: __S(1393, __c87, 1) as any as S.Schema<ListPortfoliosOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortfolios",
@@ -3481,6 +3542,7 @@ export const listPortfoliosForProduct: API.PaginatedOperationMethod<
   input: __S(1504, __c94, 0) as any as S.Schema<ListPortfoliosForProductInput>,
   output: __S(1393, __c87, 1) as any as S.Schema<ListPortfoliosForProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortfoliosForProduct",
@@ -3510,6 +3572,7 @@ export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
   input: __S(1520, __c95, 0) as any as S.Schema<ListPrincipalsForPortfolioInput>,
   output: __S(1523, __c95, 3) as any as S.Schema<ListPrincipalsForPortfolioOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPrincipalsForPortfolio",
@@ -3539,6 +3602,7 @@ export const listProvisionedProductPlans: API.PaginatedOperationMethod<
   input: __S(1536, __c96, 0) as any as S.Schema<ListProvisionedProductPlansInput>,
   output: __S(1539, __c96, 3) as any as S.Schema<ListProvisionedProductPlansOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedProductPlans",
@@ -3568,6 +3632,7 @@ export const listProvisioningArtifacts: API.OperationMethod<
   input: __S(1568, __c98, 0) as any as S.Schema<ListProvisioningArtifactsInput>,
   output: __S(1570, __c98, 2) as any as S.Schema<ListProvisioningArtifactsOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisioningArtifacts",
@@ -3592,6 +3657,7 @@ export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMe
   input: __S(1584, __c99, 0) as any as S.Schema<ListProvisioningArtifactsForServiceActionInput>,
   output: __S(1587, __c99, 3) as any as S.Schema<ListProvisioningArtifactsForServiceActionOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisioningArtifactsForServiceAction",
@@ -3618,6 +3684,7 @@ export const listRecordHistory: API.PaginatedOperationMethod<
   input: __S(1600, __c100, 0) as any as S.Schema<ListRecordHistoryInput>,
   output: __S(1602, __c100, 2) as any as S.Schema<ListRecordHistoryOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecordHistory",
@@ -3649,6 +3716,7 @@ export const listResourcesForTagOption: API.PaginatedOperationMethod<
   input: __S(1616, __c101, 0) as any as S.Schema<ListResourcesForTagOptionInput>,
   output: __S(1619, __c101, 3) as any as S.Schema<ListResourcesForTagOptionOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcesForTagOption",
@@ -3671,6 +3739,7 @@ export const listServiceActions: API.PaginatedOperationMethod<
   input: __S(1632, __c102, 0) as any as S.Schema<ListServiceActionsInput>,
   output: __S(1649, __c103, 1) as any as S.Schema<ListServiceActionsOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceActions",
@@ -3700,6 +3769,7 @@ export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMe
   input: __S(1664, __c104, 0) as any as S.Schema<ListServiceActionsForProvisioningArtifactInput>,
   output: __S(1649, __c103, 1) as any as S.Schema<ListServiceActionsForProvisioningArtifactOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceActionsForProvisioningArtifact",
@@ -3729,6 +3799,7 @@ export const listStackInstancesForProvisionedProduct: API.PaginatedOperationMeth
   input: __S(1680, __c105, 0) as any as S.Schema<ListStackInstancesForProvisionedProductInput>,
   output: __S(1683, __c105, 3) as any as S.Schema<ListStackInstancesForProvisionedProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstancesForProvisionedProduct",
@@ -3759,6 +3830,7 @@ export const listTagOptions: API.PaginatedOperationMethod<
   input: __S(1697, __c106, 1) as any as S.Schema<ListTagOptionsInput>,
   output: __S(1698, __c106, 2) as any as S.Schema<ListTagOptionsOutput>,
   errors: [InvalidParametersException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagOptions",
@@ -3784,6 +3856,7 @@ export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
   input: __S(1713, __c107, 1) as any as S.Schema<NotifyProvisionProductEngineWorkflowResultInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<NotifyProvisionProductEngineWorkflowResultOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyProvisionProductEngineWorkflowResult",
@@ -3816,6 +3889,7 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: API.Operatio
     0,
   ) as any as S.Schema<NotifyTerminateProvisionedProductEngineWorkflowResultOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyTerminateProvisionedProductEngineWorkflowResult",
@@ -3848,6 +3922,7 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMe
     0,
   ) as any as S.Schema<NotifyUpdateProvisionedProductEngineWorkflowResultOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyUpdateProvisionedProductEngineWorkflowResult",
@@ -3901,6 +3976,7 @@ export const provisionProduct: API.OperationMethod<
   input: __S(1761, __c110, 1) as any as S.Schema<ProvisionProductInput>,
   output: __S(1296, __c81, 0) as any as S.Schema<ProvisionProductOutput>,
   errors: [DuplicateResourceException, InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionProduct",
@@ -3921,6 +3997,7 @@ export const rejectPortfolioShare: API.OperationMethod<
   input: __S(1776, __c111, 0) as any as S.Schema<RejectPortfolioShareInput>,
   output: __S(1904, __c119, 0) as any as S.Schema<RejectPortfolioShareOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPortfolioShare",
@@ -3944,6 +4021,7 @@ export const scanProvisionedProducts: API.PaginatedOperationMethod<
   input: __S(1792, __c112, 0) as any as S.Schema<ScanProvisionedProductsInput>,
   output: __S(1794, __c112, 2) as any as S.Schema<ScanProvisionedProductsOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanProvisionedProducts",
@@ -3971,6 +4049,7 @@ export const searchProducts: API.PaginatedOperationMethod<
   input: __S(1808, __c113, 0) as any as S.Schema<SearchProductsInput>,
   output: __S(1813, __c113, 5) as any as S.Schema<SearchProductsOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProducts",
@@ -4000,6 +4079,7 @@ export const searchProductsAsAdmin: API.PaginatedOperationMethod<
   input: __S(1840, __c115, 0) as any as S.Schema<SearchProductsAsAdminInput>,
   output: __S(1842, __c115, 2) as any as S.Schema<SearchProductsAsAdminOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProductsAsAdmin",
@@ -4026,6 +4106,7 @@ export const searchProvisionedProducts: API.PaginatedOperationMethod<
   input: __S(1856, __c116, 0) as any as S.Schema<SearchProvisionedProductsInput>,
   output: __S(1859, __c116, 3) as any as S.Schema<SearchProvisionedProductsOutput>,
   errors: [InvalidParametersException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProvisionedProducts",
@@ -4055,6 +4136,7 @@ export const terminateProvisionedProduct: API.OperationMethod<
   input: __S(1872, __c117, 0) as any as S.Schema<TerminateProvisionedProductInput>,
   output: __S(1296, __c81, 0) as any as S.Schema<TerminateProvisionedProductOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateProvisionedProduct",
@@ -4078,6 +4160,7 @@ export const updateConstraint: API.OperationMethod<
   input: __S(1920, __c120, 0) as any as S.Schema<UpdateConstraintInput>,
   output: __S(208, __c13, 0) as any as S.Schema<UpdateConstraintOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConstraint",
@@ -4110,6 +4193,7 @@ export const updatePortfolio: API.OperationMethod<
     ResourceNotFoundException,
     TagOptionNotMigratedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolio",
@@ -4158,6 +4242,7 @@ export const updatePortfolioShare: API.OperationMethod<
     OperationNotSupportedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolioShare",
@@ -4182,6 +4267,7 @@ export const updateProduct: API.OperationMethod<
   input: __S(1968, __c123, 0) as any as S.Schema<UpdateProductInput>,
   output: __S(1969, __c123, 1) as any as S.Schema<UpdateProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException, TagOptionNotMigratedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProduct",
@@ -4211,6 +4297,7 @@ export const updateProvisionedProduct: API.OperationMethod<
   input: __S(1985, __c124, 1) as any as S.Schema<UpdateProvisionedProductInput>,
   output: __S(1296, __c81, 0) as any as S.Schema<UpdateProvisionedProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProduct",
@@ -4235,6 +4322,7 @@ export const updateProvisionedProductProperties: API.OperationMethod<
   input: __S(2000, __c125, 0) as any as S.Schema<UpdateProvisionedProductPropertiesInput>,
   output: __S(2001, __c125, 1) as any as S.Schema<UpdateProvisionedProductPropertiesOutput>,
   errors: [InvalidParametersException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProductProperties",
@@ -4260,6 +4348,7 @@ export const updateProvisioningArtifact: API.OperationMethod<
   input: __S(2016, __c126, 0) as any as S.Schema<UpdateProvisioningArtifactInput>,
   output: __S(512, __c32, 0) as any as S.Schema<UpdateProvisioningArtifactOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisioningArtifact",
@@ -4283,6 +4372,7 @@ export const updateServiceAction: API.OperationMethod<
   input: __S(2032, __c127, 0) as any as S.Schema<UpdateServiceActionInput>,
   output: __S(561, __c35, 1) as any as S.Schema<UpdateServiceActionOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAction",
@@ -4313,6 +4403,7 @@ export const updateTagOption: API.OperationMethod<
     ResourceNotFoundException,
     TagOptionNotMigratedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagOption",
@@ -4446,7 +4537,7 @@ function __c8(j: number): any {
           TargetProductName: S.optional(S.String),
           SourceProvisioningArtifactIdentifiers: S.optional(__S(128, __c8, 0)),
           CopyOptions: S.optional(__S(160, __c10, 0)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CopyProductInput" });
     case 2:
@@ -4478,7 +4569,7 @@ function __c11(j: number): any {
           Parameters: S.String,
           Type: S.String,
           Description: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateConstraintInput" });
   }
@@ -4520,7 +4611,7 @@ function __c14(j: number): any {
           Description: S.optional(S.String),
           ProviderName: S.String,
           Tags: S.optional(__S(241, __c15, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePortfolioInput" });
   }
@@ -4608,7 +4699,7 @@ function __c21(j: number): any {
           ProductType: S.String,
           Tags: S.optional(__S(241, __c15, 1)),
           ProvisioningArtifactParameters: S.optional(__S(352, __c22, 0)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           SourceConnection: S.optional(__S(432, __c27, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProductInput" });
@@ -4746,7 +4837,7 @@ function __c28(j: number): any {
           ProvisionedProductName: S.String,
           ProvisioningArtifactId: S.String,
           ProvisioningParameters: S.optional(__S(481, __c30, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(241, __c15, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProvisionedProductPlanInput" });
@@ -4790,7 +4881,7 @@ function __c31(j: number): any {
           AcceptLanguage: S.optional(S.String),
           ProductId: S.String,
           Parameters: __S(352, __c22, 0),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProvisioningArtifactInput" });
   }
@@ -4817,7 +4908,7 @@ function __c33(j: number): any {
           Definition: __S(144, __c9, 0),
           Description: S.optional(S.String),
           AcceptLanguage: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServiceActionInput" });
   }
@@ -5647,7 +5738,7 @@ function __c80(j: number): any {
         S.Struct({
           AcceptLanguage: S.optional(S.String),
           PlanId: S.String,
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ExecuteProvisionedProductPlanInput" });
   }
@@ -5669,7 +5760,7 @@ function __c82(j: number): any {
         S.Struct({
           ProvisionedProductId: S.String,
           ServiceActionId: S.String,
-          ExecuteToken: S.String.pipe(T.IdempotencyToken()),
+          ExecuteToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           AcceptLanguage: S.optional(S.String),
           Parameters: S.optional(__S(1312, __c82, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5719,7 +5810,7 @@ function __c85(j: number): any {
           ProvisioningArtifactId: S.String,
           ProvisionedProductName: S.String,
           PhysicalId: S.String,
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportAsProvisionedProductInput" });
   }
@@ -6172,7 +6263,7 @@ function __c107(j: number): any {
           FailureReason: S.optional(S.String),
           ResourceIdentifier: S.optional(__S(1712, __c107, 0)),
           Outputs: S.optional(__S(1105, __c69, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyProvisionProductEngineWorkflowResultInput" });
   }
@@ -6186,7 +6277,7 @@ function __c108(j: number): any {
           RecordId: S.String,
           Status: S.String,
           FailureReason: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyTerminateProvisionedProductEngineWorkflowResultInput" });
   }
@@ -6201,7 +6292,7 @@ function __c109(j: number): any {
           Status: S.String,
           FailureReason: S.optional(S.String),
           Outputs: S.optional(__S(1105, __c69, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyUpdateProvisionedProductEngineWorkflowResultInput" });
   }
@@ -6234,7 +6325,7 @@ function __c110(j: number): any {
           ProvisioningPreferences: S.optional(__S(1760, __c110, 0)),
           Tags: S.optional(__S(241, __c15, 1)),
           NotificationArns: S.optional(__S(464, __c29, 0)),
-          ProvisionToken: S.String.pipe(T.IdempotencyToken()),
+          ProvisionToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ProvisionProductInput" });
   }
@@ -6395,7 +6486,7 @@ function __c117(j: number): any {
         S.Struct({
           ProvisionedProductName: S.optional(S.String),
           ProvisionedProductId: S.optional(S.String),
-          TerminateToken: S.String.pipe(T.IdempotencyToken()),
+          TerminateToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           IgnoreErrors: S.optional(S.Boolean),
           AcceptLanguage: S.optional(S.String),
           RetainPhysicalResources: S.optional(S.Boolean),
@@ -6526,7 +6617,7 @@ function __c124(j: number): any {
           ProvisioningParameters: S.optional(__S(481, __c30, 1)),
           ProvisioningPreferences: S.optional(__S(1984, __c124, 0)),
           Tags: S.optional(__S(241, __c15, 1)),
-          UpdateToken: S.String.pipe(T.IdempotencyToken()),
+          UpdateToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateProvisionedProductInput" });
   }
@@ -6539,7 +6630,7 @@ function __c125(j: number): any {
           AcceptLanguage: S.optional(S.String),
           ProvisionedProductId: S.String,
           ProvisionedProductProperties: __S(144, __c9, 0),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateProvisionedProductPropertiesInput" });
     case 1:

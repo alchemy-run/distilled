@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -463,7 +463,8 @@ export const batchCreateMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<BatchCreateMailboxesRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<BatchCreateMailboxesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +481,8 @@ export const createAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreateAliasRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<Alias>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +499,8 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(72, __c18, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -514,7 +517,8 @@ export const createForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<CreateForwardingRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<Forwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,7 +535,8 @@ export const deleteAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<DeleteAliasRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<Alias>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -548,7 +553,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(72, __c18, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -565,7 +571,8 @@ export const deleteForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<DeleteForwardingRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<Forwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -582,7 +589,8 @@ export const deleteMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<DeleteMailboxRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Mailbox>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -599,7 +607,8 @@ export const getAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<GetAliasRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<Alias>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -616,7 +625,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(72, __c18, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -633,7 +643,8 @@ export const getDomainRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetDomainRecordsRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<GetDomainRecordsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -650,7 +661,8 @@ export const getForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetForwardingRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<Forwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -667,7 +679,8 @@ export const getMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetMailboxRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Mailbox>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -683,7 +696,8 @@ export const getMailboxForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetMailboxForwardingRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<MailboxForwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -702,7 +716,8 @@ export const listAliases: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c10, 0) as any as S.Schema<ListAliasesRequest>,
     output: __S(42, __c10, 2) as any as S.Schema<ListAliasesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -730,7 +745,8 @@ export const listDomains: API.PaginatedOperationMethod<
   () => ({
     input: __S(44, __c11, 0) as any as S.Schema<ListDomainsRequest>,
     output: __S(46, __c11, 2) as any as S.Schema<ListDomainsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -758,7 +774,8 @@ export const listForwardings: API.PaginatedOperationMethod<
   () => ({
     input: __S(52, __c13, 0) as any as S.Schema<ListForwardingsRequest>,
     output: __S(54, __c13, 2) as any as S.Schema<ListForwardingsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -786,7 +803,8 @@ export const listMailboxes: API.PaginatedOperationMethod<
   () => ({
     input: __S(56, __c14, 0) as any as S.Schema<ListMailboxesRequest>,
     output: __S(57, __c14, 1) as any as S.Schema<ListMailboxesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -812,7 +830,8 @@ export const restoreMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<RestoreMailboxRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Mailbox>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -829,7 +848,8 @@ export const updateAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<UpdateAliasRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<Alias>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -846,7 +866,8 @@ export const updateForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<UpdateForwardingRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<Forwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +884,8 @@ export const updateMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<UpdateMailboxRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<Mailbox>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -879,7 +901,8 @@ export const updateMailboxForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<UpdateMailboxForwardingRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<MailboxForwarding>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -896,7 +919,8 @@ export const validateDomainRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<ValidateDomainRecordsRequest>,
   output: __S(89, __c22, 1) as any as S.Schema<ValidateDomainRecordsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

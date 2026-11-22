@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownHetznerError } from "../errors.ts";
+import { HetznerServiceErrors } from "../errors.ts";
 import { paginatePageNumber } from "../pagination.ts";
 import { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1595,7 +1595,8 @@ export const createServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c0, 4) as any as S.Schema<CreateServerRequest>,
   output: __S(6, __c0, 6) as any as S.Schema<CreateServerResponse>,
-  errors: [ServerLimitExceeded, ServerPlacementError, PrimaryIpLimitExceeded, UnknownHetznerError],
+  errors: [ServerLimitExceeded, ServerPlacementError, PrimaryIpLimitExceeded],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1612,7 +1613,8 @@ export const deleteServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteServerRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<DeleteServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,7 +1631,8 @@ export const getServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetServerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,7 +1649,8 @@ export const getServerMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetServerMetricsRequest>,
   output: __S(198, __c6, 6) as any as S.Schema<GetServerMetricsResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1665,7 +1669,8 @@ export const listServers: API.PaginatedOperationMethod<
   () => ({
     input: __S(256, __c8, 0) as any as S.Schema<ListServersRequest>,
     output: __S(260, __c8, 4) as any as S.Schema<ListServersResponse>,
-    errors: [UnknownHetznerError],
+    errors: [],
+    serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1691,7 +1696,8 @@ export const updateServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<UpdateServerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpdateServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

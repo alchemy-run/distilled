@@ -1,8 +1,6 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
@@ -24,32 +22,20 @@ import {
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  EntireParseError,
-  Gone,
-  MisdirectedRequest,
-  PayloadTooLarge,
-  PreconditionFailed,
-  PreconditionRequired,
-  UnknownEntireError,
-  type DefaultErrors,
-} from "./errors.ts";
+import { EntireParseError, UnknownEntireError, type EntireServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Entire operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * EntireOpError, EntireOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Entire operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, EntireOpError, EntireOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
 export type EntireOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput;
+  | EntireServiceError
+  | ErrorOf<typeof EntireCoreProtocol | typeof EntireCellProtocol>;
 
 /** Context (requirements) shared by every generated Entire operation. */
 export type EntireOpContext = Credentials | HttpClient.HttpClient;
@@ -83,37 +69,25 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code: text(b.code) ?? text(b.title), message };
 };
 
-const statusMap = {
-  ...HTTP_STATUS_MAP,
-  410: Gone,
-  412: PreconditionFailed,
-  413: PayloadTooLarge,
-  421: MisdirectedRequest,
-  428: PreconditionRequired,
-};
-
-const make = (baseUrl: (creds: Config) => string): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect, so a token
-    // refreshed between calls is picked up without rebuilding the layer.
-    credentials: Effect.flatMap(Credentials, (resolve) => resolve),
+// A failed status becomes the class the service declares for it
+// (`EntireServiceErrors`: core's status classes, and Entire's own for 410,
+// 412, 413, 421 and 428).
+const make = (baseUrl: (creds: Config) => string) =>
+  restProtocol({
+    // Resolved on the CALLING fiber per request; the Credentials service holds
+    // an effect, so a token refreshed between calls is picked up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
     baseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.token)}`,
     }),
     errorEnvelope,
-    statusMap,
     unknownError: (info) => new UnknownEntireError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new EntireParseError({ body, cause }),
   });
 
 /** The Core control-plane protocol (`coreBaseUrl`). */
-export const EntireCoreProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ make(
-  (creds) => creds.coreBaseUrl,
-);
+export const EntireCoreProtocol = /*@__PURE__*/ make((creds) => creds.coreBaseUrl);
 
 /** The regional cell protocol (`apiBaseUrl`). */
-export const EntireCellProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ make(
-  (creds) => creds.apiBaseUrl,
-);
+export const EntireCellProtocol = /*@__PURE__*/ make((creds) => creds.apiBaseUrl);

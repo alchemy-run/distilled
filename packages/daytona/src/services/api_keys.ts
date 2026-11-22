@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -211,7 +211,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ApiKeyResponse>,
-  errors: [ApiKeyAlreadyExists, ManagedApiKeysNotEnabled, UnknownDaytonaError],
+  errors: [ApiKeyAlreadyExists, ManagedApiKeysNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -228,7 +229,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [ApiKeyNotFound, ManagedApiKeysNotEnabled, UnknownDaytonaError],
+  errors: [ApiKeyNotFound, ManagedApiKeysNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -245,7 +247,8 @@ export const deleteApiKeyForUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteApiKeyForUserRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteApiKeyForUserResponse>,
-  errors: [ApiKeyNotFound, UnknownDaytonaError],
+  errors: [ApiKeyNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -262,7 +265,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<ApiKeyList>,
-  errors: [ApiKeyNotFound, ManagedApiKeysNotEnabled, UnknownDaytonaError],
+  errors: [ApiKeyNotFound, ManagedApiKeysNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -279,7 +283,8 @@ export const getCurrentApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetCurrentApiKeyRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<ApiKeyList>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -296,7 +301,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<ListApiKeysResponse>,
-  errors: [ManagedApiKeysNotEnabled, UnknownDaytonaError],
+  errors: [ManagedApiKeysNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

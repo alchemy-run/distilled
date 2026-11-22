@@ -18,6 +18,8 @@ import {
   RAW_RESPONSE_TRAIT,
 } from "@distilled.cloud/dev/codegen/openapi";
 
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
+
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
@@ -40,10 +42,29 @@ const spec: SdkSpec = {
 
   sourceNote: ".generated-specs (specs/spec-mirror-questrade)",
 
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
+
   operationDecl: {
     contextType: "QuestradeOpContext",
     commonErrorType: "QuestradeOpError",
-    commonErrorClasses: ["UnknownQuestradeError"],
+    serviceErrors: "QuestradeServiceErrors",
     protocol: "QuestradeProtocol",
     retry: "Retry.Retry",
   },

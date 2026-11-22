@@ -1,0 +1,31 @@
+{
+  "description": "POST and DELETE /oauth2/tokens (oauth-generate-tokens, oauth-revoke-tokens) are the OAuth app's token exchange. The spec secures them with `basicAuth` (\"Encode the credentials as `Basic ` + toBase64(username + `:` + password)\", the app's client id and secret), and every other route with a bearer token. The shared REST protocol sends the same headers on every call, so it would send the bearer token here and Mollie would refuse it. Remove both operations; an app runs this exchange with its OAuth client, then passes the access token as the API key.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.mollie#Mollie/operations/1",
+      "value": { "target": "com.mollie#OauthRevokeTokens" }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.mollie#Mollie/operations/1"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.mollie#OauthRevokeTokens"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.mollie#Mollie/operations/0",
+      "value": { "target": "com.mollie#OauthGenerateTokens" }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.mollie#Mollie/operations/0"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.mollie#OauthGenerateTokens"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "description": "Type the 403 `module-upload-disabled` that putApp (PUT /v1/apps/{project}) gets for a module the team's builds did not produce. The spec documents it on that operation (\"anything else is 403 `module-upload-disabled`\") and on components.responses.Forbidden, which says this is the one 403 without a `reason`: the body is `{\"error\": \"module-upload-disabled\", \"message\": \"...\"}`, so the matcher reads `/error`. It generated as the generic Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#ModuleUploadDisabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "`module.sha256` is neither the module the app runs nor one the team's builds produced. A team key cannot place other modules; ship new code with `createBuild`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/error": "module-upload-disabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutApp/errors/-",
+      "value": {
+        "target": "com.sproutboat#ModuleUploadDisabled"
+      }
+    }
+  ]
+}

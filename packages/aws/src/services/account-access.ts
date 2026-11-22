@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -319,6 +320,7 @@ export const createApplication: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
@@ -355,6 +357,7 @@ export const createEntitlement: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
@@ -389,6 +392,7 @@ export const deleteApplication: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -423,6 +427,7 @@ export const deleteEntitlement: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
@@ -455,6 +460,7 @@ export const getApplication: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
@@ -487,6 +493,7 @@ export const getEntitlement: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntitlement",
@@ -518,6 +525,7 @@ export const listApplications: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplications",
@@ -552,6 +560,7 @@ export const listEntitlements: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitlements",
@@ -583,6 +592,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -613,6 +623,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -643,6 +654,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

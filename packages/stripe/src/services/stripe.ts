@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStripeError } from "../errors.ts";
+import { StripeServiceErrors } from "../errors.ts";
 import { stripeSearchPaginate } from "../pagination.ts";
 import { StripeProtocol, type StripeOpError, type StripeOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -101426,7 +101426,8 @@ export const CreateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6066, __c189, 18) as any as S.Schema<CreateAccountRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101443,7 +101444,8 @@ export const CreateAccountExternalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<CreateAccountExternalAccountRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<CreateAccountExternalAccountResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101460,7 +101462,8 @@ export const CreateAccountLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<CreateAccountLinkRequest>,
   output: __S(18017, __c563, 1) as any as S.Schema<AccountLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101477,7 +101480,8 @@ export const CreateAccountLoginLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<CreateAccountLoginLinkRequest>,
   output: __S(22721, __c710, 1) as any as S.Schema<LoginLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101494,7 +101498,8 @@ export const CreateAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26666, __c833, 10) as any as S.Schema<CreateAccountPersonRequest>,
   output: __S(6664, __c208, 8) as any as S.Schema<Person>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101511,7 +101516,8 @@ export const CreateAccountReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29600, __c925, 0) as any as S.Schema<CreateAccountRejectRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101528,7 +101534,8 @@ export const CreateAccountSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30326, __c947, 22) as any as S.Schema<CreateAccountSessionRequest>,
   output: __S(30349, __c948, 13) as any as S.Schema<AccountSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101545,7 +101552,8 @@ export const CreateAccountUnreject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31488, __c984, 0) as any as S.Schema<CreateAccountUnrejectRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101562,7 +101570,8 @@ export const CreateApplePayDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateApplePayDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ApplePayDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101579,7 +101588,8 @@ export const CreateApplicationFeeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<CreateApplicationFeeRefundRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<FeeRefund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101596,7 +101606,8 @@ export const CreateAppsInstall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateAppsInstallRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<AppsInstall>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101613,7 +101624,8 @@ export const CreateAppsInstallUninstall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<CreateAppsInstallUninstallRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<AppsInstall>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101630,7 +101642,8 @@ export const CreateAppsSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<CreateAppsSecretRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<AppsSecret>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101647,7 +101660,8 @@ export const CreateAppsSecretsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CreateAppsSecretsDeleteRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<AppsSecret>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101664,7 +101678,8 @@ export const CreateBalanceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3876, __c121, 4) as any as S.Schema<CreateBalanceSettingsRequest>,
   output: __S(3912, __c122, 8) as any as S.Schema<BalanceSettings>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101681,7 +101696,8 @@ export const CreateBillingAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4483, __c140, 3) as any as S.Schema<CreateBillingAlertRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<BillingAlert>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101698,7 +101714,8 @@ export const CreateBillingAlertActivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<CreateBillingAlertActivateRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<BillingAlert>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101715,7 +101732,8 @@ export const CreateBillingAlertArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<CreateBillingAlertArchiveRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<BillingAlert>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101732,7 +101750,8 @@ export const CreateBillingAlertDeactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<CreateBillingAlertDeactivateRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<BillingAlert>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101749,7 +101768,8 @@ export const CreateBillingCreditGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7586, __c237, 2) as any as S.Schema<CreateBillingCreditGrantRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<BillingCreditGrant>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101766,7 +101786,8 @@ export const CreateBillingCreditGrantExpire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<CreateBillingCreditGrantExpireRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<BillingCreditGrant>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101783,7 +101804,8 @@ export const CreateBillingCreditGrantVoid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<CreateBillingCreditGrantVoidRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<BillingCreditGrant>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101800,7 +101822,8 @@ export const CreateBillingFeedbackOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<CreateBillingFeedbackOptionRequest>,
   output: __S(9280, __c290, 0) as any as S.Schema<BillingFeedbackOption>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101817,7 +101840,8 @@ export const CreateBillingFeedbackOptionDeactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<CreateBillingFeedbackOptionDeactivateRequest>,
   output: __S(9280, __c290, 0) as any as S.Schema<BillingFeedbackOption>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101834,7 +101858,8 @@ export const CreateBillingMeter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<CreateBillingMeterRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<BillingMeter>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101851,7 +101876,8 @@ export const CreateBillingMeterDeactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<CreateBillingMeterDeactivateRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<BillingMeter>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101868,7 +101894,8 @@ export const CreateBillingMeterEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<CreateBillingMeterEventRequest>,
   output: __S(11105, __c347, 1) as any as S.Schema<BillingMeterEvent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101885,7 +101912,8 @@ export const CreateBillingMeterEvent2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<CreateBillingMeterEventRequest2>,
   output: __S(11489, __c359, 1) as any as S.Schema<V2BillingMeterEvent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101902,7 +101930,8 @@ export const CreateBillingMeterEventAdjustment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11969, __c374, 1) as any as S.Schema<CreateBillingMeterEventAdjustmentRequest>,
   output: __S(11971, __c374, 3) as any as S.Schema<BillingMeterEventAdjustment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101919,7 +101948,8 @@ export const CreateBillingMeterEventAdjustment2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12321, __c385, 1) as any as S.Schema<CreateBillingMeterEventAdjustmentRequest2>,
   output: __S(12322, __c385, 2) as any as S.Schema<V2BillingMeterEventAdjustment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101936,7 +101966,8 @@ export const CreateBillingMeterEventSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<CreateBillingMeterEventSessionRequest>,
   output: __S(12705, __c397, 1) as any as S.Schema<V2BillingMeterEventSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101953,7 +101984,8 @@ export const CreateBillingMeterEventStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13090, __c409, 2) as any as S.Schema<CreateBillingMeterEventStreamRequest>,
   output: __S(13091, __c409, 3) as any as S.Schema<CreateBillingMeterEventStreamResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101970,7 +102002,8 @@ export const CreateBillingMeterReactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<CreateBillingMeterReactivateRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<BillingMeter>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101987,7 +102020,8 @@ export const CreateBillingPortalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13898, __c434, 10) as any as S.Schema<CreateBillingPortalConfigurationRequest>,
   output: __S(13936, __c435, 16) as any as S.Schema<BillingPortalConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102004,7 +102038,8 @@ export const CreateBillingPortalSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14410, __c450, 10) as any as S.Schema<CreateBillingPortalSessionRequest>,
   output: __S(14421, __c450, 21) as any as S.Schema<BillingPortalSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102021,7 +102056,8 @@ export const CreateCharge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14946, __c467, 2) as any as S.Schema<CreateChargeRequest>,
   output: __S(15184, __c474, 16) as any as S.Schema<Charge>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102038,7 +102074,8 @@ export const CreateChargeCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<CreateChargeCaptureRequest>,
   output: __S(15184, __c474, 16) as any as S.Schema<Charge>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102055,7 +102092,8 @@ export const CreateCheckoutSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16330, __c510, 10) as any as S.Schema<CreateCheckoutSessionRequest>,
   output: __S(16802, __c525, 2) as any as S.Schema<CheckoutSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102072,7 +102110,8 @@ export const CreateCheckoutSessionExpire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18080, __c565, 0) as any as S.Schema<CreateCheckoutSessionExpireRequest>,
   output: __S(16802, __c525, 2) as any as S.Schema<CheckoutSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102089,7 +102128,8 @@ export const CreateClimateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<CreateClimateOrderRequest>,
   output: __S(18499, __c578, 3) as any as S.Schema<ClimateOrder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102106,7 +102146,8 @@ export const CreateClimateOrderCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<CreateClimateOrderCancelRequest>,
   output: __S(18499, __c578, 3) as any as S.Schema<ClimateOrder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102123,7 +102164,8 @@ export const CreateCommerceProductCatalogImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<CreateCommerceProductCatalogImportRequest>,
   output: __S(19338, __c604, 10) as any as S.Schema<V2CommerceProductCatalogImport>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102140,7 +102182,8 @@ export const CreateCoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19761, __c617, 17) as any as S.Schema<CreateCoreAccountRequest>,
   output: __S(19929, __c622, 25) as any as S.Schema<V2CoreAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102157,7 +102200,8 @@ export const CreateCoreAccountClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<CreateCoreAccountCloseRequest>,
   output: __S(19929, __c622, 25) as any as S.Schema<V2CoreAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102174,7 +102218,8 @@ export const CreateCoreAccountLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21026, __c657, 2) as any as S.Schema<CreateCoreAccountLinkRequest>,
   output: __S(21027, __c657, 3) as any as S.Schema<V2CoreAccountLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102191,7 +102236,8 @@ export const CreateCoreAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21376, __c668, 0) as any as S.Schema<CreateCoreAccountPersonRequest>,
   output: __S(21408, __c669, 0) as any as S.Schema<V2CoreAccountPerson>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102208,7 +102254,8 @@ export const CreateCoreAccountPersonToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<CreateCoreAccountPersonTokenRequest>,
   output: __S(21856, __c683, 0) as any as S.Schema<V2CoreAccountPersonToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102225,7 +102272,8 @@ export const CreateCoreAccountToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22307, __c697, 3) as any as S.Schema<CreateCoreAccountTokenRequest>,
   output: __S(21856, __c683, 0) as any as S.Schema<V2CoreAccountToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102242,7 +102290,8 @@ export const CreateCoreEventDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22754, __c711, 2) as any as S.Schema<CreateCoreEventDestinationRequest>,
   output: __S(22852, __c714, 4) as any as S.Schema<V2CoreEventDestination>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102259,7 +102308,8 @@ export const CreateCoreEventDestinationDisable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<CreateCoreEventDestinationDisableRequest>,
   output: __S(22852, __c714, 4) as any as S.Schema<V2CoreEventDestination>,
-  errors: [EventDestinationNotFound, UnknownStripeError],
+  errors: [EventDestinationNotFound],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102276,7 +102326,8 @@ export const CreateCoreEventDestinationEnable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<CreateCoreEventDestinationEnableRequest>,
   output: __S(22852, __c714, 4) as any as S.Schema<V2CoreEventDestination>,
-  errors: [EventDestinationNotFound, UnknownStripeError],
+  errors: [EventDestinationNotFound],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102293,7 +102344,8 @@ export const CreateCoreEventDestinationPing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<CreateCoreEventDestinationPingRequest>,
   output: __S(24034, __c751, 2) as any as S.Schema<V2CoreEvent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102310,7 +102362,8 @@ export const CreateCoreVaultGbBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<CreateCoreVaultGbBankAccountRequest>,
   output: __S(24416, __c763, 0) as any as S.Schema<V2CoreVaultGbBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102327,7 +102380,8 @@ export const CreateCoreVaultGbBankAccountArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24768, __c774, 0) as any as S.Schema<CreateCoreVaultGbBankAccountArchiveRequest>,
   output: __S(24416, __c763, 0) as any as S.Schema<V2CoreVaultGbBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102344,7 +102398,8 @@ export const CreateCoreVaultGbBankAccountUnarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<CreateCoreVaultGbBankAccountUnarchiveRequest>,
   output: __S(24416, __c763, 0) as any as S.Schema<V2CoreVaultGbBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102361,7 +102416,8 @@ export const CreateCoreVaultUsBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<CreateCoreVaultUsBankAccountRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102378,7 +102434,8 @@ export const CreateCoreVaultUsBankAccountArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<CreateCoreVaultUsBankAccountArchiveRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102399,7 +102456,8 @@ export const CreateCoreVaultUsBankAccountConfirmMicrodeposit: API.OperationMetho
     0,
   ) as any as S.Schema<CreateCoreVaultUsBankAccountConfirmMicrodepositRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102420,7 +102478,8 @@ export const CreateCoreVaultUsBankAccountSendMicrodeposit: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateCoreVaultUsBankAccountSendMicrodepositRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102437,7 +102496,8 @@ export const CreateCoreVaultUsBankAccountUnarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27072, __c846, 0) as any as S.Schema<CreateCoreVaultUsBankAccountUnarchiveRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102454,7 +102514,8 @@ export const CreateCoupon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27425, __c857, 1) as any as S.Schema<CreateCouponRequest>,
   output: __S(27459, __c858, 3) as any as S.Schema<Coupon>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102471,7 +102532,8 @@ export const CreateCreditNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27810, __c869, 2) as any as S.Schema<CreateCreditNoteRequest>,
   output: __S(27970, __c874, 2) as any as S.Schema<CreditNote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102488,7 +102550,8 @@ export const CreateCreditNoteVoid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28448, __c889, 0) as any as S.Schema<CreateCreditNoteVoidRequest>,
   output: __S(27970, __c874, 2) as any as S.Schema<CreditNote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102505,7 +102568,8 @@ export const CreateCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28834, __c901, 2) as any as S.Schema<CreateCustomerRequest>,
   output: __S(29187, __c912, 3) as any as S.Schema<Customer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102522,7 +102586,8 @@ export const CreateCustomerBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29408, __c919, 0) as any as S.Schema<CreateCustomerBalanceTransactionRequest>,
   output: __S(29440, __c920, 0) as any as S.Schema<CustomerBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102539,7 +102604,8 @@ export const CreateCustomerCashBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29472, __c921, 0) as any as S.Schema<CreateCustomerCashBalanceRequest>,
   output: __S(29249, __c914, 1) as any as S.Schema<CashBalance>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102556,7 +102622,8 @@ export const CreateCustomerFundingInstruction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29504, __c922, 0) as any as S.Schema<CreateCustomerFundingInstructionRequest>,
   output: __S(29506, __c922, 2) as any as S.Schema<FundingInstructions>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102573,7 +102640,8 @@ export const CreateCustomerSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29575, __c924, 7) as any as S.Schema<CreateCustomerSessionRequest>,
   output: __S(29583, __c924, 15) as any as S.Schema<CustomerSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102590,7 +102658,8 @@ export const CreateCustomerSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29632, __c926, 0) as any as S.Schema<CreateCustomerSourceRequest>,
   output: __S(29664, __c927, 0) as any as S.Schema<CreateCustomerSourceResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102607,7 +102676,8 @@ export const CreateCustomerSourceVerify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29696, __c928, 0) as any as S.Schema<CreateCustomerSourceVerifyRequest>,
   output: __S(29729, __c929, 1) as any as S.Schema<BankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102624,7 +102694,8 @@ export const CreateCustomerTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29760, __c930, 0) as any as S.Schema<CreateCustomerTaxIdsRequest>,
   output: __S(29314, __c916, 2) as any as S.Schema<TaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102641,7 +102712,8 @@ export const CreateDisputeClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29792, __c931, 0) as any as S.Schema<CreateDisputeCloseRequest>,
   output: __S(29905, __c934, 17) as any as S.Schema<Dispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102658,7 +102730,8 @@ export const CreateEntitlementsFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29920, __c935, 0) as any as S.Schema<CreateEntitlementsFeatureRequest>,
   output: __S(29952, __c936, 0) as any as S.Schema<EntitlementsFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102675,7 +102748,8 @@ export const CreateEphemeralKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29984, __c937, 0) as any as S.Schema<CreateEphemeralKeyRequest>,
   output: __S(30016, __c938, 0) as any as S.Schema<EphemeralKey>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102692,7 +102766,8 @@ export const CreateFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30049, __c939, 1) as any as S.Schema<CreateFileRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<File>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102709,7 +102784,8 @@ export const CreateFileLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30176, __c943, 0) as any as S.Schema<CreateFileLinkRequest>,
   output: __S(30144, __c942, 0) as any as S.Schema<FileLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102730,7 +102806,8 @@ export const CreateFinancialConnectionsAccountDisconnect: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateFinancialConnectionsAccountDisconnectRequest>,
   output: __S(30250, __c945, 10) as any as S.Schema<FinancialConnectionsAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102747,7 +102824,8 @@ export const CreateFinancialConnectionsAccountRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30272, __c946, 0) as any as S.Schema<CreateFinancialConnectionsAccountRefreshRequest>,
   output: __S(30250, __c945, 10) as any as S.Schema<FinancialConnectionsAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102768,7 +102846,8 @@ export const CreateFinancialConnectionsAccountSubscribe: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateFinancialConnectionsAccountSubscribeRequest>,
   output: __S(30250, __c945, 10) as any as S.Schema<FinancialConnectionsAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102789,7 +102868,8 @@ export const CreateFinancialConnectionsAccountUnsubscribe: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateFinancialConnectionsAccountUnsubscribeRequest>,
   output: __S(30250, __c945, 10) as any as S.Schema<FinancialConnectionsAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102806,7 +102886,8 @@ export const CreateFinancialConnectionsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30434, __c951, 2) as any as S.Schema<CreateFinancialConnectionsSessionRequest>,
   output: __S(30563, __c955, 3) as any as S.Schema<FinancialConnectionsSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102823,7 +102904,8 @@ export const CreateForwardingRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30593, __c956, 1) as any as S.Schema<CreateForwardingRequestRequest>,
   output: __S(30627, __c957, 3) as any as S.Schema<ForwardingRequest>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102840,7 +102922,8 @@ export const CreateIdentityVerificationSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30657, __c958, 1) as any as S.Schema<CreateIdentityVerificationSessionRequest>,
   output: __S(30726, __c960, 6) as any as S.Schema<IdentityVerificationSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102857,7 +102940,8 @@ export const CreateIdentityVerificationSessionCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30752, __c961, 0) as any as S.Schema<CreateIdentityVerificationSessionCancelRequest>,
   output: __S(30726, __c960, 6) as any as S.Schema<IdentityVerificationSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102874,7 +102958,8 @@ export const CreateIdentityVerificationSessionRedact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30784, __c962, 0) as any as S.Schema<CreateIdentityVerificationSessionRedactRequest>,
   output: __S(30726, __c960, 6) as any as S.Schema<IdentityVerificationSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102891,7 +102976,8 @@ export const CreateInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30821, __c963, 5) as any as S.Schema<CreateInvoiceRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102908,7 +102994,8 @@ export const CreateInvoiceAddLine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31397, __c981, 5) as any as S.Schema<CreateInvoiceAddLineRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102925,7 +103012,8 @@ export const CreateInvoiceAttachPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31456, __c983, 0) as any as S.Schema<CreateInvoiceAttachPaymentRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102942,7 +103030,8 @@ export const CreateInvoiceFinalize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31520, __c985, 0) as any as S.Schema<CreateInvoiceFinalizeRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102959,7 +103048,8 @@ export const CreateInvoiceitem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31552, __c986, 0) as any as S.Schema<CreateInvoiceitemRequest>,
   output: __S(31589, __c987, 5) as any as S.Schema<Invoiceitem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102976,7 +103066,8 @@ export const CreateInvoiceMarkUncollectible: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31648, __c989, 0) as any as S.Schema<CreateInvoiceMarkUncollectibleRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102993,7 +103084,8 @@ export const CreateInvoicePay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31680, __c990, 0) as any as S.Schema<CreateInvoicePayRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103010,7 +103102,8 @@ export const CreateInvoiceRemoveLine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31714, __c991, 2) as any as S.Schema<CreateInvoiceRemoveLineRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103027,7 +103120,8 @@ export const CreateInvoiceRenderingTemplateArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31744, __c992, 0) as any as S.Schema<CreateInvoiceRenderingTemplateArchiveRequest>,
   output: __S(31776, __c993, 0) as any as S.Schema<InvoiceRenderingTemplate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103044,7 +103138,8 @@ export const CreateInvoiceRenderingTemplateUnarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31808, __c994, 0) as any as S.Schema<CreateInvoiceRenderingTemplateUnarchiveRequest>,
   output: __S(31776, __c993, 0) as any as S.Schema<InvoiceRenderingTemplate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103061,7 +103156,8 @@ export const CreateInvoicesCreatePreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31856, __c995, 16) as any as S.Schema<CreateInvoicesCreatePreviewRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103078,7 +103174,8 @@ export const CreateInvoiceSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32032, __c1001, 0) as any as S.Schema<CreateInvoiceSendRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103095,7 +103192,8 @@ export const CreateInvoiceUpdateLine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32069, __c1002, 5) as any as S.Schema<CreateInvoiceUpdateLineRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103112,7 +103210,8 @@ export const CreateInvoiceVoid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateInvoiceVoidRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103129,7 +103228,8 @@ export const CreateIssuingCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateIssuingCardRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103146,7 +103246,8 @@ export const CreateIssuingCardholder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(291, __c9, 3) as any as S.Schema<CreateIssuingCardholderRequest>,
   output: __S(169, __c5, 9) as any as S.Schema<IssuingCardholder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103163,7 +103264,8 @@ export const CreateIssuingDispute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(354, __c11, 2) as any as S.Schema<CreateIssuingDisputeRequest>,
   output: __S(394, __c12, 10) as any as S.Schema<IssuingDispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103180,7 +103282,8 @@ export const CreateIssuingDisputeSubmit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<CreateIssuingDisputeSubmitRequest>,
   output: __S(394, __c12, 10) as any as S.Schema<IssuingDispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103197,7 +103300,8 @@ export const CreateIssuingPersonalizationDesign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c14, 1) as any as S.Schema<CreateIssuingPersonalizationDesignRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103214,7 +103318,8 @@ export const CreateMoneyManagementFinancialAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(545, __c17, 1) as any as S.Schema<CreateMoneyManagementFinancialAddressRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<V2MoneyManagementFinancialAddress>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103231,7 +103336,8 @@ export const CreateMoneyManagementInboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c19, 1) as any as S.Schema<CreateMoneyManagementInboundTransferRequest>,
   output: __S(710, __c22, 6) as any as S.Schema<V2MoneyManagementInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103248,7 +103354,8 @@ export const CreateMoneyManagementOutboundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(737, __c23, 1) as any as S.Schema<CreateMoneyManagementOutboundPaymentRequest>,
   output: __S(807, __c25, 7) as any as S.Schema<V2MoneyManagementOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103265,7 +103372,8 @@ export const CreateMoneyManagementOutboundPaymentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<CreateMoneyManagementOutboundPaymentCancelRequest>,
   output: __S(807, __c25, 7) as any as S.Schema<V2MoneyManagementOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103282,7 +103390,8 @@ export const CreateMoneyManagementOutboundSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateMoneyManagementOutboundSetupIntentRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<V2MoneyManagementOutboundSetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103303,7 +103412,8 @@ export const CreateMoneyManagementOutboundSetupIntentCancel: API.OperationMethod
     0,
   ) as any as S.Schema<CreateMoneyManagementOutboundSetupIntentCancelRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<V2MoneyManagementOutboundSetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103320,7 +103430,8 @@ export const CreateMoneyManagementPayoutIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CreateMoneyManagementPayoutIntentRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103337,7 +103448,8 @@ export const CreateMoneyManagementPayoutIntentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CreateMoneyManagementPayoutIntentCancelRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103354,7 +103466,8 @@ export const CreateMoneyManagementPayoutIntentConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateMoneyManagementPayoutIntentConfirmRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103375,7 +103488,8 @@ export const CreateMoneyManagementPayoutIntentRefreshFxQuote: API.OperationMetho
     0,
   ) as any as S.Schema<CreateMoneyManagementPayoutIntentRefreshFxQuoteRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103396,7 +103510,8 @@ export const CreateMoneyManagementPayoutIntentRefreshRecipientVerification: API.
     0,
   ) as any as S.Schema<CreateMoneyManagementPayoutIntentRefreshRecipientVerificationRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103413,7 +103528,8 @@ export const CreateMoneyManagementPayoutMethodArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateMoneyManagementPayoutMethodArchiveRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<V2MoneyManagementPayoutMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103430,7 +103546,8 @@ export const CreateMoneyManagementPayoutMethodUnarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateMoneyManagementPayoutMethodUnarchiveRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<V2MoneyManagementPayoutMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103447,7 +103564,8 @@ export const CreateMoneyManagementRecipientVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateMoneyManagementRecipientVerificationRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<V2MoneyManagementRecipientVerification>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103468,7 +103586,8 @@ export const CreateMoneyManagementRecipientVerificationAcknowledge: API.Operatio
     0,
   ) as any as S.Schema<CreateMoneyManagementRecipientVerificationAcknowledgeRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<V2MoneyManagementRecipientVerification>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103489,7 +103608,8 @@ export const CreateMoneyManagementTestHelpersFinancialAddressCredit: API.Operati
     0,
   ) as any as S.Schema<CreateMoneyManagementTestHelpersFinancialAddressCreditRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2MoneyManagementFinancialAddressCreditSimulation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103510,7 +103630,8 @@ export const CreateMoneyManagementTransactionRefreshRegulatoryReceipt: API.Opera
     0,
   ) as any as S.Schema<CreateMoneyManagementTransactionRefreshRegulatoryReceiptRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<V2MoneyManagementTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103527,7 +103648,8 @@ export const CreatePaymentIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1739, __c54, 11) as any as S.Schema<CreatePaymentIntentRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103544,7 +103666,8 @@ export const CreatePaymentIntentApplyCustomerBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<CreatePaymentIntentApplyCustomerBalanceRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103561,7 +103684,8 @@ export const CreatePaymentIntentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<CreatePaymentIntentCancelRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103578,7 +103702,8 @@ export const CreatePaymentIntentCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1892, __c59, 4) as any as S.Schema<CreatePaymentIntentCaptureRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103595,7 +103720,8 @@ export const CreatePaymentIntentConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1927, __c60, 7) as any as S.Schema<CreatePaymentIntentConfirmRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103612,7 +103738,8 @@ export const CreatePaymentIntentIncrementAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1957, __c61, 5) as any as S.Schema<CreatePaymentIntentIncrementAuthorizationRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103629,7 +103756,8 @@ export const CreatePaymentIntentVerifyMicrodeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<CreatePaymentIntentVerifyMicrodepositRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103646,7 +103774,8 @@ export const CreatePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2065, __c64, 17) as any as S.Schema<CreatePaymentLinkRequest>,
   output: __S(2101, __c65, 21) as any as S.Schema<PaymentLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103663,7 +103792,8 @@ export const CreatePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2145, __c67, 1) as any as S.Schema<CreatePaymentMethodRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103680,7 +103810,8 @@ export const CreatePaymentMethodAttach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<CreatePaymentMethodAttachRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103697,7 +103828,8 @@ export const CreatePaymentMethodConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<CreatePaymentMethodConfigurationRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<PaymentMethodConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103714,7 +103846,8 @@ export const CreatePaymentMethodDetach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<CreatePaymentMethodDetachRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103731,7 +103864,8 @@ export const CreatePaymentMethodDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreatePaymentMethodDomainRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<PaymentMethodDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103748,7 +103882,8 @@ export const CreatePaymentMethodDomainValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CreatePaymentMethodDomainValidateRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<PaymentMethodDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103765,7 +103900,8 @@ export const CreatePaymentRecordReportPaymentAttempt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CreatePaymentRecordReportPaymentAttemptRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103786,7 +103922,8 @@ export const CreatePaymentRecordReportPaymentAttemptCanceled: API.OperationMetho
     0,
   ) as any as S.Schema<CreatePaymentRecordReportPaymentAttemptCanceledRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103807,7 +103944,8 @@ export const CreatePaymentRecordReportPaymentAttemptFailed: API.OperationMethod<
     0,
   ) as any as S.Schema<CreatePaymentRecordReportPaymentAttemptFailedRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103828,7 +103966,8 @@ export const CreatePaymentRecordReportPaymentAttemptGuaranteed: API.OperationMet
     0,
   ) as any as S.Schema<CreatePaymentRecordReportPaymentAttemptGuaranteedRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103849,7 +103988,8 @@ export const CreatePaymentRecordReportPaymentAttemptInformational: API.Operation
     0,
   ) as any as S.Schema<CreatePaymentRecordReportPaymentAttemptInformationalRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103866,7 +104006,8 @@ export const CreatePaymentRecordReportRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2883, __c90, 3) as any as S.Schema<CreatePaymentRecordReportRefundRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103883,7 +104024,8 @@ export const CreatePaymentRecordsReportPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2914, __c91, 2) as any as S.Schema<CreatePaymentRecordsReportPaymentRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103900,7 +104042,8 @@ export const CreatePayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CreatePayoutRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Payout>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103917,7 +104060,8 @@ export const CreatePayoutCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<CreatePayoutCancelRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Payout>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103934,7 +104078,8 @@ export const CreatePayoutReverse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CreatePayoutReverseRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Payout>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103951,7 +104096,8 @@ export const CreatePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3074, __c96, 2) as any as S.Schema<CreatePlanRequest>,
   output: __S(28864, __c902, 0) as any as S.Schema<Plan>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103968,7 +104114,8 @@ export const CreatePrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3113, __c97, 9) as any as S.Schema<CreatePriceRequest>,
   output: __S(16964, __c530, 4) as any as S.Schema<Price>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103985,7 +104132,8 @@ export const CreateProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3176, __c99, 8) as any as S.Schema<CreateProductRequest>,
   output: __S(3203, __c100, 3) as any as S.Schema<Product>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104002,7 +104150,8 @@ export const CreateProductCatalogTrialOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3266, __c102, 2) as any as S.Schema<CreateProductCatalogTrialOfferRequest>,
   output: __S(3300, __c103, 4) as any as S.Schema<ProductCatalogTrialOffer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104019,7 +104168,8 @@ export const CreateProductFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<CreateProductFeatureRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<ProductFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104036,7 +104186,8 @@ export const CreatePromotionCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3394, __c106, 2) as any as S.Schema<CreatePromotionCodeRequest>,
   output: __S(3428, __c107, 4) as any as S.Schema<PromotionCode>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104053,7 +104204,8 @@ export const CreateQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3493, __c109, 5) as any as S.Schema<CreateQuoteRequest>,
   output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104070,7 +104222,8 @@ export const CreateQuoteAccept: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<CreateQuoteAcceptRequest>,
   output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104087,7 +104240,8 @@ export const CreateQuoteCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<CreateQuoteCancelRequest>,
   output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104104,7 +104258,8 @@ export const CreateQuoteFinalize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<CreateQuoteFinalizeRequest>,
   output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104121,7 +104276,8 @@ export const CreateRadarPaymentEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3686, __c115, 6) as any as S.Schema<CreateRadarPaymentEvaluationRequest>,
   output: __S(3705, __c115, 25) as any as S.Schema<RadarPaymentEvaluation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104138,7 +104294,8 @@ export const CreateRadarValueList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<CreateRadarValueListRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<RadarValueList>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104155,7 +104312,8 @@ export const CreateRadarValueListItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<CreateRadarValueListItemRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<RadarValueListItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104172,7 +104330,8 @@ export const CreateRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<CreateRefundRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104189,7 +104348,8 @@ export const CreateRefundCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<CreateRefundCancelRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104206,7 +104366,8 @@ export const CreateReportingReportRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4033, __c126, 1) as any as S.Schema<CreateReportingReportRunRequest>,
   output: __S(4065, __c127, 1) as any as S.Schema<ReportingReportRun>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104223,7 +104384,8 @@ export const CreateReviewApprove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<CreateReviewApproveRequest>,
   output: __S(4130, __c129, 2) as any as S.Schema<Review>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104240,7 +104402,8 @@ export const CreateSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4172, __c130, 12) as any as S.Schema<CreateSetupIntentRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104257,7 +104420,8 @@ export const CreateSetupIntentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<CreateSetupIntentCancelRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104274,7 +104438,8 @@ export const CreateSetupIntentConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4268, __c133, 12) as any as S.Schema<CreateSetupIntentConfirmRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104291,7 +104456,8 @@ export const CreateSetupIntentVerifyMicrodeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<CreateSetupIntentVerifyMicrodepositRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104308,7 +104474,8 @@ export const CreateShippingRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<CreateShippingRateRequest>,
   output: __S(4356, __c136, 4) as any as S.Schema<ShippingRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104325,7 +104492,8 @@ export const CreateSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4386, __c137, 2) as any as S.Schema<CreateSourceRequest>,
   output: __S(4442, __c138, 26) as any as S.Schema<Source>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104342,7 +104510,8 @@ export const CreateSourceVerify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<CreateSourceVerifyRequest>,
   output: __S(4442, __c138, 26) as any as S.Schema<Source>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104359,7 +104528,8 @@ export const CreateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4587, __c143, 11) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104376,7 +104546,8 @@ export const CreateSubscriptionItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<CreateSubscriptionItemRequest>,
   output: __S(28930, __c904, 2) as any as S.Schema<SubscriptionItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104393,7 +104564,8 @@ export const CreateSubscriptionMigrate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<CreateSubscriptionMigrateRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104410,7 +104582,8 @@ export const CreateSubscriptionPause: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CreateSubscriptionPauseRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104427,7 +104600,8 @@ export const CreateSubscriptionResume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<CreateSubscriptionResumeRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104444,7 +104618,8 @@ export const CreateSubscriptionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4816, __c150, 16) as any as S.Schema<CreateSubscriptionScheduleRequest>,
   output: __S(4859, __c151, 27) as any as S.Schema<SubscriptionSchedule>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104461,7 +104636,8 @@ export const CreateSubscriptionScheduleCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<CreateSubscriptionScheduleCancelRequest>,
   output: __S(4859, __c151, 27) as any as S.Schema<SubscriptionSchedule>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104478,7 +104654,8 @@ export const CreateSubscriptionScheduleRelease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<CreateSubscriptionScheduleReleaseRequest>,
   output: __S(4859, __c151, 27) as any as S.Schema<SubscriptionSchedule>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104495,7 +104672,8 @@ export const CreateTaxCalculation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4935, __c154, 7) as any as S.Schema<CreateTaxCalculationRequest>,
   output: __S(5027, __c157, 3) as any as S.Schema<TaxCalculation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104512,7 +104690,8 @@ export const CreateTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<CreateTaxIdsRequest>,
   output: __S(29314, __c916, 2) as any as S.Schema<TaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104529,7 +104708,8 @@ export const CreateTaxLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5153, __c161, 1) as any as S.Schema<CreateTaxLocationRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<TaxLocation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104546,7 +104726,8 @@ export const CreateTaxRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<CreateTaxRateRequest>,
   output: __S(16864, __c527, 0) as any as S.Schema<TaxRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104563,7 +104744,8 @@ export const CreateTaxRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5253, __c164, 5) as any as S.Schema<CreateTaxRegistrationRequest>,
   output: __S(5290, __c165, 10) as any as S.Schema<TaxRegistration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104580,7 +104762,8 @@ export const CreateTaxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5314, __c166, 2) as any as S.Schema<CreateTaxSettingsRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<TaxSettings>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104597,7 +104780,8 @@ export const CreateTaxTransactionsCreateFromCalculation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<CreateTaxTransactionsCreateFromCalculationRequest>,
   output: __S(5409, __c169, 1) as any as S.Schema<TaxTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104614,7 +104798,8 @@ export const CreateTaxTransactionsCreateReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5475, __c171, 3) as any as S.Schema<CreateTaxTransactionsCreateReversalRequest>,
   output: __S(5409, __c169, 1) as any as S.Schema<TaxTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104631,7 +104816,8 @@ export const CreateTerminalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5514, __c172, 10) as any as S.Schema<CreateTerminalConfigurationRequest>,
   output: __S(5545, __c173, 9) as any as S.Schema<TerminalConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104648,7 +104834,8 @@ export const CreateTerminalConnectionToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<CreateTerminalConnectionTokenRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<TerminalConnectionToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104665,7 +104852,8 @@ export const CreateTerminalLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5601, __c175, 1) as any as S.Schema<CreateTerminalLocationRequest>,
   output: __S(5632, __c176, 0) as any as S.Schema<TerminalLocation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104682,7 +104870,8 @@ export const CreateTerminalOnboardingLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5698, __c178, 2) as any as S.Schema<CreateTerminalOnboardingLinkRequest>,
   output: __S(5701, __c178, 5) as any as S.Schema<TerminalOnboardingLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104699,7 +104888,8 @@ export const CreateTerminalReader: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<CreateTerminalReaderRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104716,7 +104906,8 @@ export const CreateTerminalReaderCancelAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<CreateTerminalReaderCancelActionRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<CreateTerminalReaderCancelActionResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104733,7 +104924,8 @@ export const CreateTerminalReaderCollectInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5832, __c182, 8) as any as S.Schema<CreateTerminalReaderCollectInputRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104750,7 +104942,8 @@ export const CreateTerminalReaderCollectPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5857, __c183, 1) as any as S.Schema<CreateTerminalReaderCollectPaymentMethodRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104767,7 +104960,8 @@ export const CreateTerminalReaderConfirmPaymentIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<CreateTerminalReaderConfirmPaymentIntentRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104784,7 +104978,8 @@ export const CreateTerminalReaderProcessPaymentIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5921, __c185, 1) as any as S.Schema<CreateTerminalReaderProcessPaymentIntentRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104801,7 +104996,8 @@ export const CreateTerminalReaderProcessSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<CreateTerminalReaderProcessSetupIntentRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104818,7 +105014,8 @@ export const CreateTerminalReaderRefundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<CreateTerminalReaderRefundPaymentRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104835,7 +105032,8 @@ export const CreateTerminalReaderSetReaderDisplay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6017, __c188, 1) as any as S.Schema<CreateTerminalReaderSetReaderDisplayRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104852,7 +105050,8 @@ export const CreateTestHelpersConfirmationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7015, __c219, 7) as any as S.Schema<CreateTestHelpersConfirmationTokenRequest>,
   output: __S(7047, __c220, 7) as any as S.Schema<ConfirmationToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104869,7 +105068,8 @@ export const CreateTestHelpersCustomerFundCashBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<CreateTestHelpersCustomerFundCashBalanceRequest>,
   output: __S(7147, __c223, 11) as any as S.Schema<CustomerCashBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104886,7 +105086,8 @@ export const CreateTestHelpersIssuingAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7175, __c224, 7) as any as S.Schema<CreateTestHelpersIssuingAuthorizationRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104907,7 +105108,8 @@ export const CreateTestHelpersIssuingAuthorizationCapture: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationCaptureRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104928,7 +105130,8 @@ export const CreateTestHelpersIssuingAuthorizationExpire: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationExpireRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104949,7 +105152,8 @@ export const CreateTestHelpersIssuingAuthorizationFinalizeAmount: API.OperationM
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationFinalizeAmountRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104970,7 +105174,8 @@ export const CreateTestHelpersIssuingAuthorizationFraudChallengesRespond: API.Op
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationFraudChallengesRespondRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104991,7 +105196,8 @@ export const CreateTestHelpersIssuingAuthorizationIncrement: API.OperationMethod
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationIncrementRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105012,7 +105218,8 @@ export const CreateTestHelpersIssuingAuthorizationReverse: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingAuthorizationReverseRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105033,7 +105240,8 @@ export const CreateTestHelpersIssuingCardShippingDeliver: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingCardShippingDeliverRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105050,7 +105258,8 @@ export const CreateTestHelpersIssuingCardShippingFail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<CreateTestHelpersIssuingCardShippingFailRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105067,7 +105276,8 @@ export const CreateTestHelpersIssuingCardShippingReturn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<CreateTestHelpersIssuingCardShippingReturnRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105084,7 +105294,8 @@ export const CreateTestHelpersIssuingCardShippingShip: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<CreateTestHelpersIssuingCardShippingShipRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105101,7 +105312,8 @@ export const CreateTestHelpersIssuingCardShippingSubmit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<CreateTestHelpersIssuingCardShippingSubmitRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105122,7 +105334,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignActivate: API.Operatio
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingPersonalizationDesignActivateRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105143,7 +105356,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignDeactivate: API.Operat
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingPersonalizationDesignDeactivateRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105164,7 +105378,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignReject: API.OperationM
     1,
   ) as any as S.Schema<CreateTestHelpersIssuingPersonalizationDesignRejectRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105181,7 +105396,8 @@ export const CreateTestHelpersIssuingTransactionRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<CreateTestHelpersIssuingTransactionRefundRequest>,
   output: __S(7217, __c225, 17) as any as S.Schema<IssuingTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105202,7 +105418,8 @@ export const CreateTestHelpersIssuingTransactionsCreateForceCapture: API.Operati
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingTransactionsCreateForceCaptureRequest>,
   output: __S(7217, __c225, 17) as any as S.Schema<IssuingTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105223,7 +105440,8 @@ export const CreateTestHelpersIssuingTransactionsCreateUnlinkedRefund: API.Opera
     0,
   ) as any as S.Schema<CreateTestHelpersIssuingTransactionsCreateUnlinkedRefundRequest>,
   output: __S(7217, __c225, 17) as any as S.Schema<IssuingTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105244,7 +105462,8 @@ export const CreateTestHelpersMoneyManagementRecipientVerification: API.Operatio
     0,
   ) as any as S.Schema<CreateTestHelpersMoneyManagementRecipientVerificationRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<V2MoneyManagementRecipientVerification>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105261,7 +105480,8 @@ export const CreateTestHelpersRefundExpire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<CreateTestHelpersRefundExpireRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105282,7 +105502,8 @@ export const CreateTestHelpersTerminalReaderPresentPaymentMethod: API.OperationM
     2,
   ) as any as S.Schema<CreateTestHelpersTerminalReaderPresentPaymentMethodRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105303,7 +105524,8 @@ export const CreateTestHelpersTerminalReaderSucceedInputCollection: API.Operatio
     0,
   ) as any as S.Schema<CreateTestHelpersTerminalReaderSucceedInputCollectionRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105324,7 +105546,8 @@ export const CreateTestHelpersTerminalReaderTimeoutInputCollection: API.Operatio
     0,
   ) as any as S.Schema<CreateTestHelpersTerminalReaderTimeoutInputCollectionRequest>,
   output: __S(5787, __c180, 27) as any as S.Schema<TerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105341,7 +105564,8 @@ export const CreateTestHelpersTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<CreateTestHelpersTestClockRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<TestHelpersTestClock>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105358,7 +105582,8 @@ export const CreateTestHelpersTestClockAdvance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<CreateTestHelpersTestClockAdvanceRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<TestHelpersTestClock>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105379,7 +105604,8 @@ export const CreateTestHelpersTreasuryInboundTransferFail: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryInboundTransferFailRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105400,7 +105626,8 @@ export const CreateTestHelpersTreasuryInboundTransferReturn: API.OperationMethod
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryInboundTransferReturnRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105421,7 +105648,8 @@ export const CreateTestHelpersTreasuryInboundTransferSucceed: API.OperationMetho
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryInboundTransferSucceedRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105442,7 +105670,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentFail: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundPaymentFailRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105463,7 +105692,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentPost: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundPaymentPostRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105484,7 +105714,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentReturn: API.OperationMethod
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundPaymentReturnRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105505,7 +105736,8 @@ export const CreateTestHelpersTreasuryOutboundTransferFail: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundTransferFailRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105526,7 +105758,8 @@ export const CreateTestHelpersTreasuryOutboundTransferPost: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundTransferPostRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105547,7 +105780,8 @@ export const CreateTestHelpersTreasuryOutboundTransferReturn: API.OperationMetho
     0,
   ) as any as S.Schema<CreateTestHelpersTreasuryOutboundTransferReturnRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105564,7 +105798,8 @@ export const CreateTestHelpersTreasuryReceivedCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<CreateTestHelpersTreasuryReceivedCreditRequest>,
   output: __S(9026, __c282, 2) as any as S.Schema<TreasuryReceivedCredit>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105581,7 +105816,8 @@ export const CreateTestHelpersTreasuryReceivedDebit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<CreateTestHelpersTreasuryReceivedDebitRequest>,
   output: __S(9089, __c284, 1) as any as S.Schema<TreasuryReceivedDebit>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105598,7 +105834,8 @@ export const CreateThreeDSecureAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9127, __c285, 7) as any as S.Schema<CreateThreeDSecureAuthenticationRequest>,
   output: __S(9164, __c286, 12) as any as S.Schema<ThreeDSecureAuthentication>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105615,7 +105852,8 @@ export const CreateThreeDSecureAuthenticationCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<CreateThreeDSecureAuthenticationCancelRequest>,
   output: __S(9164, __c286, 12) as any as S.Schema<ThreeDSecureAuthentication>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105632,7 +105870,8 @@ export const CreateThreeDSecureAuthenticationSubmit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<CreateThreeDSecureAuthenticationSubmitRequest>,
   output: __S(9164, __c286, 12) as any as S.Schema<ThreeDSecureAuthentication>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105649,7 +105888,8 @@ export const CreateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9362, __c292, 18) as any as S.Schema<CreateTokenRequest>,
   output: __S(30498, __c953, 2) as any as S.Schema<Token>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105666,7 +105906,8 @@ export const CreateTopup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9377, __c293, 1) as any as S.Schema<CreateTopupRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<Topup>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105683,7 +105924,8 @@ export const CreateTopupCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<CreateTopupCancelRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<Topup>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105700,7 +105942,8 @@ export const CreateTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<CreateTransferRequest>,
   output: S.Unknown,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105717,7 +105960,8 @@ export const CreateTransferReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<CreateTransferReversalRequest>,
   output: __S(9536, __c298, 0) as any as S.Schema<TransferReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105734,7 +105978,8 @@ export const CreateTreasuryCreditReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<CreateTreasuryCreditReversalRequest>,
   output: __S(8993, __c281, 1) as any as S.Schema<TreasuryCreditReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105751,7 +105996,8 @@ export const CreateTreasuryDebitReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<CreateTreasuryDebitReversalRequest>,
   output: __S(9634, __c301, 2) as any as S.Schema<TreasuryDebitReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105768,7 +106014,8 @@ export const CreateTreasuryFinancialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<CreateTreasuryFinancialAccountRequest>,
   output: __S(9735, __c304, 7) as any as S.Schema<TreasuryFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105785,7 +106032,8 @@ export const CreateTreasuryFinancialAccountClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<CreateTreasuryFinancialAccountCloseRequest>,
   output: __S(9735, __c304, 7) as any as S.Schema<TreasuryFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105802,7 +106050,8 @@ export const CreateTreasuryFinancialAccountFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<CreateTreasuryFinancialAccountFeatureRequest>,
   output: __S(9702, __c303, 6) as any as S.Schema<TreasuryFinancialAccountFeatures>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105819,7 +106068,8 @@ export const CreateTreasuryInboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<CreateTreasuryInboundTransferRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105836,7 +106086,8 @@ export const CreateTreasuryInboundTransferCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<CreateTreasuryInboundTransferCancelRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105853,7 +106104,8 @@ export const CreateTreasuryOutboundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10020, __c313, 4) as any as S.Schema<CreateTreasuryOutboundPaymentRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105870,7 +106122,8 @@ export const CreateTreasuryOutboundPaymentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<CreateTreasuryOutboundPaymentCancelRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105887,7 +106140,8 @@ export const CreateTreasuryOutboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10082, __c315, 2) as any as S.Schema<CreateTreasuryOutboundTransferRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105904,7 +106158,8 @@ export const CreateTreasuryOutboundTransferCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<CreateTreasuryOutboundTransferCancelRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105921,7 +106176,8 @@ export const CreateWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<CreateWebhookEndpointRequest>,
   output: __S(10176, __c318, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105938,7 +106194,8 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105955,7 +106212,8 @@ export const DeleteAccountExternalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<DeleteAccountExternalAccountRequest>,
   output: __S(10273, __c321, 1) as any as S.Schema<DeleteAccountExternalAccountResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105972,7 +106230,8 @@ export const DeleteAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<DeleteAccountPersonRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedPerson>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105989,7 +106248,8 @@ export const DeleteApplePayDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<DeleteApplePayDomainRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedApplePayDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106006,7 +106266,8 @@ export const DeleteCoreAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<DeleteCoreAccountPersonRequest>,
   output: __S(10464, __c327, 0) as any as S.Schema<V2DeletedObject>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106023,7 +106284,8 @@ export const DeleteCoreEventDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<DeleteCoreEventDestinationRequest>,
   output: __S(10464, __c327, 0) as any as S.Schema<V2DeletedObject>,
-  errors: [EventDestinationNotFound, UnknownStripeError],
+  errors: [EventDestinationNotFound],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106040,7 +106302,8 @@ export const DeleteCoupon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<DeleteCouponRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedCoupon>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106057,7 +106320,8 @@ export const DeleteCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<DeleteCustomerRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedCustomer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106074,7 +106338,8 @@ export const DeleteCustomerDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<DeleteCustomerDiscountRequest>,
   output: __S(10624, __c332, 0) as any as S.Schema<DeletedDiscount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106091,7 +106356,8 @@ export const DeleteCustomerSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<DeleteCustomerSourceRequest>,
   output: __S(10657, __c333, 1) as any as S.Schema<DeleteCustomerSourceResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106108,7 +106374,8 @@ export const DeleteCustomerTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<DeleteCustomerTaxIdsRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedTaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106125,7 +106392,8 @@ export const DeleteEphemeralKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<DeleteEphemeralKeyRequest>,
   output: __S(30016, __c938, 0) as any as S.Schema<EphemeralKey>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106142,7 +106410,8 @@ export const DeleteInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<DeleteInvoiceRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedInvoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106159,7 +106428,8 @@ export const DeleteInvoiceitem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<DeleteInvoiceitemRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedInvoiceitem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106176,7 +106446,8 @@ export const DeletePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<DeletePlanRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedPlan>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106193,7 +106464,8 @@ export const DeleteProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<DeleteProductRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedProduct>,
-  errors: [ProductHasPrices, UnknownStripeError],
+  errors: [ProductHasPrices],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106210,7 +106482,8 @@ export const DeleteProductFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<DeleteProductFeatureRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedProductFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106227,7 +106500,8 @@ export const DeleteRadarValueList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<DeleteRadarValueListRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedRadarValueList>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106244,7 +106518,8 @@ export const DeleteRadarValueListItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<DeleteRadarValueListItemRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedRadarValueListItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106261,7 +106536,8 @@ export const DeleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11009, __c344, 1) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106278,7 +106554,8 @@ export const DeleteSubscriptionDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<DeleteSubscriptionDiscountRequest>,
   output: __S(10624, __c332, 0) as any as S.Schema<DeletedDiscount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106295,7 +106572,8 @@ export const DeleteSubscriptionItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<DeleteSubscriptionItemRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedSubscriptionItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106312,7 +106590,8 @@ export const DeleteTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<DeleteTaxIdsRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedTaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106329,7 +106608,8 @@ export const DeleteTerminalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<DeleteTerminalConfigurationRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedTerminalConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106346,7 +106626,8 @@ export const DeleteTerminalLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<DeleteTerminalLocationRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedTerminalLocation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106363,7 +106644,8 @@ export const DeleteTerminalReader: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11233, __c351, 1) as any as S.Schema<DeleteTerminalReaderRequest>,
   output: __S(11232, __c351, 0) as any as S.Schema<DeletedTerminalReader>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106380,7 +106662,8 @@ export const DeleteTestHelpersTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<DeleteTestHelpersTestClockRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedTestHelpersTestClock>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106397,7 +106680,8 @@ export const DeleteWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<DeleteWebhookEndpointRequest>,
   output: __S(10240, __c320, 0) as any as S.Schema<DeletedWebhookEndpoint>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106414,7 +106698,8 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106431,7 +106716,8 @@ export const GetAccountByAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<GetAccountByAccountRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106448,7 +106734,8 @@ export const GetAccountCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<GetAccountCapabilitiesRequest>,
   output: __S(11394, __c356, 2) as any as S.Schema<GetAccountCapabilitiesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106465,7 +106752,8 @@ export const GetAccountCapability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<GetAccountCapabilityRequest>,
   output: __S(11425, __c357, 1) as any as S.Schema<Capability>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106482,7 +106770,8 @@ export const GetAccountExternalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<GetAccountExternalAccountRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<GetAccountExternalAccountResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106499,7 +106788,8 @@ export const GetAccountExternalAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<GetAccountExternalAccountsRequest>,
   output: __S(6817, __c213, 1) as any as S.Schema<GetAccountExternalAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106516,7 +106806,8 @@ export const GetAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<GetAccountPersonRequest>,
   output: __S(6664, __c208, 8) as any as S.Schema<Person>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106533,7 +106824,8 @@ export const GetAccountPersons: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11617, __c363, 1) as any as S.Schema<GetAccountPersonsRequest>,
   output: __S(11619, __c363, 3) as any as S.Schema<GetAccountPersonsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106550,7 +106842,8 @@ export const GetAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<GetAccountsRequest>,
   output: __S(11650, __c364, 2) as any as S.Schema<GetAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106567,7 +106860,8 @@ export const GetApplePayDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<GetApplePayDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ApplePayDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106584,7 +106878,8 @@ export const GetApplePayDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<GetApplePayDomainsRequest>,
   output: __S(11714, __c366, 2) as any as S.Schema<GetApplePayDomainsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106601,7 +106896,8 @@ export const GetApplicationFee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<GetApplicationFeeRequest>,
   output: __S(11809, __c369, 1) as any as S.Schema<ApplicationFee>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106618,7 +106914,8 @@ export const GetApplicationFeeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<GetApplicationFeeRefundRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<FeeRefund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106635,7 +106932,8 @@ export const GetApplicationFeeRefunds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetApplicationFeeRefundsRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<GetApplicationFeeRefundsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106652,7 +106950,8 @@ export const GetApplicationFees: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<GetApplicationFeesRequest>,
   output: __S(12002, __c375, 2) as any as S.Schema<GetApplicationFeesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106669,7 +106968,8 @@ export const GetAppsInstall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<GetAppsInstallRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<AppsInstall>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106686,7 +106986,8 @@ export const GetAppsInstalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetAppsInstallsRequest>,
   output: __S(12066, __c377, 2) as any as S.Schema<GetAppsInstallsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106703,7 +107004,8 @@ export const GetAppsSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<GetAppsSecretsRequest>,
   output: __S(12098, __c378, 2) as any as S.Schema<GetAppsSecretsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106720,7 +107022,8 @@ export const GetAppsSecretsFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<GetAppsSecretsFindRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<AppsSecret>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106737,7 +107040,8 @@ export const GetBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<GetBalanceRequest>,
   output: __S(12170, __c380, 10) as any as S.Schema<Balance>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106754,7 +107058,8 @@ export const GetBalanceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<GetBalanceSettingsRequest>,
   output: __S(3912, __c122, 8) as any as S.Schema<BalanceSettings>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106771,7 +107076,8 @@ export const GetBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<GetBalanceTransactionRequest>,
   output: __S(29826, __c932, 2) as any as S.Schema<BalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106788,7 +107094,8 @@ export const GetBalanceTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<GetBalanceTransactionsRequest>,
   output: __S(12257, __c383, 1) as any as S.Schema<GetBalanceTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106805,7 +107112,8 @@ export const GetBillingAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<GetBillingAlertRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<BillingAlert>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106822,7 +107130,8 @@ export const GetBillingAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<GetBillingAlertsRequest>,
   output: __S(12354, __c386, 2) as any as S.Schema<GetBillingAlertsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106839,7 +107148,8 @@ export const GetBillingCreditBalanceSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12385, __c387, 1) as any as S.Schema<GetBillingCreditBalanceSummaryRequest>,
   output: __S(12388, __c387, 4) as any as S.Schema<BillingCreditBalanceSummary>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106856,7 +107166,8 @@ export const GetBillingCreditBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<GetBillingCreditBalanceTransactionRequest>,
   output: __S(12452, __c389, 4) as any as S.Schema<BillingCreditBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106873,7 +107184,8 @@ export const GetBillingCreditBalanceTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<GetBillingCreditBalanceTransactionsRequest>,
   output: __S(12482, __c390, 2) as any as S.Schema<GetBillingCreditBalanceTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106890,7 +107202,8 @@ export const GetBillingCreditGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<GetBillingCreditGrantRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<BillingCreditGrant>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106907,7 +107220,8 @@ export const GetBillingCreditGrants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<GetBillingCreditGrantsRequest>,
   output: __S(12546, __c392, 2) as any as S.Schema<GetBillingCreditGrantsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106924,7 +107238,8 @@ export const GetBillingFeedbackOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<GetBillingFeedbackOptionRequest>,
   output: __S(9280, __c290, 0) as any as S.Schema<BillingFeedbackOption>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106941,7 +107256,8 @@ export const GetBillingFeedbackOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<GetBillingFeedbackOptionsRequest>,
   output: __S(12610, __c394, 2) as any as S.Schema<GetBillingFeedbackOptionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106958,7 +107274,8 @@ export const GetBillingMeter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<GetBillingMeterRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<BillingMeter>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106975,7 +107292,8 @@ export const GetBillingMeterEventSummaries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<GetBillingMeterEventSummariesRequest>,
   output: __S(12675, __c396, 3) as any as S.Schema<GetBillingMeterEventSummariesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106992,7 +107310,8 @@ export const GetBillingMeters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<GetBillingMetersRequest>,
   output: __S(12738, __c398, 2) as any as S.Schema<GetBillingMetersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107009,7 +107328,8 @@ export const GetBillingPortalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<GetBillingPortalConfigurationRequest>,
   output: __S(13936, __c435, 16) as any as S.Schema<BillingPortalConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107026,7 +107346,8 @@ export const GetBillingPortalConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<GetBillingPortalConfigurationsRequest>,
   output: __S(12802, __c400, 2) as any as S.Schema<GetBillingPortalConfigurationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107043,7 +107364,8 @@ export const GetCharge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<GetChargeRequest>,
   output: __S(15184, __c474, 16) as any as S.Schema<Charge>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107060,7 +107382,8 @@ export const GetChargeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<GetChargeRefundRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107077,7 +107400,8 @@ export const GetChargeRefunds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<GetChargeRefundsRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<GetChargeRefundsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107094,7 +107418,8 @@ export const GetCharges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<GetChargesRequest>,
   output: __S(12929, __c404, 1) as any as S.Schema<GetChargesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107113,7 +107438,8 @@ export const GetChargesSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(12992, __c406, 0) as any as S.Schema<GetChargesSearchRequest>,
     output: __S(12993, __c406, 1) as any as S.Schema<GetChargesSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107138,7 +107464,8 @@ export const GetCheckoutSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<GetCheckoutSessionRequest>,
   output: __S(16802, __c525, 2) as any as S.Schema<CheckoutSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107155,7 +107482,8 @@ export const GetCheckoutSessionLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<GetCheckoutSessionLineItemsRequest>,
   output: __S(16613, __c519, 5) as any as S.Schema<GetCheckoutSessionLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107172,7 +107500,8 @@ export const GetCheckoutSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13121, __c410, 1) as any as S.Schema<GetCheckoutSessionsRequest>,
   output: __S(13123, __c410, 3) as any as S.Schema<GetCheckoutSessionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107189,7 +107518,8 @@ export const GetClimateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<GetClimateOrderRequest>,
   output: __S(18499, __c578, 3) as any as S.Schema<ClimateOrder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107206,7 +107536,8 @@ export const GetClimateOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<GetClimateOrdersRequest>,
   output: __S(13186, __c412, 2) as any as S.Schema<GetClimateOrdersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107223,7 +107554,8 @@ export const GetClimateProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<GetClimateProductRequest>,
   output: __S(13250, __c414, 2) as any as S.Schema<ClimateProduct>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107240,7 +107572,8 @@ export const GetClimateProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<GetClimateProductsRequest>,
   output: __S(13314, __c416, 2) as any as S.Schema<GetClimateProductsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107257,7 +107590,8 @@ export const GetClimateSupplier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<GetClimateSupplierRequest>,
   output: __S(18466, __c577, 2) as any as S.Schema<ClimateSupplier>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107274,7 +107608,8 @@ export const GetClimateSuppliers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<GetClimateSuppliersRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GetClimateSuppliersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107291,7 +107626,8 @@ export const GetCommerceProductCatalogImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<GetCommerceProductCatalogImportRequest>,
   output: __S(19338, __c604, 10) as any as S.Schema<V2CommerceProductCatalogImport>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107308,7 +107644,8 @@ export const GetCommerceProductCatalogImports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<GetCommerceProductCatalogImportsRequest>,
   output: __S(13442, __c420, 2) as any as S.Schema<GetCommerceProductCatalogImportsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107325,7 +107662,8 @@ export const GetConfirmationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<GetConfirmationTokenRequest>,
   output: __S(7047, __c220, 7) as any as S.Schema<ConfirmationToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107342,7 +107680,8 @@ export const GetCoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<GetCoreAccountRequest>,
   output: __S(19929, __c622, 25) as any as S.Schema<V2CoreAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107359,7 +107698,8 @@ export const GetCoreAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<GetCoreAccountPersonRequest>,
   output: __S(21408, __c669, 0) as any as S.Schema<V2CoreAccountPerson>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107376,7 +107716,8 @@ export const GetCoreAccountPersons: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<GetCoreAccountPersonsRequest>,
   output: __S(13602, __c425, 2) as any as S.Schema<GetCoreAccountPersonsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107393,7 +107734,8 @@ export const GetCoreAccountPersonToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<GetCoreAccountPersonTokenRequest>,
   output: __S(21856, __c683, 0) as any as S.Schema<V2CoreAccountPersonToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107410,7 +107752,8 @@ export const GetCoreAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<GetCoreAccountsRequest>,
   output: __S(13666, __c427, 2) as any as S.Schema<GetCoreAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107427,7 +107770,8 @@ export const GetCoreAccountToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<GetCoreAccountTokenRequest>,
   output: __S(21856, __c683, 0) as any as S.Schema<V2CoreAccountToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107444,7 +107788,8 @@ export const GetCoreEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<GetCoreEventRequest>,
   output: __S(24034, __c751, 2) as any as S.Schema<V2CoreEvent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107461,7 +107806,8 @@ export const GetCoreEventDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<GetCoreEventDestinationRequest>,
   output: __S(22852, __c714, 4) as any as S.Schema<V2CoreEventDestination>,
-  errors: [EventDestinationNotFound, UnknownStripeError],
+  errors: [EventDestinationNotFound],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107478,7 +107824,8 @@ export const GetCoreEventDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<GetCoreEventDestinationsRequest>,
   output: __S(13794, __c431, 2) as any as S.Schema<GetCoreEventDestinationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107495,7 +107842,8 @@ export const GetCoreEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<GetCoreEventsRequest>,
   output: __S(13826, __c432, 2) as any as S.Schema<GetCoreEventsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107512,7 +107860,8 @@ export const GetCoreVaultGbBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<GetCoreVaultGbBankAccountRequest>,
   output: __S(24416, __c763, 0) as any as S.Schema<V2CoreVaultGbBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107529,7 +107878,8 @@ export const GetCoreVaultGbBankAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<GetCoreVaultGbBankAccountsRequest>,
   output: __S(14082, __c440, 2) as any as S.Schema<GetCoreVaultGbBankAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107546,7 +107896,8 @@ export const GetCoreVaultUsBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<GetCoreVaultUsBankAccountRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107563,7 +107914,8 @@ export const GetCoreVaultUsBankAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14144, __c442, 0) as any as S.Schema<GetCoreVaultUsBankAccountsRequest>,
   output: __S(14146, __c442, 2) as any as S.Schema<GetCoreVaultUsBankAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107580,7 +107932,8 @@ export const GetCountrySpecs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<GetCountrySpecsRequest>,
   output: __S(14178, __c443, 2) as any as S.Schema<GetCountrySpecsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107597,7 +107950,8 @@ export const GetCountrySpecsCountry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<GetCountrySpecsCountryRequest>,
   output: __S(14211, __c444, 3) as any as S.Schema<CountrySpec>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107614,7 +107968,8 @@ export const GetCoupon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<GetCouponRequest>,
   output: __S(27459, __c858, 3) as any as S.Schema<Coupon>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107631,7 +107986,8 @@ export const GetCoupons: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<GetCouponsRequest>,
   output: __S(14306, __c447, 2) as any as S.Schema<GetCouponsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107648,7 +108004,8 @@ export const GetCreditNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<GetCreditNoteRequest>,
   output: __S(27970, __c874, 2) as any as S.Schema<CreditNote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107665,7 +108022,8 @@ export const GetCreditNoteLines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<GetCreditNoteLinesRequest>,
   output: __S(27908, __c872, 4) as any as S.Schema<GetCreditNoteLinesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107682,7 +108040,8 @@ export const GetCreditNotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<GetCreditNotesRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<GetCreditNotesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107699,7 +108058,8 @@ export const GetCreditNotesPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14658, __c458, 2) as any as S.Schema<GetCreditNotesPreviewRequest>,
   output: __S(27970, __c874, 2) as any as S.Schema<CreditNote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107716,7 +108076,8 @@ export const GetCreditNotesPreviewLines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14690, __c459, 2) as any as S.Schema<GetCreditNotesPreviewLinesRequest>,
   output: __S(27908, __c872, 4) as any as S.Schema<GetCreditNotesPreviewLinesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107733,7 +108094,8 @@ export const GetCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(14721, __c460, 1) as any as S.Schema<GetCustomerResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107750,7 +108112,8 @@ export const GetCustomerBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<GetCustomerBalanceTransactionRequest>,
   output: __S(29440, __c920, 0) as any as S.Schema<CustomerBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107767,7 +108130,8 @@ export const GetCustomerBalanceTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<GetCustomerBalanceTransactionsRequest>,
   output: __S(14786, __c462, 2) as any as S.Schema<GetCustomerBalanceTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107784,7 +108148,8 @@ export const GetCustomerCashBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<GetCustomerCashBalanceRequest>,
   output: __S(29249, __c914, 1) as any as S.Schema<CashBalance>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107801,7 +108166,8 @@ export const GetCustomerCashBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<GetCustomerCashBalanceTransactionRequest>,
   output: __S(7147, __c223, 11) as any as S.Schema<CustomerCashBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107818,7 +108184,8 @@ export const GetCustomerCashBalanceTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<GetCustomerCashBalanceTransactionsRequest>,
   output: __S(14882, __c465, 2) as any as S.Schema<GetCustomerCashBalanceTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107835,7 +108202,8 @@ export const GetCustomerPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<GetCustomerPaymentMethodRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107852,7 +108220,8 @@ export const GetCustomerPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<GetCustomerPaymentMethodsRequest>,
   output: __S(15457, __c483, 1) as any as S.Schema<GetCustomerPaymentMethodsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107869,7 +108238,8 @@ export const GetCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<GetCustomersRequest>,
   output: __S(15489, __c484, 1) as any as S.Schema<GetCustomersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107886,7 +108256,8 @@ export const GetCustomerSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<GetCustomerSourceRequest>,
   output: __S(29664, __c927, 0) as any as S.Schema<GetCustomerSourceResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107903,7 +108274,8 @@ export const GetCustomerSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<GetCustomerSourcesRequest>,
   output: __S(29057, __c908, 1) as any as S.Schema<GetCustomerSourcesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107922,7 +108294,8 @@ export const GetCustomersSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(15616, __c488, 0) as any as S.Schema<GetCustomersSearchRequest>,
     output: __S(15617, __c488, 1) as any as S.Schema<GetCustomersSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107947,7 +108320,8 @@ export const GetCustomerTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<GetCustomerTaxIdsRequest>,
   output: __S(29089, __c909, 1) as any as S.Schema<GetCustomerTaxIdsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107964,7 +108338,8 @@ export const GetCustomerTaxIdsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<GetCustomerTaxIdsByIdRequest>,
   output: __S(29314, __c916, 2) as any as S.Schema<TaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107981,7 +108356,8 @@ export const GetDispute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<GetDisputeRequest>,
   output: __S(29905, __c934, 17) as any as S.Schema<Dispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107998,7 +108374,8 @@ export const GetDisputes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<GetDisputesRequest>,
   output: __S(15746, __c492, 2) as any as S.Schema<GetDisputesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108015,7 +108392,8 @@ export const GetEntitlementsActiveEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<GetEntitlementsActiveEntitlementRequest>,
   output: __S(15808, __c494, 0) as any as S.Schema<EntitlementsActiveEntitlement>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108032,7 +108410,8 @@ export const GetEntitlementsActiveEntitlements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<GetEntitlementsActiveEntitlementsRequest>,
   output: __S(15906, __c497, 2) as any as S.Schema<GetEntitlementsActiveEntitlementsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108049,7 +108428,8 @@ export const GetEntitlementsFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<GetEntitlementsFeatureRequest>,
   output: __S(29952, __c936, 0) as any as S.Schema<EntitlementsFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108066,7 +108446,8 @@ export const GetEntitlementsFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<GetEntitlementsFeaturesRequest>,
   output: __S(15970, __c499, 2) as any as S.Schema<GetEntitlementsFeaturesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108079,7 +108460,8 @@ export const GetEvent: API.OperationMethod<GetEventRequest, Event, GetEventError
   /*@__PURE__*/ API.make(() => ({
     input: __S(16000, __c500, 0) as any as S.Schema<GetEventRequest>,
     output: __S(16034, __c501, 2) as any as S.Schema<Event>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108096,7 +108478,8 @@ export const GetEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<GetEventsRequest>,
   output: __S(16066, __c502, 2) as any as S.Schema<GetEventsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108113,7 +108496,8 @@ export const GetExchangeRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<GetExchangeRateRequest>,
   output: __S(16128, __c504, 0) as any as S.Schema<ExchangeRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108130,7 +108514,8 @@ export const GetExchangeRates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<GetExchangeRatesRequest>,
   output: __S(16162, __c505, 2) as any as S.Schema<GetExchangeRatesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108143,7 +108528,8 @@ export const GetFile: API.OperationMethod<GetFileRequest, File, GetFileError, St
   /*@__PURE__*/ API.make(() => ({
     input: __S(16192, __c506, 0) as any as S.Schema<GetFileRequest>,
     output: __S(30112, __c941, 0) as any as S.Schema<File>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108160,7 +108546,8 @@ export const GetFileLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<GetFileLinkRequest>,
   output: __S(30144, __c942, 0) as any as S.Schema<FileLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108177,7 +108564,8 @@ export const GetFileLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<GetFileLinksRequest>,
   output: __S(30081, __c940, 1) as any as S.Schema<GetFileLinksResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108194,7 +108582,8 @@ export const GetFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<GetFilesRequest>,
   output: __S(17602, __c550, 2) as any as S.Schema<GetFilesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108211,7 +108600,8 @@ export const GetFinancialConnectionsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<GetFinancialConnectionsAccountRequest>,
   output: __S(30250, __c945, 10) as any as S.Schema<FinancialConnectionsAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108228,7 +108618,8 @@ export const GetFinancialConnectionsAccountOwners: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17667, __c552, 3) as any as S.Schema<GetFinancialConnectionsAccountOwnersRequest>,
   output: __S(17666, __c552, 2) as any as S.Schema<GetFinancialConnectionsAccountOwnersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108245,7 +108636,8 @@ export const GetFinancialConnectionsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17697, __c553, 1) as any as S.Schema<GetFinancialConnectionsAccountsRequest>,
   output: __S(30529, __c954, 1) as any as S.Schema<GetFinancialConnectionsAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108262,7 +108654,8 @@ export const GetFinancialConnectionsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<GetFinancialConnectionsSessionRequest>,
   output: __S(30563, __c955, 3) as any as S.Schema<FinancialConnectionsSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108279,7 +108672,8 @@ export const GetFinancialConnectionsTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<GetFinancialConnectionsTransactionRequest>,
   output: __S(17792, __c556, 0) as any as S.Schema<FinancialConnectionsTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108296,7 +108690,8 @@ export const GetFinancialConnectionsTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17857, __c558, 1) as any as S.Schema<GetFinancialConnectionsTransactionsRequest>,
   output: __S(17859, __c558, 3) as any as S.Schema<GetFinancialConnectionsTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108313,7 +108708,8 @@ export const GetForwardingRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<GetForwardingRequestRequest>,
   output: __S(30627, __c957, 3) as any as S.Schema<ForwardingRequest>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108330,7 +108726,8 @@ export const GetForwardingRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17921, __c560, 1) as any as S.Schema<GetForwardingRequestsRequest>,
   output: __S(17923, __c560, 3) as any as S.Schema<GetForwardingRequestsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108347,7 +108744,8 @@ export const GetIdentityVerificationReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<GetIdentityVerificationReportRequest>,
   output: __S(17990, __c562, 6) as any as S.Schema<IdentityVerificationReport>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108364,7 +108762,8 @@ export const GetIdentityVerificationReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<GetIdentityVerificationReportsRequest>,
   output: __S(18114, __c566, 2) as any as S.Schema<GetIdentityVerificationReportsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108381,7 +108780,8 @@ export const GetIdentityVerificationSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<GetIdentityVerificationSessionRequest>,
   output: __S(30726, __c960, 6) as any as S.Schema<IdentityVerificationSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108398,7 +108798,8 @@ export const GetIdentityVerificationSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<GetIdentityVerificationSessionsRequest>,
   output: __S(18178, __c568, 2) as any as S.Schema<GetIdentityVerificationSessionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108415,7 +108816,8 @@ export const GetInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108432,7 +108834,8 @@ export const GetInvoiceitem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<GetInvoiceitemRequest>,
   output: __S(31589, __c987, 5) as any as S.Schema<Invoiceitem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108449,7 +108852,8 @@ export const GetInvoiceitems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<GetInvoiceitemsRequest>,
   output: __S(18274, __c571, 2) as any as S.Schema<GetInvoiceitemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108466,7 +108870,8 @@ export const GetInvoiceLines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<GetInvoiceLinesRequest>,
   output: __S(31233, __c976, 1) as any as S.Schema<GetInvoiceLinesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108483,7 +108888,8 @@ export const GetInvoicePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<GetInvoicePaymentRequest>,
   output: __S(31298, __c978, 2) as any as S.Schema<InvoicePayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108500,7 +108906,8 @@ export const GetInvoicePayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18369, __c574, 1) as any as S.Schema<GetInvoicePaymentsRequest>,
   output: __S(31329, __c979, 1) as any as S.Schema<GetInvoicePaymentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108517,7 +108924,8 @@ export const GetInvoiceRenderingTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18400, __c575, 0) as any as S.Schema<GetInvoiceRenderingTemplateRequest>,
   output: __S(31776, __c993, 0) as any as S.Schema<InvoiceRenderingTemplate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108534,7 +108942,8 @@ export const GetInvoiceRenderingTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<GetInvoiceRenderingTemplatesRequest>,
   output: __S(18530, __c579, 2) as any as S.Schema<GetInvoiceRenderingTemplatesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108551,7 +108960,8 @@ export const GetInvoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<GetInvoicesRequest>,
   output: __S(18561, __c580, 1) as any as S.Schema<GetInvoicesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108570,7 +108980,8 @@ export const GetInvoicesSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(18624, __c582, 0) as any as S.Schema<GetInvoicesSearchRequest>,
     output: __S(18625, __c582, 1) as any as S.Schema<GetInvoicesSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108595,7 +109006,8 @@ export const GetIssuingAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<GetIssuingAuthorizationRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108612,7 +109024,8 @@ export const GetIssuingAuthorizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<GetIssuingAuthorizationsRequest>,
   output: __S(18690, __c584, 2) as any as S.Schema<GetIssuingAuthorizationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108629,7 +109042,8 @@ export const GetIssuingCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<GetIssuingCardRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108646,7 +109060,8 @@ export const GetIssuingCardholder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<GetIssuingCardholderRequest>,
   output: __S(169, __c5, 9) as any as S.Schema<IssuingCardholder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108663,7 +109078,8 @@ export const GetIssuingCardholders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18784, __c587, 0) as any as S.Schema<GetIssuingCardholdersRequest>,
   output: __S(18786, __c587, 2) as any as S.Schema<GetIssuingCardholdersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108680,7 +109096,8 @@ export const GetIssuingCards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<GetIssuingCardsRequest>,
   output: __S(18818, __c588, 2) as any as S.Schema<GetIssuingCardsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108697,7 +109114,8 @@ export const GetIssuingDispute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<GetIssuingDisputeRequest>,
   output: __S(394, __c12, 10) as any as S.Schema<IssuingDispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108714,7 +109132,8 @@ export const GetIssuingDisputes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<GetIssuingDisputesRequest>,
   output: __S(18914, __c591, 2) as any as S.Schema<GetIssuingDisputesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108731,7 +109150,8 @@ export const GetIssuingPersonalizationDesign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<GetIssuingPersonalizationDesignRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108748,7 +109168,8 @@ export const GetIssuingPersonalizationDesigns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18977, __c593, 1) as any as S.Schema<GetIssuingPersonalizationDesignsRequest>,
   output: __S(18979, __c593, 3) as any as S.Schema<GetIssuingPersonalizationDesignsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108765,7 +109186,8 @@ export const GetIssuingPhysicalBundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19008, __c594, 0) as any as S.Schema<GetIssuingPhysicalBundleRequest>,
   output: __S(19041, __c595, 1) as any as S.Schema<IssuingPhysicalBundle>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108782,7 +109204,8 @@ export const GetIssuingPhysicalBundles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<GetIssuingPhysicalBundlesRequest>,
   output: __S(19074, __c596, 2) as any as S.Schema<GetIssuingPhysicalBundlesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108799,7 +109222,8 @@ export const GetIssuingToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<GetIssuingTokenRequest>,
   output: __S(19142, __c598, 6) as any as S.Schema<IssuingToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108816,7 +109240,8 @@ export const GetIssuingTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<GetIssuingTokensRequest>,
   output: __S(19170, __c599, 2) as any as S.Schema<GetIssuingTokensResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108833,7 +109258,8 @@ export const GetIssuingTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<GetIssuingTransactionRequest>,
   output: __S(7217, __c225, 17) as any as S.Schema<IssuingTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108850,7 +109276,8 @@ export const GetIssuingTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<GetIssuingTransactionsRequest>,
   output: __S(19234, __c601, 2) as any as S.Schema<GetIssuingTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108867,7 +109294,8 @@ export const GetMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19277, __c602, 13) as any as S.Schema<GetMandateRequest>,
   output: __S(19276, __c602, 12) as any as S.Schema<Mandate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108884,7 +109312,8 @@ export const GetMoneyManagementAdjustment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<GetMoneyManagementAdjustmentRequest>,
   output: __S(19393, __c606, 1) as any as S.Schema<V2MoneyManagementAdjustment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108901,7 +109330,8 @@ export const GetMoneyManagementAdjustments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<GetMoneyManagementAdjustmentsRequest>,
   output: __S(19426, __c607, 2) as any as S.Schema<GetMoneyManagementAdjustmentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108918,7 +109348,8 @@ export const GetMoneyManagementFinancialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<GetMoneyManagementFinancialAccountRequest>,
   output: __S(19493, __c609, 5) as any as S.Schema<V2MoneyManagementFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108935,7 +109366,8 @@ export const GetMoneyManagementFinancialAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<GetMoneyManagementFinancialAccountsRequest>,
   output: __S(19522, __c610, 2) as any as S.Schema<GetMoneyManagementFinancialAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108952,7 +109384,8 @@ export const GetMoneyManagementFinancialAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<GetMoneyManagementFinancialAddressRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<V2MoneyManagementFinancialAddress>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108969,7 +109402,8 @@ export const GetMoneyManagementFinancialAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<GetMoneyManagementFinancialAddressesRequest>,
   output: __S(19586, __c612, 2) as any as S.Schema<GetMoneyManagementFinancialAddressesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108986,7 +109420,8 @@ export const GetMoneyManagementInboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<GetMoneyManagementInboundTransferRequest>,
   output: __S(710, __c22, 6) as any as S.Schema<V2MoneyManagementInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109003,7 +109438,8 @@ export const GetMoneyManagementInboundTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<GetMoneyManagementInboundTransfersRequest>,
   output: __S(19650, __c614, 2) as any as S.Schema<GetMoneyManagementInboundTransfersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109020,7 +109456,8 @@ export const GetMoneyManagementOutboundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<GetMoneyManagementOutboundPaymentRequest>,
   output: __S(807, __c25, 7) as any as S.Schema<V2MoneyManagementOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109037,7 +109474,8 @@ export const GetMoneyManagementOutboundPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<GetMoneyManagementOutboundPaymentsRequest>,
   output: __S(19714, __c616, 2) as any as S.Schema<GetMoneyManagementOutboundPaymentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109054,7 +109492,8 @@ export const GetMoneyManagementOutboundSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<GetMoneyManagementOutboundSetupIntentRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<V2MoneyManagementOutboundSetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109071,7 +109510,8 @@ export const GetMoneyManagementOutboundSetupIntents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<GetMoneyManagementOutboundSetupIntentsRequest>,
   output: __S(20258, __c633, 2) as any as S.Schema<GetMoneyManagementOutboundSetupIntentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109088,7 +109528,8 @@ export const GetMoneyManagementPayoutIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<GetMoneyManagementPayoutIntentRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109105,7 +109546,8 @@ export const GetMoneyManagementPayoutIntents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<GetMoneyManagementPayoutIntentsRequest>,
   output: __S(20322, __c635, 2) as any as S.Schema<GetMoneyManagementPayoutIntentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109122,7 +109564,8 @@ export const GetMoneyManagementPayoutMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<GetMoneyManagementPayoutMethodRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<V2MoneyManagementPayoutMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109139,7 +109582,8 @@ export const GetMoneyManagementPayoutMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20385, __c637, 1) as any as S.Schema<GetMoneyManagementPayoutMethodsRequest>,
   output: __S(20387, __c637, 3) as any as S.Schema<GetMoneyManagementPayoutMethodsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109160,7 +109604,8 @@ export const GetMoneyManagementPayoutMethodsBankAccountSpec: API.OperationMethod
     0,
   ) as any as S.Schema<GetMoneyManagementPayoutMethodsBankAccountSpecRequest>,
   output: __S(20422, __c638, 6) as any as S.Schema<V2MoneyManagementPayoutMethodsBankAccountSpec>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109177,7 +109622,8 @@ export const GetMoneyManagementReceivedCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<GetMoneyManagementReceivedCreditRequest>,
   output: __S(20488, __c640, 8) as any as S.Schema<V2MoneyManagementReceivedCredit>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109194,7 +109640,8 @@ export const GetMoneyManagementReceivedCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20512, __c641, 0) as any as S.Schema<GetMoneyManagementReceivedCreditsRequest>,
   output: __S(20514, __c641, 2) as any as S.Schema<GetMoneyManagementReceivedCreditsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109211,7 +109658,8 @@ export const GetMoneyManagementRecipientVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<GetMoneyManagementRecipientVerificationRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<V2MoneyManagementRecipientVerification>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109228,7 +109676,8 @@ export const GetMoneyManagementTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<GetMoneyManagementTransactionRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<V2MoneyManagementTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109245,7 +109694,8 @@ export const GetMoneyManagementTransactionEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20640, __c645, 0) as any as S.Schema<GetMoneyManagementTransactionEntriesRequest>,
   output: __S(20642, __c645, 2) as any as S.Schema<GetMoneyManagementTransactionEntriesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109262,7 +109712,8 @@ export const GetMoneyManagementTransactionEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<GetMoneyManagementTransactionEntryRequest>,
   output: __S(20673, __c646, 1) as any as S.Schema<V2MoneyManagementTransactionEntry>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109279,7 +109730,8 @@ export const GetMoneyManagementTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<GetMoneyManagementTransactionsRequest>,
   output: __S(20738, __c648, 2) as any as S.Schema<GetMoneyManagementTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109296,7 +109748,8 @@ export const GetPaymentAttemptRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<GetPaymentAttemptRecordRequest>,
   output: __S(20800, __c650, 0) as any as S.Schema<PaymentAttemptRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109313,7 +109766,8 @@ export const GetPaymentAttemptRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<GetPaymentAttemptRecordsRequest>,
   output: __S(20834, __c651, 2) as any as S.Schema<GetPaymentAttemptRecordsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109330,7 +109784,8 @@ export const GetPaymentIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20864, __c652, 0) as any as S.Schema<GetPaymentIntentRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109347,7 +109802,8 @@ export const GetPaymentIntentAmountDetailsLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<GetPaymentIntentAmountDetailsLineItemsRequest>,
   output: __S(31079, __c971, 7) as any as S.Schema<GetPaymentIntentAmountDetailsLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109364,7 +109820,8 @@ export const GetPaymentIntents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<GetPaymentIntentsRequest>,
   output: __S(20929, __c654, 1) as any as S.Schema<GetPaymentIntentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109383,7 +109840,8 @@ export const GetPaymentIntentsSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(20992, __c656, 0) as any as S.Schema<GetPaymentIntentsSearchRequest>,
     output: __S(20993, __c656, 1) as any as S.Schema<GetPaymentIntentsSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109408,7 +109866,8 @@ export const GetPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<GetPaymentLinkRequest>,
   output: __S(2101, __c65, 21) as any as S.Schema<PaymentLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109425,7 +109884,8 @@ export const GetPaymentLinkLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<GetPaymentLinkLineItemsRequest>,
   output: __S(16613, __c519, 5) as any as S.Schema<GetPaymentLinkLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109442,7 +109902,8 @@ export const GetPaymentLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<GetPaymentLinksRequest>,
   output: __S(21122, __c660, 2) as any as S.Schema<GetPaymentLinksResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109459,7 +109920,8 @@ export const GetPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<GetPaymentMethodRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109476,7 +109938,8 @@ export const GetPaymentMethodConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<GetPaymentMethodConfigurationRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<PaymentMethodConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109493,7 +109956,8 @@ export const GetPaymentMethodConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<GetPaymentMethodConfigurationsRequest>,
   output: __S(21218, __c663, 2) as any as S.Schema<GetPaymentMethodConfigurationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109510,7 +109974,8 @@ export const GetPaymentMethodDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<GetPaymentMethodDomainRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<PaymentMethodDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109527,7 +109992,8 @@ export const GetPaymentMethodDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<GetPaymentMethodDomainsRequest>,
   output: __S(21282, __c665, 2) as any as S.Schema<GetPaymentMethodDomainsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109544,7 +110010,8 @@ export const GetPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<GetPaymentMethodsRequest>,
   output: __S(15457, __c483, 1) as any as S.Schema<GetPaymentMethodsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109561,7 +110028,8 @@ export const GetPaymentRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<GetPaymentRecordRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PaymentRecord>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109578,7 +110046,8 @@ export const GetPaymentRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<GetPaymentRecordsRequest>,
   output: __S(21442, __c670, 2) as any as S.Schema<GetPaymentRecordsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109595,7 +110064,8 @@ export const GetPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<GetPayoutRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Payout>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109612,7 +110082,8 @@ export const GetPayouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<GetPayoutsRequest>,
   output: __S(21506, __c672, 2) as any as S.Schema<GetPayoutsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109625,7 +110096,8 @@ export const GetPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, St
   /*@__PURE__*/ API.make(() => ({
     input: __S(21536, __c673, 0) as any as S.Schema<GetPlanRequest>,
     output: __S(28864, __c902, 0) as any as S.Schema<Plan>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109642,7 +110114,8 @@ export const GetPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<GetPlansRequest>,
   output: __S(21570, __c674, 2) as any as S.Schema<GetPlansResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109655,7 +110128,8 @@ export const GetPrice: API.OperationMethod<GetPriceRequest, Price, GetPriceError
   /*@__PURE__*/ API.make(() => ({
     input: __S(21600, __c675, 0) as any as S.Schema<GetPriceRequest>,
     output: __S(16964, __c530, 4) as any as S.Schema<Price>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109672,7 +110146,8 @@ export const GetPrices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21633, __c676, 1) as any as S.Schema<GetPricesRequest>,
   output: __S(21634, __c676, 2) as any as S.Schema<GetPricesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109691,7 +110166,8 @@ export const GetPricesSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(21696, __c678, 0) as any as S.Schema<GetPricesSearchRequest>,
     output: __S(21697, __c678, 1) as any as S.Schema<GetPricesSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109716,7 +110192,8 @@ export const GetProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<GetProductRequest>,
   output: __S(3203, __c100, 3) as any as S.Schema<Product>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109733,7 +110210,8 @@ export const GetProductCatalogTrialOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<GetProductCatalogTrialOfferRequest>,
   output: __S(3300, __c103, 4) as any as S.Schema<ProductCatalogTrialOffer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109750,7 +110228,8 @@ export const GetProductCatalogTrialOffers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<GetProductCatalogTrialOffersRequest>,
   output: __S(21954, __c686, 2) as any as S.Schema<GetProductCatalogTrialOffersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109767,7 +110246,8 @@ export const GetProductFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<GetProductFeatureRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<ProductFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109784,7 +110264,8 @@ export const GetProductFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<GetProductFeaturesRequest>,
   output: __S(22018, __c688, 2) as any as S.Schema<GetProductFeaturesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109801,7 +110282,8 @@ export const GetProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<GetProductsRequest>,
   output: __S(22049, __c689, 1) as any as S.Schema<GetProductsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109820,7 +110302,8 @@ export const GetProductsSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(22112, __c691, 0) as any as S.Schema<GetProductsSearchRequest>,
     output: __S(22113, __c691, 1) as any as S.Schema<GetProductsSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109845,7 +110328,8 @@ export const GetPromotionCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<GetPromotionCodeRequest>,
   output: __S(3428, __c107, 4) as any as S.Schema<PromotionCode>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109862,7 +110346,8 @@ export const GetPromotionCodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<GetPromotionCodesRequest>,
   output: __S(22178, __c693, 2) as any as S.Schema<GetPromotionCodesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109875,7 +110360,8 @@ export const GetQuote: API.OperationMethod<GetQuoteRequest, Quote, GetQuoteError
   /*@__PURE__*/ API.make(() => ({
     input: __S(22208, __c694, 0) as any as S.Schema<GetQuoteRequest>,
     output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109892,7 +110378,8 @@ export const GetQuoteComputedUpfrontLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<GetQuoteComputedUpfrontLineItemsRequest>,
   output: __S(16613, __c519, 5) as any as S.Schema<GetQuoteComputedUpfrontLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109909,7 +110396,8 @@ export const GetQuoteLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22272, __c696, 0) as any as S.Schema<GetQuoteLineItemsRequest>,
   output: __S(16613, __c519, 5) as any as S.Schema<GetQuoteLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109926,7 +110414,8 @@ export const GetQuotePdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<GetQuotePdfRequest>,
   output: __S(22369, __c699, 1) as any as S.Schema<GetQuotePdfResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109943,7 +110432,8 @@ export const GetQuotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<GetQuotesRequest>,
   output: __S(22402, __c700, 2) as any as S.Schema<GetQuotesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109960,7 +110450,8 @@ export const GetRadarEarlyFraudWarning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<GetRadarEarlyFraudWarningRequest>,
   output: __S(22464, __c702, 0) as any as S.Schema<RadarEarlyFraudWarning>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109977,7 +110468,8 @@ export const GetRadarEarlyFraudWarnings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<GetRadarEarlyFraudWarningsRequest>,
   output: __S(22498, __c703, 2) as any as S.Schema<GetRadarEarlyFraudWarningsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109994,7 +110486,8 @@ export const GetRadarValueList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<GetRadarValueListRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<RadarValueList>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110011,7 +110504,8 @@ export const GetRadarValueListItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<GetRadarValueListItemRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<RadarValueListItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110028,7 +110522,8 @@ export const GetRadarValueListItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<GetRadarValueListItemsRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<GetRadarValueListItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110045,7 +110540,8 @@ export const GetRadarValueLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<GetRadarValueListsRequest>,
   output: __S(22626, __c707, 2) as any as S.Schema<GetRadarValueListsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110062,7 +110558,8 @@ export const GetRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<GetRefundRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110079,7 +110576,8 @@ export const GetRefunds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<GetRefundsRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<GetRefundsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110096,7 +110594,8 @@ export const GetReportingReportRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<GetReportingReportRunRequest>,
   output: __S(4065, __c127, 1) as any as S.Schema<ReportingReportRun>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110113,7 +110612,8 @@ export const GetReportingReportRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<GetReportingReportRunsRequest>,
   output: __S(22914, __c716, 2) as any as S.Schema<GetReportingReportRunsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110130,7 +110630,8 @@ export const GetReportingReportType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<GetReportingReportTypeRequest>,
   output: __S(22976, __c718, 0) as any as S.Schema<ReportingReportType>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110147,7 +110648,8 @@ export const GetReportingReportTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23008, __c719, 0) as any as S.Schema<GetReportingReportTypesRequest>,
   output: __S(23010, __c719, 2) as any as S.Schema<GetReportingReportTypesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110164,7 +110666,8 @@ export const GetReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<GetReviewRequest>,
   output: __S(4130, __c129, 2) as any as S.Schema<Review>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110181,7 +110684,8 @@ export const GetReviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<GetReviewsRequest>,
   output: __S(23074, __c721, 2) as any as S.Schema<GetReviewsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110198,7 +110702,8 @@ export const GetSetupAttempts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23114, __c722, 10) as any as S.Schema<GetSetupAttemptsRequest>,
   output: __S(23116, __c722, 12) as any as S.Schema<GetSetupAttemptsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110215,7 +110720,8 @@ export const GetSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<GetSetupIntentRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110232,7 +110738,8 @@ export const GetSetupIntents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<GetSetupIntentsRequest>,
   output: __S(23170, __c724, 2) as any as S.Schema<GetSetupIntentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110249,7 +110756,8 @@ export const GetShippingRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<GetShippingRateRequest>,
   output: __S(4356, __c136, 4) as any as S.Schema<ShippingRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110266,7 +110774,8 @@ export const GetShippingRates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<GetShippingRatesRequest>,
   output: __S(23266, __c727, 2) as any as S.Schema<GetShippingRatesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110283,7 +110792,8 @@ export const GetSigmaScheduledQueryRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<GetSigmaScheduledQueryRunRequest>,
   output: __S(23328, __c729, 0) as any as S.Schema<ScheduledQueryRun>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110300,7 +110810,8 @@ export const GetSigmaScheduledQueryRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<GetSigmaScheduledQueryRunsRequest>,
   output: __S(23362, __c730, 2) as any as S.Schema<GetSigmaScheduledQueryRunsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110317,7 +110828,8 @@ export const GetSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<GetSourceRequest>,
   output: __S(4442, __c138, 26) as any as S.Schema<Source>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110334,7 +110846,8 @@ export const GetSourceTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<GetSourceTransactionsRequest>,
   output: __S(23432, __c732, 8) as any as S.Schema<GetSourceTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110351,7 +110864,8 @@ export const GetSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110368,7 +110882,8 @@ export const GetSubscriptionItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<GetSubscriptionItemRequest>,
   output: __S(28930, __c904, 2) as any as S.Schema<SubscriptionItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110385,7 +110900,8 @@ export const GetSubscriptionItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<GetSubscriptionItemsRequest>,
   output: __S(28993, __c906, 1) as any as S.Schema<GetSubscriptionItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110402,7 +110918,8 @@ export const GetSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<GetSubscriptionsRequest>,
   output: __S(29152, __c911, 0) as any as S.Schema<GetSubscriptionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110419,7 +110936,8 @@ export const GetSubscriptionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<GetSubscriptionScheduleRequest>,
   output: __S(4859, __c151, 27) as any as S.Schema<SubscriptionSchedule>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110436,7 +110954,8 @@ export const GetSubscriptionSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<GetSubscriptionSchedulesRequest>,
   output: __S(23650, __c739, 2) as any as S.Schema<GetSubscriptionSchedulesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110455,7 +110974,8 @@ export const GetSubscriptionsSearch: API.PaginatedOperationMethod<
   () => ({
     input: __S(23680, __c740, 0) as any as S.Schema<GetSubscriptionsSearchRequest>,
     output: __S(23681, __c740, 1) as any as S.Schema<GetSubscriptionsSearchResponse>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110480,7 +111000,8 @@ export const GetTaxAssociationsFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23712, __c741, 0) as any as S.Schema<GetTaxAssociationsFindRequest>,
   output: __S(23716, __c741, 4) as any as S.Schema<TaxAssociation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110497,7 +111018,8 @@ export const GetTaxCalculation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<GetTaxCalculationRequest>,
   output: __S(5027, __c157, 3) as any as S.Schema<TaxCalculation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110514,7 +111036,8 @@ export const GetTaxCalculationLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<GetTaxCalculationLineItemsRequest>,
   output: __S(5058, __c158, 2) as any as S.Schema<GetTaxCalculationLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110531,7 +111054,8 @@ export const GetTaxCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23808, __c744, 0) as any as S.Schema<GetTaxCodeRequest>,
   output: __S(23841, __c745, 1) as any as S.Schema<TaxCode>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110548,7 +111072,8 @@ export const GetTaxCodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<GetTaxCodesRequest>,
   output: __S(23874, __c746, 2) as any as S.Schema<GetTaxCodesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110565,7 +111090,8 @@ export const GetTaxIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<GetTaxIdsRequest>,
   output: __S(29089, __c909, 1) as any as S.Schema<GetTaxIdsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110582,7 +111108,8 @@ export const GetTaxIdsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23936, __c748, 0) as any as S.Schema<GetTaxIdsByIdRequest>,
   output: __S(29314, __c916, 2) as any as S.Schema<TaxId>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110599,7 +111126,8 @@ export const GetTaxLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<GetTaxLocationRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<TaxLocation>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110616,7 +111144,8 @@ export const GetTaxLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<GetTaxLocationsRequest>,
   output: __S(24066, __c752, 2) as any as S.Schema<GetTaxLocationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110633,7 +111162,8 @@ export const GetTaxRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<GetTaxRateRequest>,
   output: __S(16864, __c527, 0) as any as S.Schema<TaxRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110650,7 +111180,8 @@ export const GetTaxRates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<GetTaxRatesRequest>,
   output: __S(24129, __c754, 1) as any as S.Schema<GetTaxRatesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110667,7 +111198,8 @@ export const GetTaxRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<GetTaxRegistrationRequest>,
   output: __S(5290, __c165, 10) as any as S.Schema<TaxRegistration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110684,7 +111216,8 @@ export const GetTaxRegistrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<GetTaxRegistrationsRequest>,
   output: __S(24194, __c756, 2) as any as S.Schema<GetTaxRegistrationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110701,7 +111234,8 @@ export const GetTaxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<GetTaxSettingsRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<TaxSettings>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110718,7 +111252,8 @@ export const GetTaxTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<GetTaxTransactionRequest>,
   output: __S(5409, __c169, 1) as any as S.Schema<TaxTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110735,7 +111270,8 @@ export const GetTaxTransactionLineItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<GetTaxTransactionLineItemsRequest>,
   output: __S(5443, __c170, 3) as any as S.Schema<GetTaxTransactionLineItemsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110752,7 +111288,8 @@ export const GetTerminalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<GetTerminalConfigurationRequest>,
   output: __S(24321, __c760, 1) as any as S.Schema<GetTerminalConfigurationResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110769,7 +111306,8 @@ export const GetTerminalConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<GetTerminalConfigurationsRequest>,
   output: __S(24354, __c761, 2) as any as S.Schema<GetTerminalConfigurationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110786,7 +111324,8 @@ export const GetTerminalLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<GetTerminalLocationRequest>,
   output: __S(24449, __c764, 1) as any as S.Schema<GetTerminalLocationResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110803,7 +111342,8 @@ export const GetTerminalLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24480, __c765, 0) as any as S.Schema<GetTerminalLocationsRequest>,
   output: __S(24482, __c765, 2) as any as S.Schema<GetTerminalLocationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110820,7 +111360,8 @@ export const GetTerminalReader: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<GetTerminalReaderRequest>,
   output: __S(24513, __c766, 1) as any as S.Schema<GetTerminalReaderResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110837,7 +111378,8 @@ export const GetTerminalReaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<GetTerminalReadersRequest>,
   output: __S(24546, __c767, 2) as any as S.Schema<GetTerminalReadersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110854,7 +111396,8 @@ export const GetTestHelpersTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<GetTestHelpersTestClockRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<TestHelpersTestClock>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110871,7 +111414,8 @@ export const GetTestHelpersTestClocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<GetTestHelpersTestClocksRequest>,
   output: __S(24610, __c769, 2) as any as S.Schema<GetTestHelpersTestClocksResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110888,7 +111432,8 @@ export const GetThreeDSecureAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<GetThreeDSecureAuthenticationRequest>,
   output: __S(9164, __c286, 12) as any as S.Schema<ThreeDSecureAuthentication>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110905,7 +111450,8 @@ export const GetThreeDSecureAuthentications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<GetThreeDSecureAuthenticationsRequest>,
   output: __S(24674, __c771, 2) as any as S.Schema<GetThreeDSecureAuthenticationsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110918,7 +111464,8 @@ export const GetToken: API.OperationMethod<GetTokenRequest, Token, GetTokenError
   /*@__PURE__*/ API.make(() => ({
     input: __S(24704, __c772, 0) as any as S.Schema<GetTokenRequest>,
     output: __S(30498, __c953, 2) as any as S.Schema<Token>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110931,7 +111478,8 @@ export const GetTopup: API.OperationMethod<GetTopupRequest, Topup, GetTopupError
   /*@__PURE__*/ API.make(() => ({
     input: __S(24736, __c773, 0) as any as S.Schema<GetTopupRequest>,
     output: __S(9410, __c294, 2) as any as S.Schema<Topup>,
-    errors: [UnknownStripeError],
+    errors: [],
+    serviceErrors: StripeServiceErrors,
     protocol: StripeProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110948,7 +111496,8 @@ export const GetTopups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<GetTopupsRequest>,
   output: __S(24802, __c775, 2) as any as S.Schema<GetTopupsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110965,7 +111514,8 @@ export const GetTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24832, __c776, 0) as any as S.Schema<GetTransferRequest>,
   output: S.Unknown,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110982,7 +111532,8 @@ export const GetTransferReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24864, __c777, 0) as any as S.Schema<GetTransferReversalRequest>,
   output: __S(9536, __c298, 0) as any as S.Schema<TransferReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110999,7 +111550,8 @@ export const GetTransferReversals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<GetTransferReversalsRequest>,
   output: __S(24898, __c778, 2) as any as S.Schema<GetTransferReversalsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111016,7 +111568,8 @@ export const GetTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24928, __c779, 0) as any as S.Schema<GetTransfersRequest>,
   output: __S(24929, __c779, 1) as any as S.Schema<GetTransfersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111033,7 +111586,8 @@ export const GetTreasuryCreditReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<GetTreasuryCreditReversalRequest>,
   output: __S(8993, __c281, 1) as any as S.Schema<TreasuryCreditReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111050,7 +111604,8 @@ export const GetTreasuryCreditReversals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<GetTreasuryCreditReversalsRequest>,
   output: __S(24994, __c781, 2) as any as S.Schema<GetTreasuryCreditReversalsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111067,7 +111622,8 @@ export const GetTreasuryDebitReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25024, __c782, 0) as any as S.Schema<GetTreasuryDebitReversalRequest>,
   output: __S(9634, __c301, 2) as any as S.Schema<TreasuryDebitReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111084,7 +111640,8 @@ export const GetTreasuryDebitReversals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25056, __c783, 0) as any as S.Schema<GetTreasuryDebitReversalsRequest>,
   output: __S(25058, __c783, 2) as any as S.Schema<GetTreasuryDebitReversalsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111101,7 +111658,8 @@ export const GetTreasuryFinancialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25088, __c784, 0) as any as S.Schema<GetTreasuryFinancialAccountRequest>,
   output: __S(9735, __c304, 7) as any as S.Schema<TreasuryFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111118,7 +111676,8 @@ export const GetTreasuryFinancialAccountFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25152, __c786, 0) as any as S.Schema<GetTreasuryFinancialAccountFeaturesRequest>,
   output: __S(9702, __c303, 6) as any as S.Schema<TreasuryFinancialAccountFeatures>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111135,7 +111694,8 @@ export const GetTreasuryFinancialAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25184, __c787, 0) as any as S.Schema<GetTreasuryFinancialAccountsRequest>,
   output: __S(25186, __c787, 2) as any as S.Schema<GetTreasuryFinancialAccountsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111152,7 +111712,8 @@ export const GetTreasuryInboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25216, __c788, 0) as any as S.Schema<GetTreasuryInboundTransferRequest>,
   output: __S(8420, __c263, 4) as any as S.Schema<TreasuryInboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111169,7 +111730,8 @@ export const GetTreasuryInboundTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25248, __c789, 0) as any as S.Schema<GetTreasuryInboundTransfersRequest>,
   output: __S(25250, __c789, 2) as any as S.Schema<GetTreasuryInboundTransfersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111186,7 +111748,8 @@ export const GetTreasuryOutboundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25280, __c790, 0) as any as S.Schema<GetTreasuryOutboundPaymentRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111203,7 +111766,8 @@ export const GetTreasuryOutboundPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<GetTreasuryOutboundPaymentsRequest>,
   output: __S(25314, __c791, 2) as any as S.Schema<GetTreasuryOutboundPaymentsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111220,7 +111784,8 @@ export const GetTreasuryOutboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25344, __c792, 0) as any as S.Schema<GetTreasuryOutboundTransferRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111237,7 +111802,8 @@ export const GetTreasuryOutboundTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25376, __c793, 0) as any as S.Schema<GetTreasuryOutboundTransfersRequest>,
   output: __S(25378, __c793, 2) as any as S.Schema<GetTreasuryOutboundTransfersResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111254,7 +111820,8 @@ export const GetTreasuryReceivedCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25408, __c794, 0) as any as S.Schema<GetTreasuryReceivedCreditRequest>,
   output: __S(9026, __c282, 2) as any as S.Schema<TreasuryReceivedCredit>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111271,7 +111838,8 @@ export const GetTreasuryReceivedCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25441, __c795, 1) as any as S.Schema<GetTreasuryReceivedCreditsRequest>,
   output: __S(25443, __c795, 3) as any as S.Schema<GetTreasuryReceivedCreditsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111288,7 +111856,8 @@ export const GetTreasuryReceivedDebit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<GetTreasuryReceivedDebitRequest>,
   output: __S(9089, __c284, 1) as any as S.Schema<TreasuryReceivedDebit>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111305,7 +111874,8 @@ export const GetTreasuryReceivedDebits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25568, __c799, 0) as any as S.Schema<GetTreasuryReceivedDebitsRequest>,
   output: __S(25570, __c799, 2) as any as S.Schema<GetTreasuryReceivedDebitsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111322,7 +111892,8 @@ export const GetTreasuryTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<GetTreasuryTransactionRequest>,
   output: __S(25696, __c803, 0) as any as S.Schema<TreasuryTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111339,7 +111910,8 @@ export const GetTreasuryTransactionEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25728, __c804, 0) as any as S.Schema<GetTreasuryTransactionEntriesRequest>,
   output: __S(25665, __c802, 1) as any as S.Schema<GetTreasuryTransactionEntriesResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111356,7 +111928,8 @@ export const GetTreasuryTransactionEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25760, __c805, 0) as any as S.Schema<GetTreasuryTransactionEntryRequest>,
   output: __S(25634, __c801, 2) as any as S.Schema<TreasuryTransactionEntry>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111373,7 +111946,8 @@ export const GetTreasuryTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25793, __c806, 1) as any as S.Schema<GetTreasuryTransactionsRequest>,
   output: __S(25795, __c806, 3) as any as S.Schema<GetTreasuryTransactionsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111390,7 +111964,8 @@ export const GetWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<GetWebhookEndpointRequest>,
   output: __S(10176, __c318, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111407,7 +111982,8 @@ export const GetWebhookEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25856, __c808, 0) as any as S.Schema<GetWebhookEndpointsRequest>,
   output: __S(25858, __c808, 2) as any as S.Schema<GetWebhookEndpointsResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111424,7 +112000,8 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25903, __c809, 15) as any as S.Schema<UpdateAccountRequest>,
   output: __S(6877, __c214, 29) as any as S.Schema<Account>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111441,7 +112018,8 @@ export const UpdateAccountCapability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<UpdateAccountCapabilityRequest>,
   output: __S(11425, __c357, 1) as any as S.Schema<Capability>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111458,7 +112036,8 @@ export const UpdateAccountExternalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25985, __c812, 1) as any as S.Schema<UpdateAccountExternalAccountRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<UpdateAccountExternalAccountResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111475,7 +112054,8 @@ export const UpdateAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26026, __c813, 10) as any as S.Schema<UpdateAccountPersonRequest>,
   output: __S(6664, __c208, 8) as any as S.Schema<Person>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111492,7 +112072,8 @@ export const UpdateApplicationFeeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26048, __c814, 0) as any as S.Schema<UpdateApplicationFeeRefundRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<FeeRefund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111509,7 +112090,8 @@ export const UpdateAppsInstall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26080, __c815, 0) as any as S.Schema<UpdateAppsInstallRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<AppsInstall>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111526,7 +112108,8 @@ export const UpdateBillingCreditGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<UpdateBillingCreditGrantRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<BillingCreditGrant>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111543,7 +112126,8 @@ export const UpdateBillingFeedbackOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<UpdateBillingFeedbackOptionRequest>,
   output: __S(9280, __c290, 0) as any as S.Schema<BillingFeedbackOption>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111560,7 +112144,8 @@ export const UpdateBillingMeter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<UpdateBillingMeterRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<BillingMeter>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111577,7 +112162,8 @@ export const UpdateBillingPortalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26218, __c819, 10) as any as S.Schema<UpdateBillingPortalConfigurationRequest>,
   output: __S(13936, __c435, 16) as any as S.Schema<BillingPortalConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111594,7 +112180,8 @@ export const UpdateCharge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26241, __c820, 1) as any as S.Schema<UpdateChargeRequest>,
   output: __S(15184, __c474, 16) as any as S.Schema<Charge>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111611,7 +112198,8 @@ export const UpdateCheckoutSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26281, __c821, 9) as any as S.Schema<UpdateCheckoutSessionRequest>,
   output: __S(16802, __c525, 2) as any as S.Schema<CheckoutSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111628,7 +112216,8 @@ export const UpdateClimateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26336, __c823, 0) as any as S.Schema<UpdateClimateOrderRequest>,
   output: __S(18499, __c578, 3) as any as S.Schema<ClimateOrder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111645,7 +112234,8 @@ export const UpdateCoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26383, __c824, 15) as any as S.Schema<UpdateCoreAccountRequest>,
   output: __S(19929, __c622, 25) as any as S.Schema<V2CoreAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111662,7 +112252,8 @@ export const UpdateCoreAccountPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<UpdateCoreAccountPersonRequest>,
   output: __S(21408, __c669, 0) as any as S.Schema<V2CoreAccountPerson>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111679,7 +112270,8 @@ export const UpdateCoreEventDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26432, __c826, 0) as any as S.Schema<UpdateCoreEventDestinationRequest>,
   output: __S(22852, __c714, 4) as any as S.Schema<V2CoreEventDestination>,
-  errors: [EventDestinationNotFound, UnknownStripeError],
+  errors: [EventDestinationNotFound],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111696,7 +112288,8 @@ export const UpdateCoreVaultUsBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26464, __c827, 0) as any as S.Schema<UpdateCoreVaultUsBankAccountRequest>,
   output: __S(25506, __c797, 2) as any as S.Schema<V2CoreVaultUsBankAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111713,7 +112306,8 @@ export const UpdateCoupon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<UpdateCouponRequest>,
   output: __S(27459, __c858, 3) as any as S.Schema<Coupon>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111730,7 +112324,8 @@ export const UpdateCreditNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<UpdateCreditNoteRequest>,
   output: __S(27970, __c874, 2) as any as S.Schema<CreditNote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111747,7 +112342,8 @@ export const UpdateCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26562, __c830, 2) as any as S.Schema<UpdateCustomerRequest>,
   output: __S(29187, __c912, 3) as any as S.Schema<Customer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111764,7 +112360,8 @@ export const UpdateCustomerBalanceTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26592, __c831, 0) as any as S.Schema<UpdateCustomerBalanceTransactionRequest>,
   output: __S(29440, __c920, 0) as any as S.Schema<CustomerBalanceTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111781,7 +112378,8 @@ export const UpdateCustomerSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26624, __c832, 0) as any as S.Schema<UpdateCustomerSourceRequest>,
   output: __S(26625, __c832, 1) as any as S.Schema<UpdateCustomerSourceResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111798,7 +112396,8 @@ export const UpdateDispute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26753, __c836, 1) as any as S.Schema<UpdateDisputeRequest>,
   output: __S(29905, __c934, 17) as any as S.Schema<Dispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111815,7 +112414,8 @@ export const UpdateEntitlementsFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26784, __c837, 0) as any as S.Schema<UpdateEntitlementsFeatureRequest>,
   output: __S(29952, __c936, 0) as any as S.Schema<EntitlementsFeature>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111832,7 +112432,8 @@ export const UpdateFileLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26816, __c838, 0) as any as S.Schema<UpdateFileLinkRequest>,
   output: __S(30144, __c942, 0) as any as S.Schema<FileLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111849,7 +112450,8 @@ export const UpdateIdentityVerificationSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26849, __c839, 1) as any as S.Schema<UpdateIdentityVerificationSessionRequest>,
   output: __S(30726, __c960, 6) as any as S.Schema<IdentityVerificationSession>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111866,7 +112468,8 @@ export const UpdateInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26883, __c840, 3) as any as S.Schema<UpdateInvoiceRequest>,
   output: __S(31381, __c980, 21) as any as S.Schema<Invoice>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111883,7 +112486,8 @@ export const UpdateInvoiceitem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<UpdateInvoiceitemRequest>,
   output: __S(31589, __c987, 5) as any as S.Schema<Invoiceitem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111900,7 +112504,8 @@ export const UpdateInvoiceLine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26947, __c842, 3) as any as S.Schema<UpdateInvoiceLineRequest>,
   output: __S(31271, __c977, 7) as any as S.Schema<LineItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111917,7 +112522,8 @@ export const UpdateIssuingAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26976, __c843, 0) as any as S.Schema<UpdateIssuingAuthorizationRequest>,
   output: __S(7246, __c226, 14) as any as S.Schema<IssuingAuthorization>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111934,7 +112540,8 @@ export const UpdateIssuingCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<UpdateIssuingCardRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<IssuingCard>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111951,7 +112558,8 @@ export const UpdateIssuingCardholder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27043, __c845, 3) as any as S.Schema<UpdateIssuingCardholderRequest>,
   output: __S(169, __c5, 9) as any as S.Schema<IssuingCardholder>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111968,7 +112576,8 @@ export const UpdateIssuingDispute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27105, __c847, 1) as any as S.Schema<UpdateIssuingDisputeRequest>,
   output: __S(394, __c12, 10) as any as S.Schema<IssuingDispute>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111985,7 +112594,8 @@ export const UpdateIssuingPersonalizationDesign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27136, __c848, 0) as any as S.Schema<UpdateIssuingPersonalizationDesignRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<IssuingPersonalizationDesign>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112002,7 +112612,8 @@ export const UpdateIssuingToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27168, __c849, 0) as any as S.Schema<UpdateIssuingTokenRequest>,
   output: __S(19142, __c598, 6) as any as S.Schema<IssuingToken>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112019,7 +112630,8 @@ export const UpdateIssuingTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27200, __c850, 0) as any as S.Schema<UpdateIssuingTransactionRequest>,
   output: __S(7217, __c225, 17) as any as S.Schema<IssuingTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112036,7 +112648,8 @@ export const UpdateMoneyManagementFinancialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<UpdateMoneyManagementFinancialAccountRequest>,
   output: __S(19493, __c609, 5) as any as S.Schema<V2MoneyManagementFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112053,7 +112666,8 @@ export const UpdateMoneyManagementOutboundSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27264, __c852, 0) as any as S.Schema<UpdateMoneyManagementOutboundSetupIntentRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<V2MoneyManagementOutboundSetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112070,7 +112684,8 @@ export const UpdateMoneyManagementPayoutIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27296, __c853, 0) as any as S.Schema<UpdateMoneyManagementPayoutIntentRequest>,
   output: __S(1169, __c36, 17) as any as S.Schema<V2MoneyManagementPayoutIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112087,7 +112702,8 @@ export const UpdateMoneyManagementTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27328, __c854, 0) as any as S.Schema<UpdateMoneyManagementTransactionRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<V2MoneyManagementTransaction>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112104,7 +112720,8 @@ export const UpdatePaymentIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27368, __c855, 8) as any as S.Schema<UpdatePaymentIntentRequest>,
   output: __S(31166, __c973, 30) as any as S.Schema<PaymentIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112121,7 +112738,8 @@ export const UpdatePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27400, __c856, 8) as any as S.Schema<UpdatePaymentLinkRequest>,
   output: __S(2101, __c65, 21) as any as S.Schema<PaymentLink>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112138,7 +112756,8 @@ export const UpdatePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27492, __c859, 4) as any as S.Schema<UpdatePaymentMethodRequest>,
   output: __S(30946, __c967, 2) as any as S.Schema<PaymentMethod>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112155,7 +112774,8 @@ export const UpdatePaymentMethodConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27520, __c860, 0) as any as S.Schema<UpdatePaymentMethodConfigurationRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<PaymentMethodConfiguration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112172,7 +112792,8 @@ export const UpdatePaymentMethodDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27552, __c861, 0) as any as S.Schema<UpdatePaymentMethodDomainRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<PaymentMethodDomain>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112189,7 +112810,8 @@ export const UpdatePayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27584, __c862, 0) as any as S.Schema<UpdatePayoutRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Payout>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112206,7 +112828,8 @@ export const UpdatePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<UpdatePlanRequest>,
   output: __S(28864, __c902, 0) as any as S.Schema<Plan>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112223,7 +112846,8 @@ export const UpdatePrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27648, __c864, 0) as any as S.Schema<UpdatePriceRequest>,
   output: __S(16964, __c530, 4) as any as S.Schema<Price>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112240,7 +112864,8 @@ export const UpdateProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27680, __c865, 0) as any as S.Schema<UpdateProductRequest>,
   output: __S(3203, __c100, 3) as any as S.Schema<Product>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112257,7 +112882,8 @@ export const UpdateProductCatalogTrialOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27712, __c866, 0) as any as S.Schema<UpdateProductCatalogTrialOfferRequest>,
   output: __S(3300, __c103, 4) as any as S.Schema<ProductCatalogTrialOffer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112274,7 +112900,8 @@ export const UpdatePromotionCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27745, __c867, 1) as any as S.Schema<UpdatePromotionCodeRequest>,
   output: __S(3428, __c107, 4) as any as S.Schema<PromotionCode>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112291,7 +112918,8 @@ export const UpdateQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27780, __c868, 4) as any as S.Schema<UpdateQuoteRequest>,
   output: __S(3530, __c110, 10) as any as S.Schema<Quote>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112308,7 +112936,8 @@ export const UpdateRadarValueList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28128, __c879, 0) as any as S.Schema<UpdateRadarValueListRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<RadarValueList>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112325,7 +112954,8 @@ export const UpdateRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28160, __c880, 0) as any as S.Schema<UpdateRefundRequest>,
   output: __S(15110, __c472, 6) as any as S.Schema<Refund>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112342,7 +112972,8 @@ export const UpdateSetupIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28204, __c881, 12) as any as S.Schema<UpdateSetupIntentRequest>,
   output: __S(31182, __c974, 14) as any as S.Schema<SetupIntent>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112359,7 +112990,8 @@ export const UpdateShippingRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28227, __c882, 3) as any as S.Schema<UpdateShippingRateRequest>,
   output: __S(4356, __c136, 4) as any as S.Schema<ShippingRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112376,7 +113008,8 @@ export const UpdateSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28257, __c883, 1) as any as S.Schema<UpdateSourceRequest>,
   output: __S(4442, __c138, 26) as any as S.Schema<Source>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112393,7 +113026,8 @@ export const UpdateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28296, __c884, 8) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(29051, __c907, 27) as any as S.Schema<Subscription>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112410,7 +113044,8 @@ export const UpdateSubscriptionItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28320, __c885, 0) as any as S.Schema<UpdateSubscriptionItemRequest>,
   output: __S(28930, __c904, 2) as any as S.Schema<SubscriptionItem>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112427,7 +113062,8 @@ export const UpdateSubscriptionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28361, __c886, 9) as any as S.Schema<UpdateSubscriptionScheduleRequest>,
   output: __S(4859, __c151, 27) as any as S.Schema<SubscriptionSchedule>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112444,7 +113080,8 @@ export const UpdateTaxRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28384, __c887, 0) as any as S.Schema<UpdateTaxRateRequest>,
   output: __S(16864, __c527, 0) as any as S.Schema<TaxRate>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112461,7 +113098,8 @@ export const UpdateTaxRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28416, __c888, 0) as any as S.Schema<UpdateTaxRegistrationRequest>,
   output: __S(5290, __c165, 10) as any as S.Schema<TaxRegistration>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112478,7 +113116,8 @@ export const UpdateTerminalConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28480, __c890, 0) as any as S.Schema<UpdateTerminalConfigurationRequest>,
   output: __S(28481, __c890, 1) as any as S.Schema<UpdateTerminalConfigurationResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112495,7 +113134,8 @@ export const UpdateTerminalLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28512, __c891, 0) as any as S.Schema<UpdateTerminalLocationRequest>,
   output: __S(28513, __c891, 1) as any as S.Schema<UpdateTerminalLocationResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112512,7 +113152,8 @@ export const UpdateTerminalReader: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28544, __c892, 0) as any as S.Schema<UpdateTerminalReaderRequest>,
   output: __S(28545, __c892, 1) as any as S.Schema<UpdateTerminalReaderResponse>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112529,7 +113170,8 @@ export const UpdateTestHelpersTreasuryOutboundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28576, __c893, 0) as any as S.Schema<UpdateTestHelpersTreasuryOutboundPaymentRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<TreasuryOutboundPayment>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112546,7 +113188,8 @@ export const UpdateTestHelpersTreasuryOutboundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28640, __c895, 0) as any as S.Schema<UpdateTestHelpersTreasuryOutboundTransferRequest>,
   output: __S(8803, __c275, 3) as any as S.Schema<TreasuryOutboundTransfer>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112563,7 +113206,8 @@ export const UpdateTopup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28672, __c896, 0) as any as S.Schema<UpdateTopupRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<Topup>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112580,7 +113224,8 @@ export const UpdateTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<UpdateTransferRequest>,
   output: S.Unknown,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112597,7 +113242,8 @@ export const UpdateTransferReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28736, __c898, 0) as any as S.Schema<UpdateTransferReversalRequest>,
   output: __S(9536, __c298, 0) as any as S.Schema<TransferReversal>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112614,7 +113260,8 @@ export const UpdateTreasuryFinancialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28768, __c899, 0) as any as S.Schema<UpdateTreasuryFinancialAccountRequest>,
   output: __S(9735, __c304, 7) as any as S.Schema<TreasuryFinancialAccount>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112631,7 +113278,8 @@ export const UpdateWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<UpdateWebhookEndpointRequest>,
   output: __S(10176, __c318, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [UnknownStripeError],
+  errors: [],
+  serviceErrors: StripeServiceErrors,
   protocol: StripeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -112646,7 +113294,9 @@ function __c0(j: number): any {
         S.Struct({
           domain_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112679,7 +113329,9 @@ function __c2(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112713,7 +113365,9 @@ function __c3(j: number): any {
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113046,7 +113700,9 @@ function __c9(j: number): any {
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113118,7 +113774,9 @@ function __c11(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           transaction: S.optional(S.String),
           treasury: S.optional(__S(353, __c11, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113261,7 +113919,9 @@ function __c13(j: number): any {
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113296,7 +113956,9 @@ function __c14(j: number): any {
           physical_bundle: S.String,
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113378,7 +114040,9 @@ function __c17(j: number): any {
           bank_account: S.optional(__S(544, __c17, 0)),
           financial_account: S.String,
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/financial_addresses", code: 200 }),
         ),
@@ -113468,7 +114132,9 @@ function __c19(j: number): any {
           description: S.optional(S.String),
           from: __S(608, __c19, 0),
           to: __S(640, __c20, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/inbound_transfers", code: 200 }),
         ),
@@ -113583,7 +114249,9 @@ function __c23(j: number): any {
           recipient_verification: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           to: __S(736, __c23, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_payments", code: 200 }),
         ),
@@ -113726,7 +114394,9 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113746,7 +114416,9 @@ function __c27(j: number): any {
           amount: S.optional(S.Number),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113783,7 +114455,9 @@ function __c29(j: number): any {
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
           usage_intent: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_setup_intents", code: 200 }),
         ),
@@ -113888,7 +114562,9 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113913,7 +114589,9 @@ function __c34(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: __S(1184, __c37, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/money_management/payout_intents", code: 200 })),
       ).annotate({ identifier: "CreateMoneyManagementPayoutIntentRequest" });
   }
@@ -114105,7 +114783,9 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114122,7 +114802,9 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114139,7 +114821,9 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114156,7 +114840,9 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114175,7 +114861,9 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114192,7 +114880,9 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114210,7 +114900,9 @@ function __c44(j: number): any {
         S.Struct({
           payout_method: S.String,
           recipient: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114267,7 +114959,9 @@ function __c46(j: number): any {
           code_challenge: S.optional(S.String),
           code_challenge_method: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114318,7 +115012,9 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114338,7 +115034,9 @@ function __c49(j: number): any {
           amount: __S(7680, __c240, 0),
           network: S.String,
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114363,7 +115061,9 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114689,7 +115389,9 @@ function __c54(j: number): any {
           transfer_data: S.optional(__S(1738, __c54, 10)),
           transfer_group: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114806,7 +115508,9 @@ function __c57(j: number): any {
           amount: S.optional(S.Number),
           currency: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114826,7 +115530,9 @@ function __c58(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114883,7 +115589,9 @@ function __c59(j: number): any {
           statement_descriptor: S.optional(S.String),
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115089,7 +115797,9 @@ function __c60(j: number): any {
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(S.Unknown),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115152,7 +115862,9 @@ function __c61(j: number): any {
           payment_details: S.optional(__S(1956, __c61, 4)),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115173,7 +115885,9 @@ function __c62(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115192,7 +115906,9 @@ function __c63(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115377,7 +116093,9 @@ function __c64(j: number): any {
           subscription_data: S.optional(__S(2064, __c64, 16)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(__S(17376, __c543, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115674,7 +116392,9 @@ function __c67(j: number): any {
           us_bank_account: S.optional(__S(1760, __c55, 0)),
           wechat_pay: S.optional(S.Unknown),
           zip: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115705,7 +116425,9 @@ function __c69(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115787,7 +116509,9 @@ function __c70(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115916,7 +116640,9 @@ function __c73(j: number): any {
         S.Struct({
           payment_method: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115936,7 +116662,9 @@ function __c74(j: number): any {
           domain_name: S.String,
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115989,7 +116717,9 @@ function __c76(j: number): any {
         S.Struct({
           payment_method_domain: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116017,7 +116747,9 @@ function __c77(j: number): any {
           outcome: S.optional(S.String),
           payment_method_details: S.optional(__S(2596, __c81, 4)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116399,7 +117131,9 @@ function __c83(j: number): any {
           canceled_at: S.Number,
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116420,7 +117154,9 @@ function __c84(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           failed_at: S.Number,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116442,7 +117178,9 @@ function __c85(j: number): any {
           name: S.String,
           payload: S.String,
           scope: __S(2752, __c86, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116488,7 +117226,9 @@ function __c87(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           guaranteed_at: S.Number,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116511,7 +117251,9 @@ function __c88(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           shipping_details: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116570,7 +117312,9 @@ function __c90(j: number): any {
           outcome: S.String,
           processor_details: __S(2881, __c90, 1),
           refunded: S.optional(__S(2882, __c90, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116614,7 +117358,9 @@ function __c91(j: number): any {
           payment_method_details: __S(2596, __c81, 4),
           processor_details: S.optional(__S(2913, __c91, 1)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116641,7 +117387,9 @@ function __c92(j: number): any {
           payout_method: S.optional(S.String),
           source_type: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/payouts", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116698,7 +117446,9 @@ function __c94(j: number): any {
         S.Struct({
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116718,7 +117468,9 @@ function __c95(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116765,7 +117517,9 @@ function __c96(j: number): any {
           transform_usage: S.optional(__S(16930, __c529, 2)),
           trial_period_days: S.optional(S.Number),
           usage_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/plans", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116862,7 +117616,9 @@ function __c97(j: number): any {
           transform_quantity: S.optional(__S(16930, __c529, 2)),
           unit_amount: S.optional(S.Number),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/prices", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116958,7 +117714,9 @@ function __c99(j: number): any {
           type: S.optional(S.String),
           unit_label: S.optional(S.String),
           url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117025,7 +117783,9 @@ function __c101(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           name: S.String,
           scope: __S(2752, __c86, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117060,7 +117820,9 @@ function __c102(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           nickname: S.optional(S.String),
           price: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117125,7 +117887,9 @@ function __c104(j: number): any {
           product: S.String.pipe(T.Label()),
           entitlement_feature: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117181,7 +117945,9 @@ function __c106(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           promotion: __S(3392, __c106, 0),
           restrictions: S.optional(__S(3393, __c106, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117317,7 +118083,9 @@ function __c109(j: number): any {
           subscription_data: S.optional(__S(3492, __c109, 4)),
           test_clock: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/quotes", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117464,7 +118232,9 @@ function __c112(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117483,7 +118253,9 @@ function __c113(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117503,7 +118275,9 @@ function __c114(j: number): any {
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117580,7 +118354,9 @@ function __c115(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           payment_details: __S(3685, __c115, 5),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117760,7 +118536,9 @@ function __c116(j: number): any {
           item_type: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117830,7 +118608,9 @@ function __c120(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           value: S.String,
           value_list: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117881,7 +118661,9 @@ function __c121(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           payments: S.optional(__S(3875, __c121, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117981,7 +118763,9 @@ function __c124(j: number): any {
           reason: S.optional(S.String),
           refund_application_fee: S.optional(S.Boolean),
           reverse_transfer: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/refunds", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117995,7 +118779,9 @@ function __c125(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118028,7 +118814,9 @@ function __c126(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           parameters: S.optional(__S(4032, __c126, 0)),
           report_type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118079,7 +118867,9 @@ function __c128(j: number): any {
         S.Struct({
           review: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118331,7 +119121,9 @@ function __c130(j: number): any {
           single_use: S.optional(__S(6912, __c216, 0)),
           usage: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118473,7 +119265,9 @@ function __c132(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118673,7 +119467,9 @@ function __c133(j: number): any {
           payment_method_options: S.optional(__S(4267, __c133, 11)),
           return_url: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118694,7 +119490,9 @@ function __c134(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118719,7 +119517,9 @@ function __c135(j: number): any {
           tax_behavior: S.optional(S.String),
           tax_code: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118813,7 +119613,9 @@ function __c137(j: number): any {
           token: S.optional(S.String),
           type: S.optional(S.String),
           usage: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/sources", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -119279,7 +120081,9 @@ function __c140(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           title: S.String,
           usage_threshold: S.optional(__S(4482, __c140, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119333,7 +120137,9 @@ function __c142(j: number): any {
           source: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           values: __S(6176, __c193, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119474,7 +120280,9 @@ function __c143(j: number): any {
           trial_from_plan: S.optional(S.Boolean),
           trial_period_days: S.optional(S.Number),
           trial_settings: S.optional(__S(4641, __c145, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119537,7 +120345,9 @@ function __c146(j: number): any {
           quantity: S.optional(S.Number),
           subscription: S.String,
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119557,7 +120367,9 @@ function __c147(j: number): any {
           subscription: S.String.pipe(T.Label()),
           billing_mode: __S(17536, __c548, 0),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119579,7 +120391,9 @@ function __c148(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoicing_behavior: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119602,7 +120416,9 @@ function __c149(j: number): any {
           payment_behavior: S.optional(S.String),
           proration_behavior: S.optional(S.String),
           proration_date: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119781,7 +120597,9 @@ function __c150(j: number): any {
           pause_schedules: S.optional(__S(4808, __c150, 8)),
           phases: S.optional(__S(4815, __c150, 15)),
           start_date: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120029,7 +120847,9 @@ function __c152(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_now: S.optional(S.Boolean),
           prorate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120049,7 +120869,9 @@ function __c153(j: number): any {
           schedule: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           preserve_cancel_date: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120136,7 +120958,9 @@ function __c154(j: number): any {
           ship_from_details: S.optional(__S(4933, __c154, 5)),
           shipping_cost: S.optional(__S(4934, __c154, 6)),
           tax_date: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120311,7 +121135,9 @@ function __c159(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120332,7 +121158,9 @@ function __c160(j: number): any {
           owner: S.optional(__S(30464, __c952, 0)),
           type: S.String,
           value: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tax_ids", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -120359,7 +121187,9 @@ function __c161(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120402,7 +121232,9 @@ function __c163(j: number): any {
           percentage: S.Number,
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120574,7 +121406,9 @@ function __c164(j: number): any {
           country_options: __S(5252, __c164, 4),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120805,7 +121639,9 @@ function __c166(j: number): any {
           defaults: S.optional(__S(5312, __c166, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           head_office: S.optional(__S(5313, __c166, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120863,7 +121699,9 @@ function __c168(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           posted_at: S.optional(S.Number),
           reference: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120978,7 +121816,9 @@ function __c171(j: number): any {
           original_transaction: S.String,
           reference: S.String,
           shipping_cost: S.optional(__S(5474, __c171, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121073,7 +121913,9 @@ function __c172(j: number): any {
           verifone_ux700: S.optional(__S(5512, __c172, 8)),
           verifone_v660p: S.optional(__S(5513, __c172, 9)),
           wifi: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121214,7 +122056,9 @@ function __c174(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           location: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121260,7 +122104,9 @@ function __c175(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121300,7 +122146,9 @@ function __c177(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121336,7 +122184,9 @@ function __c178(j: number): any {
           link_options: __S(5697, __c178, 1),
           link_type: S.String,
           on_behalf_of: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121381,7 +122231,9 @@ function __c179(j: number): any {
           location: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           registration_code: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121630,7 +122482,9 @@ function __c181(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121704,7 +122558,9 @@ function __c182(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           inputs: __S(5831, __c182, 7),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121734,7 +122590,9 @@ function __c183(j: number): any {
           collect_config: S.optional(__S(5856, __c183, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121755,7 +122613,9 @@ function __c184(j: number): any {
           confirm_config: S.optional(__S(5773, __c180, 13)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121786,7 +122646,9 @@ function __c185(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
           process_config: S.optional(__S(5920, __c185, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121808,7 +122670,9 @@ function __c186(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           process_config: S.optional(__S(5779, __c180, 19)),
           setup_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121834,7 +122698,9 @@ function __c187(j: number): any {
           refund_application_fee: S.optional(S.Boolean),
           refund_payment_config: S.optional(__S(5779, __c180, 19)),
           reverse_transfer: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121864,7 +122730,9 @@ function __c188(j: number): any {
           cart: S.optional(__S(6016, __c188, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122104,7 +122972,9 @@ function __c189(j: number): any {
           settings: S.optional(__S(6065, __c189, 17)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123037,7 +123907,9 @@ function __c218(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123180,7 +124052,9 @@ function __c219(j: number): any {
           return_url: S.optional(S.String),
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(__S(7014, __c219, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123347,7 +124221,9 @@ function __c222(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           reference: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123575,7 +124451,9 @@ function __c224(j: number): any {
           risk_assessment: S.optional(__S(7173, __c224, 5)),
           verification_data: S.optional(__S(7174, __c224, 6)),
           wallet: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124001,7 +124879,9 @@ function __c229(j: number): any {
           close_authorization: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124087,7 +124967,9 @@ function __c231(j: number): any {
         S.Struct({
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124109,7 +124991,9 @@ function __c232(j: number): any {
           final_amount: S.Number,
           fleet: S.optional(__S(7268, __c227, 4)),
           fuel: S.optional(__S(7269, __c227, 5)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124129,7 +125013,9 @@ function __c233(j: number): any {
           authorization: S.String.pipe(T.Label()),
           confirmed: S.Boolean,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124152,7 +125038,9 @@ function __c234(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           increment_amount: S.Number,
           is_amount_controllable: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124172,7 +125060,9 @@ function __c235(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           reverse_amount: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124191,7 +125081,9 @@ function __c236(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124232,7 +125124,9 @@ function __c237(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
           priority: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124341,7 +125235,9 @@ function __c242(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124360,7 +125256,9 @@ function __c243(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124379,7 +125277,9 @@ function __c244(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124398,7 +125298,9 @@ function __c245(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124417,7 +125319,9 @@ function __c246(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124436,7 +125340,9 @@ function __c247(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124465,7 +125371,9 @@ function __c248(j: number): any {
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           rejection_reasons: __S(7936, __c248, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124485,7 +125393,9 @@ function __c249(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           refund_amount: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124508,7 +125418,9 @@ function __c250(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124531,7 +125443,9 @@ function __c251(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124550,7 +125464,9 @@ function __c252(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124570,7 +125486,9 @@ function __c253(j: number): any {
           match_result: S.String,
           payout_method: S.String,
           recipient: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124588,7 +125506,9 @@ function __c254(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124629,7 +125549,9 @@ function __c255(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           interac_present: S.optional(__S(8161, __c255, 1)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124649,7 +125571,9 @@ function __c256(j: number): any {
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           skip_non_required_inputs: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124668,7 +125592,9 @@ function __c257(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124689,7 +125615,9 @@ function __c258(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124739,7 +125667,9 @@ function __c260(j: number): any {
           test_clock: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124759,7 +125689,9 @@ function __c261(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           failure_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124870,7 +125802,9 @@ function __c265(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124889,7 +125823,9 @@ function __c266(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124908,7 +125844,9 @@ function __c267(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124927,7 +125865,9 @@ function __c268(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125065,7 +126005,9 @@ function __c272(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125085,7 +126027,9 @@ function __c273(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125104,7 +126048,9 @@ function __c274(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125181,7 +126127,9 @@ function __c276(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125201,7 +126149,9 @@ function __c277(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125225,7 +126175,9 @@ function __c278(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125383,7 +126335,9 @@ function __c283(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125521,7 +126475,9 @@ function __c285(j: number): any {
           reason: S.optional(S.String),
           shipping_address: S.optional(__S(6432, __c201, 0)),
           submit: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125688,7 +126644,9 @@ function __c287(j: number): any {
           authentication: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125707,7 +126665,9 @@ function __c288(j: number): any {
         S.Struct({
           description: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125753,7 +126713,9 @@ function __c291(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           fingerprinting_result: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125973,7 +126935,9 @@ function __c292(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           person: S.optional(__S(9360, __c292, 16)),
           pii: S.optional(__S(9361, __c292, 17)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tokens", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -126001,7 +126965,9 @@ function __c293(j: number): any {
           source: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/topups", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -126055,7 +127021,9 @@ function __c295(j: number): any {
         S.Struct({
           topup: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126081,7 +127049,9 @@ function __c296(j: number): any {
           source_transaction: S.optional(S.String),
           source_type: S.optional(S.String),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126104,7 +127074,9 @@ function __c297(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           refund_application_fee: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126143,7 +127115,9 @@ function __c299(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_credit: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126163,7 +127137,9 @@ function __c300(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_debit: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126222,7 +127198,9 @@ function __c302(j: number): any {
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
           supported_currencies: __S(6176, __c193, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126416,7 +127394,9 @@ function __c307(j: number): any {
           financial_account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           forwarding_settings: S.optional(__S(9856, __c308, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126447,7 +127427,9 @@ function __c309(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126473,7 +127455,9 @@ function __c310(j: number): any {
           intra_stripe_flows: S.optional(__S(19776, __c618, 0)),
           outbound_payments: S.optional(__S(9762, __c305, 2)),
           outbound_transfers: S.optional(__S(9762, __c305, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126498,7 +127482,9 @@ function __c311(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           origin_payment_method: S.String,
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126517,7 +127503,9 @@ function __c312(j: number): any {
         S.Struct({
           inbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126585,7 +127573,9 @@ function __c313(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126604,7 +127594,9 @@ function __c314(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126648,7 +127640,9 @@ function __c315(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126667,7 +127661,9 @@ function __c316(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126691,7 +127687,9 @@ function __c317(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126787,7 +127785,9 @@ function __c322(j: number): any {
           event_time_window: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           value_settings: S.optional(__S(10338, __c323, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126882,7 +127882,9 @@ function __c326(j: number): any {
         S.Struct({
           account_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -126910,7 +127912,9 @@ function __c328(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreEventDestinationRequest" });
   }
@@ -127054,7 +128058,9 @@ function __c336(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127263,7 +128269,9 @@ function __c347(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127516,7 +128524,9 @@ function __c359(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_events", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventRequest2" });
     case 1:
@@ -127829,7 +128839,9 @@ function __c372(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           external_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127864,7 +128876,9 @@ function __c374(j: number): any {
           event_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -128211,7 +129225,9 @@ function __c385(j: number): any {
           cancel: __S(12320, __c385, 0),
           event_name: S.String,
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_adjustments", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventAdjustmentRequest2" });
     case 2:
@@ -128584,7 +129600,9 @@ function __c397(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_session", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventSessionRequest" });
     case 1:
@@ -128862,7 +129880,9 @@ function __c409(j: number): any {
       return S.suspend(() =>
         S.Struct({
           events: __S(13089, __c409, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_stream", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventStreamRequest" });
     case 3:
@@ -129159,7 +130179,9 @@ function __c422(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -129456,7 +130478,9 @@ function __c434(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -129949,7 +130973,9 @@ function __c450(j: number): any {
           locale: S.optional(S.String),
           on_behalf_of: S.optional(S.String),
           return_url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -130451,7 +131477,9 @@ function __c467(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(14945, __c467, 1)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/charges", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -131742,7 +132770,9 @@ function __c495(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -132539,7 +133569,9 @@ function __c510(j: number): any {
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           ui_mode: S.optional(S.String),
           wallet_options: S.optional(__S(16771, __c524, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134252,7 +135284,9 @@ function __c563(j: number): any {
           refresh_url: S.optional(S.String),
           return_url: S.optional(S.String),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134291,7 +135325,9 @@ function __c565(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134566,7 +135602,9 @@ function __c576(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           metric_tons: S.optional(S.String),
           product: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134944,7 +135982,9 @@ function __c590(j: number): any {
         S.Struct({
           order: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -135472,7 +136512,9 @@ function __c603(j: number): any {
           feed_type: S.String,
           metadata: __S(6208, __c194, 0),
           mode: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/product_catalog/imports", code: 200 })),
       ).annotate({ identifier: "CreateCommerceProductCatalogImportRequest" });
   }
@@ -136068,7 +137110,9 @@ function __c617(j: number): any {
           identity: S.optional(__S(19760, __c617, 16)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountRequest" });
   }
@@ -137286,7 +138330,9 @@ function __c643(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           applied_configurations: S.optional(__S(6560, __c205, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}/close", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountCloseRequest" });
   }
@@ -137602,7 +138648,9 @@ function __c657(j: number): any {
         S.Struct({
           account: S.String,
           use_case: __S(21025, __c657, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_links", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountLinkRequest" });
     case 3:
@@ -137877,7 +138925,9 @@ function __c668(j: number): any {
           script_addresses: S.optional(__S(20099, __c628, 3)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons", code: 200 }),
         ),
@@ -138199,7 +139249,9 @@ function __c681(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -138573,7 +139625,9 @@ function __c697(j: number): any {
           contact_phone: S.optional(S.String),
           display_name: S.optional(S.String),
           identity: S.optional(__S(22306, __c697, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_tokens", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountTokenRequest" });
   }
@@ -138892,7 +139946,9 @@ function __c710(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -138944,7 +140000,9 @@ function __c711(j: number): any {
           snapshot_api_version: S.optional(S.String),
           type: S.String,
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations", code: 200 })),
       ).annotate({ identifier: "CreateCoreEventDestinationRequest" });
   }
@@ -139441,7 +140499,9 @@ function __c726(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/disable", code: 200 }),
         ),
@@ -139779,7 +140839,9 @@ function __c738(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/enable", code: 200 }),
         ),
@@ -140068,7 +141130,9 @@ function __c750(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/ping", code: 200 }),
         ),
@@ -140359,7 +141423,9 @@ function __c762(j: number): any {
           currency: S.String,
           iban: S.optional(S.String),
           sort_code: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/gb_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultGbBankAccountRequest" });
   }
@@ -140636,7 +141702,9 @@ function __c774(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140906,7 +141974,9 @@ function __c785(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141191,7 +142261,9 @@ function __c796(j: number): any {
           currency: S.String,
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultUsBankAccountRequest" });
   }
@@ -141729,7 +142801,9 @@ function __c809(j: number): any {
           metadata: S.optional(S.Unknown),
           settings: S.optional(__S(25902, __c809, 14)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141750,7 +142824,9 @@ function __c810(j: number): any {
           capability: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           requested: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141768,7 +142844,9 @@ function __c811(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141808,7 +142886,9 @@ function __c812(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141915,7 +142995,9 @@ function __c813(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141936,7 +143018,9 @@ function __c814(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141955,7 +143039,9 @@ function __c815(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141976,7 +143062,9 @@ function __c816(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141996,7 +143084,9 @@ function __c817(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142016,7 +143106,9 @@ function __c818(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142140,7 +143232,9 @@ function __c819(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142172,7 +143266,9 @@ function __c820(j: number): any {
           receipt_email: S.optional(S.String),
           shipping: S.optional(__S(14976, __c468, 0)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142279,7 +143375,9 @@ function __c821(j: number): any {
           metadata: S.optional(S.Unknown),
           payment_intent_data: S.optional(__S(26280, __c821, 8)),
           shipping_options: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142299,7 +143397,9 @@ function __c822(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142319,7 +143419,9 @@ function __c823(j: number): any {
           beneficiary: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142533,7 +143635,9 @@ function __c824(j: number): any {
           identity: S.optional(__S(26382, __c824, 14)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreAccountRequest" });
   }
@@ -142564,7 +143668,9 @@ function __c825(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons/{id}", code: 200 }),
         ),
@@ -142583,7 +143689,9 @@ function __c826(j: number): any {
           metadata: S.optional(__S(21920, __c685, 0)),
           name: S.optional(S.String),
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreEventDestinationRequest" });
   }
@@ -142596,7 +143704,9 @@ function __c827(j: number): any {
           id: S.String.pipe(T.Label()),
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreVaultUsBankAccountRequest" });
   }
@@ -142611,7 +143721,9 @@ function __c828(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142632,7 +143744,9 @@ function __c829(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           memo: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142687,7 +143801,9 @@ function __c830(j: number): any {
           tax: S.optional(__S(26561, __c830, 1)),
           tax_exempt: S.optional(S.String),
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142709,7 +143825,9 @@ function __c831(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142742,7 +143860,9 @@ function __c832(j: number): any {
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
           owner: S.optional(__S(2624, __c82, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142852,7 +143972,9 @@ function __c833(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142896,7 +144018,9 @@ function __c835(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142952,7 +144076,9 @@ function __c836(j: number): any {
           intended_submission_method: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           submit: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142974,7 +144100,9 @@ function __c837(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142995,7 +144123,9 @@ function __c838(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143024,7 +144154,9 @@ function __c839(j: number): any {
           options: S.optional(__S(26848, __c839, 0)),
           provided_details: S.optional(__S(30720, __c960, 0)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143103,7 +144235,9 @@ function __c840(j: number): any {
           shipping_details: S.optional(S.Unknown),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143137,7 +144271,9 @@ function __c841(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143199,7 +144335,9 @@ function __c842(j: number): any {
           quantity_decimal: S.optional(S.String),
           tax_amounts: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143219,7 +144357,9 @@ function __c843(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143246,7 +144386,9 @@ function __c844(j: number): any {
           shipping: S.optional(__S(259, __c8, 3)),
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143300,7 +144442,9 @@ function __c845(j: number): any {
           preferred_locales: S.optional(__S(6560, __c205, 0)),
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143318,7 +144462,9 @@ function __c846(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143353,7 +144499,9 @@ function __c847(j: number): any {
           evidence: S.optional(__S(27104, __c847, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143380,7 +144528,9 @@ function __c848(j: number): any {
           physical_bundle: S.optional(S.String),
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143400,7 +144550,9 @@ function __c849(j: number): any {
           token: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           status: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143420,7 +144572,9 @@ function __c850(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143440,7 +144594,9 @@ function __c851(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143459,7 +144615,9 @@ function __c852(j: number): any {
           id: S.String.pipe(T.Label()),
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143482,7 +144640,9 @@ function __c853(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: S.optional(__S(1184, __c37, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/payout_intents/{id}", code: 200 }),
         ),
@@ -143497,7 +144657,9 @@ function __c854(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/transactions/{id}", code: 200 }),
         ),
@@ -143708,7 +144870,9 @@ function __c855(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(27367, __c855, 7)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143825,7 +144989,9 @@ function __c856(j: number): any {
           subscription_data: S.optional(__S(27399, __c856, 7)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143861,7 +145027,9 @@ function __c857(j: number): any {
           name: S.optional(S.String),
           percent_off: S.optional(S.Number),
           redeem_by: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/coupons", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -143951,7 +145119,9 @@ function __c859(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           us_bank_account: S.optional(__S(27491, __c859, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144034,7 +145204,9 @@ function __c860(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144054,7 +145226,9 @@ function __c861(j: number): any {
           payment_method_domain: S.String.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144074,7 +145248,9 @@ function __c862(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144098,7 +145274,9 @@ function __c863(j: number): any {
           nickname: S.optional(S.String),
           product: S.optional(S.String),
           trial_period_days: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144124,7 +145302,9 @@ function __c864(j: number): any {
           nickname: S.optional(S.String),
           tax_behavior: S.optional(S.String),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144157,7 +145337,9 @@ function __c865(j: number): any {
           tax_details: S.optional(S.Unknown),
           unit_label: S.optional(S.Unknown),
           url: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144177,7 +145359,9 @@ function __c866(j: number): any {
           id: S.String.pipe(T.Label()),
           active: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144205,7 +145389,9 @@ function __c867(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           restrictions: S.optional(__S(27744, __c867, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144274,7 +145460,9 @@ function __c868(j: number): any {
           on_behalf_of: S.optional(S.Unknown),
           subscription_data: S.optional(__S(27779, __c868, 3)),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144322,7 +145510,9 @@ function __c869(j: number): any {
           refund_amount: S.optional(S.Number),
           refunds: S.optional(__S(27873, __c871, 1)),
           shipping_cost: S.optional(__S(27840, __c870, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144537,7 +145727,9 @@ function __c879(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144557,7 +145749,9 @@ function __c880(j: number): any {
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144759,7 +145953,9 @@ function __c881(j: number): any {
           payment_method_configuration: S.optional(S.String),
           payment_method_data: S.optional(__S(28193, __c881, 1)),
           payment_method_options: S.optional(__S(28203, __c881, 11)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144797,7 +145993,9 @@ function __c882(j: number): any {
           fixed_amount: S.optional(__S(28226, __c882, 2)),
           metadata: S.optional(S.Unknown),
           tax_behavior: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144831,7 +146029,9 @@ function __c883(j: number): any {
           metadata: S.optional(S.Unknown),
           owner: S.optional(__S(2624, __c82, 0)),
           source_order: S.optional(__S(4453, __c139, 5)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144958,7 +146158,9 @@ function __c884(j: number): any {
           trial_end: S.optional(S.Unknown),
           trial_from_plan: S.optional(S.Boolean),
           trial_settings: S.optional(__S(4641, __c145, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144990,7 +146192,9 @@ function __c885(j: number): any {
           proration_date: S.optional(S.Number),
           quantity: S.optional(S.Number),
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145111,7 +146315,9 @@ function __c886(j: number): any {
           pause_schedules: S.optional(S.Unknown),
           phases: S.optional(__S(28360, __c886, 8)),
           proration_behavior: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145138,7 +146344,9 @@ function __c887(j: number): any {
           metadata: S.optional(S.Unknown),
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145159,7 +146367,9 @@ function __c888(j: number): any {
           active_from: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145178,7 +146388,9 @@ function __c889(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145214,7 +146426,9 @@ function __c890(j: number): any {
           verifone_ux700: S.optional(S.Unknown),
           verifone_v660p: S.optional(S.Unknown),
           wifi: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145246,7 +146460,9 @@ function __c891(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145271,7 +146487,9 @@ function __c892(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           label: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145295,7 +146513,9 @@ function __c893(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145337,7 +146557,9 @@ function __c895(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145358,7 +146580,9 @@ function __c896(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145379,7 +146603,9 @@ function __c897(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145400,7 +146626,9 @@ function __c898(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145424,7 +146652,9 @@ function __c899(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145448,7 +146678,9 @@ function __c900(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145504,7 +146736,9 @@ function __c901(j: number): any {
           tax_id_data: S.optional(__S(20129, __c629, 1)),
           test_clock: S.optional(S.String),
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146184,7 +147418,9 @@ function __c919(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146228,7 +147464,9 @@ function __c921(j: number): any {
           customer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           settings: S.optional(__S(29280, __c915, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146250,7 +147488,9 @@ function __c922(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           funding_type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146441,7 +147681,9 @@ function __c924(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146542,7 +147784,9 @@ function __c925(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payouts_action: S.optional(S.String),
           reason: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146564,7 +147808,9 @@ function __c926(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           source: S.String,
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146593,7 +147839,9 @@ function __c928(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146651,7 +147899,9 @@ function __c930(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
           value: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146670,7 +147920,9 @@ function __c931(j: number): any {
         S.Struct({
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146923,7 +148175,9 @@ function __c935(j: number): any {
           lookup_key: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146961,7 +148215,9 @@ function __c937(j: number): any {
           issuing_card: S.optional(S.String),
           nonce: S.optional(S.String),
           verification_session: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147005,7 +148261,9 @@ function __c939(j: number): any {
           file: S.String,
           file_link_data: S.optional(__S(30048, __c939, 0)),
           purpose: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v1/files", code: 200, contentType: "multipart" })),
       ).annotate({ identifier: "CreateFileRequest" });
   }
@@ -147072,7 +148330,9 @@ function __c943(j: number): any {
           expires_at: S.optional(S.Number),
           file: S.String,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147091,7 +148351,9 @@ function __c944(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147216,7 +148478,9 @@ function __c946(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147435,7 +148699,9 @@ function __c947(j: number): any {
           account: S.String,
           components: __S(30325, __c947, 21),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147661,7 +148927,9 @@ function __c949(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147681,7 +148949,9 @@ function __c950(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147720,7 +148990,9 @@ function __c951(j: number): any {
           permissions: __S(6560, __c205, 0),
           prefetch: S.optional(__S(6560, __c205, 0)),
           return_url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147883,7 +149155,9 @@ function __c956(j: number): any {
           replacements: __S(6560, __c205, 0),
           request: S.optional(__S(30592, __c956, 0)),
           url: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147960,7 +149234,9 @@ function __c958(j: number): any {
           return_url: S.optional(S.String),
           type: S.optional(S.String),
           verification_flow: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148081,7 +149357,9 @@ function __c961(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148100,7 +149378,9 @@ function __c962(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148199,7 +149479,9 @@ function __c963(j: number): any {
           statement_descriptor: S.optional(S.String),
           subscription: S.optional(S.String),
           transfer_data: S.optional(__S(17376, __c543, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150050,7 +151332,9 @@ function __c981(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31396, __c981, 4),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150081,7 +151365,9 @@ function __c983(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.optional(S.String),
           payment_record: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150100,7 +151386,9 @@ function __c984(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150120,7 +151408,9 @@ function __c985(j: number): any {
           invoice: S.String.pipe(T.Label()),
           auto_advance: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150157,7 +151447,9 @@ function __c986(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(__S(6176, __c193, 0)),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150257,7 +151549,9 @@ function __c989(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150282,7 +151576,9 @@ function __c990(j: number): any {
           paid_out_of_band: S.optional(S.Boolean),
           payment_method: S.optional(S.String),
           source: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150312,7 +151608,9 @@ function __c991(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31713, __c991, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150331,7 +151629,9 @@ function __c992(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150367,7 +151667,9 @@ function __c994(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150570,7 +151872,9 @@ function __c995(j: number): any {
           schedule_details: S.optional(__S(31851, __c995, 11)),
           subscription: S.optional(S.String),
           subscription_details: S.optional(__S(31855, __c995, 15)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150663,7 +151967,9 @@ function __c1001(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150736,7 +152042,9 @@ function __c1002(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(32068, __c1002, 4),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",

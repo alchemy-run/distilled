@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -775,6 +775,8 @@ export type SmbEncryptionState = "Disabled" | "Enabled";
 export type SmbAccessBasedEnumeration = "Disabled" | "Enabled";
 /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
 export type SmbNonBrowsable = "Disabled" | "Enabled";
+/** SMB opportunistic-lock setting shared by volume and cache resources. Omit the property when unspecified. */
+export type SmbOplocks = "Disabled" | "Enabled";
 /** SMB settings for the cache */
 export interface SmbSettings {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. */
@@ -783,13 +785,15 @@ export interface SmbSettings {
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol cache */
   smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol cache */
+  smbOplocks?: SmbOplocks | (string & {}) | undefined;
 }
 /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
 export type EncryptionKeySource = "Microsoft.NetApp" | "Microsoft.KeyVault";
 /** Specifies whether LDAP is enabled or not. */
 export type LdapState = "Disabled" | "Enabled";
 /** The type of the LDAP server */
-export type LdapServerType = "ActiveDirectory" | "OpenLDAP";
+export type LdapServerType = "ActiveDirectory" | "OpenLdap";
 /** ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required */
 export type OriginClusterInformationPeerAddressesList = Array<string>;
 /** Stores the origin cluster information associated to a cache. */
@@ -1632,8 +1636,6 @@ export type CoolAccessTieringPolicy = "Auto" | "SnapshotOnly";
 export type VolumePropertiesInputAvsDataStore = "Enabled" | "Disabled";
 /** Application specific placement rules for the particular volume */
 export type VolumePropertiesInputPlacementRulesList = Array<PlacementKeyValuePairs>;
-/** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-export type VolumePropertiesInputEnableSubvolumes = "Enabled" | "Disabled";
 /** Specifies whether the volume operates in Breakthrough Mode. When set to 'Enabled', the volume runs on the resources configured for this mode, delivering improved performance and higher throughput. If set to 'Disabled' or omitted, the volume uses the basic configuration. This feature is available only in regions where it's been configured and first-time users must finish onboarding prior to using Breakthrough Mode. */
 export type BreakthroughMode = "Enabled" | "Disabled";
 /** Volume properties */
@@ -1681,6 +1683,8 @@ export interface VolumePropertiesInput {
   smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean | undefined;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks | (string & {}) | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number | null | undefined;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
@@ -1689,6 +1693,8 @@ export interface VolumePropertiesInput {
   keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean | undefined;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType | (string & {}) | undefined;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean | undefined;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -1715,8 +1721,6 @@ export interface VolumePropertiesInput {
   volumeSpecName?: string | undefined;
   /** Application specific placement rules for the particular volume */
   placementRules?: VolumePropertiesInputPlacementRulesList | undefined;
-  /** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-  enableSubvolumes?: VolumePropertiesInputEnableSubvolumes | (string & {}) | undefined;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
   isLargeVolume?: boolean | undefined;
   /** Specifies whether the volume operates in Breakthrough Mode. */
@@ -1894,8 +1898,6 @@ export type VolumePropertiesAvsDataStore = "Enabled" | "Disabled";
 export type VolumePropertiesDataStoreResourceIdList = Array<string>;
 /** Application specific placement rules for the particular volume */
 export type VolumePropertiesPlacementRulesList = Array<PlacementKeyValuePairs>;
-/** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-export type VolumePropertiesEnableSubvolumes = "Enabled" | "Disabled";
 /** Volume properties */
 export interface VolumeProperties {
   /** Unique FileSystem Identifier. */
@@ -1956,6 +1958,8 @@ export interface VolumeProperties {
   smbNonBrowsable?: SmbNonBrowsable | undefined;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean | undefined;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number | null | undefined;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
@@ -1966,6 +1970,8 @@ export interface VolumeProperties {
   keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean | undefined;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType | undefined;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean | undefined;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -2006,8 +2012,6 @@ export interface VolumeProperties {
   encrypted?: boolean | undefined;
   /** Application specific placement rules for the particular volume */
   placementRules?: VolumePropertiesPlacementRulesList | undefined;
-  /** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-  enableSubvolumes?: VolumePropertiesEnableSubvolumes | undefined;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
   provisionedAvailabilityZone?: string | null | undefined;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
@@ -3119,6 +3123,8 @@ export interface GetVolumeQuotaRuleResponse {
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetAppAccountTagsMap = { [key: string]: string | undefined };
@@ -3171,6 +3177,8 @@ export interface ListAccountsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListBackupByVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3183,6 +3191,8 @@ export interface ListBackupByVaultRequest {
   backupVaultName: string;
   /** An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Backup under a Backup Vault */
 export interface Backup {
@@ -3213,6 +3223,8 @@ export interface ListBackupPoliciesRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupPolicyTagsMap = { [key: string]: string | undefined };
@@ -3251,6 +3263,8 @@ export interface ListBackupVaultByNetAppAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupVaultTagsMap = { [key: string]: string | undefined };
@@ -3291,6 +3305,8 @@ export interface ListBucketsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Bucket resource */
 export interface Bucket {
@@ -3323,6 +3339,8 @@ export interface ListCachesRequest {
   accountName: string;
   /** The name of the capacity pool */
   poolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CacheTagsMap = { [key: string]: string | undefined };
@@ -3386,6 +3404,8 @@ export interface ListNetAppResourceQuotaLimitsRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information regarding Quota Item. */
 export interface QuotaItem {
@@ -3416,12 +3436,16 @@ export interface ListNetAppResourceQuotaLimitsAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetAppResourceRegionInfosRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information regarding regionInfo Item. */
 export interface RegionInfoResource {
@@ -3450,6 +3474,8 @@ export interface ListNetAppResourceUsagesRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The UsageResult items on this page */
 export type UsagesListResultValueList = Array<UsageResult>;
@@ -3460,7 +3486,10 @@ export interface UsagesListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft NetApp. */
@@ -3571,6 +3600,8 @@ export interface ListPoolsRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CapacityPoolTagsMap = { [key: string]: string | undefined };
@@ -3613,6 +3644,8 @@ export interface ListRansomwareReportsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Advanced Ransomware Protection (ARP) report Get details of the specified Advanced Ransomware Protection report (ARP). ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions. ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data. */
 export interface RansomwareReport {
@@ -3643,6 +3676,8 @@ export interface ListSnapshotPoliciesRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SnapshotPolicyTagsMap = { [key: string]: string | undefined };
@@ -3729,6 +3764,8 @@ export interface ListSnapshotsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Snapshot of a Volume */
 export interface Snapshot {
@@ -3761,6 +3798,8 @@ export interface ListVolumeGroupByNetAppAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Volume group properties */
 export interface VolumeGroupListProperties {
@@ -3853,6 +3892,8 @@ export interface ListVolumeQuotaRuleByVolumeRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VolumeQuotaRuleTagsMap = { [key: string]: string | undefined };
@@ -3897,6 +3938,8 @@ export interface ListVolumeReplicationsRequest {
   volumeName: string;
   /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
   exclude?: ListVolumeReplicationsRequestExclude | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The status of the replication */
 export type ReplicationMirrorState = "Uninitialized" | "Mirrored" | "Broken";
@@ -3937,6 +3980,8 @@ export interface ListVolumesRequest {
   accountName: string;
   /** The name of the capacity pool */
   poolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Volume items on this page */
 export type VolumeListValueList = Array<Volume>;
@@ -4941,6 +4986,8 @@ export interface VolumePatchProperties {
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | null | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks | (string & {}) | undefined;
 }
 export interface UpdateVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5436,7 +5483,8 @@ export const AccountsChangeKeyVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccountsChangeKeyVaultRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AccountsChangeKeyVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5453,7 +5501,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51, __c3, 3) as any as S.Schema<AccountsCreateOrUpdateRequest>,
   output: __S(52, __c3, 4) as any as S.Schema<AccountsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5470,7 +5519,8 @@ export const AccountsTransitionToCmk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<AccountsTransitionToCmkRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AccountsTransitionToCmkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5487,7 +5537,8 @@ export const AuthorizeVolumeExternalReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<AuthorizeVolumeExternalReplicationRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<SvmPeerCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5504,7 +5555,8 @@ export const AuthorizeVolumeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<AuthorizeVolumeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AuthorizeVolumeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5521,7 +5573,8 @@ export const BackupsGetVolumeLatestRestoreStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<BackupsGetVolumeLatestRestoreStatusRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<RestoreStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5538,7 +5591,8 @@ export const BackupVaultsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<BackupVaultsCreateOrUpdateRequest>,
   output: __S(1889, __c118, 1) as any as S.Schema<BackupVaultsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5555,7 +5609,8 @@ export const BucketsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2097, __c131, 1) as any as S.Schema<BucketsCreateOrUpdateRequest>,
   output: __S(2098, __c131, 2) as any as S.Schema<BucketsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5572,7 +5627,8 @@ export const CachesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2321, __c145, 1) as any as S.Schema<CachesCreateOrUpdateRequest>,
   output: __S(2322, __c145, 2) as any as S.Schema<CachesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5589,7 +5645,8 @@ export const CachesPoolChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<CachesPoolChangeRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<CachesPoolChangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5606,7 +5663,8 @@ export const CheckNetAppResourceFilePathAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<CheckNetAppResourceFilePathAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5623,7 +5681,8 @@ export const CheckNetAppResourceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CheckNetAppResourceNameAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5640,7 +5699,8 @@ export const CheckNetAppResourceQuotaAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CheckNetAppResourceQuotaAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5657,7 +5717,8 @@ export const ClearRansomwareReportSuspects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ClearRansomwareReportSuspectsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClearRansomwareReportSuspectsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5674,7 +5735,8 @@ export const CreateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(561, __c35, 1) as any as S.Schema<CreateBackupRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<CreateBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5691,7 +5753,8 @@ export const CreateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<CreateBackupPolicyRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<CreateBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5708,7 +5771,8 @@ export const CreateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5725,7 +5789,8 @@ export const CreateSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<CreateSnapshotPolicyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<CreateSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5742,7 +5807,8 @@ export const CreateVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(756, __c47, 4) as any as S.Schema<CreateVolumeGroupRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<CreateVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5759,7 +5825,8 @@ export const CreateVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateVolumeQuotaRuleRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<CreateVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5776,7 +5843,8 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5793,7 +5861,8 @@ export const DeleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5810,7 +5879,8 @@ export const DeleteBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteBackupPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5827,7 +5897,8 @@ export const DeleteBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteBackupVaultRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5844,7 +5915,8 @@ export const DeleteBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<DeleteBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5861,7 +5933,8 @@ export const DeleteCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteCachRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5878,7 +5951,8 @@ export const DeletePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<DeletePoolRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5895,7 +5969,8 @@ export const DeleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5912,7 +5987,8 @@ export const DeleteSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<DeleteSnapshotPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5929,7 +6005,8 @@ export const DeleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DeleteVolumeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5946,7 +6023,8 @@ export const DeleteVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<DeleteVolumeGroupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5963,7 +6041,8 @@ export const DeleteVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<DeleteVolumeQuotaRuleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5980,7 +6059,8 @@ export const DeleteVolumeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<DeleteVolumeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5997,7 +6077,8 @@ export const FinalizeVolumeExternalReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<FinalizeVolumeExternalReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<FinalizeVolumeExternalReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6014,7 +6095,8 @@ export const FinalizeVolumeRelocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<FinalizeVolumeRelocationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<FinalizeVolumeRelocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6031,7 +6113,8 @@ export const GenerateBucketAkvCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GenerateBucketAkvCredentialsRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<GenerateBucketAkvCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6048,7 +6131,8 @@ export const GenerateBucketCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GenerateBucketCredentialsRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<BucketGenerateCredentials>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6065,7 +6149,8 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<GetAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6082,7 +6167,8 @@ export const GetAccountChangeKeyVaultInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetAccountChangeKeyVaultInformationRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<GetKeyVaultStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6099,7 +6185,8 @@ export const GetBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(1280, __c80, 0) as any as S.Schema<GetBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6116,7 +6203,8 @@ export const GetBackupLatestStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetBackupLatestStatusRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<BackupStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6133,7 +6221,8 @@ export const GetBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetBackupPolicyRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<GetBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6150,7 +6239,8 @@ export const GetBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetBackupVaultRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<GetBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6167,7 +6257,8 @@ export const GetBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetBucketRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<GetBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6184,7 +6275,8 @@ export const GetCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetCachRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<GetCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6201,7 +6293,8 @@ export const GetNetAppResourceQuotaLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetNetAppResourceQuotaLimitRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<GetNetAppResourceQuotaLimitResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6218,7 +6311,8 @@ export const GetNetAppResourceQuotaLimitsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetNetAppResourceQuotaLimitsAccountRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<GetNetAppResourceQuotaLimitsAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6235,7 +6329,8 @@ export const GetNetAppResourceRegionInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetNetAppResourceRegionInfosRequest>,
   output: __S(1520, __c95, 0) as any as S.Schema<GetNetAppResourceRegionInfosResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6252,7 +6347,8 @@ export const GetNetAppResourceUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetNetAppResourceUsageRequest>,
   output: __S(1570, __c98, 2) as any as S.Schema<UsageResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6269,7 +6365,8 @@ export const GetPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetPoolRequest>,
   output: __S(1600, __c100, 0) as any as S.Schema<GetPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6286,7 +6383,8 @@ export const GetRansomwareReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetRansomwareReportRequest>,
   output: __S(1669, __c104, 5) as any as S.Schema<GetRansomwareReportResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6303,7 +6401,8 @@ export const GetSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(1696, __c106, 0) as any as S.Schema<GetSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6320,7 +6419,8 @@ export const GetSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetSnapshotPolicyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<GetSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6337,7 +6437,8 @@ export const GetVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetVolumeRequest>,
   output: __S(1744, __c109, 0) as any as S.Schema<GetVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6354,7 +6455,8 @@ export const GetVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetVolumeGroupRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<GetVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6371,7 +6473,8 @@ export const GetVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetVolumeQuotaRuleRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<GetVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6380,122 +6483,178 @@ export const GetVolumeQuotaRule: API.OperationMethod<
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** List and describe all NetApp accounts in the subscription. */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   NetAppAccountList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetAppAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountsError = AzureOpError;
 /** List and describe all NetApp accounts in the resource group. */
-export const ListAccounts: API.OperationMethod<
+export const ListAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   NetAppAccountList,
   ListAccountsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetAppAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccounts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupByVaultError = AzureOpError;
 /** List all backups Under a Backup Vault */
-export const ListBackupByVault: API.OperationMethod<
+export const ListBackupByVault: API.PaginatedOperationMethod<
   ListBackupByVaultRequest,
   BackupsList,
   ListBackupByVaultError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Backup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListBackupByVaultRequest>,
   output: __S(1858, __c116, 2) as any as S.Schema<BackupsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupByVault",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupPoliciesError = AzureOpError;
 /** List backup policies for Netapp Account */
-export const ListBackupPolicies: API.OperationMethod<
+export const ListBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
   BackupPoliciesList,
   ListBackupPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(1874, __c117, 2) as any as S.Schema<BackupPoliciesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupVaultByNetAppAccountError = AzureOpError;
 /** List and describe all Backup Vaults in the NetApp account. */
-export const ListBackupVaultByNetAppAccount: API.OperationMethod<
+export const ListBackupVaultByNetAppAccount: API.PaginatedOperationMethod<
   ListBackupVaultByNetAppAccountRequest,
   BackupVaultsList,
   ListBackupVaultByNetAppAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupVault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListBackupVaultByNetAppAccountRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<BackupVaultsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupVaultByNetAppAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBucketsError = AzureOpError;
 /** Describes all buckets belonging to a volume. Buckets allow additional services, such as AI services, connect to the volume data contained in those buckets. */
-export const ListBuckets: API.OperationMethod<
+export const ListBuckets: API.PaginatedOperationMethod<
   ListBucketsRequest,
   BucketList,
   ListBucketsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListBucketsRequest>,
   output: __S(1938, __c121, 2) as any as S.Schema<BucketList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuckets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachesError = AzureOpError;
 /** List all Caches within the Capacity Pool */
-export const ListCaches: API.OperationMethod<
+export const ListCaches: API.PaginatedOperationMethod<
   ListCachesRequest,
   CacheList,
   ListCachesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListCachesRequest>,
   output: __S(1954, __c122, 2) as any as S.Schema<CacheList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCaches",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachPeeringPassphrasesError = AzureOpError;
 /** This operation will list the cluster peering command, cluster peering passphrase and the vserver peering command */
@@ -6507,7 +6666,8 @@ export const ListCachPeeringPassphrases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListCachPeeringPassphrasesRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<PeeringPassphrases>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6516,139 +6676,203 @@ export const ListCachPeeringPassphrases: API.OperationMethod<
 
 export type ListNetAppResourceQuotaLimitsError = AzureOpError;
 /** Get the default and current limits for quotas */
-export const ListNetAppResourceQuotaLimits: API.OperationMethod<
+export const ListNetAppResourceQuotaLimits: API.PaginatedOperationMethod<
   ListNetAppResourceQuotaLimitsRequest,
   QuotaItemList,
   ListNetAppResourceQuotaLimitsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceQuotaLimits",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceQuotaLimitsAccountError = AzureOpError;
 /** Gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one. */
-export const ListNetAppResourceQuotaLimitsAccount: API.OperationMethod<
+export const ListNetAppResourceQuotaLimitsAccount: API.PaginatedOperationMethod<
   ListNetAppResourceQuotaLimitsAccountRequest,
   QuotaItemList,
   ListNetAppResourceQuotaLimitsAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsAccountRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceQuotaLimitsAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceRegionInfosError = AzureOpError;
 /** Provides region specific information. */
-export const ListNetAppResourceRegionInfos: API.OperationMethod<
+export const ListNetAppResourceRegionInfos: API.PaginatedOperationMethod<
   ListNetAppResourceRegionInfosRequest,
   RegionInfosList,
   ListNetAppResourceRegionInfosError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegionInfoResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListNetAppResourceRegionInfosRequest>,
   output: __S(2034, __c127, 2) as any as S.Schema<RegionInfosList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceRegionInfos",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceUsagesError = AzureOpError;
 /** Get usages Get current subscription usages */
-export const ListNetAppResourceUsages: API.OperationMethod<
+export const ListNetAppResourceUsages: API.PaginatedOperationMethod<
   ListNetAppResourceUsagesRequest,
   UsagesListResult,
   ListNetAppResourceUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsageResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListNetAppResourceUsagesRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<UsagesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2074, __c129, 10) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolsError = AzureOpError;
 /** List all capacity pools in the NetApp Account */
-export const ListPools: API.OperationMethod<
+export const ListPools: API.PaginatedOperationMethod<
   ListPoolsRequest,
   CapacityPoolList,
   ListPoolsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CapacityPool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListPoolsRequest>,
   output: __S(2082, __c130, 2) as any as S.Schema<CapacityPoolList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPools",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRansomwareReportsError = AzureOpError;
 /** List all ransomware reports for the volume Returns a list of the Advanced Ransomware Protection (ARP) reports for the volume. ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions. ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data" */
-export const ListRansomwareReports: API.OperationMethod<
+export const ListRansomwareReports: API.PaginatedOperationMethod<
   ListRansomwareReportsRequest,
   RansomwareReportsList,
   ListRansomwareReportsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RansomwareReport
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListRansomwareReportsRequest>,
   output: __S(2146, __c134, 2) as any as S.Schema<RansomwareReportsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRansomwareReports",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnapshotPoliciesError = AzureOpError;
 /** List snapshot policy */
-export const ListSnapshotPolicies: API.OperationMethod<
+export const ListSnapshotPolicies: API.PaginatedOperationMethod<
   ListSnapshotPoliciesRequest,
   SnapshotPoliciesList,
   ListSnapshotPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnapshotPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
   output: __S(2162, __c135, 2) as any as S.Schema<SnapshotPoliciesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshotPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnapshotPolicyVolumesError = AzureOpError;
 /** Get volumes associated with snapshot policy */
@@ -6660,7 +6884,8 @@ export const ListSnapshotPolicyVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListSnapshotPolicyVolumesRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<SnapshotPolicyVolumeList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6669,37 +6894,53 @@ export const ListSnapshotPolicyVolumes: API.OperationMethod<
 
 export type ListSnapshotsError = AzureOpError;
 /** List all snapshots associated with the volume */
-export const ListSnapshots: API.OperationMethod<
+export const ListSnapshots: API.PaginatedOperationMethod<
   ListSnapshotsRequest,
   SnapshotsList,
   ListSnapshotsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Snapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListSnapshotsRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<SnapshotsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshots",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeGroupByNetAppAccountError = AzureOpError;
 /** List all volume groups for given account */
-export const ListVolumeGroupByNetAppAccount: API.OperationMethod<
+export const ListVolumeGroupByNetAppAccount: API.PaginatedOperationMethod<
   ListVolumeGroupByNetAppAccountRequest,
   VolumeGroupList,
   ListVolumeGroupByNetAppAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VolumeGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListVolumeGroupByNetAppAccountRequest>,
   output: __S(2228, __c139, 4) as any as S.Schema<VolumeGroupList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeGroupByNetAppAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeQuotaReportError = AzureOpError;
 /** Get quota report for volume (with filter support) */
@@ -6711,7 +6952,8 @@ export const ListVolumeQuotaReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListVolumeQuotaReportRequest>,
   output: __S(2244, __c140, 4) as any as S.Schema<ListQuotaReportResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6720,54 +6962,78 @@ export const ListVolumeQuotaReport: API.OperationMethod<
 
 export type ListVolumeQuotaRuleByVolumeError = AzureOpError;
 /** List all quota rules associated with the volume */
-export const ListVolumeQuotaRuleByVolume: API.OperationMethod<
+export const ListVolumeQuotaRuleByVolume: API.PaginatedOperationMethod<
   ListVolumeQuotaRuleByVolumeRequest,
   VolumeQuotaRulesList,
   ListVolumeQuotaRuleByVolumeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VolumeQuotaRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListVolumeQuotaRuleByVolumeRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<VolumeQuotaRulesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeQuotaRuleByVolume",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeReplicationsError = AzureOpError;
 /** List all replications for a specified volume */
-export const ListVolumeReplications: API.OperationMethod<
+export const ListVolumeReplications: API.PaginatedOperationMethod<
   ListVolumeReplicationsRequest,
   ListReplications,
   ListVolumeReplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Replication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListVolumeReplicationsRequest>,
   output: __S(2275, __c142, 3) as any as S.Schema<ListReplications>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeReplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumesError = AzureOpError;
 /** List all volumes within the capacity pool */
-export const ListVolumes: API.OperationMethod<
+export const ListVolumes: API.PaginatedOperationMethod<
   ListVolumesRequest,
   VolumeList,
   ListVolumesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Volume
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListVolumesRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<VolumeList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MigrateBackupsUnderAccountBackupsError = AzureOpError;
 /** Migrate the backups under a NetApp account to backup vault */
@@ -6779,7 +7045,8 @@ export const MigrateBackupsUnderAccountBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<MigrateBackupsUnderAccountBackupsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MigrateBackupsUnderAccountBackupsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6796,7 +7063,8 @@ export const MigrateBackupsUnderVolumeBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<MigrateBackupsUnderVolumeBackupsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MigrateBackupsUnderVolumeBackupsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6813,7 +7081,8 @@ export const NetAppResourceQueryRegionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<NetAppResourceQueryRegionInfoRequest>,
   output: __S(1538, __c96, 2) as any as S.Schema<RegionInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6830,7 +7099,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2417, __c151, 1) as any as S.Schema<PoolsCreateOrUpdateRequest>,
   output: __S(2432, __c152, 0) as any as S.Schema<PoolsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6847,7 +7117,8 @@ export const RefreshBucketCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<RefreshBucketCertificateRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RefreshBucketCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6864,7 +7135,8 @@ export const RefreshNetAppAccountLdapBindPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<RefreshNetAppAccountLdapBindPasswordRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RefreshNetAppAccountLdapBindPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6881,7 +7153,8 @@ export const RenewAccountCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<RenewAccountCredentialsRequest>,
   output: __S(2481, __c155, 1) as any as S.Schema<RenewAccountCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6898,7 +7171,8 @@ export const ResetCachSmbPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ResetCachSmbPasswordRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<ResetCachSmbPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6915,7 +7189,8 @@ export const ResetVolumeCifsPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ResetVolumeCifsPasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResetVolumeCifsPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6932,7 +7207,8 @@ export const RestoreBackupsUnderBackupVaultFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<RestoreBackupsUnderBackupVaultFilesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreBackupsUnderBackupVaultFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6949,7 +7225,8 @@ export const RestoreSnapshotFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<RestoreSnapshotFilesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreSnapshotFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6966,7 +7243,8 @@ export const SetNetAppResourceQueryNetworkSibling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<SetNetAppResourceQueryNetworkSiblingRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<NetworkSiblingSet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6983,7 +7261,8 @@ export const TransferVolumesPerformReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<TransferVolumesPerformReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TransferVolumesPerformReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7000,7 +7279,8 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2645, __c165, 5) as any as S.Schema<UpdateAccountRequest>,
   output: __S(2646, __c165, 6) as any as S.Schema<UpdateAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7017,7 +7297,8 @@ export const UpdateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2657, __c166, 1) as any as S.Schema<UpdateBackupRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<UpdateBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7034,7 +7315,8 @@ export const UpdateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<UpdateBackupPolicyRequest>,
   output: __S(2673, __c167, 1) as any as S.Schema<UpdateBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7051,7 +7333,8 @@ export const UpdateBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<UpdateBackupVaultRequest>,
   output: __S(2689, __c168, 1) as any as S.Schema<UpdateBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7068,7 +7351,8 @@ export const UpdateBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2705, __c169, 1) as any as S.Schema<UpdateBucketRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<UpdateBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7085,7 +7369,8 @@ export const UpdateCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c170, 1) as any as S.Schema<UpdateCachRequest>,
   output: __S(2722, __c170, 2) as any as S.Schema<UpdateCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7102,7 +7387,8 @@ export const UpdateNetAppResourceNetworkSiblingSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<UpdateNetAppResourceNetworkSiblingSetRequest>,
   output: __S(2737, __c171, 1) as any as S.Schema<UpdateNetAppResourceNetworkSiblingSetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7119,7 +7405,8 @@ export const UpdatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2753, __c172, 1) as any as S.Schema<UpdatePoolRequest>,
   output: __S(2432, __c152, 0) as any as S.Schema<UpdatePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7136,7 +7423,8 @@ export const UpdateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<UpdateSnapshotRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<UpdateSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7153,7 +7441,8 @@ export const UpdateSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UpdateSnapshotPolicyRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<UpdateSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7170,7 +7459,8 @@ export const UpdateVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c14, 3) as any as S.Schema<UpdateVolumeRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<UpdateVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7187,7 +7477,8 @@ export const UpdateVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<UpdateVolumeQuotaRuleRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<UpdateVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7204,7 +7495,8 @@ export const VolumesBreakFileLocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<VolumesBreakFileLocksRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesBreakFileLocksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7221,7 +7513,8 @@ export const VolumesBreakReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<VolumesBreakReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesBreakReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7238,7 +7531,8 @@ export const VolumesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<VolumesCreateOrUpdateRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<VolumesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7255,7 +7549,8 @@ export const VolumesListGetGroupIdListForLdapUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<VolumesListGetGroupIdListForLdapUserRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<GetGroupIdListForLdapUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7272,7 +7567,8 @@ export const VolumesPeerExternalCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<VolumesPeerExternalClusterRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ClusterPeerCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7289,7 +7585,8 @@ export const VolumesPoolChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<VolumesPoolChangeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesPoolChangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7306,7 +7603,8 @@ export const VolumesPopulateAvailabilityZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<VolumesPopulateAvailabilityZoneRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<VolumesPopulateAvailabilityZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7323,7 +7621,8 @@ export const VolumesReestablishReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<VolumesReestablishReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesReestablishReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7340,7 +7639,8 @@ export const VolumesReInitializeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<VolumesReInitializeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesReInitializeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7357,7 +7657,8 @@ export const VolumesRelocate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<VolumesRelocateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRelocateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7374,7 +7675,8 @@ export const VolumesReplicationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<VolumesReplicationStatusRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<ReplicationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7391,7 +7693,8 @@ export const VolumesResyncReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<VolumesResyncReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesResyncReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7408,7 +7711,8 @@ export const VolumesRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<VolumesRevertRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRevertResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7425,7 +7729,8 @@ export const VolumesRevertRelocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<VolumesRevertRelocationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRevertRelocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7442,7 +7747,8 @@ export const VolumesSplitCloneFromParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<VolumesSplitCloneFromParentRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<VolumesSplitCloneFromParentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7467,7 +7773,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/changeKeyVault",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AccountsChangeKeyVaultRequest" });
@@ -7539,7 +7845,7 @@ function __c3(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AccountsCreateOrUpdateRequest" });
@@ -7781,7 +8087,7 @@ function __c10(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CheckNetAppResourceFilePathAvailabilityRequest" });
@@ -7815,7 +8121,7 @@ function __c12(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateSnapshotRequest" });
@@ -7838,7 +8144,7 @@ function __c13(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateSnapshotPolicyRequest" });
@@ -7895,6 +8201,7 @@ function __c14(j: number): any {
           snapshotDirectoryVisible: S.optional(S.Boolean),
           smbAccessBasedEnumeration: S.optional(S.NullOr(S.String)),
           smbNonBrowsable: S.optional(S.String),
+          smbOplocks: S.optional(S.String),
         }),
       ).annotate({ identifier: "VolumePatchProperties" });
     case 3:
@@ -7913,7 +8220,7 @@ function __c14(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVolumeRequest" });
@@ -7957,7 +8264,7 @@ function __c16(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVolumeQuotaRuleRequest" });
@@ -7980,7 +8287,7 @@ function __c17(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesBreakFileLocksRequest" });
@@ -8002,7 +8309,7 @@ function __c18(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesBreakReplicationRequest" });
@@ -8027,7 +8334,7 @@ function __c19(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesCreateOrUpdateRequest" });
@@ -8066,7 +8373,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesListGetGroupIdListForLdapUserRequest" });
@@ -8097,7 +8404,7 @@ function __c21(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/peerExternalCluster",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesPeerExternalClusterRequest" });
@@ -8135,7 +8442,7 @@ function __c22(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesPoolChangeRequest" });
@@ -8156,7 +8463,7 @@ function __c23(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CheckNetAppResourceNameAvailabilityRequest" });
@@ -8177,7 +8484,7 @@ function __c24(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesPopulateAvailabilityZoneRequest" });
@@ -8199,7 +8506,7 @@ function __c25(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesReestablishReplicationRequest" });
@@ -8220,7 +8527,7 @@ function __c26(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesReInitializeReplicationRequest" });
@@ -8242,7 +8549,7 @@ function __c27(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesRelocateRequest" });
@@ -8263,7 +8570,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesReplicationStatusRequest" });
@@ -8294,7 +8601,7 @@ function __c29(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesResyncReplicationRequest" });
@@ -8316,7 +8623,7 @@ function __c30(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesRevertRequest" });
@@ -8337,7 +8644,7 @@ function __c31(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesRevertRelocationRequest" });
@@ -8358,7 +8665,7 @@ function __c32(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/splitCloneFromParent",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "VolumesSplitCloneFromParentRequest" });
@@ -8379,7 +8686,7 @@ function __c33(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkQuotaAvailability",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CheckNetAppResourceQuotaAvailabilityRequest" });
@@ -8403,7 +8710,7 @@ function __c34(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports/{ransomwareReportName}/clearSuspects",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ClearRansomwareReportSuspectsRequest" });
@@ -8434,7 +8741,7 @@ function __c35(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateBackupRequest" });
@@ -8492,7 +8799,7 @@ function __c37(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateBackupPolicyRequest" });
@@ -8573,7 +8880,7 @@ function __c40(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateSnapshotRequest" });
@@ -8625,7 +8932,7 @@ function __c43(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateSnapshotPolicyRequest" });
@@ -8757,7 +9064,7 @@ function __c47(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateVolumeGroupRequest" });
@@ -8826,10 +9133,12 @@ function __c48(j: number): any {
           smbAccessBasedEnumeration: S.optional(S.NullOr(S.String)),
           smbNonBrowsable: S.optional(S.String),
           smbContinuouslyAvailable: S.optional(S.Boolean),
+          smbOplocks: S.optional(S.String),
           throughputMibps: S.optional(S.NullOr(S.Number)),
           encryptionKeySource: S.optional(S.String),
           keyVaultPrivateEndpointResourceId: S.optional(S.String),
           ldapEnabled: S.optional(S.Boolean),
+          ldapServerType: S.optional(S.String),
           coolAccess: S.optional(S.Boolean),
           coolnessPeriod: S.optional(S.Number),
           coolAccessRetrievalPolicy: S.optional(S.String),
@@ -8843,7 +9152,6 @@ function __c48(j: number): any {
           proximityPlacementGroup: S.optional(S.String),
           volumeSpecName: S.optional(S.String),
           placementRules: S.optional(__S(785, __c49, 1)),
-          enableSubvolumes: S.optional(S.String),
           isLargeVolume: S.optional(S.Boolean),
           breakthroughMode: S.optional(S.String),
         }),
@@ -8980,11 +9288,13 @@ function __c50(j: number): any {
           smbAccessBasedEnumeration: S.optional(S.NullOr(S.String)),
           smbNonBrowsable: S.optional(S.String),
           smbContinuouslyAvailable: S.optional(S.Boolean),
+          smbOplocks: S.optional(S.String),
           throughputMibps: S.optional(S.NullOr(S.Number)),
           actualThroughputMibps: S.optional(S.Number),
           encryptionKeySource: S.optional(S.String),
           keyVaultPrivateEndpointResourceId: S.optional(S.String),
           ldapEnabled: S.optional(S.Boolean),
+          ldapServerType: S.optional(S.String),
           coolAccess: S.optional(S.Boolean),
           coolnessPeriod: S.optional(S.Number),
           coolAccessRetrievalPolicy: S.optional(S.String),
@@ -9005,7 +9315,6 @@ function __c50(j: number): any {
           volumeSpecName: S.optional(S.String),
           encrypted: S.optional(S.Boolean),
           placementRules: S.optional(__S(785, __c49, 1)),
-          enableSubvolumes: S.optional(S.String),
           provisionedAvailabilityZone: S.optional(S.NullOr(S.String)),
           isLargeVolume: S.optional(S.Boolean),
           originatingResourceId: S.optional(S.NullOr(S.String)),
@@ -9073,7 +9382,7 @@ function __c53(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateVolumeQuotaRuleRequest" });
@@ -9133,7 +9442,7 @@ function __c56(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/transitiontocmk",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AccountsTransitionToCmkRequest" });
@@ -9152,7 +9461,7 @@ function __c57(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAccountRequest" });
@@ -9173,7 +9482,7 @@ function __c58(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBackupRequest" });
@@ -9193,7 +9502,7 @@ function __c59(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBackupPolicyRequest" });
@@ -9213,7 +9522,7 @@ function __c60(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBackupVaultRequest" });
@@ -9235,7 +9544,7 @@ function __c61(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBucketRequest" });
@@ -9268,7 +9577,7 @@ function __c63(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCachRequest" });
@@ -9288,7 +9597,7 @@ function __c64(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeletePoolRequest" });
@@ -9310,7 +9619,7 @@ function __c65(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSnapshotRequest" });
@@ -9330,7 +9639,7 @@ function __c66(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSnapshotPolicyRequest" });
@@ -9352,7 +9661,7 @@ function __c67(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVolumeRequest" });
@@ -9373,7 +9682,7 @@ function __c68(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeExternalReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AuthorizeVolumeExternalReplicationRequest" });
@@ -9408,7 +9717,7 @@ function __c69(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVolumeGroupRequest" });
@@ -9430,7 +9739,7 @@ function __c70(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVolumeQuotaRuleRequest" });
@@ -9451,7 +9760,7 @@ function __c71(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteVolumeReplicationRequest" });
@@ -9472,7 +9781,7 @@ function __c72(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeExternalReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FinalizeVolumeExternalReplicationRequest" });
@@ -9493,7 +9802,7 @@ function __c73(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeRelocation",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FinalizeVolumeRelocationRequest" });
@@ -9516,7 +9825,7 @@ function __c74(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/generateAkvCredentials",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GenerateBucketAkvCredentialsRequest" });
@@ -9539,7 +9848,7 @@ function __c75(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/generateCredentials",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GenerateBucketCredentialsRequest" });
@@ -9566,7 +9875,7 @@ function __c76(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetAccountRequest" });
@@ -9603,7 +9912,7 @@ function __c78(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/getKeyVaultStatus",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetAccountChangeKeyVaultInformationRequest" });
@@ -9642,7 +9951,7 @@ function __c79(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupRequest" });
@@ -9678,7 +9987,7 @@ function __c81(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AuthorizeVolumeReplicationRequest" });
@@ -9699,7 +10008,7 @@ function __c82(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/latestBackupStatus/current",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupLatestStatusRequest" });
@@ -9733,7 +10042,7 @@ function __c83(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupPolicyRequest" });
@@ -9770,7 +10079,7 @@ function __c85(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupVaultRequest" });
@@ -9808,7 +10117,7 @@ function __c87(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBucketRequest" });
@@ -9843,7 +10152,7 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetCachRequest" });
@@ -9880,7 +10189,7 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits/{quotaLimitName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetNetAppResourceQuotaLimitRequest" });
@@ -9922,7 +10231,7 @@ function __c93(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/quotaLimits/{quotaLimitName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetNetAppResourceQuotaLimitsAccountRequest" });
@@ -9940,7 +10249,7 @@ function __c94(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos/default",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetNetAppResourceRegionInfosRequest" });
@@ -9993,7 +10302,7 @@ function __c97(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/usages/{usageType}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetNetAppResourceUsageRequest" });
@@ -10040,7 +10349,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPoolRequest" });
@@ -10097,7 +10406,7 @@ function __c102(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/latestRestoreStatus/current",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "BackupsGetVolumeLatestRestoreStatusRequest" });
@@ -10130,7 +10439,7 @@ function __c103(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports/{ransomwareReportName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRansomwareReportRequest" });
@@ -10198,7 +10507,7 @@ function __c105(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetSnapshotRequest" });
@@ -10233,7 +10542,7 @@ function __c107(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetSnapshotPolicyRequest" });
@@ -10254,7 +10563,7 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetVolumeRequest" });
@@ -10292,7 +10601,7 @@ function __c110(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetVolumeGroupRequest" });
@@ -10325,7 +10634,7 @@ function __c111(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetVolumeQuotaRuleRequest" });
@@ -10353,12 +10662,14 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -10384,12 +10695,14 @@ function __c115(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
@@ -10405,12 +10718,14 @@ function __c116(j: number): any {
           accountName: S.String.pipe(T.Label()),
           backupVaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupByVaultRequest" });
@@ -10433,12 +10748,14 @@ function __c117(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
@@ -10470,7 +10787,7 @@ function __c118(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "BackupVaultsCreateOrUpdateRequest" });
@@ -10508,12 +10825,14 @@ function __c120(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupVaultByNetAppAccountRequest" });
@@ -10538,12 +10857,14 @@ function __c121(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBucketsRequest" });
@@ -10567,12 +10888,14 @@ function __c122(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachesRequest" });
@@ -10602,7 +10925,7 @@ function __c123(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/listPeeringPassphrases",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListCachPeeringPassphrasesRequest" });
@@ -10624,12 +10947,14 @@ function __c124(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceQuotaLimitsRequest" });
@@ -10656,12 +10981,14 @@ function __c126(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/quotaLimits",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceQuotaLimitsAccountRequest" });
@@ -10674,12 +11001,14 @@ function __c127(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceRegionInfosRequest" });
@@ -10701,12 +11030,14 @@ function __c128(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/usages",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceUsagesRequest" });
@@ -10725,12 +11056,15 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.NetApp/operations",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -10816,12 +11150,14 @@ function __c130(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolsRequest" });
@@ -10863,7 +11199,7 @@ function __c131(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "BucketsCreateOrUpdateRequest" });
@@ -10971,12 +11307,14 @@ function __c134(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRansomwareReportsRequest" });
@@ -10999,12 +11337,14 @@ function __c135(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotPoliciesRequest" });
@@ -11033,7 +11373,7 @@ function __c136(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}/volumes",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotPolicyVolumesRequest" });
@@ -11062,12 +11402,14 @@ function __c138(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotsRequest" });
@@ -11090,12 +11432,14 @@ function __c139(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeGroupByNetAppAccountRequest" });
@@ -11145,7 +11489,7 @@ function __c140(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListVolumeQuotaReportRequest" });
@@ -11189,12 +11533,14 @@ function __c141(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeQuotaRuleByVolumeRequest" });
@@ -11220,12 +11566,14 @@ function __c142(j: number): any {
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
           exclude: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listReplications",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeReplicationsRequest" });
@@ -11262,12 +11610,14 @@ function __c143(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumesRequest" });
@@ -11287,7 +11637,7 @@ function __c144(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateBackups",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "MigrateBackupsUnderAccountBackupsRequest" });
@@ -11334,7 +11684,7 @@ function __c145(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CachesCreateOrUpdateRequest" });
@@ -11402,6 +11752,7 @@ function __c148(j: number): any {
           smbEncryption: S.optional(S.String),
           smbAccessBasedEnumeration: S.optional(S.String),
           smbNonBrowsable: S.optional(S.String),
+          smbOplocks: S.optional(S.String),
         }),
       ).annotate({ identifier: "SmbSettings" });
     case 1:
@@ -11471,7 +11822,7 @@ function __c149(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/migrateBackups",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "MigrateBackupsUnderVolumeBackupsRequest" });
@@ -11489,7 +11840,7 @@ function __c150(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfo",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "NetAppResourceQueryRegionInfoRequest" });
@@ -11523,7 +11874,7 @@ function __c151(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "PoolsCreateOrUpdateRequest" });
@@ -11564,7 +11915,7 @@ function __c153(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/refreshCertificate",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RefreshBucketCertificateRequest" });
@@ -11583,7 +11934,7 @@ function __c154(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/refreshLdapBindPassword",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RefreshNetAppAccountLdapBindPasswordRequest" });
@@ -11602,7 +11953,7 @@ function __c155(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RenewAccountCredentialsRequest" });
@@ -11630,7 +11981,7 @@ function __c156(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/resetSmbPassword",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ResetCachSmbPasswordRequest" });
@@ -11651,7 +12002,7 @@ function __c157(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resetCifsPassword",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ResetVolumeCifsPasswordRequest" });
@@ -11675,7 +12026,7 @@ function __c158(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RestoreBackupsUnderBackupVaultFilesRequest" });
@@ -11699,7 +12050,7 @@ function __c159(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}/restoreFiles",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RestoreSnapshotFilesRequest" });
@@ -11721,7 +12072,7 @@ function __c160(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/poolChange",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CachesPoolChangeRequest" });
@@ -11761,7 +12112,7 @@ function __c162(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/queryNetworkSiblingSet",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "SetNetAppResourceQueryNetworkSiblingRequest" });
@@ -11806,7 +12157,7 @@ function __c164(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "TransferVolumesPerformReplicationRequest" });
@@ -11879,7 +12230,7 @@ function __c165(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateAccountRequest" });
@@ -11923,7 +12274,7 @@ function __c166(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBackupRequest" });
@@ -11958,7 +12309,7 @@ function __c167(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBackupPolicyRequest" });
@@ -11994,7 +12345,7 @@ function __c168(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBackupVaultRequest" });
@@ -12040,7 +12391,7 @@ function __c169(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBucketRequest" });
@@ -12089,7 +12440,7 @@ function __c170(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateCachRequest" });
@@ -12128,7 +12479,7 @@ function __c171(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateNetAppResourceNetworkSiblingSetRequest" });
@@ -12173,7 +12524,7 @@ function __c172(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePoolRequest" });

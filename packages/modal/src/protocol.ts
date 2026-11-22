@@ -1,9 +1,7 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeGrpcProtocol } from "@distilled.cloud/core/protocol-grpc";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { grpcProtocol } from "@distilled.cloud/core/protocol-grpc";
 import type { RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import { unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ModalProtocol -- binary gRPC at Modal's method paths.
  *
@@ -20,12 +18,10 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { type AuthTokenError, Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { descriptors } from "./descriptors.ts";
-import { UnknownModalError, type DefaultErrors, ModalParseError } from "./errors.ts";
+import { UnknownModalError, ModalParseError, type ModalServiceError } from "./errors.ts";
 
 /**
  * The Python SDK version this client reports in `x-modal-client-version`.
@@ -50,18 +46,13 @@ export const CLIENT_TYPE_CONTAINER = "3";
 export const LIBMODAL_JS_VERSION = "0.11.1";
 
 /**
- * Error channel shared by every generated Modal operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, ModalOpError,
- * ModalOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Modal operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ModalOpError, ModalOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type ModalOpError =
-  | DefaultErrors
-  | ConfigError
-  | AuthTokenError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type ModalOpError = ModalServiceError | ErrorOf<typeof ModalProtocol>;
 
 /** Context (requirements) shared by every generated Modal operation. */
 export type ModalOpContext = Credentials | HttpClient.HttpClient;
@@ -79,9 +70,11 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcProtocol<Config>({
+export const ModalProtocol = /*@__PURE__*/ grpcProtocol({
   descriptors,
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     ...(creds.bearerToken !== undefined

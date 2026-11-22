@@ -18,9 +18,10 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
-import { awsSpec } from "../../scripts/spec.ts";
+import { awsSpec, supportedProtocol } from "../../scripts/spec.ts";
 import * as Credentials from "../../src/credentials.ts";
 import * as Endpoint from "../../src/endpoint.ts";
+import { decodeCbor } from "../../src/protocols/cbor.ts";
 import * as Retry from "../../src/retry.ts";
 
 const dir = import.meta.dirname;
@@ -39,6 +40,9 @@ const SERVICES = [
   "aws.protocoltests.restjson#RestJson",
   "aws.protocoltests.restxml#RestXml",
   "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace",
+  "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol",
+  "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol",
+  "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol",
 ];
 
 interface Ref {
@@ -116,6 +120,22 @@ const serviceModel = (serviceId: string) => {
   };
   visit({ target: serviceId });
   let json = JSON.stringify(Object.fromEntries([...seen].map((id) => [id, shapes[id]])));
+  // The protocol-agnostic Smithy test services have no AWS service traits;
+  // the AWS generator needs an SDK id and a signing name.
+  const service = shapes[serviceId]!;
+  if (service.traits?.["aws.api#service"] === undefined) {
+    const parsed = JSON.parse(json);
+    const name = serviceId.split("#")[1]!;
+    parsed[serviceId] = {
+      ...service,
+      traits: {
+        ...service.traits,
+        "aws.api#service": { sdkId: name },
+        "aws.auth#sigv4": { name: name.toLowerCase() },
+      },
+    };
+    json = JSON.stringify(parsed);
+  }
   for (const [from, to] of Object.entries(shapes[serviceId]!.rename ?? {})) {
     json = json.replaceAll(`"${from}"`, `"${from.split("#")[0]}#${to}"`);
   }
@@ -340,8 +360,21 @@ const formPairs = (body: string) =>
     .map((pair) => decodeURIComponent(pair.replaceAll("+", " ")))
     .sort();
 
-const expectBody = (actual: string, expected: string, mediaType: string | undefined) => {
-  if (mediaType === "application/json" && expected !== "") {
+/** A CBOR body as a value `toEqual` compares (an empty body is `undefined`). */
+const cborValue = async (bytes: Uint8Array): Promise<unknown> =>
+  bytes.length === 0 ? undefined : canonical(decodeCbor(bytes));
+
+const expectBody = async (
+  actual: string,
+  actualBytes: Uint8Array,
+  expected: string,
+  mediaType: string | undefined,
+) => {
+  if (mediaType === "application/cbor") {
+    // CBOR test bodies are base64. Compared as values: map order, integer
+    // widths and definite or indefinite lengths carry no meaning.
+    expect(await cborValue(actualBytes)).toEqual(await cborValue(Buffer.from(expected, "base64")));
+  } else if (mediaType === "application/json" && expected !== "") {
     expect(actual === "" ? actual : JSON.parse(actual)).toEqual(JSON.parse(expected));
   } else if (mediaType === "application/xml" && expected !== "") {
     expect(canonicalXml(actual)).toBe(canonicalXml(expected));
@@ -352,25 +385,25 @@ const expectBody = (actual: string, expected: string, mediaType: string | undefi
   }
 };
 
-const bodyText = async (request: HttpClientRequest.HttpClientRequest): Promise<string> => {
+const bodyBytes = async (request: HttpClientRequest.HttpClientRequest): Promise<Uint8Array> => {
   const body = request.body;
   switch (body._tag) {
     case "Empty":
-      return "";
+      return new Uint8Array();
     case "Uint8Array":
-      return fromUtf8.decode(body.body);
+      return body.body;
     case "Raw":
       return typeof body.body === "string"
-        ? body.body
+        ? utf8.encode(body.body)
         : body.body instanceof Uint8Array
-          ? fromUtf8.decode(body.body)
-          : new Response(body.body as BodyInit).text();
+          ? body.body
+          : new Uint8Array(await new Response(body.body as BodyInit).arrayBuffer());
     case "Stream": {
       const chunks = await Effect.runPromise(Stream.runCollect(body.stream));
-      return fromUtf8.decode(Buffer.concat(Array.from(chunks)));
+      return Buffer.concat(Array.from(chunks));
     }
     default:
-      return `<${body._tag} body>`;
+      return utf8.encode(`<${body._tag} body>`);
   }
 };
 
@@ -381,7 +414,7 @@ const bodyText = async (request: HttpClientRequest.HttpClientRequest): Promise<s
 interface Canned {
   readonly status: number;
   readonly headers?: Record<string, string>;
-  readonly body?: string;
+  readonly body?: string | Uint8Array;
 }
 
 const call = async (
@@ -397,7 +430,7 @@ const call = async (
       const empty = canned.status === 204 || canned.status === 304 || canned.body === undefined;
       return HttpClientResponse.fromWeb(
         request,
-        new Response(empty ? null : canned.body, {
+        new Response(empty ? null : (canned.body as BodyInit), {
           status: canned.status,
           headers: canned.headers,
         }),
@@ -460,7 +493,12 @@ for (const serviceId of SERVICES) {
   const smithy = serviceModel(serviceId);
   const { shapes } = smithy;
   const service = shapes[serviceId]!;
-  const protocol = Object.keys(service.traits ?? {}).find((k) => k.startsWith("aws.protocols#"))!;
+  const protocol = supportedProtocol(service.traits)!;
+  // rpcv2Cbor test bodies are base64 CBOR.
+  const cannedBody = (body: string | undefined) =>
+    body !== undefined && protocol === "smithy.protocols#rpcv2Cbor"
+      ? Buffer.from(body, "base64")
+      : body;
   const name = shapeName(serviceId);
   // Cases tagged `defaults` expect the client to fill in a member's
   // `@default` when the caller or the server leaves it out. The SDK sends and
@@ -516,12 +554,13 @@ for (const serviceId of SERVICES) {
           for (const param of c.queryParams ?? []) expect(pairs).toContain(decodePair(param));
           for (const k of c.forbidQueryParams ?? []) expect(keys).not.toContain(k);
           for (const k of c.requireQueryParams ?? []) expect(keys).toContain(k);
-          const body = await bodyText(request);
+          const bytes = await bodyBytes(request);
+          const body = fromUtf8.decode(bytes);
           // The transport sets Content-Length from a body of known size.
           const headers = {
             ...(request.body._tag === "Uint8Array" ||
             (request.body._tag === "Raw" && typeof request.body.body === "string")
-              ? { "content-length": String(utf8.encode(body).byteLength) }
+              ? { "content-length": String(bytes.byteLength) }
               : {}),
             ...(request.headers as Record<string, string>),
           };
@@ -531,7 +570,7 @@ for (const serviceId of SERVICES) {
           for (const k of c.forbidHeaders ?? []) expect(header(headers, k)).toBeUndefined();
           for (const k of c.requireHeaders ?? []) expect(header(headers, k)).toBeDefined();
           if (c.resolvedHost !== undefined) expect(new URL(url).host).toBe(c.resolvedHost);
-          if (c.body !== undefined) expectBody(body, c.body, c.bodyMediaType);
+          if (c.body !== undefined) await expectBody(body, bytes, c.body, c.bodyMediaType);
         });
       }
 
@@ -541,7 +580,7 @@ for (const serviceId of SERVICES) {
           const { exit } = await call(await method(), placeholder(shapes, inputId), {
             status: c.code!,
             headers: c.headers,
-            body: c.body,
+            body: cannedBody(c.body),
           });
           expect(failureOf(exit)).toBeUndefined();
           const value = Exit.isSuccess(exit) ? exit.value : undefined;
@@ -581,7 +620,7 @@ for (const serviceId of SERVICES) {
           const { exit } = await call(
             fn,
             placeholder(shapes, op.input?.target ?? "smithy.api#Unit"),
-            { status: c.code!, headers: c.headers, body: c.body },
+            { status: c.code!, headers: c.headers, body: cannedBody(c.body) },
           );
           const failure = failureOf(exit) as { _tag?: string } | undefined;
           expect(failure?._tag).toBe(shapeName(errorId));

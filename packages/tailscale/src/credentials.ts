@@ -1,6 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as Clock from "effect/Clock";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Equal from "effect/Equal";
@@ -11,7 +11,6 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as SynchronizedRef from "effect/SynchronizedRef";
 
 export const DEFAULT_API_BASE_URL = "https://api.tailscale.com/api/v2";
 
@@ -68,8 +67,8 @@ interface CachedToken {
 /**
  * Builds the OAuth client-credentials token cache. The returned effect posts
  * the exchange through the captured `HttpClient`, reuses the token until
- * 60 seconds before `expires_in`, and serializes refreshes so concurrent
- * resolutions of a stale token make one exchange.
+ * 60 seconds before `expires_in`, and concurrent resolutions of a cold or
+ * stale token share one exchange (core `refreshing`).
  */
 export const makeClientCredentials = (
   config: ClientCredentialsConfig,
@@ -99,24 +98,19 @@ export const makeClientCredentials = (
             }),
         ),
       );
-    const cache = yield* SynchronizedRef.make(Option.none<CachedToken>());
-    return SynchronizedRef.modifyEffect(cache, (cached) =>
-      Effect.gen(function* () {
-        const now = yield* Clock.currentTimeMillis;
-        if (Option.isSome(cached) && now < cached.value.refreshAt) {
-          return [cached.value.config, cached] as const;
-        }
-        const token = yield* exchange;
-        const next: CachedToken = {
-          config: {
-            token: token.access_token,
-            apiBaseUrl,
-          },
-          refreshAt: now + token.expires_in * 1000 - TOKEN_REFRESH_WINDOW_MS,
-        };
-        return [next.config, Option.some(next)] as const;
-      }),
-    );
+    const mint = Effect.map(exchange, (token): CachedToken => ({
+      config: {
+        token: token.access_token,
+        apiBaseUrl,
+      },
+      refreshAt: Date.now() + token.expires_in * 1000 - TOKEN_REFRESH_WINDOW_MS,
+    }));
+    return refreshing(mint, (cached) => cached.refreshAt, {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `Tailscale OAuth token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    }).pipe(Effect.map((cached) => cached.config));
   });
 
 export const fromClientCredentials = (
@@ -171,14 +165,18 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.Http
     Credentials,
     Effect.gen(function* () {
       const client = yield* HttpClient.HttpClient;
-      const oauth = yield* SynchronizedRef.make(Option.none<EnvOAuth>());
+      let oauth: EnvOAuth | undefined;
       const resolveOAuth = (config: EnvOAuthConfig) =>
-        SynchronizedRef.modifyEffect(oauth, (current) =>
-          Option.isSome(current) && Equal.equals(current.value.config, config)
-            ? Effect.succeed([current.value.resolve, current] as const)
+        Effect.suspend(() =>
+          oauth !== undefined && Equal.equals(oauth.config, config)
+            ? Effect.succeed(oauth.resolve)
             : makeClientCredentials(config).pipe(
                 Effect.provideService(HttpClient.HttpClient, client),
-                Effect.map((resolve) => [resolve, Option.some({ config, resolve })] as const),
+                Effect.tap((resolve) =>
+                  Effect.sync(() => {
+                    oauth = { config, resolve };
+                  }),
+                ),
               ),
         ).pipe(Effect.flatten);
       return Effect.gen(function* () {

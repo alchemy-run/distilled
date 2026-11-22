@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSquarespaceError } from "../errors.ts";
+import { SquarespaceServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   SquarespaceProtocol,
@@ -115,7 +115,7 @@ export type AdjustInventoryStockLevelsRequestSetFiniteOperationsList =
 export type AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList = Array<string>;
 export interface AdjustInventoryStockLevelsRequest {
   /** Required for idempotent requests. Refer to the idempotency key guide for requirements. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
   decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList | undefined;
   /** Optional; array of objects. Increments stock quantity for InventoryItems. */
@@ -781,7 +781,7 @@ export type CreateOrderRequestShippingLinesList = Array<CreateShippingLineReques
 export type ShopperFulfillmentNotificationBehavior = "SEND" | "SKIP";
 export interface CreateOrderRequest {
   /** Idempotency key to prevent duplicate order creation. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   billingAddress?: AddressRequest | undefined;
   /** Name of third-party sales channel. */
   channelName: string;
@@ -2320,7 +2320,8 @@ export const adjustInventoryStockLevels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1314, __c41, 2) as any as S.Schema<AdjustInventoryStockLevelsRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<AdjustInventoryStockLevelsResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2337,7 +2338,8 @@ export const associateProductVariantImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<AssociateProductVariantImageRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<AssociateProductVariantImageResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2354,7 +2356,8 @@ export const createAddressBookEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<CreateAddressBookEntryRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<CreateAddressBookEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2371,7 +2374,8 @@ export const createContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c69, 1) as any as S.Schema<CreateContactRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<CreateContactResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2388,7 +2392,8 @@ export const createDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CreateDiscountRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2405,7 +2410,8 @@ export const createOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2406, __c75, 6) as any as S.Schema<CreateOrderRequest>,
   output: __S(2510, __c78, 14) as any as S.Schema<Order>,
-  errors: [BadRequest, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2422,7 +2428,8 @@ export const createProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateProductRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<ProductV2>,
-  errors: [BadRequest, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2439,7 +2446,8 @@ export const createProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(131, __c4, 3) as any as S.Schema<CreateProductVariantRequest>,
   output: S.Unknown as any as S.Schema<ProductVariantV2>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,7 +2464,8 @@ export const createWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
   output: __S(193, __c6, 1) as any as S.Schema<ExternalCreateWebhookSubscriptionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2473,7 +2482,8 @@ export const deleteAddressBookEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteAddressBookEntryRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteAddressBookEntryResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2490,7 +2500,8 @@ export const deleteContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeleteContactRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteContactResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2507,7 +2518,8 @@ export const deleteDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeleteDiscountRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteDiscountResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2524,7 +2536,8 @@ export const deleteProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteProductRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2541,7 +2554,8 @@ export const deleteProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteProductImageRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductImageResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2558,7 +2572,8 @@ export const deleteProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteProductVariantRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductVariantResponse>,
-  errors: [NotFound, Conflict, UnknownSquarespaceError],
+  errors: [NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2575,7 +2590,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2592,7 +2608,8 @@ export const fulfillOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<FulfillOrderRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<FulfillOrderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2609,7 +2626,8 @@ export const getAddressBook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetAddressBookRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<GetAddressBookResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2626,7 +2644,8 @@ export const getAddressBookEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetAddressBookEntryRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<GetAddressBookEntryResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2643,7 +2662,8 @@ export const getContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetContactRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<GetContactResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,7 +2682,8 @@ export const getContacts: API.PaginatedOperationMethod<
   () => ({
     input: __S(640, __c20, 0) as any as S.Schema<GetContactsRequest>,
     output: __S(673, __c21, 1) as any as S.Schema<PaginatedGetContactsResponse>,
-    errors: [BadRequest, Forbidden, UnknownSquarespaceError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2688,7 +2709,8 @@ export const getDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetDiscountRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2705,7 +2727,8 @@ export const getDocumentsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetDocumentsByIdRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<TransactionListResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2724,7 +2747,8 @@ export const getDocumentsByUpdatedOn: API.PaginatedOperationMethod<
   () => ({
     input: __S(800, __c25, 0) as any as S.Schema<GetDocumentsByUpdatedOnRequest>,
     output: __S(801, __c25, 1) as any as S.Schema<PaginatedTransactionListResponse>,
-    errors: [BadRequest, UnknownSquarespaceError],
+    errors: [BadRequest],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2749,7 +2773,8 @@ export const getFulfillmentOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetFulfillmentOptionsRequest>,
   output: __S(837, __c26, 5) as any as S.Schema<FulfillmentOptionsList>,
-  errors: [Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2768,7 +2793,8 @@ export const getInventoryItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(864, __c27, 0) as any as S.Schema<GetInventoryItemsRequest>,
     output: __S(865, __c27, 1) as any as S.Schema<PaginatedInventoryItemListResponse>,
-    errors: [BadRequest, NotFound, UnknownSquarespaceError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2793,7 +2819,8 @@ export const getMemberProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetMemberProfileRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<MemberProfile>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2810,7 +2837,8 @@ export const getOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetOrderRequest>,
   output: __S(2510, __c78, 14) as any as S.Schema<Order>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2829,7 +2857,8 @@ export const getOrders: API.PaginatedOperationMethod<
   () => ({
     input: __S(992, __c31, 0) as any as S.Schema<GetOrdersRequest>,
     output: __S(994, __c31, 2) as any as S.Schema<OrderListResponse>,
-    errors: [BadRequest, UnknownSquarespaceError],
+    errors: [BadRequest],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2854,7 +2883,8 @@ export const getProductImageProcessingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetProductImageProcessingStatusRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<ProductImageProcessingStatus>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2873,7 +2903,8 @@ export const getProducts: API.PaginatedOperationMethod<
   () => ({
     input: __S(1056, __c33, 0) as any as S.Schema<GetProductsRequest>,
     output: __S(1058, __c33, 2) as any as S.Schema<PaginatedProductListResponseV2>,
-    errors: [BadRequest, UnknownSquarespaceError],
+    errors: [BadRequest],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2900,7 +2931,8 @@ export const getProfiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(1088, __c34, 0) as any as S.Schema<GetProfilesRequest>,
     output: __S(1089, __c34, 1) as any as S.Schema<PaginatedProfileListResponse>,
-    errors: [BadRequest, NotFound, UnknownSquarespaceError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2925,7 +2957,8 @@ export const getSpecificInventoryItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetSpecificInventoryItemsRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<InventoryItemListResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2942,7 +2975,8 @@ export const getSpecificProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetSpecificProductsRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<ProductListResponseV2>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2959,7 +2993,8 @@ export const getSpecificProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetSpecificProfilesRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<ProfileListResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2978,7 +3013,8 @@ export const getStorePages: API.PaginatedOperationMethod<
   () => ({
     input: __S(1280, __c40, 0) as any as S.Schema<GetStorePagesRequest>,
     output: __S(1283, __c40, 3) as any as S.Schema<PaginatedStorePagesResponse>,
-    errors: [NotFound, UnknownSquarespaceError],
+    errors: [NotFound],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3003,7 +3039,8 @@ export const getTransactionsSummaries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetTransactionsSummariesRequest>,
   output: __S(1411, __c44, 3) as any as S.Schema<RetrieveTransactionsSummariesResponse>,
-  errors: [BadRequest, UnknownSquarespaceError],
+  errors: [BadRequest],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3020,7 +3057,8 @@ export const getWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3037,7 +3075,8 @@ export const getWebhookSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetWebhookSubscriptionsRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<ExternalWebhookSubscriptionListResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3054,7 +3093,8 @@ export const getWebsiteProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetWebsiteProfileRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<WebsiteProfile>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3071,7 +3111,8 @@ export const listDiscounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListDiscountsRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<PaginatedDiscountListResponse>,
-  errors: [BadRequest, Forbidden, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3090,7 +3131,8 @@ export const queryContacts: API.PaginatedOperationMethod<
   () => ({
     input: __S(1603, __c50, 3) as any as S.Schema<QueryContactsRequest>,
     output: __S(673, __c21, 1) as any as S.Schema<PaginatedQueryContactsResponse>,
-    errors: [BadRequest, Forbidden, UnknownSquarespaceError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: SquarespaceServiceErrors,
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3116,7 +3158,8 @@ export const rotateSubscriptionSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<RotateSubscriptionSecretRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<ExternalRotateSecretResponse>,
-  errors: [NotFound, UnknownSquarespaceError],
+  errors: [NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3136,7 +3179,8 @@ export const sendTestNotificationForWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<SendTestNotificationForWebhookSubscriptionRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<ExternalTestNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3153,7 +3197,8 @@ export const updateAddressBookEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateAddressBookEntryRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<UpdateAddressBookEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3170,7 +3215,8 @@ export const updateContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<UpdateContactRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<PatchContactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3187,7 +3233,8 @@ export const updateDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<UpdateDiscountRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3204,7 +3251,8 @@ export const updateProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1857, __c58, 1) as any as S.Schema<UpdateProductRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<ProductV2>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3221,7 +3269,8 @@ export const updateProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<UpdateProductImageRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<ProductImage>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3238,7 +3287,8 @@ export const updateProductImageOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<UpdateProductImageOrderRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<UpdateProductImageOrderResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3255,7 +3305,8 @@ export const updateProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2021, __c63, 5) as any as S.Schema<UpdateProductVariantRequest>,
   output: S.Unknown as any as S.Schema<ProductVariantV2>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3272,7 +3323,8 @@ export const updateWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
-  errors: [BadRequest, NotFound, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3289,7 +3341,8 @@ export const uploadProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<UploadProductImageRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<UploadProductImageResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SquarespaceServiceErrors,
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4177,7 +4230,9 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           decrementOperations: S.optional(__S(1313, __c41, 1)),
           incrementOperations: S.optional(__S(1313, __c41, 1)),
           setFiniteOperations: S.optional(__S(1313, __c41, 1)),
@@ -4900,7 +4955,9 @@ function __c75(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           billingAddress: S.optional(__S(2528, __c79, 0)),
           channelName: S.String,
           createdOn: S.String,

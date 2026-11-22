@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinbaseError } from "../errors.ts";
+import { CoinbaseServiceErrors } from "../errors.ts";
 import { CoinbaseProtocol, type CoinbaseOpError, type CoinbaseOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -7744,7 +7744,8 @@ export const addEndUserEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddEndUserEvmAccountRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AddEndUserEvmAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7761,7 +7762,8 @@ export const addEndUserEvmSmartAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<AddEndUserEvmSmartAccountRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<AddEndUserEvmSmartAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7778,7 +7780,8 @@ export const addEndUserSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<AddEndUserSolanaAccountRequest>,
   output: __S(1937, __c121, 1) as any as S.Schema<AddEndUserSolanaAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7795,7 +7798,8 @@ export const adjustBorrowPositionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<AdjustBorrowPositionWithEndUserAccountRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7812,7 +7816,8 @@ export const approveWalletMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ApproveWalletMandateRequest>,
   output: __S(2560, __c160, 0) as any as S.Schema<Approval>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7829,7 +7834,8 @@ export const authorizeCoinbasePaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<AuthorizeCoinbasePaymentSessionRequest>,
   output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7846,7 +7852,8 @@ export const authorizeMandatePaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<AuthorizeMandatePaymentSessionRequest>,
   output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7863,7 +7870,8 @@ export const authorizeWalletPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<AuthorizeWalletPaymentSessionRequest>,
   output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7880,7 +7888,8 @@ export const authorizeX402PaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<AuthorizeX402PaymentSessionRequest>,
   output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7897,7 +7906,8 @@ export const cancelMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<CancelMandateRequest>,
   output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7914,7 +7924,8 @@ export const cancelPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CancelPaymentSessionRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7931,7 +7942,8 @@ export const capturePaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CapturePaymentSessionRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<Capture>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7948,7 +7960,8 @@ export const closeBorrowPositionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<CloseBorrowPositionWithEndUserAccountRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7965,7 +7978,8 @@ export const createBorrowPositionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<CreateBorrowPositionWithEndUserAccountRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7982,7 +7996,8 @@ export const createCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<CreateCustomerRequest>,
   output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7999,7 +8014,8 @@ export const createDelegationForEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<CreateDelegationForEndUserAccountRequest>,
   output: __S(1264, __c79, 0) as any as S.Schema<CreateDelegationForEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8016,7 +8032,8 @@ export const createDepositDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<CreateDepositDestinationRequest2>,
   output: __S(1504, __c94, 0) as any as S.Schema<CreateDepositDestinationResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8033,7 +8050,8 @@ export const createDisbursement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1681, __c105, 1) as any as S.Schema<CreateDisbursementRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<Disbursement>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8050,7 +8068,8 @@ export const createEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1874, __c117, 2) as any as S.Schema<CreateEndUserRequest>,
   output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8067,7 +8086,8 @@ export const createEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<CreateEvmAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8084,7 +8104,8 @@ export const createEvmEip7702Delegation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<CreateEvmEip7702DelegationRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<CreateEvmEip7702DelegationResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8109,7 +8130,8 @@ export const createEvmEip7702DelegationWithEndUserAccount: API.OperationMethod<
     __c123,
     0,
   ) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8126,7 +8148,8 @@ export const createEvmSmartAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<CreateEvmSmartAccountRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8143,7 +8166,8 @@ export const createEvmSwapQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<CreateEvmSwapQuoteRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CreateEvmSwapQuoteResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8160,7 +8184,8 @@ export const createFoundationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<CreateFoundationAccountRequest>,
   output: __S(2064, __c129, 0) as any as S.Schema<Account>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8177,7 +8202,8 @@ export const createMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<CreateMandateRequest>,
   output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8194,7 +8220,8 @@ export const createOnrampIosAttestationChallenge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<CreateOnrampIosAttestationChallengeRequest>,
   output: __S(2112, __c132, 0) as any as S.Schema<IosAttestationChallenge>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8211,7 +8238,8 @@ export const createOnrampMobileChallenge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<CreateOnrampMobileChallengeRequest>,
   output: __S(2112, __c132, 0) as any as S.Schema<OnrampMobileChallenge>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8228,7 +8256,8 @@ export const createOnrampMobileSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2146, __c134, 2) as any as S.Schema<CreateOnrampMobileSessionRequest>,
   output: __S(2147, __c134, 3) as any as S.Schema<CreateOnrampMobileSessionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8245,7 +8274,8 @@ export const createOnrampOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<CreateOnrampOrderRequest>,
   output: __S(2178, __c136, 2) as any as S.Schema<CreateOnrampOrderResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8262,7 +8292,8 @@ export const createOnrampSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<CreateOnrampSessionRequest>,
   output: __S(2274, __c142, 2) as any as S.Schema<CreateOnrampSessionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8279,7 +8310,8 @@ export const createPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2289, __c143, 1) as any as S.Schema<CreatePaymentSessionRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8296,7 +8328,8 @@ export const createPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<CreatePolicyRequest>,
   output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8313,7 +8346,8 @@ export const createSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<CreateSolanaAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8330,7 +8364,8 @@ export const createSpendPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<CreateSpendPermissionRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8347,7 +8382,8 @@ export const createTopUpLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<CreateTopUpLinkRequest>,
   output: __S(2370, __c148, 2) as any as S.Schema<TopUpLink>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8364,7 +8400,8 @@ export const createTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2388, __c149, 4) as any as S.Schema<CreateTransferRequest>,
   output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8381,7 +8418,8 @@ export const createWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
   output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8398,7 +8436,8 @@ export const createX402DiscoveryMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<CreateX402DiscoveryMcpRequest>,
   output: __S(2450, __c153, 2) as any as S.Schema<X402McpResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8415,7 +8454,8 @@ export const deleteCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<DeleteCustomerRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<DeleteCustomerResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8432,7 +8472,8 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8449,7 +8490,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8466,7 +8508,8 @@ export const executeFundTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ExecuteFundTransferRequest>,
   output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8483,7 +8526,8 @@ export const exportEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<ExportEvmAccountRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<ExportEvmAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8500,7 +8544,8 @@ export const exportEvmAccountByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ExportEvmAccountByNameRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<ExportEvmAccountByNameResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8517,7 +8562,8 @@ export const exportSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<ExportSolanaAccountRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<ExportSolanaAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8534,7 +8580,8 @@ export const exportSolanaAccountByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ExportSolanaAccountByNameRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<ExportSolanaAccountByNameResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8551,7 +8598,8 @@ export const getBalanceByAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<GetBalanceByAssetRequest>,
   output: __S(2755, __c172, 3) as any as S.Schema<Balance>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8568,7 +8616,8 @@ export const getCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8585,7 +8634,8 @@ export const getCustomerRequirements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<GetCustomerRequirementsRequest>,
   output: __S(2785, __c174, 1) as any as S.Schema<GetCustomerRequirementsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8602,7 +8652,8 @@ export const getDelegationForEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetDelegationForEndUserRequest>,
   output: __S(1264, __c79, 0) as any as S.Schema<GetDelegationForEndUserResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8619,7 +8670,8 @@ export const getDelegationForEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<GetDelegationForEndUserAccountRequest>,
   output: __S(1264, __c79, 0) as any as S.Schema<GetDelegationForEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8636,7 +8688,8 @@ export const getDepositDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<GetDepositDestinationRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<GetDepositDestinationResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8653,7 +8706,8 @@ export const getDisbursement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<GetDisbursementRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<Disbursement>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8670,7 +8724,8 @@ export const getEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<GetEndUserRequest>,
   output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8687,7 +8742,8 @@ export const getEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<GetEvmAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8704,7 +8760,8 @@ export const getEvmAccountByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<GetEvmAccountByNameRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8721,7 +8778,8 @@ export const getEvmBorrowProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<GetEvmBorrowProductRequest>,
   output: __S(2983, __c186, 7) as any as S.Schema<BorrowProduct>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8738,7 +8796,8 @@ export const getEvmEip7702DelegationOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<GetEvmEip7702DelegationOperationRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<EvmEip7702DelegationOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8755,7 +8814,8 @@ export const getEvmSmartAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<GetEvmSmartAccountRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8772,7 +8832,8 @@ export const getEvmSmartAccountByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<GetEvmSmartAccountByNameRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8789,7 +8850,8 @@ export const getEvmSwapPrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<GetEvmSwapPriceRequest>,
   output: __S(3073, __c192, 1) as any as S.Schema<GetEvmSwapPriceResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8806,7 +8868,8 @@ export const getFoundationAccountById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<GetFoundationAccountByIdRequest>,
   output: __S(2064, __c129, 0) as any as S.Schema<Account>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8823,7 +8886,8 @@ export const getMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<GetMandateRequest>,
   output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8840,7 +8904,8 @@ export const getMandateApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<GetMandateApprovalRequest>,
   output: __S(2560, __c160, 0) as any as S.Schema<Approval>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8857,7 +8922,8 @@ export const getMandateRevocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<GetMandateRevocationRequest>,
   output: __S(3152, __c197, 0) as any as S.Schema<Revocation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8874,7 +8940,8 @@ export const getOnrampOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<GetOnrampOrderRequest>,
   output: __S(3169, __c198, 1) as any as S.Schema<GetOnrampOrderResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8891,7 +8958,8 @@ export const getOnrampUserLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<GetOnrampUserLimitsRequest>,
   output: __S(3191, __c199, 7) as any as S.Schema<GetOnrampUserLimitsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8908,7 +8976,8 @@ export const getPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<GetPaymentMethodRequest>,
   output: __S(3201, __c200, 1) as any as S.Schema<GetPaymentMethodResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8925,7 +8994,8 @@ export const getPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<GetPaymentSessionRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8942,7 +9012,8 @@ export const getPaymentSessionAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3248, __c203, 0) as any as S.Schema<GetPaymentSessionAuthorizationRequest>,
   output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8959,7 +9030,8 @@ export const getPaymentSessionCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<GetPaymentSessionCaptureRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<Capture>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8976,7 +9048,8 @@ export const getPaymentSessionRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<GetPaymentSessionRefundRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<Refund>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8993,7 +9066,8 @@ export const getPaymentSessionVoid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<GetPaymentSessionVoidRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<Void>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9010,7 +9084,8 @@ export const getPolicyById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<GetPolicyByIdRequest>,
   output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9027,7 +9102,8 @@ export const getSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<GetSolanaAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9044,7 +9120,8 @@ export const getSolanaAccountByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<GetSolanaAccountByNameRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9061,7 +9138,8 @@ export const getSQLGrammar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<GetSQLGrammarRequest>,
   output: __S(3361, __c210, 1) as any as S.Schema<GetSQLGrammarResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9078,7 +9156,8 @@ export const getSQLSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<GetSQLSchemaRequest>,
   output: __S(3381, __c211, 5) as any as S.Schema<OnchainDataSchemaResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9095,7 +9174,8 @@ export const getTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<GetTransferRequest>,
   output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9112,7 +9192,8 @@ export const getUserOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<GetUserOperationRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9129,7 +9210,8 @@ export const getUserOperationWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<GetUserOperationWithEndUserAccountRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9146,7 +9228,8 @@ export const getVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<GetVaultRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<Vault>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9163,7 +9246,8 @@ export const getWalletApprovalOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<GetWalletApprovalOptionsRequest>,
   output: __S(3492, __c218, 4) as any as S.Schema<WalletMandateApprovalOptionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9180,7 +9264,8 @@ export const getWalletAuthorizationOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3521, __c220, 1) as any as S.Schema<GetWalletAuthorizationOptionsRequest>,
   output: __S(3525, __c220, 5) as any as S.Schema<WalletAuthorizationOptionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9197,7 +9282,8 @@ export const getWalletRevocationOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<GetWalletRevocationOptionsRequest>,
   output: __S(3540, __c221, 4) as any as S.Schema<WalletMandateRevocationOptionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9214,7 +9300,8 @@ export const getWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
   output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9231,7 +9318,8 @@ export const getX402Bundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3568, __c223, 0) as any as S.Schema<GetX402BundleRequest>,
   output: __S(3569, __c223, 1) as any as S.Schema<GetX402BundleResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9248,7 +9336,8 @@ export const importEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<ImportEndUserRequest>,
   output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9265,7 +9354,8 @@ export const importEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<ImportEvmAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9282,7 +9372,8 @@ export const importSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<ImportSolanaAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9299,7 +9390,8 @@ export const initiateOnrampVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<InitiateOnrampVerificationRequest>,
   output: __S(3745, __c234, 1) as any as S.Schema<OnrampVerificationInitiation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9316,7 +9408,8 @@ export const listBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3760, __c235, 0) as any as S.Schema<ListBalancesRequest>,
   output: __S(3762, __c235, 2) as any as S.Schema<ListBalancesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9333,7 +9426,8 @@ export const listBorrowPositionsWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Schema<ListBorrowPositionsWithEndUserAccountRequest>,
   output: __S(3784, __c236, 8) as any as S.Schema<ListBorrowPositionsWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9350,7 +9444,8 @@ export const listCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Schema<ListCustomersRequest>,
   output: __S(3794, __c237, 2) as any as S.Schema<ListCustomersResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9367,7 +9462,8 @@ export const listDataTokenBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c238, 0) as any as S.Schema<ListDataTokenBalancesRequest>,
   output: __S(3827, __c239, 3) as any as S.Schema<ListDataTokenBalancesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9384,7 +9480,8 @@ export const listDepositDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Schema<ListDepositDestinationsRequest>,
   output: __S(3858, __c241, 2) as any as S.Schema<ListDepositDestinationsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9401,7 +9498,8 @@ export const listDisbursements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c242, 0) as any as S.Schema<ListDisbursementsRequest>,
   output: __S(3874, __c242, 2) as any as S.Schema<ListDisbursementsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9418,7 +9516,8 @@ export const listEndUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3888, __c243, 0) as any as S.Schema<ListEndUsersRequest>,
   output: __S(3889, __c243, 1) as any as S.Schema<ListEndUsersResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9435,7 +9534,8 @@ export const listEvmAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3920, __c245, 0) as any as S.Schema<ListEvmAccountsRequest>,
   output: __S(3937, __c246, 1) as any as S.Schema<ListEvmAccountsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9452,7 +9552,8 @@ export const listEvmBorrowProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListEvmBorrowProductsRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<ListEvmBorrowProductsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9469,7 +9570,8 @@ export const listEvmSmartAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListEvmSmartAccountsRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<ListEvmSmartAccountsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9486,7 +9588,8 @@ export const listEvmTokenBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ListEvmTokenBalancesRequest>,
   output: __S(3827, __c239, 3) as any as S.Schema<ListEvmTokenBalancesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9503,7 +9606,8 @@ export const listFoundationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListFoundationAccountsRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<ListFoundationAccountsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9520,7 +9624,8 @@ export const listMandateApprovals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListMandateApprovalsRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<ListMandateApprovalsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9537,7 +9642,8 @@ export const listMandateRevocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListMandateRevocationsRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<ListMandateRevocationsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9554,7 +9660,8 @@ export const listMandates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListMandatesRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<ListMandatesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9571,7 +9678,8 @@ export const listPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListPaymentMethodsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ListPaymentMethodsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9588,7 +9696,8 @@ export const listPaymentSessionAuthorizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListPaymentSessionAuthorizationsRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<ListPaymentSessionAuthorizationsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9605,7 +9714,8 @@ export const listPaymentSessionCaptures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListPaymentSessionCapturesRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<ListPaymentSessionCapturesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9622,7 +9732,8 @@ export const listPaymentSessionRefunds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListPaymentSessionRefundsRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ListPaymentSessionRefundsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9639,7 +9750,8 @@ export const listPaymentSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListPaymentSessionsRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<ListPaymentSessionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9656,7 +9768,8 @@ export const listPaymentSessionVoids: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListPaymentSessionVoidsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ListPaymentSessionVoidsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9673,7 +9786,8 @@ export const listPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ListPoliciesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9690,7 +9804,8 @@ export const listSolanaAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListSolanaAccountsRequest>,
   output: __S(3937, __c246, 1) as any as S.Schema<ListSolanaAccountsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9707,7 +9822,8 @@ export const listSolanaTokenBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListSolanaTokenBalancesRequest>,
   output: __S(484, __c30, 4) as any as S.Schema<ListSolanaTokenBalancesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9724,7 +9840,8 @@ export const listSpendPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListSpendPermissionsRequest>,
   output: __S(500, __c31, 4) as any as S.Schema<ListSpendPermissionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9741,7 +9858,8 @@ export const listTokensForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListTokensForAccountRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<AccountTokenAddressesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9758,7 +9876,8 @@ export const listTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListTransfersRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<ListTransfersResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9775,7 +9894,8 @@ export const listVaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListVaultsRequest>,
   output: __S(546, __c34, 2) as any as S.Schema<ListVaultsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9792,7 +9912,8 @@ export const listWebhookSubscriptionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListWebhookSubscriptionEventsRequest>,
   output: __S(580, __c36, 4) as any as S.Schema<WebhookEventListResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9809,7 +9930,8 @@ export const listWebhookSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListWebhookSubscriptionsRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<ListWebhookSubscriptionsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9826,7 +9948,8 @@ export const listX402Bundles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListX402BundlesRequest>,
   output: __S(611, __c38, 3) as any as S.Schema<X402BundlesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9843,7 +9966,8 @@ export const listX402DiscoveryMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListX402DiscoveryMerchantRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<X402DiscoveryMerchantResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9860,7 +9984,8 @@ export const listX402DiscoveryResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListX402DiscoveryResourcesRequest>,
   output: __S(657, __c41, 1) as any as S.Schema<X402DiscoveryResourcesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9877,7 +10002,8 @@ export const lookupEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<LookupEndUserRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<LookupEndUserResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9894,7 +10020,8 @@ export const pausePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<PausePolicyRequest>,
   output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9911,7 +10038,8 @@ export const prepareAndSendUserOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<PrepareAndSendUserOperationRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9928,7 +10056,8 @@ export const prepareUserOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<PrepareUserOperationRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9945,7 +10074,8 @@ export const redeemVaultFeesWithEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<RedeemVaultFeesWithEvmAccountRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<EoaVaultRedeemFeesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9962,7 +10092,8 @@ export const redeemVaultFeesWithEvmSmartAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<RedeemVaultFeesWithEvmSmartAccountRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<SmartAccountVaultRedeemFeesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9979,7 +10110,8 @@ export const refundPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<RefundPaymentSessionRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<Refund>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9996,7 +10128,8 @@ export const registerOnrampIosAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(817, __c51, 1) as any as S.Schema<RegisterOnrampIosAttestationRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<IosAttestationRegistrationResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10013,7 +10146,8 @@ export const requestEvmFaucet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<RequestEvmFaucetRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<RequestEvmFaucetResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10030,7 +10164,8 @@ export const requestLimitsUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(849, __c53, 1) as any as S.Schema<RequestLimitsUpgradeRequest>,
   output: __S(850, __c53, 2) as any as S.Schema<OnrampLimitUpgradeEmbeddedResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10047,7 +10182,8 @@ export const requestSolanaFaucet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<RequestSolanaFaucetRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<RequestSolanaFaucetResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10064,7 +10200,8 @@ export const resumePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ResumePolicyRequest>,
   output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10081,7 +10218,8 @@ export const revokeDelegationForEndUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<RevokeDelegationForEndUserRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<RevokeDelegationForEndUserResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10098,7 +10236,8 @@ export const revokeDelegationForEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<RevokeDelegationForEndUserAccountRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<RevokeDelegationForEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10115,7 +10254,8 @@ export const revokeSpendPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<RevokeSpendPermissionRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10132,7 +10272,8 @@ export const revokeWalletMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<RevokeWalletMandateRequest>,
   output: __S(3152, __c197, 0) as any as S.Schema<Revocation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10149,7 +10290,8 @@ export const runSQLQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1105, __c69, 1) as any as S.Schema<RunSQLQueryRequest>,
   output: __S(1111, __c69, 7) as any as S.Schema<OnchainDataResult>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10166,7 +10308,8 @@ export const searchX402Resources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<SearchX402ResourcesRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<X402SearchResourcesResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10183,7 +10326,8 @@ export const sendEvmAssetWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<SendEvmAssetWithEndUserAccountRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<SendEvmAssetWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10200,7 +10344,8 @@ export const sendEvmTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<SendEvmTransactionRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<SendEvmTransactionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10217,7 +10362,8 @@ export const sendEvmTransactionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10234,7 +10380,8 @@ export const sendSolanaAssetWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10251,7 +10398,8 @@ export const sendSolanaTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<SendSolanaTransactionRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<SendSolanaTransactionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10268,7 +10416,8 @@ export const sendSolanaTransactionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10285,7 +10434,8 @@ export const sendUserOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<SendUserOperationRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10302,7 +10452,8 @@ export const sendUserOperationWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<SendUserOperationWithEndUserAccountRequest>,
   output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10319,7 +10470,8 @@ export const settleX402Payment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<SettleX402PaymentRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<SettleX402PaymentResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10336,7 +10488,8 @@ export const signEvmHash: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<SignEvmHashRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignEvmHashResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10353,7 +10506,8 @@ export const signEvmMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<SignEvmMessageRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignEvmMessageResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10370,7 +10524,8 @@ export const signEvmMessageWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10387,7 +10542,8 @@ export const signEvmTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<SignEvmTransactionRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<SignEvmTransactionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10404,7 +10560,8 @@ export const signEvmTransactionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10421,7 +10578,8 @@ export const signEvmTypedData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<SignEvmTypedDataRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignEvmTypedDataResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10438,7 +10596,8 @@ export const signEvmTypedDataWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1457, __c91, 1) as any as S.Schema<SignEvmTypedDataWithEndUserAccountRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignEvmTypedDataWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10455,7 +10614,8 @@ export const signSolanaMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<SignSolanaMessageRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignSolanaMessageResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10472,7 +10632,8 @@ export const signSolanaMessageWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10489,7 +10650,8 @@ export const signSolanaTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<SignSolanaTransactionRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<SignSolanaTransactionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10506,7 +10668,8 @@ export const signSolanaTransactionWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10523,7 +10686,8 @@ export const signSolanaX402PaymentWithEndUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1570, __c98, 2) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountRequest>,
   output: __S(1571, __c98, 3) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10540,7 +10704,8 @@ export const simulatePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<SimulatePoliciesRequest2>,
   output: __S(1592, __c99, 8) as any as S.Schema<PolicySimulationResult>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10557,7 +10722,8 @@ export const submitDepositTravelRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1603, __c100, 3) as any as S.Schema<SubmitDepositTravelRuleRequest>,
   output: __S(1604, __c100, 4) as any as S.Schema<DepositTravelRuleResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10574,7 +10740,8 @@ export const submitOnrampVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<SubmitOnrampVerificationRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<OnrampVerificationConfirmation>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10591,7 +10758,8 @@ export const supportedX402PaymentKinds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<SupportedX402PaymentKindsRequest>,
   output: __S(1636, __c102, 4) as any as S.Schema<SupportedX402PaymentKindsResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10608,7 +10776,8 @@ export const updateCustomerById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<UpdateCustomerByIdRequest>,
   output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10625,7 +10794,8 @@ export const updateEvmAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<UpdateEvmAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10642,7 +10812,8 @@ export const updateEvmSmartAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<UpdateEvmSmartAccountRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10659,7 +10830,8 @@ export const updatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10676,7 +10848,8 @@ export const updateSolanaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<UpdateSolanaAccountRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10693,7 +10866,8 @@ export const updateWebhookSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
   output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10710,7 +10884,8 @@ export const validateEndUserAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ValidateEndUserAccessTokenRequest>,
   output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10727,7 +10902,8 @@ export const validateX402Resource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ValidateX402ResourceRequest>,
   output: __S(1829, __c114, 5) as any as S.Schema<X402ValidateResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10744,7 +10920,8 @@ export const verifyX402Payment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<VerifyX402PaymentRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<VerifyX402PaymentResponse>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10761,7 +10938,8 @@ export const voidPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<VoidPaymentSessionRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<Void>,
-  errors: [UnknownCoinbaseError],
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

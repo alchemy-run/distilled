@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -281,7 +281,8 @@ export const migrateDediboxHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<MigrateDediboxHostingRequest>,
   output: __S(19, __c0, 19) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

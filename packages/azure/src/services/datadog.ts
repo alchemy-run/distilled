@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -479,6 +479,8 @@ export interface ListCreationSupportedRequest {
   subscriptionId: string;
   /** Datadog Organization Id */
   datadogOrganizationId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The CreateResourceSupportedResponse items on this page */
 export type CreateResourceSupportedResponseListValueList = Array<CreateResourceSupportedResponse>;
@@ -492,6 +494,8 @@ export interface CreateResourceSupportedResponseList {
 export interface ListMarketplaceAgreementsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Terms properties. */
 export interface DatadogAgreementProperties {
@@ -567,6 +571,8 @@ export interface ListMonitorApiKeysRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The DatadogApiKey items on this page */
 export type DatadogApiKeyListResponseValueList = Array<DatadogApiKey>;
@@ -582,6 +588,8 @@ export interface ListMonitorByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DatadogMonitorResourceTagsMap = { [key: string]: string | undefined };
@@ -620,6 +628,8 @@ export interface ListMonitoredSubscriptionsRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
 export interface MonitoredSubscriptionProperties {
@@ -650,6 +660,8 @@ export interface ListMonitorHostsRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The aliases for the host installed via the Datadog agent. */
 export type DatadogHostAliasesList = Array<string>;
@@ -698,6 +710,8 @@ export interface ListMonitorLinkedResourcesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The definition of a linked resource. */
 export interface LinkedResource {
@@ -722,6 +736,8 @@ export interface ListMonitorMonitoredResourcesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties of a resource currently being monitored by the Datadog monitor resource. */
 export interface MonitoredResource {
@@ -748,8 +764,13 @@ export interface MonitoredResourceListResponse {
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider, i.e., Microsoft.Datadog. */
@@ -786,6 +807,8 @@ export interface ListSingleSignOnConfigurationsRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DatadogSingleSignOnResource {
@@ -815,6 +838,8 @@ export interface ListTagRulesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
@@ -1114,7 +1139,8 @@ export const CreateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CreateMonitorRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<CreateMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1131,7 +1157,8 @@ export const DeleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1148,7 +1175,8 @@ export const DeleteMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteMonitoredSubscriptionRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1165,7 +1193,8 @@ export const GetBillingInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetBillingInfoRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<BillingInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1182,7 +1211,8 @@ export const GetCreationSupported: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetCreationSupportedRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<CreateResourceSupportedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1199,7 +1229,8 @@ export const GetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<GetMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1216,7 +1247,8 @@ export const GetMonitorDefaultKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetMonitorDefaultKeyRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<DatadogApiKey>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1233,7 +1265,8 @@ export const GetMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetMonitoredSubscriptionRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<GetMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1250,7 +1283,8 @@ export const GetSingleSignOnConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetSingleSignOnConfigurationRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<GetSingleSignOnConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1267,7 +1301,8 @@ export const GetTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetTagRuleRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<GetTagRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1276,207 +1311,303 @@ export const GetTagRule: API.OperationMethod<
 
 export type ListCreationSupportedError = AzureOpError;
 /** Informs if the current subscription is being already monitored for selected Datadog organization. Informs if the current subscription is being already monitored for selected Datadog organization. */
-export const ListCreationSupported: API.OperationMethod<
+export const ListCreationSupported: API.PaginatedOperationMethod<
   ListCreationSupportedRequest,
   CreateResourceSupportedResponseList,
   ListCreationSupportedError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CreateResourceSupportedResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListCreationSupportedRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<CreateResourceSupportedResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCreationSupported",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceAgreementsError = AzureOpError;
 /** List Datadog marketplace agreements in the subscription. List Datadog marketplace agreements in the subscription. */
-export const ListMarketplaceAgreements: API.OperationMethod<
+export const ListMarketplaceAgreements: API.PaginatedOperationMethod<
   ListMarketplaceAgreementsRequest,
   DatadogAgreementResourceListResponse,
   ListMarketplaceAgreementsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogAgreementResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<DatadogAgreementResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceAgreements",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorApiKeysError = AzureOpError;
 /** List the api keys for a given monitor resource. List the api keys for a given monitor resource. */
-export const ListMonitorApiKeys: API.OperationMethod<
+export const ListMonitorApiKeys: API.PaginatedOperationMethod<
   ListMonitorApiKeysRequest,
   DatadogApiKeyListResponse,
   ListMonitorApiKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogApiKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListMonitorApiKeysRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<DatadogApiKeyListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorApiKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorByResourceGroupError = AzureOpError;
 /** List all monitors under the specified resource group. List all monitors under the specified resource group. */
-export const ListMonitorByResourceGroup: API.OperationMethod<
+export const ListMonitorByResourceGroup: API.PaginatedOperationMethod<
   ListMonitorByResourceGroupRequest,
   DatadogMonitorResourceListResponse,
   ListMonitorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogMonitorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListMonitorByResourceGroupRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DatadogMonitorResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitoredSubscriptionsError = AzureOpError;
 /** List the subscriptions currently being monitored by the Datadog monitor resource. List the subscriptions currently being monitored by the Datadog monitor resource. */
-export const ListMonitoredSubscriptions: API.OperationMethod<
+export const ListMonitoredSubscriptions: API.PaginatedOperationMethod<
   ListMonitoredSubscriptionsRequest,
   MonitoredSubscriptionPropertiesList,
   ListMonitoredSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoredSubscriptionProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListMonitoredSubscriptionsRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<MonitoredSubscriptionPropertiesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitoredSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorHostsError = AzureOpError;
 /** List the hosts for a given monitor resource. List the hosts for a given monitor resource. */
-export const ListMonitorHosts: API.OperationMethod<
+export const ListMonitorHosts: API.PaginatedOperationMethod<
   ListMonitorHostsRequest,
   DatadogHostListResponse,
   ListMonitorHostsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogHost
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListMonitorHostsRequest>,
   output: __S(103, __c12, 7) as any as S.Schema<DatadogHostListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorHosts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorLinkedResourcesError = AzureOpError;
 /** List all Azure resources associated to the same Datadog organization as the target resource. List all Azure resources associated to the same Datadog organization as the target resource. */
-export const ListMonitorLinkedResources: API.OperationMethod<
+export const ListMonitorLinkedResources: API.PaginatedOperationMethod<
   ListMonitorLinkedResourcesRequest,
   LinkedResourceListResponse,
   ListMonitorLinkedResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LinkedResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListMonitorLinkedResourcesRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<LinkedResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorLinkedResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorMonitoredResourcesError = AzureOpError;
 /** List the resources currently being monitored by the Datadog monitor resource. List the resources currently being monitored by the Datadog monitor resource. */
-export const ListMonitorMonitoredResources: API.OperationMethod<
+export const ListMonitorMonitoredResources: API.PaginatedOperationMethod<
   ListMonitorMonitoredResourcesRequest,
   MonitoredResourceListResponse,
   ListMonitorMonitoredResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoredResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListMonitorMonitoredResourcesRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<MonitoredResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorMonitoredResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorsError = AzureOpError;
 /** List all monitors under the specified subscription. List all monitors under the specified subscription. */
-export const ListMonitors: API.OperationMethod<
+export const ListMonitors: API.PaginatedOperationMethod<
   ListMonitorsRequest,
   DatadogMonitorResourceListResponse,
   ListMonitorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogMonitorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListMonitorsRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DatadogMonitorResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitors",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List all operations provided by Microsoft.Datadog for the 2025-06-11 api version. List all operations provided by Microsoft.Datadog for the 2025-06-11 api version. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSingleSignOnConfigurationsError = AzureOpError;
 /** List the single sign-on configurations for a given monitor resource. List the single sign-on configurations for a given monitor resource. */
-export const ListSingleSignOnConfigurations: API.OperationMethod<
+export const ListSingleSignOnConfigurations: API.PaginatedOperationMethod<
   ListSingleSignOnConfigurationsRequest,
   DatadogSingleSignOnResourceListResponse,
   ListSingleSignOnConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatadogSingleSignOnResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListSingleSignOnConfigurationsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<DatadogSingleSignOnResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSingleSignOnConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTagRulesError = AzureOpError;
 /** List the tag rules for a given monitor resource. List the tag rules for a given monitor resource. */
-export const ListTagRules: API.OperationMethod<
+export const ListTagRules: API.PaginatedOperationMethod<
   ListTagRulesRequest,
   MonitoringTagRulesListResponse,
   ListTagRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoringTagRules
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListTagRulesRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<MonitoringTagRulesListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MarketplaceAgreementsCreateOrUpdateError = AzureOpError;
 /** Create Datadog marketplace agreement in the subscription. Create Datadog marketplace agreement in the subscription. */
@@ -1488,7 +1619,8 @@ export const MarketplaceAgreementsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<MarketplaceAgreementsCreateOrUpdateRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<DatadogAgreementResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1505,7 +1637,8 @@ export const OrganizationsResubscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<OrganizationsResubscribeRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<OrganizationsResubscribeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1522,7 +1655,8 @@ export const RefreshMonitorSetPasswordLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<RefreshMonitorSetPasswordLinkRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<DatadogSetPasswordLink>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1539,7 +1673,8 @@ export const SetMonitorDefaultKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<SetMonitorDefaultKeyRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<SetMonitorDefaultKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1556,7 +1691,8 @@ export const SingleSignOnConfigurationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(201, __c25, 1) as any as S.Schema<SingleSignOnConfigurationsCreateOrUpdateRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<SingleSignOnConfigurationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1573,7 +1709,8 @@ export const TagRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<TagRulesCreateOrUpdateRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<TagRulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1590,7 +1727,8 @@ export const UpdateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(225, __c28, 1) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1607,7 +1745,8 @@ export const UpdateMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<UpdateMonitoredSubscriptionRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<UpdateMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1624,7 +1763,8 @@ export const UpdateMonitoredSubscriptionsCreateor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1793,12 +1933,14 @@ function __c5(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           datadogOrganizationId: S.String.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/subscriptionStatuses",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCreationSupportedRequest" });
@@ -1819,12 +1961,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/agreements",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceAgreementsRequest" });
@@ -1874,12 +2018,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listApiKeys",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorApiKeysRequest" });
@@ -1901,12 +2047,14 @@ function __c9(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorByResourceGroupRequest" });
@@ -1933,12 +2081,14 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitoredSubscriptionsRequest" });
@@ -1961,12 +2111,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listHosts",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorHostsRequest" });
@@ -2022,12 +2174,14 @@ function __c13(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listLinkedResources",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorLinkedResourcesRequest" });
@@ -2057,12 +2211,14 @@ function __c14(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorMonitoredResourcesRequest" });
@@ -2093,12 +2249,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/monitors",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorsRequest" });
@@ -2108,12 +2266,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Datadog/operations",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2173,12 +2334,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSingleSignOnConfigurationsRequest" });
@@ -2201,12 +2364,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules",
             code: 200,
             apiVersion: "2025-06-11",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTagRulesRequest" });

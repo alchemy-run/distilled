@@ -70,7 +70,7 @@ const triggerDevSpec: SdkSpec = {
   operationDecl: {
     contextType: "TriggerDevOpContext",
     commonErrorType: "TriggerDevOpError",
-    commonErrorClasses: ["UnknownTriggerDevError"],
+    serviceErrors: "TriggerDevServiceErrors",
     protocol: "TriggerDevProtocol",
     retry: "Retry.Retry",
   },

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3254,6 +3254,8 @@ export interface ListAddonsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An addon resource */
 export interface Addon {
@@ -3284,6 +3286,8 @@ export interface ListAuthorizationsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ExpressRoute Circuit Authorization */
 export interface ExpressRouteAuthorization {
@@ -3314,6 +3318,8 @@ export interface ListCloudLinksRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A cloud link resource */
 export interface CloudLink {
@@ -3344,6 +3350,8 @@ export interface ListClustersRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The resource model definition representing SKU */
 export type ClusterSku = ClustersCreateOrUpdateResponseSku;
@@ -3406,6 +3414,8 @@ export interface ListDatastoresRequest {
   privateCloudName: string;
   /** Name of the cluster */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A datastore resource */
 export interface Datastore {
@@ -3436,6 +3446,8 @@ export interface ListGlobalReachConnectionsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A global reach connection resource */
 export interface GlobalReachConnection {
@@ -3466,6 +3478,8 @@ export interface ListHcxEnterpriseSitesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An HCX Enterprise Site resource */
 export interface HcxEnterpriseSite {
@@ -3498,6 +3512,8 @@ export interface ListHostsRequest {
   privateCloudName: string;
   /** Name of the cluster */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The availability zones. */
 export type HostZonesList = Array<string>;
@@ -3536,6 +3552,8 @@ export interface ListIscsiPathByPrivateCloudRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An iSCSI path resource */
 export interface IscsiPath {
@@ -3566,6 +3584,8 @@ export interface ListLicensesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A license resource */
 export interface License {
@@ -3612,6 +3632,8 @@ export interface ListMaintenancesRequest {
   from?: string | undefined;
   /** date till which result should be returned. i.e. scheduledStartTime <= to */
   to?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A cluster resource */
 export interface Maintenance {
@@ -3635,7 +3657,10 @@ export interface MaintenanceListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3668,7 +3693,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -3681,6 +3706,8 @@ export interface ListPlacementPoliciesRequest {
   privateCloudName: string;
   /** Name of the cluster */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A vSphere Distributed Resource Scheduler (DRS) placement policy */
 export interface PlacementPolicy {
@@ -3726,6 +3753,8 @@ export interface AdminCredentials {
 export interface ListPrivateCloudInSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PrivateCloudTagsMap = { [key: string]: string | undefined };
@@ -3772,6 +3801,8 @@ export interface ListPrivateCloudsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListProvisionedNetworksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3780,6 +3811,8 @@ export interface ListProvisionedNetworksRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A provisioned network resource */
 export interface ProvisionedNetwork {
@@ -3810,6 +3843,8 @@ export interface ListPureStoragePoliciesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An instance describing a Pure Storage Policy Based Management policy */
 export interface PureStoragePolicy {
@@ -3842,6 +3877,8 @@ export interface ListScriptCmdletsRequest {
   privateCloudName: string;
   /** Name of the script package. */
   scriptPackageName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A cmdlet available for script execution */
 export interface ScriptCmdlet {
@@ -3872,6 +3909,8 @@ export interface ListScriptExecutionsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An instance of a script executed by a user - custom or AVS */
 export interface ScriptExecution {
@@ -3902,6 +3941,8 @@ export interface ListScriptPackagesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Script Package resources available for execution */
 export interface ScriptPackage {
@@ -3928,6 +3969,8 @@ export interface ScriptPackagesList {
 export interface ListSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes the type of resource the SKU applies to. */
 export type ResourceSkuResourceType = "privateClouds" | "privateClouds/clusters";
@@ -4037,6 +4080,8 @@ export interface ListVirtualMachinesRequest {
   privateCloudName: string;
   /** Name of the cluster */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Virtual Machine */
 export interface VirtualMachine {
@@ -4067,6 +4112,8 @@ export interface ListWorkloadNetworkDhcpRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX DHCP */
 export interface WorkloadNetworkDhcp {
@@ -4097,6 +4144,8 @@ export interface ListWorkloadNetworkDnsServicesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX DNS Service */
 export interface WorkloadNetworkDnsService {
@@ -4127,6 +4176,8 @@ export interface ListWorkloadNetworkDnsZonesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX DNS Zone */
 export interface WorkloadNetworkDnsZone {
@@ -4157,6 +4208,8 @@ export interface ListWorkloadNetworkGatewaysRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX Gateway. */
 export interface WorkloadNetworkGateway {
@@ -4187,6 +4240,8 @@ export interface ListWorkloadNetworkPortMirroringRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX Port Mirroring */
 export interface WorkloadNetworkPortMirroring {
@@ -4217,6 +4272,8 @@ export interface ListWorkloadNetworkPublicIPsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX Public IP Block */
 export interface WorkloadNetworkPublicIP {
@@ -4247,6 +4304,8 @@ export interface ListWorkloadNetworksRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Workload Network */
 export interface WorkloadNetwork {
@@ -4277,6 +4336,8 @@ export interface ListWorkloadNetworkSegmentsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX Segment */
 export interface WorkloadNetworkSegment {
@@ -4307,6 +4368,8 @@ export interface ListWorkloadNetworkVirtualMachinesRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX Virtual Machine */
 export interface WorkloadNetworkVirtualMachine {
@@ -4337,6 +4400,8 @@ export interface ListWorkloadNetworkVMGroupsRequest {
   resourceGroupName: string;
   /** Name of the private cloud */
   privateCloudName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** NSX VM Group */
 export interface WorkloadNetworkVMGroup {
@@ -5183,7 +5248,8 @@ export const AddonsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5, __c0, 5) as any as S.Schema<AddonsCreateOrUpdateRequest>,
   output: __S(6, __c0, 6) as any as S.Schema<AddonsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5200,7 +5266,8 @@ export const AuthorizationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(97, __c3, 1) as any as S.Schema<AuthorizationsCreateOrUpdateRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<AuthorizationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5217,7 +5284,8 @@ export const CheckLocationQuotaAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<CheckLocationQuotaAvailabilityRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<Quota>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5234,7 +5302,8 @@ export const CheckLocationTrialAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CheckLocationTrialAvailabilityRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<Trial>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5251,7 +5320,8 @@ export const CheckServiceComponentAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CheckServiceComponentAvailabilityRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<CheckServiceComponentAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5268,7 +5338,8 @@ export const CloudLinksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3297, __c103, 1) as any as S.Schema<CloudLinksCreateOrUpdateRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<CloudLinksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5285,7 +5356,8 @@ export const ClustersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ClustersCreateOrUpdateRequest>,
   output: __S(4033, __c126, 1) as any as S.Schema<ClustersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5302,7 +5374,8 @@ export const CreateWorkloadNetworkDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CreateWorkloadNetworkDhcpRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<CreateWorkloadNetworkDhcpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5319,7 +5392,8 @@ export const CreateWorkloadNetworkDnsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<CreateWorkloadNetworkDnsServiceRequest>,
   output: __S(5185, __c162, 1) as any as S.Schema<CreateWorkloadNetworkDnsServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5336,7 +5410,8 @@ export const CreateWorkloadNetworkDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<CreateWorkloadNetworkDnsZoneRequest>,
   output: __S(5633, __c176, 1) as any as S.Schema<CreateWorkloadNetworkDnsZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5353,7 +5428,8 @@ export const CreateWorkloadNetworkPortMirroring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateWorkloadNetworkPortMirroringRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<CreateWorkloadNetworkPortMirroringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5370,7 +5446,8 @@ export const CreateWorkloadNetworkPublicIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c19, 1) as any as S.Schema<CreateWorkloadNetworkPublicIPRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<CreateWorkloadNetworkPublicIPResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5387,7 +5464,8 @@ export const CreateWorkloadNetworkSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateWorkloadNetworkSegmentsRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<CreateWorkloadNetworkSegmentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5404,7 +5482,8 @@ export const CreateWorkloadNetworkVMGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateWorkloadNetworkVMGroupRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<CreateWorkloadNetworkVMGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5421,7 +5500,8 @@ export const DatastoresCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1346, __c42, 2) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
   output: __S(1347, __c42, 3) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5438,7 +5518,8 @@ export const DeleteAddon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteAddonRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteAddonResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5455,7 +5536,8 @@ export const DeleteAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteAuthorizationRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5472,7 +5554,8 @@ export const DeleteCloudLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteCloudLinkRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteCloudLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5489,7 +5572,8 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5506,7 +5590,8 @@ export const DeleteDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteDatastoreResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5523,7 +5608,8 @@ export const DeleteGlobalReachConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<DeleteGlobalReachConnectionRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteGlobalReachConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5540,7 +5626,8 @@ export const DeleteHcxEnterpriseSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteHcxEnterpriseSiteRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<DeleteHcxEnterpriseSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5557,7 +5644,8 @@ export const DeleteIscsiPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<DeleteIscsiPathRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteIscsiPathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5574,7 +5662,8 @@ export const DeleteLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteLicenseRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5591,7 +5680,8 @@ export const DeletePlacementPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeletePlacementPolicyRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeletePlacementPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5608,7 +5698,8 @@ export const DeletePrivateCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeletePrivateCloudRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeletePrivateCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5625,7 +5716,8 @@ export const DeletePureStoragePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeletePureStoragePolicyRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeletePureStoragePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5642,7 +5734,8 @@ export const DeleteScriptExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<DeleteScriptExecutionRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteScriptExecutionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5659,7 +5752,8 @@ export const DeleteWorkloadNetworkDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<DeleteWorkloadNetworkDhcpRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkDhcpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5676,7 +5770,8 @@ export const DeleteWorkloadNetworkDnsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeleteWorkloadNetworkDnsServiceRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkDnsServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5693,7 +5788,8 @@ export const DeleteWorkloadNetworkDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<DeleteWorkloadNetworkDnsZoneRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkDnsZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5710,7 +5806,8 @@ export const DeleteWorkloadNetworkPortMirroring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteWorkloadNetworkPortMirroringRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkPortMirroringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5727,7 +5824,8 @@ export const DeleteWorkloadNetworkPublicIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteWorkloadNetworkPublicIPRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkPublicIPResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5744,7 +5842,8 @@ export const DeleteWorkloadNetworkSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<DeleteWorkloadNetworkSegmentRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5761,7 +5860,8 @@ export const DeleteWorkloadNetworkVMGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeleteWorkloadNetworkVMGroupRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<DeleteWorkloadNetworkVMGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5778,7 +5878,8 @@ export const GetAddon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetAddonRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<GetAddonResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,7 +5896,8 @@ export const GetAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetAuthorizationRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<GetAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5812,7 +5914,8 @@ export const GetCloudLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetCloudLinkRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetCloudLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5829,7 +5932,8 @@ export const GetCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetClusterRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<GetClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5846,7 +5950,8 @@ export const GetDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<GetDatastoreResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5863,7 +5968,8 @@ export const GetGlobalReachConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetGlobalReachConnectionRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<GetGlobalReachConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5880,7 +5986,8 @@ export const GetHcxEnterpriseSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetHcxEnterpriseSiteRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<GetHcxEnterpriseSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5897,7 +6004,8 @@ export const GetHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetHostRequest>,
   output: __S(2724, __c85, 4) as any as S.Schema<GetHostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5914,7 +6022,8 @@ export const GetIscsiPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetIscsiPathRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<GetIscsiPathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5931,7 +6040,8 @@ export const GetLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetLicenseRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<GetLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5948,7 +6058,8 @@ export const GetLicenseProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetLicensePropertiesRequest>,
   output: __S(2976, __c93, 0) as any as S.Schema<GetLicensePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5965,7 +6076,8 @@ export const GetMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetMaintenanceRequest>,
   output: __S(3067, __c95, 27) as any as S.Schema<GetMaintenanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5982,7 +6094,8 @@ export const GetPlacementPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetPlacementPolicyRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<GetPlacementPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5999,7 +6112,8 @@ export const GetPrivateCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<GetPrivateCloudRequest>,
   output: __S(3200, __c100, 0) as any as S.Schema<GetPrivateCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6016,7 +6130,8 @@ export const GetPrivateCloudVcfLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<GetPrivateCloudVcfLicenseRequest>,
   output: __S(2976, __c93, 0) as any as S.Schema<GetPrivateCloudVcfLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6033,7 +6148,8 @@ export const GetProvisionedNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<GetProvisionedNetworkRequest>,
   output: __S(3393, __c106, 1) as any as S.Schema<GetProvisionedNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6050,7 +6166,8 @@ export const GetPureStoragePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<GetPureStoragePolicyRequest>,
   output: __S(3456, __c108, 0) as any as S.Schema<GetPureStoragePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6067,7 +6184,8 @@ export const GetScriptCmdlet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<GetScriptCmdletRequest>,
   output: __S(3555, __c111, 3) as any as S.Schema<GetScriptCmdletResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6084,7 +6202,8 @@ export const GetScriptExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<GetScriptExecutionRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<GetScriptExecutionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6101,7 +6220,8 @@ export const GetScriptExecutionExecutionLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3681, __c115, 1) as any as S.Schema<GetScriptExecutionExecutionLogsRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<GetScriptExecutionExecutionLogsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6118,7 +6238,8 @@ export const GetScriptPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<GetScriptPackageRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<GetScriptPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6135,7 +6256,8 @@ export const GetVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetVirtualMachineRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<GetVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6152,7 +6274,8 @@ export const GetWorkloadNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetWorkloadNetworkRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<GetWorkloadNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6169,7 +6292,8 @@ export const GetWorkloadNetworkDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetWorkloadNetworkDhcpRequest>,
   output: __S(3936, __c123, 0) as any as S.Schema<GetWorkloadNetworkDhcpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6186,7 +6310,8 @@ export const GetWorkloadNetworkDnsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<GetWorkloadNetworkDnsServiceRequest>,
   output: __S(4000, __c125, 0) as any as S.Schema<GetWorkloadNetworkDnsServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6203,7 +6328,8 @@ export const GetWorkloadNetworkDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetWorkloadNetworkDnsZoneRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<GetWorkloadNetworkDnsZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6220,7 +6346,8 @@ export const GetWorkloadNetworkGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<GetWorkloadNetworkGatewayRequest>,
   output: __S(4289, __c134, 1) as any as S.Schema<GetWorkloadNetworkGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6237,7 +6364,8 @@ export const GetWorkloadNetworkPortMirroring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetWorkloadNetworkPortMirroringRequest>,
   output: __S(4352, __c136, 0) as any as S.Schema<GetWorkloadNetworkPortMirroringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6254,7 +6382,8 @@ export const GetWorkloadNetworkPublicIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetWorkloadNetworkPublicIPRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<GetWorkloadNetworkPublicIPResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6271,7 +6400,8 @@ export const GetWorkloadNetworkSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<GetWorkloadNetworkSegmentRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<GetWorkloadNetworkSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6288,7 +6418,8 @@ export const GetWorkloadNetworkVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<GetWorkloadNetworkVirtualMachineRequest>,
   output: __S(4545, __c142, 1) as any as S.Schema<GetWorkloadNetworkVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6305,7 +6436,8 @@ export const GetWorkloadNetworkVMGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<GetWorkloadNetworkVMGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<GetWorkloadNetworkVMGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6322,7 +6454,8 @@ export const GlobalReachConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4641, __c145, 1) as any as S.Schema<GlobalReachConnectionsCreateOrUpdateRequest>,
   output: __S(4642, __c145, 2) as any as S.Schema<GlobalReachConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6339,7 +6472,8 @@ export const HcxEnterpriseSitesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<HcxEnterpriseSitesCreateOrUpdateRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<HcxEnterpriseSitesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6356,7 +6490,8 @@ export const IscsiPathsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4705, __c147, 1) as any as S.Schema<IscsiPathsCreateOrUpdateRequest>,
   output: __S(4706, __c147, 2) as any as S.Schema<IscsiPathsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6373,7 +6508,8 @@ export const LicensesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<LicensesCreateOrUpdateRequest>,
   output: __S(4833, __c151, 1) as any as S.Schema<LicensesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6382,71 +6518,103 @@ export const LicensesCreateOrUpdate: API.OperationMethod<
 
 export type ListAddonsError = AzureOpError;
 /** List Addon resources by PrivateCloud */
-export const ListAddons: API.OperationMethod<
+export const ListAddons: API.PaginatedOperationMethod<
   ListAddonsRequest,
   AddonList,
   ListAddonsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Addon
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<ListAddonsRequest>,
   output: __S(4898, __c153, 2) as any as S.Schema<AddonList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAddons",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAuthorizationsError = AzureOpError;
 /** List ExpressRouteAuthorization resources by PrivateCloud */
-export const ListAuthorizations: API.OperationMethod<
+export const ListAuthorizations: API.PaginatedOperationMethod<
   ListAuthorizationsRequest,
   ExpressRouteAuthorizationList,
   ListAuthorizationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExpressRouteAuthorization
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<ListAuthorizationsRequest>,
   output: __S(4930, __c154, 2) as any as S.Schema<ExpressRouteAuthorizationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuthorizations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudLinksError = AzureOpError;
 /** List CloudLink resources by PrivateCloud */
-export const ListCloudLinks: API.OperationMethod<
+export const ListCloudLinks: API.PaginatedOperationMethod<
   ListCloudLinksRequest,
   CloudLinkList,
   ListCloudLinksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<ListCloudLinksRequest>,
   output: __S(4962, __c155, 2) as any as S.Schema<CloudLinkList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudLinks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClustersError = AzureOpError;
 /** List Cluster resources by PrivateCloud */
-export const ListClusters: API.OperationMethod<
+export const ListClusters: API.PaginatedOperationMethod<
   ListClustersRequest,
   ClusterList,
   ListClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<ListClustersRequest>,
   output: __S(4994, __c156, 2) as any as S.Schema<ClusterList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterZonesError = AzureOpError;
 /** List hosts by zone in a cluster */
@@ -6458,7 +6626,8 @@ export const ListClusterZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<ListClusterZonesRequest>,
   output: __S(5027, __c157, 3) as any as S.Schema<ClusterZoneList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6467,156 +6636,228 @@ export const ListClusterZones: API.OperationMethod<
 
 export type ListDatastoresError = AzureOpError;
 /** List Datastore resources by Cluster */
-export const ListDatastores: API.OperationMethod<
+export const ListDatastores: API.PaginatedOperationMethod<
   ListDatastoresRequest,
   DatastoreList,
   ListDatastoresError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Datastore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<ListDatastoresRequest>,
   output: __S(5058, __c158, 2) as any as S.Schema<DatastoreList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatastores",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGlobalReachConnectionsError = AzureOpError;
 /** List GlobalReachConnection resources by PrivateCloud */
-export const ListGlobalReachConnections: API.OperationMethod<
+export const ListGlobalReachConnections: API.PaginatedOperationMethod<
   ListGlobalReachConnectionsRequest,
   GlobalReachConnectionList,
   ListGlobalReachConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GlobalReachConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<ListGlobalReachConnectionsRequest>,
   output: __S(5090, __c159, 2) as any as S.Schema<GlobalReachConnectionList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalReachConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHcxEnterpriseSitesError = AzureOpError;
 /** List HcxEnterpriseSite resources by PrivateCloud */
-export const ListHcxEnterpriseSites: API.OperationMethod<
+export const ListHcxEnterpriseSites: API.PaginatedOperationMethod<
   ListHcxEnterpriseSitesRequest,
   HcxEnterpriseSiteList,
   ListHcxEnterpriseSitesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HcxEnterpriseSite
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ListHcxEnterpriseSitesRequest>,
   output: __S(5122, __c160, 2) as any as S.Schema<HcxEnterpriseSiteList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHcxEnterpriseSites",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHostsError = AzureOpError;
 /** List Host resources by Cluster */
-export const ListHosts: API.OperationMethod<
+export const ListHosts: API.PaginatedOperationMethod<
   ListHostsRequest,
   HostListResult,
   ListHostsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Host
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<ListHostsRequest>,
   output: __S(5154, __c161, 2) as any as S.Schema<HostListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHosts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIscsiPathByPrivateCloudError = AzureOpError;
 /** List IscsiPath resources by PrivateCloud */
-export const ListIscsiPathByPrivateCloud: API.OperationMethod<
+export const ListIscsiPathByPrivateCloud: API.PaginatedOperationMethod<
   ListIscsiPathByPrivateCloudRequest,
   IscsiPathListResult,
   ListIscsiPathByPrivateCloudError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IscsiPath
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<ListIscsiPathByPrivateCloudRequest>,
   output: __S(5282, __c165, 2) as any as S.Schema<IscsiPathListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIscsiPathByPrivateCloud",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLicensesError = AzureOpError;
 /** List License resources by PrivateCloud */
-export const ListLicenses: API.OperationMethod<
+export const ListLicenses: API.PaginatedOperationMethod<
   ListLicensesRequest,
   LicenseListResult,
   ListLicensesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  License
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<ListLicensesRequest>,
   output: __S(5314, __c166, 2) as any as S.Schema<LicenseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLicenses",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMaintenancesError = AzureOpError;
 /** List Maintenance resources by subscription ID */
-export const ListMaintenances: API.OperationMethod<
+export const ListMaintenances: API.PaginatedOperationMethod<
   ListMaintenancesRequest,
   MaintenanceListResult,
   ListMaintenancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Maintenance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<ListMaintenancesRequest>,
   output: __S(5346, __c167, 2) as any as S.Schema<MaintenanceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMaintenances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(5380, __c168, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPlacementPoliciesError = AzureOpError;
 /** List PlacementPolicy resources by Cluster */
-export const ListPlacementPolicies: API.OperationMethod<
+export const ListPlacementPolicies: API.PaginatedOperationMethod<
   ListPlacementPoliciesRequest,
   PlacementPoliciesList,
   ListPlacementPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PlacementPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<ListPlacementPoliciesRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<PlacementPoliciesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPlacementPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateCloudAdminCredentialsError = AzureOpError;
 /** List the admin credentials for the private cloud */
@@ -6628,7 +6869,8 @@ export const ListPrivateCloudAdminCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<ListPrivateCloudAdminCredentialsRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<AdminCredentials>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6637,326 +6879,478 @@ export const ListPrivateCloudAdminCredentials: API.OperationMethod<
 
 export type ListPrivateCloudInSubscriptionError = AzureOpError;
 /** List PrivateCloud resources by subscription ID */
-export const ListPrivateCloudInSubscription: API.OperationMethod<
+export const ListPrivateCloudInSubscription: API.PaginatedOperationMethod<
   ListPrivateCloudInSubscriptionRequest,
   PrivateCloudList,
   ListPrivateCloudInSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateCloud
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<ListPrivateCloudInSubscriptionRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<PrivateCloudList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateCloudInSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateCloudsError = AzureOpError;
 /** List PrivateCloud resources by resource group */
-export const ListPrivateClouds: API.OperationMethod<
+export const ListPrivateClouds: API.PaginatedOperationMethod<
   ListPrivateCloudsRequest,
   PrivateCloudList,
   ListPrivateCloudsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateCloud
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<ListPrivateCloudsRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<PrivateCloudList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateClouds",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProvisionedNetworksError = AzureOpError;
 /** List ProvisionedNetwork resources by PrivateCloud */
-export const ListProvisionedNetworks: API.OperationMethod<
+export const ListProvisionedNetworks: API.PaginatedOperationMethod<
   ListProvisionedNetworksRequest,
   ProvisionedNetworkListResult,
   ListProvisionedNetworksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProvisionedNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<ListProvisionedNetworksRequest>,
   output: __S(5570, __c174, 2) as any as S.Schema<ProvisionedNetworkListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProvisionedNetworks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPureStoragePoliciesError = AzureOpError;
 /** List PureStoragePolicy resources by PrivateCloud */
-export const ListPureStoragePolicies: API.OperationMethod<
+export const ListPureStoragePolicies: API.PaginatedOperationMethod<
   ListPureStoragePoliciesRequest,
   PureStoragePolicyListResult,
   ListPureStoragePoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PureStoragePolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<ListPureStoragePoliciesRequest>,
   output: __S(5602, __c175, 2) as any as S.Schema<PureStoragePolicyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPureStoragePolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScriptCmdletsError = AzureOpError;
 /** List ScriptCmdlet resources by ScriptPackage */
-export const ListScriptCmdlets: API.OperationMethod<
+export const ListScriptCmdlets: API.PaginatedOperationMethod<
   ListScriptCmdletsRequest,
   ScriptCmdletsList,
   ListScriptCmdletsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScriptCmdlet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<ListScriptCmdletsRequest>,
   output: __S(5730, __c179, 2) as any as S.Schema<ScriptCmdletsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptCmdlets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScriptExecutionsError = AzureOpError;
 /** List ScriptExecution resources by PrivateCloud */
-export const ListScriptExecutions: API.OperationMethod<
+export const ListScriptExecutions: API.PaginatedOperationMethod<
   ListScriptExecutionsRequest,
   ScriptExecutionsList,
   ListScriptExecutionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScriptExecution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<ListScriptExecutionsRequest>,
   output: __S(5762, __c180, 2) as any as S.Schema<ScriptExecutionsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptExecutions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScriptPackagesError = AzureOpError;
 /** List ScriptPackage resources by PrivateCloud */
-export const ListScriptPackages: API.OperationMethod<
+export const ListScriptPackages: API.PaginatedOperationMethod<
   ListScriptPackagesRequest,
   ScriptPackagesList,
   ListScriptPackagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScriptPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<ListScriptPackagesRequest>,
   output: __S(5794, __c181, 2) as any as S.Schema<ScriptPackagesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptPackages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusError = AzureOpError;
 /** A list of SKUs. */
-export const ListSkus: API.OperationMethod<
+export const ListSkus: API.PaginatedOperationMethod<
   ListSkusRequest,
   PagedResourceSku,
   ListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(5836, __c182, 12) as any as S.Schema<PagedResourceSku>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachinesError = AzureOpError;
 /** List VirtualMachine resources by Cluster */
-export const ListVirtualMachines: API.OperationMethod<
+export const ListVirtualMachines: API.PaginatedOperationMethod<
   ListVirtualMachinesRequest,
   VirtualMachinesList,
   ListVirtualMachinesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<ListVirtualMachinesRequest>,
   output: __S(5858, __c183, 2) as any as S.Schema<VirtualMachinesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkDhcpError = AzureOpError;
 /** List WorkloadNetworkDhcp resources by WorkloadNetwork */
-export const ListWorkloadNetworkDhcp: API.OperationMethod<
+export const ListWorkloadNetworkDhcp: API.PaginatedOperationMethod<
   ListWorkloadNetworkDhcpRequest,
   WorkloadNetworkDhcpList,
   ListWorkloadNetworkDhcpError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkDhcp
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<ListWorkloadNetworkDhcpRequest>,
   output: __S(5890, __c184, 2) as any as S.Schema<WorkloadNetworkDhcpList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkDhcp",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkDnsServicesError = AzureOpError;
 /** List WorkloadNetworkDnsService resources by WorkloadNetwork */
-export const ListWorkloadNetworkDnsServices: API.OperationMethod<
+export const ListWorkloadNetworkDnsServices: API.PaginatedOperationMethod<
   ListWorkloadNetworkDnsServicesRequest,
   WorkloadNetworkDnsServicesList,
   ListWorkloadNetworkDnsServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkDnsService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<ListWorkloadNetworkDnsServicesRequest>,
   output: __S(5922, __c185, 2) as any as S.Schema<WorkloadNetworkDnsServicesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkDnsServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkDnsZonesError = AzureOpError;
 /** List WorkloadNetworkDnsZone resources by WorkloadNetwork */
-export const ListWorkloadNetworkDnsZones: API.OperationMethod<
+export const ListWorkloadNetworkDnsZones: API.PaginatedOperationMethod<
   ListWorkloadNetworkDnsZonesRequest,
   WorkloadNetworkDnsZonesList,
   ListWorkloadNetworkDnsZonesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkDnsZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<ListWorkloadNetworkDnsZonesRequest>,
   output: __S(5954, __c186, 2) as any as S.Schema<WorkloadNetworkDnsZonesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkDnsZones",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkGatewaysError = AzureOpError;
 /** List WorkloadNetworkGateway resources by WorkloadNetwork */
-export const ListWorkloadNetworkGateways: API.OperationMethod<
+export const ListWorkloadNetworkGateways: API.PaginatedOperationMethod<
   ListWorkloadNetworkGatewaysRequest,
   WorkloadNetworkGatewayList,
   ListWorkloadNetworkGatewaysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkGateway
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<ListWorkloadNetworkGatewaysRequest>,
   output: __S(5986, __c187, 2) as any as S.Schema<WorkloadNetworkGatewayList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkGateways",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkPortMirroringError = AzureOpError;
 /** List WorkloadNetworkPortMirroring resources by WorkloadNetwork */
-export const ListWorkloadNetworkPortMirroring: API.OperationMethod<
+export const ListWorkloadNetworkPortMirroring: API.PaginatedOperationMethod<
   ListWorkloadNetworkPortMirroringRequest,
   WorkloadNetworkPortMirroringList,
   ListWorkloadNetworkPortMirroringError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkPortMirroring
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<ListWorkloadNetworkPortMirroringRequest>,
   output: __S(6018, __c188, 2) as any as S.Schema<WorkloadNetworkPortMirroringList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkPortMirroring",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkPublicIPsError = AzureOpError;
 /** List WorkloadNetworkPublicIP resources by WorkloadNetwork */
-export const ListWorkloadNetworkPublicIPs: API.OperationMethod<
+export const ListWorkloadNetworkPublicIPs: API.PaginatedOperationMethod<
   ListWorkloadNetworkPublicIPsRequest,
   WorkloadNetworkPublicIPsList,
   ListWorkloadNetworkPublicIPsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkPublicIP
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListWorkloadNetworkPublicIPsRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WorkloadNetworkPublicIPsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkPublicIPs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworksError = AzureOpError;
 /** List WorkloadNetwork resources by PrivateCloud */
-export const ListWorkloadNetworks: API.OperationMethod<
+export const ListWorkloadNetworks: API.PaginatedOperationMethod<
   ListWorkloadNetworksRequest,
   WorkloadNetworkList,
   ListWorkloadNetworksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListWorkloadNetworksRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<WorkloadNetworkList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkSegmentsError = AzureOpError;
 /** List WorkloadNetworkSegment resources by WorkloadNetwork */
-export const ListWorkloadNetworkSegments: API.OperationMethod<
+export const ListWorkloadNetworkSegments: API.PaginatedOperationMethod<
   ListWorkloadNetworkSegmentsRequest,
   WorkloadNetworkSegmentsList,
   ListWorkloadNetworkSegmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkSegment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListWorkloadNetworkSegmentsRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<WorkloadNetworkSegmentsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkSegments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkVirtualMachinesError = AzureOpError;
 /** List WorkloadNetworkVirtualMachine resources by WorkloadNetwork */
-export const ListWorkloadNetworkVirtualMachines: API.OperationMethod<
+export const ListWorkloadNetworkVirtualMachines: API.PaginatedOperationMethod<
   ListWorkloadNetworkVirtualMachinesRequest,
   WorkloadNetworkVirtualMachinesList,
   ListWorkloadNetworkVirtualMachinesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkVirtualMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListWorkloadNetworkVirtualMachinesRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<WorkloadNetworkVirtualMachinesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkVirtualMachines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadNetworkVMGroupsError = AzureOpError;
 /** List WorkloadNetworkVMGroup resources by WorkloadNetwork */
-export const ListWorkloadNetworkVMGroups: API.OperationMethod<
+export const ListWorkloadNetworkVMGroups: API.PaginatedOperationMethod<
   ListWorkloadNetworkVMGroupsRequest,
   WorkloadNetworkVMGroupsList,
   ListWorkloadNetworkVMGroupsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadNetworkVMGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListWorkloadNetworkVMGroupsRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<WorkloadNetworkVMGroupsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadNetworkVMGroups",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MaintenancesInitiateChecksError = AzureOpError;
 /** Initiate maintenance readiness checks */
@@ -6968,7 +7362,8 @@ export const MaintenancesInitiateChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<MaintenancesInitiateChecksRequest>,
   output: __S(3067, __c95, 27) as any as S.Schema<MaintenancesInitiateChecksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6985,7 +7380,8 @@ export const MaintenancesReschedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<MaintenancesRescheduleRequest>,
   output: __S(3067, __c95, 27) as any as S.Schema<MaintenancesRescheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7002,7 +7398,8 @@ export const MaintenancesSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<MaintenancesScheduleRequest>,
   output: __S(3067, __c95, 27) as any as S.Schema<MaintenancesScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7019,7 +7416,8 @@ export const PlacementPoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(515, __c16, 3) as any as S.Schema<PlacementPoliciesCreateOrUpdateRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<PlacementPoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7036,7 +7434,8 @@ export const PrivateCloudsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(545, __c17, 1) as any as S.Schema<PrivateCloudsCreateOrUpdateRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<PrivateCloudsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7053,7 +7452,8 @@ export const PureStoragePoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c21, 1) as any as S.Schema<PureStoragePoliciesCreateOrUpdateRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<PureStoragePoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7070,7 +7470,8 @@ export const RotatePrivateCloudNsxtPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<RotatePrivateCloudNsxtPasswordRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<RotatePrivateCloudNsxtPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7087,7 +7488,8 @@ export const RotatePrivateCloudVcenterPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<RotatePrivateCloudVcenterPasswordRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<RotatePrivateCloudVcenterPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7104,7 +7506,8 @@ export const ScriptExecutionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(769, __c24, 1) as any as S.Schema<ScriptExecutionsCreateOrUpdateRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<ScriptExecutionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7121,7 +7524,8 @@ export const UpdateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(801, __c25, 1) as any as S.Schema<UpdateClusterRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<UpdateClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7138,7 +7542,8 @@ export const UpdateHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(833, __c26, 1) as any as S.Schema<UpdateHostRequest>,
   output: __S(2724, __c85, 4) as any as S.Schema<UpdateHostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7155,7 +7560,8 @@ export const UpdatePlacementPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(865, __c27, 1) as any as S.Schema<UpdatePlacementPolicyRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<UpdatePlacementPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7172,7 +7578,8 @@ export const UpdatePrivateCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(897, __c28, 1) as any as S.Schema<UpdatePrivateCloudRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<UpdatePrivateCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7189,7 +7596,8 @@ export const UpdateWorkloadNetworkDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<UpdateWorkloadNetworkDhcpRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<UpdateWorkloadNetworkDhcpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7206,7 +7614,8 @@ export const UpdateWorkloadNetworkDnsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<UpdateWorkloadNetworkDnsServiceRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<UpdateWorkloadNetworkDnsServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7223,7 +7632,8 @@ export const UpdateWorkloadNetworkDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<UpdateWorkloadNetworkDnsZoneRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<UpdateWorkloadNetworkDnsZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7240,7 +7650,8 @@ export const UpdateWorkloadNetworkPortMirroring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UpdateWorkloadNetworkPortMirroringRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<UpdateWorkloadNetworkPortMirroringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7257,7 +7668,8 @@ export const UpdateWorkloadNetworkSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateWorkloadNetworkSegmentsRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateWorkloadNetworkSegmentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7274,7 +7686,8 @@ export const UpdateWorkloadNetworkVMGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<UpdateWorkloadNetworkVMGroupRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<UpdateWorkloadNetworkVMGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7291,7 +7704,8 @@ export const VirtualMachinesRestrictMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<VirtualMachinesRestrictMovementRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<VirtualMachinesRestrictMovementResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7539,12 +7953,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkPublicIPsRequest" });
@@ -7567,12 +7983,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworksRequest" });
@@ -7595,12 +8013,14 @@ function __c10(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkSegmentsRequest" });
@@ -7623,12 +8043,14 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkVirtualMachinesRequest" });
@@ -7651,12 +8073,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkVMGroupsRequest" });
@@ -11135,12 +11559,14 @@ function __c153(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAddonsRequest" });
@@ -11163,12 +11589,14 @@ function __c154(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAuthorizationsRequest" });
@@ -11191,12 +11619,14 @@ function __c155(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/cloudLinks",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudLinksRequest" });
@@ -11219,12 +11649,14 @@ function __c156(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClustersRequest" });
@@ -11283,12 +11715,14 @@ function __c158(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatastoresRequest" });
@@ -11311,12 +11745,14 @@ function __c159(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGlobalReachConnectionsRequest" });
@@ -11339,12 +11775,14 @@ function __c160(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHcxEnterpriseSitesRequest" });
@@ -11368,12 +11806,14 @@ function __c161(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/hosts",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHostsRequest" });
@@ -11460,12 +11900,14 @@ function __c165(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIscsiPathByPrivateCloudRequest" });
@@ -11488,12 +11930,14 @@ function __c166(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/licenses",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLicensesRequest" });
@@ -11520,12 +11964,14 @@ function __c167(j: number): any {
           status: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           to: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/maintenances",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMaintenancesRequest" });
@@ -11544,12 +11990,15 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AVS/operations",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -11577,7 +12026,7 @@ function __c168(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(5379, __c168, 3)),
+          value: __S(5379, __c168, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -11592,12 +12041,14 @@ function __c169(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPlacementPoliciesRequest" });
@@ -11646,12 +12097,14 @@ function __c171(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/privateClouds",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateCloudInSubscriptionRequest" });
@@ -11677,12 +12130,14 @@ function __c173(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateCloudsRequest" });
@@ -11696,12 +12151,14 @@ function __c174(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/provisionedNetworks",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProvisionedNetworksRequest" });
@@ -11724,12 +12181,14 @@ function __c175(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/pureStoragePolicies",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPureStoragePoliciesRequest" });
@@ -11816,12 +12275,14 @@ function __c179(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
           scriptPackageName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptCmdletsRequest" });
@@ -11844,12 +12305,14 @@ function __c180(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptExecutionsRequest" });
@@ -11872,12 +12335,14 @@ function __c181(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptPackagesRequest" });
@@ -11898,12 +12363,14 @@ function __c182(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/skus",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusRequest" });
@@ -11987,12 +12454,14 @@ function __c183(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachinesRequest" });
@@ -12015,12 +12484,14 @@ function __c184(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkDhcpRequest" });
@@ -12043,12 +12514,14 @@ function __c185(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkDnsServicesRequest" });
@@ -12071,12 +12544,14 @@ function __c186(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkDnsZonesRequest" });
@@ -12099,12 +12574,14 @@ function __c187(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkGatewaysRequest" });
@@ -12127,12 +12604,14 @@ function __c188(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           privateCloudName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadNetworkPortMirroringRequest" });

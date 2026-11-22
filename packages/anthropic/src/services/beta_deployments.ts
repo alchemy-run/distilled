@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -782,7 +782,8 @@ export const archiveDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ArchiveDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -799,7 +800,8 @@ export const createDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -816,7 +818,8 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -835,7 +838,8 @@ export const listDeployments: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c6, 0) as any as S.Schema<ListDeploymentsRequest>,
     output: __S(50, __c6, 2) as any as S.Schema<BetaManagedAgentsListDeploymentsData>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -861,7 +865,8 @@ export const pauseDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<PauseDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -878,7 +883,8 @@ export const runDeploymentNow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<RunDeploymentNowRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<BetaManagedAgentsDeploymentRun>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -895,7 +901,8 @@ export const unpauseDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<UnpauseDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -912,7 +919,8 @@ export const updateDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81, __c10, 1) as any as S.Schema<UpdateDeploymentRequest>,
   output: __S(23, __c2, 7) as any as S.Schema<BetaManagedAgentsDeployment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

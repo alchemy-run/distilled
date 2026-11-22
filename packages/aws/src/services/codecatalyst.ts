@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -793,14 +794,15 @@ export const createAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<CreateAccessTokenRequest>,
   output: __S(337, __c42, 1) as any as S.Schema<CreateAccessTokenResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
@@ -831,14 +833,15 @@ export const createDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<CreateDevEnvironmentRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<CreateDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevEnvironment",
@@ -865,14 +868,15 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<CreateProjectResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
@@ -900,14 +904,15 @@ export const createSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
   output: __S(385, __c48, 1) as any as S.Schema<CreateSourceRepositoryResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepository",
@@ -936,14 +941,15 @@ export const createSourceRepositoryBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateSourceRepositoryBranchRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateSourceRepositoryBranchResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepositoryBranch",
@@ -970,14 +976,15 @@ export const deleteAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteAccessTokenRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteAccessTokenResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
@@ -1004,14 +1011,15 @@ export const deleteDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteDevEnvironmentRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevEnvironment",
@@ -1038,14 +1046,15 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<DeleteProjectResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
@@ -1072,14 +1081,15 @@ export const deleteSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<DeleteSourceRepositoryResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceRepository",
@@ -1108,14 +1118,15 @@ export const deleteSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeleteSpaceRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<DeleteSpaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
@@ -1142,14 +1153,15 @@ export const getDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetDevEnvironmentRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<GetDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevEnvironment",
@@ -1176,14 +1188,15 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
@@ -1210,14 +1223,15 @@ export const getSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetSourceRepositoryRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<GetSourceRepositoryResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepository",
@@ -1245,14 +1259,15 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetSourceRepositoryCloneUrlsRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<GetSourceRepositoryCloneUrlsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepositoryCloneUrls",
@@ -1279,14 +1294,15 @@ export const getSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetSpaceRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetSpaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
@@ -1314,14 +1330,15 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
@@ -1348,14 +1365,15 @@ export const getUserDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetUserDetailsRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<GetUserDetailsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserDetails",
@@ -1382,14 +1400,15 @@ export const getWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetWorkflowRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<GetWorkflowResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
@@ -1416,14 +1435,15 @@ export const getWorkflowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetWorkflowRunRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<GetWorkflowRunResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
@@ -1451,14 +1471,15 @@ export const listAccessTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListAccessTokensRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ListAccessTokensResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessTokens",
@@ -1492,14 +1513,15 @@ export const listDevEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListDevEnvironmentsRequest>,
   output: __S(171, __c21, 3) as any as S.Schema<ListDevEnvironmentsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevEnvironments",
@@ -1533,14 +1555,15 @@ export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListDevEnvironmentSessionsRequest>,
   output: __S(195, __c24, 3) as any as S.Schema<ListDevEnvironmentSessionsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevEnvironmentSessions",
@@ -1582,14 +1605,15 @@ export const listEventLogs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListEventLogsRequest>,
   output: __S(206, __c25, 6) as any as S.Schema<ListEventLogsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventLogs",
@@ -1623,14 +1647,15 @@ export const listProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(211, __c26, 3) as any as S.Schema<ListProjectsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjects",
@@ -1664,14 +1689,15 @@ export const listSourceRepositories: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListSourceRepositoriesRequest>,
   output: __S(219, __c27, 3) as any as S.Schema<ListSourceRepositoriesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceRepositories",
@@ -1705,14 +1731,15 @@ export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListSourceRepositoryBranchesRequest>,
   output: __S(226, __c28, 2) as any as S.Schema<ListSourceRepositoryBranchesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceRepositoryBranches",
@@ -1746,14 +1773,15 @@ export const listSpaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ListSpacesRequest>,
   output: __S(234, __c29, 2) as any as S.Schema<ListSpacesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaces",
@@ -1782,14 +1810,15 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListWorkflowRunsRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<ListWorkflowRunsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflowRuns",
@@ -1823,14 +1852,15 @@ export const listWorkflows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListWorkflowsRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<ListWorkflowsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
@@ -1863,14 +1893,15 @@ export const startDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<StartDevEnvironmentRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<StartDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironment",
@@ -1897,14 +1928,15 @@ export const startDevEnvironmentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(274, __c34, 2) as any as S.Schema<StartDevEnvironmentSessionRequest>,
   output: __S(276, __c34, 4) as any as S.Schema<StartDevEnvironmentSessionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironmentSession",
@@ -1931,14 +1963,15 @@ export const startWorkflowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<StartWorkflowRunRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<StartWorkflowRunResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
@@ -1965,14 +1998,15 @@ export const stopDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<StopDevEnvironmentRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<StopDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironment",
@@ -1999,14 +2033,15 @@ export const stopDevEnvironmentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<StopDevEnvironmentSessionRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<StopDevEnvironmentSessionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironmentSession",
@@ -2033,14 +2068,15 @@ export const updateDevEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<UpdateDevEnvironmentRequest>,
   output: __S(305, __c38, 1) as any as S.Schema<UpdateDevEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevEnvironment",
@@ -2067,14 +2103,15 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<UpdateProjectResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
@@ -2101,14 +2138,15 @@ export const updateSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<UpdateSpaceRequest>,
   output: __S(321, __c40, 1) as any as S.Schema<UpdateSpaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
@@ -2135,14 +2173,15 @@ export const verifySession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<VerifySessionRequest>,
   output: __S(329, __c41, 1) as any as S.Schema<VerifySessionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySession",

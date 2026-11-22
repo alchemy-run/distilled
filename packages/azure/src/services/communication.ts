@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -816,6 +816,8 @@ export interface ListCommunicationServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CommunicationServiceResourceTagsMap = { [key: string]: string | undefined };
@@ -866,6 +868,8 @@ export interface CommunicationServiceResourceList {
 export interface ListCommunicationServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCommunicationServiceKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -893,6 +897,8 @@ export interface ListDomainByEmailServiceResourceRequest {
   resourceGroupName: string;
   /** The name of the EmailService resource. */
   emailServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DomainResourceTagsMap = { [key: string]: string | undefined };
@@ -927,6 +933,8 @@ export interface ListEmailServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EmailServiceResourceTagsMap = { [key: string]: string | undefined };
@@ -959,6 +967,8 @@ export interface EmailServiceResourceList {
 export interface ListEmailServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEmailServiceVerifiedExchangeOnlineDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -968,7 +978,10 @@ export interface ListEmailServiceVerifiedExchangeOnlineDomainsRequest {
 export type VerifiedExchangeOnlineDomainList = Array<string>;
 export type ListEmailServiceVerifiedExchangeOnlineDomainsResponse =
   VerifiedExchangeOnlineDomainList;
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1001,7 +1014,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1014,6 +1027,8 @@ export interface ListSenderUsernameByDomainsRequest {
   emailServiceName: string;
   /** The name of the Domains resource. */
   domainName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A class representing a SenderUsername resource. */
 export interface SenderUsernameResource {
@@ -1044,6 +1059,8 @@ export interface ListSmtpUsernamesRequest {
   resourceGroupName: string;
   /** The name of the CommunicationService resource. */
   communicationServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The object describing the smtp username resource. */
 export interface SmtpUsernameResource {
@@ -1078,6 +1095,8 @@ export interface ListSuppressionListAddressesRequest {
   domainName: string;
   /** The name of the suppression list. */
   suppressionListName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A object that represents a SuppressionList record. */
 export interface SuppressionListAddressResource {
@@ -1111,6 +1130,8 @@ export interface ListSuppressionListByDomainRequest {
   emailServiceName: string;
   /** The name of the Domains resource. */
   domainName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A class representing a SuppressionList resource. */
 export interface SuppressionListResource {
@@ -1441,7 +1462,8 @@ export const CancelDomainVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelDomainVerificationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelDomainVerificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1458,7 +1480,8 @@ export const CheckCommunicationServiceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CheckCommunicationServiceNameAvailabilityRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CheckCommunicationServiceNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1475,7 +1498,8 @@ export const CommunicationServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(185, __c23, 1) as any as S.Schema<CommunicationServicesCreateOrUpdateRequest>,
   output: __S(186, __c23, 2) as any as S.Schema<CommunicationServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1492,7 +1516,8 @@ export const CommunicationServicesLinkNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<CommunicationServicesLinkNotificationHubRequest>,
   output: __S(353, __c44, 1) as any as S.Schema<LinkedNotificationHub>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1509,7 +1534,8 @@ export const DeleteCommunicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<DeleteCommunicationServiceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteCommunicationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1526,7 +1552,8 @@ export const DeleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1543,7 +1570,8 @@ export const DeleteEmailService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<DeleteEmailServiceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteEmailServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1560,7 +1588,8 @@ export const DeleteSenderUsername: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<DeleteSenderUsernameRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<DeleteSenderUsernameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1577,7 +1606,8 @@ export const DeleteSmtpUsername: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<DeleteSmtpUsernameRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<DeleteSmtpUsernameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1594,7 +1624,8 @@ export const DeleteSuppressionList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<DeleteSuppressionListRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<DeleteSuppressionListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1611,7 +1642,8 @@ export const DeleteSuppressionListAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteSuppressionListAddressRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<DeleteSuppressionListAddressResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1628,7 +1660,8 @@ export const DomainsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c4, 1) as any as S.Schema<DomainsCreateOrUpdateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DomainsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1645,7 +1678,8 @@ export const DomainsInitiateVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DomainsInitiateVerificationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DomainsInitiateVerificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1662,7 +1696,8 @@ export const EmailServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<EmailServicesCreateOrUpdateRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<EmailServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1679,7 +1714,8 @@ export const GetCommunicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetCommunicationServiceRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetCommunicationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1696,7 +1732,8 @@ export const GetDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<GetDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1713,7 +1750,8 @@ export const GetEmailService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetEmailServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<GetEmailServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1730,7 +1768,8 @@ export const GetSenderUsername: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetSenderUsernameRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<GetSenderUsernameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1747,7 +1786,8 @@ export const GetSmtpUsername: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetSmtpUsernameRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<GetSmtpUsernameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1764,7 +1804,8 @@ export const GetSuppressionList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetSuppressionListRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<GetSuppressionListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1781,7 +1822,8 @@ export const GetSuppressionListAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetSuppressionListAddressRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<GetSuppressionListAddressResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1790,37 +1832,53 @@ export const GetSuppressionListAddress: API.OperationMethod<
 
 export type ListCommunicationServiceByResourceGroupError = AzureOpError;
 /** List By Resource Group Handles requests to list all resources in a resource group. */
-export const ListCommunicationServiceByResourceGroup: API.OperationMethod<
+export const ListCommunicationServiceByResourceGroup: API.PaginatedOperationMethod<
   ListCommunicationServiceByResourceGroupRequest,
   CommunicationServiceResourceList,
   ListCommunicationServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunicationServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListCommunicationServiceByResourceGroupRequest>,
   output: __S(265, __c33, 1) as any as S.Schema<CommunicationServiceResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunicationServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunicationServiceBySubscriptionError = AzureOpError;
 /** List By Subscription Handles requests to list all resources in a subscription. */
-export const ListCommunicationServiceBySubscription: API.OperationMethod<
+export const ListCommunicationServiceBySubscription: API.PaginatedOperationMethod<
   ListCommunicationServiceBySubscriptionRequest,
   CommunicationServiceResourceList,
   ListCommunicationServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunicationServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListCommunicationServiceBySubscriptionRequest>,
   output: __S(265, __c33, 1) as any as S.Schema<CommunicationServiceResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunicationServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunicationServiceKeysError = AzureOpError;
 /** List Keys Get the access keys of the CommunicationService resource. */
@@ -1832,7 +1890,8 @@ export const ListCommunicationServiceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListCommunicationServiceKeysRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<CommunicationServiceKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1841,54 +1900,78 @@ export const ListCommunicationServiceKeys: API.OperationMethod<
 
 export type ListDomainByEmailServiceResourceError = AzureOpError;
 /** List by EmailService Handles requests to list all Domains resources under the parent EmailServices resource. */
-export const ListDomainByEmailServiceResource: API.OperationMethod<
+export const ListDomainByEmailServiceResource: API.PaginatedOperationMethod<
   ListDomainByEmailServiceResourceRequest,
   DomainResourceList,
   ListDomainByEmailServiceResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DomainResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListDomainByEmailServiceResourceRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<DomainResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomainByEmailServiceResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEmailServiceByResourceGroupError = AzureOpError;
 /** List By Resource Group Handles requests to list all resources in a resource group. */
-export const ListEmailServiceByResourceGroup: API.OperationMethod<
+export const ListEmailServiceByResourceGroup: API.PaginatedOperationMethod<
   ListEmailServiceByResourceGroupRequest,
   EmailServiceResourceList,
   ListEmailServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EmailServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<ListEmailServiceByResourceGroupRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<EmailServiceResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEmailServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEmailServiceBySubscriptionError = AzureOpError;
 /** List By Subscription Handles requests to list all resources in a subscription. */
-export const ListEmailServiceBySubscription: API.OperationMethod<
+export const ListEmailServiceBySubscription: API.PaginatedOperationMethod<
   ListEmailServiceBySubscriptionRequest,
   EmailServiceResourceList,
   ListEmailServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EmailServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ListEmailServiceBySubscriptionRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<EmailServiceResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEmailServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEmailServiceVerifiedExchangeOnlineDomainsError = AzureOpError;
 /** List Verified Domains From Exchange Online Get a list of domains that are fully verified in Exchange Online. */
@@ -1908,7 +1991,8 @@ export const ListEmailServiceVerifiedExchangeOnlineDomains: API.OperationMethod<
     __c41,
     1,
   ) as any as S.Schema<ListEmailServiceVerifiedExchangeOnlineDomainsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1917,88 +2001,128 @@ export const ListEmailServiceVerifiedExchangeOnlineDomains: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List Operations Lists all of the available REST API operations of the Microsoft.Communication provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(340, __c42, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSenderUsernameByDomainsError = AzureOpError;
 /** ListBy_Domains List all valid sender usernames for a domains resource. */
-export const ListSenderUsernameByDomains: API.OperationMethod<
+export const ListSenderUsernameByDomains: API.PaginatedOperationMethod<
   ListSenderUsernameByDomainsRequest,
   SenderUsernameResourceCollection,
   ListSenderUsernameByDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SenderUsernameResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<ListSenderUsernameByDomainsRequest>,
   output: __S(346, __c43, 2) as any as S.Schema<SenderUsernameResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSenderUsernameByDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSmtpUsernamesError = AzureOpError;
 /** Get Get all SmtpUsernameResources for a Communication resource. */
-export const ListSmtpUsernames: API.OperationMethod<
+export const ListSmtpUsernames: API.PaginatedOperationMethod<
   ListSmtpUsernamesRequest,
   SmtpUsernameResourceCollection,
   ListSmtpUsernamesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SmtpUsernameResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<ListSmtpUsernamesRequest>,
   output: __S(362, __c45, 2) as any as S.Schema<SmtpUsernameResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSmtpUsernames",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSuppressionListAddressesError = AzureOpError;
 /** Get Get all the addresses in a suppression list. */
-export const ListSuppressionListAddresses: API.OperationMethod<
+export const ListSuppressionListAddresses: API.PaginatedOperationMethod<
   ListSuppressionListAddressesRequest,
   SuppressionListAddressResourceCollection,
   ListSuppressionListAddressesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SuppressionListAddressResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<ListSuppressionListAddressesRequest>,
   output: __S(370, __c46, 2) as any as S.Schema<SuppressionListAddressResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSuppressionListAddresses",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSuppressionListByDomainError = AzureOpError;
 /** List List all suppression lists for a domains resource. */
-export const ListSuppressionListByDomain: API.OperationMethod<
+export const ListSuppressionListByDomain: API.PaginatedOperationMethod<
   ListSuppressionListByDomainRequest,
   SuppressionListResourceCollection,
   ListSuppressionListByDomainError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SuppressionListResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<ListSuppressionListByDomainRequest>,
   output: __S(378, __c47, 2) as any as S.Schema<SuppressionListResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSuppressionListByDomain",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegenerateCommunicationServiceKeyError = AzureOpError;
 /** Regenerate Key Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
@@ -2010,7 +2134,8 @@ export const RegenerateCommunicationServiceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<RegenerateCommunicationServiceKeyRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<CommunicationServiceKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2027,7 +2152,8 @@ export const SenderUsernamesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(393, __c49, 1) as any as S.Schema<SenderUsernamesCreateOrUpdateRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<SenderUsernamesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2044,7 +2170,8 @@ export const SmtpUsernamesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<SmtpUsernamesCreateOrUpdateRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<SmtpUsernamesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2061,7 +2188,8 @@ export const SuppressionListAddressesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(409, __c51, 1) as any as S.Schema<SuppressionListAddressesCreateOrUpdateRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<SuppressionListAddressesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2078,7 +2206,8 @@ export const SuppressionListsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(417, __c52, 1) as any as S.Schema<SuppressionListsCreateOrUpdateRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<SuppressionListsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2095,7 +2224,8 @@ export const UpdateCommunicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(425, __c53, 1) as any as S.Schema<UpdateCommunicationServiceRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<UpdateCommunicationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2112,7 +2242,8 @@ export const UpdateDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(433, __c54, 1) as any as S.Schema<UpdateDomainRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<UpdateDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2129,7 +2260,8 @@ export const UpdateEmailService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<UpdateEmailServiceRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<UpdateEmailServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2811,12 +2943,14 @@ function __c32(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunicationServiceByResourceGroupRequest" });
@@ -2841,12 +2975,14 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Communication/communicationServices",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunicationServiceBySubscriptionRequest" });
@@ -2892,12 +3028,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           emailServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainByEmailServiceResourceRequest" });
@@ -2919,12 +3057,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEmailServiceByResourceGroupRequest" });
@@ -2949,12 +3089,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Communication/emailServices",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEmailServiceBySubscriptionRequest" });
@@ -2985,12 +3127,15 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Communication/operations",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3018,7 +3163,7 @@ function __c42(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(339, __c42, 3)),
+          value: __S(339, __c42, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3033,12 +3178,14 @@ function __c43(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           emailServiceName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSenderUsernameByDomainsRequest" });
@@ -3088,12 +3235,14 @@ function __c45(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           communicationServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}/smtpUsernames",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSmtpUsernamesRequest" });
@@ -3118,12 +3267,14 @@ function __c46(j: number): any {
           emailServiceName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           suppressionListName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}/suppressionListAddresses",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSuppressionListAddressesRequest" });
@@ -3147,12 +3298,14 @@ function __c47(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           emailServiceName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists",
             code: 200,
             apiVersion: "2026-03-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSuppressionListByDomainRequest" });

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -329,7 +329,8 @@ export const changePostgresPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ChangePostgresPasswordRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangePostgresPasswordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -345,7 +346,8 @@ export const changePostgresStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ChangePostgresStatusRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangePostgresStatusResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -361,7 +363,8 @@ export const createPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<CreatePostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CreatePostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -377,7 +380,8 @@ export const deletePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeletePostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeletePostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -393,7 +397,8 @@ export const deployPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeployPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeployPostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -409,7 +414,8 @@ export const getPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetPostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -425,7 +431,8 @@ export const movePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<MovePostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<MovePostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -441,7 +448,8 @@ export const readPostgresLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ReadPostgresLogsRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReadPostgresLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -457,7 +465,8 @@ export const rebuildPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<RebuildPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<RebuildPostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -473,7 +482,8 @@ export const reloadPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ReloadPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReloadPostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -489,7 +499,8 @@ export const savePostgresEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<SavePostgresEnvironmentRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SavePostgresEnvironmentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -505,7 +516,8 @@ export const savePostgresExternalPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<SavePostgresExternalPortRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SavePostgresExternalPortResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -521,7 +533,8 @@ export const searchPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<SearchPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SearchPostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -537,7 +550,8 @@ export const startPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<StartPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StartPostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -553,7 +567,8 @@ export const stopPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<StopPostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StopPostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -569,7 +584,8 @@ export const updatePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(309, __c9, 21) as any as S.Schema<UpdatePostgresRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<UpdatePostgresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

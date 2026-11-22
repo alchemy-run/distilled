@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAdyenError } from "../errors.ts";
+import { AdyenServiceErrors } from "../errors.ts";
 import { AdyenProtocol, type AdyenOpError, type AdyenOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5819,7 +5819,8 @@ export const createApplePaySession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateApplePaySessionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<ApplePaySessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5836,7 +5837,8 @@ export const createCalculateTax: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1250, __c39, 2) as any as S.Schema<CreateCalculateTaxRequest>,
   output: __S(1254, __c39, 6) as any as S.Schema<CalculateTaxResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5853,7 +5855,8 @@ export const createCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateCancelRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5870,7 +5873,8 @@ export const createCardDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateCardDetailRequest>,
   output: __S(1379, __c43, 3) as any as S.Schema<CardDetailsResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5887,7 +5891,8 @@ export const createDonation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateDonationRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<DonationPaymentResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5908,7 +5913,8 @@ export const createDonationCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<CreateDonationCampaignRequest>,
   output: __S(1925, __c60, 5) as any as S.Schema<DonationCampaignsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5925,7 +5931,8 @@ export const createForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1988, __c62, 4) as any as S.Schema<CreateForwardRequest>,
   output: __S(1992, __c62, 8) as any as S.Schema<CheckoutForwardResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5942,7 +5949,8 @@ export const createOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateOrderRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<CreateOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +5967,8 @@ export const createOrdersCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateOrdersCancelRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CancelOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5976,7 +5985,8 @@ export const createPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(165, __c5, 5) as any as S.Schema<CreatePaymentRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<PaymentResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5997,7 +6007,8 @@ export const createPaymentAmountUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6014,7 +6025,8 @@ export const createPaymentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentCancelRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PaymentCancelResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6031,7 +6043,8 @@ export const createPaymentCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<PaymentCaptureResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6048,7 +6061,8 @@ export const createPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreatePaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6065,7 +6079,8 @@ export const createPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentMethodRequest>,
   output: __S(689, __c21, 17) as any as S.Schema<PaymentMethodsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6086,7 +6101,8 @@ export const createPaymentMethodsBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(706, __c22, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
   output: __S(707, __c22, 3) as any as S.Schema<BalanceCheckResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6103,7 +6119,8 @@ export const createPaymentRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<CreatePaymentRefundRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<PaymentRefundResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6124,7 +6141,8 @@ export const createPaymentReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CreatePaymentReversalRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PaymentReversalResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6141,7 +6159,8 @@ export const createPaymentsDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(803, __c25, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
   output: __S(804, __c25, 4) as any as S.Schema<PaymentDetailsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6162,7 +6181,8 @@ export const createPaypalUpdateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(835, __c26, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6179,7 +6199,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(866, __c27, 2) as any as S.Schema<CreateSessionRequest>,
   output: __S(867, __c27, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6196,7 +6217,8 @@ export const createStoredPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(897, __c28, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<StoredPaymentMethodResource>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6217,7 +6239,8 @@ export const createValidateShopperId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<CreateValidateShopperIdRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<ValidateShopperIdResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6238,7 +6261,8 @@ export const createVerifyShopperTaxIdentification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(993, __c31, 1) as any as S.Schema<CreateVerifyShopperTaxIdentificationRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<VerifyShopperTaxIdentificationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6255,7 +6279,8 @@ export const deleteStoredPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6272,7 +6297,8 @@ export const getPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetPaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6289,7 +6315,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(1091, __c34, 3) as any as S.Schema<SessionResultResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6306,7 +6333,8 @@ export const getStoredPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6323,7 +6351,8 @@ export const updatePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6340,7 +6369,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<UpdateSessionRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6384,7 +6414,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           expiresAt: S.optional(S.String),
           merchantAccount: S.String,
@@ -6413,7 +6445,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           order: __S(128, __c4, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orders/cancel", code: 200 })),
@@ -6483,7 +6517,9 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7004,7 +7040,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           adjustAuthType: S.optional(S.String),
           adjustAuthorisationData: S.optional(S.String),
           amount: __S(1280, __c40, 0),
@@ -7046,7 +7084,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7076,7 +7116,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           enhancedSchemeData: S.optional(__S(310, __c9, 22)),
@@ -7112,7 +7154,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -7243,7 +7287,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           additionalData: S.optional(__S(32, __c1, 0)),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
@@ -7449,7 +7495,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7516,7 +7564,9 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           capturePspReference: S.optional(S.String),
@@ -7555,7 +7605,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7613,7 +7665,9 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           authenticationData: S.optional(__S(801, __c25, 1)),
           details: __S(802, __c25, 2),
           paymentData: S.optional(S.String),
@@ -7668,7 +7722,9 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           deliveryAddress: S.optional(__S(1856, __c58, 0)),
           deliveryMethods: S.optional(__S(833, __c26, 1)),
@@ -7704,7 +7760,9 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7868,7 +7926,9 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           opi: S.optional(__S(416, __c13, 0)),
           paymentMethod: __S(896, __c28, 0),
@@ -8070,7 +8130,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           displayName: S.String,
           domainName: S.String,
           merchantIdentifier: S.String,
@@ -8206,7 +8268,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           paymentReference: S.String,
@@ -8276,7 +8340,9 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           cardNumber: S.optional(S.String),
           countryCode: S.optional(S.String),
           encryptedCardNumber: S.optional(S.String),
@@ -8316,7 +8382,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -8832,7 +8900,9 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           currency: S.String,
           label: S.optional(S.String),
           locale: S.optional(S.String),
@@ -8937,7 +9007,9 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           baseUrl: S.String,
           merchantAccount: S.String,

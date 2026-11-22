@@ -10,6 +10,7 @@
  */
 
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import type { Operation } from "@distilled.cloud/s3/client/operation";
 import {
   Unreadable,
@@ -205,7 +206,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     // Track if user set Content-Type explicitly via httpHeader binding
     const userSetContentType = request.headers["Content-Type"] !== undefined;
     // An input event stream's body, once its codec has loaded.
-    let eventBody: Effect.Effect<Stream.Stream<Uint8Array, unknown>> | undefined;
+    let eventBody: Effect.Effect<Stream.Stream<Uint8Array, unknown>, SdkError> | undefined;
 
     // Serialize body
     if (payloadValue !== undefined && payloadAst !== undefined) {

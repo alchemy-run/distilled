@@ -66,7 +66,7 @@ const mercurySpec: SdkSpec = {
   operationDecl: {
     contextType: "MercuryOpContext",
     commonErrorType: "MercuryOpError",
-    commonErrorClasses: ["UnknownMercuryError"],
+    serviceErrors: "MercuryServiceErrors",
     protocol: "MercuryProtocol",
     retry: "Retry.Retry",
   },

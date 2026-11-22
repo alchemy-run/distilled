@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -534,6 +535,7 @@ export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRecommendationResourceExclusion",
@@ -566,6 +568,7 @@ export const getOrganizationRecommendation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationRecommendation",
@@ -598,6 +601,7 @@ export const getRecommendation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
@@ -629,6 +633,7 @@ export const listChecks: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChecks",
@@ -668,6 +673,7 @@ export const listOrganizationRecommendationAccounts: API.PaginatedOperationMetho
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationRecommendationAccounts",
@@ -707,6 +713,7 @@ export const listOrganizationRecommendationResources: API.PaginatedOperationMeth
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationRecommendationResources",
@@ -744,6 +751,7 @@ export const listOrganizationRecommendations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationRecommendations",
@@ -783,6 +791,7 @@ export const listRecommendationResources: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendationResources",
@@ -820,6 +829,7 @@ export const listRecommendations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendations",
@@ -857,6 +867,7 @@ export const listRecommendationsForResource: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendationsForResource",
@@ -897,6 +908,7 @@ export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationRecommendationLifecycle",
@@ -931,6 +943,7 @@ export const updateRecommendationLifecycle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommendationLifecycle",

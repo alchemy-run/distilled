@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -551,6 +552,7 @@ export const batchExecuteStatement: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
@@ -585,6 +587,7 @@ export const cancelStatement: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelStatement",
@@ -617,6 +620,7 @@ export const describeStatement: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStatement",
@@ -662,6 +666,7 @@ export const describeTable: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
@@ -714,6 +719,7 @@ export const executeStatement: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
@@ -747,6 +753,7 @@ export const getStatementResult: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatementResult",
@@ -781,6 +788,7 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatementResultV2",
@@ -827,6 +835,7 @@ export const listDatabases: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatabases",
@@ -878,6 +887,7 @@ export const listSchemas: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSchemas",
@@ -911,6 +921,7 @@ export const listSessions: API.PaginatedOperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<ListSessionsRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSessions",
@@ -946,6 +957,7 @@ export const listStatements: API.PaginatedOperationMethod<
   input: __S(112, __c14, 0) as any as S.Schema<ListStatementsRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<ListStatementsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStatements",
@@ -997,6 +1009,7 @@ export const listTables: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTables",

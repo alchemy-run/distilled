@@ -6,7 +6,7 @@ import { join } from "node:path";
  * `connectconformance --mode client` starts this process and sends it
  * `ClientCompatRequest`s on stdin, each a big-endian u32 length and the
  * message. For each one this makes the RPC through the code under test --
- * `API.make` / `API.makeStreaming` operations over `makeGrpcProtocol`, sent
+ * `API.make` / `API.makeStreaming` operations over `grpcProtocol`, sent
  * with the `node:http2` transport -- and writes back a `ClientCompatResponse`
  * the same way. Messages are encoded with core's protobuf codec, using
  * descriptors the proto converter builds from the suite's `.proto` files.
@@ -29,7 +29,7 @@ import * as API from "../src/api.ts";
 import * as NodeHttp2 from "../src/grpc-transport-node-http2.ts";
 import { GrpcTransport, trailersOf } from "../src/grpc-transport.ts";
 import { decodeMessage, encodeMessage, type ProtoDescriptors } from "../src/protobuf.ts";
-import { Deadline, GRPC_STATUS_NAMES, makeGrpcProtocol } from "../src/protocol-grpc.ts";
+import { Deadline, GRPC_STATUS_NAMES, grpcProtocol } from "../src/protocol-grpc.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -61,7 +61,7 @@ class RpcError extends Schema.TaggedError<RpcError>()("RpcError", {
   info: Schema.Unknown,
 }) {}
 
-const Protocol = makeGrpcProtocol({
+const Protocol = grpcProtocol({
   descriptors: d,
   credentials: Effect.gen(function* () {
     return yield* Target;

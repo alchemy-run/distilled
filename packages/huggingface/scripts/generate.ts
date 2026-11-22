@@ -84,6 +84,7 @@ const spec: SdkSpec = {
     // Per-op error lists carry exactly the statuses the spec declares
     // (400/404/409/422); everything else rides HuggingFaceOpError.
     commonErrorClasses: [],
+    serviceErrors: "HuggingFaceServiceErrors",
     protocol: "HuggingFaceProtocol",
     retry: "Retry.Retry",
   },

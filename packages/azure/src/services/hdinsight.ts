@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1796,6 +1796,8 @@ export interface ListApplicationByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags for the application. */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
@@ -1844,7 +1846,7 @@ export type ApplicationListResultValueList = Array<Application>;
 /** Result of the request to list cluster Applications. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApplicationListResult {
   /** The list of HDInsight applications installed on HDInsight cluster. */
-  value?: ApplicationListResultValueList | undefined;
+  value: ApplicationListResultValueList;
   /** The URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -1853,6 +1855,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -1909,13 +1913,15 @@ export type ClusterListResultValueList = Array<Cluster>;
 /** The List Cluster operation response. */
 export interface ClusterListResult {
   /** The list of Clusters. */
-  value?: ClusterListResultValueList | undefined;
+  value: ClusterListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2088,7 +2094,10 @@ export interface UsagesListResult {
   /** The list of usages. */
   value?: UsagesListResultValueList | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** The service provider: Microsoft.HDInsight */
@@ -2180,7 +2189,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list HDInsight operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The list of HDInsight operations supported by the HDInsight resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2191,6 +2200,8 @@ export interface ListPrivateEndpointConnectionByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionSystemDataCreatedByType =
@@ -2237,7 +2248,7 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** The list private endpoint connections response. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2316,6 +2327,8 @@ export interface ListScriptActionByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of roles where script will be executed. */
 export type ScriptActionsListValueItemRolesList = Array<string>;
@@ -2353,7 +2366,7 @@ export type ScriptActionsListValueList = Array<ScriptActionsListValueItem>;
 /** The persisted script action for the cluster. */
 export interface ScriptActionsList {
   /** The list of persisted script action details for the cluster. */
-  value?: ScriptActionsListValueList | undefined;
+  value: ScriptActionsListValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2364,6 +2377,8 @@ export interface ListScriptExecutionHistoryByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of roles where script will be executed. */
 export type ScriptActionExecutionHistoryListValueItemRolesList = Array<string>;
@@ -2403,7 +2418,7 @@ export type ScriptActionExecutionHistoryListValueList =
 /** The list script execution history response. */
 export interface ScriptActionExecutionHistoryList {
   /** The list of persisted script action details for the cluster. */
-  value?: ScriptActionExecutionHistoryListValueList | undefined;
+  value: ScriptActionExecutionHistoryListValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2733,7 +2748,8 @@ export const CheckLocationNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckLocationNameAvailabilityRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<NameAvailabilityCheckResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2750,7 +2766,8 @@ export const CreateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19, __c1, 3) as any as S.Schema<CreateApplicationRequest>,
   output: __S(55, __c3, 7) as any as S.Schema<CreateApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2767,7 +2784,8 @@ export const CreateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<CreateClusterRequest>,
   output: __S(488, __c30, 8) as any as S.Schema<CreateClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2784,7 +2802,8 @@ export const CreateExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<CreateExtensionRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<CreateExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2801,7 +2820,8 @@ export const DeleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2818,7 +2838,8 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2835,7 +2856,8 @@ export const DeleteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<DeleteExtensionRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DeleteExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2852,7 +2874,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2869,7 +2892,8 @@ export const DeleteScriptAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<DeleteScriptActionRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DeleteScriptActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2886,7 +2910,8 @@ export const DisableExtensionAzureMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<DisableExtensionAzureMonitorRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DisableExtensionAzureMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2903,7 +2928,8 @@ export const DisableExtensionMonitoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DisableExtensionMonitoringRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<DisableExtensionMonitoringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2920,7 +2946,8 @@ export const EnableExtensionAzureMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<EnableExtensionAzureMonitorRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<EnableExtensionAzureMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2937,7 +2964,8 @@ export const EnableExtensionMonitoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<EnableExtensionMonitoringRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<EnableExtensionMonitoringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2954,7 +2982,8 @@ export const ExecuteClusterScriptActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ExecuteClusterScriptActionsRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<ExecuteClusterScriptActionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2971,7 +3000,8 @@ export const GetApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(55, __c3, 7) as any as S.Schema<GetApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2988,7 +3018,8 @@ export const GetApplicationAzureAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetApplicationAzureAsyncOperationStatusRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<GetApplicationAzureAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3005,7 +3036,8 @@ export const GetCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetClusterRequest>,
   output: __S(488, __c30, 8) as any as S.Schema<GetClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3022,7 +3054,8 @@ export const GetClusterAzureAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetClusterAzureAsyncOperationStatusRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<AsyncOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3039,7 +3072,8 @@ export const GetClusterGatewaySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetClusterGatewaySettingsRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<GatewaySettings>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3056,7 +3090,8 @@ export const GetConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetConfigurationRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3073,7 +3108,8 @@ export const GetExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetExtensionRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<ClusterMonitoringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3090,7 +3126,8 @@ export const GetExtensionAzureAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetExtensionAzureAsyncOperationStatusRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<GetExtensionAzureAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3107,7 +3144,8 @@ export const GetExtensionAzureMonitorStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetExtensionAzureMonitorStatusRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<AzureMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3124,7 +3162,8 @@ export const GetExtensionMonitoringStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetExtensionMonitoringStatusRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<ClusterMonitoringResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3141,7 +3180,8 @@ export const GetLocationAzureAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetLocationAzureAsyncOperationStatusRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<GetLocationAzureAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3158,7 +3198,8 @@ export const GetLocationCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetLocationCapabilitiesRequest>,
   output: __S(618, __c38, 10) as any as S.Schema<CapabilitiesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3175,7 +3216,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3192,7 +3234,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(657, __c41, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3213,7 +3256,8 @@ export const GetScriptActionExecutionAsyncOperationStatus: API.OperationMethod<
     __c21,
     0,
   ) as any as S.Schema<GetScriptActionExecutionAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3230,7 +3274,8 @@ export const GetScriptActionExecutionDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetScriptActionExecutionDetailRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<GetScriptActionExecutionDetailResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3247,7 +3292,8 @@ export const GetVirtualMachineAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetVirtualMachineAsyncOperationStatusRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<GetVirtualMachineAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3256,54 +3302,78 @@ export const GetVirtualMachineAsyncOperationStatus: API.OperationMethod<
 
 export type ListApplicationByClusterError = AzureOpError;
 /** Lists all of the applications for the HDInsight cluster. */
-export const ListApplicationByCluster: API.OperationMethod<
+export const ListApplicationByCluster: API.PaginatedOperationMethod<
   ListApplicationByClusterRequest,
   ApplicationListResult,
   ListApplicationByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListApplicationByClusterRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<ApplicationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** Lists the HDInsight clusters in a resource group. */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterListResult,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ClusterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClustersError = AzureOpError;
 /** Lists all the HDInsight clusters under the subscription. */
-export const ListClusters: API.OperationMethod<
+export const ListClusters: API.PaginatedOperationMethod<
   ListClustersRequest,
   ClusterListResult,
   ListClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListClustersRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ClusterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationsError = AzureOpError;
 /** Gets all configuration information for an HDI cluster. */
@@ -3315,7 +3385,8 @@ export const ListConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListConfigurationsRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<ClusterConfigurations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3332,7 +3403,8 @@ export const ListLocationBillingSpecs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListLocationBillingSpecsRequest>,
   output: __S(859, __c53, 11) as any as S.Schema<BillingResponseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3349,7 +3421,8 @@ export const ListLocationUsages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListLocationUsagesRequest>,
   output: __S(868, __c54, 4) as any as S.Schema<UsagesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3358,37 +3431,53 @@ export const ListLocationUsages: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available HDInsight REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(890, __c55, 10) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByClusterError = AzureOpError;
 /** Lists the private endpoint connections for a HDInsight cluster. */
-export const ListPrivateEndpointConnectionByCluster: API.OperationMethod<
+export const ListPrivateEndpointConnectionByCluster: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByClusterRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListPrivateEndpointConnectionByClusterRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByClusterError = AzureOpError;
 /** Lists the private link resources in a HDInsight cluster. */
@@ -3400,7 +3489,8 @@ export const ListPrivateLinkResourceByCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListPrivateLinkResourceByClusterRequest>,
   output: __S(914, __c57, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3409,37 +3499,53 @@ export const ListPrivateLinkResourceByCluster: API.OperationMethod<
 
 export type ListScriptActionByClusterError = AzureOpError;
 /** Lists all the persisted script actions for the specified cluster. */
-export const ListScriptActionByCluster: API.OperationMethod<
+export const ListScriptActionByCluster: API.PaginatedOperationMethod<
   ListScriptActionByClusterRequest,
   ScriptActionsList,
   ListScriptActionByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScriptActionsListValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListScriptActionByClusterRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<ScriptActionsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptActionByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScriptExecutionHistoryByClusterError = AzureOpError;
 /** Lists all scripts' execution history for the specified cluster. */
-export const ListScriptExecutionHistoryByCluster: API.OperationMethod<
+export const ListScriptExecutionHistoryByCluster: API.PaginatedOperationMethod<
   ListScriptExecutionHistoryByClusterRequest,
   ScriptActionExecutionHistoryList,
   ListScriptExecutionHistoryByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScriptActionExecutionHistoryListValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListScriptExecutionHistoryByClusterRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<ScriptActionExecutionHistoryList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptExecutionHistoryByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineHostsError = AzureOpError;
 /** Lists the HDInsight clusters hosts */
@@ -3451,7 +3557,8 @@ export const ListVirtualMachineHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListVirtualMachineHostsRequest>,
   output: __S(995, __c62, 3) as any as S.Schema<ListVirtualMachineHostsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3468,7 +3575,8 @@ export const LocationsValidateClusterCreateRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<LocationsValidateClusterCreateRequestRequest>,
   output: __S(1013, __c63, 5) as any as S.Schema<ClusterCreateValidationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3485,7 +3593,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c64, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3502,7 +3611,8 @@ export const PromoteScriptExecutionHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<PromoteScriptExecutionHistoryRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<PromoteScriptExecutionHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3519,7 +3629,8 @@ export const ResizeCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ResizeClusterRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<ResizeClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3536,7 +3647,8 @@ export const RestartVirtualMachineHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<RestartVirtualMachineHostsRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<RestartVirtualMachineHostsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3553,7 +3665,8 @@ export const RotateClusterDiskEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<RotateClusterDiskEncryptionKeyRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<RotateClusterDiskEncryptionKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3570,7 +3683,8 @@ export const UpdateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<UpdateClusterRequest>,
   output: __S(488, __c30, 8) as any as S.Schema<UpdateClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3587,7 +3701,8 @@ export const UpdateClusterAutoScaleConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateClusterAutoScaleConfigurationRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<UpdateClusterAutoScaleConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3604,7 +3719,8 @@ export const UpdateClusterGatewaySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<UpdateClusterGatewaySettingsRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<UpdateClusterGatewaySettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3621,7 +3737,8 @@ export const UpdateClusterIdentityCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<UpdateClusterIdentityCertificateRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<UpdateClusterIdentityCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5004,12 +5121,14 @@ function __c48(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationByClusterRequest" });
@@ -5018,7 +5137,7 @@ function __c48(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(769, __c48, 1)),
+          value: __S(769, __c48, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationListResult" });
@@ -5031,12 +5150,14 @@ function __c49(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -5049,7 +5170,7 @@ function __c50(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(800, __c50, 0)),
+          value: __S(800, __c50, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterListResult" });
@@ -5061,12 +5182,14 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/clusters",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClustersRequest" });
@@ -5236,12 +5359,15 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HDInsight/operations",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5314,7 +5440,7 @@ function __c55(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(889, __c55, 9)),
+          value: __S(889, __c55, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -5328,19 +5454,21 @@ function __c56(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByClusterRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(448, __c28, 0)),
+          value: __S(448, __c28, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -5401,12 +5529,14 @@ function __c59(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptActions",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptActionByClusterRequest" });
@@ -5419,7 +5549,7 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(960, __c60, 0)),
+          value: __S(960, __c60, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScriptActionsList" });
@@ -5433,12 +5563,14 @@ function __c61(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptExecutionHistory",
             code: 200,
             apiVersion: "2021-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptExecutionHistoryByClusterRequest" });

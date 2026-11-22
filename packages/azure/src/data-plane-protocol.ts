@@ -1,0 +1,745 @@
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { DecodeArgs, EncodeArgs, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
+import {
+  buildRequest,
+  getAnn,
+  getPropAnn,
+  getProps,
+  mapKeys,
+  resolveNode,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
+import { httpSymbol } from "@distilled.cloud/core/trait";
+/**
+ * AzureDataPlaneProtocol -- hand-written.
+ *
+ * The protocol of every data-plane operation (`keyvault-secrets`,
+ * `storage-blob`, the manual-specs models, ...): the generator points an
+ * operation here when its http trait names a `host`. ARM operations use
+ * `AzureProtocol` (`./protocol.ts`), so an ARM-only program never bundles
+ * this module.
+ *
+ *   request:  the base URL comes from the operation's `host` template and
+ *             the caller's `HostLabel()` members (`vaultBaseUrl`, `url`,
+ *             `endpoint`); constant query/headers are added, `apiVersion`
+ *             goes in a header where the service wants one (Storage's
+ *             `x-ms-version`), and the token is `Config.token(audience)`.
+ *             A data-plane operation with no known audience fails with
+ *             `MissingTokenAudience`; an `anonymous` one (Confidential
+ *             Ledger identity) and a SAS-signed Storage URL send none.
+ *
+ *             Container Registry (`tokenExchange: "acr"`) trades the Entra
+ *             token for a registry refresh token (`/oauth2/exchange`) and
+ *             that for an access token scoped to the operation's
+ *             repository and actions (`/oauth2/token`); both are cached
+ *             until shortly before they expire.
+ *
+ *             Hand-written models (manual-specs) add `JsonHeader` members
+ *             (one JSON header, e.g. `BrokerProperties`), header maps with
+ *             an empty prefix, `jsonContentType` bodies, `emptyBody` writes,
+ *             and Cosmos DB's `authScheme: "cosmos-aad"`.
+ *
+ *             A page's `nextLink` is a GET of that URL with the same auth;
+ *             it must stay on the endpoint's host.
+ *
+ *   response: raw bytes, Storage XML bodies and errors, header maps and JSON
+ *             headers; failures map like ARM's (`./protocol-common.ts`).
+ */
+import * as Clock from "effect/Clock";
+import * as Effect from "effect/Effect";
+import * as HttpBody from "effect/http/HttpBody";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Redacted from "effect/Redacted";
+import * as Schedule from "effect/Schedule";
+import type * as AST from "effect/SchemaAST";
+import {
+  Credentials,
+  DEFAULT_API_BASE_URL,
+  MissingTokenAudience,
+  armScopeFor,
+} from "./credentials-service.ts";
+import { AzureParseError, ContainerRegistryTokenExchangeFailed } from "./errors.ts";
+import {
+  type ArmError,
+  classForCode,
+  configuredSubscriptionId,
+  failResponse,
+  nextLinkOf,
+  parseArmError,
+  parseBody,
+  parseUrl,
+  resolveNextLink,
+  withoutMember,
+} from "./protocol-common.ts";
+import {
+  binaryBodyMember,
+  decodeXmlBody,
+  encodeXmlBody,
+  hasPayloadValue,
+  isXmlShaped,
+  jsonBodyMember,
+  parseXmlError,
+  readStorageHeaders,
+  splitSas,
+  takePrefixHeaders,
+  withoutXmlBodyMembers,
+} from "./storage.ts";
+import { jsonHeaderSymbol, type HttpTrait } from "./traits.ts";
+
+// ---------------------------------------------------------------------------
+// Encode
+// ---------------------------------------------------------------------------
+
+// The protocol is one module-level value shared by every operation, so it
+// must not capture credentials -- `encode` resolves Credentials from the
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
+  Effect.gen(function* () {
+    const resolveCredentials = yield* Credentials;
+    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+    let unwrapped = unwrapRedactedDeep(input);
+    // Storage / Tables: an endpoint URL that already carries a SAS query
+    // (`https://acct.blob.core.windows.net/?sv=...&sig=...`) is its own
+    // credential -- the query rides on the request and no token is sent.
+    let sas: string | undefined;
+    if (http?.apiVersionHeader === "x-ms-version" && http.hostRaw !== undefined) {
+      const values = (unwrapped ?? {}) as Record<string, unknown>;
+      for (const name of http.hostRaw) {
+        const value = values[name];
+        const split = typeof value === "string" ? splitSas(value) : undefined;
+        if (split === undefined) continue;
+        sas = split.sas;
+        unwrapped = { ...values, [name]: split.base };
+        break;
+      }
+    }
+    // An unauthenticated data-plane operation (or a SAS-signed one) needs no
+    // credentials, so it never mints a token.
+    const creds =
+      http?.anonymous === true || sas !== undefined ? undefined : yield* resolveCredentials;
+
+    // Data-plane operations name their own endpoint (`{vaultBaseUrl}`,
+    // `https://{dpsName}.azure-devices-provisioning.net`) and token audience;
+    // ARM operations go to `apiBaseUrl` with the ARM token.
+    let baseUrl = creds?.apiBaseUrl ?? DEFAULT_API_BASE_URL;
+    let fields = unwrapped;
+    if (http?.host !== undefined) {
+      const host = buildHost(http, unwrapped);
+      if (typeof host !== "string") return yield* Effect.fail(host);
+      baseUrl = host;
+      fields = withoutHostMembers(http.host, unwrapped);
+    }
+    // Pageable operations: a page's `nextLink` is never sent as a member.
+    // It is checked before a token is minted: it must stay on the endpoint.
+    const nextLink = nextLinkOf(http, unwrapped);
+    if (http?.nextLink !== undefined) fields = withoutMember(fields, http.nextLink);
+    const nextUrl = nextLink !== undefined ? resolveNextLink(nextLink, baseUrl) : undefined;
+    if (nextLink !== undefined && nextUrl === undefined) {
+      return yield* Effect.fail(
+        new InvalidInput({
+          member: http!.nextLink!,
+          message: `${http!.nextLink} must be a page link on ${baseUrl}; the credentials are only sent there`,
+        }),
+      );
+    }
+    // Container Registry: an upload link (`Location` of a started upload)
+    // carries its own query (`?_state=...`), sent as-is after the path.
+    let linkQuery: string | undefined;
+    if (http?.tokenExchange === "acr") {
+      const split = splitUploadLink(http, fields);
+      fields = split.fields;
+      linkQuery = split.query;
+    }
+    // The ARM token only goes to ARM. A data-plane host gets a token for its
+    // own audience (a static token is sent as-is), and none when its
+    // audience is unknown.
+    let token: Redacted.Redacted<string> | undefined;
+    if (creds !== undefined) {
+      if (http?.host === undefined) {
+        token = yield* creds.token(armScopeFor(creds.apiBaseUrl));
+      } else if (http.audience === undefined) {
+        return yield* Effect.fail(
+          new MissingTokenAudience({
+            message: `no token audience is known for the data-plane operation ${http.uri}`,
+            uri: http.uri,
+          }),
+        );
+      } else {
+        token = yield* creds.token(audienceFor(http, http.audience, baseUrl));
+        // Container Registry takes only its own tokens: trade the Entra
+        // token for a registry refresh token, then for an access token
+        // scoped to what this operation does.
+        if (http.tokenExchange === "acr" && !http.uri.startsWith("/oauth2/")) {
+          token = yield* acrAccessToken(baseUrl, token, acrScopesFor(http, fields), creds.tenantId);
+        }
+      }
+    }
+
+    // Data planes: header maps (Storage `x-ms-meta-*`, Service Bus custom
+    // properties), JSON-encoded headers (`BrokerProperties`) and Storage's
+    // XML body leave the generic builder's input; they are sent below.
+    let prefixHeaders: Record<string, string> = {};
+    let xmlBody: string | undefined;
+    if (http?.host !== undefined && fields !== null && typeof fields === "object") {
+      const taken = takePrefixHeaders(inputAst, fields as Record<string, unknown>);
+      const json = takeJsonHeaders(inputAst, taken.input);
+      prefixHeaders = { ...taken.headers, ...json.headers };
+      fields = json.input;
+      if (http.storage === true && http.xmlRoot !== undefined) {
+        xmlBody = encodeXmlBody(http.xmlRoot, inputAst, json.input);
+        fields = withoutXmlBodyMembers(inputAst, json.input);
+      }
+    }
+
+    let authorization: string | undefined;
+    if (token !== undefined) {
+      authorization =
+        http?.authScheme === "cosmos-aad"
+          ? encodeURIComponent(`type=aad&ver=1.0&sig=${Redacted.value(token)}`)
+          : `Bearer ${Redacted.value(token)}`;
+    }
+
+    const headers: Record<string, string> = {
+      ...(authorization !== undefined ? { Authorization: authorization } : {}),
+      // ARM speaks JSON; without this, some resource providers negotiate
+      // another media type (API Management returns policies as raw XML).
+      // Storage answers in its own media types (XML lists, raw bytes).
+      ...(http?.storage === true ? {} : { Accept: http?.accept ?? "application/json" }),
+      ...http?.headers,
+      ...(http?.apiVersion !== undefined && http.apiVersionHeader !== undefined
+        ? { [http.apiVersionHeader]: http.apiVersion }
+        : {}),
+      // Storage and Tables want the request time on every authorized call.
+      ...(http?.apiVersionHeader === "x-ms-version"
+        ? { "x-ms-date": new Date().toUTCString() }
+        : {}),
+      ...prefixHeaders,
+    };
+
+    // The next page of a pageable operation: GET its `nextLink` as-is with
+    // the same auth. The link already carries `api-version` and the skip
+    // token; a version is added only when the link has none.
+    if (nextUrl !== undefined) {
+      let url = nextUrl;
+      if (
+        http?.apiVersion &&
+        http.apiVersionHeader === undefined &&
+        !/[?&]api-version=/.test(url)
+      ) {
+        url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
+      }
+      if (sas !== undefined && !/[?&]sig=/.test(url)) {
+        url += `${url.includes("?") ? "&" : "?"}${sas}`;
+      }
+      return HttpClientRequest.setHeaders(HttpClientRequest.get(url), headers);
+    }
+
+    let request = yield* buildRequest({
+      input: fields,
+      inputAst,
+      baseUrl,
+      headers,
+    });
+    if (xmlBody !== undefined) {
+      request = HttpClientRequest.setBody(request, HttpBody.text(xmlBody, "application/xml"));
+    } else if (
+      (http?.storage === true || http?.emptyBody === true) &&
+      (http.method === "PUT" || http.method === "POST" || http.method === "PATCH") &&
+      !hasPayloadValue(inputAst, fields)
+    ) {
+      // A write without a payload (create container, flush, clear range,
+      // Service Bus peek-lock) sends a zero-length body: Storage and
+      // Service Bus answer 411 without `Content-Length`, and the builder's
+      // `{}` JSON fallback is not a Storage body. The empty body carries no
+      // media type: Azure Files rejects Rename Directory with any
+      // `Content-Type` (400 InvalidHeaderValue).
+      request = HttpClientRequest.removeHeader(
+        HttpClientRequest.setBody(request, HttpBody.uint8Array(new Uint8Array(0))),
+        "content-type",
+      );
+    } else if (http?.jsonContentType !== undefined && request.body._tag === "Uint8Array") {
+      // A JSON body under the service's own media type, sent exactly (a
+      // charset parameter turns a Service Bus batch into one message).
+      request = HttpClientRequest.setBody(
+        request,
+        HttpBody.uint8Array(request.body.body, http.jsonContentType),
+      );
+    }
+
+    // Azure-specific URL rewrites, applied to the built request:
+    //  1. `{subscriptionId}` left unfilled by the caller is injected from
+    //     credentials (v0 parity: users set AZURE_SUBSCRIPTION_ID once and
+    //     individual operations pick it up automatically).
+    //  2. A data-plane operation's omitted optional label and constant query
+    //     (`restype=container`).
+    //  3. ARM requires `api-version` on every call -- the version baked into
+    //     the operation's Http trait at generation time is appended unless
+    //     the URL already carries one (or the operation sends it as a header).
+    let url = request.url;
+    if (url.includes("{subscriptionId}")) {
+      const subscriptionId = configuredSubscriptionId(creds?.subscriptionId, http?.uri);
+      if (subscriptionId instanceof ConfigError) return yield* Effect.fail(subscriptionId);
+      url = url.split("{subscriptionId}").join(subscriptionId);
+    }
+    // A data-plane path label the spec documents as optional (Key Vault's
+    // `{secret-version}`) is an empty segment when omitted.
+    if (http?.host !== undefined) {
+      const q = url.indexOf("?");
+      const path = q >= 0 ? url.slice(0, q) : url;
+      if (path.includes("{")) url = path.replace(/\{[^}/]+\}/g, "") + (q >= 0 ? url.slice(q) : "");
+    }
+    for (const [key, value] of Object.entries(http?.query ?? {})) {
+      const pair = value === "" ? encodeURIComponent(key) : `${key}=${encodeURIComponent(value)}`;
+      url += `${url.includes("?") ? "&" : "?"}${pair}`;
+    }
+    if (http?.apiVersion && http.apiVersionHeader === undefined && !/[?&]api-version=/.test(url)) {
+      url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
+    }
+    if (sas !== undefined) url += `${url.includes("?") ? "&" : "?"}${sas}`;
+    if (linkQuery !== undefined) url += `${url.includes("?") ? "&" : "?"}${linkQuery}`;
+    if (url !== request.url) {
+      request = HttpClientRequest.setUrl(request, url);
+    }
+    return request;
+  });
+
+/** The operation's audience, or the one its `audienceByHost` names for this endpoint. */
+const audienceFor = (http: HttpTrait, fallback: string, baseUrl: string): string => {
+  if (http.audienceByHost === undefined) return fallback;
+  // An endpoint that is not a URL gets the default audience; building the
+  // request fails on it with InvalidInput right after.
+  const host = parseUrl(baseUrl)?.hostname.toLowerCase();
+  if (host === undefined) return fallback;
+  for (const [suffix, audience] of Object.entries(http.audienceByHost)) {
+    if (host.endsWith(suffix)) return audience;
+  }
+  return fallback;
+};
+
+// ---------------------------------------------------------------------------
+// Container Registry token exchange
+// ---------------------------------------------------------------------------
+
+/** The input with a greedy upload link's `?query` split off (sent verbatim). */
+const splitUploadLink = (
+  http: HttpTrait,
+  fields: unknown,
+): { readonly fields: unknown; readonly query: string | undefined } => {
+  const label = /\{([A-Za-z0-9_]+)\+\}/.exec(http.uri)?.[1];
+  if (label === undefined || fields === null || typeof fields !== "object") {
+    return { fields, query: undefined };
+  }
+  const value = (fields as Record<string, unknown>)[label];
+  if (typeof value !== "string") return { fields, query: undefined };
+  const link = value.replace(/^https?:\/\/[^/]+/i, "");
+  const q = link.indexOf("?");
+  return {
+    fields: { ...(fields as Record<string, unknown>), [label]: q >= 0 ? link.slice(0, q) : link },
+    query: q >= 0 && q < link.length - 1 ? link.slice(q + 1) : undefined,
+  };
+};
+
+/**
+ * The registry token scopes an operation needs, least first:
+ * `repository:<name>:<actions>` (or `registry:catalog:*` for the catalog).
+ */
+const acrScopesFor = (http: HttpTrait, fields: unknown): string[] => {
+  const input = (fields ?? {}) as Record<string, unknown>;
+  const name = typeof input.name === "string" ? input.name : undefined;
+  if (http.uri.startsWith("/acr/v1/_catalog")) return ["registry:catalog:*"];
+  if (http.uri.startsWith("/acr/v1/") && name !== undefined) {
+    const action =
+      http.method === "GET" || http.method === "HEAD"
+        ? "metadata_read"
+        : http.method === "DELETE"
+          ? "delete"
+          : "metadata_write";
+    return [`repository:${name}:${action}`];
+  }
+  if (http.uri.startsWith("/v2/") && name !== undefined) {
+    const action =
+      http.method === "GET" || http.method === "HEAD"
+        ? "pull"
+        : http.method === "DELETE"
+          ? "delete"
+          : "pull,push";
+    const from = typeof input.from === "string" ? [`repository:${input.from}:pull`] : [];
+    return [`repository:${name}:${action}`, ...from];
+  }
+  // An upload link: `v2/<name>/blobs/uploads/<uuid>`.
+  const link = /\{([A-Za-z0-9_]+)\+\}/.exec(http.uri)?.[1];
+  const value = link !== undefined ? input[link] : undefined;
+  const repo =
+    typeof value === "string"
+      ? /^\/?v2\/(.+?)\/blobs\/uploads(?:\/|$)/.exec(value)?.[1]
+      : undefined;
+  return repo !== undefined ? [`repository:${repo}:pull,push`] : [];
+};
+
+/** Registry tokens by registry + Entra token (+ scopes); entries expire. */
+const acrTokens = /*@__PURE__*/ new Map<
+  string,
+  { readonly token: Redacted.Redacted<string>; readonly expiresOnMs: number }
+>();
+
+/** Reuse a registry token until a minute before its JWT `exp`. */
+const ACR_TOKEN_SLACK_MS = 60_000;
+/** Lifetime assumed for a registry token whose `exp` cannot be read. */
+const ACR_TOKEN_FALLBACK_MS = 5 * 60_000;
+
+/** The claims of a JWT, or `undefined` when it is not one. */
+const jwtClaims = (token: string): Record<string, unknown> | undefined => {
+  try {
+    const payload = token.split(".")[1] ?? "";
+    const claims: unknown = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+    return claims !== null && typeof claims === "object"
+      ? (claims as Record<string, unknown>)
+      : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const jwtExpiresOnMs = (token: string, now: number): number => {
+  const exp = jwtClaims(token)?.exp;
+  return typeof exp === "number" ? exp * 1000 : now + ACR_TOKEN_FALLBACK_MS;
+};
+
+/**
+ * Whether a registry access token grants an action for every requested
+ * scope. The token server answers a scope the identity may not use (yet:
+ * role assignments propagate for minutes) with a token granting nothing;
+ * such a token is not cached, so the next call asks again.
+ */
+const grantsEveryScope = (scopes: ReadonlyArray<string>) => (token: string) => {
+  const access = jwtClaims(token)?.access;
+  if (!Array.isArray(access)) return false;
+  const granted = access.filter(
+    (a) =>
+      a !== null &&
+      typeof a === "object" &&
+      Array.isArray((a as { actions?: unknown }).actions) &&
+      (a as { actions: unknown[] }).actions.length > 0,
+  );
+  return granted.length >= scopes.length;
+};
+
+/** POST a form to the registry's token server and read one token field. */
+const acrTokenRequest = (
+  baseUrl: string,
+  path: "/oauth2/exchange" | "/oauth2/token",
+  form: ReadonlyArray<readonly [string, string]>,
+  field: "refresh_token" | "access_token",
+) =>
+  Effect.gen(function* () {
+    const client = yield* HttpClient.HttpClient;
+    const params = new URLSearchParams();
+    for (const [k, v] of form) params.append(k, v);
+    const request = HttpClientRequest.post(`${baseUrl}${path}`).pipe(
+      HttpClientRequest.setHeaders({ Accept: "application/json" }),
+      HttpClientRequest.setBody(
+        HttpBody.text(params.toString(), "application/x-www-form-urlencoded"),
+      ),
+    );
+    // A throttled or failing token server is retried: 0.2 s + 0.4 s + 0.8 s.
+    const { response, text } = yield* client.execute(request).pipe(
+      Effect.flatMap((response) => Effect.map(response.text, (text) => ({ response, text }))),
+      Effect.repeat({
+        until: (sent) => sent.response.status !== 429 && sent.response.status < 500,
+        times: 3,
+        schedule: Schedule.exponential("200 millis"),
+      }),
+    );
+    let json: unknown;
+    try {
+      json = JSON.parse(text);
+    } catch {
+      json = undefined;
+    }
+    if (response.status >= 200 && response.status < 300) {
+      const value = (json as Record<string, unknown> | undefined)?.[field];
+      if (typeof value === "string" && value !== "") return Redacted.make(value);
+    }
+    const arm = parseArmError(json ?? text);
+    // The token server's answer is not an operation's response, so there are
+    // no declared classes to match it against: the class comes from the map.
+    const Mapped = classForCode(arm?.code);
+    if (Mapped !== undefined) {
+      return yield* Effect.fail(new Mapped({ message: arm!.message, code: arm!.code }));
+    }
+    return yield* Effect.fail(
+      new ContainerRegistryTokenExchangeFailed({
+        message: `${path} answered ${response.status}${arm?.message ? `: ${arm.message}` : ""}`,
+        code: arm?.code,
+        status: response.status,
+      }),
+    );
+  });
+
+/** A cached registry token, or a fresh one from `mint`. */
+const cachedAcrToken = <E>(
+  key: string,
+  mint: Effect.Effect<Redacted.Redacted<string>, E, HttpClient.HttpClient>,
+  cacheable: (token: string) => boolean = () => true,
+) =>
+  Effect.gen(function* () {
+    const now = yield* Clock.currentTimeMillis;
+    const hit = acrTokens.get(key);
+    if (hit !== undefined && hit.expiresOnMs - ACR_TOKEN_SLACK_MS > now) return hit.token;
+    const token = yield* mint;
+    for (const [k, v] of acrTokens) if (v.expiresOnMs <= now) acrTokens.delete(k);
+    const value = Redacted.value(token);
+    if (cacheable(value)) {
+      acrTokens.set(key, { token, expiresOnMs: jwtExpiresOnMs(value, now) });
+    } else {
+      acrTokens.delete(key);
+    }
+    return token;
+  });
+
+/**
+ * Trade an Entra token for a registry access token holding `scopes`:
+ * `POST /oauth2/exchange` (refresh token), then `POST /oauth2/token`.
+ * Both tokens are cached until shortly before they expire.
+ */
+const acrAccessToken = (
+  baseUrl: string,
+  entraToken: Redacted.Redacted<string>,
+  scopes: ReadonlyArray<string>,
+  tenantId: string | undefined,
+) =>
+  Effect.gen(function* () {
+    const service = parseUrl(baseUrl)?.host;
+    if (service === undefined) {
+      return yield* Effect.fail(
+        new InvalidInput({ member: "endpoint", message: `${baseUrl} is not a registry URL` }),
+      );
+    }
+    const entra = Redacted.value(entraToken);
+    const refresh = yield* cachedAcrToken(
+      `refresh ${service} ${entra}`,
+      acrTokenRequest(
+        baseUrl,
+        "/oauth2/exchange",
+        [
+          ["grant_type", "access_token"],
+          ["service", service],
+          ["access_token", entra],
+          ...(tenantId !== undefined ? ([["tenant", tenantId]] as const) : []),
+        ],
+        "refresh_token",
+      ),
+    );
+    return yield* cachedAcrToken(
+      `access ${service} ${entra} ${scopes.join(" ")}`,
+      acrTokenRequest(
+        baseUrl,
+        "/oauth2/token",
+        [
+          ["grant_type", "refresh_token"],
+          ["service", service],
+          ["refresh_token", Redacted.value(refresh)],
+          ...scopes.map((scope) => ["scope", scope] as const),
+        ],
+        "access_token",
+      ),
+      grantsEveryScope(scopes),
+    );
+  });
+
+const HOST_PLACEHOLDER = /\{([^}]+)\}/g;
+
+/**
+ * Fill a data-plane host template from the input. Members listed in
+ * `hostRaw` are URLs (`https://my-vault.vault.azure.net/`) and go in verbatim
+ * without their trailing `/`; the rest are URL-encoded name parts.
+ */
+const buildHost = (http: HttpTrait, input: unknown): string | InvalidInput => {
+  const values = (input ?? {}) as Record<string, unknown>;
+  const missing: string[] = [];
+  const url = http.host!.replace(HOST_PLACEHOLDER, (_match, name: string) => {
+    const value = values[name] ?? http.hostDefaults?.[name];
+    if (value === undefined || value === null || value === "") {
+      missing.push(name);
+      return "";
+    }
+    const text = String(value);
+    return http.hostRaw?.includes(name) ? text.replace(/\/+$/, "") : encodeURIComponent(text);
+  });
+  if (missing.length > 0) {
+    return new InvalidInput({
+      member: missing[0]!,
+      message: `${http.uri} needs its endpoint: set ${missing.join(", ")}`,
+    });
+  }
+  return url.replace(/\/+$/, "");
+};
+
+/** `T.JsonHeader(name)` members of a schema, read once per schema. */
+const jsonHeaderPlans = /*@__PURE__*/ new WeakMap<
+  AST.AST,
+  ReadonlyArray<{ readonly key: string; readonly header: string; readonly type: AST.AST }>
+>();
+const jsonHeaderMembers = (ast: AST.AST) => {
+  let members = jsonHeaderPlans.get(ast);
+  if (members !== undefined) return members;
+  members = getProps(resolveNode(ast)).flatMap((prop) => {
+    const header = getPropAnn(prop, jsonHeaderSymbol);
+    return typeof header === "string" ? [{ key: String(prop.name), header, type: prop.type }] : [];
+  });
+  jsonHeaderPlans.set(ast, members);
+  return members;
+};
+
+/**
+ * Split the input's JSON-encoded header members off into headers
+ * (`brokerProperties: { label: "M1" }` -> `BrokerProperties: {"Label":"M1"}`);
+ * returns the input without them.
+ */
+const takeJsonHeaders = (
+  inputAst: AST.AST,
+  input: Record<string, unknown>,
+): { readonly input: Record<string, unknown>; readonly headers: Record<string, string> } => {
+  const members = jsonHeaderMembers(inputAst);
+  if (members.length === 0) return { input, headers: {} };
+  const rest = { ...input };
+  const headers: Record<string, string> = {};
+  for (const m of members) {
+    const value = rest[m.key];
+    delete rest[m.key];
+    if (value !== undefined) headers[m.header] = JSON.stringify(mapKeys(m.type, value, "encode"));
+  }
+  return { input: rest, headers };
+};
+
+/** The output's JSON-encoded header members, parsed and mapped to their TS names. */
+const readJsonHeaders = (
+  outputAst: AST.AST,
+  headers: Record<string, string | undefined>,
+): Effect.Effect<Record<string, unknown>, AzureParseError> =>
+  Effect.try({
+    try: () => {
+      const out: Record<string, unknown> = {};
+      for (const m of jsonHeaderMembers(outputAst)) {
+        const raw = headers[m.header.toLowerCase()];
+        if (raw === undefined || raw.trim() === "") continue;
+        out[m.key] = mapKeys(m.type, JSON.parse(raw), "decode");
+      }
+      return out;
+    },
+    catch: (cause) => new AzureParseError({ body: undefined, cause }),
+  });
+
+/** The input without the members that only fill the host template. */
+const withoutHostMembers = (template: string, input: unknown): unknown => {
+  if (input === null || typeof input !== "object") return input;
+  const rest = { ...(input as Record<string, unknown>) };
+  for (const [, name] of template.matchAll(HOST_PLACEHOLDER)) delete rest[name!];
+  return rest;
+};
+
+// ---------------------------------------------------------------------------
+// Decode
+// ---------------------------------------------------------------------------
+
+const decode = ({ response, outputAst, errors }: DecodeArgs) =>
+  Effect.gen(function* () {
+    const status = response.status;
+    const headers = response.headers as Record<string, string | undefined>;
+
+    // A raw-bytes body (Storage download, Service Bus message): the body is
+    // the bytes, the rest are headers. A 204 (no message within the
+    // receive timeout) has no body at all.
+    const bytesMember = status < 400 ? binaryBodyMember(outputAst) : undefined;
+    if (bytesMember !== undefined) {
+      const buffer = yield* response.arrayBuffer;
+      const decodedHeaders = yield* readJsonHeaders(outputAst, headers);
+      return yield* validateSuccess(
+        outputAst,
+        {
+          value: {
+            ...readStorageHeaders(outputAst, headers),
+            ...decodedHeaders,
+            ...(status === 204 ? {} : { [bytesMember]: new Uint8Array(buffer) }),
+          },
+          body: undefined,
+          nonJson: false,
+        },
+        (info) => new AzureParseError(info),
+      );
+    }
+
+    // Read as text and parse tolerantly -- error pages are often non-JSON.
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`.
+    const read = parseBody((yield* response.text) ?? "");
+    const { text, json, nonJson } = read;
+
+    if (status >= 400) {
+      // Storage: `<Error><Code>...</Code><Message>...</Message></Error>`, or only
+      // the `x-ms-error-code` header (a HEAD has no body).
+      const storageCode = headers["x-ms-error-code"];
+      let arm: ArmError | undefined = nonJson ? parseXmlError(text) : parseArmError(json);
+      if (storageCode !== undefined && arm?.code === undefined) {
+        arm = { ...arm, code: storageCode };
+      }
+      return yield* failResponse({ status, headers, read, arm, errors });
+    }
+
+    // 2xx: the response body IS the payload (ARM has no success envelope),
+    // plus the response headers the output declares -- the
+    // `Azure-AsyncOperation` / `Location` status monitor of a long-running
+    // operation's 202, for example.
+    // Wire->TS key mapping is schema-driven; `RawResponseRoot` responses are
+    // the body verbatim (mapKeys handles arrays/scalars structurally either
+    // way). Strict mode (core/response-validation) checks the mapped body
+    // against the output schema. Sensitive members are delivered as
+    // `Redacted`, and parse errors withhold a body that can hold a secret
+    // (core `validateSuccess`).
+    //
+    // Storage answers lists and properties in XML (`<EnumerationResults>`),
+    // read against the output schema's XML member names. Header members are
+    // typed (numbers, booleans) and header maps (`x-ms-meta-*`) collected.
+    let body: unknown = nonJson ? text : json === undefined ? {} : json;
+    // A JSON body carried in one member next to header members (a Cosmos DB
+    // document with its `etag` and request charge).
+    const payloadMember = jsonBodyMember(outputAst);
+    if (payloadMember !== undefined) {
+      body = mapKeys(
+        outputAst,
+        text.trim().length > 0 ? { [payloadMember]: nonJson ? text : json } : {},
+        "decode",
+      );
+    } else if (nonJson && text.trimStart().startsWith("<") && isXmlShaped(outputAst)) {
+      const xml = yield* Effect.try({
+        try: () => decodeXmlBody(outputAst, text),
+        catch: (cause) => new AzureParseError({ body: text, cause }),
+      });
+      body = xml;
+    } else {
+      body = mapKeys(outputAst, body, "decode");
+    }
+    const decodedHeaders = yield* readJsonHeaders(outputAst, headers);
+    const withHeaders =
+      body !== null && typeof body === "object" && !Array.isArray(body)
+        ? {
+            ...(body as Record<string, unknown>),
+            ...readStorageHeaders(outputAst, headers),
+            ...decodedHeaders,
+          }
+        : body;
+    return yield* validateSuccess(
+      outputAst,
+      { value: withHeaders, body: nonJson ? text : json, nonJson },
+      (info) => new AzureParseError(info),
+    );
+  });
+
+const azureDataPlaneProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const AzureDataPlaneProtocol: ProtocolOf<typeof azureDataPlaneProtocolMethods> =
+  azureDataPlaneProtocolMethods;

@@ -95,7 +95,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "SteelOpContext",
     commonErrorType: "SteelOpError",
-    commonErrorClasses: ["UnknownSteelError"],
+    serviceErrors: "SteelServiceErrors",
     protocol: "SteelProtocol",
     retry: "Retry.Retry",
   },

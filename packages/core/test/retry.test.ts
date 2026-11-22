@@ -16,6 +16,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
 import * as Category from "../src/category.ts";
 import {
+  API_ERRORS,
   BadGateway,
   BadRequest,
   Conflict,
@@ -28,7 +29,8 @@ import {
   TooManyRequests,
   Unauthorized,
 } from "../src/errors.ts";
-import { makeRestProtocol } from "../src/protocol-rest.ts";
+import { restProtocol } from "../src/protocol-rest.ts";
+import type { Protocol } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
@@ -44,7 +46,7 @@ class UnknownTestError extends Schema.TaggedError<UnknownTestError>()("UnknownTe
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = restProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -60,6 +62,7 @@ const operation = (method: "GET" | "POST", retry?: typeof TestRetry): Call =>
   API.make(() => ({
     input: S.Struct({}).pipe(T.Http({ method, uri: "/thing" })),
     output: Output,
+    serviceErrors: API_ERRORS,
     protocol: TestProtocol,
     ...(retry ? { retry } : {}),
   })) as unknown as Call;
@@ -69,6 +72,7 @@ const getThing = operation("GET", TestRetry);
 const getTuned = API.make(() => ({
   input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
   output: Output,
+  serviceErrors: API_ERRORS,
   protocol: TestProtocol,
   retry: TestRetry,
   retryPolicy: { maxAttempts: 4, baseMs: 100 },
@@ -387,7 +391,7 @@ describe("retry budget", () => {
     // A protocol with its own `call` bypasses `send`: no host is
     // recorded and no success would refill a bucket.
     let attempts = 0;
-    const RawProtocol = Layer.succeed(API.Protocol, {
+    const RawProtocol: Protocol<ServiceUnavailable> = {
       encode: () => Effect.die("unused"),
       decode: () => Effect.die("unused"),
       call: () =>
@@ -395,7 +399,7 @@ describe("retry budget", () => {
           attempts++;
           return Effect.fail(new ServiceUnavailable({ message: "" }));
         }),
-    } as any);
+    };
     const rawCall = API.make(() => ({
       input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
       output: Output,

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -711,15 +712,16 @@ export const createBillOfMaterialsImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<CreateBillOfMaterialsImportJobRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<CreateBillOfMaterialsImportJobResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ResourceNotFoundException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillOfMaterialsImportJob",
@@ -747,15 +749,16 @@ export const createDataIntegrationFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateDataIntegrationFlowRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<CreateDataIntegrationFlowResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ResourceNotFoundException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationFlow",
@@ -783,7 +786,8 @@ export const createDataLakeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<CreateDataLakeDatasetRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateDataLakeDatasetResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -791,7 +795,7 @@ export const createDataLakeDataset: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeDataset",
@@ -819,15 +823,16 @@ export const createDataLakeNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateDataLakeNamespaceRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<CreateDataLakeNamespaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ResourceNotFoundException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeNamespace",
@@ -857,15 +862,16 @@ export const createInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateInstanceRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateInstanceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ResourceNotFoundException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
@@ -893,15 +899,16 @@ export const deleteDataIntegrationFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteDataIntegrationFlowRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<DeleteDataIntegrationFlowResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ConflictException,
     ServiceQuotaExceededException,
+    ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegrationFlow",
@@ -929,15 +936,16 @@ export const deleteDataLakeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteDataLakeDatasetRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<DeleteDataLakeDatasetResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeDataset",
@@ -965,15 +973,16 @@ export const deleteDataLakeNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteDataLakeNamespaceRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<DeleteDataLakeNamespaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeNamespace",
@@ -1003,15 +1012,16 @@ export const deleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DeleteInstanceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
@@ -1039,15 +1049,16 @@ export const getBillOfMaterialsImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetBillOfMaterialsImportJobRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<GetBillOfMaterialsImportJobResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillOfMaterialsImportJob",
@@ -1075,15 +1086,16 @@ export const getDataIntegrationEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetDataIntegrationEventRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<GetDataIntegrationEventResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationEvent",
@@ -1111,15 +1123,16 @@ export const getDataIntegrationFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetDataIntegrationFlowRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<GetDataIntegrationFlowResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlow",
@@ -1147,15 +1160,16 @@ export const getDataIntegrationFlowExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetDataIntegrationFlowExecutionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<GetDataIntegrationFlowExecutionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlowExecution",
@@ -1183,15 +1197,16 @@ export const getDataLakeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetDataLakeDatasetRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<GetDataLakeDatasetResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeDataset",
@@ -1219,15 +1234,16 @@ export const getDataLakeNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetDataLakeNamespaceRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GetDataLakeNamespaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeNamespace",
@@ -1255,15 +1271,16 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<GetInstanceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
@@ -1292,15 +1309,16 @@ export const listDataIntegrationEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListDataIntegrationEventsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ListDataIntegrationEventsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
     ConflictException,
+    InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-  ],
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataIntegrationEvents",
@@ -1335,15 +1353,16 @@ export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListDataIntegrationFlowExecutionsRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<ListDataIntegrationFlowExecutionsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataIntegrationFlowExecutions",
@@ -1378,15 +1397,16 @@ export const listDataIntegrationFlows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListDataIntegrationFlowsRequest>,
   output: __S(370, __c23, 2) as any as S.Schema<ListDataIntegrationFlowsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
     ConflictException,
+    InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-  ],
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataIntegrationFlows",
@@ -1421,15 +1441,16 @@ export const listDataLakeDatasets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListDataLakeDatasetsRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<ListDataLakeDatasetsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataLakeDatasets",
@@ -1464,15 +1485,16 @@ export const listDataLakeNamespaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListDataLakeNamespacesRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<ListDataLakeNamespacesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
     ConflictException,
+    InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-  ],
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataLakeNamespaces",
@@ -1507,15 +1529,16 @@ export const listInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(417, __c26, 1) as any as S.Schema<ListInstancesRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<ListInstancesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
     ConflictException,
+    InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-  ],
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstances",
@@ -1549,15 +1572,16 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1585,7 +1609,8 @@ export const sendDataIntegrationEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(465, __c29, 1) as any as S.Schema<SendDataIntegrationEventRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<SendDataIntegrationEventResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1593,7 +1618,7 @@ export const sendDataIntegrationEvent: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataIntegrationEvent",
@@ -1621,15 +1646,16 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1657,15 +1683,16 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1693,15 +1720,16 @@ export const updateDataIntegrationFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateDataIntegrationFlowRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<UpdateDataIntegrationFlowResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationFlow",
@@ -1729,15 +1757,16 @@ export const updateDataLakeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateDataLakeDatasetRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<UpdateDataLakeDatasetResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeDataset",
@@ -1765,15 +1794,16 @@ export const updateDataLakeNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateDataLakeNamespaceRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UpdateDataLakeNamespaceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeNamespace",
@@ -1801,15 +1831,16 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-    ConflictException,
-    ServiceQuotaExceededException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstance",

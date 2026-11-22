@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3342,6 +3342,8 @@ export interface ListActivityByModuleRequest {
   automationAccountName: string;
   /** The module name. */
   moduleName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Activity items on this page */
 export type ActivityListResultValueList = Array<Activity>;
@@ -3355,6 +3357,8 @@ export interface ActivityListResult {
 export interface ListAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutomationAccountTagsMap = { [key: string]: string | undefined };
@@ -3393,6 +3397,8 @@ export interface ListAutomationAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAutomationAccountDeletedRunbooksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3401,6 +3407,8 @@ export interface ListAutomationAccountDeletedRunbooksRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the deleted runbook property. */
 export interface DeletedRunbookProperties {
@@ -3444,6 +3452,8 @@ export interface ListCertificateByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the certificate. */
 export interface Certificate {
@@ -3474,6 +3484,8 @@ export interface ListConnectionByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the connection. */
 export interface Connection {
@@ -3504,6 +3516,8 @@ export interface ListConnectionTypeByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the connection type. */
 export interface ConnectionType {
@@ -3534,6 +3548,8 @@ export interface ListCredentialByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the credential. */
 export interface Credential {
@@ -3607,6 +3623,8 @@ export interface ListDscConfigurationByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DscConfigurationTagsMap = { [key: string]: string | undefined };
@@ -3634,7 +3652,7 @@ export type DscConfigurationListResultValueList = Array<DscConfiguration>;
 /** The response model for the list configuration operation. */
 export interface DscConfigurationListResult {
   /** Gets or sets a list of configurations. */
-  value?: DscConfigurationListResultValueList | undefined;
+  value: DscConfigurationListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets the total number of configurations matching filter criteria. */
@@ -3655,6 +3673,8 @@ export interface ListDscNodeByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of a DscNode */
 export interface DscNode {
@@ -3674,7 +3694,7 @@ export type DscNodeListResultValueList = Array<DscNode>;
 /** The response model for the list dsc nodes operation. */
 export interface DscNodeListResult {
   /** Gets or sets a list of dsc nodes. */
-  value?: DscNodeListResultValueList | undefined;
+  value: DscNodeListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets the total number of nodes matching filter criteria. */
@@ -3695,6 +3715,8 @@ export interface ListDscNodeConfigurationByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the dsc node configuration. */
 export interface DscNodeConfiguration {
@@ -3714,7 +3736,7 @@ export type DscNodeConfigurationListResultValueList = Array<DscNodeConfiguration
 /** The response model for the list job operation. */
 export interface DscNodeConfigurationListResult {
   /** Gets or sets a list of Dsc node configurations. */
-  value?: DscNodeConfigurationListResultValueList | undefined;
+  value: DscNodeConfigurationListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets or sets the total rows in query. */
@@ -3731,6 +3753,8 @@ export interface ListFieldByTypeRequest {
   moduleName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information about a field of a type. */
 export interface TypeField {
@@ -3744,7 +3768,7 @@ export type TypeFieldListResultValueList = Array<TypeField>;
 /** The response model for the list fields operation. */
 export interface TypeFieldListResult {
   /** Gets or sets a list of fields. */
-  value?: TypeFieldListResultValueList | undefined;
+  value: TypeFieldListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
@@ -3758,6 +3782,8 @@ export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
   hybridRunbookWorkerGroupName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerTagsMap = { [key: string]: string | undefined };
@@ -3796,6 +3822,8 @@ export interface ListHybridRunbookWorkerGroupByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerGroupTagsMap = { [key: string]: string | undefined };
@@ -3834,6 +3862,8 @@ export interface ListJobByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Job collection item properties. */
 export interface JobCollectionItemProperties {
@@ -3891,6 +3921,8 @@ export interface ListJobScheduleByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the job schedule. */
 export interface JobSchedule {
@@ -3925,6 +3957,8 @@ export interface ListJobStreamByJobRequest {
   jobName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The JobStream items on this page */
 export type JobStreamListResultValueList = Array<JobStream>;
@@ -3969,6 +4003,8 @@ export interface ListModuleByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ModuleTagsMap = { [key: string]: string | undefined };
@@ -4011,6 +4047,8 @@ export interface ListNodeReportByNodeRequest {
   nodeId: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The DscNodeReport items on this page */
 export type DscNodeReportListResultValueList = Array<DscNodeReport>;
@@ -4030,8 +4068,13 @@ export interface ListObjectDataTypeFieldsByTypeRequest {
   automationAccountName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Provider, Resource and Operation values */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Automation */
@@ -4127,6 +4170,8 @@ export interface ListPackageByRuntimeEnvironmentRequest {
   automationAccountName: string;
   /** The name of the Runtime Environment. */
   runtimeEnvironmentName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PackageTagsMap = { [key: string]: string | undefined };
@@ -4163,13 +4208,15 @@ export interface ListPrivateEndpointConnectionByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListPython2PackageByAutomationAccountRequest {
@@ -4179,6 +4226,8 @@ export interface ListPython2PackageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPython3PackageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4187,6 +4236,8 @@ export interface ListPython3PackageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRunbookByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4195,6 +4246,8 @@ export interface ListRunbookByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RunbookTagsMap = { [key: string]: string | undefined };
@@ -4233,6 +4286,8 @@ export interface ListRuntimeEnvironmentByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RuntimeEnvironmentTagsMap = { [key: string]: string | undefined };
@@ -4269,6 +4324,8 @@ export interface ListScheduleByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the schedule. */
 export interface Schedule {
@@ -4395,6 +4452,8 @@ export interface ListSourceControlByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the source control. */
 export interface SourceControl {
@@ -4429,6 +4488,8 @@ export interface ListSourceControlSyncJobByAutomationAccountRequest {
   sourceControlName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SourceControlSyncJob items on this page */
 export type SourceControlSyncJobListResultValueList = Array<SourceControlSyncJob>;
@@ -4452,6 +4513,8 @@ export interface ListSourceControlSyncJobStreamBySyncJobRequest {
   sourceControlSyncJobId: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of source control sync job stream properties. */
 export interface SourceControlSyncJobStreamProperties {
@@ -4489,6 +4552,8 @@ export interface ListStatisticsByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the statistic. */
 export interface Statistics {
@@ -4508,7 +4573,7 @@ export type StatisticsListResultValueList = Array<Statistics>;
 /** The response model for the list statistics operation. */
 export interface StatisticsListResult {
   /** Gets or sets a list of statistics. */
-  value?: StatisticsListResultValueList | undefined;
+  value: StatisticsListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListTestJobStreamByTestJobRequest {
@@ -4522,6 +4587,8 @@ export interface ListTestJobStreamByTestJobRequest {
   runbookName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListUsageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4530,6 +4597,8 @@ export interface ListUsageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of usage counter name. */
 export interface UsageCounterName {
@@ -4558,7 +4627,7 @@ export type UsageListResultValueList = Array<Usage>;
 /** The response model for the get usage operation. */
 export interface UsageListResult {
   /** Gets or sets usage. */
-  value?: UsageListResultValueList | undefined;
+  value: UsageListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListVariableByAutomationAccountRequest {
@@ -4568,6 +4637,8 @@ export interface ListVariableByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the variable. */
 export interface Variable {
@@ -4600,6 +4671,8 @@ export interface ListWatcherByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherTagsMap = { [key: string]: string | undefined };
@@ -4640,6 +4713,8 @@ export interface ListWebhookByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the webhook type. */
 export interface Webhook {
@@ -4732,6 +4807,8 @@ export interface ObjectDataTypesListFieldsByModuleAndTypeRequest {
   moduleName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The parameters supplied to the create or update package properties. */
 export interface PackageCreateOrUpdateProperties {
@@ -4866,6 +4943,8 @@ export interface PrivateLinkResourcesAutomationRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -4894,7 +4973,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   nextLink?: string | undefined;
 }
 export interface PublishRunbookRequest {
@@ -6086,7 +6165,8 @@ export const AutomationAccountCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AutomationAccountCreateOrUpdateRequest>,
   output: __S(168, __c10, 8) as any as S.Schema<AutomationAccountCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6103,7 +6183,8 @@ export const CertificateCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(177, __c11, 1) as any as S.Schema<CertificateCreateOrUpdateRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<CertificateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6120,7 +6201,8 @@ export const ConnectionCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1729, __c108, 1) as any as S.Schema<ConnectionCreateOrUpdateRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<ConnectionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6137,7 +6219,8 @@ export const ConnectionTypeCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1953, __c122, 1) as any as S.Schema<ConnectionTypeCreateOrUpdateRequest>,
   output: __S(1971, __c123, 3) as any as S.Schema<ConnectionTypeCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6154,7 +6237,8 @@ export const ConvertGraphRunbookContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2225, __c139, 1) as any as S.Schema<ConvertGraphRunbookContentRequest>,
   output: __S(2226, __c139, 2) as any as S.Schema<GraphicalRunbookContent>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6171,7 +6255,8 @@ export const CreateHybridRunbookWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<CreateHybridRunbookWorkerRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<CreateHybridRunbookWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6188,7 +6273,8 @@ export const CreateHybridRunbookWorkerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<CreateHybridRunbookWorkerGroupRequest>,
   output: __S(2769, __c173, 1) as any as S.Schema<CreateHybridRunbookWorkerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6205,7 +6291,8 @@ export const CreateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3041, __c190, 1) as any as S.Schema<CreateJobRequest>,
   output: __S(3057, __c191, 1) as any as S.Schema<CreateJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6222,7 +6309,8 @@ export const CreateJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3313, __c207, 1) as any as S.Schema<CreateJobScheduleRequest>,
   output: __S(3329, __c208, 1) as any as S.Schema<CreateJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6239,7 +6327,8 @@ export const CreateRuntimeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3568, __c223, 0) as any as S.Schema<CreateRuntimeEnvironmentRequest>,
   output: __S(3586, __c224, 2) as any as S.Schema<CreateRuntimeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6256,7 +6345,8 @@ export const CreateSoftwareUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(210, __c13, 2) as any as S.Schema<CreateSoftwareUpdateConfigurationRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<CreateSoftwareUpdateConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6273,7 +6363,8 @@ export const CreateSourceControlSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c30, 1) as any as S.Schema<CreateSourceControlSyncJobRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<SourceControlSyncJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6290,7 +6381,8 @@ export const CreateTestJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<CreateTestJobRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<TestJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6307,7 +6399,8 @@ export const CredentialCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(881, __c55, 1) as any as S.Schema<CredentialCreateOrUpdateRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<CredentialCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6324,7 +6417,8 @@ export const DeleteAutomationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<DeleteAutomationAccountRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteAutomationAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6341,7 +6435,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6358,7 +6453,8 @@ export const DeleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6375,7 +6471,8 @@ export const DeleteConnectionType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<DeleteConnectionTypeRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteConnectionTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6392,7 +6489,8 @@ export const DeleteCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<DeleteCredentialRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteCredentialResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6409,7 +6507,8 @@ export const DeleteDscConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<DeleteDscConfigurationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteDscConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6426,7 +6525,8 @@ export const DeleteDscNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<DeleteDscNodeRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteDscNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6443,7 +6543,8 @@ export const DeleteDscNodeConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<DeleteDscNodeConfigurationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteDscNodeConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6460,7 +6561,8 @@ export const DeleteHybridRunbookWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<DeleteHybridRunbookWorkerRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteHybridRunbookWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6477,7 +6579,8 @@ export const DeleteHybridRunbookWorkerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<DeleteHybridRunbookWorkerGroupRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteHybridRunbookWorkerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6494,7 +6597,8 @@ export const DeleteJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<DeleteJobScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6511,7 +6615,8 @@ export const DeleteModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<DeleteModuleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteModuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6528,7 +6633,8 @@ export const DeletePackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<DeletePackageRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeletePackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6545,7 +6651,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1904, __c119, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6562,7 +6669,8 @@ export const DeletePython2Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<DeletePython2PackageRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeletePython2PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6579,7 +6687,8 @@ export const DeletePython3Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<DeletePython3PackageRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeletePython3PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6596,7 +6705,8 @@ export const DeleteRunbook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<DeleteRunbookRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteRunbookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6613,7 +6723,8 @@ export const DeleteRuntimeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<DeleteRuntimeEnvironmentRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteRuntimeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6630,7 +6741,8 @@ export const DeleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6647,7 +6759,8 @@ export const DeleteSoftwareUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<DeleteSoftwareUpdateConfigurationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteSoftwareUpdateConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6664,7 +6777,8 @@ export const DeleteSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<DeleteSourceControlRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6681,7 +6795,8 @@ export const DeleteVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<DeleteVariableRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteVariableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6698,7 +6813,8 @@ export const DeleteWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<DeleteWatcherRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6715,7 +6831,8 @@ export const DeleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6732,7 +6849,8 @@ export const DscConfigurationCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<DscConfigurationCreateOrUpdateRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<DscConfigurationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6749,7 +6867,8 @@ export const DscNodeConfigurationCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c138, 1) as any as S.Schema<DscNodeConfigurationCreateOrUpdateRequest>,
   output: __S(1904, __c119, 0) as any as S.Schema<DscNodeConfigurationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6766,7 +6885,8 @@ export const EditRunbookDraftUndo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<EditRunbookDraftUndoRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<EditRunbookDraftUndoResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6783,7 +6903,8 @@ export const GenerateWebhookUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<GenerateWebhookUriRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GenerateWebhookUriResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6800,7 +6921,8 @@ export const GetActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetActivityRequest>,
   output: __S(2311, __c144, 7) as any as S.Schema<Activity>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6817,7 +6939,8 @@ export const GetAgentRegistrationInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<GetAgentRegistrationInformationRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<AgentRegistration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6834,7 +6957,8 @@ export const GetAutomationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<GetAutomationAccountRequest>,
   output: __S(168, __c10, 8) as any as S.Schema<GetAutomationAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6851,7 +6975,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6868,7 +6993,8 @@ export const GetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<GetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6885,7 +7011,8 @@ export const GetConnectionType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetConnectionTypeRequest>,
   output: __S(1971, __c123, 3) as any as S.Schema<GetConnectionTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6902,7 +7029,8 @@ export const GetCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetCredentialRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<GetCredentialResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6919,7 +7047,8 @@ export const GetDscConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<GetDscConfigurationRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<GetDscConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6936,7 +7065,8 @@ export const GetDscConfigurationContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<GetDscConfigurationContentRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetDscConfigurationContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6953,7 +7083,8 @@ export const GetDscNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<GetDscNodeRequest>,
   output: __S(2547, __c159, 3) as any as S.Schema<GetDscNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6970,7 +7101,8 @@ export const GetDscNodeConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<GetDscNodeConfigurationRequest>,
   output: __S(2577, __c161, 1) as any as S.Schema<GetDscNodeConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6987,7 +7119,8 @@ export const GetHybridRunbookWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<GetHybridRunbookWorkerRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<GetHybridRunbookWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7004,7 +7137,8 @@ export const GetHybridRunbookWorkerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetHybridRunbookWorkerGroupRequest>,
   output: __S(2769, __c173, 1) as any as S.Schema<GetHybridRunbookWorkerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7021,7 +7155,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetJobRequest>,
   output: __S(3057, __c191, 1) as any as S.Schema<GetJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7038,7 +7173,8 @@ export const GetJobOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetJobOutputRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetJobOutputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7055,7 +7191,8 @@ export const GetJobRunbookContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetJobRunbookContentRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetJobRunbookContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7072,7 +7209,8 @@ export const GetJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GetJobScheduleRequest>,
   output: __S(3329, __c208, 1) as any as S.Schema<GetJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7089,7 +7227,8 @@ export const GetJobStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetJobStreamRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<JobStream>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7106,7 +7245,8 @@ export const GetLinkedWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<GetLinkedWorkspaceRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<LinkedWorkspace>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7123,7 +7263,8 @@ export const GetModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<GetModuleRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<GetModuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7140,7 +7281,8 @@ export const GetNodeCountInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetNodeCountInformationRequest>,
   output: __S(2852, __c178, 4) as any as S.Schema<NodeCounts>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7157,7 +7299,8 @@ export const GetNodeReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<GetNodeReportRequest>,
   output: __S(2887, __c180, 7) as any as S.Schema<DscNodeReport>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7174,7 +7317,8 @@ export const GetNodeReportContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<GetNodeReportContentRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetNodeReportContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7191,7 +7335,8 @@ export const GetPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<GetPackageRequest>,
   output: __S(2929, __c183, 1) as any as S.Schema<GetPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7208,7 +7353,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7225,7 +7371,8 @@ export const GetPython2Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<GetPython2PackageRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<GetPython2PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7242,7 +7389,8 @@ export const GetPython3Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<GetPython3PackageRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<GetPython3PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7259,7 +7407,8 @@ export const GetRunbook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2992, __c187, 0) as any as S.Schema<GetRunbookRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<GetRunbookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7276,7 +7425,8 @@ export const GetRunbookContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<GetRunbookContentRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetRunbookContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7293,7 +7443,8 @@ export const GetRunbookDraft: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<GetRunbookDraftRequest>,
   output: __S(3024, __c189, 0) as any as S.Schema<RunbookDraft>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7310,7 +7461,8 @@ export const GetRunbookDraftContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<GetRunbookDraftContentRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<GetRunbookDraftContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7327,7 +7479,8 @@ export const GetRuntimeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<GetRuntimeEnvironmentRequest>,
   output: __S(3586, __c224, 2) as any as S.Schema<GetRuntimeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7344,7 +7497,8 @@ export const GetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<GetScheduleRequest>,
   output: __S(3169, __c198, 1) as any as S.Schema<GetScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7361,7 +7515,8 @@ export const GetSoftwareUpdateConfigurationByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<GetSoftwareUpdateConfigurationByNameRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<GetSoftwareUpdateConfigurationByNameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7382,7 +7537,8 @@ export const GetSoftwareUpdateConfigurationMachineRunById: API.OperationMethod<
     0,
   ) as any as S.Schema<GetSoftwareUpdateConfigurationMachineRunByIdRequest>,
   output: __S(3217, __c201, 1) as any as S.Schema<SoftwareUpdateConfigurationMachineRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7399,7 +7555,8 @@ export const GetSoftwareUpdateConfigurationRunById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<GetSoftwareUpdateConfigurationRunByIdRequest>,
   output: __S(3251, __c203, 3) as any as S.Schema<SoftwareUpdateConfigurationRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7416,7 +7573,8 @@ export const GetSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<GetSourceControlRequest>,
   output: __S(3281, __c205, 1) as any as S.Schema<GetSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7433,7 +7591,8 @@ export const GetSourceControlSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<GetSourceControlSyncJobRequest>,
   output: __S(3298, __c206, 2) as any as S.Schema<SourceControlSyncJobById>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7450,7 +7609,8 @@ export const GetSourceControlSyncJobStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<GetSourceControlSyncJobStreamRequest>,
   output: __S(3346, __c209, 2) as any as S.Schema<SourceControlSyncJobStreamById>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7467,7 +7627,8 @@ export const GetTestJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<GetTestJobRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<TestJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7484,7 +7645,8 @@ export const GetTestJobStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<GetTestJobStreamRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<JobStream>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7501,7 +7663,8 @@ export const GetVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<GetVariableRequest>,
   output: __S(3409, __c213, 1) as any as S.Schema<GetVariableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7518,7 +7681,8 @@ export const GetWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<GetWatcherRequest>,
   output: __S(3441, __c215, 1) as any as S.Schema<GetWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7535,7 +7699,8 @@ export const GetWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<GetWebhookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7544,139 +7709,203 @@ export const GetWebhook: API.OperationMethod<
 
 export type ListActivityByModuleError = AzureOpError;
 /** Retrieve a list of activities in the module identified by module name. */
-export const ListActivityByModule: API.OperationMethod<
+export const ListActivityByModule: API.PaginatedOperationMethod<
   ListActivityByModuleRequest,
   ActivityListResult,
   ListActivityByModuleError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Activity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<ListActivityByModuleRequest>,
   output: __S(3490, __c218, 2) as any as S.Schema<ActivityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActivityByModule",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountError = AzureOpError;
 /** Lists the Automation Accounts within an Azure subscription. Retrieve a list of accounts within a given subscription. */
-export const ListAutomationAccount: API.OperationMethod<
+export const ListAutomationAccount: API.PaginatedOperationMethod<
   ListAutomationAccountRequest,
   AutomationAccountListResult,
   ListAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutomationAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<ListAutomationAccountRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<AutomationAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountByResourceGroupError = AzureOpError;
 /** Retrieve a list of accounts within a given resource group. */
-export const ListAutomationAccountByResourceGroup: API.OperationMethod<
+export const ListAutomationAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAutomationAccountByResourceGroupRequest,
   AutomationAccountListResult,
   ListAutomationAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutomationAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<ListAutomationAccountByResourceGroupRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<AutomationAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountDeletedRunbooksError = AzureOpError;
 /** Retrieve the deleted runbooks for an automation account. */
-export const ListAutomationAccountDeletedRunbooks: API.OperationMethod<
+export const ListAutomationAccountDeletedRunbooks: API.PaginatedOperationMethod<
   ListAutomationAccountDeletedRunbooksRequest,
   DeletedRunbookListResult,
   ListAutomationAccountDeletedRunbooksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedRunbook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<ListAutomationAccountDeletedRunbooksRequest>,
   output: __S(3556, __c222, 4) as any as S.Schema<DeletedRunbookListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccountDeletedRunbooks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCertificateByAutomationAccountError = AzureOpError;
 /** Retrieve a list of certificates. */
-export const ListCertificateByAutomationAccount: API.OperationMethod<
+export const ListCertificateByAutomationAccount: API.PaginatedOperationMethod<
   ListCertificateByAutomationAccountRequest,
   CertificateListResult,
   ListCertificateByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Certificate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3600, __c225, 0) as any as S.Schema<ListCertificateByAutomationAccountRequest>,
   output: __S(3602, __c225, 2) as any as S.Schema<CertificateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCertificateByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionByAutomationAccountError = AzureOpError;
 /** Retrieve a list of connections. */
-export const ListConnectionByAutomationAccount: API.OperationMethod<
+export const ListConnectionByAutomationAccount: API.PaginatedOperationMethod<
   ListConnectionByAutomationAccountRequest,
   ConnectionListResult,
   ListConnectionByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<ListConnectionByAutomationAccountRequest>,
   output: __S(3618, __c226, 2) as any as S.Schema<ConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionTypeByAutomationAccountError = AzureOpError;
 /** Retrieve a list of connection types. */
-export const ListConnectionTypeByAutomationAccount: API.OperationMethod<
+export const ListConnectionTypeByAutomationAccount: API.PaginatedOperationMethod<
   ListConnectionTypeByAutomationAccountRequest,
   ConnectionTypeListResult,
   ListConnectionTypeByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectionType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<ListConnectionTypeByAutomationAccountRequest>,
   output: __S(3634, __c227, 2) as any as S.Schema<ConnectionTypeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionTypeByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCredentialByAutomationAccountError = AzureOpError;
 /** Retrieve a list of credentials. */
-export const ListCredentialByAutomationAccount: API.OperationMethod<
+export const ListCredentialByAutomationAccount: API.PaginatedOperationMethod<
   ListCredentialByAutomationAccountRequest,
   CredentialListResult,
   ListCredentialByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Credential
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<ListCredentialByAutomationAccountRequest>,
   output: __S(3650, __c228, 2) as any as S.Schema<CredentialListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCredentialByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedAutomationAccountBySubscriptionError = AzureOpError;
 /** Retrieve deleted automation account. */
@@ -7688,7 +7917,8 @@ export const ListDeletedAutomationAccountBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<ListDeletedAutomationAccountBySubscriptionRequest>,
   output: __S(3668, __c229, 4) as any as S.Schema<DeletedAutomationAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7697,168 +7927,240 @@ export const ListDeletedAutomationAccountBySubscription: API.OperationMethod<
 
 export type ListDscConfigurationByAutomationAccountError = AzureOpError;
 /** Retrieve a list of configurations. */
-export const ListDscConfigurationByAutomationAccount: API.OperationMethod<
+export const ListDscConfigurationByAutomationAccount: API.PaginatedOperationMethod<
   ListDscConfigurationByAutomationAccountRequest,
   DscConfigurationListResult,
   ListDscConfigurationByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<ListDscConfigurationByAutomationAccountRequest>,
   output: __S(3682, __c230, 2) as any as S.Schema<DscConfigurationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscConfigurationByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDscNodeByAutomationAccountError = AzureOpError;
 /** Retrieve a list of dsc nodes. */
-export const ListDscNodeByAutomationAccount: API.OperationMethod<
+export const ListDscNodeByAutomationAccount: API.PaginatedOperationMethod<
   ListDscNodeByAutomationAccountRequest,
   DscNodeListResult,
   ListDscNodeByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNode
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3696, __c231, 0) as any as S.Schema<ListDscNodeByAutomationAccountRequest>,
   output: __S(3698, __c231, 2) as any as S.Schema<DscNodeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscNodeByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDscNodeConfigurationByAutomationAccountError = AzureOpError;
 /** Retrieve a list of dsc node configurations. */
-export const ListDscNodeConfigurationByAutomationAccount: API.OperationMethod<
+export const ListDscNodeConfigurationByAutomationAccount: API.PaginatedOperationMethod<
   ListDscNodeConfigurationByAutomationAccountRequest,
   DscNodeConfigurationListResult,
   ListDscNodeConfigurationByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNodeConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3712,
     __c232,
     0,
   ) as any as S.Schema<ListDscNodeConfigurationByAutomationAccountRequest>,
   output: __S(3714, __c232, 2) as any as S.Schema<DscNodeConfigurationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscNodeConfigurationByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFieldByTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type identified by module name. */
-export const ListFieldByType: API.OperationMethod<
+export const ListFieldByType: API.PaginatedOperationMethod<
   ListFieldByTypeRequest,
   TypeFieldListResult,
   ListFieldByTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<ListFieldByTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFieldByType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridRunbookWorkerByHybridRunbookWorkerGroupError = AzureOpError;
 /** Retrieve a list of hybrid runbook workers. */
-export const ListHybridRunbookWorkerByHybridRunbookWorkerGroup: API.OperationMethod<
+export const ListHybridRunbookWorkerByHybridRunbookWorkerGroup: API.PaginatedOperationMethod<
   ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest,
   HybridRunbookWorkersListResult,
   ListHybridRunbookWorkerByHybridRunbookWorkerGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridRunbookWorker
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3760,
     __c235,
     0,
   ) as any as S.Schema<ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest>,
   output: __S(3762, __c235, 2) as any as S.Schema<HybridRunbookWorkersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHybridRunbookWorkerByHybridRunbookWorkerGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridRunbookWorkerGroupByAutomationAccountError = AzureOpError;
 /** Retrieve a list of hybrid runbook worker groups. */
-export const ListHybridRunbookWorkerGroupByAutomationAccount: API.OperationMethod<
+export const ListHybridRunbookWorkerGroupByAutomationAccount: API.PaginatedOperationMethod<
   ListHybridRunbookWorkerGroupByAutomationAccountRequest,
   HybridRunbookWorkerGroupsListResult,
   ListHybridRunbookWorkerGroupByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridRunbookWorkerGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     288,
     __c18,
     0,
   ) as any as S.Schema<ListHybridRunbookWorkerGroupByAutomationAccountRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<HybridRunbookWorkerGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHybridRunbookWorkerGroupByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobByAutomationAccountError = AzureOpError;
 /** Retrieve a list of jobs. */
-export const ListJobByAutomationAccount: API.OperationMethod<
+export const ListJobByAutomationAccount: API.PaginatedOperationMethod<
   ListJobByAutomationAccountRequest,
   JobListResultV2,
   ListJobByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobCollectionItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListJobByAutomationAccountRequest>,
   output: __S(308, __c19, 4) as any as S.Schema<JobListResultV2>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobScheduleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of job schedules. */
-export const ListJobScheduleByAutomationAccount: API.OperationMethod<
+export const ListJobScheduleByAutomationAccount: API.PaginatedOperationMethod<
   ListJobScheduleByAutomationAccountRequest,
   JobScheduleListResult,
   ListJobScheduleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListJobScheduleByAutomationAccountRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<JobScheduleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobScheduleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobStreamByJobError = AzureOpError;
 /** Retrieve a list of jobs streams identified by job name. */
-export const ListJobStreamByJob: API.OperationMethod<
+export const ListJobStreamByJob: API.PaginatedOperationMethod<
   ListJobStreamByJobRequest,
   JobStreamListResult,
   ListJobStreamByJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListJobStreamByJobRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<JobStreamListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobStreamByJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKeyByAutomationAccountError = AzureOpError;
 /** Retrieve the automation keys for an account. */
@@ -7870,7 +8172,8 @@ export const ListKeyByAutomationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListKeyByAutomationAccountRequest>,
   output: __S(371, __c23, 3) as any as S.Schema<KeyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7879,194 +8182,282 @@ export const ListKeyByAutomationAccount: API.OperationMethod<
 
 export type ListModuleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of modules. */
-export const ListModuleByAutomationAccount: API.OperationMethod<
+export const ListModuleByAutomationAccount: API.PaginatedOperationMethod<
   ListModuleByAutomationAccountRequest,
   ModuleListResult,
   ListModuleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListModuleByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModuleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodeReportByNodeError = AzureOpError;
 /** Retrieve the Dsc node report list by node id. */
-export const ListNodeReportByNode: API.OperationMethod<
+export const ListNodeReportByNode: API.PaginatedOperationMethod<
   ListNodeReportByNodeRequest,
   DscNodeReportListResult,
   ListNodeReportByNodeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNodeReport
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListNodeReportByNodeRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<DscNodeReportListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeReportByNode",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListObjectDataTypeFieldsByTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type across all accessible modules. */
-export const ListObjectDataTypeFieldsByType: API.OperationMethod<
+export const ListObjectDataTypeFieldsByType: API.PaginatedOperationMethod<
   ListObjectDataTypeFieldsByTypeRequest,
   TypeFieldListResult,
   ListObjectDataTypeFieldsByTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListObjectDataTypeFieldsByTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListObjectDataTypeFieldsByType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Automation REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(460, __c28, 12) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPackageByRuntimeEnvironmentError = AzureOpError;
 /** Retrieve the a list of Packages */
-export const ListPackageByRuntimeEnvironment: API.OperationMethod<
+export const ListPackageByRuntimeEnvironment: API.PaginatedOperationMethod<
   ListPackageByRuntimeEnvironmentRequest,
   PackageListResult,
   ListPackageByRuntimeEnvironmentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Package
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListPackageByRuntimeEnvironmentRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<PackageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPackageByRuntimeEnvironment",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByAutomationAccountError = AzureOpError;
 /** List all private endpoint connections on a Automation account. */
-export const ListPrivateEndpointConnectionByAutomationAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionByAutomationAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByAutomationAccountRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     512,
     __c32,
     0,
   ) as any as S.Schema<ListPrivateEndpointConnectionByAutomationAccountRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPython2PackageByAutomationAccountError = AzureOpError;
 /** Retrieve a list of python 2 packages. */
-export const ListPython2PackageByAutomationAccount: API.OperationMethod<
+export const ListPython2PackageByAutomationAccount: API.PaginatedOperationMethod<
   ListPython2PackageByAutomationAccountRequest,
   ModuleListResult,
   ListPython2PackageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListPython2PackageByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPython2PackageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPython3PackageByAutomationAccountError = AzureOpError;
 /** Retrieve a list of python 3 packages. */
-export const ListPython3PackageByAutomationAccount: API.OperationMethod<
+export const ListPython3PackageByAutomationAccount: API.PaginatedOperationMethod<
   ListPython3PackageByAutomationAccountRequest,
   ModuleListResult,
   ListPython3PackageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListPython3PackageByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPython3PackageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRunbookByAutomationAccountError = AzureOpError;
 /** Retrieve a list of runbooks. */
-export const ListRunbookByAutomationAccount: API.OperationMethod<
+export const ListRunbookByAutomationAccount: API.PaginatedOperationMethod<
   ListRunbookByAutomationAccountRequest,
   RunbookListResult,
   ListRunbookByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Runbook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListRunbookByAutomationAccountRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<RunbookListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRunbookByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRuntimeEnvironmentByAutomationAccountError = AzureOpError;
 /** Retrieve a list of RuntimeEnvironments. */
-export const ListRuntimeEnvironmentByAutomationAccount: API.OperationMethod<
+export const ListRuntimeEnvironmentByAutomationAccount: API.PaginatedOperationMethod<
   ListRuntimeEnvironmentByAutomationAccountRequest,
   RuntimeEnvironmentListResult,
   ListRuntimeEnvironmentByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RuntimeEnvironment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListRuntimeEnvironmentByAutomationAccountRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<RuntimeEnvironmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRuntimeEnvironmentByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScheduleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of schedules. */
-export const ListScheduleByAutomationAccount: API.OperationMethod<
+export const ListScheduleByAutomationAccount: API.PaginatedOperationMethod<
   ListScheduleByAutomationAccountRequest,
   ScheduleListResult,
   ListScheduleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListScheduleByAutomationAccountRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<ScheduleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSoftwareUpdateConfigurationMachineRunsError = AzureOpError;
 /** Return list of software update configuration machine runs */
@@ -8078,7 +8469,8 @@ export const ListSoftwareUpdateConfigurationMachineRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListSoftwareUpdateConfigurationMachineRunsRequest>,
   output: __S(610, __c38, 2) as any as S.Schema<SoftwareUpdateConfigurationMachineRunListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8095,7 +8487,8 @@ export const ListSoftwareUpdateConfigurationRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListSoftwareUpdateConfigurationRunsRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<SoftwareUpdateConfigurationRunListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8112,7 +8505,8 @@ export const ListSoftwareUpdateConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListSoftwareUpdateConfigurationsRequest>,
   output: __S(644, __c40, 4) as any as S.Schema<SoftwareUpdateConfigurationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8121,156 +8515,228 @@ export const ListSoftwareUpdateConfigurations: API.OperationMethod<
 
 export type ListSourceControlByAutomationAccountError = AzureOpError;
 /** Retrieve a list of source controls. */
-export const ListSourceControlByAutomationAccount: API.OperationMethod<
+export const ListSourceControlByAutomationAccount: API.PaginatedOperationMethod<
   ListSourceControlByAutomationAccountRequest,
   SourceControlListResult,
   ListSourceControlByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControl
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListSourceControlByAutomationAccountRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<SourceControlListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlSyncJobByAutomationAccountError = AzureOpError;
 /** Retrieve a list of source control sync jobs. */
-export const ListSourceControlSyncJobByAutomationAccount: API.OperationMethod<
+export const ListSourceControlSyncJobByAutomationAccount: API.PaginatedOperationMethod<
   ListSourceControlSyncJobByAutomationAccountRequest,
   SourceControlSyncJobListResult,
   ListSourceControlSyncJobByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlSyncJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListSourceControlSyncJobByAutomationAccountRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<SourceControlSyncJobListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlSyncJobByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlSyncJobStreamBySyncJobError = AzureOpError;
 /** Retrieve a list of sync job streams identified by sync job id. */
-export const ListSourceControlSyncJobStreamBySyncJob: API.OperationMethod<
+export const ListSourceControlSyncJobStreamBySyncJob: API.PaginatedOperationMethod<
   ListSourceControlSyncJobStreamBySyncJobRequest,
   SourceControlSyncJobStreamsListBySyncJob,
   ListSourceControlSyncJobStreamBySyncJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlSyncJobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListSourceControlSyncJobStreamBySyncJobRequest>,
   output: __S(724, __c45, 4) as any as S.Schema<SourceControlSyncJobStreamsListBySyncJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlSyncJobStreamBySyncJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStatisticsByAutomationAccountError = AzureOpError;
 /** Retrieve the statistics for the account. */
-export const ListStatisticsByAutomationAccount: API.OperationMethod<
+export const ListStatisticsByAutomationAccount: API.PaginatedOperationMethod<
   ListStatisticsByAutomationAccountRequest,
   StatisticsListResult,
   ListStatisticsByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Statistics
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListStatisticsByAutomationAccountRequest>,
   output: __S(739, __c46, 3) as any as S.Schema<StatisticsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStatisticsByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTestJobStreamByTestJobError = AzureOpError;
 /** Retrieve a list of test job streams identified by runbook name. */
-export const ListTestJobStreamByTestJob: API.OperationMethod<
+export const ListTestJobStreamByTestJob: API.PaginatedOperationMethod<
   ListTestJobStreamByTestJobRequest,
   JobStreamListResult,
   ListTestJobStreamByTestJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListTestJobStreamByTestJobRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<JobStreamListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTestJobStreamByTestJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageByAutomationAccountError = AzureOpError;
 /** Retrieve the usage for the account id. */
-export const ListUsageByAutomationAccount: API.OperationMethod<
+export const ListUsageByAutomationAccount: API.PaginatedOperationMethod<
   ListUsageByAutomationAccountRequest,
   UsageListResult,
   ListUsageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Usage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListUsageByAutomationAccountRequest>,
   output: __S(772, __c48, 4) as any as S.Schema<UsageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVariableByAutomationAccountError = AzureOpError;
 /** Retrieve a list of variables. */
-export const ListVariableByAutomationAccount: API.OperationMethod<
+export const ListVariableByAutomationAccount: API.PaginatedOperationMethod<
   ListVariableByAutomationAccountRequest,
   VariableListResult,
   ListVariableByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Variable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListVariableByAutomationAccountRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<VariableListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVariableByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWatcherByAutomationAccountError = AzureOpError;
 /** Retrieve a list of watchers. */
-export const ListWatcherByAutomationAccount: API.OperationMethod<
+export const ListWatcherByAutomationAccount: API.PaginatedOperationMethod<
   ListWatcherByAutomationAccountRequest,
   WatcherListResult,
   ListWatcherByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Watcher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListWatcherByAutomationAccountRequest>,
   output: __S(802, __c50, 2) as any as S.Schema<WatcherListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWatcherByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebhookByAutomationAccountError = AzureOpError;
 /** Retrieve a list of webhooks. */
-export const ListWebhookByAutomationAccount: API.OperationMethod<
+export const ListWebhookByAutomationAccount: API.PaginatedOperationMethod<
   ListWebhookByAutomationAccountRequest,
   WebhookListResult,
   ListWebhookByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Webhook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListWebhookByAutomationAccountRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<WebhookListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhookByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ModuleCreateOrUpdateError = AzureOpError;
 /** Create or Update the module identified by module name. */
@@ -8282,7 +8748,8 @@ export const ModuleCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ModuleCreateOrUpdateRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<ModuleCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8299,7 +8766,8 @@ export const MoveHybridRunbookWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<MoveHybridRunbookWorkerRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<MoveHybridRunbookWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8308,20 +8776,28 @@ export const MoveHybridRunbookWorker: API.OperationMethod<
 
 export type ObjectDataTypesListFieldsByModuleAndTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type identified by module name. */
-export const ObjectDataTypesListFieldsByModuleAndType: API.OperationMethod<
+export const ObjectDataTypesListFieldsByModuleAndType: API.PaginatedOperationMethod<
   ObjectDataTypesListFieldsByModuleAndTypeRequest,
   TypeFieldListResult,
   ObjectDataTypesListFieldsByModuleAndTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ObjectDataTypesListFieldsByModuleAndTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ObjectDataTypesListFieldsByModuleAndType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PackageCreateOrUpdateError = AzureOpError;
 /** Create or update the package identified by package name. */
@@ -8333,7 +8809,8 @@ export const PackageCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<PackageCreateOrUpdateRequest>,
   output: __S(2929, __c183, 1) as any as S.Schema<PackageCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8350,7 +8827,8 @@ export const PatchHybridRunbookWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<PatchHybridRunbookWorkerRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<PatchHybridRunbookWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8367,7 +8845,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(978, __c61, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(979, __c61, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8376,20 +8855,28 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 
 export type PrivateLinkResourcesAutomationError = AzureOpError;
 /** Gets the private link resources that need to be created for Automation account. */
-export const PrivateLinkResourcesAutomation: API.OperationMethod<
+export const PrivateLinkResourcesAutomation: API.PaginatedOperationMethod<
   PrivateLinkResourcesAutomationRequest,
   PrivateLinkResourceListResult,
   PrivateLinkResourcesAutomationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<PrivateLinkResourcesAutomationRequest>,
   output: __S(996, __c62, 4) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PrivateLinkResourcesAutomation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PublishRunbookError = AzureOpError;
 /** Publish runbook draft. */
@@ -8401,7 +8888,8 @@ export const PublishRunbook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<PublishRunbookRequest>,
   output: __S(1904, __c119, 0) as any as S.Schema<PublishRunbookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8418,7 +8906,8 @@ export const Python2PackageCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<Python2PackageCreateOrUpdateRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<Python2PackageCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8435,7 +8924,8 @@ export const Python3PackageCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<Python3PackageCreateOrUpdateRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<Python3PackageCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8452,7 +8942,8 @@ export const RegenerateAgentRegistrationInformationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<RegenerateAgentRegistrationInformationKeyRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<AgentRegistration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8469,7 +8960,8 @@ export const ReplaceRunbookDraftContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ReplaceRunbookDraftContentRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ReplaceRunbookDraftContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8486,7 +8978,8 @@ export const ResumeJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ResumeJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ResumeJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8503,7 +8996,8 @@ export const ResumeTestJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ResumeTestJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ResumeTestJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8520,7 +9014,8 @@ export const RunbookCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1137, __c71, 1) as any as S.Schema<RunbookCreateOrUpdateRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<RunbookCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8537,7 +9032,8 @@ export const ScheduleCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c72, 1) as any as S.Schema<ScheduleCreateOrUpdateRequest>,
   output: __S(3169, __c198, 1) as any as S.Schema<ScheduleCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8554,7 +9050,8 @@ export const SourceControlCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1169, __c73, 1) as any as S.Schema<SourceControlCreateOrUpdateRequest>,
   output: __S(3281, __c205, 1) as any as S.Schema<SourceControlCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8571,7 +9068,8 @@ export const StartWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<StartWatcherRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StartWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8588,7 +9086,8 @@ export const StopJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<StopJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StopJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8605,7 +9104,8 @@ export const StopTestJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<StopTestJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StopTestJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8622,7 +9122,8 @@ export const StopWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<StopWatcherRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StopWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8639,7 +9140,8 @@ export const SuspendJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<SuspendJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SuspendJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8656,7 +9158,8 @@ export const SuspendTestJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<SuspendTestJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SuspendTestJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8673,7 +9176,8 @@ export const UpdateAutomationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1313, __c82, 1) as any as S.Schema<UpdateAutomationAccountRequest>,
   output: __S(168, __c10, 8) as any as S.Schema<UpdateAutomationAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8690,7 +9194,8 @@ export const UpdateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1329, __c83, 1) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<UpdateCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8707,7 +9212,8 @@ export const UpdateConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1345, __c84, 1) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<UpdateConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8724,7 +9230,8 @@ export const UpdateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1361, __c85, 1) as any as S.Schema<UpdateCredentialRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<UpdateCredentialResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8741,7 +9248,8 @@ export const UpdateDscConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<UpdateDscConfigurationRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<UpdateDscConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8758,7 +9266,8 @@ export const UpdateDscNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1393, __c87, 1) as any as S.Schema<UpdateDscNodeRequest>,
   output: __S(2547, __c159, 3) as any as S.Schema<UpdateDscNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8775,7 +9284,8 @@ export const UpdateHybridRunbookWorkerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateHybridRunbookWorkerGroupRequest>,
   output: __S(2769, __c173, 1) as any as S.Schema<UpdateHybridRunbookWorkerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8792,7 +9302,8 @@ export const UpdateModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateModuleRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<UpdateModuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8809,7 +9320,8 @@ export const UpdatePackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<UpdatePackageRequest>,
   output: __S(2929, __c183, 1) as any as S.Schema<UpdatePackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8826,7 +9338,8 @@ export const UpdatePython2Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<UpdatePython2PackageRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<UpdatePython2PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8843,7 +9356,8 @@ export const UpdatePython3Package: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<UpdatePython3PackageRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<UpdatePython3PackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8860,7 +9374,8 @@ export const UpdateRunbook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1521, __c95, 1) as any as S.Schema<UpdateRunbookRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<UpdateRunbookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8877,7 +9392,8 @@ export const UpdateRuntimeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1537, __c96, 1) as any as S.Schema<UpdateRuntimeEnvironmentRequest>,
   output: __S(3586, __c224, 2) as any as S.Schema<UpdateRuntimeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8894,7 +9410,8 @@ export const UpdateSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1553, __c97, 1) as any as S.Schema<UpdateScheduleRequest>,
   output: __S(3169, __c198, 1) as any as S.Schema<UpdateScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8911,7 +9428,8 @@ export const UpdateSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1569, __c98, 1) as any as S.Schema<UpdateSourceControlRequest>,
   output: __S(3281, __c205, 1) as any as S.Schema<UpdateSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8928,7 +9446,8 @@ export const UpdateVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1585, __c99, 1) as any as S.Schema<UpdateVariableRequest>,
   output: __S(3409, __c213, 1) as any as S.Schema<UpdateVariableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8945,7 +9464,8 @@ export const UpdateWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1601, __c100, 1) as any as S.Schema<UpdateWatcherRequest>,
   output: __S(3441, __c215, 1) as any as S.Schema<UpdateWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8962,7 +9482,8 @@ export const UpdateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1617, __c101, 1) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8979,7 +9500,8 @@ export const VariableCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1633, __c102, 1) as any as S.Schema<VariableCreateOrUpdateRequest>,
   output: __S(3409, __c213, 1) as any as S.Schema<VariableCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8996,7 +9518,8 @@ export const WatcherCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1665, __c104, 1) as any as S.Schema<WatcherCreateOrUpdateRequest>,
   output: __S(3441, __c215, 1) as any as S.Schema<WatcherCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9013,7 +9536,8 @@ export const WebhookCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1681, __c105, 1) as any as S.Schema<WebhookCreateOrUpdateRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<WebhookCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9513,12 +10037,14 @@ function __c18(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridRunbookWorkerGroupByAutomationAccountRequest" });
@@ -9542,12 +10068,14 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobByAutomationAccountRequest" });
@@ -9597,12 +10125,14 @@ function __c20(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobScheduleByAutomationAccountRequest" });
@@ -9627,12 +10157,14 @@ function __c21(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobStreamByJobRequest" });
@@ -9694,12 +10226,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListModuleByAutomationAccountRequest" });
@@ -9728,12 +10262,14 @@ function __c26(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           nodeId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodeReportByNodeRequest" });
@@ -9757,12 +10293,14 @@ function __c27(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/objectDataTypes/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListObjectDataTypeFieldsByTypeRequest" });
@@ -9772,12 +10310,15 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Automation/operations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -9864,12 +10405,14 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           runtimeEnvironmentName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPackageByRuntimeEnvironmentRequest" });
@@ -9944,19 +10487,21 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByAutomationAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -9970,12 +10515,14 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPython2PackageByAutomationAccountRequest" });
@@ -9989,12 +10536,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPython3PackageByAutomationAccountRequest" });
@@ -10008,12 +10557,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRunbookByAutomationAccountRequest" });
@@ -10036,12 +10587,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRuntimeEnvironmentByAutomationAccountRequest" });
@@ -10064,12 +10617,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScheduleByAutomationAccountRequest" });
@@ -10204,12 +10759,14 @@ function __c41(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlByAutomationAccountRequest" });
@@ -10277,12 +10834,14 @@ function __c44(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           sourceControlName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlSyncJobByAutomationAccountRequest" });
@@ -10308,12 +10867,14 @@ function __c45(j: number): any {
           sourceControlName: S.String.pipe(T.Label()),
           sourceControlSyncJobId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlSyncJobStreamBySyncJobRequest" });
@@ -10353,12 +10914,14 @@ function __c46(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStatisticsByAutomationAccountRequest" });
@@ -10377,7 +10940,7 @@ function __c46(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(738, __c46, 2)),
+          value: __S(738, __c46, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StatisticsListResult" });
@@ -10393,12 +10956,14 @@ function __c47(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           runbookName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTestJobStreamByTestJobRequest" });
@@ -10412,12 +10977,14 @@ function __c48(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageByAutomationAccountRequest" });
@@ -10444,7 +11011,7 @@ function __c48(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(771, __c48, 3)),
+          value: __S(771, __c48, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageListResult" });
@@ -10458,12 +11025,14 @@ function __c49(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVariableByAutomationAccountRequest" });
@@ -10487,12 +11056,14 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWatcherByAutomationAccountRequest" });
@@ -10516,12 +11087,14 @@ function __c51(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebhookByAutomationAccountRequest" });
@@ -10654,12 +11227,14 @@ function __c57(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/objectDataTypes/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ObjectDataTypesListFieldsByModuleAndTypeRequest" });
@@ -10777,12 +11352,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "PrivateLinkResourcesAutomationRequest" });
@@ -10808,7 +11385,7 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c62, 3)),
+          value: __S(995, __c62, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -10914,6 +11491,7 @@ function __c67(j: number): any {
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
             code: 200,
             apiVersion: "2024-10-23",
+            bodyMediaType: "text/powershell",
           }),
         ),
       ).annotate({ identifier: "ReplaceRunbookDraftContentRequest" });
@@ -14453,12 +15031,14 @@ function __c218(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListActivityByModuleRequest" });
@@ -14479,12 +15059,14 @@ function __c219(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountRequest" });
@@ -14510,12 +15092,14 @@ function __c221(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountByResourceGroupRequest" });
@@ -14529,12 +15113,14 @@ function __c222(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listDeletedRunbooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountDeletedRunbooksRequest" });
@@ -14631,12 +15217,14 @@ function __c225(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCertificateByAutomationAccountRequest" });
@@ -14659,12 +15247,14 @@ function __c226(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionByAutomationAccountRequest" });
@@ -14687,12 +15277,14 @@ function __c227(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionTypeByAutomationAccountRequest" });
@@ -14715,12 +15307,14 @@ function __c228(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCredentialByAutomationAccountRequest" });
@@ -14793,12 +15387,14 @@ function __c230(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscConfigurationByAutomationAccountRequest" });
@@ -14807,7 +15403,7 @@ function __c230(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3681, __c230, 1)),
+          value: __S(3681, __c230, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14826,12 +15422,14 @@ function __c231(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscNodeByAutomationAccountRequest" });
@@ -14840,7 +15438,7 @@ function __c231(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3697, __c231, 1)),
+          value: __S(3697, __c231, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14859,12 +15457,14 @@ function __c232(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscNodeConfigurationByAutomationAccountRequest" });
@@ -14873,7 +15473,7 @@ function __c232(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3713, __c232, 1)),
+          value: __S(3713, __c232, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14890,12 +15490,14 @@ function __c233(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFieldByTypeRequest" });
@@ -14906,7 +15508,7 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2321, __c145, 1)),
+          value: __S(2321, __c145, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeFieldListResult" });
@@ -14922,12 +15524,14 @@ function __c235(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           hybridRunbookWorkerGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest" });

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -162,7 +163,7 @@ export type QuantumTaskArn = string;
 export type String64 = string;
 export interface CancelQuantumTaskRequest {
   quantumTaskArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export interface CancelQuantumTaskResponse {
   quantumTaskArn: string;
@@ -229,7 +230,7 @@ export interface Association {
 }
 export type Associations = Association[];
 export interface CreateJobRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   algorithmSpecification: AlgorithmSpecification;
   inputDataConfig?: InputFileConfig[] | undefined;
   outputDataConfig: JobOutputDataConfig;
@@ -252,7 +253,7 @@ export type JobToken = string;
 export type ExperimentalCapabilitiesEnablementType = string;
 export type ExperimentalCapabilities = { enabled: string };
 export interface CreateQuantumTaskRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   deviceArn: string;
   deviceParameters?: string | undefined;
   shots: number;
@@ -272,7 +273,7 @@ export interface TimePeriod {
   endAt: Date;
 }
 export interface CreateSpendingLimitRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   deviceArn: string;
   spendingLimit: string;
   timePeriod?: TimePeriod | undefined;
@@ -513,7 +514,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateSpendingLimitRequest {
   spendingLimitArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   spendingLimit?: string | undefined;
   timePeriod?: TimePeriod | undefined;
 }
@@ -553,6 +554,7 @@ export const cancelJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
@@ -587,6 +589,7 @@ export const cancelQuantumTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuantumTask",
@@ -625,6 +628,7 @@ export const createJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
@@ -661,6 +665,7 @@ export const createQuantumTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuantumTask",
@@ -693,6 +698,7 @@ export const createSpendingLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpendingLimit",
@@ -725,6 +731,7 @@ export const deleteSpendingLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpendingLimit",
@@ -759,6 +766,7 @@ export const getDevice: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
@@ -791,6 +799,7 @@ export const getJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
@@ -823,6 +832,7 @@ export const getQuantumTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuantumTask",
@@ -847,6 +857,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServiceException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -878,6 +889,7 @@ export const searchDevices: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchDevices",
@@ -915,6 +927,7 @@ export const searchJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchJobs",
@@ -952,6 +965,7 @@ export const searchQuantumTasks: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchQuantumTasks",
@@ -989,6 +1003,7 @@ export const searchSpendingLimits: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSpendingLimits",
@@ -1019,6 +1034,7 @@ export const tagResource: API.OperationMethod<
   input: __S(320, __c20, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServiceException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1043,6 +1059,7 @@ export const untagResource: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServiceException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1075,6 +1092,7 @@ export const updateSpendingLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpendingLimit",
@@ -1089,7 +1107,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
@@ -1112,7 +1130,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           algorithmSpecification: __S(66, __c4, 2),
           inputDataConfig: S.optional(__S(70, __c4, 6)),
           outputDataConfig: __S(71, __c4, 7),
@@ -1215,7 +1233,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           deviceArn: S.String,
           deviceParameters: S.optional(S.String),
           shots: S.Number,
@@ -1247,7 +1265,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           deviceArn: S.String,
           spendingLimit: S.String,
           timePeriod: S.optional(__S(128, __c8, 0)),
@@ -1657,7 +1675,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           spendingLimit: S.optional(S.String),
           timePeriod: S.optional(__S(128, __c8, 0)),
         }).pipe(

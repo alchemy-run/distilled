@@ -468,6 +468,13 @@
       "path": "./packages/metabase/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/microsoft-graph/tsconfig.json"
+    },
+    { "path": "./packages/microsoft-graph/tsconfig.test.json" },
+    {
+      "path": "./packages/microsoft-graph/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/onepassword/tsconfig.json"
     },
     { "path": "./packages/onepassword/tsconfig.test.json" },
@@ -568,6 +575,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mollie/tsconfig.json"
+    },
+    {
+      "path": "./packages/mollie/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/mux/tsconfig.json"
     },
     {
@@ -584,6 +597,12 @@
     },
     {
       "path": "./packages/spacetimedb/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/sproutboat/tsconfig.json"
+    },
+    {
+      "path": "./packages/sproutboat/tsconfig.scripts.json"
     },
     {
       "path": "./packages/digitalocean/tsconfig.json"
@@ -665,6 +684,12 @@
     },
     { "path": "./packages/e2b/tsconfig.test.json" },
     {
+      "path": "./packages/browserbase/tsconfig.json"
+    },
+    {
+      "path": "./packages/browserbase/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/steel/tsconfig.json"
     },
     {
@@ -715,6 +740,8 @@
     { "path": "./packages/tinybird/tsconfig.json" },
     { "path": "./packages/tinybird/tsconfig.scripts.json" },
     { "path": "./packages/twitch/tsconfig.json" },
-    { "path": "./packages/twitch/tsconfig.scripts.json" }
+    { "path": "./packages/twitch/tsconfig.scripts.json" },
+    { "path": "./packages/unifi/tsconfig.json" },
+    { "path": "./packages/unifi/tsconfig.scripts.json" }
   ]
 }

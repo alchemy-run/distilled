@@ -34,7 +34,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ---------------------------------------------------------------------------
@@ -215,6 +215,18 @@ export class MissingRequiredProperty
 export class InvalidPropertyValue
   extends /*@__PURE__*/ Schema.TaggedError<InvalidPropertyValue>()(
     "InvalidPropertyValue",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned when an operation is not available on the resource's edition or
+ * tier, e.g. pausing or creating a restore point of an Azure SQL database
+ * that is not a dedicated SQL pool (DW).
+ * Azure error code: `FeatureDisabledOnSelectedEdition`
+ */
+export class FeatureDisabledOnSelectedEdition
+  extends /*@__PURE__*/ Schema.TaggedError<FeatureDisabledOnSelectedEdition>()(
+    "FeatureDisabledOnSelectedEdition",
     AzureErrorFields,
   ).pipe(Category.withBadRequestError) {}
 
@@ -675,6 +687,19 @@ export class ConnectedCacheCustomerCacheNodesExist
     "ConnectedCacheCustomerCacheNodesExist",
     AzureErrorFields,
   ).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned by Microsoft.ConnectedCache when creating an ISP cache node under
+ * an ISP customer whose signup (ASN verification through PeeringDB) has not
+ * completed. Matched by message: the response is a bare 400 ("Customer
+ * signup is not complete. Please complete customer signup before creating a
+ * cache node.").
+ */
+export class ConnectedCacheIspSignupIncomplete
+  extends /*@__PURE__*/ Schema.TaggedError<ConnectedCacheIspSignupIncomplete>()(
+    "ConnectedCacheIspSignupIncomplete",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.NetApp when the subscription may not create NetApp
@@ -1373,6 +1398,19 @@ export class SiteRecoveryNoRegisteredServers
   ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Microsoft.RecoveryServices (Site Recovery) rejects an ASR write with
+ * `BadRequest` "Failed to start operation. Verify input and try operation
+ * again." when its job cannot start: for rejected input (e.g. a protection
+ * cluster without nodes) and while another job on the same vault is
+ * starting (e.g. two fabrics created at once). Matched by message.
+ */
+export class SiteRecoveryOperationNotStarted
+  extends /*@__PURE__*/ Schema.TaggedError<SiteRecoveryOperationNotStarted>()(
+    "SiteRecoveryOperationNotStarted",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
  * Microsoft.ServiceFabric (managed clusters) refuses to delete a cluster's
  * last primary node type: `InvalidParameter` "Cluster must have at least
  * one active primary node type." (matched by message). The node type goes
@@ -1452,7 +1490,121 @@ export class ContainerAppsEnvironmentQuotaExceeded
     AzureErrorFields,
   ).pipe(Category.withConflictError) {}
 
-export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
+/**
+ * Microsoft.Sql rejects a SQL vulnerability assessment (express
+ * configuration) baseline until the first scan of the database has
+ * finished: HTTP 400 `BadRequest` "SQL vulnerability assessment results are
+ * not available yet, please try again later." (matched by message).
+ * Transient; retry.
+ */
+export class SqlVulnerabilityAssessmentResultsNotReady
+  extends /*@__PURE__*/ Schema.TaggedError<SqlVulnerabilityAssessmentResultsNotReady>()(
+    "SqlVulnerabilityAssessmentResultsNotReady",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
+
+/**
+ * Microsoft.Sql answers a GET of a missing SQL vulnerability assessment
+ * (express configuration) rule baseline with HTTP 400 `SqlVulnerabilityAssessmentNoRuleBaseline`
+ * "No SQL vulnerability assessment baseline was found for rule '...'".
+ */
+export class SqlVulnerabilityAssessmentBaselineNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<SqlVulnerabilityAssessmentBaselineNotFound>()(
+    "SqlVulnerabilityAssessmentBaselineNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
+
+/**
+ * Microsoft.AppComplianceAutomation refuses the request: HTTP 502
+ * `BearerFallbackDisabled` ("Server failed to process the request."). It is
+ * returned for every operation sent without the `x-ms-aad-user-token`
+ * header, and for writes (report PUT, onboard, triggerEvaluation) sent with
+ * an app-only (service principal) token in that header. Not transient.
+ */
+export class AppComplianceAutomationBearerFallbackDisabled
+  extends /*@__PURE__*/ Schema.TaggedError<AppComplianceAutomationBearerFallbackDisabled>()(
+    "AppComplianceAutomationBearerFallbackDisabled",
+    AzureErrorFields,
+  ).pipe(Category.withAuthError) {}
+
+/**
+ * Microsoft.Storage: a Blob Access Point, data share, or storage connector
+ * is written to an account whose data collaboration policy does not allow
+ * it. HTTP 409 "... The 'allowBlobAccessPoints' property in the data
+ * collaboration policy is not set or is set to false." (matched by
+ * message). Set the flag on the account; retrying does not help.
+ */
+export class StorageDataCollaborationNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<StorageDataCollaborationNotAllowed>()(
+    "StorageDataCollaborationNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
+
+/**
+ * Microsoft.Compute: a VM (or scale set VM) run command is addressed through
+ * the `diagnosticRunCommands` surface but Azure holds it as a full-privilege
+ * run command, e.g. an earlier diagnostic run command right after a newer
+ * one ran on the same VM. Code `OperationNotAllowed`, "... was created
+ * with higher privilege and cannot be accessed via diagnostic RunCommand."
+ * (matched by message). Use the `runCommands` operations instead.
+ */
+export class RunCommandRequiresFullPrivilege
+  extends /*@__PURE__*/ Schema.TaggedError<RunCommandRequiresFullPrivilege>()(
+    "RunCommandRequiresFullPrivilege",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
+
+/**
+ * Microsoft.FluidRelay: the service no longer accepts new Fluid Relay
+ * servers (tenants) -- Azure Fluid Relay is retiring. HTTP 503 "New tenant
+ * creation is disabled by Azure Fluid Relay." (matched by message). Not
+ * transient: retrying never succeeds.
+ */
+export class FluidRelayTenantCreationDisabled
+  extends /*@__PURE__*/ Schema.TaggedError<FluidRelayTenantCreationDisabled>()(
+    "FluidRelayTenantCreationDisabled",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Container Apps: an app or job refers to an image in a registry its
+ * managed identity cannot pull from yet ("unable to pull image using
+ * Managed identity ..."), typically while a new AcrPull role assignment
+ * propagates (matched by message). Transient: retry for a few minutes.
+ */
+export class ContainerAppsImagePullDenied
+  extends /*@__PURE__*/ Schema.TaggedError<ContainerAppsImagePullDenied>()(
+    "ContainerAppsImagePullDenied",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Logic when a workflow trigger keeps no state to
+ * reset (`Recurrence`, `Http` and request triggers; only stateful polling
+ * connector triggers support reset).
+ * Azure error code: `WorkflowTriggerResetNotSupported`
+ */
+export class WorkflowTriggerResetNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<WorkflowTriggerResetNotSupported>()(
+    "WorkflowTriggerResetNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Container Registry: the token server refused to exchange an Entra token
+ * for a registry token (`/oauth2/exchange`, `/oauth2/token`).
+ */
+export class ContainerRegistryTokenExchangeFailed
+  extends /*@__PURE__*/ Schema.TaggedError<ContainerRegistryTokenExchangeFailed>()(
+    "ContainerRegistryTokenExchangeFailed",
+    {
+      message: /*@__PURE__*/ Schema.optional(Schema.String),
+      code: /*@__PURE__*/ Schema.optional(Schema.String),
+      status: /*@__PURE__*/ Schema.optional(Schema.Number),
+    },
+  ).pipe(Category.withAuthError) {}
+
+export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => AzureApiError> = {
   TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
   MaxNumberOfGlobalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
   MaxNumberOfRegionalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
@@ -1484,6 +1636,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   PropertyRequired: MissingRequiredProperty,
   InvalidPropertyValue: InvalidPropertyValue,
   PropertyValueExceedsMaxLength: InvalidPropertyValue,
+  FeatureDisabledOnSelectedEdition: FeatureDisabledOnSelectedEdition,
 
   // Conflict
   Conflict: ResourceConflict,
@@ -1548,6 +1701,8 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   ServiceNotFound: ApiManagementServiceNotFound,
   // Microsoft.ApiManagement gateways/configConnections GET of a missing connection.
   GatewayConfigConnectionNotFound: ResourceNotFound,
+  // ARM's 404 for a child whose parent is missing (e.g. amlFilesystems/autoExportJobs).
+  ParentResourceNotFound: ResourceNotFound,
   ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
   RequestConflict: CognitiveServicesRequestConflict,
   RSVaultUpdateErrorConflictingOperationInProgress: RecoveryServicesVaultOperationInProgress,
@@ -1562,6 +1717,9 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   ResourceCreationValidateFailed: DatadogMonitorCreationValidateFailed,
   ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity:
     FederatedIdentityCredentialWriteConflict,
+  SqlVulnerabilityAssessmentNoRuleBaseline: SqlVulnerabilityAssessmentBaselineNotFound,
+  BearerFallbackDisabled: AppComplianceAutomationBearerFallbackDisabled,
+  WorkflowTriggerResetNotSupported: WorkflowTriggerResetNotSupported,
 };
 
 /**
@@ -1634,6 +1792,19 @@ export class WebMethodNotImplemented
 export class ServerFarmCreateNotAllowed
   extends /*@__PURE__*/ Schema.TaggedError<ServerFarmCreateNotAllowed>()(
     "ServerFarmCreateNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by ARM (HTTP 400) when the Azure Marketplace purchase behind a
+ * 3rd-party store resource fails validation, e.g. a Microsoft.Web premier
+ * add-on whose offer does not exist: "User failed validation to purchase
+ * resources. Error message: 'The offer with Offer ID '<id>' was not
+ * found. ...'". Not retryable (matched by message).
+ */
+export class MarketplacePurchaseValidationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<MarketplacePurchaseValidationFailed>()(
+    "MarketplacePurchaseValidationFailed",
     AzureErrorFields,
   ).pipe(Category.withBadRequestError) {}
 
@@ -1865,6 +2036,20 @@ export class HybridNetworkOperationInProgress
   ).pipe(Category.withConflictError) {}
 
 /**
+ * HTTP 409 `InvalidResourceOperation` ("Another 'DELETE' operation ... is
+ * active/in-progress", matched by message): a DELETE of the resource is
+ * already running. Microsoft.Orbital GeoCatalogs return it for a repeated
+ * DELETE while the first one still runs (GET may still report
+ * `Succeeded`). Other conflicts with the same code stay
+ * {@link HybridNetworkOperationInProgress}.
+ */
+export class DeleteOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<DeleteOperationInProgress>()(
+    "DeleteOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
+
+/**
  * Returned by Microsoft.HybridCompute when an Arc gateway is written or
  * deleted while it is still provisioning. HTTP 409 without an error code
  * ("Gateway operation not allowed. The Gateway is a transitioning state.",
@@ -2022,6 +2207,20 @@ export class EdgeContextAlreadyExists
 export class EdgeContextCapabilityMissing
   extends /*@__PURE__*/ Schema.TaggedError<EdgeContextCapabilityMissing>()(
     "EdgeContextCapabilityMissing",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Edge when a dynamic configuration names a config
+ * or solution template (by unique identifier) the service cannot resolve
+ * yet; seen briefly after the template, its versions, or its hierarchy
+ * link were written. HTTP 400 "No solution template or config template
+ * found with name or unique identifier matching ..." without an error
+ * code (matched by message).
+ */
+export class EdgeTemplateNotResolved
+  extends /*@__PURE__*/ Schema.TaggedError<EdgeTemplateNotResolved>()(
+    "EdgeTemplateNotResolved",
     AzureErrorFields,
   ).pipe(Category.withBadRequestError) {}
 
@@ -2200,6 +2399,18 @@ export class RedisCacheRetiring
   ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Cache when an Azure Managed Redis cluster is deleted
+ * while an earlier delete of it is still running. HTTP 400 `BadRequest` "A
+ * delete operation is already in progress for resource 'x'. Please wait for
+ * it to complete." (matched by message). Wait for the cluster to go away.
+ */
+export class RedisEnterpriseDeleteInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<RedisEnterpriseDeleteInProgress>()(
+    "RedisEnterpriseDeleteInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Automanage when the subscription may not create
  * configuration profiles or assignments (e.g. free-trial subscriptions,
  * Automanage Machine Best Practices onboarding closed). HTTP 400 "The
@@ -2304,6 +2515,28 @@ export class ManagedHsmArmKeyManagementDisabled
   ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Network for `Hypernet` IP allocations when the
+ * subscription is not allow-listed for Hypernet. Matched by message.
+ */
+export class HypernetNotOnboarded
+  extends /*@__PURE__*/ Schema.TaggedError<HypernetNotOnboarded>()(
+    "HypernetNotOnboarded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.MachineLearningServices for any read, write, or
+ * delete of an asset version (e.g. an environment version) that was
+ * deleted: Azure never restores or reuses a deleted version id. Matched by
+ * message: the response is a bare 400.
+ */
+export class MachineLearningAssetVersionDeleted
+  extends /*@__PURE__*/ Schema.TaggedError<MachineLearningAssetVersionDeleted>()(
+    "MachineLearningAssetVersionDeleted",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -2312,7 +2545,7 @@ export class ManagedHsmArmKeyManagementDisabled
 export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly code?: string;
   readonly includes: string;
-  readonly error: new (props: any) => unknown;
+  readonly error: new (props: any) => AzureApiError;
 }> = [
   {
     code: "409",
@@ -2337,6 +2570,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "enable the setting 'AllowKeyManagementOperationsThroughARM'",
     error: ManagedHsmArmKeyManagementDisabled,
+  },
+  {
+    includes: "not onboard to hypernet",
+    error: HypernetNotOnboarded,
   },
   {
     includes: "Sequence contains no matching element",
@@ -2562,6 +2799,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: ServerFarmCreateNotAllowed,
   },
   {
+    includes: "User failed validation to purchase resources",
+    error: MarketplacePurchaseValidationFailed,
+  },
+  {
     includes: "Encryption scope is not supported",
     error: CognitiveServicesEncryptionScopeNotSupported,
   },
@@ -2618,6 +2859,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "error in trying to get cluster extension config",
     error: CustomLocationClusterExtensionNotFound,
+  },
+  {
+    code: "InvalidResourceOperation",
+    includes: "'DELETE'",
+    error: DeleteOperationInProgress,
   },
   {
     code: "InvalidResourceOperation",
@@ -2678,6 +2924,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "are missing in context resource",
     error: EdgeContextCapabilityMissing,
+  },
+  {
+    includes: "No solution template or config template found with name or unique identifier",
+    error: EdgeTemplateNotResolved,
   },
   {
     includes: "Operations on Agent Space are not allowed for tenant",
@@ -2845,6 +3095,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SiteRecoveryNoRegisteredServers,
   },
   {
+    code: "BadRequest",
+    includes: "Failed to start operation. Verify input and try operation again",
+    error: SiteRecoveryOperationNotStarted,
+  },
+  {
     code: "InvalidParameter",
     includes: "Cluster must have at least one active primary node type",
     error: ServiceFabricPrimaryNodeTypeRequired,
@@ -2868,6 +3123,39 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "does not have SQL IaaS extension installed",
     error: SqlVirtualMachineExtensionMissing,
+  },
+  {
+    includes: "SQL vulnerability assessment results are not available yet",
+    error: SqlVulnerabilityAssessmentResultsNotReady,
+  },
+  {
+    includes: "was previously deleted and cannot be restored",
+    error: MachineLearningAssetVersionDeleted,
+  },
+  {
+    includes: "Customer signup is not complete",
+    error: ConnectedCacheIspSignupIncomplete,
+  },
+  {
+    includes: "A delete operation is already in progress for resource",
+    error: RedisEnterpriseDeleteInProgress,
+  },
+  {
+    includes: "property in the data collaboration policy is not set or is set to false",
+    error: StorageDataCollaborationNotAllowed,
+  },
+  {
+    code: "OperationNotAllowed",
+    includes: "was created with higher privilege and cannot be accessed via diagnostic RunCommand",
+    error: RunCommandRequiresFullPrivilege,
+  },
+  {
+    includes: "New tenant creation is disabled by Azure Fluid Relay",
+    error: FluidRelayTenantCreationDisabled,
+  },
+  {
+    includes: "unable to pull image using Managed identity",
+    error: ContainerAppsImagePullDenied,
   },
 ];
 
@@ -2926,6 +3214,7 @@ export type AzureApiError =
   | InvalidRequestContent
   | MissingRequiredProperty
   | InvalidPropertyValue
+  | FeatureDisabledOnSelectedEdition
   | ResourceConflict
   | PreconditionFailed
   | OperationNotAllowed
@@ -2965,6 +3254,7 @@ export type AzureApiError =
   | NetworkInterfaceInUse
   | CannotDeleteResource
   | ConnectedCacheCustomerCacheNodesExist
+  | ConnectedCacheIspSignupIncomplete
   | NetAppCreationRestricted
   | NetAppVolumeGroupNotReadable
   | SubscriptionFeatureNotRegistered
@@ -2980,6 +3270,7 @@ export type AzureApiError =
   | WebPublicCertificateNotAllowedOnTier
   | WebMethodNotImplemented
   | ServerFarmCreateNotAllowed
+  | MarketplacePurchaseValidationFailed
   | EventHubApplicationGroupNotSupported
   | EventHubClusterDeleteTooSoon
   | TrafficCollectorOperationInProgress
@@ -2993,6 +3284,7 @@ export type AzureApiError =
   | AvdServicePrincipalAccessDenied
   | AutomationAccountRegionLimit
   | RedisCacheRetiring
+  | RedisEnterpriseDeleteInProgress
   | AutomationLocationNotAllowed
   | MongoClusterPrincipalNotFound
   | AutomationSourceControlTokenInvalid
@@ -3021,6 +3313,7 @@ export type AzureApiError =
   | EdgeSiteScopeTaken
   | EdgeContextAlreadyExists
   | EdgeContextCapabilityMissing
+  | EdgeTemplateNotResolved
   | AgentSpaceNotAllowed
   | FrontDoorFreeTrialForbidden
   | FrontDoorProfileQuotaExceeded
@@ -3056,6 +3349,7 @@ export type AzureApiError =
   | AmlFilesystemContainerInaccessible
   | SignalRCustomCertificateNotFound
   | HybridNetworkOperationInProgress
+  | DeleteOperationInProgress
   | ConnectedClusterOperationInProgress
   | CustomLocationClusterExtensionNotFound
   | StorageTaskAssignmentOperationInProgress
@@ -3076,8 +3370,37 @@ export type AzureApiError =
   | CosmosAccountBeingCreated
   | SiteRecoveryVaultNotRegistered
   | SiteRecoveryNoRegisteredServers
+  | SiteRecoveryOperationNotStarted
   | ServiceFabricPrimaryNodeTypeRequired
   | ManagedHsmPoolUpdating
   | ManagedHsmAlreadyBeingDeleted
   | ManagedHsmArmKeyManagementDisabled
-  | HttpResponsePayloadAPISpecValidationFailed;
+  | HypernetNotOnboarded
+  | SqlVulnerabilityAssessmentResultsNotReady
+  | SqlVulnerabilityAssessmentBaselineNotFound
+  | AppComplianceAutomationBearerFallbackDisabled
+  | MachineLearningAssetVersionDeleted
+  | HttpResponsePayloadAPISpecValidationFailed
+  | StorageDataCollaborationNotAllowed
+  | RunCommandRequiresFullPrivilege
+  | FluidRelayTenantCreationDisabled
+  | ContainerAppsImagePullDenied
+  | WorkflowTriggerResetNotSupported
+  | ContainerRegistryTokenExchangeFailed;
+
+/**
+ * The errors declared on the Azure services: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes (the protocols build the one for a failed
+ * response's status), and every class an error code or message maps to
+ * ({@link AZURE_ERROR_CODE_MAP}, {@link AZURE_ERROR_MESSAGE_MATCHERS}). The
+ * ARM and the data-plane protocol return the same classes.
+ */
+export const AzureServiceErrors = /*@__PURE__*/ Array.from(
+  /*@__PURE__*/ new Set([
+    ...API_ERRORS,
+    .../*@__PURE__*/ Object.values(AZURE_ERROR_CODE_MAP),
+    .../*@__PURE__*/ AZURE_ERROR_MESSAGE_MATCHERS.map((matcher) => matcher.error),
+  ]),
+);
+export type AzureServiceError = InstanceType<(typeof AzureServiceErrors)[number]>;

@@ -90,6 +90,7 @@ const spec: SdkSpec = {
     // Per-op error lists carry exactly the statuses the spec declares
     // (400/402/403/404/409/422); everything else rides VercelOpError.
     commonErrorClasses: [],
+    serviceErrors: "VercelServiceErrors",
     protocol: "VercelProtocol",
     retry: "Retry.Retry",
   },

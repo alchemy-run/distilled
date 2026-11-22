@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -879,7 +879,8 @@ export const createEmailMxplanAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateEmailMxplanAccountAliasRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -896,7 +897,8 @@ export const createEmailMxplanAccountChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateEmailMxplanAccountChangePasswordRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -913,7 +915,8 @@ export const createEmailMxplanAccountDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateEmailMxplanAccountDiagnosticRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -930,7 +933,8 @@ export const createEmailMxplanAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<CreateEmailMxplanAccountFullAccessRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -947,7 +951,8 @@ export const createEmailMxplanDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(172, __c43, 0) as any as S.Schema<CreateEmailMxplanDomainDisclaimerRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -964,7 +969,8 @@ export const createEmailMxplanExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c50, 0) as any as S.Schema<CreateEmailMxplanExternalContactRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -981,7 +987,8 @@ export const deleteEmailMxplanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(204, __c51, 0) as any as S.Schema<DeleteEmailMxplanAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -998,7 +1005,8 @@ export const deleteEmailMxplanAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c52, 0) as any as S.Schema<DeleteEmailMxplanAccountAliasRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1015,7 +1023,8 @@ export const deleteEmailMxplanAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(212, __c53, 0) as any as S.Schema<DeleteEmailMxplanAccountFullAccessRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1032,7 +1041,8 @@ export const deleteEmailMxplanAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c54, 0) as any as S.Schema<DeleteEmailMxplanAccountSendAsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1049,7 +1059,8 @@ export const deleteEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteEmailMxplanAccountSendOnBehalfToRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1066,7 +1077,8 @@ export const deleteEmailMxplanDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteEmailMxplanDomainDisclaimerRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1083,7 +1095,8 @@ export const deleteEmailMxplanExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteEmailMxplanExternalContactRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1100,7 +1113,8 @@ export const getEmailMxplan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetEmailMxplanRequest>,
   output: __S(27, __c6, 3) as any as S.Schema<EmailMxplanServiceWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1117,7 +1131,8 @@ export const getEmailMxplanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetEmailMxplanAccountRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<EmailMxplanAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1134,7 +1149,8 @@ export const getEmailMxplanAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetEmailMxplanAccountAliasRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<EmailMxplanAccountAlias>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1151,7 +1167,8 @@ export const getEmailMxplanAccountDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetEmailMxplanAccountDiagnosticRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<EmailMxplanAccountDiagnosis>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1168,7 +1185,8 @@ export const getEmailMxplanAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetEmailMxplanAccountFullAccessRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<EmailMxplanAccountFullAccess>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1185,7 +1203,8 @@ export const getEmailMxplanAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetEmailMxplanAccountSendAsRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<EmailMxplanAccountSendAs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1202,7 +1221,8 @@ export const getEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetEmailMxplanAccountSendOnBehalfToRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<EmailMxplanAccountSendOnBehalfTo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1219,7 +1239,8 @@ export const getEmailMxplanAccountTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<GetEmailMxplanAccountTaskRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1236,7 +1257,8 @@ export const getEmailMxplanDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<GetEmailMxplanDomainRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<EmailMxplanDomain>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1253,7 +1275,8 @@ export const getEmailMxplanDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<GetEmailMxplanDomainDisclaimerRequest>,
   output: __S(81, __c20, 1) as any as S.Schema<EmailProDisclaimer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1270,7 +1293,8 @@ export const getEmailMxplanExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<GetEmailMxplanExternalContactRequest>,
   output: __S(85, __c21, 1) as any as S.Schema<EmailMxplanExternalContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1287,7 +1311,8 @@ export const getEmailMxplanServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<GetEmailMxplanServerRequest>,
   output: __S(89, __c22, 1) as any as S.Schema<EmailMxplanServer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1304,7 +1329,8 @@ export const getEmailMxplanTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetEmailMxplanTaskRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1321,7 +1347,8 @@ export const listEmailMxplan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(98, __c24, 2) as any as S.Schema<ListEmailMxplanRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ListEmailMxplanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1338,7 +1365,8 @@ export const listEmailMxplanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<ListEmailMxplanAccountRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ListEmailMxplanAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1355,7 +1383,8 @@ export const listEmailMxplanAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<ListEmailMxplanAccountAliasRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ListEmailMxplanAccountAliasResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1372,7 +1401,8 @@ export const listEmailMxplanAccountCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<ListEmailMxplanAccountCapabilitiesRequest>,
   output: __S(117, __c29, 1) as any as S.Schema<EmailMxplanAccountCapabilities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1389,7 +1419,8 @@ export const listEmailMxplanAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<ListEmailMxplanAccountFullAccessRequest>,
   output: __S(132, __c33, 0) as any as S.Schema<ListEmailMxplanAccountFullAccessResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1406,7 +1437,8 @@ export const listEmailMxplanAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<ListEmailMxplanAccountSendAsRequest>,
   output: __S(132, __c33, 0) as any as S.Schema<ListEmailMxplanAccountSendAsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1423,7 +1455,8 @@ export const listEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<ListEmailMxplanAccountSendOnBehalfToRequest>,
   output: __S(132, __c33, 0) as any as S.Schema<ListEmailMxplanAccountSendOnBehalfToResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1440,7 +1473,8 @@ export const listEmailMxplanAccountTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<ListEmailMxplanAccountTaskRequest>,
   output: __S(132, __c33, 0) as any as S.Schema<ListEmailMxplanAccountTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1457,7 +1491,8 @@ export const listEmailMxplanDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<ListEmailMxplanDomainRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ListEmailMxplanDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1474,7 +1509,8 @@ export const listEmailMxplanDomainDisclaimerAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c38, 0) as any as S.Schema<ListEmailMxplanDomainDisclaimerAttributeRequest>,
   output: __S(153, __c38, 1) as any as S.Schema<ListEmailMxplanDomainDisclaimerAttributeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1491,7 +1527,8 @@ export const listEmailMxplanExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<ListEmailMxplanExternalContactRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ListEmailMxplanExternalContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1508,7 +1545,8 @@ export const listEmailMxplanTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c40, 0) as any as S.Schema<ListEmailMxplanTaskRequest>,
   output: __S(132, __c33, 0) as any as S.Schema<ListEmailMxplanTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1525,7 +1563,8 @@ export const putEmailMxplan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<PutEmailMxplanRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<PutEmailMxplanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1542,7 +1581,8 @@ export const putEmailMxplanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c42, 0) as any as S.Schema<PutEmailMxplanAccountRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<PutEmailMxplanAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1559,7 +1599,8 @@ export const putEmailMxplanDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c44, 0) as any as S.Schema<PutEmailMxplanDomainRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<PutEmailMxplanDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1576,7 +1617,8 @@ export const putEmailMxplanDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(180, __c45, 0) as any as S.Schema<PutEmailMxplanDomainDisclaimerRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<PutEmailMxplanDomainDisclaimerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1593,7 +1635,8 @@ export const putEmailMxplanExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c46, 0) as any as S.Schema<PutEmailMxplanExternalContactRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<PutEmailMxplanExternalContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1610,7 +1653,8 @@ export const sendEmailMxplanAccountAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<SendEmailMxplanAccountAsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1627,7 +1671,8 @@ export const sendEmailMxplanAccountOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c48, 0) as any as S.Schema<SendEmailMxplanAccountOnBehalfToRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1644,7 +1689,8 @@ export const updateEmailMxplanFlagsOnAllAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(196, __c49, 0) as any as S.Schema<UpdateEmailMxplanFlagsOnAllAccountsRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<UpdateEmailMxplanFlagsOnAllAccountsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

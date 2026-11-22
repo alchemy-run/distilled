@@ -40,8 +40,9 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 408 -- a long-poll `read` (one with `wait` set) elapsed before any
@@ -50,9 +51,12 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * short backoff.
  */
 export class RequestTimeout
-  extends /*@__PURE__*/ Schema.TaggedError<RequestTimeout>()("RequestTimeout", {
-    message: Schema.String,
-  }).pipe(Category.withRetryableError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<RequestTimeout>()("RequestTimeout", {
+      message: Schema.String,
+    }).pipe(Category.withRetryableError),
+    [{ status: 408 }],
+  ) {}
 
 /**
  * HTTP 412 -- `append_condition_failed`: an append's precondition did not
@@ -63,9 +67,12 @@ export class RequestTimeout
  * fix.
  */
 export class PreconditionFailed
-  extends /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()("PreconditionFailed", {
-    message: Schema.String,
-  }).pipe(Category.withConflictError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()("PreconditionFailed", {
+      message: Schema.String,
+    }).pipe(Category.withConflictError),
+    [{ status: 412 }],
+  ) {}
 
 /**
  * HTTP 416 -- the requested read position is outside the stream's current
@@ -73,9 +80,12 @@ export class PreconditionFailed
  * retained. Not retryable as-is -- read from an earlier/clamped position.
  */
 export class RangeNotSatisfiable
-  extends /*@__PURE__*/ Schema.TaggedError<RangeNotSatisfiable>()("RangeNotSatisfiable", {
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<RangeNotSatisfiable>()("RangeNotSatisfiable", {
+      message: Schema.String,
+    }).pipe(Category.withBadRequestError),
+    [{ status: 416 }],
+  ) {}
 
 /**
  * Unknown S2 error -- returned when a failed response's HTTP status has no
@@ -124,3 +134,18 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the S2 service: any operation can return them, and
+ * every generated operation lists them as its `serviceErrors`. Each of core's
+ * status classes, and {@link RequestTimeout} for 408, {@link
+ * PreconditionFailed} for 412 and {@link RangeNotSatisfiable} for 416, matched
+ * by their status like an operation's own errors.
+ */
+export const S2ServiceErrors = [
+  ...API_ERRORS,
+  RequestTimeout,
+  PreconditionFailed,
+  RangeNotSatisfiable,
+] as const;
+export type S2ServiceError = InstanceType<(typeof S2ServiceErrors)[number]>;

@@ -558,8 +558,18 @@ export interface SdkSpec {
     readonly contextType: string;
     /** Base of the per-op error union alias (e.g. `CloudflareOpError`). */
     readonly commonErrorType: string;
-    /** Error classes appended to every op's `errors: [...]` list. */
-    readonly commonErrorClasses: readonly string[];
+    /**
+     * Error classes appended to every op's `errors: [...]` list. Leave it
+     * out: a service's errors go in `serviceErrors`, and a protocol's errors
+     * reach every operation through its type.
+     */
+    readonly commonErrorClasses?: readonly string[];
+    /**
+     * The errors declared on the service: the name of a list of error
+     * classes that `../errors.ts` exports. Every operation gets it as its
+     * `serviceErrors`, next to its own `errors`.
+     */
+    readonly serviceErrors?: string;
     readonly protocol: string;
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
@@ -800,6 +810,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         )
       : undefined;
 
+  const opInputIds = new Set(selected.map((op) => op.def.__input));
   const memberInfos = (d: any, ownerId?: string): EmittedMember[] =>
     memberBases(d, memberName).map((base) => {
       const traits = base.traits;
@@ -809,8 +820,15 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // A member with a default (Smithy 2.0 `@default`) is always present
         // in a response, so response-only shapes require it. Shapes a
         // request also reaches keep it optional: the sender may omit it.
+        // An operation input's idempotency token is optional even when the
+        // spec requires it: core fills a missing one on every call.
         required:
-          base.required ||
+          (base.required &&
+            !(
+              "smithy.api#idempotencyToken" in traits &&
+              ownerId !== undefined &&
+              opInputIds.has(ownerId)
+            )) ||
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         wire: smithyWireName(traits, base.name, wireKind(binding)),
@@ -892,6 +910,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     }
   };
 
+  /** Trait-table pipes: trait value JSON-inlined as the argument. */
+  const traitTablePipes = (info: EmittedMember): string[] =>
+    Object.entries(spec.memberTraitPipes ?? {})
+      .filter(([trait]) => info.traits[trait] !== undefined)
+      .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`);
+
   const memberPipes =
     spec.memberPipes ??
     ((info: EmittedMember) => [
@@ -900,11 +924,16 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(spec.extraBindings ?? [])
         .filter((b) => b.binding === info.binding && b.trait in info.traits)
         .map((b) => b.pipe),
-      // Trait-table pipes: trait value JSON-inlined as the argument.
-      ...Object.entries(spec.memberTraitPipes ?? {})
-        .filter(([trait]) => info.traits[trait] !== undefined)
-        .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
+      ...traitTablePipes(info),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
+      // Core fills a missing token once per call, before the retry.
+      ...("smithy.api#idempotencyToken" in info.traits
+        ? [
+            info.traits["distilled.idempotency#format"] === "uuidv7"
+              ? `T.IdempotencyToken("uuidv7")`
+              : "T.IdempotencyToken()",
+          ]
+        : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 
@@ -1117,14 +1146,22 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // key dictionary so opaque content (union cases, freeform maps)
         // nested in the payload decodes with the same wire mapping as
         // struct-form roots.
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        // The member's trait-table pipes (a sensitive mark) move to the
+        // root with its payload, and so does the TS type they imply.
+        const rootMember: EmittedMember = { ...memberInfos(d, id)[0]!, nullable };
+        const traitPipes = traitTablePipes(rootMember);
         const rootPipes = [
           soleMemberRoot.rootPipe,
+          ...traitPipes,
           ...(spec.rootKeyDictionary && opIoShapes.has(id)
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
-        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
+        const rootType =
+          (traitPipes.length ? memberTsTypeOf(rootMember, tsRef) : undefined) ??
+          `${tsRef(m.target)}${nullable ? " | null" : ""}`;
+        out.push(`export type ${name} = ${rootType};`);
         out.push(
           suspendConst({
             name,
@@ -1400,7 +1437,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (!decl) {
         throw new Error("SdkSpec needs either operationDecl or operation");
       }
-      const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
+      const errList = [...ctx.errorNames, ...(decl.commonErrorClasses ?? [])];
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
@@ -1458,6 +1495,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  input: ${ctx.inputName},\n` +
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
+        (decl.serviceErrors ? `  serviceErrors: ${decl.serviceErrors},\n` : "") +
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
@@ -1813,6 +1851,15 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ]),
       ),
     ];
+    // The service's error list is a value only operations read: like the
+    // protocol, a module without operations (GitHub's webhook payloads) does
+    // not import it.
+    const errorImports = [
+      ...(decl.commonErrorClasses ?? []),
+      ...(decl.serviceErrors && (spec.operation || usedProtocols.size > 0)
+        ? [decl.serviceErrors]
+        : []),
+    ].sort();
     return (
       `// AUTO-GENERATED by scripts/generate.ts${
         spec.sourceNote ? ` from ${spec.sourceNote}` : ""
@@ -1831,9 +1878,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       (ctx.hasPaginated && pagImports.length
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
-      (decl.commonErrorClasses.length
-        ? `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n`
-        : "") +
+      (errorImports.length ? `import { ${errorImports.join(", ")} } from "../errors.ts";\n` : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.
       `export type { ${decl.commonErrorType}, ${decl.contextType} };\n\n` +

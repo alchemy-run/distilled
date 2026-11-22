@@ -2,7 +2,7 @@
  * WorkOS credentials -- hand-written.
  *
  * Port of the distilled v0 workos credentials module: the `Credentials`
- * service resolves `{ apiKey, apiBaseUrl }` per request; the protocol layer
+ * service resolves `{ apiKey, apiBaseUrl }` per request; the protocol
  * formats the `Authorization: Bearer <apiKey>` header from it.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";

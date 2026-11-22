@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -3021,7 +3021,8 @@ export const cancelMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3038,7 +3039,8 @@ export const countMessageTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(97, __c3, 1) as any as S.Schema<CountMessageTokensRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<BetaCountMessageTokensResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3055,7 +3057,8 @@ export const createMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateMessageRequest>,
   output: __S(176, __c5, 16) as any as S.Schema<BetaMessage>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3072,7 +3075,8 @@ export const createMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c7, 3) as any as S.Schema<CreateMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3089,7 +3093,8 @@ export const deleteMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteMessageBatchRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<BetaDeleteMessageBatchResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3106,7 +3111,8 @@ export const getMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3123,7 +3129,8 @@ export const getMessageBatchResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetMessageBatchResultsRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<GetMessageBatchResultsResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3142,7 +3149,8 @@ export const listMessageBatches: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c11, 0) as any as S.Schema<ListMessageBatchesRequest>,
     output: __S(354, __c11, 2) as any as S.Schema<BetaListResponseMessageBatch>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,

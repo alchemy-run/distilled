@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -487,7 +487,8 @@ export const createAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateAccountRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<Account>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -504,7 +505,8 @@ export const createLoginSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c1, 4) as any as S.Schema<CreateLoginSessionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<LoginSession>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -521,7 +523,8 @@ export const finishWebAuthnAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<FinishWebAuthnAuthenticationRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<LogInOrganizationsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -538,7 +541,8 @@ export const initiateOIDCSignup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<InitiateOIDCSignupRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<InitiateOIDCSignupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -555,7 +559,8 @@ export const logIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<LogInRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<LogInResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -572,7 +577,8 @@ export const loginInitiateAuthenticationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<LoginInitiateAuthenticationCodeRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<LoginInitiateAuthenticationCodeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -589,7 +595,8 @@ export const loginInitiateOIDC: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<LoginInitiateOIDCRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<InitiateOIDCLoginResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -606,7 +613,8 @@ export const loginInitiatePasswordless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<LoginInitiatePasswordlessRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<LoginInitiatePasswordlessResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -623,7 +631,8 @@ export const logInOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<LogInOrganizationsRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<LogInOrganizationsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -640,7 +649,8 @@ export const notifyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<NotifyAccountRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<NotifyAccountResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +667,8 @@ export const rejectEmailUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<RejectEmailUpdateRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<RejectEmailUpdateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -674,7 +685,8 @@ export const resendAuthenticationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ResendAuthenticationCodeRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ResendAuthenticationCodeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -691,7 +703,8 @@ export const resetPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ResetPasswordResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -708,7 +721,8 @@ export const sendResetPasswordEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<SendResetPasswordEmailRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<SendResetPasswordEmailResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -725,7 +739,8 @@ export const startWebAuthnAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<StartWebAuthnAuthenticationRequest>,
   output: __S(59, __c7, 3) as any as S.Schema<StartWebAuthnAuthenticationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -742,7 +757,8 @@ export const validateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66, __c8, 2) as any as S.Schema<ValidateAccountRequest>,
   output: __S(70, __c8, 6) as any as S.Schema<ValidateAccountResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -759,7 +775,8 @@ export const validateAuthenticationCodeSignUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ValidateAuthenticationCodeSignUpRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ValidateAuthenticationCodeSignUpResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -776,7 +793,8 @@ export const validateEmailUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ValidateEmailUpdateRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ValidateEmailUpdateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -793,7 +811,8 @@ export const validateOIDCSignup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ValidateOIDCSignupRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ValidateOIDCSignupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

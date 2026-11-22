@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1954,6 +1954,8 @@ export interface ListAmlFilesystemByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AmlFilesystemTagsMap = { [key: string]: string | undefined };
@@ -1987,19 +1989,23 @@ export type AmlFilesystemsListResultValueList = Array<AmlFilesystem>;
 /** Result of the request to list AML file systems. It contains a list of AML file systems and a URL link to get the next set of results. */
 export interface AmlFilesystemsListResult {
   /** List of AML file systems. */
-  value?: AmlFilesystemsListResultValueList | undefined;
+  value: AmlFilesystemsListResultValueList;
   /** URL to get the next set of AML file system list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListAmlFilesystemsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAscUsagesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Naming information for this resource type. */
 export interface ResourceUsageName {
@@ -2024,7 +2030,7 @@ export type ResourceUsagesListResultValueList = Array<ResourceUsage>;
 /** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
 export interface ResourceUsagesListResult {
   /** List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider. */
-  value?: ResourceUsagesListResultValueList | undefined;
+  value: ResourceUsagesListResultValueList;
   /** URL to get the next set of resource usage list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2035,6 +2041,8 @@ export interface ListAutoExportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutoExportJobTagsMap = { [key: string]: string | undefined };
@@ -2060,7 +2068,7 @@ export type AutoExportJobsListResultValueList = Array<AutoExportJob>;
 /** Result of the request to list auto export jobs. It contains a list of auto export jobs and a URL link to get the next set of results. */
 export interface AutoExportJobsListResult {
   /** List of auto export jobs. */
-  value?: AutoExportJobsListResultValueList | undefined;
+  value: AutoExportJobsListResultValueList;
   /** URL to get the next set of auto export job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2071,6 +2079,8 @@ export interface ListAutoImportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutoImportJobTagsMap = { [key: string]: string | undefined };
@@ -2096,7 +2106,7 @@ export type AutoImportJobsListResultValueList = Array<AutoImportJob>;
 /** Result of the request to list auto import jobs. It contains a list of auto import jobs and a URL link to get the next set of results. */
 export interface AutoImportJobsListResult {
   /** List of auto import jobs. */
-  value?: AutoImportJobsListResultValueList | undefined;
+  value: AutoImportJobsListResultValueList;
   /** URL to get the next set of auto import job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2105,6 +2115,8 @@ export interface ListCachByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CacheTagsMap = { [key: string]: string | undefined };
@@ -2134,13 +2146,15 @@ export type CachesListResultValueList = Array<Cache>;
 /** Result of the request to list caches. It contains a list of caches and a URL link to get the next set of results. */
 export interface CachesListResult {
   /** List of caches. */
-  value?: CachesListResultValueList | undefined;
+  value: CachesListResultValueList;
   /** URL to get the next set of cache list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListCachesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListExpansionJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2149,6 +2163,8 @@ export interface ListExpansionJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ExpansionJobTagsMap = { [key: string]: string | undefined };
@@ -2174,7 +2190,7 @@ export type ExpansionJobsListResultValueList = Array<ExpansionJob>;
 /** Result of the request to list expansion jobs. It contains a list of expansion jobs and a URL link to get the next set of results. */
 export interface ExpansionJobsListResult {
   /** List of expansion jobs. */
-  value?: ExpansionJobsListResultValueList | undefined;
+  value: ExpansionJobsListResultValueList;
   /** URL to get the next set of expansion job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2185,6 +2201,8 @@ export interface ListImportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ImportJobTagsMap = { [key: string]: string | undefined };
@@ -2210,11 +2228,14 @@ export type ImportJobsListResultValueList = Array<ImportJob>;
 /** Result of the request to list import jobs. It contains a list of import jobs and a URL link to get the next set of results. */
 export interface ImportJobsListResult {
   /** List of import jobs. */
-  value?: ImportJobsListResultValueList | undefined;
+  value: ImportJobsListResultValueList;
   /** URL to get the next set of import job list results, if there are any. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface ApiOperationDisplay {
   /** Operation type: Read, write, delete, etc. */
@@ -2314,7 +2335,7 @@ export type ApiOperationListResultValueList = Array<ApiOperation>;
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApiOperationListResult {
   /** List of Resource Provider operations supported by the Microsoft.StorageCache resource provider. */
-  value?: ApiOperationListResultValueList | undefined;
+  value: ApiOperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2325,6 +2346,8 @@ export interface ListRebalanceJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A rebalance job instance. Rebalances OST data across storage targets after a cluster expansion. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface RebalanceJob {
@@ -2344,13 +2367,15 @@ export type RebalanceJobsListResultValueList = Array<RebalanceJob>;
 /** Result of the request to list rebalance jobs. It contains a list of rebalance jobs and a URL link to get the next set of results. */
 export interface RebalanceJobsListResult {
   /** List of rebalance jobs. */
-  value?: RebalanceJobsListResultValueList | undefined;
+  value: RebalanceJobsListResultValueList;
   /** URL to get the next set of rebalance job list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A resource SKU capability. */
 export interface ResourceSkuCapabilities {
@@ -2409,7 +2434,7 @@ export type ResourceSkusResultValueList = Array<ResourceSku>;
 /** The response from the List Cache SKUs operation. */
 export interface ResourceSkusResult {
   /** The list of SKUs available for the subscription. */
-  value?: ResourceSkusResultValueList | undefined;
+  value: ResourceSkusResultValueList;
   /** The URI to fetch the next page of cache SKUs. */
   nextLink?: string | undefined;
 }
@@ -2420,6 +2445,8 @@ export interface ListStorageTargetByCacheRequest {
   resourceGroupName: string;
   /** Name of cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Type of the Storage Target. */
 export interface StorageTarget {
@@ -2441,13 +2468,15 @@ export type StorageTargetsResultValueList = Array<StorageTarget>;
 /** A list of Storage Targets. */
 export interface StorageTargetsResult {
   /** The list of Storage Targets defined for the cache. */
-  value?: StorageTargetsResultValueList | undefined;
+  value: StorageTargetsResultValueList;
   /** The URI to fetch the next page of Storage Targets. */
   nextLink?: string | undefined;
 }
 export interface ListUsageModelsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Localized information describing this usage model. */
 export interface UsageModelDisplay {
@@ -2468,7 +2497,7 @@ export type UsageModelsResultValueList = Array<UsageModel>;
 /** A list of cache usage models. */
 export interface UsageModelsResult {
   /** The list of usage models available for the subscription. */
-  value?: UsageModelsResultValueList | undefined;
+  value: UsageModelsResultValueList;
   /** The URI to fetch the next page of cache usage models. */
   nextLink?: string | undefined;
 }
@@ -3026,7 +3055,8 @@ export const AmlFilesystemsCancelArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AmlFilesystemsCancelArchiveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<AmlFilesystemsCancelArchiveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3043,7 +3073,8 @@ export const AmlFilesystemsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66, __c2, 2) as any as S.Schema<AmlFilesystemsCreateOrUpdateRequest>,
   output: __S(67, __c2, 3) as any as S.Schema<AmlFilesystemsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3060,7 +3091,8 @@ export const ArchiveAmlFilesystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ArchiveAmlFilesystemRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ArchiveAmlFilesystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3077,7 +3109,8 @@ export const AutoExportJobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1377, __c43, 1) as any as S.Schema<AutoExportJobsCreateOrUpdateRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<AutoExportJobsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3094,7 +3127,8 @@ export const AutoImportJobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1889, __c59, 1) as any as S.Schema<AutoImportJobsCreateOrUpdateRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<AutoImportJobsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3111,7 +3145,8 @@ export const CachesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CachesCreateOrUpdateRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<CachesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3128,7 +3163,8 @@ export const CachesDebugInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CachesDebugInfoRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CachesDebugInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3145,7 +3181,8 @@ export const CachesSpaceAllocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<CachesSpaceAllocationRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CachesSpaceAllocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3162,7 +3199,8 @@ export const CachesUpgradeFirmware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<CachesUpgradeFirmwareRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CachesUpgradeFirmwareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3179,7 +3217,8 @@ export const CheckAmlFSSubnets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CheckAmlFSSubnetsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CheckAmlFSSubnetsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3196,7 +3235,8 @@ export const DeleteAmlFilesystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteAmlFilesystemRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteAmlFilesystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3213,7 +3253,8 @@ export const DeleteAutoExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteAutoExportJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteAutoExportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3230,7 +3271,8 @@ export const DeleteAutoImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteAutoImportJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteAutoImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3247,7 +3289,8 @@ export const DeleteCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteCachRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3264,7 +3307,8 @@ export const DeleteExpansionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteExpansionJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteExpansionJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3281,7 +3325,8 @@ export const DeleteImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteImportJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3298,7 +3343,8 @@ export const DeleteRebalanceJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteRebalanceJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteRebalanceJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3315,7 +3361,8 @@ export const DeleteStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteStorageTargetRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3332,7 +3379,8 @@ export const ExpansionJobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c19, 1) as any as S.Schema<ExpansionJobsCreateOrUpdateRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<ExpansionJobsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3349,7 +3397,8 @@ export const FlushCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<FlushCachRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<FlushCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3366,7 +3415,8 @@ export const FlushStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<FlushStorageTargetRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<FlushStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3383,7 +3433,8 @@ export const GetAmlFilesystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetAmlFilesystemRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetAmlFilesystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3400,7 +3451,8 @@ export const GetAscOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetAscOperationRequest>,
   output: __S(868, __c27, 4) as any as S.Schema<AscOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3417,7 +3469,8 @@ export const GetAutoExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetAutoExportJobRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<GetAutoExportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3434,7 +3487,8 @@ export const GetAutoImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetAutoImportJobRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<GetAutoImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3451,7 +3505,8 @@ export const GetCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetCachRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<GetCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3468,7 +3523,8 @@ export const GetExpansionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetExpansionJobRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<GetExpansionJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3485,7 +3541,8 @@ export const GetImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetImportJobRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<GetImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3502,7 +3559,8 @@ export const GetRebalanceJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetRebalanceJobRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetRebalanceJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3519,7 +3577,8 @@ export const GetRequiredAmlFSSubnetsSize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetRequiredAmlFSSubnetsSizeRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<RequiredAmlFilesystemSubnetsSize>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3536,7 +3595,8 @@ export const GetStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetStorageTargetRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<GetStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3553,7 +3613,8 @@ export const ImportJobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1537, __c48, 1) as any as S.Schema<ImportJobsCreateOrUpdateRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<ImportJobsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3570,7 +3631,8 @@ export const InvalidateStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<InvalidateStorageTargetRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<InvalidateStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3579,241 +3641,353 @@ export const InvalidateStorageTarget: API.OperationMethod<
 
 export type ListAmlFilesystemByResourceGroupError = AzureOpError;
 /** Returns all AML file systems the user has access to under a resource group. */
-export const ListAmlFilesystemByResourceGroup: API.OperationMethod<
+export const ListAmlFilesystemByResourceGroup: API.PaginatedOperationMethod<
   ListAmlFilesystemByResourceGroupRequest,
   AmlFilesystemsListResult,
   ListAmlFilesystemByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlFilesystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListAmlFilesystemByResourceGroupRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<AmlFilesystemsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAmlFilesystemByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAmlFilesystemsError = AzureOpError;
 /** Returns all AML file systems the user has access to under a subscription. */
-export const ListAmlFilesystems: API.OperationMethod<
+export const ListAmlFilesystems: API.PaginatedOperationMethod<
   ListAmlFilesystemsRequest,
   AmlFilesystemsListResult,
   ListAmlFilesystemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlFilesystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListAmlFilesystemsRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<AmlFilesystemsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAmlFilesystems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAscUsagesError = AzureOpError;
 /** Gets the quantity used and quota limit for resources */
-export const ListAscUsages: API.OperationMethod<
+export const ListAscUsages: API.PaginatedOperationMethod<
   ListAscUsagesRequest,
   ResourceUsagesListResult,
   ListAscUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListAscUsagesRequest>,
   output: __S(1700, __c53, 4) as any as S.Schema<ResourceUsagesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAscUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoExportJobByAmlFilesystemError = AzureOpError;
 /** Returns all the auto export jobs the user has access to under an AML File System. */
-export const ListAutoExportJobByAmlFilesystem: API.OperationMethod<
+export const ListAutoExportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListAutoExportJobByAmlFilesystemRequest,
   AutoExportJobsListResult,
   ListAutoExportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoExportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListAutoExportJobByAmlFilesystemRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<AutoExportJobsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoExportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoImportJobByAmlFilesystemError = AzureOpError;
 /** Returns all the auto import jobs the user has access to under an AML File System. */
-export const ListAutoImportJobByAmlFilesystem: API.OperationMethod<
+export const ListAutoImportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListAutoImportJobByAmlFilesystemRequest,
   AutoImportJobsListResult,
   ListAutoImportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoImportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListAutoImportJobByAmlFilesystemRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<AutoImportJobsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoImportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachByResourceGroupError = AzureOpError;
 /** Returns all caches the user has access to under a resource group. */
-export const ListCachByResourceGroup: API.OperationMethod<
+export const ListCachByResourceGroup: API.PaginatedOperationMethod<
   ListCachByResourceGroupRequest,
   CachesListResult,
   ListCachByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListCachByResourceGroupRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<CachesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCachByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachesError = AzureOpError;
 /** Returns all caches the user has access to under a subscription. */
-export const ListCaches: API.OperationMethod<
+export const ListCaches: API.PaginatedOperationMethod<
   ListCachesRequest,
   CachesListResult,
   ListCachesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListCachesRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<CachesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCaches",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExpansionJobByAmlFilesystemError = AzureOpError;
 /** Returns all the expansion jobs the user has access to under an AML File System. */
-export const ListExpansionJobByAmlFilesystem: API.OperationMethod<
+export const ListExpansionJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListExpansionJobByAmlFilesystemRequest,
   ExpansionJobsListResult,
   ListExpansionJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExpansionJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListExpansionJobByAmlFilesystemRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ExpansionJobsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExpansionJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImportJobByAmlFilesystemError = AzureOpError;
 /** Returns all import jobs the user has access to under an AML File System. */
-export const ListImportJobByAmlFilesystem: API.OperationMethod<
+export const ListImportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListImportJobByAmlFilesystemRequest,
   ImportJobsListResult,
   ListImportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListImportJobByAmlFilesystemRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<ImportJobsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Resource Provider operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ApiOperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2029, __c63, 13) as any as S.Schema<ApiOperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRebalanceJobByAmlFilesystemError = AzureOpError;
 /** Returns all the rebalance jobs the user has access to under an AML File System. */
-export const ListRebalanceJobByAmlFilesystem: API.OperationMethod<
+export const ListRebalanceJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListRebalanceJobByAmlFilesystemRequest,
   RebalanceJobsListResult,
   ListRebalanceJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RebalanceJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListRebalanceJobByAmlFilesystemRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<RebalanceJobsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRebalanceJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusError = AzureOpError;
 /** Get the list of StorageCache.Cache SKUs available to this subscription. */
-export const ListSkus: API.OperationMethod<
+export const ListSkus: API.PaginatedOperationMethod<
   ListSkusRequest,
   ResourceSkusResult,
   ListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(2089, __c65, 9) as any as S.Schema<ResourceSkusResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageTargetByCacheError = AzureOpError;
 /** Returns a list of Storage Targets for the specified cache. */
-export const ListStorageTargetByCache: API.OperationMethod<
+export const ListStorageTargetByCache: API.PaginatedOperationMethod<
   ListStorageTargetByCacheRequest,
   StorageTargetsResult,
   ListStorageTargetByCacheError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageTarget
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListStorageTargetByCacheRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<StorageTargetsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageTargetByCache",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageModelsError = AzureOpError;
 /** Get the list of cache usage models available to this subscription. */
-export const ListUsageModels: API.OperationMethod<
+export const ListUsageModels: API.PaginatedOperationMethod<
   ListUsageModelsRequest,
   UsageModelsResult,
   ListUsageModelsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsageModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListUsageModelsRequest>,
   output: __S(2148, __c67, 4) as any as S.Schema<UsageModelsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageModels",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PauseCachPrimingJobError = AzureOpError;
 /** Schedule a priming job to be paused. */
@@ -3825,7 +3999,8 @@ export const PauseCachPrimingJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<PauseCachPrimingJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<PauseCachPrimingJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3842,7 +4017,8 @@ export const RefreshStorageTargetsDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<RefreshStorageTargetsDnsRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RefreshStorageTargetsDnsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3859,7 +4035,8 @@ export const RestoreStorageTargetDefaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<RestoreStorageTargetDefaultsRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RestoreStorageTargetDefaultsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3876,7 +4053,8 @@ export const ResumeCachPrimingJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ResumeCachPrimingJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<ResumeCachPrimingJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3893,7 +4071,8 @@ export const ResumeStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ResumeStorageTargetRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<ResumeStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3910,7 +4089,8 @@ export const StartCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<StartCachRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<StartCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3927,7 +4107,8 @@ export const StartCachPrimingJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<StartCachPrimingJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<StartCachPrimingJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3944,7 +4125,8 @@ export const StopCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<StopCachRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<StopCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3961,7 +4143,8 @@ export const StopCachPrimingJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<StopCachPrimingJobRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<StopCachPrimingJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3978,7 +4161,8 @@ export const StorageTargetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2593, __c81, 1) as any as S.Schema<StorageTargetsCreateOrUpdateRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<StorageTargetsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3995,7 +4179,8 @@ export const SuspendStorageTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<SuspendStorageTargetRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<SuspendStorageTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4012,7 +4197,8 @@ export const UpdateAmlFilesystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2657, __c83, 1) as any as S.Schema<UpdateAmlFilesystemRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<UpdateAmlFilesystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4029,7 +4215,8 @@ export const UpdateAutoExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAutoExportJobRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<UpdateAutoExportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4046,7 +4233,8 @@ export const UpdateAutoImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UpdateAutoImportJobRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<UpdateAutoImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4063,7 +4251,8 @@ export const UpdateCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<UpdateCachRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<UpdateCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4080,7 +4269,8 @@ export const UpdateExpansionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<UpdateExpansionJobRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<UpdateExpansionJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4097,7 +4287,8 @@ export const UpdateImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<UpdateImportJobRequest>,
   output: __S(2913, __c91, 1) as any as S.Schema<UpdateImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4114,7 +4305,8 @@ export const UpdateRebalanceJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<UpdateRebalanceJobRequest>,
   output: __S(2945, __c92, 1) as any as S.Schema<UpdateRebalanceJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5331,12 +5523,14 @@ function __c50(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAmlFilesystemByResourceGroupRequest" });
@@ -5349,7 +5543,7 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1632, __c51, 0)),
+          value: __S(1632, __c51, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmlFilesystemsListResult" });
@@ -5361,12 +5555,14 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/amlFilesystems",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAmlFilesystemsRequest" });
@@ -5379,12 +5575,14 @@ function __c53(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAscUsagesRequest" });
@@ -5409,7 +5607,7 @@ function __c53(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1699, __c53, 3)),
+          value: __S(1699, __c53, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceUsagesListResult" });
@@ -5423,12 +5621,14 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoExportJobByAmlFilesystemRequest" });
@@ -5437,7 +5637,7 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1729, __c54, 1)),
+          value: __S(1729, __c54, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoExportJobsListResult" });
@@ -5451,12 +5651,14 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoImportJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoImportJobByAmlFilesystemRequest" });
@@ -5465,7 +5667,7 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1761, __c55, 1)),
+          value: __S(1761, __c55, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoImportJobsListResult" });
@@ -5478,12 +5680,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachByResourceGroupRequest" });
@@ -5496,7 +5700,7 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1824, __c57, 0)),
+          value: __S(1824, __c57, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CachesListResult" });
@@ -5508,12 +5712,14 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/caches",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachesRequest" });
@@ -5633,12 +5839,14 @@ function __c61(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/expansionJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExpansionJobByAmlFilesystemRequest" });
@@ -5647,7 +5855,7 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1953, __c61, 1)),
+          value: __S(1953, __c61, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpansionJobsListResult" });
@@ -5661,12 +5869,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImportJobByAmlFilesystemRequest" });
@@ -5675,7 +5885,7 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1985, __c62, 1)),
+          value: __S(1985, __c62, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportJobsListResult" });
@@ -5685,12 +5895,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StorageCache/operations",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5768,7 +5981,7 @@ function __c63(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2028, __c63, 12)),
+          value: __S(2028, __c63, 12),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiOperationListResult" });
@@ -5782,12 +5995,14 @@ function __c64(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/rebalanceJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRebalanceJobByAmlFilesystemRequest" });
@@ -5796,7 +6011,7 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2049, __c64, 1)),
+          value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RebalanceJobsListResult" });
@@ -5808,12 +6023,14 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/skus",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusRequest" });
@@ -5861,7 +6078,7 @@ function __c65(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2088, __c65, 8)),
+          value: __S(2088, __c65, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceSkusResult" });
@@ -5875,12 +6092,14 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageTargetByCacheRequest" });
@@ -5889,7 +6108,7 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2113, __c66, 1)),
+          value: __S(2113, __c66, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageTargetsResult" });
@@ -5901,12 +6120,14 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageModelsRequest" });
@@ -5929,7 +6150,7 @@ function __c67(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2147, __c67, 3)),
+          value: __S(2147, __c67, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageModelsResult" });

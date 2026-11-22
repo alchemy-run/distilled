@@ -9,6 +9,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -121,6 +122,42 @@ export class CapacityProviderLimitExceededException
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class CapacityProviderOperatorRoleNotAssumable
+  extends /*@__PURE__*/ S.TaggedError<CapacityProviderOperatorRoleNotAssumable>()(
+    "CapacityProviderOperatorRoleNotAssumable",
+    {
+      Type: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: { includes: "The operator role is invalid or doesn't have sufficient permissions" },
+    }),
+  ) {}
+export class CapacityProviderSecurityGroupNotFound
+  extends /*@__PURE__*/ S.TaggedError<CapacityProviderSecurityGroupNotFound>()(
+    "CapacityProviderSecurityGroupNotFound",
+    {
+      Type: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: { includes: "One or more security group IDs are invalid" },
+    }),
+  ) {}
+export class CapacityProviderSubnetNotFound
+  extends /*@__PURE__*/ S.TaggedError<CapacityProviderSubnetNotFound>()(
+    "CapacityProviderSubnetNotFound",
+    {
+      Type: /*@__PURE__*/ S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: { includes: "One or more subnet IDs are invalid" },
+    }),
+  ) {}
 export class CodeArtifactUserDeletedException
   extends /*@__PURE__*/ S.TaggedError<CodeArtifactUserDeletedException>()(
     "CodeArtifactUserDeletedException",
@@ -956,6 +993,7 @@ export type CapacityProviderMaxVCpuCount = number;
 export type CapacityProviderScalingMode = "Auto" | "Manual" | (string & {});
 export type CapacityProviderPredefinedMetricType =
   | "LambdaCapacityProviderAverageCPUUtilization"
+  | "LambdaCapacityProviderAverageGPUUtilization"
   | (string & {});
 export type MetricTargetValue = number;
 export interface TargetTrackingScalingPolicy {
@@ -1408,6 +1446,10 @@ export interface FunctionRuntimeConfig {
   RuntimeArn: string;
   RuntimeAlias: string;
 }
+export type AcceleratorMemoryGB = 3 | 6 | 12 | 16 | 24 | 48 | (number & {});
+export interface AcceleratorConfig {
+  AcceleratorMemorySize: AcceleratorMemoryGB;
+}
 export interface CreateFunctionRequest {
   FunctionName: string;
   Runtime?: Runtime | undefined;
@@ -1438,6 +1480,7 @@ export interface CreateFunctionRequest {
   CapacityProviderConfig?: CapacityProviderConfig | undefined;
   DurableConfig?: DurableConfig | undefined;
   RuntimeConfig?: FunctionRuntimeConfig | undefined;
+  AcceleratorConfig?: AcceleratorConfig | undefined;
 }
 export type NameSpacedFunctionArn = string;
 export type VpcId = string;
@@ -1517,6 +1560,7 @@ export type StateReasonCode =
   | "FunctionError.InitResourceExhausted"
   | "DisallowedByVpcEncryptionControl"
   | "DrainingDurableExecutions"
+  | "IncompatibleAcceleratorInstanceTypes"
   | "DependencyError"
   | (string & {});
 export type LastUpdateStatus = "Successful" | "Failed" | "InProgress" | (string & {});
@@ -1557,6 +1601,7 @@ export type LastUpdateStatusReasonCode =
   | "FunctionError.TooManyExtensions"
   | "FunctionError.InitResourceExhausted"
   | "DisallowedByVpcEncryptionControl"
+  | "IncompatibleAcceleratorInstanceTypes"
   | "DependencyError"
   | "Creating"
   | (string & {});
@@ -1624,6 +1669,7 @@ export interface FunctionConfiguration {
   ConfigSha256?: string | undefined;
   DurableConfig?: DurableConfig | undefined;
   RuntimeConfig?: FunctionRuntimeConfig | undefined;
+  AcceleratorConfig?: AcceleratorConfig | undefined;
 }
 export type FunctionUrlFunctionName = string;
 export type FunctionUrlQualifier = string;
@@ -1675,6 +1721,12 @@ export interface DeleteCodeSigningConfigRequest {
   CodeSigningConfigArn: string;
 }
 export interface DeleteCodeSigningConfigResponse {}
+export interface DeleteDurableExecutionRequest {
+  DurableExecutionArn: string;
+}
+export interface DeleteDurableExecutionResponse {
+  DeletionRequestTimestamp: Date;
+}
 export interface DeleteEventSourceMappingRequest {
   UUID: string;
 }
@@ -1767,11 +1819,21 @@ export type ExecutionStatus =
   | "FAILED"
   | "TIMED_OUT"
   | "STOPPED"
+  | "DELETING"
+  | "PAUSING"
+  | "PAUSED"
   | (string & {});
 export interface TraceHeader {
   XAmznTraceId?: string | undefined;
 }
 export type ExecutionDataIncluded = boolean;
+export type PauseReason = string | redacted.Redacted<string>;
+export type ExecutionTimeoutPaused = boolean;
+export interface PauseDetails {
+  PauseRequestTimestamp: Date;
+  Reason?: string | redacted.Redacted<string> | undefined;
+  ExecutionTimeoutPaused: boolean;
+}
 export interface GetDurableExecutionResponse {
   DurableExecutionArn: string;
   DurableExecutionName: string;
@@ -1786,6 +1848,8 @@ export interface GetDurableExecutionResponse {
   TraceHeader?: TraceHeader | undefined;
   ExecutionDataIncluded?: boolean | undefined;
   DurableConfig?: DurableConfig | undefined;
+  PauseDetails?: PauseDetails | undefined;
+  ExpectedExecutionTimeoutTimestamp?: Date | undefined;
 }
 export type ItemCount = number;
 export type ReverseOrder = boolean;
@@ -1821,6 +1885,8 @@ export type EventType =
   | "CallbackFailed"
   | "CallbackTimedOut"
   | "InvocationCompleted"
+  | "ExecutionPaused"
+  | "ExecutionResumed"
   | (string & {});
 export type EventId = number;
 export type Truncated = boolean;
@@ -1921,6 +1987,24 @@ export interface InvocationCompletedDetails {
   RequestId: string;
   Error?: EventError | undefined;
 }
+export interface EventPauseReason {
+  Payload?: string | redacted.Redacted<string> | undefined;
+  Truncated?: boolean | undefined;
+}
+export interface ExecutionPausedDetails {
+  PauseRequestTimestamp: Date;
+  Reason?: EventPauseReason | undefined;
+  ExecutionTimeoutPaused: boolean;
+}
+export type ResumeReason = string | redacted.Redacted<string>;
+export interface EventResumeReason {
+  Payload?: string | redacted.Redacted<string> | undefined;
+  Truncated?: boolean | undefined;
+}
+export interface ExecutionResumedDetails {
+  ResumeRequestTimestamp: Date;
+  Reason?: EventResumeReason | undefined;
+}
 export interface Event {
   EventType?: EventType | undefined;
   SubType?: string | undefined;
@@ -1953,6 +2037,8 @@ export interface Event {
   CallbackFailedDetails?: CallbackFailedDetails | undefined;
   CallbackTimedOutDetails?: CallbackTimedOutDetails | undefined;
   InvocationCompletedDetails?: InvocationCompletedDetails | undefined;
+  ExecutionPausedDetails?: ExecutionPausedDetails | undefined;
+  ExecutionResumedDetails?: ExecutionResumedDetails | undefined;
 }
 export type Events = Event[];
 export interface GetDurableExecutionHistoryResponse {
@@ -2425,6 +2511,13 @@ export interface ListVersionsByFunctionResponse {
   NextMarker?: string | undefined;
   Versions?: FunctionConfiguration[] | undefined;
 }
+export interface PauseDurableExecutionRequest {
+  DurableExecutionArn: string;
+  ClientToken?: string | undefined;
+  Reason?: string | redacted.Redacted<string> | undefined;
+  ExecutionTimeoutPaused?: boolean | undefined;
+}
+export interface PauseDurableExecutionResponse {}
 export interface LayerVersionContentInput {
   S3Bucket?: string | undefined;
   S3Key?: string | undefined;
@@ -2540,6 +2633,12 @@ export interface RemovePermissionRequest {
   RevisionId?: string | undefined;
 }
 export interface RemovePermissionResponse {}
+export interface ResumeDurableExecutionRequest {
+  DurableExecutionArn: string;
+  ClientToken?: string | undefined;
+  Reason?: string | redacted.Redacted<string> | undefined;
+}
+export interface ResumeDurableExecutionResponse {}
 export interface SendDurableExecutionCallbackFailureRequest {
   CallbackId: string;
   Error?: ErrorObject | undefined;
@@ -2660,6 +2759,7 @@ export interface UpdateFunctionConfigurationRequest {
   CapacityProviderConfig?: CapacityProviderConfig | undefined;
   DurableConfig?: DurableConfig | undefined;
   RuntimeConfig?: FunctionRuntimeConfig | undefined;
+  AcceleratorConfig?: AcceleratorConfig | undefined;
 }
 export interface UpdateFunctionEventInvokeConfigRequest {
   FunctionName: string;
@@ -2714,8 +2814,8 @@ export const addLayerVersionPermission: API.OperationMethod<
   AddLayerVersionPermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<AddLayerVersionPermissionRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<AddLayerVersionPermissionResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<AddLayerVersionPermissionRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<AddLayerVersionPermissionResponse>,
   errors: [
     InvalidParameterValueException,
     PolicyLengthExceededException,
@@ -2727,6 +2827,7 @@ export const addLayerVersionPermission: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLayerVersionPermission",
@@ -2759,8 +2860,8 @@ export const addPermission: API.OperationMethod<
   AddPermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<AddPermissionRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<AddPermissionResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<AddPermissionRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<AddPermissionResponse>,
   errors: [
     InvalidParameterValueException,
     PolicyLengthExceededException,
@@ -2773,6 +2874,7 @@ export const addPermission: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
@@ -2800,8 +2902,8 @@ export const checkpointDurableExecution: API.OperationMethod<
   CheckpointDurableExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2087, __c65, 7) as any as S.Schema<CheckpointDurableExecutionRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CheckpointDurableExecutionResponse>,
+  input: __S(2375, __c74, 7) as any as S.Schema<CheckpointDurableExecutionRequest>,
+  output: __S(2377, __c74, 9) as any as S.Schema<CheckpointDurableExecutionResponse>,
   errors: [
     InvalidParameterValueException,
     KMSAccessDeniedException,
@@ -2811,6 +2913,7 @@ export const checkpointDurableExecution: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckpointDurableExecution",
@@ -2839,8 +2942,8 @@ export const createAlias: API.OperationMethod<
   CreateAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateAliasRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<AliasConfiguration>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateAliasRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<AliasConfiguration>,
   errors: [
     AliasLimitExceededException,
     InvalidParameterValueException,
@@ -2851,6 +2954,7 @@ export const createAlias: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
@@ -2864,6 +2968,9 @@ export type CreateCapacityProviderError =
   | ResourceConflictException
   | ServiceException
   | TooManyRequestsException
+  | CapacityProviderOperatorRoleNotAssumable
+  | CapacityProviderSecurityGroupNotFound
+  | CapacityProviderSubnetNotFound
   | CommonErrors;
 /**
  * Creates a capacity provider that manages compute resources for Lambda Event Functions
@@ -2874,15 +2981,19 @@ export const createCapacityProvider: API.OperationMethod<
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CreateCapacityProviderRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<CreateCapacityProviderResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateCapacityProviderRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<CreateCapacityProviderResponse>,
   errors: [
     CapacityProviderLimitExceededException,
     InvalidParameterValueException,
     ResourceConflictException,
     ServiceException,
     TooManyRequestsException,
+    CapacityProviderOperatorRoleNotAssumable,
+    CapacityProviderSecurityGroupNotFound,
+    CapacityProviderSubnetNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
@@ -2903,9 +3014,10 @@ export const createCodeSigningConfig: API.OperationMethod<
   CreateCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<CreateCodeSigningConfigRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<CreateCodeSigningConfigResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateCodeSigningConfigRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<CreateCodeSigningConfigResponse>,
   errors: [InvalidParameterValueException, ServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSigningConfig",
@@ -2980,8 +3092,8 @@ export const createEventSourceMapping: API.OperationMethod<
   CreateEventSourceMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<CreateEventSourceMappingRequest>,
-  output: __S(2610, __c81, 18) as any as S.Schema<EventSourceMappingConfiguration>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CreateEventSourceMappingRequest>,
+  output: __S(2898, __c90, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -2994,6 +3106,7 @@ export const createEventSourceMapping: API.OperationMethod<
     ExecutionRoleMissingPermissions,
     QueueVisibilityTimeoutTooShort,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSourceMapping",
@@ -3046,8 +3159,8 @@ export const createFunction: API.OperationMethod<
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<CreateFunctionRequest>,
-  output: __S(2741, __c85, 21) as any as S.Schema<FunctionConfiguration>,
+  input: __S(2913, __c91, 1) as any as S.Schema<CreateFunctionRequest>,
+  output: __S(2966, __c92, 22) as any as S.Schema<FunctionConfiguration>,
   errors: [
     CodeSigningConfigNotFoundException,
     CodeStorageExceededException,
@@ -3065,6 +3178,7 @@ export const createFunction: API.OperationMethod<
     KmsGrantPrincipalNotReady,
     SecurityGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
@@ -3090,8 +3204,8 @@ export const createFunctionUrlConfig: API.OperationMethod<
   CreateFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<CreateFunctionUrlConfigRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<CreateFunctionUrlConfigResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateFunctionUrlConfigRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<CreateFunctionUrlConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3101,6 +3215,7 @@ export const createFunctionUrlConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionUrlConfig",
@@ -3125,8 +3240,8 @@ export const deleteAlias: API.OperationMethod<
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<DeleteAliasRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteAliasResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteAliasRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteAliasResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3135,6 +3250,7 @@ export const deleteAlias: API.OperationMethod<
     TooManyRequestsException,
     RequestLimitExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
@@ -3158,8 +3274,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<DeleteCapacityProviderRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DeleteCapacityProviderResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteCapacityProviderRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<DeleteCapacityProviderResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3167,6 +3283,7 @@ export const deleteCapacityProvider: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
@@ -3191,8 +3308,8 @@ export const deleteCodeSigningConfig: API.OperationMethod<
   DeleteCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeleteCodeSigningConfigRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteCodeSigningConfigResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteCodeSigningConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteCodeSigningConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3201,11 +3318,47 @@ export const deleteCodeSigningConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSigningConfig",
   telemetry: TELEMETRY,
   span: "DeleteCodeSigningConfig",
+}));
+
+export type DeleteDurableExecutionError =
+  | InvalidParameterValueException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Deletes a completed Lambda durable execution and its data. The execution must be in a terminal state (`SUCCEEDED`, `FAILED`, `STOPPED`, or `TIMED_OUT`). Otherwise, this operation returns a `ResourceConflictException`.
+ *
+ * The execution has `DELETING` status until the deletion finishes. For more information, see Deleting durable executions.
+ */
+export const deleteDurableExecution: API.OperationMethod<
+  DeleteDurableExecutionRequest & RegionInput,
+  DeleteDurableExecutionResponse,
+  DeleteDurableExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteDurableExecutionRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<DeleteDurableExecutionResponse>,
+  errors: [
+    InvalidParameterValueException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteDurableExecution",
+  telemetry: TELEMETRY,
+  span: "DeleteDurableExecution",
 }));
 
 export type DeleteEventSourceMappingError =
@@ -3227,8 +3380,8 @@ export const deleteEventSourceMapping: API.OperationMethod<
   DeleteEventSourceMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<DeleteEventSourceMappingRequest>,
-  output: __S(2610, __c81, 18) as any as S.Schema<EventSourceMappingConfiguration>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteEventSourceMappingRequest>,
+  output: __S(2898, __c90, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3237,6 +3390,7 @@ export const deleteEventSourceMapping: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSourceMapping",
@@ -3264,8 +3418,8 @@ export const deleteFunction: API.OperationMethod<
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DeleteFunctionRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<DeleteFunctionResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteFunctionRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<DeleteFunctionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3273,6 +3427,7 @@ export const deleteFunction: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
@@ -3297,8 +3452,8 @@ export const deleteFunctionCodeSigningConfig: API.OperationMethod<
   DeleteFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DeleteFunctionCodeSigningConfigRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteFunctionCodeSigningConfigResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteFunctionCodeSigningConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteFunctionCodeSigningConfigResponse>,
   errors: [
     CodeSigningConfigNotFoundException,
     InvalidParameterValueException,
@@ -3307,6 +3462,7 @@ export const deleteFunctionCodeSigningConfig: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionCodeSigningConfig",
@@ -3335,8 +3491,8 @@ export const deleteFunctionConcurrency: API.OperationMethod<
   DeleteFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DeleteFunctionConcurrencyRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteFunctionConcurrencyResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteFunctionConcurrencyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteFunctionConcurrencyResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3346,6 +3502,7 @@ export const deleteFunctionConcurrency: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionConcurrency",
@@ -3376,8 +3533,8 @@ export const deleteFunctionEventInvokeConfig: API.OperationMethod<
   DeleteFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DeleteFunctionEventInvokeConfigRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteFunctionEventInvokeConfigResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteFunctionEventInvokeConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteFunctionEventInvokeConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3387,6 +3544,7 @@ export const deleteFunctionEventInvokeConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionEventInvokeConfig",
@@ -3415,8 +3573,8 @@ export const deleteFunctionUrlConfig: API.OperationMethod<
   DeleteFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DeleteFunctionUrlConfigRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteFunctionUrlConfigResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteFunctionUrlConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteFunctionUrlConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3426,6 +3584,7 @@ export const deleteFunctionUrlConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionUrlConfig",
@@ -3450,8 +3609,8 @@ export const deleteLayerVersion: API.OperationMethod<
   DeleteLayerVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DeleteLayerVersionRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteLayerVersionResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteLayerVersionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteLayerVersionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -3460,6 +3619,7 @@ export const deleteLayerVersion: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayerVersion",
@@ -3485,8 +3645,8 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
   DeleteProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DeleteProvisionedConcurrencyConfigRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteProvisionedConcurrencyConfigResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteProvisionedConcurrencyConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteProvisionedConcurrencyConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -3496,6 +3656,7 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedConcurrencyConfig",
@@ -3523,8 +3684,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     InvalidParameterValueException,
     PreconditionFailedException,
@@ -3533,6 +3694,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -3550,9 +3712,10 @@ export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetAccountSettingsRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<GetAccountSettingsResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetAccountSettingsRequest>,
+  output: __S(3555, __c111, 3) as any as S.Schema<GetAccountSettingsResponse>,
   errors: [ServiceException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
@@ -3575,14 +3738,15 @@ export const getAlias: API.OperationMethod<
   GetAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetAliasRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<AliasConfiguration>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetAliasRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<AliasConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlias",
@@ -3605,14 +3769,15 @@ export const getCapacityProvider: API.OperationMethod<
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetCapacityProviderRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<GetCapacityProviderResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetCapacityProviderRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GetCapacityProviderResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
@@ -3636,8 +3801,8 @@ export const getCodeSigningConfig: API.OperationMethod<
   GetCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetCodeSigningConfigRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<GetCodeSigningConfigResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetCodeSigningConfigRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<GetCodeSigningConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -3645,6 +3810,7 @@ export const getCodeSigningConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSigningConfig",
@@ -3671,8 +3837,8 @@ export const getDurableExecution: API.OperationMethod<
   GetDurableExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetDurableExecutionRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<GetDurableExecutionResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetDurableExecutionRequest>,
+  output: __S(3683, __c115, 3) as any as S.Schema<GetDurableExecutionResponse>,
   errors: [
     InvalidParameterValueException,
     KMSAccessDeniedException,
@@ -3683,6 +3849,7 @@ export const getDurableExecution: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDurableExecution",
@@ -3712,8 +3879,8 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetDurableExecutionHistoryRequest>,
-  output: __S(3409, __c106, 17) as any as S.Schema<GetDurableExecutionHistoryResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetDurableExecutionHistoryRequest>,
+  output: __S(3731, __c116, 19) as any as S.Schema<GetDurableExecutionHistoryResponse>,
   errors: [
     InvalidParameterValueException,
     KMSAccessDeniedException,
@@ -3724,6 +3891,7 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDurableExecutionHistory",
@@ -3758,8 +3926,8 @@ export const getDurableExecutionState: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Operation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetDurableExecutionStateRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GetDurableExecutionStateResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetDurableExecutionStateRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<GetDurableExecutionStateResponse>,
   errors: [
     InvalidParameterValueException,
     KMSAccessDeniedException,
@@ -3769,6 +3937,7 @@ export const getDurableExecutionState: API.PaginatedOperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDurableExecutionState",
@@ -3797,14 +3966,15 @@ export const getEventSourceMapping: API.OperationMethod<
   GetEventSourceMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetEventSourceMappingRequest>,
-  output: __S(2610, __c81, 18) as any as S.Schema<EventSourceMappingConfiguration>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetEventSourceMappingRequest>,
+  output: __S(2898, __c90, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSourceMapping",
@@ -3827,14 +3997,15 @@ export const getFunction: API.OperationMethod<
   GetFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<GetFunctionResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetFunctionRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<GetFunctionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
@@ -3858,8 +4029,8 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
   GetFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetFunctionCodeSigningConfigRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<GetFunctionCodeSigningConfigResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetFunctionCodeSigningConfigRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<GetFunctionCodeSigningConfigResponse>,
   errors: [
     CodeSigningConfigNotFoundException,
     InvalidParameterValueException,
@@ -3867,6 +4038,7 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionCodeSigningConfig",
@@ -3894,8 +4066,8 @@ export const getFunctionConcurrency: API.OperationMethod<
   GetFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetFunctionConcurrencyRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<GetFunctionConcurrencyResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetFunctionConcurrencyRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<GetFunctionConcurrencyResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -3904,6 +4076,7 @@ export const getFunctionConcurrency: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConcurrency",
@@ -3928,14 +4101,15 @@ export const getFunctionConfiguration: API.OperationMethod<
   GetFunctionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetFunctionConfigurationRequest>,
-  output: __S(2741, __c85, 21) as any as S.Schema<FunctionConfiguration>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetFunctionConfigurationRequest>,
+  output: __S(2966, __c92, 22) as any as S.Schema<FunctionConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConfiguration",
@@ -3965,8 +4139,8 @@ export const getFunctionEventInvokeConfig: API.OperationMethod<
   GetFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetFunctionEventInvokeConfigRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<FunctionEventInvokeConfig>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetFunctionEventInvokeConfigRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<FunctionEventInvokeConfig>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -3975,6 +4149,7 @@ export const getFunctionEventInvokeConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionEventInvokeConfig",
@@ -4002,8 +4177,8 @@ export const getFunctionRecursionConfig: API.OperationMethod<
   GetFunctionRecursionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetFunctionRecursionConfigRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<GetFunctionRecursionConfigResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetFunctionRecursionConfigRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetFunctionRecursionConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -4012,6 +4187,7 @@ export const getFunctionRecursionConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionRecursionConfig",
@@ -4037,14 +4213,15 @@ export const getFunctionScalingConfig: API.OperationMethod<
   GetFunctionScalingConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetFunctionScalingConfigRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<GetFunctionScalingConfigResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetFunctionScalingConfigRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetFunctionScalingConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionScalingConfig",
@@ -4070,14 +4247,15 @@ export const getFunctionUrlConfig: API.OperationMethod<
   GetFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetFunctionUrlConfigRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<GetFunctionUrlConfigResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetFunctionUrlConfigRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetFunctionUrlConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionUrlConfig",
@@ -4102,8 +4280,8 @@ export const getLayerVersion: API.OperationMethod<
   GetLayerVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetLayerVersionRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<GetLayerVersionResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetLayerVersionRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<GetLayerVersionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -4112,6 +4290,7 @@ export const getLayerVersion: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersion",
@@ -4134,14 +4313,15 @@ export const getLayerVersionByArn: API.OperationMethod<
   GetLayerVersionByArnError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetLayerVersionByArnRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<GetLayerVersionResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetLayerVersionByArnRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<GetLayerVersionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionByArn",
@@ -4166,8 +4346,8 @@ export const getLayerVersionPolicy: API.OperationMethod<
   GetLayerVersionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetLayerVersionPolicyRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GetLayerVersionPolicyResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetLayerVersionPolicyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<GetLayerVersionPolicyResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -4176,6 +4356,7 @@ export const getLayerVersionPolicy: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionPolicy",
@@ -4198,14 +4379,15 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GetPolicyResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -4231,8 +4413,8 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
   GetProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProvisionedConcurrencyConfigRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<GetProvisionedConcurrencyConfigResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetProvisionedConcurrencyConfigRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<GetProvisionedConcurrencyConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ProvisionedConcurrencyConfigNotFoundException,
@@ -4242,6 +4424,7 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedConcurrencyConfig",
@@ -4267,14 +4450,15 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -4297,14 +4481,15 @@ export const getRuntimeManagementConfig: API.OperationMethod<
   GetRuntimeManagementConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetRuntimeManagementConfigRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<GetRuntimeManagementConfigResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetRuntimeManagementConfigRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<GetRuntimeManagementConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuntimeManagementConfig",
@@ -4377,7 +4562,7 @@ export type InvokeError =
  *
  * The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns `TooManyRequestsException` if running the function would cause you to exceed a concurrency limit at either the account level (`ConcurrentInvocationLimitExceeded`) or function level (`ReservedFunctionConcurrentInvocationLimitExceeded`).
  *
- * For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings.
+ * For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. Synchronous invocations can run for up to 30 minutes. Set the read timeout of your client higher than the function timeout, and turn on TCP keep-alive.
  *
  * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
  */
@@ -4387,8 +4572,8 @@ export const invoke: API.OperationMethod<
   InvokeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<InvocationRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<InvocationResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<InvocationRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<InvocationResponse>,
   errors: [
     CodeArtifactUserDeletedException,
     CodeArtifactUserFailedException,
@@ -4438,6 +4623,7 @@ export const invoke: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Invoke",
@@ -4497,8 +4683,8 @@ export const invokeAsync: API.OperationMethod<
   InvokeAsyncError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<InvokeAsyncRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<InvokeAsyncResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<InvokeAsyncRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<InvokeAsyncResponse>,
   errors: [
     EC2AccessDeniedException,
     EC2ThrottledException,
@@ -4530,6 +4716,7 @@ export const invokeAsync: API.OperationMethod<
     SnapStartTimeoutException,
     SubnetIPAddressLimitReachedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAsync",
@@ -4592,8 +4779,8 @@ export const invokeWithResponseStream: API.OperationMethod<
   InvokeWithResponseStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<InvokeWithResponseStreamRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<InvokeWithResponseStreamResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<InvokeWithResponseStreamRequest>,
+  output: __S(836, __c26, 4) as any as S.Schema<InvokeWithResponseStreamResponse>,
   errors: [
     CodeArtifactUserDeletedException,
     CodeArtifactUserFailedException,
@@ -4638,6 +4825,7 @@ export const invokeWithResponseStream: API.OperationMethod<
     TooManyRequestsException,
     UnsupportedMediaTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeWithResponseStream",
@@ -4667,14 +4855,15 @@ export const listAliases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AliasConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListAliasesRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<ListAliasesResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListAliasesRequest>,
+  output: __S(866, __c27, 2) as any as S.Schema<ListAliasesResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAliases",
@@ -4703,9 +4892,10 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CapacityProvider
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListCapacityProvidersRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListCapacityProvidersResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListCapacityProvidersRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ListCapacityProvidersResponse>,
   errors: [InvalidParameterValueException, ServiceException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCapacityProviders",
@@ -4733,9 +4923,10 @@ export const listCodeSigningConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CodeSigningConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListCodeSigningConfigsRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListCodeSigningConfigsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListCodeSigningConfigsRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<ListCodeSigningConfigsResponse>,
   errors: [InvalidParameterValueException, ServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSigningConfigs",
@@ -4765,14 +4956,15 @@ export const listDurableExecutionsByFunction: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Execution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListDurableExecutionsByFunctionRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<ListDurableExecutionsByFunctionResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListDurableExecutionsByFunctionRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<ListDurableExecutionsByFunctionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDurableExecutionsByFunction",
@@ -4805,14 +4997,15 @@ export const listEventSourceMappings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventSourceMappingConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListEventSourceMappingsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<ListEventSourceMappingsResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListEventSourceMappingsRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<ListEventSourceMappingsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventSourceMappings",
@@ -4846,8 +5039,8 @@ export const listFunctionEventInvokeConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionEventInvokeConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListFunctionEventInvokeConfigsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<ListFunctionEventInvokeConfigsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListFunctionEventInvokeConfigsRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<ListFunctionEventInvokeConfigsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -4856,6 +5049,7 @@ export const listFunctionEventInvokeConfigs: API.PaginatedOperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionEventInvokeConfigs",
@@ -4891,9 +5085,10 @@ export const listFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListFunctionsRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<ListFunctionsResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListFunctionsRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<ListFunctionsResponse>,
   errors: [InvalidParameterValueException, ServiceException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
@@ -4922,9 +5117,10 @@ export const listFunctionsByCodeSigningConfig: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionArn
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListFunctionsByCodeSigningConfigRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<ListFunctionsByCodeSigningConfigResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListFunctionsByCodeSigningConfigRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<ListFunctionsByCodeSigningConfigResponse>,
   errors: [InvalidParameterValueException, ResourceNotFoundException, ServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionsByCodeSigningConfig",
@@ -4954,14 +5150,15 @@ export const listFunctionUrlConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionUrlConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListFunctionUrlConfigsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<ListFunctionUrlConfigsResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListFunctionUrlConfigsRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<ListFunctionUrlConfigsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionUrlConfigs",
@@ -4991,14 +5188,15 @@ export const listFunctionVersionsByCapacityProvider: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   FunctionVersionsByCapacityProviderListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListFunctionVersionsByCapacityProviderRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<ListFunctionVersionsByCapacityProviderResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListFunctionVersionsByCapacityProviderRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<ListFunctionVersionsByCapacityProviderResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionVersionsByCapacityProvider",
@@ -5027,9 +5225,10 @@ export const listLayers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LayersListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListLayersRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<ListLayersResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListLayersRequest>,
+  output: __S(1219, __c38, 3) as any as S.Schema<ListLayersResponse>,
   errors: [InvalidParameterValueException, ServiceException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLayers",
@@ -5061,8 +5260,8 @@ export const listLayerVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LayerVersionsListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListLayerVersionsRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<ListLayerVersionsResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListLayerVersionsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<ListLayerVersionsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -5071,6 +5270,7 @@ export const listLayerVersions: API.PaginatedOperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLayerVersions",
@@ -5102,8 +5302,8 @@ export const listProvisionedConcurrencyConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProvisionedConcurrencyConfigListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListProvisionedConcurrencyConfigsRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<ListProvisionedConcurrencyConfigsResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListProvisionedConcurrencyConfigsRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<ListProvisionedConcurrencyConfigsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -5112,6 +5312,7 @@ export const listProvisionedConcurrencyConfigs: API.PaginatedOperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedConcurrencyConfigs",
@@ -5145,8 +5346,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<ListTagsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -5155,6 +5356,7 @@ export const listTags: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
@@ -5178,14 +5380,15 @@ export const listVersionsByFunction: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListVersionsByFunctionRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<ListVersionsByFunctionResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListVersionsByFunctionRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ListVersionsByFunctionResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersionsByFunction",
@@ -5198,6 +5401,49 @@ export const listVersionsByFunction: API.PaginatedOperationMethod<
   telemetry: TELEMETRY,
   span: { op: "ListVersionsByFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
+
+export type PauseDurableExecutionError =
+  | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Pauses a running durable execution. While an execution is paused, Lambda doesn't invoke your function, but pending operations such as waits and callbacks continue to complete.
+ *
+ * If an invocation is in progress, the execution status changes to `PAUSING` until the invocation reaches its next checkpoint, and then changes to `PAUSED`. This operation returns a successful response while the execution status is still `RUNNING`, and the status changes when Lambda processes the request. For more information about pausing executions, see Pausing and resuming durable executions.
+ */
+export const pauseDurableExecution: API.OperationMethod<
+  PauseDurableExecutionRequest & RegionInput,
+  PauseDurableExecutionResponse,
+  PauseDurableExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1408, __c44, 0) as any as S.Schema<PauseDurableExecutionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<PauseDurableExecutionResponse>,
+  errors: [
+    InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PauseDurableExecution",
+  telemetry: TELEMETRY,
+  span: "PauseDurableExecution",
+}));
 
 export type PublishLayerVersionError =
   | CodeStorageExceededException
@@ -5219,8 +5465,8 @@ export const publishLayerVersion: API.OperationMethod<
   PublishLayerVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c37, 1) as any as S.Schema<PublishLayerVersionRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<PublishLayerVersionResponse>,
+  input: __S(1441, __c45, 1) as any as S.Schema<PublishLayerVersionRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<PublishLayerVersionResponse>,
   errors: [
     CodeStorageExceededException,
     InvalidParameterValueException,
@@ -5230,6 +5476,7 @@ export const publishLayerVersion: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishLayerVersion",
@@ -5262,8 +5509,8 @@ export const publishVersion: API.OperationMethod<
   PublishVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<PublishVersionRequest>,
-  output: __S(2741, __c85, 21) as any as S.Schema<FunctionConfiguration>,
+  input: __S(1472, __c46, 0) as any as S.Schema<PublishVersionRequest>,
+  output: __S(2966, __c92, 22) as any as S.Schema<FunctionConfiguration>,
   errors: [
     CodeStorageExceededException,
     FunctionVersionsPerCapacityProviderLimitExceededException,
@@ -5276,6 +5523,7 @@ export const publishVersion: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishVersion",
@@ -5302,8 +5550,8 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
   PutFunctionCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<PutFunctionCodeSigningConfigRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<PutFunctionCodeSigningConfigResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<PutFunctionCodeSigningConfigRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<PutFunctionCodeSigningConfigResponse>,
   errors: [
     CodeSigningConfigNotFoundException,
     InvalidParameterValueException,
@@ -5314,6 +5562,7 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionCodeSigningConfig",
@@ -5346,8 +5595,8 @@ export const putFunctionConcurrency: API.OperationMethod<
   PutFunctionConcurrencyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<PutFunctionConcurrencyRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<Concurrency>,
+  input: __S(1536, __c48, 0) as any as S.Schema<PutFunctionConcurrencyRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<Concurrency>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5357,6 +5606,7 @@ export const putFunctionConcurrency: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionConcurrency",
@@ -5388,8 +5638,8 @@ export const putFunctionEventInvokeConfig: API.OperationMethod<
   PutFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<PutFunctionEventInvokeConfigRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<FunctionEventInvokeConfig>,
+  input: __S(1568, __c49, 0) as any as S.Schema<PutFunctionEventInvokeConfigRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<FunctionEventInvokeConfig>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5399,6 +5649,7 @@ export const putFunctionEventInvokeConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionEventInvokeConfig",
@@ -5431,8 +5682,8 @@ export const putFunctionRecursionConfig: API.OperationMethod<
   PutFunctionRecursionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<PutFunctionRecursionConfigRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<PutFunctionRecursionConfigResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<PutFunctionRecursionConfigRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<PutFunctionRecursionConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5442,6 +5693,7 @@ export const putFunctionRecursionConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionRecursionConfig",
@@ -5468,8 +5720,8 @@ export const putFunctionScalingConfig: API.OperationMethod<
   PutFunctionScalingConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<PutFunctionScalingConfigRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<PutFunctionScalingConfigResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<PutFunctionScalingConfigRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<PutFunctionScalingConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5477,6 +5729,7 @@ export const putFunctionScalingConfig: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionScalingConfig",
@@ -5505,8 +5758,8 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
   PutProvisionedConcurrencyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<PutProvisionedConcurrencyConfigRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<PutProvisionedConcurrencyConfigResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<PutProvisionedConcurrencyConfigRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<PutProvisionedConcurrencyConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5516,6 +5769,7 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProvisionedConcurrencyConfig",
@@ -5547,8 +5801,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     InvalidParameterValueException,
     PolicyLengthExceededException,
@@ -5559,6 +5813,7 @@ export const putResourcePolicy: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -5582,8 +5837,8 @@ export const putRuntimeManagementConfig: API.OperationMethod<
   PutRuntimeManagementConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<PutRuntimeManagementConfigRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<PutRuntimeManagementConfigResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<PutRuntimeManagementConfigRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<PutRuntimeManagementConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5591,6 +5846,7 @@ export const putRuntimeManagementConfig: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuntimeManagementConfig",
@@ -5620,8 +5876,8 @@ export const removeLayerVersionPermission: API.OperationMethod<
   RemoveLayerVersionPermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<RemoveLayerVersionPermissionRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<RemoveLayerVersionPermissionResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<RemoveLayerVersionPermissionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<RemoveLayerVersionPermissionResponse>,
   errors: [
     InvalidParameterValueException,
     PreconditionFailedException,
@@ -5632,6 +5888,7 @@ export const removeLayerVersionPermission: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLayerVersionPermission",
@@ -5656,8 +5913,8 @@ export const removePermission: API.OperationMethod<
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<RemovePermissionRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<RemovePermissionResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<RemovePermissionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<RemovePermissionResponse>,
   errors: [
     InvalidParameterValueException,
     PreconditionFailedException,
@@ -5666,11 +5923,55 @@ export const removePermission: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
   telemetry: TELEMETRY,
   span: { op: "RemovePermission", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
+}));
+
+export type ResumeDurableExecutionError =
+  | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Resumes a paused durable execution. If the pause interrupted an invocation, or an operation completed while the execution was paused, Lambda invokes your function. Otherwise, the execution continues to wait for its pending operations.
+ *
+ * If the execution status is `PAUSING`, this operation cancels the pause, and the in-progress invocation continues. This operation returns a successful response while the execution status is still `PAUSED` or `PAUSING`, and the status changes to `RUNNING` when Lambda processes the request. For more information about resuming executions, see Pausing and resuming durable executions.
+ */
+export const resumeDurableExecution: API.OperationMethod<
+  ResumeDurableExecutionRequest & RegionInput,
+  ResumeDurableExecutionResponse,
+  ResumeDurableExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<ResumeDurableExecutionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<ResumeDurableExecutionResponse>,
+  errors: [
+    InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ResumeDurableExecution",
+  telemetry: TELEMETRY,
+  span: "ResumeDurableExecution",
 }));
 
 export type SendDurableExecutionCallbackFailureError =
@@ -5693,8 +5994,8 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
   SendDurableExecutionCallbackFailureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<SendDurableExecutionCallbackFailureRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<SendDurableExecutionCallbackFailureResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<SendDurableExecutionCallbackFailureRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SendDurableExecutionCallbackFailureResponse>,
   errors: [
     CallbackTimeoutException,
     InvalidParameterValueException,
@@ -5706,6 +6007,7 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackFailure",
@@ -5729,8 +6031,8 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
   SendDurableExecutionCallbackHeartbeatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<SendDurableExecutionCallbackHeartbeatRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<SendDurableExecutionCallbackHeartbeatResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<SendDurableExecutionCallbackHeartbeatRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SendDurableExecutionCallbackHeartbeatResponse>,
   errors: [
     CallbackTimeoutException,
     InvalidParameterValueException,
@@ -5738,6 +6040,7 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackHeartbeat",
@@ -5765,8 +6068,8 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
   SendDurableExecutionCallbackSuccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<SendDurableExecutionCallbackSuccessRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<SendDurableExecutionCallbackSuccessResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<SendDurableExecutionCallbackSuccessRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SendDurableExecutionCallbackSuccessResponse>,
   errors: [
     CallbackTimeoutException,
     InvalidParameterValueException,
@@ -5778,6 +6081,7 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackSuccess",
@@ -5796,7 +6100,7 @@ export type StopDurableExecutionError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
+ * Stops a running or paused durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
  */
 export const stopDurableExecution: API.OperationMethod<
   StopDurableExecutionRequest & RegionInput,
@@ -5804,8 +6108,8 @@ export const stopDurableExecution: API.OperationMethod<
   StopDurableExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<StopDurableExecutionRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<StopDurableExecutionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<StopDurableExecutionRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<StopDurableExecutionResponse>,
   errors: [
     InvalidParameterValueException,
     KMSAccessDeniedException,
@@ -5816,6 +6120,7 @@ export const stopDurableExecution: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDurableExecution",
@@ -5841,8 +6146,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5852,6 +6157,7 @@ export const tagResource: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -5877,8 +6183,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1729, __c54, 1) as any as S.Schema<UntagResourceRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(2017, __c63, 1) as any as S.Schema<UntagResourceRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5888,6 +6194,7 @@ export const untagResource: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -5914,8 +6221,8 @@ export const updateAlias: API.OperationMethod<
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpdateAliasRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<AliasConfiguration>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateAliasRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<AliasConfiguration>,
   errors: [
     InvalidParameterValueException,
     PreconditionFailedException,
@@ -5926,6 +6233,7 @@ export const updateAlias: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
@@ -5949,8 +6257,8 @@ export const updateCapacityProvider: API.OperationMethod<
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateCapacityProviderRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<UpdateCapacityProviderResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateCapacityProviderRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<UpdateCapacityProviderResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -5958,6 +6266,7 @@ export const updateCapacityProvider: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
@@ -5979,9 +6288,10 @@ export const updateCodeSigningConfig: API.OperationMethod<
   UpdateCodeSigningConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UpdateCodeSigningConfigRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<UpdateCodeSigningConfigResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<UpdateCodeSigningConfigRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<UpdateCodeSigningConfigResponse>,
   errors: [InvalidParameterValueException, ResourceNotFoundException, ServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSigningConfig",
@@ -6057,8 +6367,8 @@ export const updateEventSourceMapping: API.OperationMethod<
   UpdateEventSourceMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<UpdateEventSourceMappingRequest>,
-  output: __S(2610, __c81, 18) as any as S.Schema<EventSourceMappingConfiguration>,
+  input: __S(2144, __c67, 0) as any as S.Schema<UpdateEventSourceMappingRequest>,
+  output: __S(2898, __c90, 18) as any as S.Schema<EventSourceMappingConfiguration>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -6072,6 +6382,7 @@ export const updateEventSourceMapping: API.OperationMethod<
     ExecutionRoleMissingPermissions,
     QueueVisibilityTimeoutTooShort,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourceMapping",
@@ -6118,8 +6429,8 @@ export const updateFunctionCode: API.OperationMethod<
   UpdateFunctionCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<UpdateFunctionCodeRequest>,
-  output: __S(2741, __c85, 21) as any as S.Schema<FunctionConfiguration>,
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateFunctionCodeRequest>,
+  output: __S(2966, __c92, 22) as any as S.Schema<FunctionConfiguration>,
   errors: [
     CodeSigningConfigNotFoundException,
     CodeStorageExceededException,
@@ -6137,6 +6448,7 @@ export const updateFunctionCode: API.OperationMethod<
     ExecutionRoleMissingVpcPermissions,
     KmsGrantPrincipalNotReady,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionCode",
@@ -6176,8 +6488,8 @@ export const updateFunctionConfiguration: API.OperationMethod<
   UpdateFunctionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<UpdateFunctionConfigurationRequest>,
-  output: __S(2741, __c85, 21) as any as S.Schema<FunctionConfiguration>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateFunctionConfigurationRequest>,
+  output: __S(2966, __c92, 22) as any as S.Schema<FunctionConfiguration>,
   errors: [
     CodeSigningConfigNotFoundException,
     CodeVerificationFailedException,
@@ -6195,6 +6507,7 @@ export const updateFunctionConfiguration: API.OperationMethod<
     KmsGrantPrincipalNotReady,
     SecurityGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionConfiguration",
@@ -6223,8 +6536,8 @@ export const updateFunctionEventInvokeConfig: API.OperationMethod<
   UpdateFunctionEventInvokeConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<UpdateFunctionEventInvokeConfigRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<FunctionEventInvokeConfig>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateFunctionEventInvokeConfigRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<FunctionEventInvokeConfig>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -6232,6 +6545,7 @@ export const updateFunctionEventInvokeConfig: API.OperationMethod<
     ServiceException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionEventInvokeConfig",
@@ -6260,8 +6574,8 @@ export const updateFunctionUrlConfig: API.OperationMethod<
   UpdateFunctionUrlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<UpdateFunctionUrlConfigRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<UpdateFunctionUrlConfigResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<UpdateFunctionUrlConfigRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<UpdateFunctionUrlConfigResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -6271,6 +6585,7 @@ export const updateFunctionUrlConfig: API.OperationMethod<
     RequestLimitExceeded,
     ParseError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionUrlConfig",
@@ -6280,6 +6595,137 @@ export const updateFunctionUrlConfig: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+          Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2015-03-31/functions/{FunctionName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetFunctionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RepositoryType: S.optional(S.String),
+          Location: S.optional(S.String),
+          ImageUri: S.optional(S.String),
+          ResolvedImageUri: S.optional(S.String),
+          ResolvedS3Object: S.optional(__S(64, __c2, 0)),
+          SourceKMSKeyArn: S.optional(S.String),
+          Error: S.optional(__S(2959, __c92, 15)),
+        }),
+      ).annotate({ identifier: "FunctionCodeLocation" });
+    case 2:
+      return S.suspend(() => S.Struct({ ErrorCode: S.String, Message: S.String })).annotate({
+        identifier: "TagsError",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Configuration: S.optional(__S(2966, __c92, 22)),
+          Code: S.optional(__S(1, __c0, 1)),
+          Tags: S.optional(__S(2592, __c81, 0)),
+          TagsError: S.optional(__S(2, __c0, 2)),
+          Concurrency: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "GetFunctionResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReservedConcurrentExecutions: S.optional(S.Number) }),
+      ).annotate({ identifier: "Concurrency" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          S3Bucket: S.optional(S.String),
+          S3Key: S.optional(S.String),
+          S3ObjectVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolvedS3Object" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/2020-06-30/functions/{FunctionName}/code-signing-config",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetFunctionCodeSigningConfigRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CodeSigningConfigArn: S.String, FunctionName: S.String }),
+      ).annotate({ identifier: "GetFunctionCodeSigningConfigResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2019-09-30/functions/{FunctionName}/concurrency" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetFunctionConcurrencyRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+          Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2015-03-31/functions/{FunctionName}/configuration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetFunctionConfigurationRequest" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6302,7 +6748,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetFunctionEventInvokeConfigRequest" });
   }
 }
-function __c1(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6311,12 +6757,12 @@ function __c1(j: number): any {
           FunctionArn: S.optional(S.String),
           MaximumRetryAttempts: S.optional(S.Number),
           MaximumEventAgeInSeconds: S.optional(S.Number),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
         }),
       ).annotate({ identifier: "FunctionEventInvokeConfig" });
   }
 }
-function __c2(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6333,7 +6779,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetFunctionRecursionConfigRequest" });
   }
 }
-function __c3(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RecursiveLoop: S.optional(S.String) })).annotate({
@@ -6341,7 +6787,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6366,13 +6812,13 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FunctionArn: S.optional(S.String),
-          AppliedFunctionScalingConfig: S.optional(__S(160, __c5, 0)),
-          RequestedFunctionScalingConfig: S.optional(__S(160, __c5, 0)),
+          AppliedFunctionScalingConfig: S.optional(__S(384, __c12, 0)),
+          RequestedFunctionScalingConfig: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "GetFunctionScalingConfigResponse" });
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6383,7 +6829,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "FunctionScalingConfig" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,7 +6849,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetFunctionUrlConfigRequest" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6411,7 +6857,7 @@ function __c7(j: number): any {
           FunctionUrl: S.String,
           FunctionArn: S.String,
           AuthType: S.String,
-          Cors: S.optional(__S(2784, __c87, 0)),
+          Cors: S.optional(__S(3072, __c96, 0)),
           CreationTime: S.String,
           LastModifiedTime: S.String,
           InvokeMode: S.optional(S.String),
@@ -6419,7 +6865,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetFunctionUrlConfigResponse" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6442,7 +6888,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetLayerVersionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6452,26 +6898,26 @@ function __c9(j: number): any {
           CodeSize: S.optional(S.Number),
           SigningProfileVersionArn: S.optional(S.String),
           SigningJobArn: S.optional(S.String),
-          ResolvedS3Object: S.optional(__S(3520, __c110, 0)),
+          ResolvedS3Object: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "LayerVersionContentOutput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Content: S.optional(__S(288, __c9, 0)),
+          Content: S.optional(__S(512, __c16, 0)),
           LayerArn: S.optional(S.String),
           LayerVersionArn: S.optional(S.String),
           Description: S.optional(S.String),
           CreatedDate: S.optional(S.String),
           Version: S.optional(S.Number),
-          CompatibleArchitectures: S.optional(__S(2336, __c73, 0)),
-          CompatibleRuntimes: S.optional(__S(2336, __c73, 0)),
+          CompatibleArchitectures: S.optional(__S(2624, __c82, 0)),
+          CompatibleRuntimes: S.optional(__S(2624, __c82, 0)),
           LicenseInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLayerVersionResponse" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6488,7 +6934,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetLayerVersionByArnRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6511,7 +6957,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetLayerVersionPolicyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6519,7 +6965,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetLayerVersionPolicyResponse" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6539,7 +6985,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6573,7 +7019,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProvisionedConcurrencyConfigResponse" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6590,7 +7036,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetResourcePolicyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6621,7 +7067,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetRuntimeManagementConfigResponse" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6662,7 +7108,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "InvocationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6686,7 +7132,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "InvokeAsyncResponse" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6727,8 +7173,8 @@ function __c19(j: number): any {
     case 3:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ PayloadChunk: __S(609, __c19, 1) }),
-          /*@__PURE__*/ S.Struct({ InvokeComplete: __S(610, __c19, 2) }),
+          /*@__PURE__*/ S.Struct({ PayloadChunk: __S(833, __c26, 1) }),
+          /*@__PURE__*/ S.Struct({ InvokeComplete: __S(834, __c26, 2) }),
         ]),
       );
     case 4:
@@ -6736,13 +7182,13 @@ function __c19(j: number): any {
         S.Struct({
           StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
           ExecutedVersion: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Executed-Version")),
-          EventStream: S.optional(__S(611, __c19, 3)).pipe(T.HttpPayload()),
+          EventStream: S.optional(__S(835, __c26, 3)).pipe(T.HttpPayload()),
           ResponseStreamContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
         }),
       ).annotate({ identifier: "InvokeWithResponseStreamResponse" });
   }
 }
-function __c20(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6763,14 +7209,14 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListAliasesRequest" });
     case 1:
-      return S.Array(__S(2210, __c69, 2));
+      return S.Array(__S(2498, __c78, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ NextMarker: S.optional(S.String), Aliases: S.optional(__S(641, __c20, 1)) }),
+        S.Struct({ NextMarker: S.optional(S.String), Aliases: S.optional(__S(865, __c27, 1)) }),
       ).annotate({ identifier: "ListAliasesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6790,14 +7236,14 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListCapacityProvidersRequest" });
     case 1:
-      return S.Array(__S(2377, __c74, 9));
+      return S.Array(__S(2665, __c83, 9));
     case 2:
       return S.suspend(() =>
-        S.Struct({ CapacityProviders: __S(673, __c21, 1), NextMarker: S.optional(S.String) }),
+        S.Struct({ CapacityProviders: __S(897, __c28, 1), NextMarker: S.optional(S.String) }),
       ).annotate({ identifier: "ListCapacityProvidersResponse" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6816,17 +7262,17 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListCodeSigningConfigsRequest" });
     case 1:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2754, __c86, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          CodeSigningConfigs: S.optional(__S(705, __c22, 1)),
+          CodeSigningConfigs: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ListCodeSigningConfigsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6834,7 +7280,7 @@ function __c23(j: number): any {
           FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           DurableExecutionName: S.optional(S.String).pipe(T.HttpQuery("DurableExecutionName")),
-          Statuses: S.optional(__S(2336, __c73, 0)).pipe(T.HttpQuery("Statuses")),
+          Statuses: S.optional(__S(2624, __c82, 0)).pipe(T.HttpQuery("Statuses")),
           StartedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("StartedAfter"),
           ),
@@ -6871,17 +7317,17 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "Execution" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(961, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DurableExecutions: S.optional(__S(738, __c23, 2)),
+          DurableExecutions: S.optional(__S(962, __c30, 2)),
           NextMarker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDurableExecutionsByFunctionResponse" });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6902,17 +7348,17 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListEventSourceMappingsRequest" });
     case 1:
-      return S.Array(__S(2610, __c81, 18));
+      return S.Array(__S(2898, __c90, 18));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          EventSourceMappings: S.optional(__S(769, __c24, 1)),
+          EventSourceMappings: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "ListEventSourceMappingsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6935,17 +7381,17 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListFunctionEventInvokeConfigsRequest" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FunctionEventInvokeConfigs: S.optional(__S(801, __c25, 1)),
+          FunctionEventInvokeConfigs: S.optional(__S(1025, __c32, 1)),
           NextMarker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFunctionEventInvokeConfigsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6967,17 +7413,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListFunctionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ NextMarker: S.optional(S.String), Functions: S.optional(__S(864, __c27, 0)) }),
+        S.Struct({ NextMarker: S.optional(S.String), Functions: S.optional(__S(1088, __c34, 0)) }),
       ).annotate({ identifier: "ListFunctionsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2741, __c85, 21));
+      return S.Array(__S(2966, __c92, 22));
   }
 }
-function __c28(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7003,12 +7449,12 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          FunctionArns: S.optional(__S(2272, __c71, 0)),
+          FunctionArns: S.optional(__S(2560, __c80, 0)),
         }),
       ).annotate({ identifier: "ListFunctionsByCodeSigningConfigResponse" });
   }
 }
-function __c29(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7034,20 +7480,20 @@ function __c29(j: number): any {
           FunctionArn: S.String,
           CreationTime: S.String,
           LastModifiedTime: S.String,
-          Cors: S.optional(__S(2784, __c87, 0)),
+          Cors: S.optional(__S(3072, __c96, 0)),
           AuthType: S.String,
           InvokeMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionUrlConfig" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ FunctionUrlConfigs: __S(930, __c29, 2), NextMarker: S.optional(S.String) }),
+        S.Struct({ FunctionUrlConfigs: __S(1154, __c36, 2), NextMarker: S.optional(S.String) }),
       ).annotate({ identifier: "ListFunctionUrlConfigsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7074,18 +7520,18 @@ function __c30(j: number): any {
         identifier: "FunctionVersionsByCapacityProviderListItem",
       });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           CapacityProviderArn: S.String,
-          FunctionVersions: __S(962, __c30, 2),
+          FunctionVersions: __S(1186, __c37, 2),
           NextMarker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFunctionVersionsByCapacityProviderResponse" });
   }
 }
-function __c31(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7103,18 +7549,18 @@ function __c31(j: number): any {
         S.Struct({
           LayerName: S.optional(S.String),
           LayerArn: S.optional(S.String),
-          LatestMatchingVersion: S.optional(__S(1024, __c32, 0)),
+          LatestMatchingVersion: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "LayersListItem" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1217, __c38, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextMarker: S.optional(S.String), Layers: S.optional(__S(994, __c31, 2)) }),
+        S.Struct({ NextMarker: S.optional(S.String), Layers: S.optional(__S(1218, __c38, 2)) }),
       ).annotate({ identifier: "ListLayersResponse" });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7123,14 +7569,14 @@ function __c32(j: number): any {
           Version: S.optional(S.Number),
           Description: S.optional(S.String),
           CreatedDate: S.optional(S.String),
-          CompatibleArchitectures: S.optional(__S(2336, __c73, 0)),
-          CompatibleRuntimes: S.optional(__S(2336, __c73, 0)),
+          CompatibleArchitectures: S.optional(__S(2624, __c82, 0)),
+          CompatibleRuntimes: S.optional(__S(2624, __c82, 0)),
           LicenseInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "LayerVersionsListItem" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7152,17 +7598,17 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListLayerVersionsRequest" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          LayerVersions: S.optional(__S(1057, __c33, 1)),
+          LayerVersions: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "ListLayerVersionsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7197,17 +7643,17 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "ProvisionedConcurrencyConfigListItem" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ProvisionedConcurrencyConfigs: S.optional(__S(1090, __c34, 2)),
+          ProvisionedConcurrencyConfigs: S.optional(__S(1314, __c41, 2)),
           NextMarker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProvisionedConcurrencyConfigsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7223,12 +7669,12 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(2304, __c72, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(2592, __c81, 0)) })).annotate({
         identifier: "ListTagsResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7249,11 +7695,36 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListVersionsByFunctionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ NextMarker: S.optional(S.String), Versions: S.optional(__S(864, __c27, 0)) }),
+        S.Struct({ NextMarker: S.optional(S.String), Versions: S.optional(__S(1088, __c34, 0)) }),
       ).annotate({ identifier: "ListVersionsByFunctionResponse" });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Reason: S.optional(SensitiveString),
+          ExecutionTimeoutPaused: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/2025-12-01/durable-executions/{DurableExecutionArn}/pause",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PauseDurableExecutionRequest" });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7270,9 +7741,9 @@ function __c37(j: number): any {
         S.Struct({
           LayerName: S.String.pipe(T.HttpLabel("LayerName")),
           Description: S.optional(S.String),
-          Content: __S(1184, __c37, 0),
-          CompatibleArchitectures: S.optional(__S(2336, __c73, 0)),
-          CompatibleRuntimes: S.optional(__S(2336, __c73, 0)),
+          Content: __S(1440, __c45, 0),
+          CompatibleArchitectures: S.optional(__S(2624, __c82, 0)),
+          CompatibleRuntimes: S.optional(__S(2624, __c82, 0)),
           LicenseInfo: S.optional(S.String),
         }).pipe(
           T.all(
@@ -7287,7 +7758,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "PublishLayerVersionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7310,7 +7781,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PublishVersionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7333,7 +7804,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "PutFunctionCodeSigningConfigRequest" });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7353,7 +7824,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PutFunctionConcurrencyRequest" });
   }
 }
-function __c41(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7362,7 +7833,7 @@ function __c41(j: number): any {
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           MaximumRetryAttempts: S.optional(S.Number),
           MaximumEventAgeInSeconds: S.optional(S.Number),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -7379,7 +7850,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "PutFunctionEventInvokeConfigRequest" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7399,14 +7870,14 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PutFunctionRecursionConfigRequest" });
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
           Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
-          FunctionScalingConfig: S.optional(__S(160, __c5, 0)),
+          FunctionScalingConfig: S.optional(__S(384, __c12, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -7427,7 +7898,7 @@ function __c43(j: number): any {
       });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7462,7 +7933,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PutProvisionedConcurrencyConfigResponse" });
   }
 }
-function __c45(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7483,7 +7954,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PutResourcePolicyRequest" });
   }
 }
-function __c46(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7516,7 +7987,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PutRuntimeManagementConfigResponse" });
   }
 }
-function __c47(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7541,7 +8012,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RemoveLayerVersionPermissionRequest" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7566,13 +8037,37 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RemovePermissionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Reason: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/2025-12-01/durable-executions/{DurableExecutionArn}/resume",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ResumeDurableExecutionRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CallbackId: S.String.pipe(T.HttpLabel("CallbackId")),
-          Error: S.optional(__S(2113, __c66, 1))
+          Error: S.optional(__S(2401, __c75, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ErrorObject" }),
         }).pipe(
@@ -7591,7 +8086,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SendDurableExecutionCallbackFailureRequest" });
   }
 }
-function __c50(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7611,7 +8106,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SendDurableExecutionCallbackHeartbeatRequest" });
   }
 }
-function __c51(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7634,13 +8129,13 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SendDurableExecutionCallbackSuccessRequest" });
   }
 }
-function __c52(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
-          Error: S.optional(__S(2113, __c66, 1))
+          Error: S.optional(__S(2401, __c75, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ErrorObject" }),
         }).pipe(
@@ -7663,13 +8158,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "StopDurableExecutionResponse" });
   }
 }
-function __c53(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Resource: S.String.pipe(T.HttpLabel("Resource")),
-          Tags: __S(2304, __c72, 0),
+          Tags: __S(2592, __c81, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2017-03-31/tags/{Resource}" }),
@@ -7683,7 +8178,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c54(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Key")));
@@ -7691,7 +8186,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Resource: S.String.pipe(T.HttpLabel("Resource")),
-          TagKeys: __S(1728, __c54, 0).pipe(T.HttpQuery("tagKeys")),
+          TagKeys: __S(2016, __c63, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/2017-03-31/tags/{Resource}" }),
@@ -7705,7 +8200,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c55(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7714,7 +8209,7 @@ function __c55(j: number): any {
           Name: S.String.pipe(T.HttpLabel("Name")),
           FunctionVersion: S.optional(S.String),
           Description: S.optional(S.String),
-          RoutingConfig: S.optional(__S(2209, __c69, 1)),
+          RoutingConfig: S.optional(__S(2497, __c78, 1)),
           RevisionId: S.optional(S.String),
         }).pipe(
           T.all(
@@ -7729,15 +8224,15 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateAliasRequest" });
   }
 }
-function __c56(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")),
-          CapacityProviderScalingConfig: S.optional(__S(2373, __c74, 5)),
-          PropagateTags: S.optional(__S(2374, __c74, 6)),
-          TelemetryConfig: S.optional(__S(2376, __c74, 8)),
+          CapacityProviderScalingConfig: S.optional(__S(2661, __c83, 5)),
+          PropagateTags: S.optional(__S(2662, __c83, 6)),
+          TelemetryConfig: S.optional(__S(2664, __c83, 8)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/2025-11-30/capacity-providers/{CapacityProviderName}" }),
@@ -7751,15 +8246,15 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateCapacityProviderRequest" });
   }
 }
-function __c57(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CodeSigningConfigArn: S.String.pipe(T.HttpLabel("CodeSigningConfigArn")),
           Description: S.optional(S.String),
-          AllowedPublishers: S.optional(__S(2464, __c77, 0)),
-          CodeSigningPolicies: S.optional(__S(2465, __c77, 1)),
+          AllowedPublishers: S.optional(__S(2752, __c86, 0)),
+          CodeSigningPolicies: S.optional(__S(2753, __c86, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -7776,7 +8271,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateCodeSigningConfigRequest" });
   }
 }
-function __c58(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7785,24 +8280,24 @@ function __c58(j: number): any {
           FunctionName: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
           BatchSize: S.optional(S.Number),
-          FilterCriteria: S.optional(__S(2594, __c81, 2)),
+          FilterCriteria: S.optional(__S(2882, __c90, 2)),
           KMSKeyArn: S.optional(S.String),
-          MetricsConfig: S.optional(__S(2595, __c81, 3)),
-          LoggingConfig: S.optional(__S(2596, __c81, 4)),
-          ScalingConfig: S.optional(__S(2597, __c81, 5)),
+          MetricsConfig: S.optional(__S(2883, __c90, 3)),
+          LoggingConfig: S.optional(__S(2884, __c90, 4)),
+          ScalingConfig: S.optional(__S(2885, __c90, 5)),
           MaximumBatchingWindowInSeconds: S.optional(S.Number),
           ParallelizationFactor: S.optional(S.Number),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
           MaximumRecordAgeInSeconds: S.optional(S.Number),
           BisectBatchOnFunctionError: S.optional(S.Boolean),
           MaximumRetryAttempts: S.optional(S.Number),
           TumblingWindowInSeconds: S.optional(S.Number),
-          SourceAccessConfigurations: S.optional(__S(2599, __c81, 7)),
-          FunctionResponseTypes: S.optional(__S(2336, __c73, 0)),
-          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2605, __c81, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2606, __c81, 14)),
-          DocumentDBEventSourceConfig: S.optional(__S(2607, __c81, 15)),
-          ProvisionedPollerConfig: S.optional(__S(2608, __c81, 16)),
+          SourceAccessConfigurations: S.optional(__S(2887, __c90, 7)),
+          FunctionResponseTypes: S.optional(__S(2624, __c82, 0)),
+          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2893, __c90, 13)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2894, __c90, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2895, __c90, 15)),
+          ProvisionedPollerConfig: S.optional(__S(2896, __c90, 16)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/2015-03-31/event-source-mappings/{UUID}" }),
@@ -7816,7 +8311,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateEventSourceMappingRequest" });
   }
 }
-function __c59(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7828,7 +8323,7 @@ function __c59(j: number): any {
           S3ObjectVersion: S.optional(S.String),
           S3ObjectStorageMode: S.optional(S.String),
           ImageUri: S.optional(S.String),
-          Architectures: S.optional(__S(2336, __c73, 0)),
+          Architectures: S.optional(__S(2624, __c82, 0)),
           Publish: S.optional(S.Boolean),
           PublishTo: S.optional(S.String),
           DryRun: S.optional(S.Boolean),
@@ -7847,7 +8342,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UpdateFunctionCodeRequest" });
   }
 }
-function __c60(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7858,22 +8353,23 @@ function __c60(j: number): any {
           Description: S.optional(S.String),
           Timeout: S.optional(S.Number),
           MemorySize: S.optional(S.Number),
-          VpcConfig: S.optional(__S(2656, __c83, 0)),
-          Environment: S.optional(__S(2657, __c83, 1)),
+          VpcConfig: S.optional(__S(2976, __c93, 0)),
+          Environment: S.optional(__S(2977, __c93, 1)),
           Runtime: S.optional(S.String),
-          DeadLetterConfig: S.optional(__S(2720, __c85, 0)),
+          DeadLetterConfig: S.optional(__S(2944, __c92, 0)),
           KMSKeyArn: S.optional(S.String),
-          TracingConfig: S.optional(__S(2722, __c85, 2)),
+          TracingConfig: S.optional(__S(2946, __c92, 2)),
           RevisionId: S.optional(S.String),
-          Layers: S.optional(__S(2272, __c71, 0)),
-          FileSystemConfigs: S.optional(__S(2725, __c85, 5)),
-          ImageConfig: S.optional(__S(2726, __c85, 6)),
-          EphemeralStorage: S.optional(__S(2727, __c85, 7)),
-          SnapStart: S.optional(__S(2658, __c83, 2)),
-          LoggingConfig: S.optional(__S(2728, __c85, 8)),
-          CapacityProviderConfig: S.optional(__S(2731, __c85, 11)),
-          DurableConfig: S.optional(__S(2688, __c84, 0)),
-          RuntimeConfig: S.optional(__S(2732, __c85, 12)),
+          Layers: S.optional(__S(2560, __c80, 0)),
+          FileSystemConfigs: S.optional(__S(2949, __c92, 5)),
+          ImageConfig: S.optional(__S(2950, __c92, 6)),
+          EphemeralStorage: S.optional(__S(2951, __c92, 7)),
+          SnapStart: S.optional(__S(2978, __c93, 2)),
+          LoggingConfig: S.optional(__S(2952, __c92, 8)),
+          CapacityProviderConfig: S.optional(__S(2955, __c92, 11)),
+          DurableConfig: S.optional(__S(3008, __c94, 0)),
+          RuntimeConfig: S.optional(__S(2956, __c92, 12)),
+          AcceleratorConfig: S.optional(__S(2957, __c92, 13)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/2015-03-31/functions/{FunctionName}/configuration" }),
@@ -7887,7 +8383,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateFunctionConfigurationRequest" });
   }
 }
-function __c61(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7896,7 +8392,7 @@ function __c61(j: number): any {
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           MaximumRetryAttempts: S.optional(S.Number),
           MaximumEventAgeInSeconds: S.optional(S.Number),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -7913,7 +8409,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateFunctionEventInvokeConfigRequest" });
   }
 }
-function __c62(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7921,7 +8417,7 @@ function __c62(j: number): any {
           FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           AuthType: S.optional(S.String),
-          Cors: S.optional(__S(2784, __c87, 0)),
+          Cors: S.optional(__S(3072, __c96, 0)),
           InvokeMode: S.optional(S.String),
         }).pipe(
           T.all(
@@ -7936,7 +8432,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateFunctionUrlConfigRequest" });
   }
 }
-function __c63(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7968,7 +8464,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "AddLayerVersionPermissionResponse" });
   }
 }
-function __c64(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8002,7 +8498,7 @@ function __c64(j: number): any {
       });
   }
 }
-function __c65(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ReplayChildren: S.optional(S.Boolean) })).annotate({
@@ -8041,22 +8537,22 @@ function __c65(j: number): any {
           SubType: S.optional(S.String),
           Action: S.String,
           Payload: S.optional(SensitiveString),
-          Error: S.optional(__S(2113, __c66, 1)),
-          ContextOptions: S.optional(__S(2080, __c65, 0)),
-          StepOptions: S.optional(__S(2081, __c65, 1)),
-          WaitOptions: S.optional(__S(2082, __c65, 2)),
-          CallbackOptions: S.optional(__S(2083, __c65, 3)),
-          ChainedInvokeOptions: S.optional(__S(2084, __c65, 4)),
+          Error: S.optional(__S(2401, __c75, 1)),
+          ContextOptions: S.optional(__S(2368, __c74, 0)),
+          StepOptions: S.optional(__S(2369, __c74, 1)),
+          WaitOptions: S.optional(__S(2370, __c74, 2)),
+          CallbackOptions: S.optional(__S(2371, __c74, 3)),
+          ChainedInvokeOptions: S.optional(__S(2372, __c74, 4)),
         }),
       ).annotate({ identifier: "OperationUpdate" });
     case 6:
-      return S.Array(__S(2085, __c65, 5));
+      return S.Array(__S(2373, __c74, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
           CheckpointToken: S.String,
-          Updates: S.optional(__S(2086, __c65, 6)),
+          Updates: S.optional(__S(2374, __c74, 6)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -8074,15 +8570,15 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CheckpointDurableExecutionRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ Operations: S.optional(__S(2151, __c67, 7)), NextMarker: S.optional(S.String) }),
+        S.Struct({ Operations: S.optional(__S(2439, __c76, 7)), NextMarker: S.optional(S.String) }),
       ).annotate({ identifier: "CheckpointUpdatedExecutionState" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ CheckpointToken: S.optional(S.String), NewExecutionState: __S(2088, __c65, 8) }),
+        S.Struct({ CheckpointToken: S.optional(S.String), NewExecutionState: __S(2376, __c74, 8) }),
       ).annotate({ identifier: "CheckpointDurableExecutionResponse" });
   }
 }
-function __c66(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Array(SensitiveString);
@@ -8092,12 +8588,12 @@ function __c66(j: number): any {
           ErrorMessage: S.optional(SensitiveString),
           ErrorType: S.optional(SensitiveString),
           ErrorData: S.optional(SensitiveString),
-          StackTrace: S.optional(__S(2112, __c66, 0)),
+          StackTrace: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({ identifier: "ErrorObject" });
   }
 }
-function __c67(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ InputPayload: S.optional(SensitiveString) })).annotate({
@@ -8108,7 +8604,7 @@ function __c67(j: number): any {
         S.Struct({
           ReplayChildren: S.optional(S.Boolean),
           Result: S.optional(SensitiveString),
-          Error: S.optional(__S(2113, __c66, 1)),
+          Error: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "ContextDetails" });
     case 2:
@@ -8117,7 +8613,7 @@ function __c67(j: number): any {
           Attempt: S.optional(S.Number),
           NextAttemptTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Result: S.optional(SensitiveString),
-          Error: S.optional(__S(2113, __c66, 1)),
+          Error: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "StepDetails" });
     case 3:
@@ -8131,12 +8627,12 @@ function __c67(j: number): any {
         S.Struct({
           CallbackId: S.optional(S.String),
           Result: S.optional(SensitiveString),
-          Error: S.optional(__S(2113, __c66, 1)),
+          Error: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "CallbackDetails" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Result: S.optional(SensitiveString), Error: S.optional(__S(2113, __c66, 1)) }),
+        S.Struct({ Result: S.optional(SensitiveString), Error: S.optional(__S(2401, __c75, 1)) }),
       ).annotate({ identifier: "ChainedInvokeDetails" });
     case 6:
       return S.suspend(() =>
@@ -8149,19 +8645,19 @@ function __c67(j: number): any {
           StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.String,
-          ExecutionDetails: S.optional(__S(2144, __c67, 0)),
-          ContextDetails: S.optional(__S(2145, __c67, 1)),
-          StepDetails: S.optional(__S(2146, __c67, 2)),
-          WaitDetails: S.optional(__S(2147, __c67, 3)),
-          CallbackDetails: S.optional(__S(2148, __c67, 4)),
-          ChainedInvokeDetails: S.optional(__S(2149, __c67, 5)),
+          ExecutionDetails: S.optional(__S(2432, __c76, 0)),
+          ContextDetails: S.optional(__S(2433, __c76, 1)),
+          StepDetails: S.optional(__S(2434, __c76, 2)),
+          WaitDetails: S.optional(__S(2435, __c76, 3)),
+          CallbackDetails: S.optional(__S(2436, __c76, 4)),
+          ChainedInvokeDetails: S.optional(__S(2437, __c76, 5)),
         }),
       ).annotate({ identifier: "Operation" });
     case 7:
-      return S.Array(__S(2150, __c67, 6));
+      return S.Array(__S(2438, __c76, 6));
   }
 }
-function __c68(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8170,7 +8666,7 @@ function __c68(j: number): any {
           Name: S.String,
           FunctionVersion: S.String,
           Description: S.optional(S.String),
-          RoutingConfig: S.optional(__S(2209, __c69, 1)),
+          RoutingConfig: S.optional(__S(2497, __c78, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2015-03-31/functions/{FunctionName}/aliases" }),
@@ -8184,13 +8680,13 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateAliasRequest" });
   }
 }
-function __c69(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
     case 1:
       return S.suspend(() =>
-        S.Struct({ AdditionalVersionWeights: S.optional(__S(2208, __c69, 0)) }),
+        S.Struct({ AdditionalVersionWeights: S.optional(__S(2496, __c78, 0)) }),
       ).annotate({ identifier: "AliasRoutingConfiguration" });
     case 2:
       return S.suspend(() =>
@@ -8199,26 +8695,26 @@ function __c69(j: number): any {
           Name: S.optional(S.String),
           FunctionVersion: S.optional(S.String),
           Description: S.optional(S.String),
-          RoutingConfig: S.optional(__S(2209, __c69, 1)),
+          RoutingConfig: S.optional(__S(2497, __c78, 1)),
           RevisionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AliasConfiguration" });
   }
 }
-function __c70(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CapacityProviderName: S.String,
-          VpcConfig: __S(2368, __c74, 0),
-          PermissionsConfig: __S(2369, __c74, 1),
-          InstanceRequirements: S.optional(__S(2370, __c74, 2)),
-          CapacityProviderScalingConfig: S.optional(__S(2373, __c74, 5)),
+          VpcConfig: __S(2656, __c83, 0),
+          PermissionsConfig: __S(2657, __c83, 1),
+          InstanceRequirements: S.optional(__S(2658, __c83, 2)),
+          CapacityProviderScalingConfig: S.optional(__S(2661, __c83, 5)),
           KmsKeyArn: S.optional(S.String),
-          Tags: S.optional(__S(2304, __c72, 0)),
-          PropagateTags: S.optional(__S(2374, __c74, 6)),
-          TelemetryConfig: S.optional(__S(2376, __c74, 8)),
+          Tags: S.optional(__S(2592, __c81, 0)),
+          PropagateTags: S.optional(__S(2662, __c83, 6)),
+          TelemetryConfig: S.optional(__S(2664, __c83, 8)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2025-11-30/capacity-providers" }),
@@ -8232,29 +8728,29 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateCapacityProviderRequest" });
   }
 }
-function __c71(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c72(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c73(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c74(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SubnetIds: __S(2272, __c71, 0), SecurityGroupIds: __S(2272, __c71, 0) }),
+        S.Struct({ SubnetIds: __S(2560, __c80, 0), SecurityGroupIds: __S(2560, __c80, 0) }),
       ).annotate({ identifier: "CapacityProviderVpcConfig" });
     case 1:
       return S.suspend(() => S.Struct({ CapacityProviderOperatorRoleArn: S.String })).annotate({
@@ -8263,9 +8759,9 @@ function __c74(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Architectures: S.optional(__S(2336, __c73, 0)),
-          AllowedInstanceTypes: S.optional(__S(2272, __c71, 0)),
-          ExcludedInstanceTypes: S.optional(__S(2272, __c71, 0)),
+          Architectures: S.optional(__S(2624, __c82, 0)),
+          AllowedInstanceTypes: S.optional(__S(2560, __c80, 0)),
+          ExcludedInstanceTypes: S.optional(__S(2560, __c80, 0)),
         }),
       ).annotate({ identifier: "InstanceRequirements" });
     case 3:
@@ -8273,25 +8769,25 @@ function __c74(j: number): any {
         S.Struct({ PredefinedMetricType: S.String, TargetValue: S.Number }),
       ).annotate({ identifier: "TargetTrackingScalingPolicy" });
     case 4:
-      return S.Array(__S(2371, __c74, 3));
+      return S.Array(__S(2659, __c83, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           MaxVCpuCount: S.optional(S.Number),
           ScalingMode: S.optional(S.String),
-          ScalingPolicies: S.optional(__S(2372, __c74, 4)),
+          ScalingPolicies: S.optional(__S(2660, __c83, 4)),
         }),
       ).annotate({ identifier: "CapacityProviderScalingConfig" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ Mode: S.optional(S.String), ExplicitTags: S.optional(__S(2304, __c72, 0)) }),
+        S.Struct({ Mode: S.optional(S.String), ExplicitTags: S.optional(__S(2592, __c81, 0)) }),
       ).annotate({ identifier: "PropagateTags" });
     case 7:
       return S.suspend(() =>
         S.Struct({ SystemLogLevel: S.optional(S.String), LogGroup: S.optional(S.String) }),
       ).annotate({ identifier: "CapacityProviderLoggingConfig" });
     case 8:
-      return S.suspend(() => S.Struct({ LoggingConfig: S.optional(__S(2375, __c74, 7)) })).annotate(
+      return S.suspend(() => S.Struct({ LoggingConfig: S.optional(__S(2663, __c83, 7)) })).annotate(
         { identifier: "CapacityProviderTelemetryConfig" },
       );
     case 9:
@@ -8299,35 +8795,35 @@ function __c74(j: number): any {
         S.Struct({
           CapacityProviderArn: S.String,
           State: S.String,
-          VpcConfig: __S(2368, __c74, 0),
-          PermissionsConfig: __S(2369, __c74, 1),
-          InstanceRequirements: S.optional(__S(2370, __c74, 2)),
-          CapacityProviderScalingConfig: S.optional(__S(2373, __c74, 5)),
+          VpcConfig: __S(2656, __c83, 0),
+          PermissionsConfig: __S(2657, __c83, 1),
+          InstanceRequirements: S.optional(__S(2658, __c83, 2)),
+          CapacityProviderScalingConfig: S.optional(__S(2661, __c83, 5)),
           KmsKeyArn: S.optional(S.String),
           LastModified: S.optional(S.String),
-          PropagateTags: S.optional(__S(2374, __c74, 6)),
-          TelemetryConfig: S.optional(__S(2376, __c74, 8)),
+          PropagateTags: S.optional(__S(2662, __c83, 6)),
+          TelemetryConfig: S.optional(__S(2664, __c83, 8)),
         }),
       ).annotate({ identifier: "CapacityProvider" });
   }
 }
-function __c75(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ CapacityProvider: __S(2377, __c74, 9) })).annotate({
+      return S.suspend(() => S.Struct({ CapacityProvider: __S(2665, __c83, 9) })).annotate({
         identifier: "CreateCapacityProviderResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          AllowedPublishers: __S(2464, __c77, 0),
-          CodeSigningPolicies: S.optional(__S(2465, __c77, 1)),
-          Tags: S.optional(__S(2304, __c72, 0)),
+          AllowedPublishers: __S(2752, __c86, 0),
+          CodeSigningPolicies: S.optional(__S(2753, __c86, 1)),
+          Tags: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2020-04-22/code-signing-configs" }),
@@ -8341,10 +8837,10 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CreateCodeSigningConfigRequest" });
   }
 }
-function __c77(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ SigningProfileVersionArns: __S(2272, __c71, 0) })).annotate(
+      return S.suspend(() => S.Struct({ SigningProfileVersionArns: __S(2560, __c80, 0) })).annotate(
         { identifier: "AllowedPublishers" },
       );
     case 1:
@@ -8357,22 +8853,22 @@ function __c77(j: number): any {
           CodeSigningConfigId: S.String,
           CodeSigningConfigArn: S.String,
           Description: S.optional(S.String),
-          AllowedPublishers: __S(2464, __c77, 0),
-          CodeSigningPolicies: __S(2465, __c77, 1),
+          AllowedPublishers: __S(2752, __c86, 0),
+          CodeSigningPolicies: __S(2753, __c86, 1),
           LastModified: S.String,
         }),
       ).annotate({ identifier: "CodeSigningConfig" });
   }
 }
-function __c78(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ CodeSigningConfig: __S(2466, __c77, 2) })).annotate({
+      return S.suspend(() => S.Struct({ CodeSigningConfig: __S(2754, __c86, 2) })).annotate({
         identifier: "CreateCodeSigningConfigResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8381,30 +8877,30 @@ function __c79(j: number): any {
           FunctionName: S.String,
           Enabled: S.optional(S.Boolean),
           BatchSize: S.optional(S.Number),
-          FilterCriteria: S.optional(__S(2594, __c81, 2)),
+          FilterCriteria: S.optional(__S(2882, __c90, 2)),
           KMSKeyArn: S.optional(S.String),
-          MetricsConfig: S.optional(__S(2595, __c81, 3)),
-          LoggingConfig: S.optional(__S(2596, __c81, 4)),
-          ScalingConfig: S.optional(__S(2597, __c81, 5)),
+          MetricsConfig: S.optional(__S(2883, __c90, 3)),
+          LoggingConfig: S.optional(__S(2884, __c90, 4)),
+          ScalingConfig: S.optional(__S(2885, __c90, 5)),
           MaximumBatchingWindowInSeconds: S.optional(S.Number),
           ParallelizationFactor: S.optional(S.Number),
           StartingPosition: S.optional(S.String),
           StartingPositionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
           MaximumRecordAgeInSeconds: S.optional(S.Number),
           BisectBatchOnFunctionError: S.optional(S.Boolean),
           MaximumRetryAttempts: S.optional(S.Number),
-          Tags: S.optional(__S(2304, __c72, 0)),
+          Tags: S.optional(__S(2592, __c81, 0)),
           TumblingWindowInSeconds: S.optional(S.Number),
-          Topics: S.optional(__S(2272, __c71, 0)),
-          Queues: S.optional(__S(2272, __c71, 0)),
-          SourceAccessConfigurations: S.optional(__S(2599, __c81, 7)),
-          SelfManagedEventSource: S.optional(__S(2601, __c81, 9)),
-          FunctionResponseTypes: S.optional(__S(2336, __c73, 0)),
-          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2605, __c81, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2606, __c81, 14)),
-          DocumentDBEventSourceConfig: S.optional(__S(2607, __c81, 15)),
-          ProvisionedPollerConfig: S.optional(__S(2608, __c81, 16)),
+          Topics: S.optional(__S(2560, __c80, 0)),
+          Queues: S.optional(__S(2560, __c80, 0)),
+          SourceAccessConfigurations: S.optional(__S(2887, __c90, 7)),
+          SelfManagedEventSource: S.optional(__S(2889, __c90, 9)),
+          FunctionResponseTypes: S.optional(__S(2624, __c82, 0)),
+          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2893, __c90, 13)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2894, __c90, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2895, __c90, 15)),
+          ProvisionedPollerConfig: S.optional(__S(2896, __c90, 16)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2015-03-31/event-source-mappings" }),
@@ -8418,7 +8914,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateEventSourceMappingRequest" });
   }
 }
-function __c80(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Destination: S.optional(S.String) })).annotate({
@@ -8427,26 +8923,26 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OnSuccess: S.optional(__S(2560, __c80, 0)),
-          OnFailure: S.optional(__S(2560, __c80, 0)),
+          OnSuccess: S.optional(__S(2848, __c89, 0)),
+          OnFailure: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "DestinationConfig" });
   }
 }
-function __c81(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Pattern: S.optional(S.String) })).annotate({
         identifier: "Filter",
       });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(2880, __c90, 0));
     case 2:
-      return S.suspend(() => S.Struct({ Filters: S.optional(__S(2593, __c81, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Filters: S.optional(__S(2881, __c90, 1)) })).annotate({
         identifier: "FilterCriteria",
       });
     case 3:
-      return S.suspend(() => S.Struct({ Metrics: S.optional(__S(2336, __c73, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Metrics: S.optional(__S(2624, __c82, 0)) })).annotate({
         identifier: "EventSourceMappingMetricsConfig",
       });
     case 4:
@@ -8462,11 +8958,11 @@ function __c81(j: number): any {
         S.Struct({ Type: S.optional(S.String), URI: S.optional(S.String) }),
       ).annotate({ identifier: "SourceAccessConfiguration" });
     case 7:
-      return S.Array(__S(2598, __c81, 6));
+      return S.Array(__S(2886, __c90, 6));
     case 8:
-      return S.Record(S.String, /*@__PURE__*/ __S(2272, __c71, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2560, __c80, 0).pipe(S.optional));
     case 9:
-      return S.suspend(() => S.Struct({ Endpoints: S.optional(__S(2600, __c81, 8)) })).annotate({
+      return S.suspend(() => S.Struct({ Endpoints: S.optional(__S(2888, __c90, 8)) })).annotate({
         identifier: "SelfManagedEventSource",
       });
     case 10:
@@ -8474,28 +8970,28 @@ function __c81(j: number): any {
         identifier: "KafkaSchemaValidationConfig",
       });
     case 11:
-      return S.Array(__S(2602, __c81, 10));
+      return S.Array(__S(2890, __c90, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           SchemaRegistryURI: S.optional(S.String),
           EventRecordFormat: S.optional(S.String),
-          AccessConfigs: S.optional(__S(2599, __c81, 7)),
-          SchemaValidationConfigs: S.optional(__S(2603, __c81, 11)),
+          AccessConfigs: S.optional(__S(2887, __c90, 7)),
+          SchemaValidationConfigs: S.optional(__S(2891, __c90, 11)),
         }),
       ).annotate({ identifier: "KafkaSchemaRegistryConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           ConsumerGroupId: S.optional(S.String),
-          SchemaRegistryConfig: S.optional(__S(2604, __c81, 12)),
+          SchemaRegistryConfig: S.optional(__S(2892, __c90, 12)),
         }),
       ).annotate({ identifier: "AmazonManagedKafkaEventSourceConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           ConsumerGroupId: S.optional(S.String),
-          SchemaRegistryConfig: S.optional(__S(2604, __c81, 12)),
+          SchemaRegistryConfig: S.optional(__S(2892, __c90, 12)),
           ConsumptionMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "SelfManagedKafkaEventSourceConfig" });
@@ -8529,37 +9025,37 @@ function __c81(j: number): any {
           MaximumBatchingWindowInSeconds: S.optional(S.Number),
           ParallelizationFactor: S.optional(S.Number),
           EventSourceArn: S.optional(S.String),
-          FilterCriteria: S.optional(__S(2594, __c81, 2)),
-          FilterCriteriaError: S.optional(__S(2609, __c81, 17)),
+          FilterCriteria: S.optional(__S(2882, __c90, 2)),
+          FilterCriteriaError: S.optional(__S(2897, __c90, 17)),
           KMSKeyArn: S.optional(S.String),
-          MetricsConfig: S.optional(__S(2595, __c81, 3)),
-          LoggingConfig: S.optional(__S(2596, __c81, 4)),
-          ScalingConfig: S.optional(__S(2597, __c81, 5)),
+          MetricsConfig: S.optional(__S(2883, __c90, 3)),
+          LoggingConfig: S.optional(__S(2884, __c90, 4)),
+          ScalingConfig: S.optional(__S(2885, __c90, 5)),
           FunctionArn: S.optional(S.String),
           LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastProcessingResult: S.optional(S.String),
           State: S.optional(S.String),
           StateTransitionReason: S.optional(S.String),
-          DestinationConfig: S.optional(__S(2561, __c80, 1)),
-          Topics: S.optional(__S(2272, __c71, 0)),
-          Queues: S.optional(__S(2272, __c71, 0)),
-          SourceAccessConfigurations: S.optional(__S(2599, __c81, 7)),
-          SelfManagedEventSource: S.optional(__S(2601, __c81, 9)),
+          DestinationConfig: S.optional(__S(2849, __c89, 1)),
+          Topics: S.optional(__S(2560, __c80, 0)),
+          Queues: S.optional(__S(2560, __c80, 0)),
+          SourceAccessConfigurations: S.optional(__S(2887, __c90, 7)),
+          SelfManagedEventSource: S.optional(__S(2889, __c90, 9)),
           MaximumRecordAgeInSeconds: S.optional(S.Number),
           BisectBatchOnFunctionError: S.optional(S.Boolean),
           MaximumRetryAttempts: S.optional(S.Number),
           TumblingWindowInSeconds: S.optional(S.Number),
-          FunctionResponseTypes: S.optional(__S(2336, __c73, 0)),
-          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2605, __c81, 13)),
-          SelfManagedKafkaEventSourceConfig: S.optional(__S(2606, __c81, 14)),
-          DocumentDBEventSourceConfig: S.optional(__S(2607, __c81, 15)),
+          FunctionResponseTypes: S.optional(__S(2624, __c82, 0)),
+          AmazonManagedKafkaEventSourceConfig: S.optional(__S(2893, __c90, 13)),
+          SelfManagedKafkaEventSourceConfig: S.optional(__S(2894, __c90, 14)),
+          DocumentDBEventSourceConfig: S.optional(__S(2895, __c90, 15)),
           EventSourceMappingArn: S.optional(S.String),
-          ProvisionedPollerConfig: S.optional(__S(2608, __c81, 16)),
+          ProvisionedPollerConfig: S.optional(__S(2896, __c90, 16)),
         }),
       ).annotate({ identifier: "EventSourceMappingConfiguration" });
   }
 }
-function __c82(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8580,31 +9076,32 @@ function __c82(j: number): any {
           Runtime: S.optional(S.String),
           Role: S.String,
           Handler: S.optional(S.String),
-          Code: __S(2624, __c82, 0),
+          Code: __S(2912, __c91, 0),
           Description: S.optional(S.String),
           Timeout: S.optional(S.Number),
           MemorySize: S.optional(S.Number),
           Publish: S.optional(S.Boolean),
           PublishTo: S.optional(S.String),
-          VpcConfig: S.optional(__S(2656, __c83, 0)),
+          VpcConfig: S.optional(__S(2976, __c93, 0)),
           PackageType: S.optional(S.String),
-          DeadLetterConfig: S.optional(__S(2720, __c85, 0)),
-          Environment: S.optional(__S(2657, __c83, 1)),
+          DeadLetterConfig: S.optional(__S(2944, __c92, 0)),
+          Environment: S.optional(__S(2977, __c93, 1)),
           KMSKeyArn: S.optional(S.String),
-          TracingConfig: S.optional(__S(2722, __c85, 2)),
-          Tags: S.optional(__S(2304, __c72, 0)),
-          Layers: S.optional(__S(2272, __c71, 0)),
-          FileSystemConfigs: S.optional(__S(2725, __c85, 5)),
+          TracingConfig: S.optional(__S(2946, __c92, 2)),
+          Tags: S.optional(__S(2592, __c81, 0)),
+          Layers: S.optional(__S(2560, __c80, 0)),
+          FileSystemConfigs: S.optional(__S(2949, __c92, 5)),
           CodeSigningConfigArn: S.optional(S.String),
-          ImageConfig: S.optional(__S(2726, __c85, 6)),
-          Architectures: S.optional(__S(2336, __c73, 0)),
-          EphemeralStorage: S.optional(__S(2727, __c85, 7)),
-          SnapStart: S.optional(__S(2658, __c83, 2)),
-          LoggingConfig: S.optional(__S(2728, __c85, 8)),
-          TenancyConfig: S.optional(__S(2729, __c85, 9)),
-          CapacityProviderConfig: S.optional(__S(2731, __c85, 11)),
-          DurableConfig: S.optional(__S(2688, __c84, 0)),
-          RuntimeConfig: S.optional(__S(2732, __c85, 12)),
+          ImageConfig: S.optional(__S(2950, __c92, 6)),
+          Architectures: S.optional(__S(2624, __c82, 0)),
+          EphemeralStorage: S.optional(__S(2951, __c92, 7)),
+          SnapStart: S.optional(__S(2978, __c93, 2)),
+          LoggingConfig: S.optional(__S(2952, __c92, 8)),
+          TenancyConfig: S.optional(__S(2953, __c92, 9)),
+          CapacityProviderConfig: S.optional(__S(2955, __c92, 11)),
+          DurableConfig: S.optional(__S(3008, __c94, 0)),
+          RuntimeConfig: S.optional(__S(2956, __c92, 12)),
+          AcceleratorConfig: S.optional(__S(2957, __c92, 13)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2015-03-31/functions" }),
@@ -8618,39 +9115,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateFunctionRequest" });
   }
 }
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SubnetIds: S.optional(__S(2272, __c71, 0)),
-          SecurityGroupIds: S.optional(__S(2272, __c71, 0)),
-          Ipv6AllowedForDualStack: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "VpcConfig" });
-    case 1:
-      return S.suspend(() => S.Struct({ Variables: S.optional(__S(2721, __c85, 1)) })).annotate({
-        identifier: "Environment",
-      });
-    case 2:
-      return S.suspend(() => S.Struct({ ApplyOn: S.optional(S.String) })).annotate({
-        identifier: "SnapStart",
-      });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          KMSKeyArn: S.optional(S.String),
-          RetentionPeriodInDays: S.optional(S.Number),
-          ExecutionTimeout: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DurableConfig" });
-  }
-}
-function __c85(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TargetArn: S.optional(S.String) })).annotate({
@@ -8671,16 +9136,16 @@ function __c85(j: number): any {
         S.Struct({
           Arn: S.String,
           LocalMountPath: S.String,
-          S3FilesConfig: S.optional(__S(2723, __c85, 3)),
+          S3FilesConfig: S.optional(__S(2947, __c92, 3)),
         }),
       ).annotate({ identifier: "FileSystemConfig" });
     case 5:
-      return S.Array(__S(2724, __c85, 4));
+      return S.Array(__S(2948, __c92, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          EntryPoint: S.optional(__S(2272, __c71, 0)),
-          Command: S.optional(__S(2272, __c71, 0)),
+          EntryPoint: S.optional(__S(2560, __c80, 0)),
+          Command: S.optional(__S(2560, __c80, 0)),
           WorkingDirectory: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageConfig" });
@@ -8711,33 +9176,37 @@ function __c85(j: number): any {
       ).annotate({ identifier: "LambdaManagedInstancesCapacityProviderConfig" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ LambdaManagedInstancesCapacityProviderConfig: __S(2730, __c85, 10) }),
+        S.Struct({ LambdaManagedInstancesCapacityProviderConfig: __S(2954, __c92, 10) }),
       ).annotate({ identifier: "CapacityProviderConfig" });
     case 12:
       return S.suspend(() => S.Struct({ RuntimeArn: S.String, RuntimeAlias: S.String })).annotate({
         identifier: "FunctionRuntimeConfig",
       });
     case 13:
+      return S.suspend(() => S.Struct({ AcceleratorMemorySize: S.Number })).annotate({
+        identifier: "AcceleratorConfig",
+      });
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          SubnetIds: S.optional(__S(2272, __c71, 0)),
-          SecurityGroupIds: S.optional(__S(2272, __c71, 0)),
+          SubnetIds: S.optional(__S(2560, __c80, 0)),
+          SecurityGroupIds: S.optional(__S(2560, __c80, 0)),
           VpcId: S.optional(S.String),
           Ipv6AllowedForDualStack: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VpcConfigResponse" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(SensitiveString) }),
       ).annotate({ identifier: "EnvironmentError" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          Variables: S.optional(__S(2721, __c85, 1)),
-          Error: S.optional(__S(2734, __c85, 14)),
+          Variables: S.optional(__S(2945, __c92, 1)),
+          Error: S.optional(__S(2959, __c92, 15)),
         }),
       ).annotate({ identifier: "EnvironmentResponse" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           Arn: S.optional(S.String),
@@ -8746,27 +9215,27 @@ function __c85(j: number): any {
           SigningJobArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Layer" });
-    case 17:
-      return S.Array(__S(2736, __c85, 16));
     case 18:
+      return S.Array(__S(2961, __c92, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          ImageConfig: S.optional(__S(2726, __c85, 6)),
-          Error: S.optional(__S(2734, __c85, 14)),
+          ImageConfig: S.optional(__S(2950, __c92, 6)),
+          Error: S.optional(__S(2959, __c92, 15)),
         }),
       ).annotate({ identifier: "ImageConfigResponse" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({ ApplyOn: S.optional(S.String), OptimizationStatus: S.optional(S.String) }),
       ).annotate({ identifier: "SnapStartResponse" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           RuntimeVersionArn: S.optional(S.String),
-          Error: S.optional(__S(2734, __c85, 14)),
+          Error: S.optional(__S(2959, __c92, 15)),
         }),
       ).annotate({ identifier: "RuntimeVersionConfig" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           FunctionName: S.optional(S.String),
@@ -8781,40 +9250,73 @@ function __c85(j: number): any {
           LastModified: S.optional(S.String),
           CodeSha256: S.optional(S.String),
           Version: S.optional(S.String),
-          VpcConfig: S.optional(__S(2733, __c85, 13)),
-          DeadLetterConfig: S.optional(__S(2720, __c85, 0)),
-          Environment: S.optional(__S(2735, __c85, 15)),
+          VpcConfig: S.optional(__S(2958, __c92, 14)),
+          DeadLetterConfig: S.optional(__S(2944, __c92, 0)),
+          Environment: S.optional(__S(2960, __c92, 16)),
           KMSKeyArn: S.optional(S.String),
-          TracingConfig: S.optional(__S(2722, __c85, 2)),
+          TracingConfig: S.optional(__S(2946, __c92, 2)),
           MasterArn: S.optional(S.String),
           RevisionId: S.optional(S.String),
-          Layers: S.optional(__S(2737, __c85, 17)),
+          Layers: S.optional(__S(2962, __c92, 18)),
           State: S.optional(S.String),
           StateReason: S.optional(S.String),
           StateReasonCode: S.optional(S.String),
           LastUpdateStatus: S.optional(S.String),
           LastUpdateStatusReason: S.optional(S.String),
           LastUpdateStatusReasonCode: S.optional(S.String),
-          FileSystemConfigs: S.optional(__S(2725, __c85, 5)),
+          FileSystemConfigs: S.optional(__S(2949, __c92, 5)),
           SigningProfileVersionArn: S.optional(S.String),
           SigningJobArn: S.optional(S.String),
           PackageType: S.optional(S.String),
-          ImageConfigResponse: S.optional(__S(2738, __c85, 18)),
-          Architectures: S.optional(__S(2336, __c73, 0)),
-          EphemeralStorage: S.optional(__S(2727, __c85, 7)),
-          SnapStart: S.optional(__S(2739, __c85, 19)),
-          RuntimeVersionConfig: S.optional(__S(2740, __c85, 20)),
-          LoggingConfig: S.optional(__S(2728, __c85, 8)),
-          TenancyConfig: S.optional(__S(2729, __c85, 9)),
-          CapacityProviderConfig: S.optional(__S(2731, __c85, 11)),
+          ImageConfigResponse: S.optional(__S(2963, __c92, 19)),
+          Architectures: S.optional(__S(2624, __c82, 0)),
+          EphemeralStorage: S.optional(__S(2951, __c92, 7)),
+          SnapStart: S.optional(__S(2964, __c92, 20)),
+          RuntimeVersionConfig: S.optional(__S(2965, __c92, 21)),
+          LoggingConfig: S.optional(__S(2952, __c92, 8)),
+          TenancyConfig: S.optional(__S(2953, __c92, 9)),
+          CapacityProviderConfig: S.optional(__S(2955, __c92, 11)),
           ConfigSha256: S.optional(S.String),
-          DurableConfig: S.optional(__S(2688, __c84, 0)),
-          RuntimeConfig: S.optional(__S(2732, __c85, 12)),
+          DurableConfig: S.optional(__S(3008, __c94, 0)),
+          RuntimeConfig: S.optional(__S(2956, __c92, 12)),
+          AcceleratorConfig: S.optional(__S(2957, __c92, 13)),
         }),
       ).annotate({ identifier: "FunctionConfiguration" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetIds: S.optional(__S(2560, __c80, 0)),
+          SecurityGroupIds: S.optional(__S(2560, __c80, 0)),
+          Ipv6AllowedForDualStack: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VpcConfig" });
+    case 1:
+      return S.suspend(() => S.Struct({ Variables: S.optional(__S(2945, __c92, 1)) })).annotate({
+        identifier: "Environment",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ ApplyOn: S.optional(S.String) })).annotate({
+        identifier: "SnapStart",
+      });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KMSKeyArn: S.optional(S.String),
+          RetentionPeriodInDays: S.optional(S.Number),
+          ExecutionTimeout: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DurableConfig" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8822,7 +9324,7 @@ function __c86(j: number): any {
           FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
           Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
           AuthType: S.String,
-          Cors: S.optional(__S(2784, __c87, 0)),
+          Cors: S.optional(__S(3072, __c96, 0)),
           InvokeMode: S.optional(S.String),
         }).pipe(
           T.all(
@@ -8841,29 +9343,29 @@ function __c86(j: number): any {
           FunctionUrl: S.String,
           FunctionArn: S.String,
           AuthType: S.String,
-          Cors: S.optional(__S(2784, __c87, 0)),
+          Cors: S.optional(__S(3072, __c96, 0)),
           CreationTime: S.String,
           InvokeMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFunctionUrlConfigResponse" });
   }
 }
-function __c87(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AllowCredentials: S.optional(S.Boolean),
-          AllowHeaders: S.optional(__S(2272, __c71, 0)),
-          AllowMethods: S.optional(__S(2272, __c71, 0)),
-          AllowOrigins: S.optional(__S(2272, __c71, 0)),
-          ExposeHeaders: S.optional(__S(2272, __c71, 0)),
+          AllowHeaders: S.optional(__S(2560, __c80, 0)),
+          AllowMethods: S.optional(__S(2560, __c80, 0)),
+          AllowOrigins: S.optional(__S(2560, __c80, 0)),
+          ExposeHeaders: S.optional(__S(2560, __c80, 0)),
           MaxAge: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Cors" });
   }
 }
-function __c88(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8886,13 +9388,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteAliasRequest" });
   }
 }
-function __c89(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAliasResponse" });
   }
 }
-function __c90(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8912,7 +9414,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteCapacityProviderRequest" });
   }
 }
-function __c91(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8932,7 +9434,31 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteCodeSigningConfigRequest" });
   }
 }
-function __c92(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")) }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/2025-12-01/durable-executions/{DurableExecutionArn}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDurableExecutionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DeletionRequestTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
+      ).annotate({ identifier: "DeleteDurableExecutionResponse" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8949,7 +9475,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteEventSourceMappingRequest" });
   }
 }
-function __c93(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8973,7 +9499,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteFunctionResponse" });
   }
 }
-function __c94(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8993,7 +9519,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeleteFunctionCodeSigningConfigRequest" });
   }
 }
-function __c95(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9010,7 +9536,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteFunctionConcurrencyRequest" });
   }
 }
-function __c96(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9033,7 +9559,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DeleteFunctionEventInvokeConfigRequest" });
   }
 }
-function __c97(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9053,7 +9579,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteFunctionUrlConfigRequest" });
   }
 }
-function __c98(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9076,7 +9602,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteLayerVersionRequest" });
   }
 }
-function __c99(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9099,7 +9625,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteProvisionedConcurrencyConfigRequest" });
   }
 }
-function __c100(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9119,7 +9645,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c101(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9151,13 +9677,13 @@ function __c101(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AccountLimit: S.optional(__S(3233, __c101, 1)),
-          AccountUsage: S.optional(__S(3234, __c101, 2)),
+          AccountLimit: S.optional(__S(3553, __c111, 1)),
+          AccountUsage: S.optional(__S(3554, __c111, 2)),
         }),
       ).annotate({ identifier: "GetAccountSettingsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9177,7 +9703,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetAliasRequest" });
   }
 }
-function __c103(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9194,7 +9720,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetCapacityProviderRequest" });
   }
 }
-function __c104(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9214,7 +9740,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetCodeSigningConfigRequest" });
   }
 }
-function __c105(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9239,24 +9765,36 @@ function __c105(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          PauseRequestTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Reason: S.optional(SensitiveString),
+          ExecutionTimeoutPaused: S.Boolean,
+        }),
+      ).annotate({ identifier: "PauseDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           DurableExecutionArn: S.String,
           DurableExecutionName: S.String,
           FunctionArn: S.String,
           InputPayload: S.optional(SensitiveString),
           Result: S.optional(SensitiveString),
-          Error: S.optional(__S(2113, __c66, 1)),
+          Error: S.optional(__S(2401, __c75, 1)),
           StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           Status: S.String,
           EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Version: S.optional(S.String),
-          TraceHeader: S.optional(__S(3361, __c105, 1)),
+          TraceHeader: S.optional(__S(3681, __c115, 1)),
           ExecutionDataIncluded: S.optional(S.Boolean),
-          DurableConfig: S.optional(__S(2688, __c84, 0)),
+          DurableConfig: S.optional(__S(3008, __c94, 0)),
+          PauseDetails: S.optional(__S(3682, __c115, 2)),
+          ExpectedExecutionTimeoutTimestamp: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
         }),
       ).annotate({ identifier: "GetDurableExecutionResponse" });
   }
 }
-function __c106(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9286,22 +9824,22 @@ function __c106(j: number): any {
       ).annotate({ identifier: "EventInput" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Input: __S(3393, __c106, 1), ExecutionTimeout: S.Number }),
+        S.Struct({ Input: __S(3713, __c116, 1), ExecutionTimeout: S.Number }),
       ).annotate({ identifier: "ExecutionStartedDetails" });
     case 3:
-      return S.suspend(() => S.Struct({ Result: __S(3393, __c106, 1) })).annotate({
+      return S.suspend(() => S.Struct({ Result: __S(3713, __c116, 1) })).annotate({
         identifier: "ExecutionSucceededDetails",
       });
     case 4:
       return S.suspend(() =>
-        S.Struct({ Payload: S.optional(__S(2113, __c66, 1)), Truncated: S.optional(S.Boolean) }),
+        S.Struct({ Payload: S.optional(__S(2401, __c75, 1)), Truncated: S.optional(S.Boolean) }),
       ).annotate({ identifier: "EventError" });
     case 5:
-      return S.suspend(() => S.Struct({ Error: __S(3396, __c106, 4) })).annotate({
+      return S.suspend(() => S.Struct({ Error: __S(3716, __c116, 4) })).annotate({
         identifier: "ExecutionFailedDetails",
       });
     case 6:
-      return S.suspend(() => S.Struct({ Error: S.optional(__S(3396, __c106, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ Error: S.optional(__S(3716, __c116, 4)) })).annotate({
         identifier: "ExecutionTimedOutDetails",
       });
     case 7:
@@ -9324,18 +9862,18 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RetryDetails" });
     case 10:
       return S.suspend(() =>
-        S.Struct({ Result: __S(3393, __c106, 1), RetryDetails: __S(3401, __c106, 9) }),
+        S.Struct({ Result: __S(3713, __c116, 1), RetryDetails: __S(3721, __c116, 9) }),
       ).annotate({ identifier: "StepSucceededDetails" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ Error: __S(3396, __c106, 4), RetryDetails: __S(3401, __c106, 9) }),
+        S.Struct({ Error: __S(3716, __c116, 4), RetryDetails: __S(3721, __c116, 9) }),
       ).annotate({ identifier: "StepFailedDetails" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           FunctionName: S.String,
           TenantId: S.optional(S.String),
-          Input: S.optional(__S(3393, __c106, 1)),
+          Input: S.optional(__S(3713, __c116, 1)),
           ExecutedVersion: S.optional(S.String),
           DurableExecutionArn: S.optional(S.String),
         }),
@@ -9354,10 +9892,25 @@ function __c106(j: number): any {
           StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           EndTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           RequestId: S.String,
-          Error: S.optional(__S(3396, __c106, 4)),
+          Error: S.optional(__S(3716, __c116, 4)),
         }),
       ).annotate({ identifier: "InvocationCompletedDetails" });
     case 15:
+      return S.suspend(() =>
+        S.Struct({
+          PauseRequestTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Reason: S.optional(__S(3713, __c116, 1)),
+          ExecutionTimeoutPaused: S.Boolean,
+        }),
+      ).annotate({ identifier: "ExecutionPausedDetails" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          ResumeRequestTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Reason: S.optional(__S(3713, __c116, 1)),
+        }),
+      ).annotate({ identifier: "ExecutionResumedDetails" });
+    case 17:
       return S.suspend(() =>
         S.Struct({
           EventType: S.optional(S.String),
@@ -9367,41 +9920,43 @@ function __c106(j: number): any {
           Name: S.optional(S.String),
           EventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ParentId: S.optional(S.String),
-          ExecutionStartedDetails: S.optional(__S(3394, __c106, 2)),
-          ExecutionSucceededDetails: S.optional(__S(3395, __c106, 3)),
-          ExecutionFailedDetails: S.optional(__S(3397, __c106, 5)),
-          ExecutionTimedOutDetails: S.optional(__S(3398, __c106, 6)),
-          ExecutionStoppedDetails: S.optional(__S(3397, __c106, 5)),
-          ContextStartedDetails: S.optional(__S(2848, __c89, 0)),
-          ContextSucceededDetails: S.optional(__S(3395, __c106, 3)),
-          ContextFailedDetails: S.optional(__S(3397, __c106, 5)),
-          WaitStartedDetails: S.optional(__S(3399, __c106, 7)),
-          WaitSucceededDetails: S.optional(__S(3400, __c106, 8)),
-          WaitCancelledDetails: S.optional(__S(3398, __c106, 6)),
-          StepStartedDetails: S.optional(__S(2848, __c89, 0)),
-          StepSucceededDetails: S.optional(__S(3402, __c106, 10)),
-          StepFailedDetails: S.optional(__S(3403, __c106, 11)),
-          ChainedInvokeStartedDetails: S.optional(__S(3404, __c106, 12)),
-          ChainedInvokeSucceededDetails: S.optional(__S(3395, __c106, 3)),
-          ChainedInvokeFailedDetails: S.optional(__S(3397, __c106, 5)),
-          ChainedInvokeTimedOutDetails: S.optional(__S(3397, __c106, 5)),
-          ChainedInvokeStoppedDetails: S.optional(__S(3397, __c106, 5)),
-          CallbackStartedDetails: S.optional(__S(3405, __c106, 13)),
-          CallbackSucceededDetails: S.optional(__S(3395, __c106, 3)),
-          CallbackFailedDetails: S.optional(__S(3397, __c106, 5)),
-          CallbackTimedOutDetails: S.optional(__S(3397, __c106, 5)),
-          InvocationCompletedDetails: S.optional(__S(3406, __c106, 14)),
+          ExecutionStartedDetails: S.optional(__S(3714, __c116, 2)),
+          ExecutionSucceededDetails: S.optional(__S(3715, __c116, 3)),
+          ExecutionFailedDetails: S.optional(__S(3717, __c116, 5)),
+          ExecutionTimedOutDetails: S.optional(__S(3718, __c116, 6)),
+          ExecutionStoppedDetails: S.optional(__S(3717, __c116, 5)),
+          ContextStartedDetails: S.optional(__S(3136, __c98, 0)),
+          ContextSucceededDetails: S.optional(__S(3715, __c116, 3)),
+          ContextFailedDetails: S.optional(__S(3717, __c116, 5)),
+          WaitStartedDetails: S.optional(__S(3719, __c116, 7)),
+          WaitSucceededDetails: S.optional(__S(3720, __c116, 8)),
+          WaitCancelledDetails: S.optional(__S(3718, __c116, 6)),
+          StepStartedDetails: S.optional(__S(3136, __c98, 0)),
+          StepSucceededDetails: S.optional(__S(3722, __c116, 10)),
+          StepFailedDetails: S.optional(__S(3723, __c116, 11)),
+          ChainedInvokeStartedDetails: S.optional(__S(3724, __c116, 12)),
+          ChainedInvokeSucceededDetails: S.optional(__S(3715, __c116, 3)),
+          ChainedInvokeFailedDetails: S.optional(__S(3717, __c116, 5)),
+          ChainedInvokeTimedOutDetails: S.optional(__S(3717, __c116, 5)),
+          ChainedInvokeStoppedDetails: S.optional(__S(3717, __c116, 5)),
+          CallbackStartedDetails: S.optional(__S(3725, __c116, 13)),
+          CallbackSucceededDetails: S.optional(__S(3715, __c116, 3)),
+          CallbackFailedDetails: S.optional(__S(3717, __c116, 5)),
+          CallbackTimedOutDetails: S.optional(__S(3717, __c116, 5)),
+          InvocationCompletedDetails: S.optional(__S(3726, __c116, 14)),
+          ExecutionPausedDetails: S.optional(__S(3727, __c116, 15)),
+          ExecutionResumedDetails: S.optional(__S(3728, __c116, 16)),
         }),
       ).annotate({ identifier: "Event" });
-    case 16:
-      return S.Array(__S(3407, __c106, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(3729, __c116, 17));
+    case 19:
       return S.suspend(() =>
-        S.Struct({ Events: __S(3408, __c106, 16), NextMarker: S.optional(S.String) }),
+        S.Struct({ Events: __S(3730, __c116, 18), NextMarker: S.optional(S.String) }),
       ).annotate({ identifier: "GetDurableExecutionHistoryResponse" });
   }
 }
-function __c107(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9426,11 +9981,11 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetDurableExecutionStateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Operations: __S(2151, __c67, 7), NextMarker: S.optional(S.String) }),
+        S.Struct({ Operations: __S(2439, __c76, 7), NextMarker: S.optional(S.String) }),
       ).annotate({ identifier: "GetDurableExecutionStateResponse" });
   }
 }
-function __c108(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9445,137 +10000,6 @@ function __c108(j: number): any {
           ),
         ),
       ).annotate({ identifier: "GetEventSourceMappingRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-          Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/2015-03-31/functions/{FunctionName}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetFunctionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          RepositoryType: S.optional(S.String),
-          Location: S.optional(S.String),
-          ImageUri: S.optional(S.String),
-          ResolvedImageUri: S.optional(S.String),
-          ResolvedS3Object: S.optional(__S(3520, __c110, 0)),
-          SourceKMSKeyArn: S.optional(S.String),
-          Error: S.optional(__S(2734, __c85, 14)),
-        }),
-      ).annotate({ identifier: "FunctionCodeLocation" });
-    case 2:
-      return S.suspend(() => S.Struct({ ErrorCode: S.String, Message: S.String })).annotate({
-        identifier: "TagsError",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Configuration: S.optional(__S(2741, __c85, 21)),
-          Code: S.optional(__S(3489, __c109, 1)),
-          Tags: S.optional(__S(2304, __c72, 0)),
-          TagsError: S.optional(__S(3490, __c109, 2)),
-          Concurrency: S.optional(__S(3552, __c111, 0)),
-        }),
-      ).annotate({ identifier: "GetFunctionResponse" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          S3Bucket: S.optional(S.String),
-          S3Key: S.optional(S.String),
-          S3ObjectVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResolvedS3Object" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ ReservedConcurrentExecutions: S.optional(S.Number) }),
-      ).annotate({ identifier: "Concurrency" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) }).pipe(
-          T.all(
-            T.Http({
-              method: "GET",
-              uri: "/2020-06-30/functions/{FunctionName}/code-signing-config",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetFunctionCodeSigningConfigRequest" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ CodeSigningConfigArn: S.String, FunctionName: S.String }),
-      ).annotate({ identifier: "GetFunctionCodeSigningConfigResponse" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/2019-09-30/functions/{FunctionName}/concurrency" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetFunctionConcurrencyRequest" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-          Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/2015-03-31/functions/{FunctionName}/configuration" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetFunctionConfigurationRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

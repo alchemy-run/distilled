@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * MongoDB Atlas credentials -- hand-written.
  *
@@ -9,7 +10,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * client_credentials).
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials; the protocol layer resolves it per request on the calling
+ * credentials; the protocol resolves it per request on the calling
  * fiber. Unlike v0 (which fetched once and ignored `expires_in`), the token
  * is cached and transparently re-fetched shortly before expiry, so
  * long-running programs keep working past the ~1h token lifetime.
@@ -112,30 +113,32 @@ const exchangeToken = (
 const cachedTokenEffect = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
 ): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError>) => {
-  let cached: Config | undefined;
-  let refreshAt = 0;
-
-  return (client) =>
-    Effect.suspend(() => {
-      if (cached !== undefined && Date.now() < refreshAt) {
-        return Effect.succeed(cached);
-      }
-      return Effect.gen(function* () {
-        const config = yield* load;
-        const token = yield* exchangeToken(client, config);
-        cached = {
-          accessToken: token.accessToken,
-          apiBaseUrl: config.apiBaseUrl,
-        };
-        refreshAt =
+  // Concurrent calls on a cold or stale cache share one exchange.
+  const cached = refreshing(
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      const config = yield* load;
+      const token = yield* exchangeToken(client, config);
+      return {
+        config: { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl } satisfies Config,
+        refreshAt:
           Date.now() +
           Math.max(
             token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
             TOKEN_REFRESH_WINDOW_MS,
-          );
-        return cached;
-      });
-    });
+          ),
+      };
+    }),
+    (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `MongoDB Atlas token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
+  ).pipe(Effect.map((token) => token.config));
+
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
 /**

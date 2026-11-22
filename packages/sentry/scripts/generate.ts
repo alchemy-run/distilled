@@ -67,7 +67,7 @@ const sentrySpec: SdkSpec = {
   operationDecl: {
     contextType: "SentryOpContext",
     commonErrorType: "SentryOpError",
-    commonErrorClasses: ["UnknownSentryError"],
+    serviceErrors: "SentryServiceErrors",
     protocol: "SentryProtocol",
     retry: "Retry.Retry",
   },

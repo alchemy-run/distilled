@@ -2,7 +2,7 @@
  * Convex credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials, so the protocol layer picks up rotations per request.
+ * credentials, so the protocol picks up rotations per request.
  *
  * Convex speaks from two places. The Management API lives at
  * `https://api.convex.dev/v1`. The Deployment API and the public HTTP API

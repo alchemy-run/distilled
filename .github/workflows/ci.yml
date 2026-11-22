@@ -145,13 +145,32 @@ jobs:
       - name: Run oxlint
         run: pnpm lint
 
+      # Regenerates two small SDKs and fails if the committed code differs, so
+      # a hand edit under src/services or a generator change without its
+      # regeneration does not land. turso and npm both run the OpenAPI
+      # converter, patches and the shared generator, from specs of a few
+      # hundred KB. `generatedAt` in package.json is today's date, so
+      # package.json is left out of the diff.
+      - name: Fetch the turso and npm specs
+        run: |
+          pnpm --filter @distilled.cloud/turso run specs:fetch
+          pnpm --filter @distilled.cloud/npm run specs:fetch
+
+      - name: Check generated code matches the generator
+        run: |
+          pnpm generate turso npm
+          git diff --exit-code -- packages/turso packages/npm ':(exclude)packages/*/package.json'
+
   # The effect peer range's floor, Node 22.19.0 / 22 / 26, Bun and workerd.
   # The newest effect runs nightly (compat.yml) and before a release.
+  # The tests run only in the merge queue. Elsewhere the jobs still report and
+  # pass at once: the queue requires them on the PR too, before it enqueues.
   compat:
     name: Compatibility
     uses: ./.github/workflows/compat-tests.yml
     with:
       effect-latest: false
+      skip: ${{ github.event_name != 'merge_group' }}
 
   typecheck-stacks:
     name: Typecheck (deployment stacks)
@@ -181,6 +200,12 @@ jobs:
       # for local iteration only.
       - name: Check spec mirrors
         run: pnpm specs:check
+
+      # A full generate rewrites each services barrel from exactly the models
+      # it generated; a module the spec dropped falls out of the barrel. This
+      # fails on such a file, so a dead service can't ship frozen.
+      - name: Check generated service modules
+        run: pnpm services:check
 
   website:
     name: Website (typecheck & static build)

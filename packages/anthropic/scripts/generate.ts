@@ -109,9 +109,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "AnthropicOpContext",
     commonErrorType: "AnthropicOpError",
-    // No per-operation error classes: every failure shares one envelope,
-    // so every status rides AnthropicOpError and the protocol picks the class.
-    commonErrorClasses: ["UnknownAnthropicError"],
+    serviceErrors: "AnthropicServiceErrors",
     protocol: "AnthropicProtocol",
     retry: "Retry.Retry",
   },

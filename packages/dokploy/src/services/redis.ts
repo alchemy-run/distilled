@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -323,7 +323,8 @@ export const changeRedisPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ChangeRedisPasswordRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangeRedisPasswordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -339,7 +340,8 @@ export const changeRedisStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ChangeRedisStatusRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ChangeRedisStatusResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -355,7 +357,8 @@ export const createRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<CreateRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CreateRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -371,7 +374,8 @@ export const deleteRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeleteRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +391,8 @@ export const deployRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeployRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeployRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -403,7 +408,8 @@ export const getRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetRedisResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -419,7 +425,8 @@ export const moveRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<MoveRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<MoveRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -435,7 +442,8 @@ export const readRedisLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ReadRedisLogsRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReadRedisLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -451,7 +459,8 @@ export const rebuildRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<RebuildRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<RebuildRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -467,7 +476,8 @@ export const reloadRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ReloadRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReloadRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -483,7 +493,8 @@ export const saveRedisEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<SaveRedisEnvironmentRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SaveRedisEnvironmentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -499,7 +510,8 @@ export const saveRedisExternalPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<SaveRedisExternalPortRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SaveRedisExternalPortResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -515,7 +527,8 @@ export const searchRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<SearchRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<SearchRedisResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,7 +544,8 @@ export const startRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<StartRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StartRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -547,7 +561,8 @@ export const stopRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<StopRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<StopRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -563,7 +578,8 @@ export const updateRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(309, __c9, 21) as any as S.Schema<UpdateRedisRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<UpdateRedisResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

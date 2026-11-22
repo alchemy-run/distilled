@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1144,15 +1145,13 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
     __c49,
     7,
   ) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioCommitmentModification",
@@ -1188,11 +1187,13 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioUsageModification",
@@ -1228,11 +1229,13 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateWorkloadEstimateUsage",
@@ -1266,15 +1269,13 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
     __c2,
     3,
   ) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioCommitmentModification",
@@ -1310,11 +1311,13 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioUsageModification",
@@ -1344,15 +1347,13 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<BatchDeleteWorkloadEstimateUsageRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<BatchDeleteWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteWorkloadEstimateUsage",
@@ -1386,15 +1387,13 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
     __c5,
     5,
   ) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioCommitmentModification",
@@ -1430,11 +1429,13 @@ export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioUsageModification",
@@ -1464,15 +1465,13 @@ export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74, __c9, 2) as any as S.Schema<BatchUpdateWorkloadEstimateUsageRequest>,
   output: __S(77, __c9, 5) as any as S.Schema<BatchUpdateWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateWorkloadEstimateUsage",
@@ -1500,15 +1499,13 @@ export const createBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CreateBillEstimateRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<CreateBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillEstimate",
@@ -1536,15 +1533,13 @@ export const createBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<CreateBillScenarioRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CreateBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillScenario",
@@ -1572,15 +1567,13 @@ export const createWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<CreateWorkloadEstimateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<CreateWorkloadEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadEstimate",
@@ -1607,14 +1600,13 @@ export const deleteBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteBillEstimateRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
+  errors: [ConflictException, DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillEstimate",
@@ -1641,14 +1633,13 @@ export const deleteBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteBillScenarioRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
+  errors: [ConflictException, DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillScenario",
@@ -1674,13 +1665,13 @@ export const deleteWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteWorkloadEstimateRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteWorkloadEstimateResponse>,
-  errors: [
-    DataUnavailableException,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadEstimate",
@@ -1707,14 +1698,13 @@ export const getBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetBillEstimateRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<GetBillEstimateResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillEstimate",
@@ -1741,14 +1731,13 @@ export const getBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetBillScenarioRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<GetBillScenarioResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillScenario",
@@ -1774,13 +1763,13 @@ export const getPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetPreferencesRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<GetPreferencesResponse>,
-  errors: [
-    DataUnavailableException,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreferences",
@@ -1807,14 +1796,13 @@ export const getWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetWorkloadEstimateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<GetWorkloadEstimateResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadEstimate",
@@ -1842,14 +1830,13 @@ export const listBillEstimateCommitments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListBillEstimateCommitmentsRequest>,
   output: __S(227, __c28, 3) as any as S.Schema<ListBillEstimateCommitmentsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateCommitments",
@@ -1887,14 +1874,13 @@ export const listBillEstimateInputCommitmentModifications: API.PaginatedOperatio
     __c29,
     3,
   ) as any as S.Schema<ListBillEstimateInputCommitmentModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateInputCommitmentModifications",
@@ -1928,14 +1914,13 @@ export const listBillEstimateInputUsageModifications: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateInputUsageModifications",
@@ -1969,14 +1954,13 @@ export const listBillEstimateLineItems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ListBillEstimateLineItemsRequest>,
   output: __S(268, __c33, 4) as any as S.Schema<ListBillEstimateLineItemsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateLineItems",
@@ -2009,13 +1993,13 @@ export const listBillEstimates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListBillEstimatesRequest>,
   output: __S(275, __c34, 3) as any as S.Schema<ListBillEstimatesResponse>,
-  errors: [
-    DataUnavailableException,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimates",
@@ -2049,14 +2033,13 @@ export const listBillScenarioCommitmentModifications: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<ListBillScenarioCommitmentModificationsRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<ListBillScenarioCommitmentModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarioCommitmentModifications",
@@ -2089,13 +2072,13 @@ export const listBillScenarios: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListBillScenariosRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<ListBillScenariosResponse>,
-  errors: [
-    DataUnavailableException,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarios",
@@ -2129,14 +2112,13 @@ export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<ListBillScenarioUsageModificationsRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<ListBillScenarioUsageModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarioUsageModifications",
@@ -2168,13 +2150,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(313, __c39, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2201,13 +2183,13 @@ export const listWorkloadEstimates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ListWorkloadEstimatesRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<ListWorkloadEstimatesResponse>,
-  errors: [
-    DataUnavailableException,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadEstimates",
@@ -2241,14 +2223,13 @@ export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<ListWorkloadEstimateUsageRequest>,
   output: __S(329, __c41, 1) as any as S.Schema<ListWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadEstimateUsage",
@@ -2281,14 +2262,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2314,13 +2294,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2348,15 +2328,13 @@ export const updateBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<UpdateBillEstimateRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<UpdateBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillEstimate",
@@ -2384,15 +2362,13 @@ export const updateBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<UpdateBillScenarioRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<UpdateBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillScenario",
@@ -2419,14 +2395,13 @@ export const updatePreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<UpdatePreferencesRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<UpdatePreferencesResponse>,
-  errors: [
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  errors: [DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreferences",
@@ -2454,15 +2429,13 @@ export const updateWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<UpdateWorkloadEstimateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<UpdateWorkloadEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadEstimate",

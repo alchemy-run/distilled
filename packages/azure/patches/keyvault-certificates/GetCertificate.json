@@ -1,0 +1,9 @@
+{
+  "description": "The spec marks `{certificate-version}` required, but documents it as optional (\"This URI fragment is optional. If not specified, the latest version of the certificate is returned.\"). Make it optional; the protocol sends an empty segment when it is omitted.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.keyvault_certificates#GetCertificateRequest/members/certificateVersion/traits/smithy.api#required"
+    }
+  ]
+}

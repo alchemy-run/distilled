@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Infisical credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Auth is an Infisical machine-identity access token
  * sent as `Authorization: Bearer <apiKey>`. Self-hosted instances override
  * the US Cloud default base URL.

@@ -75,7 +75,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Anthropic.CredentialsFromEnv,
-  Anthropic.AnthropicProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1250,6 +1250,8 @@ export interface ListAgentsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Agent resource. */
 export interface Agent {
@@ -1279,6 +1281,8 @@ export interface ListConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Connection resource. */
 export interface Connection {
@@ -1309,6 +1313,8 @@ export interface ListEndpointsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
@@ -1345,6 +1351,8 @@ export interface ListJobDefinitionsRequest {
   storageMoverName: string;
   /** The name of the Project resource. */
   projectName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Job Definition resource. */
 export interface JobDefinition {
@@ -1379,6 +1387,8 @@ export interface ListJobRunsRequest {
   projectName: string;
   /** The name of the Job Definition resource. */
   jobDefinitionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Job Run resource. */
 export interface JobRun {
@@ -1402,7 +1412,10 @@ export interface JobRunList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1435,7 +1448,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1446,6 +1459,8 @@ export interface ListProjectsRequest {
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Project resource. */
 export interface Project {
@@ -1472,6 +1487,8 @@ export interface ProjectList {
 export interface ListStorageMoverBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageMoverTagsMap = { [key: string]: string | undefined };
@@ -1506,6 +1523,8 @@ export interface ListStorageMoversRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Project properties. */
 export interface ProjectPropertiesInput {
@@ -1876,7 +1895,8 @@ export const AgentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AgentsCreateOrUpdateRequest>,
   output: __S(39, __c2, 7) as any as S.Schema<AgentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1893,7 +1913,8 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1910,7 +1931,8 @@ export const DeleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteAgentRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1927,7 +1949,8 @@ export const DeleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1944,7 +1967,8 @@ export const DeleteEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteEndpointRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1961,7 +1985,8 @@ export const DeleteJobDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteJobDefinitionRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteJobDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1978,7 +2003,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1995,7 +2021,8 @@ export const DeleteStorageMover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<DeleteStorageMoverRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteStorageMoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2012,7 +2039,8 @@ export const EndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c47, 8) as any as S.Schema<EndpointsCreateOrUpdateRequest>,
   output: __S(781, __c48, 13) as any as S.Schema<EndpointsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2029,7 +2057,8 @@ export const GetAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetAgentRequest>,
   output: __S(39, __c2, 7) as any as S.Schema<GetAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2046,7 +2075,8 @@ export const GetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<GetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2063,7 +2093,8 @@ export const GetEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetEndpointRequest>,
   output: __S(781, __c48, 13) as any as S.Schema<GetEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2080,7 +2111,8 @@ export const GetJobDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetJobDefinitionRequest>,
   output: __S(155, __c9, 11) as any as S.Schema<GetJobDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2097,7 +2129,8 @@ export const GetJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetJobRunRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<GetJobRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2114,7 +2147,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2131,7 +2165,8 @@ export const GetStorageMover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetStorageMoverRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<GetStorageMoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2148,7 +2183,8 @@ export const JobDefinitionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(273, __c17, 1) as any as S.Schema<JobDefinitionsCreateOrUpdateRequest>,
   output: __S(155, __c9, 11) as any as S.Schema<JobDefinitionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2165,7 +2201,8 @@ export const JobDefinitionsReconcileJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<JobDefinitionsReconcileJobRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<JobRunResourceId>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2174,156 +2211,228 @@ export const JobDefinitionsReconcileJob: API.OperationMethod<
 
 export type ListAgentsError = AzureOpError;
 /** Lists all Agents in a Storage Mover. */
-export const ListAgents: API.OperationMethod<
+export const ListAgents: API.PaginatedOperationMethod<
   ListAgentsRequest,
   AgentList,
   ListAgentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Agent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListAgentsRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<AgentList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAgents",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionsError = AzureOpError;
 /** Lists all Connections in a Storage Mover. */
-export const ListConnections: API.OperationMethod<
+export const ListConnections: API.PaginatedOperationMethod<
   ListConnectionsRequest,
   ConnectionList,
   ListConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListConnectionsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ConnectionList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEndpointsError = AzureOpError;
 /** Lists all Endpoints in a Storage Mover. */
-export const ListEndpoints: API.OperationMethod<
+export const ListEndpoints: API.PaginatedOperationMethod<
   ListEndpointsRequest,
   EndpointList,
   ListEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Endpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<EndpointList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobDefinitionsError = AzureOpError;
 /** Lists all Job Definitions in a Project. */
-export const ListJobDefinitions: API.OperationMethod<
+export const ListJobDefinitions: API.PaginatedOperationMethod<
   ListJobDefinitionsRequest,
   JobDefinitionList,
   ListJobDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListJobDefinitionsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<JobDefinitionList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobDefinitions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobRunsError = AzureOpError;
 /** Lists all Job Runs in a Job Definition. */
-export const ListJobRuns: API.OperationMethod<
+export const ListJobRuns: API.PaginatedOperationMethod<
   ListJobRunsRequest,
   JobRunList,
   ListJobRunsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListJobRunsRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<JobRunList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobRuns",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(436, __c27, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectsError = AzureOpError;
 /** Lists all Projects in a Storage Mover. */
-export const ListProjects: API.OperationMethod<
+export const ListProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
   ProjectList,
   ListProjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ProjectList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageMoverBySubscriptionError = AzureOpError;
 /** Lists all Storage Movers in a subscription. */
-export const ListStorageMoverBySubscription: API.OperationMethod<
+export const ListStorageMoverBySubscription: API.PaginatedOperationMethod<
   ListStorageMoverBySubscriptionRequest,
   StorageMoverList,
   ListStorageMoverBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageMover
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListStorageMoverBySubscriptionRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<StorageMoverList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageMoverBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageMoversError = AzureOpError;
 /** Lists all Storage Movers in a resource group. */
-export const ListStorageMovers: API.OperationMethod<
+export const ListStorageMovers: API.PaginatedOperationMethod<
   ListStorageMoversRequest,
   StorageMoverList,
   ListStorageMoversError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageMover
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListStorageMoversRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<StorageMoverList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageMovers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ProjectsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Project resource, which is a logical grouping of related jobs. */
@@ -2335,7 +2444,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2352,7 +2462,8 @@ export const StartJobDefinitionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<StartJobDefinitionJobRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<JobRunResourceId>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2369,7 +2480,8 @@ export const StopJobDefinitionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<StopJobDefinitionJobRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<JobRunResourceId>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2386,7 +2498,8 @@ export const StorageMoversCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<StorageMoversCreateOrUpdateRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<StorageMoversCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2403,7 +2516,8 @@ export const UpdateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c38, 1) as any as S.Schema<UpdateAgentRequest>,
   output: __S(39, __c2, 7) as any as S.Schema<UpdateAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2420,7 +2534,8 @@ export const UpdateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(629, __c39, 5) as any as S.Schema<UpdateEndpointRequest>,
   output: __S(781, __c48, 13) as any as S.Schema<UpdateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2437,7 +2552,8 @@ export const UpdateJobDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(641, __c40, 1) as any as S.Schema<UpdateJobDefinitionRequest>,
   output: __S(155, __c9, 11) as any as S.Schema<UpdateJobDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2454,7 +2570,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2471,7 +2588,8 @@ export const UpdateStorageMover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<UpdateStorageMoverRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<UpdateStorageMoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3071,12 +3189,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAgentsRequest" });
@@ -3099,12 +3219,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionsRequest" });
@@ -3158,12 +3280,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEndpointsRequest" });
@@ -3187,12 +3311,14 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobDefinitionsRequest" });
@@ -3217,12 +3343,14 @@ function __c26(j: number): any {
           storageMoverName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           jobDefinitionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobRunsRequest" });
@@ -3241,12 +3369,15 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StorageMover/operations",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3274,7 +3405,7 @@ function __c27(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(435, __c27, 3)),
+          value: __S(435, __c27, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3288,12 +3419,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageMoverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -3314,12 +3447,14 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageMoverBySubscriptionRequest" });
@@ -3345,12 +3480,14 @@ function __c31(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageMoversRequest" });

@@ -41,6 +41,7 @@ const spec: SdkSpec = {
     contextType: "ZeroSslOpContext",
     commonErrorType: "ZeroSslOpError",
     commonErrorClasses: [],
+    serviceErrors: "ZeroSslServiceErrors",
     protocol: "ZeroSslProtocol",
     retry: "Retry.Retry",
   },

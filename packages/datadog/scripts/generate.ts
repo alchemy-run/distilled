@@ -64,7 +64,7 @@ const datadogSpec: SdkSpec = {
   operationDecl: {
     contextType: "DatadogOpContext",
     commonErrorType: "DatadogOpError",
-    commonErrorClasses: ["UnknownDatadogError"],
+    serviceErrors: "DatadogServiceErrors",
     protocol: "DatadogProtocol",
     retry: "Retry.Retry",
   },

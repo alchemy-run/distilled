@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTinybirdError } from "../errors.ts";
+import { TinybirdServiceErrors } from "../errors.ts";
 import { TinybirdProtocol, type TinybirdOpError, type TinybirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -65,7 +65,8 @@ export const createVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateVariableRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<CreateVariableResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82,7 +83,8 @@ export const deleteVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<DeleteVariableRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeleteVariableResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99,7 +101,8 @@ export const getVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<GetVariableRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<GetVariableResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -116,7 +119,8 @@ export const listVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c4, 0) as any as S.Schema<ListVariablesRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ListVariablesResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -133,7 +137,8 @@ export const updateVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c5, 0) as any as S.Schema<UpdateVariableRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdateVariableResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

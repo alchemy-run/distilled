@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Customer.io credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). The Journeys App API authenticates with an App API
  * Key as `Authorization: Bearer <apiKey>`.
  */

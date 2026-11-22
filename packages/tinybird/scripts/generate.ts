@@ -86,7 +86,7 @@ const spec: SdkSpec = {
     commonErrorType: "TinybirdOpError",
     // No per-operation error classes: failures dispatch by status through
     // core's shared map (src/errors.ts).
-    commonErrorClasses: ["UnknownTinybirdError"],
+    serviceErrors: "TinybirdServiceErrors",
     protocol: "TinybirdProtocol",
     retry: "Retry.Retry",
   },

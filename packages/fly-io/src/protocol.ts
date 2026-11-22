@@ -1,25 +1,32 @@
-import * as API from "@distilled.cloud/core/api";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
-  type ConfigError,
-  type InvalidInput,
+  InvalidInput,
   type UnknownErrorProps,
 } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
+  encodeLabel,
   getAnn,
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  makeRestProtocol,
+  declaredStatusClass,
+  restProtocol,
   unwrapRedactedDeep,
   validateSuccess,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { SdkError } from "@distilled.cloud/core/sdk-error";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), and Sprites REST. The
  * GraphQL API is a Query SDK (`./GraphQL`, src/graphql-transport.ts).
@@ -36,22 +43,18 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
  *   Authorization: FlyV1 {FLY_API_TOKEN}
  *
  * Org slug comes from Machines `GET /tokens/current` (GraphQL fallback).
- * The minted token is cached process-wide, then sent as
+ * The minted token is cached per `Credentials` layer value, then sent as
  * `Authorization: Bearer` on sprite ops. There is no `SPRITES_TOKEN`.
  */
 import * as Context from "effect/Context";
-import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
 import {
   Credentials,
   DEFAULT_FLY_API_BASE_URL,
@@ -63,31 +66,33 @@ import {
   FlyIoParseError,
   SpritesNotEnabled,
   UnknownFlyIoError,
-  type DefaultErrors,
+  type FlyIoServiceError,
 } from "./errors.ts";
 import { httpSymbol, type HttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Fly.io operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * FlyIoOpError, FlyIoOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Machines and MPG operation fails with besides its
+ * own errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, FlyIoOpError, FlyIoOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
 export type FlyIoOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | FlyIoServiceError
+  | ErrorOf<typeof FlyIoProtocol | typeof FlyApiProtocol>;
 
 /** Context (requirements) shared by Machines / MPG operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
 
+/** An instance of one of core's status classes (`HTTP_STATUS_MAP`). */
+type CoreStatusError = InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>;
+
 /**
- * Sprites operations resolve {@link Credentials} (`FLY_API_TOKEN`) and mint
- * a Sprites bearer. {@link SpritesNotEnabled} surfaces from that mint.
+ * What every generated Sprites operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with.
  */
-export type SpritesOpError = FlyIoOpError | SpritesNotEnabled;
+export type SpritesOpError = FlyIoServiceError | ErrorOf<typeof SpritesProtocol>;
 export type SpritesOpContext = FlyIoOpContext;
 
 const flyErrorEnvelope = (body: unknown) => {
@@ -125,7 +130,7 @@ const resolveFlyCreds = /*@__PURE__*/ Effect.gen(function* () {
 export class MachineIdentity
   extends /*@__PURE__*/ Context.Service<MachineIdentity, true>()("FlyIoMachineIdentity") {}
 
-const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+const FlyIoProtocolRest = /*@__PURE__*/ restProtocol({
   credentials: resolveFlyCreds,
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
@@ -136,28 +141,25 @@ const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProto
   parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
-export const FlyIoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const request = yield* rest.encode(args);
-          const machine = yield* Effect.serviceOption(MachineIdentity);
-          if (Option.isNone(machine)) return request;
-          return request.pipe(
-            HttpClientRequest.removeHeader("authorization"),
-            HttpClientRequest.setHeader("connection", "close"),
-          );
-        }),
-      decode: rest.decode,
-    });
-  }),
-).pipe(/*@__PURE__*/ Layer.provide(FlyIoProtocolRest));
+const flyIoProtocolMethods = {
+  encode: (args) =>
+    Effect.gen(function* () {
+      const request = yield* FlyIoProtocolRest.encode(args);
+      const machine = yield* Effect.serviceOption(MachineIdentity);
+      if (Option.isNone(machine)) return request;
+      return request.pipe(
+        HttpClientRequest.removeHeader("authorization"),
+        HttpClientRequest.setHeader("connection", "close"),
+      );
+    }),
+  // Read on each call, so a bundle without Machines operations drops both.
+  decode: (args) => FlyIoProtocolRest.decode(args),
+} satisfies Protocol<unknown, unknown>;
+
+export const FlyIoProtocol: ProtocolOf<typeof flyIoProtocolMethods> = flyIoProtocolMethods;
 
 /** MPG UI-EX REST at `https://api.fly.io` with the Machines bearer token. */
-export const FlyApiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const FlyApiProtocol = /*@__PURE__*/ restProtocol({
   credentials: resolveFlyCreds,
   baseUrl: () => DEFAULT_FLY_API_BASE_URL,
   headers: (creds) => ({
@@ -211,8 +213,6 @@ const parseSpritesExecFrames = (
   }
   return { stdout, stderr, exit_code };
 };
-
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** Strip a leading `FlyV1` / `Bearer` scheme so we can re-prefix `FlyV1`. */
 const stripFlyAuthScheme = (token: string): string => {
@@ -276,32 +276,45 @@ const unknownError = (
 const errorEnv = (body: unknown): { message?: string; code?: string } =>
   spritesErrorEnvelope(body) ?? flyErrorEnvelope(body) ?? {};
 
+// A numeric view of core's status map; every class takes `{ message, retryAfter? }`.
+const statusMap: Readonly<
+  Record<
+    number,
+    | (new (args: {
+        message: string;
+        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+      }) => CoreStatusError)
+    | undefined
+  >
+> = HTTP_STATUS_MAP;
+
+/**
+ * What a failed mint request fails with. It is not an operation's response,
+ * so there are no declared classes to match: the status class is core's.
+ */
 const failHttp = (
   status: number,
   body: unknown,
   text: string,
   headers: Record<string, string | undefined>,
-): Effect.Effect<never> => {
+) => {
   const env = errorEnv(body);
   const message = env.message ?? (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
   if (status === 401 && SPRITES_NOT_ENABLED.test(haystackOf(body, message))) {
-    return fail(new SpritesNotEnabled({ message }));
+    return Effect.fail(new SpritesNotEnabled({ message }));
   }
-  const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-    | (new (args: {
-        message: string;
-        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-      }) => unknown)
-    | undefined;
+  const StatusClass = statusMap[status];
   if (StatusClass && status >= 400) {
-    return fail(
+    return Effect.fail(
       new StatusClass({
         message,
         retryAfter: parseRetryAfterForStatus(status, headers),
       }),
     );
   }
-  return fail(unknownError({ status, code: env.code, message, body: body ?? text }, headers));
+  return Effect.fail(
+    unknownError({ status, code: env.code, message, body: body ?? text }, headers),
+  );
 };
 
 const orgFromTokensCurrent = (body: unknown): string | undefined => {
@@ -388,9 +401,15 @@ const mintOnce = (fly: Config) =>
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient;
     const orgSlug = yield* discoverOrgSlug(fly);
+    const orgLabel = encodeLabel("orgSlug", orgSlug);
+    if (orgLabel instanceof InvalidInput) {
+      return yield* new FlyConfigError({
+        message: `The discovered Fly organization slug ${JSON.stringify(orgSlug)} cannot be a URL path segment`,
+      });
+    }
     const macaroon = stripFlyAuthScheme(Redacted.value(fly.apiKey));
     const request = HttpClientRequest.make("POST")(
-      `${DEFAULT_SPRITES_API_BASE_URL}/organizations/${encodeURIComponent(orgSlug)}/tokens`,
+      `${DEFAULT_SPRITES_API_BASE_URL}/organizations/${orgLabel}/tokens`,
     ).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `FlyV1 ${macaroon}`,
@@ -411,7 +430,7 @@ const mintOnce = (fly: Config) =>
     const token =
       json !== null && typeof json === "object" ? (json as { token?: unknown }).token : undefined;
     if (typeof token !== "string" || token.length === 0) {
-      return yield* fail(
+      return yield* Effect.fail(
         new FlyIoParseError({
           body: "[REDACTED]",
           cause: "mint response missing token",
@@ -421,63 +440,73 @@ const mintOnce = (fly: Config) =>
     return Redacted.make(token);
   });
 
-// Keyed by the Fly token itself: `Redacted` hashes and compares by value.
-const mintedTokens = /*@__PURE__*/ MutableHashMap.empty<
-  Redacted.Redacted<string>,
-  Redacted.Redacted<string>
->();
-const mintInFlight = /*@__PURE__*/ MutableHashMap.empty<
-  Redacted.Redacted<string>,
-  Deferred.Deferred<Redacted.Redacted<string>, Effect.Error<ReturnType<typeof mintOnce>>>
+/** One Sprites bearer cache per Fly token, with the latest config that used it. */
+interface SpritesTokenCache {
+  fly: Config;
+  readonly token: Effect.Effect<
+    Redacted.Redacted<string>,
+    Effect.Error<ReturnType<typeof mintOnce>>,
+    HttpClient.HttpClient
+  >;
+}
+
+/**
+ * The Sprites bearer caches of each `Credentials` layer value, keyed by the
+ * Fly token (`Redacted` hashes and compares by value), so a layer that
+ * resolves another token (a new `FLY_API_TOKEN`) mints for it. Two layers
+ * never share a bearer.
+ */
+const spritesTokens = /*@__PURE__*/ new WeakMap<
+  Credentials["Service"],
+  MutableHashMap.MutableHashMap<Redacted.Redacted<string>, SpritesTokenCache>
 >();
 
-/** Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. */
-const mintSpritesToken = (fly: Config) =>
-  Effect.uninterruptibleMask((restore) =>
-    Effect.suspend(() => {
-      const key = fly.apiKey;
-      const hit = MutableHashMap.get(mintedTokens, key);
-      if (Option.isSome(hit)) return Effect.succeed(hit.value);
-      const pending = MutableHashMap.get(mintInFlight, key);
-      if (Option.isSome(pending)) {
-        return restore(Deferred.await(pending.value));
-      }
-      const result = Deferred.makeUnsafe<
-        Redacted.Redacted<string>,
-        Effect.Error<ReturnType<typeof mintOnce>>
-      >();
-      MutableHashMap.set(mintInFlight, key, result);
-      return restore(mintOnce(fly)).pipe(
-        Effect.onExit((exit) =>
-          Effect.gen(function* () {
-            if (Exit.isSuccess(exit)) {
-              MutableHashMap.set(mintedTokens, key, exit.value);
-            }
-            // Release all waiters, including on defects and owner interruption.
-            MutableHashMap.remove(mintInFlight, key);
-            yield* Deferred.done(result, exit);
-          }),
-        ),
-      );
-    }),
-  );
+/**
+ * The Sprites bearer for `fly`, minted from `FLY_API_TOKEN` and cached per
+ * `Credentials` layer value. The bearer does not expire; concurrent calls
+ * share one mint (core `refreshing`, AGENTS.md rule 16), and a failed mint
+ * is tried again.
+ */
+const mintSpritesToken = (credentials: Credentials["Service"], fly: Config) =>
+  Effect.suspend(() => {
+    let byToken = spritesTokens.get(credentials);
+    if (byToken === undefined) {
+      byToken = MutableHashMap.empty();
+      spritesTokens.set(credentials, byToken);
+    }
+    const hit = MutableHashMap.get(byToken, fly.apiKey);
+    if (Option.isSome(hit)) {
+      hit.value.fly = fly;
+      return hit.value.token;
+    }
+    const cache: SpritesTokenCache = {
+      fly,
+      token: refreshing(
+        Effect.suspend(() => mintOnce(cache.fly)),
+        () => Number.POSITIVE_INFINITY,
+        {
+          onTimeout: (timeoutMs) =>
+            new FlyConfigError({
+              message: `Sprites token mint timed out after ${timeoutMs / 1000} s`,
+            }),
+        },
+      ),
+    };
+    MutableHashMap.set(byToken, fly.apiKey, cache);
+    return cache.token;
+  });
 
-const encodeSpritesRequest = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encodeSpritesRequest = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
-    const fly = yield* resolveFlyCreds;
+    const credentials = yield* Credentials;
+    const fly = yield* credentials;
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     const mint = isMintOp(http);
     let authorization: string;
     if (mint) {
       authorization = `FlyV1 ${stripFlyAuthScheme(Redacted.value(fly.apiKey))}`;
     } else {
-      const token = yield* mintSpritesToken(fly);
+      const token = yield* mintSpritesToken(credentials, fly);
       authorization = `Bearer ${Redacted.value(token)}`;
     }
     return yield* buildRequest({
@@ -491,15 +520,7 @@ const encodeSpritesRequest = ({
     });
   });
 
-const decodeSpritesResponse = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decodeSpritesResponse = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
     const buffer = yield* response.arrayBuffer.pipe(Effect.map((bytes) => new Uint8Array(bytes)));
     const text = new TextDecoder().decode(buffer);
@@ -520,7 +541,7 @@ const decodeSpritesResponse = ({
       const env = nonJson ? {} : errorEnv(json);
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
       if (SPRITES_NOT_ENABLED.test(haystackOf(nonJson ? text : json, message))) {
-        return yield* fail(new SpritesNotEnabled({ message }));
+        return yield* Effect.fail(new SpritesNotEnabled({ message }));
       }
       const typed = matchTypedError(
         errorClasses,
@@ -533,16 +554,13 @@ const decodeSpritesResponse = ({
         ],
         { body: nonJson ? text : json, headers },
       );
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
-      const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
+      // Core's class for the status, which the service declares
+      // (`FlyIoServiceErrors`).
+      const StatusErrorClass = declaredStatusClass(status, errorClasses);
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -550,14 +568,16 @@ const decodeSpritesResponse = ({
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(new UnknownFlyIoError({ status, message, body: nonJson ? text : json }));
+      return yield* Effect.fail(
+        new UnknownFlyIoError({ status, message, body: nonJson ? text : json }),
+      );
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
@@ -573,15 +593,13 @@ const decodeSpritesResponse = ({
         nonJson,
       },
       (info) => new FlyIoParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
+const spritesProtocolMethods = {
+  encode: encodeSpritesRequest,
+  decode: decodeSpritesResponse,
+} satisfies Protocol<unknown, unknown>;
+
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
-export const SpritesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) =>
-      encodeSpritesRequest(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decodeSpritesResponse(args) as Effect.Effect<unknown>,
-  }),
-);
+export const SpritesProtocol: ProtocolOf<typeof spritesProtocolMethods> = spritesProtocolMethods;

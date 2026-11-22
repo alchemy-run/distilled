@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -262,7 +263,7 @@ export interface CreateApplicationRequest {
   name?: string | undefined;
   releaseLabel: string;
   type: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
   maximumCapacity?: MaximumAllowedResources | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -632,7 +633,7 @@ export interface StartApplicationRequest {
 export interface StartApplicationResponse {}
 export interface StartJobRunRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn: string;
   executionIamPolicy?: JobRunExecutionIamPolicy | undefined;
   jobDriver?: JobDriver | undefined;
@@ -650,7 +651,7 @@ export interface StartJobRunResponse {
 }
 export interface StartSessionRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn: string;
   configurationOverrides?: SessionConfigurationOverrides | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -687,7 +688,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
   maximumCapacity?: MaximumAllowedResources | undefined;
   autoStartConfiguration?: AutoStartConfig | undefined;
@@ -727,6 +728,7 @@ export const cancelJobRun: API.OperationMethod<
   input: __S(160, __c20, 0) as any as S.Schema<CancelJobRunRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<CancelJobRunResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
@@ -757,6 +759,7 @@ export const createApplication: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
@@ -781,6 +784,7 @@ export const deleteApplication: API.OperationMethod<
   input: __S(232, __c29, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -805,6 +809,7 @@ export const getApplication: API.OperationMethod<
   input: __S(248, __c31, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<GetApplicationResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
@@ -833,6 +838,7 @@ export const getDashboardForJobRun: API.OperationMethod<
   input: __S(272, __c34, 0) as any as S.Schema<GetDashboardForJobRunRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<GetDashboardForJobRunResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardForJobRun",
@@ -857,6 +863,7 @@ export const getJobRun: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetJobRunRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<GetJobRunResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
@@ -885,6 +892,7 @@ export const getResourceDashboard: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<GetResourceDashboardRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<GetResourceDashboardResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
@@ -909,6 +917,7 @@ export const getSession: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<GetSessionResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -933,6 +942,7 @@ export const getSessionEndpoint: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetSessionEndpointRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetSessionEndpointResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
@@ -954,6 +964,7 @@ export const listApplications: API.PaginatedOperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListApplicationsRequest>,
   output: __S(59, __c7, 3) as any as S.Schema<ListApplicationsResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplications",
@@ -985,6 +996,7 @@ export const listJobRunAttempts: API.PaginatedOperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<ListJobRunAttemptsRequest>,
   output: __S(67, __c8, 3) as any as S.Schema<ListJobRunAttemptsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRunAttempts",
@@ -1012,6 +1024,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<ListJobRunsRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<ListJobRunsResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRuns",
@@ -1043,6 +1056,7 @@ export const listSessions: API.PaginatedOperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<ListSessionsRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSessions",
@@ -1073,6 +1087,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1103,6 +1118,7 @@ export const startApplication: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
@@ -1133,6 +1149,7 @@ export const startJobRun: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
@@ -1165,6 +1182,7 @@ export const startSession: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
@@ -1189,6 +1207,7 @@ export const stopApplication: API.OperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<StopApplicationRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<StopApplicationResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
@@ -1213,6 +1232,7 @@ export const tagResource: API.OperationMethod<
   input: __S(128, __c16, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1237,6 +1257,7 @@ export const terminateSession: API.OperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<TerminateSessionRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<TerminateSessionResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
@@ -1261,6 +1282,7 @@ export const untagResource: API.OperationMethod<
   input: __S(144, __c18, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1285,6 +1307,7 @@ export const updateApplication: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<UpdateApplicationResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
@@ -1762,7 +1785,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
           executionIamPolicy: S.optional(__S(16, __c2, 0)),
           jobDriver: S.optional(__S(21, __c2, 5)),
@@ -1795,7 +1818,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
           configurationOverrides: S.optional(__S(40, __c5, 0)),
           tags: S.optional(__S(192, __c24, 0)),
@@ -1905,7 +1928,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           initialCapacity: S.optional(__S(226, __c28, 2)),
           maximumCapacity: S.optional(__S(227, __c28, 3)),
           autoStartConfiguration: S.optional(__S(228, __c28, 4)),
@@ -1970,7 +1993,7 @@ function __c21(j: number): any {
           name: S.optional(S.String),
           releaseLabel: S.String,
           type: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           initialCapacity: S.optional(__S(226, __c28, 2)),
           maximumCapacity: S.optional(__S(227, __c28, 3)),
           tags: S.optional(__S(192, __c24, 0)),

@@ -1,17 +1,15 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PrismaProtocol -- hand-written.
  *
  * The Prisma Management API (api.prisma.io) is a plain bearer-auth
  * JSON REST API with no response envelope, so this is a thin
- * `makeRestProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
+ * `restProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
  * for the shared request/response machinery). What is Prisma's own:
  *
  *   request:  `Authorization: Bearer <apiToken>` when a token is set, +
@@ -27,24 +25,18 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { type DefaultErrors, UnknownPrismaError, PrismaParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownPrismaError, PrismaParseError, type PrismaServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Prisma operation.
- * Generated service files annotate operations with `API.OperationMethod<I, O,
- * PrismaOpError, PrismaOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated Prisma operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, PrismaOpError, PrismaOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type PrismaOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type PrismaOpError = PrismaServiceError | ErrorOf<typeof PrismaProtocol>;
 
 /** Context (requirements) shared by every generated Prisma operation. */
 export type PrismaOpContext = Credentials | HttpClient.HttpClient;
@@ -69,12 +61,12 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return env && { code: env.code, message: env.message };
 };
 
-export const PrismaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const PrismaProtocol = /*@__PURE__*/ restProtocol({
   // Resolved per request on the calling fiber -- the Credentials service
   // holds an effect, so rotated tokens are picked up. Its ConfigError
   // channel is erased at this boundary (Protocol effects carry none) and
   // reintroduced for callers by `PrismaOpError`.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => {
     const headers: Record<string, string> = {};

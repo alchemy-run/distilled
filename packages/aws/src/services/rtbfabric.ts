@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -259,7 +260,7 @@ export type AcmCertificateArn = string;
 export interface AssociateCertificateRequest {
   gatewayId: string;
   acmCertificateArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export type CertificateAssociationStatus =
   | "PENDING_ASSOCIATION"
@@ -277,7 +278,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateInboundExternalLinkRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   attributes?: LinkAttributes | undefined;
   logSettings: LinkLogSettings;
@@ -328,7 +329,7 @@ export interface RuleCondition {
   queryStringExists?: string | undefined;
 }
 export interface CreateLinkRoutingRuleRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   linkId: string;
   priority: number;
@@ -351,7 +352,7 @@ export interface CreateLinkRoutingRuleResponse {
 }
 export type URL = string;
 export interface CreateOutboundExternalLinkRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   attributes?: LinkAttributes | undefined;
   publicEndpoint: string;
@@ -372,7 +373,7 @@ export interface CreateRequesterGatewayRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  clientToken: string;
+  clientToken?: string | undefined;
   description?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -450,7 +451,7 @@ export interface CreateResponderGatewayRequest {
   listenerConfig?: ListenerConfig | undefined;
   trustStoreConfiguration?: TrustStoreConfiguration | undefined;
   managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   description?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   gatewayType?: GatewayType | undefined;
@@ -782,7 +783,7 @@ export interface UpdateLinkResponse {
   status: LinkStatus;
 }
 export interface UpdateLinkModuleFlowRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   linkId: string;
   modules: ModuleConfiguration[];
@@ -805,7 +806,7 @@ export interface UpdateLinkRoutingRuleResponse {
   updatedAt: Date;
 }
 export interface UpdateRequesterGatewayRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   description?: string | undefined;
 }
@@ -820,7 +821,7 @@ export interface UpdateResponderGatewayRequest {
   listenerConfig?: ListenerConfig | undefined;
   trustStoreConfiguration?: TrustStoreConfiguration | undefined;
   managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   description?: string | undefined;
   clientRoutingPolicy?: ClientRoutingPolicy | undefined;
@@ -859,6 +860,7 @@ export const acceptLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptLink",
@@ -895,6 +897,7 @@ export const associateCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
@@ -931,6 +934,7 @@ export const createInboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInboundExternalLink",
@@ -969,6 +973,7 @@ export const createLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
@@ -1007,6 +1012,7 @@ export const createLinkRoutingRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLinkRoutingRule",
@@ -1043,6 +1049,7 @@ export const createOutboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundExternalLink",
@@ -1077,6 +1084,7 @@ export const createRequesterGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequesterGateway",
@@ -1113,6 +1121,7 @@ export const createResponderGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponderGateway",
@@ -1147,6 +1156,7 @@ export const deleteInboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundExternalLink",
@@ -1183,6 +1193,7 @@ export const deleteLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
@@ -1217,6 +1228,7 @@ export const deleteLinkRoutingRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLinkRoutingRule",
@@ -1251,6 +1263,7 @@ export const deleteOutboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundExternalLink",
@@ -1285,6 +1298,7 @@ export const deleteRequesterGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequesterGateway",
@@ -1319,6 +1333,7 @@ export const deleteResponderGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponderGateway",
@@ -1355,6 +1370,7 @@ export const disassociateCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
@@ -1387,6 +1403,7 @@ export const getCertificateAssociation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAssociation",
@@ -1419,6 +1436,7 @@ export const getInboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInboundExternalLink",
@@ -1455,6 +1473,7 @@ export const getLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
@@ -1487,6 +1506,7 @@ export const getLinkRoutingRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkRoutingRule",
@@ -1519,6 +1539,7 @@ export const getOutboundExternalLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundExternalLink",
@@ -1551,6 +1572,7 @@ export const getRequesterGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequesterGateway",
@@ -1583,6 +1605,7 @@ export const getResponderGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponderGateway",
@@ -1616,6 +1639,7 @@ export const listCertificateAssociations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCertificateAssociations",
@@ -1655,6 +1679,7 @@ export const listLinkRoutingRules: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLinkRoutingRules",
@@ -1696,6 +1721,7 @@ export const listLinks: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLinks",
@@ -1726,6 +1752,7 @@ export const listRequesterGateways: API.PaginatedOperationMethod<
   input: __S(432, __c27, 0) as any as S.Schema<ListRequesterGatewaysRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<ListRequesterGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRequesterGateways",
@@ -1756,6 +1783,7 @@ export const listResponderGateways: API.PaginatedOperationMethod<
   input: __S(464, __c29, 0) as any as S.Schema<ListResponderGatewaysRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<ListResponderGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponderGateways",
@@ -1794,6 +1822,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1830,6 +1859,7 @@ export const rejectLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectLink",
@@ -1862,6 +1892,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1894,6 +1925,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1930,6 +1962,7 @@ export const updateLink: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
@@ -1966,6 +1999,7 @@ export const updateLinkModuleFlow: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkModuleFlow",
@@ -2000,6 +2034,7 @@ export const updateLinkRoutingRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkRoutingRule",
@@ -2034,6 +2069,7 @@ export const updateRequesterGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequesterGateway",
@@ -2070,6 +2106,7 @@ export const updateResponderGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponderGateway",
@@ -2126,7 +2163,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
           priority: S.Number,
@@ -2180,7 +2217,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           attributes: S.optional(__S(722, __c45, 2)),
           publicEndpoint: S.String,
@@ -2218,7 +2255,7 @@ function __c5(j: number): any {
           vpcId: S.String,
           subnetIds: __S(656, __c41, 0),
           securityGroupIds: __S(656, __c41, 0),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           tags: S.optional(__S(800, __c50, 0)),
         }).pipe(
@@ -2252,7 +2289,7 @@ function __c6(j: number): any {
           listenerConfig: S.optional(__S(112, __c7, 0)),
           trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
           managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           tags: S.optional(__S(800, __c50, 0)),
           gatewayType: S.optional(S.String),
@@ -3046,7 +3083,7 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
           modules: __S(684, __c42, 12),
@@ -3102,7 +3139,7 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           description: S.optional(S.String),
         }).pipe(
@@ -3129,7 +3166,7 @@ function __c39(j: number): any {
           listenerConfig: S.optional(__S(112, __c7, 0)),
           trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
           managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           description: S.optional(S.String),
           clientRoutingPolicy: S.optional(S.String),
@@ -3322,7 +3359,7 @@ function __c47(j: number): any {
         S.Struct({
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           acmCertificateArn: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/certificate" }),
@@ -3349,7 +3386,7 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           attributes: S.optional(__S(722, __c45, 2)),
           logSettings: __S(738, __c46, 2),

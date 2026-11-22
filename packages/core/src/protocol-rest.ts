@@ -1,9 +1,9 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
@@ -24,21 +24,30 @@ import {
   responseHeaderMembers,
   withResponseCode,
   withResponseHeaders,
+  type InvalidInput,
   type ResponseHeaderMember,
 } from "./protocol-http.ts";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  Operation,
+  DeclaredError,
+  DeclaredErrorClass,
+  Protocol,
+} from "./protocol.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import { SdkError } from "./sdk-error.ts";
 import * as Send from "./send.ts";
 import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
  *
- * `makeRestProtocol(options)` builds a core {@link API.Protocol} layer:
+ * `restProtocol(options)` builds a core protocol (core/protocol):
  *
  *   request:  credentials resolved from the CALLING fiber's context on every
- *             request (the layer itself is memoized per process -- see
- *             `core/api`), auth headers + base URL from the provider's
+ *             request, auth headers + base URL from the provider's
  *             options, request built by `buildRequest` from
  *             `core/protocol-http` (deep-unwrapping any `Redacted` input
  *             values first)
@@ -48,10 +57,11 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             the provider's `classifyError`, then per-op matcher
- *             classes (`matchTypedError`), then the status
- *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
- *             for unmapped 5xx, then the provider's `unknownError` fallback
+ *             the provider's `classifyError`, then a class the operation
+ *             or its service declares (by its matchers, `matchTypedError`,
+ *             or by status for one of core's status classes), then an
+ *             `InternalServerError` for any other 5xx, then the provider's
+ *             `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
  *             headers on retryable statuses.
  *
@@ -162,36 +172,63 @@ export interface RestErrorEnvelope {
   readonly message?: string;
 }
 
-export interface RestProtocolOptions<C> {
+/**
+ * What this module's own code fails with, whatever the options: the errors
+ * every REST protocol declares. A label that would address another resource
+ * (`InvalidInput`), a request it can't build or an operation it can't
+ * stream (`SdkError`), the transport or a body read (`HttpClientError`), and
+ * a 5xx response that neither the operation nor its service declares
+ * (`InternalServerError`, which the retry policy retries).
+ */
+export type RestProtocolError =
+  | InvalidInput
+  | SdkError
+  | HttpClientError.HttpClientError
+  | InternalServerError;
+
+/**
+ * Options of {@link restProtocol}. The type parameters after `Credentials`
+ * are what each option fails with or reads; `restProtocol` infers them from
+ * the options, and they are the errors its protocol declares.
+ */
+export interface RestProtocolOptions<
+  Credentials,
+  CredentialsError,
+  CredentialsRequirements,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
+> {
   /**
-   * Resolve credentials ON THE CALLING FIBER -- evaluated per request, never
-   * at layer build time, so context-provided credentials and token refreshes
-   * are picked up. Either an effect, or -- for the distilled
-   * credentials-service convention -- the `Credentials` service key whose
-   * value is that effect (read from the calling fiber's context; an
-   * already-resolved `Effect.succeed` value costs no extra fiber step). Its
-   * error/requirement channels are
-   * erased at the protocol boundary (Protocol effects carry none) and
-   * reintroduced for callers by the generated `<Sdk>OpError` /
-   * `<Sdk>OpContext` annotations.
+   * Resolve credentials ON THE CALLING FIBER -- evaluated per request, so
+   * context-provided credentials and token refreshes are picked up. Either
+   * an effect, or -- for the distilled credentials-service convention --
+   * the `Credentials` service key whose value is that effect (read from the calling fiber's context; an
+   * already-resolved `Effect.succeed` value costs no extra fiber step). What
+   * it fails with (declared on the credentials) reaches every operation
+   * through the protocol, and what it reads is the protocol's requirement.
    */
-  readonly credentials: Effect.Effect<C, any, any> | Context.Key<any, Effect.Effect<C, any, any>>;
+  readonly credentials:
+    | Effect.Effect<Credentials, CredentialsError, CredentialsRequirements>
+    | Context.Key<CredentialsRequirements, Effect.Effect<Credentials, CredentialsError>>;
   /**
    * API base URL from the resolved credentials. Receives the operation's
    * route so APIs with more than one endpoint (e.g. S2's account vs
    * per-basin hosts, chosen by path) can route per request; single-endpoint
    * providers ignore the argument. `server` is the operation's host name
    * (`T.Http({ server })`) for APIs that serve some operations from another
-   * host; map it to a base URL from the credentials. A THROWN error (e.g. a
-   * required scope missing from the credentials) is caught and surfaced on
-   * the calling effect's error channel rather than dying as a defect.
+   * host; map it to a base URL from the credentials. To refuse a route (e.g.
+   * a required scope missing from the credentials), return `Effect.fail` of
+   * the error the call fails with. A THROWN error fails the call with
+   * `SdkError`.
    */
   readonly baseUrl: (
-    credentials: C,
+    credentials: Credentials,
     target: { readonly uri: string; readonly method: string; readonly server?: string | undefined },
-  ) => string;
+  ) => string | Effect.Effect<never, RouteError>;
   /** Auth (and any fixed) headers from the resolved credentials. */
-  readonly headers: (credentials: C) => Record<string, string>;
+  readonly headers: (credentials: Credentials) => Record<string, string>;
   /**
    * Extract `{ code?, message? }` from a parsed non-2xx JSON body. Default:
    * lenient `{ code?, message? | error? }` (covers the common REST error
@@ -206,26 +243,19 @@ export interface RestProtocolOptions<C> {
    */
   readonly errorFieldsAt?: string;
   /**
-   * HTTP status -> error class constructed as `new Cls({ message, retryAfter
-   * })`. Default: core `HTTP_STATUS_MAP`. Consulted after per-op typed error
-   * matching; unmapped 5xx fall back to `InternalServerError`, everything
-   * else to {@link unknownError}.
-   */
-  readonly statusMap?: Readonly<Record<number, new (args: any) => any>>;
-  /**
-   * The provider's own reading of a failure, consulted before per-op typed
-   * matching and the status map: return the error to fail with, or
+   * The provider's own reading of a failure, consulted before the classes
+   * the operation and its service declare: return the error to fail with, or
    * `undefined` to decode the failure as usual. For rules a status alone
    * can't express, e.g. a 403 that is a rate limit because of its headers.
    */
-  readonly classifyError?: (info: RestErrorInfo) => unknown;
+  readonly classifyError?: (info: RestErrorInfo) => ClassifiedError | undefined;
   /**
    * Fallback error for failures nothing else matched: the SDK's
    * `Unknown<Sdk>Error`, built from {@link unknownErrorProps}. Only non-5xx
-   * statuses reach it (unmapped 5xx are `InternalServerError`), so the class
-   * carries no retryable category.
+   * statuses reach it (an undeclared 5xx is `InternalServerError`), so the
+   * class carries no retryable category.
    */
-  readonly unknownError: (info: RestErrorInfo) => unknown;
+  readonly unknownError: (info: RestErrorInfo) => UnknownError;
   /**
    * The SDK's `<Sdk>ParseError`, raised when a 2xx body does not match the
    * operation's output schema in strict mode (see
@@ -235,7 +265,7 @@ export interface RestProtocolOptions<C> {
    * with sensitive members; `cause` is the schema error, or `"Invalid JSON
    * response"`.
    */
-  readonly parseError: (info: RestParseErrorInfo) => unknown;
+  readonly parseError: (info: RestParseErrorInfo) => ParseError;
   /** Transform the parsed 2xx JSON before decoding (e.g. stripNulls). */
   readonly transformResponse?: (body: unknown) => unknown;
   /** Passed through to `buildRequest` (member-header transforms). */
@@ -246,16 +276,19 @@ export interface RestProtocolOptions<C> {
   readonly emptyJsonBody?: boolean;
 }
 
-/** The body of a streamed 2xx response, for {@link StreamFraming.stream}. */
-export interface FramedBody {
-  readonly body: Stream.Stream<Uint8Array, unknown>;
+/**
+ * The body of a streamed 2xx response, for {@link StreamFraming.stream}.
+ * `Failure` is what the call fails with.
+ */
+export interface FramedBody<Failure> {
+  readonly body: Stream.Stream<Uint8Array, Failure>;
   /**
    * Decode one parsed frame as one element of the output's `items`, as a
    * 2xx body decodes (key mapping, strict validation, `Redacted`).
    */
-  readonly item: (json: unknown, text: string) => Effect.Effect<unknown, unknown>;
+  readonly item: (json: unknown, text: string) => Effect.Effect<unknown, Failure>;
   /** The SDK's parse error for a frame that is not JSON. */
-  readonly invalid: (text: string) => unknown;
+  readonly invalid: (text: string) => Failure;
 }
 
 /** A plain call's framed body, read whole: the output JSON, or not JSON. */
@@ -280,7 +313,9 @@ export interface StreamFraming {
    * Each frame as it arrives, through `item`. `open` sends the request and
    * fails with the operation's typed error on a failed status.
    */
-  readonly stream: (open: Effect.Effect<FramedBody, unknown>) => Stream.Stream<unknown, unknown>;
+  readonly stream: <Failure, Requirements>(
+    open: Effect.Effect<FramedBody<Failure>, Failure, Requirements>,
+  ) => Stream.Stream<unknown, Failure, Requirements>;
 }
 
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
@@ -291,12 +326,6 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
     typeof b.message === "string" ? b.message : typeof b.error === "string" ? b.error : undefined;
   return { code, message };
 };
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but REST failures are real typed errors that operations re-surface via
-// their `errors: [...]` lists. Fail with the instance and erase the type
-// here; the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // =============================================================================
 // 2xx bodies
@@ -407,57 +436,99 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
  * The outcome of decoding a response body: the value, or the failure the
  * call fails with. Plain data, so decoding stays synchronous.
  */
-type Decoded =
+type Decoded<Failure> =
   | { readonly ok: true; readonly value: unknown }
-  | { readonly ok: false; readonly error: unknown };
+  | { readonly ok: false; readonly error: Failure };
 
 /**
- * Build a `Layer<Protocol>` for a simple REST JSON API. Assign the result to
- * a module-level const in the provider's `protocol.ts` -- `API.make` memoizes
- * protocol layers by value identity.
+ * The class core has for `status`, when the operation or its service
+ * declares it: a list of declared errors can hold core's status classes
+ * (`Unauthorized`, `TooManyRequests`, ...), which are matched by status.
+ * For a protocol that reads failed responses itself.
  */
-export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> => {
+export const declaredStatusClass = (
+  status: number,
+  declared: ReadonlyArray<DeclaredErrorClass>,
+): DeclaredErrorClass | undefined => {
+  const core: unknown = (HTTP_STATUS_MAP as Readonly<Record<number, unknown>>)[status];
+  return core === undefined ? undefined : declared.find((cls) => cls === core);
+};
+
+/**
+ * The methods of {@link restProtocol}, for either form of `credentials`.
+ * For the protocols core builds on them (core/protocol-grpc).
+ */
+export const restProtocolMethods = <
+  Credentials,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
+>(
+  options: RestProtocolOptions<
+    Credentials,
+    CredentialsError,
+    CredentialsRequirements,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+> => {
+  /** What a request that can't be built fails with. */
+  type RequestError = RouteError | InvalidInput | SdkError;
+  /** Everything a call fails with. */
+  type Failure =
+    | DeclaredError
+    | ClassifiedError
+    | UnknownError
+    | ParseError
+    | CredentialsError
+    | RequestError
+    | InternalServerError
+    | HttpClientError.HttpClientError;
+
   const errorEnvelope = options.errorEnvelope ?? defaultErrorEnvelope;
-  const statusMap: Readonly<Record<number, (new (args: any) => any) | undefined>> =
-    options.statusMap ?? HTTP_STATUS_MAP;
-  const credentialsKey = Context.isKey(options.credentials)
-    ? (options.credentials as Context.Key<any, Effect.Effect<C, any, any>>)
-    : undefined;
-  const credentialsEffect = options.credentials as Effect.Effect<C>;
+  // Told apart once, not per call.
+  const credentials = options.credentials;
+  const credentialsKey = Context.isKey(credentials) ? credentials : undefined;
+  const credentialsEffect = Context.isKey(credentials) ? undefined : credentials;
 
   /** The calling fiber's credentials, then `f` on them. */
-  const withCredentials = <B>(
+  const withCredentials = <B, E>(
     context: Context.Context<any>,
-    f: (creds: C) => Effect.Effect<B, any, any>,
-  ): Effect.Effect<B, any, any> =>
-    API.withValue(
-      credentialsKey === undefined ? credentialsEffect : Context.get(context, credentialsKey),
-      f,
-    );
+    f: (creds: Credentials) => Effect.Effect<B, E>,
+  ): Effect.Effect<B, CredentialsError | E, CredentialsRequirements> =>
+    API.withValue(credentialsEffect ?? Context.get(context, credentialsKey!), f);
 
   /**
-   * The request; fails with the error a refusing `baseUrl` threw, or with
+   * The request; fails with the error a refusing `baseUrl` returned, or with
    * `InvalidInput` for a label that would address another resource.
    */
   const requestFor = (
-    creds: C,
+    creds: Credentials,
     input: unknown,
     inputAst: AST.AST,
-  ): Effect.Effect<HttpClientRequest.HttpClientRequest> => {
+  ): Effect.Effect<HttpClientRequest.HttpClientRequest, RequestError> => {
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    let baseUrl: string;
+    let baseUrl: string | Effect.Effect<never, RouteError>;
     try {
       baseUrl = options.baseUrl(creds, {
         uri: http?.uri ?? "",
         method: http?.method ?? "",
         server: http?.server,
       });
-    } catch (e) {
-      // A baseUrl that refuses the route (missing scope in the
-      // credentials) fails the call with that error, typed for callers by
-      // the operation's declared error channel.
-      return fail(e);
+    } catch (cause) {
+      return Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` }));
     }
+    // A baseUrl that refuses the route (missing scope in the credentials)
+    // returns the failure.
+    if (typeof baseUrl !== "string") return baseUrl;
     return buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
@@ -466,7 +537,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
       emptyJsonBody: options.emptyJsonBody,
-    }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
+    });
   };
 
   /** Map a read response body to the call's outcome. */
@@ -476,9 +547,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     headers: Record<string, string | undefined>,
     text: string,
     outputAst: AST.AST,
-    errorClasses: ReadonlyArray<unknown>,
+    errorClasses: ReadonlyArray<DeclaredErrorClass>,
     framing: StreamFraming | undefined,
-  ): Decoded => {
+  ): Decoded<Failure> => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
     let json: unknown;
     let nonJson = false;
@@ -509,7 +580,8 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // The body and headers every error below carries.
       const response = { body: nonJson ? text : json, headers, fieldsAt: options.errorFieldsAt };
 
-      // 1. Per-operation typed error (matcher metadata on the class).
+      // 1. A declared error whose matcher fits (the operation's classes,
+      //    then its service's).
       const typed = matchTypedError(
         errorClasses,
         status,
@@ -523,9 +595,10 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       );
       if (typed !== undefined) return { ok: false, error: typed };
 
-      // 2. Status-mapped class (retryAfter only stamps on retryable
-      //    statuses -- parseRetryAfterForStatus gates on that).
-      const StatusErrorClass = statusMap[status];
+      // 2. Core's class for the status, when declared (retryAfter only
+      //    stamps on retryable statuses -- parseRetryAfterForStatus gates
+      //    on that).
+      const StatusErrorClass = declaredStatusClass(status, errorClasses);
       if (StatusErrorClass) {
         return {
           ok: false,
@@ -537,7 +610,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
         };
       }
 
-      // 3. Unmapped 5xx (e.g. proxy-specific statuses) -> retryable server
+      // 3. Any other 5xx (e.g. proxy-specific statuses) -> retryable server
       //    error rather than the unknown fallback.
       if (status >= 500) {
         return {
@@ -589,7 +662,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     json: unknown,
     nonJson: boolean,
     outputAst: AST.AST,
-  ): Decoded => {
+  ): Decoded<ParseError> => {
     const plan = decodePlanFor(outputAst);
     let body: unknown = nonJson ? text : json === undefined ? (plan.text ? "" : {}) : json;
     if (options.transformResponse) body = options.transformResponse(body);
@@ -615,12 +688,12 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     context: Context.Context<any>,
     response: HttpClientResponse.HttpClientResponse,
     outputAst: AST.AST,
-    errorClasses: ReadonlyArray<unknown>,
+    errorClasses: ReadonlyArray<DeclaredErrorClass>,
     framing: StreamFraming | undefined,
-  ): Effect.Effect<unknown> =>
+  ): Effect.Effect<unknown, Failure> =>
     // A body read that fails (reset or abort mid-body) fails the call with
-    // its `HttpClientError`, which every operation's error channel declares.
-    (response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
+    // its `HttpClientError`, a protocol error.
+    response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
       ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
       : Effect.flatMap(response.text, (text) => {
           recordPageHeaders(context, response.headers);
@@ -633,118 +706,239 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             errorClasses,
             framing,
           );
-          return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
-        })) as Effect.Effect<unknown>;
+          return decoded.ok ? Effect.succeed(decoded.value) : Effect.fail(decoded.error);
+        });
 
   /**
-   * Send `op`'s request on the calling fiber; decode the response, or open
-   * it as a stream (`openFramed`).
+   * Send `op`'s request on the calling fiber, then `receive` its response:
+   * decode it ({@link decodeCall}), or open it as a stream
+   * ({@link openFramed}).
    */
-  const send = (
-    op: API.PreparedOperation,
+  const send = <A>(
+    op: Operation,
     input: unknown,
-    streaming: boolean,
-  ): Effect.Effect<unknown> =>
+    receive: (
+      context: Context.Context<any>,
+      response: HttpClientResponse.HttpClientResponse,
+    ) => Effect.Effect<A, Failure>,
+  ): Effect.Effect<A, Failure, CredentialsRequirements> =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
           Effect.flatMap(Send.send(context, client, request), (response) =>
-            streaming
-              ? openFramed(context, response, op)
-              : decodeResponse(
-                  context,
-                  response,
-                  op.outputAst,
-                  op.errors,
-                  op.config.framing as StreamFraming | undefined,
-                ),
+            receive(context, response),
           ),
         );
       });
-    }) as Effect.Effect<unknown>;
+    });
+
+  /** A plain call's response, decoded. */
+  const decodeCall =
+    (op: Operation) =>
+    (context: Context.Context<any>, response: HttpClientResponse.HttpClientResponse) =>
+      decodeResponse(
+        context,
+        response,
+        op.outputAst,
+        op.errors,
+        op.config.framing as StreamFraming | undefined,
+      );
 
   /**
    * A streaming call's response: its body and a frame decoder. A failed
    * status fails with the operation's typed error, as a plain call does.
    */
-  const openFramed = (
-    context: Context.Context<any>,
-    response: HttpClientResponse.HttpClientResponse,
-    op: API.PreparedOperation,
-  ): Effect.Effect<unknown> =>
-    response.status >= 400
-      ? decodeResponse(context, response, op.outputAst, op.errors, undefined)
-      : Effect.succeed<FramedBody>({
-          body: response.stream,
-          item: (json, text) => {
-            const headers = response.headers as Record<string, string | undefined>;
-            // A frame schema of its own (an operation that streams only when
-            // its input asks), else one element of the output's `items`.
-            const itemAst = op.config.items?.ast;
-            if (itemAst !== undefined) {
+  const openFramed =
+    (op: Operation) =>
+    (
+      context: Context.Context<any>,
+      response: HttpClientResponse.HttpClientResponse,
+    ): Effect.Effect<FramedBody<Failure>, Failure> =>
+      response.status >= 400
+        ? Effect.flatMap(
+            decodeResponse(context, response, op.outputAst, op.errors, undefined),
+            // A failed status always decodes to a failure.
+            () =>
+              Effect.fail(
+                new SdkError({ message: `HTTP ${response.status} decoded as a success` }),
+              ),
+          )
+        : Effect.succeed({
+            body: response.stream,
+            item: (json, text) => {
+              const headers = response.headers as Record<string, string | undefined>;
+              // A frame schema of its own (an operation that streams only when
+              // its input asks), else one element of the output's `items`.
+              const itemAst = op.config.items?.ast;
+              if (itemAst !== undefined) {
+                const decoded = decodeSuccess(
+                  context,
+                  response.status,
+                  headers,
+                  text,
+                  json,
+                  false,
+                  itemAst,
+                );
+                return decoded.ok ? Effect.succeed(decoded.value) : Effect.fail(decoded.error);
+              }
               const decoded = decodeSuccess(
                 context,
                 response.status,
                 headers,
                 text,
-                json,
+                { items: [json] },
                 false,
-                itemAst,
+                op.outputAst,
               );
-              return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
-            }
-            const decoded = decodeSuccess(
-              context,
-              response.status,
-              headers,
-              text,
-              { items: [json] },
-              false,
-              op.outputAst,
-            );
-            return decoded.ok
-              ? Effect.succeed(
-                  (decoded.value as { readonly items: ReadonlyArray<unknown> }).items[0],
-                )
-              : fail(decoded.error);
-          },
-          invalid: (text) =>
-            options.parseError({
-              body: hasSensitiveMember(op.outputAst) ? "[REDACTED]" : text,
-              cause: "Invalid JSON frame",
-            }),
-        });
+              return decoded.ok
+                ? Effect.succeed(
+                    (decoded.value as { readonly items: ReadonlyArray<unknown> }).items[0],
+                  )
+                : Effect.fail(decoded.error);
+            },
+            invalid: (text) =>
+              options.parseError({
+                body: hasSensitiveMember(op.outputAst) ? "[REDACTED]" : text,
+                cause: "Invalid JSON frame",
+              }),
+          });
 
-  return Layer.succeed(
-    API.Protocol,
-    API.Protocol.of({
-      // Erase encode's credentials requirement (resolved on the calling
-      // fiber; see RestProtocolOptions.credentials).
-      encode: ({ input, inputAst }) =>
-        Effect.withFiber((fiber) =>
-          withCredentials(fiber.context as Context.Context<any>, (creds) =>
-            requestFor(creds, input, inputAst),
-          ),
-        ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: ({ response, outputAst, errors, config }) =>
-        Effect.withFiber((fiber) =>
-          decodeResponse(
-            fiber.context as Context.Context<any>,
-            response,
-            outputAst,
-            errors,
-            config.framing as StreamFraming | undefined,
-          ),
+  return {
+    // The credentials are resolved on the calling fiber (see
+    // RestProtocolOptions.credentials).
+    encode: ({ input, inputAst }: EncodeArgs) =>
+      Effect.withFiber((fiber) =>
+        withCredentials(fiber.context as Context.Context<any>, (creds) =>
+          requestFor(creds, input, inputAst),
         ),
-      call: (op, input) => send(op, input, false),
-      stream: (op, input) => {
-        const framing = op.config.framing as StreamFraming | undefined;
-        return framing === undefined
-          ? API.cannotStream(op)
-          : framing.stream(send(op, input, true) as Effect.Effect<FramedBody>);
-      },
-    }),
-  );
+      ),
+    decode: ({ response, outputAst, errors, config }: DecodeArgs) =>
+      Effect.withFiber((fiber) =>
+        decodeResponse(
+          fiber.context as Context.Context<any>,
+          response,
+          outputAst,
+          errors,
+          config.framing as StreamFraming | undefined,
+        ),
+      ),
+    call: (op, input) => send(op, input, decodeCall(op)),
+    stream: (op, input) => {
+      const framing = op.config.framing as StreamFraming | undefined;
+      return framing === undefined
+        ? API.cannotStream(op)
+        : framing.stream(send(op, input, openFramed(op)));
+    },
+  };
 };
+
+/**
+ * {@link restProtocol}'s options for one form of `credentials`. The service
+ * key and the effect are separate signatures: a key is also an effect (of
+ * the service), so one signature for both could not tell which it is given.
+ */
+type TypedRestOptions<
+  CredentialsSource,
+  Credentials,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
+> = Omit<
+  RestProtocolOptions<
+    Credentials,
+    never,
+    never,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+  "credentials"
+> & {
+  /** See {@link RestProtocolOptions.credentials}. */
+  readonly credentials: CredentialsSource;
+};
+
+/**
+ * The protocol for a simple REST JSON API (core/protocol). Assign the
+ * result to a module-level const in the provider's `protocol.ts`:
+ *
+ *   export const NeonProtocol = restProtocol({ ... });
+ *
+ * A failed response becomes, in this order: what `classifyError` returns, a
+ * class the operation or its service declares (by its matchers, or by status
+ * for one of core's status classes), `InternalServerError` for any other
+ * 5xx, and `unknownError` for the rest. The protocol declares what the
+ * options and {@link RestProtocolError} fail with: the result's type lists
+ * them, so no SDK writes that list by hand.
+ */
+export function restProtocol<
+  Credentials,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
+>(
+  options: TypedRestOptions<
+    Context.Key<CredentialsRequirements, Effect.Effect<Credentials, CredentialsError>>,
+    Credentials,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+>;
+export function restProtocol<
+  Credentials,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
+>(
+  options: TypedRestOptions<
+    Effect.Effect<Credentials, CredentialsError, CredentialsRequirements>,
+    Credentials,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+>;
+export function restProtocol<
+  Credentials,
+  CredentialsError,
+  CredentialsRequirements,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
+>(
+  options: RestProtocolOptions<
+    Credentials,
+    CredentialsError,
+    CredentialsRequirements,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+> {
+  return restProtocolMethods(options);
+}

@@ -16,7 +16,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * `MUX_BASE_URL`); like them, an authorization token wins when both are set.
  *
  * Following the core convention the `Credentials` service holds an *effect*
- * resolving the current config, which the protocol layer runs per request on
+ * resolving the current config, which the protocol runs per request on
  * the calling fiber.
  */
 import * as Context from "effect/Context";

@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Auth0 credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Management API auth is a bearer token sent as
  * `Authorization: Bearer <token>` against `https://{domain}/api/v2`.
  */

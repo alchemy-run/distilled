@@ -2,7 +2,7 @@
  * GitHub credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, userAgent }` per
- * request; the protocol layer formats the `Authorization: Bearer <token>`
+ * request; the protocol formats the `Authorization: Bearer <token>`
  * header from it.
  *
  * The token may be a personal access token (classic or fine-grained), a
@@ -47,6 +47,9 @@ export class Credentials
     Credentials,
     Effect.Effect<Config, ConfigError | GithubAppAuthError>
   >()("GithubCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's

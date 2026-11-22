@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -148,7 +148,8 @@ export const createRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateRegistryRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DockerRegistry2>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -165,7 +166,8 @@ export const deleteRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteRegistryRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<DeleteRegistryResponse>,
-  errors: [RegistryNotFound, UnknownDaytonaError],
+  errors: [RegistryNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -182,7 +184,8 @@ export const getRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetRegistryRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DockerRegistry2>,
-  errors: [RegistryNotFound, UnknownDaytonaError],
+  errors: [RegistryNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -199,7 +202,8 @@ export const getTransientPushAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetTransientPushAccessRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<RegistryPushAccessDto>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -216,7 +220,8 @@ export const listRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListRegistriesRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListRegistriesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -233,7 +238,8 @@ export const updateRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<UpdateRegistryRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DockerRegistry2>,
-  errors: [RegistryNotFound, UnknownDaytonaError],
+  errors: [RegistryNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

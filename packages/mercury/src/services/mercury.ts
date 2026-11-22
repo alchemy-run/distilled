@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMercuryError } from "../errors.ts";
+import { MercuryServiceErrors } from "../errors.ts";
 import { MercuryProtocol, type MercuryOpError, type MercuryOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2357,7 +2357,8 @@ export const archiveBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ArchiveBudgetRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ArchiveBudgetResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2374,7 +2375,8 @@ export const assignTransactionToBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2391,7 +2393,8 @@ export const cancelCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<CancelCardRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<Card>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2408,7 +2411,8 @@ export const cancelInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<CancelInvoiceRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<CancelInvoiceResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2425,7 +2429,8 @@ export const createBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<CreateBudgetRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2442,7 +2447,8 @@ export const createCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1522, __c95, 2) as any as S.Schema<CreateCardRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<Card>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,7 +2465,8 @@ export const createCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CreateCategoryRequest>,
   output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2476,7 +2483,8 @@ export const createCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<CreateCustomerRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,7 +2501,8 @@ export const createInternalTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateInternalTransferRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<InternalTransferAPIResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2510,7 +2519,8 @@ export const createInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateInvoiceRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,7 +2537,8 @@ export const createReceiptUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2544,7 +2555,8 @@ export const createRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CreateRecipientRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,7 +2573,8 @@ export const createRecipientInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<CreateRecipientInviteRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2578,7 +2591,8 @@ export const createTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateTransactionRequest>,
   output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2595,7 +2609,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,7 +2627,8 @@ export const deleteCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteCategoryRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteCategoryResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2629,7 +2645,8 @@ export const deleteCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteCustomerRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteCustomerResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2646,7 +2663,8 @@ export const deleteRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeleteRecipientRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2663,7 +2681,8 @@ export const deleteRecipientInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2680,7 +2699,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2697,7 +2717,8 @@ export const editCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<EditCategoryRequest>,
   output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2714,7 +2735,8 @@ export const freezeCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<FreezeCardRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<Card>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2731,7 +2753,8 @@ export const getAccountCards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetAccountCardsRequest>,
   output: __S(435, __c27, 3) as any as S.Schema<AccountCardsResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2748,7 +2771,8 @@ export const getAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetAccountsRequest>,
   output: __S(451, __c28, 3) as any as S.Schema<AccountsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2765,7 +2789,8 @@ export const getAccountStatements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetAccountStatementsRequest>,
   output: __S(483, __c30, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2782,7 +2807,8 @@ export const getAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetAttachmentRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2799,7 +2825,8 @@ export const getAutoTransferRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
   output: __S(551, __c34, 7) as any as S.Schema<AutoTransferRulesResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2816,7 +2843,8 @@ export const getBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBudgetRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2833,7 +2861,8 @@ export const getBudgetExpenditures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
   output: __S(611, __c38, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2850,7 +2879,8 @@ export const getBudgetMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetBudgetMembersRequest>,
   output: __S(627, __c39, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2863,7 +2893,8 @@ export const getCard: API.OperationMethod<GetCardRequest, Card, GetCardError, Me
   /*@__PURE__*/ API.make(() => ({
     input: __S(640, __c40, 0) as any as S.Schema<GetCardRequest>,
     output: __S(866, __c54, 2) as any as S.Schema<Card>,
-    errors: [NotFound, UnknownMercuryError],
+    errors: [NotFound],
+    serviceErrors: MercuryServiceErrors,
     protocol: MercuryProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2880,7 +2911,8 @@ export const getCreditAccountStatements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
   output: __S(660, __c41, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2897,7 +2929,8 @@ export const getCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2914,7 +2947,8 @@ export const getEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetEventRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ApiEventResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2931,7 +2965,8 @@ export const getEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetEventsRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2948,7 +2983,8 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2965,7 +3001,8 @@ export const getInvoicePdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetInvoicePdfRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<GetInvoicePdfResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2982,7 +3019,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(772, __c48, 4) as any as S.Schema<OrganizationResponse>,
-  errors: [UnknownMercuryError],
+  errors: [],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2999,7 +3037,8 @@ export const getReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetReceiptRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<ApiV1ReceiptResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3016,7 +3055,8 @@ export const getRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetRecipientRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3033,7 +3073,8 @@ export const getRecipientInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<GetRecipientInviteRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3050,7 +3091,8 @@ export const getRecipients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetRecipientsRequest>,
   output: __S(946, __c59, 2) as any as S.Schema<RecipientsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3067,7 +3109,8 @@ export const getSafeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetSafeRequestRequest>,
   output: __S(978, __c61, 2) as any as S.Schema<APISafeRequest>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3084,7 +3127,8 @@ export const getSafeRequestDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3101,7 +3145,8 @@ export const getSafeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetSafeRequestsRequest>,
   output: __S(1010, __c63, 2) as any as S.Schema<GetSafeRequestsResponse>,
-  errors: [UnknownMercuryError],
+  errors: [],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3118,7 +3163,8 @@ export const getSendMoneyApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3135,7 +3181,8 @@ export const getStatementPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<GetStatementPdfRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<GetStatementPdfResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3152,7 +3199,8 @@ export const getTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetTransactionRequest>,
   output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3169,7 +3217,8 @@ export const getTransactionByTransactionId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
   output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3186,7 +3235,8 @@ export const getTransferMoneyApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
   output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3203,7 +3253,8 @@ export const getTreasury: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<GetTreasuryRequest>,
   output: __S(1175, __c73, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3220,7 +3271,8 @@ export const getTreasuryStatements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
   output: __S(1187, __c74, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3237,7 +3289,8 @@ export const getTreasuryTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
   output: __S(1204, __c75, 4) as any as S.Schema<TreasuryTransactionsResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3254,7 +3307,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<UserDetails>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3271,7 +3325,8 @@ export const getUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetUsersRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<UsersPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3288,7 +3343,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3305,7 +3361,8 @@ export const getWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetWebhooksRequest>,
   output: __S(1282, __c80, 2) as any as S.Schema<ApiWebhooksPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3322,7 +3379,8 @@ export const listAccountTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListAccountTransactionsRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<TransactionsResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3339,7 +3397,8 @@ export const listBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ListBudgetsRequest>,
   output: __S(1362, __c85, 2) as any as S.Schema<ApiV1SpendBudgetsResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3356,7 +3415,8 @@ export const listCards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<ListCardsRequest>,
   output: __S(1378, __c86, 2) as any as S.Schema<CardListResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3373,7 +3433,8 @@ export const listCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ListCategoriesRequest>,
   output: __S(1394, __c87, 2) as any as S.Schema<CategoriesPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3390,7 +3451,8 @@ export const listCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ListCreditRequest>,
   output: __S(1411, __c88, 3) as any as S.Schema<CreditAccountsResponse>,
-  errors: [UnknownMercuryError],
+  errors: [],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3407,7 +3469,8 @@ export const listCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<ListCustomersRequest>,
   output: __S(1426, __c89, 2) as any as S.Schema<ApiV1ArCustomerPaginatedResponseData>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3424,7 +3487,8 @@ export const listInvoiceAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ListInvoiceAttachmentsRequest>,
   output: __S(1442, __c90, 2) as any as S.Schema<ApiV1ArAttachmentsResponseData>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3441,7 +3505,8 @@ export const listInvoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<ListInvoicesRequest>,
   output: __S(1459, __c91, 3) as any as S.Schema<ApiV1ArInvoicesPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3458,7 +3523,8 @@ export const listMerchants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<ListMerchantsRequest>,
   output: __S(1474, __c92, 2) as any as S.Schema<MerchantsResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3475,7 +3541,8 @@ export const listReceipts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ListReceiptsRequest>,
   output: __S(1490, __c93, 2) as any as S.Schema<ApiV1ReceiptsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3492,7 +3559,8 @@ export const listRecipientInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ListRecipientInvitesRequest>,
   output: __S(1506, __c94, 2) as any as S.Schema<RecipientInviteApiPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3509,7 +3577,8 @@ export const listRecipientsAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ListRecipientsAttachmentsRequest>,
   output: __S(1539, __c96, 3) as any as S.Schema<RecipientsAttachmentsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3526,7 +3595,8 @@ export const listSendMoneyApprovalRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ListSendMoneyApprovalRequestsRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<SendMoneyApprovalRequestsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3543,7 +3613,8 @@ export const listTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<ListTransactionsRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<TransactionsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3560,7 +3631,8 @@ export const listTransferMoneyApprovalRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<ListTransferMoneyApprovalRequestsRequest>,
   output: __S(1586, __c99, 2) as any as S.Schema<TransferMoneyApprovalRequestsPaginatedResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3577,7 +3649,8 @@ export const matchReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<MatchReceiptRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<MatchReceiptResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3594,7 +3667,8 @@ export const obtainAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ObtainAccessTokenRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<OAuth2TokenResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3611,7 +3685,8 @@ export const requestSendMoney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<RequestSendMoneyRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3628,7 +3703,8 @@ export const requestTransferMoney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<RequestTransferMoneyRequest>,
   output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3645,7 +3721,8 @@ export const revealCardPan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<RevealCardPanRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<CardRevealResponse>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3662,7 +3739,8 @@ export const startOAuth2Flow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<StartOAuth2FlowRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<StartOAuth2FlowResponse>,
-  errors: [BadRequest, UnknownMercuryError],
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3679,7 +3757,8 @@ export const unfreezeCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<UnfreezeCardRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<Card>,
-  errors: [NotFound, UnknownMercuryError],
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3696,7 +3775,8 @@ export const updateBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<UpdateBudgetRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3713,7 +3793,8 @@ export const updateCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<UpdateCardRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<Card>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3730,7 +3811,8 @@ export const updateCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<UpdateCustomerRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3747,7 +3829,8 @@ export const updateInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<UpdateInvoiceRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3764,7 +3847,8 @@ export const updateRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<UpdateRecipientRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3781,7 +3865,8 @@ export const updateTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<UpdateTransactionRequest>,
   output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3798,7 +3883,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3815,7 +3901,8 @@ export const uploadRecipientAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3832,7 +3919,8 @@ export const uploadTransactionAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3849,7 +3937,8 @@ export const verifyWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<VerifyWebhookRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<VerifyWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownMercuryError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

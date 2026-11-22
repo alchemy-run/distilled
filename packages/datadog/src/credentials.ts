@@ -6,7 +6,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * for Datadog's dual-header auth (`DD-API-KEY` + optional
  * `DD-APPLICATION-KEY`) and regional sites. The `Credentials` service holds
  * an *effect* that resolves the current credentials on every request (the
- * protocol layer resolves it per request on the calling fiber).
+ * protocol resolves it per request on the calling fiber).
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

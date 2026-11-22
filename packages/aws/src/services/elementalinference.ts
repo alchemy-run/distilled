@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -234,7 +235,7 @@ export interface CreateOutput {
 export type CreateOutputList = CreateOutput[];
 export interface AssociateFeedRequest {
   id: string;
-  associatedResourceName: string;
+  associatedResourceName?: string | undefined;
   outputs: CreateOutput[];
   dryRun?: boolean | undefined;
 }
@@ -393,7 +394,7 @@ export interface DeleteScheduleActionResponse {
 }
 export interface DisassociateFeedRequest {
   id: string;
-  associatedResourceName: string;
+  associatedResourceName?: string | undefined;
   dryRun?: boolean | undefined;
 }
 export interface DisassociateFeedResponse {
@@ -639,6 +640,7 @@ export const associateFeed: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFeed",
@@ -673,6 +675,7 @@ export const createDictionary: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDictionary",
@@ -709,6 +712,7 @@ export const createFeed: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeed",
@@ -747,6 +751,7 @@ export const createScheduleAction: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduleAction",
@@ -781,6 +786,7 @@ export const deleteDictionary: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDictionary",
@@ -815,6 +821,7 @@ export const deleteFeed: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeed",
@@ -847,6 +854,7 @@ export const deleteFeedPolicy: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeedPolicy",
@@ -883,6 +891,7 @@ export const deleteScheduleAction: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduleAction",
@@ -917,6 +926,7 @@ export const disassociateFeed: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFeed",
@@ -949,6 +959,7 @@ export const exportDictionaryEntries: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportDictionaryEntries",
@@ -981,6 +992,7 @@ export const getDictionary: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDictionary",
@@ -1011,6 +1023,7 @@ export const getFeed: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeed",
@@ -1043,6 +1056,7 @@ export const getFeedPolicy: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeedPolicy",
@@ -1079,6 +1093,7 @@ export const getFixture: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFixture",
@@ -1110,6 +1125,7 @@ export const listDictionaries: API.PaginatedOperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDictionaries",
@@ -1149,6 +1165,7 @@ export const listFeeds: API.PaginatedOperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFeeds",
@@ -1190,6 +1207,7 @@ export const listScheduleActions: API.PaginatedOperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListScheduleActions",
@@ -1228,6 +1246,7 @@ export const listTagsForResource: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1262,6 +1281,7 @@ export const putFeedPolicy: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedPolicy",
@@ -1297,6 +1317,7 @@ export const searchFixtures: API.PaginatedOperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFixtures",
@@ -1337,6 +1358,7 @@ export const tagResource: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1371,6 +1393,7 @@ export const untagResource: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1405,6 +1428,7 @@ export const updateDictionary: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDictionary",
@@ -1447,6 +1471,7 @@ export const updateFeed: API.OperationMethod<
     TooManyRequestException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeed",
@@ -1699,7 +1724,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
-          associatedResourceName: S.String.pipe(T.IdempotencyToken()),
+          associatedResourceName: S.optional(S.String).pipe(T.IdempotencyToken()),
           dryRun: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -2054,7 +2079,7 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
-          associatedResourceName: S.String.pipe(T.IdempotencyToken()),
+          associatedResourceName: S.optional(S.String).pipe(T.IdempotencyToken()),
           outputs: __S(529, __c33, 1),
           dryRun: S.optional(S.Boolean),
         }).pipe(

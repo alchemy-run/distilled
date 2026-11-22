@@ -79,7 +79,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "DiscordOpContext",
     commonErrorType: "DiscordOpError",
-    commonErrorClasses: ["UnknownDiscordError"],
+    serviceErrors: "DiscordServiceErrors",
     protocol: "DiscordProtocol",
     retry: "Retry.Retry",
   },

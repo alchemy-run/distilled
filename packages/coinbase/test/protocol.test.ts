@@ -10,7 +10,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { type Config, Credentials } from "../src/credentials.ts";
+import { check, type Config, Credentials, fromApiKey } from "../src/credentials.ts";
 import {
   AlreadyExists,
   BadRequest,
@@ -91,10 +91,7 @@ const run = <A, E>(
     operation.pipe(
       Retry.none,
       Effect.provide(
-        Layer.mergeAll(
-          Layer.succeed(HttpClient.HttpClient, client),
-          Layer.succeed(Credentials, Effect.succeed(config)),
-        ),
+        Layer.mergeAll(Layer.succeed(HttpClient.HttpClient, client), fromApiKey(config)),
       ),
     ),
   );
@@ -207,14 +204,22 @@ describe("JWT bearer authentication", () => {
     expect(crypto.verify(null, jwt.signingInput, edKeys.publicKey, jwt.signature)).toBe(true);
   });
 
-  describe("an unusable secret or base URL fails with ConfigError before any request", () => {
+  describe("an unusable secret or base URL fails the credentials layer with ConfigError, before any request", () => {
     const configError = async (overrides: Partial<Config>) => {
-      const { result, requests } = run(
-        Effect.flip(getEvmAccount({ address: "0xabc" })),
-        () => json(account),
-        configFor(overrides),
+      const { client, requests } = makeClient(() => json(account));
+      // The layer fails when it is built: the operation never starts.
+      const error = await Effect.runPromise(
+        getEvmAccount({ address: "0xabc" }).pipe(
+          Retry.none,
+          Effect.provide(
+            Layer.mergeAll(
+              Layer.succeed(HttpClient.HttpClient, client),
+              fromApiKey(configFor(overrides)),
+            ),
+          ),
+          Effect.flip,
+        ),
       );
-      const error = await result;
       expect(error).toBeInstanceOf(ConfigError);
       expect(requests).toHaveLength(0);
       return error as ConfigError;
@@ -277,7 +282,7 @@ describe("JWT bearer authentication", () => {
     const { client, requests } = makeClient(() => json(account));
     const layer = Layer.mergeAll(
       Layer.succeed(HttpClient.HttpClient, client),
-      Layer.succeed(Credentials, Effect.succeed(configFor())),
+      fromApiKey(configFor()),
     );
     const call = getEvmAccount({ address: "0xabc" }).pipe(Retry.none, Effect.provide(layer));
     await Effect.runPromise(call);
@@ -291,9 +296,11 @@ describe("JWT bearer authentication", () => {
     const { client, requests } = makeClient(() => json(account));
     const layer = Layer.mergeAll(
       Layer.succeed(HttpClient.HttpClient, client),
-      Layer.succeed(
+      Layer.effect(
         Credentials,
-        Effect.sync(() => configFor({ apiKeyId: `key-${++n}` })),
+        Effect.map(check(configFor()), (checked) =>
+          Effect.sync(() => ({ ...checked, apiKeyId: `key-${++n}` })),
+        ),
       ),
     );
     const call = getEvmAccount({ address: "0xabc" }).pipe(Retry.none, Effect.provide(layer));
@@ -343,10 +350,7 @@ describe("Response decoding", () => {
       getEvmAccount({ address: "0xabc" }).pipe(
         Retry.none,
         Effect.provide(
-          Layer.mergeAll(
-            Layer.succeed(HttpClient.HttpClient, client),
-            Layer.succeed(Credentials, Effect.succeed(configFor())),
-          ),
+          Layer.mergeAll(Layer.succeed(HttpClient.HttpClient, client), fromApiKey(configFor())),
         ),
         Effect.provide(ResponseValidation.strict),
         Effect.flip,
@@ -459,8 +463,11 @@ describe("Error decoding", () => {
     expect(unmapped).toMatchObject({ body: "teapot" });
   });
 
-  test("an isValid/success body with an error status is a success value", async () => {
-    const { result } = run(call(), () => json({ isValid: false, address: "0xabc" }, 400));
-    expect(await result).toEqual({ isValid: false, address: "0xabc" });
+  test("an isValid/success body with an error status is an error", async () => {
+    const invalid = await runError(call(), () => json({ isValid: false, address: "0xabc" }, 400));
+    expect(invalid).toBeInstanceOf(BadRequest);
+
+    const failed = await runError(call(), () => json({ success: false }, 500));
+    expect(failed).toBeInstanceOf(InternalServerError);
   });
 });

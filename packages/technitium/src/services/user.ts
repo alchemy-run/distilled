@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTechnitiumError } from "../errors.ts";
+import { TechnitiumServiceErrors } from "../errors.ts";
 import {
   TechnitiumProtocol,
   type TechnitiumOpError,
@@ -238,7 +238,8 @@ export const changePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ChangePasswordRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<ChangePasswordResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ChangePassword",
@@ -254,7 +255,8 @@ export const checkForUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CheckForUpdateRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<CheckForUpdateResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CheckForUpdate",
@@ -270,7 +272,8 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<CreateApiTokenResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateApiToken",
@@ -286,7 +289,8 @@ export const createSingleUseApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<CreateSingleUseApiTokenRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<CreateSingleUseApiTokenResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateSingleUseApiToken",
@@ -302,7 +306,8 @@ export const deleteUserSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<DeleteUserSessionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteUserSessionResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteUserSession",
@@ -318,7 +323,8 @@ export const disable2fa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<Disable2faRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<Disable2faResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Disable2fa",
@@ -334,7 +340,8 @@ export const enable2fa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<Enable2faRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<Enable2faResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Enable2fa",
@@ -350,7 +357,8 @@ export const getSessionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetSessionInfoRequest>,
   output: __S(46, __c11, 2) as any as S.Schema<GetSessionInfoResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetSessionInfo",
@@ -366,7 +374,8 @@ export const getUserProfileDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetUserProfileDetailsRequest>,
   output: __S(59, __c14, 3) as any as S.Schema<GetUserProfileDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetUserProfileDetails",
@@ -382,7 +391,8 @@ export const initialize2fa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<Initialize2faRequest>,
   output: __S(61, __c15, 1) as any as S.Schema<Initialize2faResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Initialize2fa",
@@ -398,7 +408,8 @@ export const login: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<LoginRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<LoginResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Login",
@@ -414,7 +425,8 @@ export const logout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<LogoutRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<LogoutResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Logout",
@@ -430,7 +442,8 @@ export const setUserProfileDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<SetUserProfileDetailsRequest>,
   output: __S(59, __c14, 3) as any as S.Schema<SetUserProfileDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetUserProfileDetails",

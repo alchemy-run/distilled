@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownLaunchDarklyError } from "../errors.ts";
+import { LaunchDarklyServiceErrors } from "../errors.ts";
 import {
   LaunchDarklyProtocol,
   type LaunchDarklyOpError,
@@ -12591,7 +12591,8 @@ export const associateRepositoriesAndProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14370, __c449, 2) as any as S.Schema<AssociateRepositoriesAndProjectsRequest>,
   output: __S(14371, __c449, 3) as any as S.Schema<InsightsRepositoryProjectCollection>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12608,7 +12609,8 @@ export const copyFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14785, __c462, 1) as any as S.Schema<CopyFeatureFlagRequest>,
   output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
-  errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12630,7 +12632,8 @@ export const createAnnouncementPublic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<CreateAnnouncementPublicRequest>,
   output: __S(15649, __c489, 1) as any as S.Schema<AnnouncementResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12647,7 +12650,8 @@ export const createApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<CreateApprovalRequestRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12668,7 +12672,8 @@ export const createApprovalRequestApply: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<CreateApprovalRequestApplyRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12689,7 +12694,8 @@ export const createApprovalRequestReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateApprovalRequestReviewRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<ApprovalRequestResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12706,7 +12712,8 @@ export const createBigSegmentExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CreateBigSegmentExportRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CreateBigSegmentExportResponse>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12723,7 +12730,8 @@ export const createBigSegmentImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateBigSegmentImportRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CreateBigSegmentImportResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12745,7 +12753,8 @@ export const createBigSegmentStoreIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<CreateBigSegmentStoreIntegrationRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12762,7 +12771,8 @@ export const createDeploymentEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateDeploymentEventRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CreateDeploymentEventResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12779,7 +12789,8 @@ export const createExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2792, __c87, 8) as any as S.Schema<CreateExperimentRequest>,
   output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12801,7 +12812,8 @@ export const createFlagImportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<CreateFlagImportConfigurationRequest>,
   output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12818,7 +12830,8 @@ export const createFlagLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<CreateFlagLinkRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<FlagLinkRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12840,7 +12853,8 @@ export const createInsightGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<CreateInsightGroupRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12862,7 +12876,8 @@ export const createIntegrationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<CreateIntegrationConfigurationRequest>,
   output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12883,7 +12898,8 @@ export const createIntegrationDeliveryConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<CreateIntegrationDeliveryConfigurationRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12905,7 +12921,8 @@ export const createIpAllowlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<CreateIpAllowlistEntryRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<IpAllowlistEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12922,7 +12939,8 @@ export const createLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<CreateLayerRequest>,
   output: __S(6468, __c202, 4) as any as S.Schema<LayerRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12939,7 +12957,8 @@ export const createMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6914, __c216, 2) as any as S.Schema<CreateMemberRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<Members>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12961,7 +12980,8 @@ export const createMemberTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<CreateMemberTeamRequest>,
   output: __S(6980, __c218, 4) as any as S.Schema<Member>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12978,7 +12998,8 @@ export const createMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7714, __c241, 2) as any as S.Schema<CreateMetricGroupRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12995,7 +13016,8 @@ export const createOAuth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<CreateOAuth2ClientRequest>,
   output: __S(8288, __c259, 0) as any as S.Schema<Client>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13012,7 +13034,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8739, __c273, 3) as any as S.Schema<CreateProjectRequest>,
   output: __S(8864, __c277, 0) as any as S.Schema<ProjectRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13033,7 +13056,8 @@ export const createSegmentScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<CreateSegmentScheduledChangeRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13050,7 +13074,8 @@ export const createSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13067,7 +13092,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10210, __c319, 2) as any as S.Schema<CreateTeamRequest>,
   output: __S(10369, __c324, 1) as any as S.Schema<Team>,
-  errors: [BadRequest, UnknownLaunchDarklyError],
+  errors: [BadRequest],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13084,7 +13110,8 @@ export const createTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<CreateTeamMemberRequest>,
   output: __S(10723, __c335, 3) as any as S.Schema<TeamImportsRep>,
-  errors: [BadRequest, UnknownLaunchDarklyError],
+  errors: [BadRequest],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13101,7 +13128,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<CreateTokenRequest>,
   output: __S(11104, __c347, 0) as any as S.Schema<Token>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13118,7 +13146,8 @@ export const createTriggerWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<CreateTriggerWorkflowRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13135,7 +13164,8 @@ export const createView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<CreateViewRequest>,
   output: __S(11963, __c373, 27) as any as S.Schema<View>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13152,7 +13182,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13169,7 +13200,8 @@ export const createWorkflowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<CreateWorkflowTemplateRequest>,
   output: __S(12800, __c400, 0) as any as S.Schema<WorkflowTemplateOutput>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13186,7 +13218,8 @@ export const deleteAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<DeleteAdaptiveTriggerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAdaptiveTriggerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13203,7 +13236,8 @@ export const deleteAgentGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<DeleteAgentGraphRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentGraphResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13220,7 +13254,8 @@ export const deleteAgentOptimization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<DeleteAgentOptimizationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentOptimizationResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13237,7 +13272,8 @@ export const deleteAgentOptimizationRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<DeleteAgentOptimizationRunRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentOptimizationRunResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13254,7 +13290,8 @@ export const deleteAgentSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<DeleteAgentSkillRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAgentSkillResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13271,7 +13308,8 @@ export const deleteAIConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<DeleteAIConfigRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAIConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13288,7 +13326,8 @@ export const deleteAIConfigVariation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14144, __c442, 0) as any as S.Schema<DeleteAIConfigVariationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAIConfigVariationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13305,7 +13344,8 @@ export const deleteAITool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<DeleteAIToolRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAIToolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13322,7 +13362,8 @@ export const deleteAnnouncementPublic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<DeleteAnnouncementPublicRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteAnnouncementPublicResponse>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13339,7 +13380,8 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13356,7 +13398,8 @@ export const deleteApplicationVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<DeleteApplicationVersionRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteApplicationVersionResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13373,7 +13416,8 @@ export const deleteApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<DeleteApprovalRequestRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteApprovalRequestResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13390,7 +13434,8 @@ export const deleteApprovalRequestForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<DeleteApprovalRequestForFlagRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteApprovalRequestForFlagResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13411,7 +13456,8 @@ export const deleteBigSegmentStoreIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13428,7 +13474,8 @@ export const deleteBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<DeleteBranchesRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteBranchesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13445,7 +13492,8 @@ export const deleteCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<DeleteCustomRoleRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteCustomRoleResponse>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13462,7 +13510,8 @@ export const deleteDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteDestinationResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13479,7 +13528,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14592, __c456, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13496,7 +13546,8 @@ export const deleteFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFeatureFlagResponse>,
-  errors: [NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13517,7 +13568,8 @@ export const deleteFlagConfigScheduledChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13534,7 +13586,8 @@ export const deleteFlagFollower: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<DeleteFlagFollowerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagFollowerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13555,7 +13608,8 @@ export const deleteFlagImportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<DeleteFlagImportConfigurationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagImportConfigurationResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13572,7 +13626,8 @@ export const deleteFlagLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<DeleteFlagLinkRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFlagLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13589,7 +13644,8 @@ export const deleteInsightGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15296, __c478, 0) as any as S.Schema<DeleteInsightGroupRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteInsightGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13610,7 +13666,8 @@ export const deleteIntegrationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<DeleteIntegrationConfigurationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13631,7 +13688,8 @@ export const deleteIntegrationDeliveryConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13653,7 +13711,8 @@ export const deleteIpAllowlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15392, __c481, 0) as any as S.Schema<DeleteIpAllowlistEntryRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteIpAllowlistEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13670,7 +13729,8 @@ export const deleteMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<DeleteMemberRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteMemberResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13687,7 +13747,8 @@ export const deleteMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<DeleteMetricRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13704,7 +13765,8 @@ export const deleteMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<DeleteMetricGroupRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteMetricGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13721,7 +13783,8 @@ export const deleteModelConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<DeleteModelConfigRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteModelConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13738,7 +13801,8 @@ export const deleteOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<DeleteOAuthClientRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteOAuthClientResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13755,7 +13819,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13772,7 +13837,8 @@ export const deletePromptSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<DeletePromptSnippetRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeletePromptSnippetResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13789,7 +13855,8 @@ export const deleteRelayAutoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<DeleteRelayAutoConfigRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteRelayAutoConfigResponse>,
-  errors: [NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13806,7 +13873,8 @@ export const deleteReleasePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<DeleteReleasePolicyRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteReleasePolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13823,7 +13891,8 @@ export const deleteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<DeleteRepositoryRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13840,7 +13909,8 @@ export const deleteRepositoryProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<DeleteRepositoryProjectRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13857,7 +13927,8 @@ export const deleteRestrictedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<DeleteRestrictedModelsRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteRestrictedModelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13879,7 +13950,8 @@ export const deleteSdkKeyByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<DeleteSdkKeyByKeyRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteSdkKeyByKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13896,7 +13968,8 @@ export const deleteSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<DeleteSegmentRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteSegmentResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13918,7 +13991,8 @@ export const deleteSegmentScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<DeleteSegmentScheduledChangeRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteSegmentScheduledChangeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13935,7 +14009,8 @@ export const deleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13952,7 +14027,8 @@ export const deleteTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteTeamResponse>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13969,7 +14045,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16192, __c506, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13986,7 +14063,8 @@ export const deleteTriggerWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14003,7 +14081,8 @@ export const deleteView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<DeleteViewRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteViewResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14020,7 +14099,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14037,7 +14117,8 @@ export const deleteWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<DeleteWorkflowRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteWorkflowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14054,7 +14135,8 @@ export const deleteWorkflowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<DeleteWorkflowTemplateRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteWorkflowTemplateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14071,7 +14153,8 @@ export const evaluateContextInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<EvaluateContextInstanceRequest>,
   output: __S(16388, __c512, 4) as any as S.Schema<ContextInstanceEvaluations>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14088,7 +14171,8 @@ export const getAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<GetAdaptiveTriggerRequest>,
   output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14105,7 +14189,8 @@ export const getAgentGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<GetAgentGraphRequest>,
   output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14122,7 +14207,8 @@ export const getAgentOptimization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16576, __c518, 0) as any as S.Schema<GetAgentOptimizationRequest>,
   output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14139,7 +14225,8 @@ export const getAgentSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<GetAgentSkillRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14156,7 +14243,8 @@ export const getAIConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<GetAIConfigRequest>,
   output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14173,7 +14261,8 @@ export const getAIConfigMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<GetAIConfigMetricsRequest>,
   output: __S(16866, __c527, 2) as any as S.Schema<Metrics>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14194,7 +14283,8 @@ export const getAIConfigMetricsByVariation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<GetAIConfigMetricsByVariationRequest>,
   output: __S(16899, __c528, 3) as any as S.Schema<GetAIConfigMetricsByVariationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14211,7 +14301,8 @@ export const getAIConfigQuickStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<GetAIConfigQuickStatsRequest>,
   output: __S(16929, __c529, 1) as any as S.Schema<QuickStats>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14228,7 +14319,8 @@ export const getAIConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<GetAIConfigsRequest>,
   output: __S(16962, __c530, 2) as any as S.Schema<AIConfigs>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14245,7 +14337,8 @@ export const getAIConfigTargeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<GetAIConfigTargetingRequest>,
   output: __S(17106, __c534, 18) as any as S.Schema<AIConfigTargeting>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14262,7 +14355,8 @@ export const getAIConfigVariation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<GetAIConfigVariationRequest>,
   output: __S(17121, __c535, 1) as any as S.Schema<AIConfigVariationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14279,7 +14373,8 @@ export const getAIRunsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<GetAIRunsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14296,7 +14391,8 @@ export const getAITool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetAIToolRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AITool>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14313,7 +14409,8 @@ export const getAllHoldouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetAllHoldoutsRequest>,
   output: __S(195, __c6, 3) as any as S.Schema<HoldoutsCollectionRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14334,7 +14431,8 @@ export const getAllIntegrationConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetAllIntegrationConfigurationsRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<IntegrationConfigurationCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14351,7 +14449,8 @@ export const getAllWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetAllWebhooksRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<Webhooks>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14368,7 +14467,8 @@ export const getAnnouncementsPublic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetAnnouncementsPublicRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<GetAnnouncementsPublic200Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14385,7 +14485,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<ApplicationRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14402,7 +14503,8 @@ export const getApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetApplicationsRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<ApplicationCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14419,7 +14521,8 @@ export const getApplicationVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetApplicationVersionsRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<ApplicationVersionsCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14436,7 +14539,8 @@ export const getApprovalForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetApprovalForFlagRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14453,7 +14557,8 @@ export const getApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetApprovalRequestRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<ExpandableApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14470,7 +14575,8 @@ export const getApprovalRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetApprovalRequestsRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<ExpandableApprovalRequestsResponse>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14491,7 +14597,8 @@ export const getApprovalRequestSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetApprovalRequestSettingsRequest>,
   output: __S(900, __c28, 4) as any as S.Schema<GetApprovalRequestSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14508,7 +14615,8 @@ export const getApprovalsForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetApprovalsForFlagRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<FlagConfigApprovalRequestsResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14525,7 +14633,8 @@ export const getAuditLogEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetAuditLogEntriesRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14542,7 +14651,8 @@ export const getAuditLogEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetAuditLogEntryRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<AuditLogEntryRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14559,7 +14669,8 @@ export const getBigSegmentExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetBigSegmentExportRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<Export>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14576,7 +14687,8 @@ export const getBigSegmentImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetBigSegmentImportRequest>,
   output: __S(1123, __c35, 3) as any as S.Schema<Import>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14593,7 +14705,8 @@ export const getBigSegmentStoreIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetBigSegmentStoreIntegrationRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14610,7 +14723,8 @@ export const getBigSegmentStoreIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetBigSegmentStoreIntegrationsRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<BigSegmentStoreIntegrationCollection>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14627,7 +14741,8 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<BranchRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14644,7 +14759,8 @@ export const getBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetBranchesRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<BranchCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14661,7 +14777,8 @@ export const getCallerIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetCallerIdentityRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<CallerIdentityRep>,
-  errors: [UnknownLaunchDarklyError],
+  errors: [],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14678,7 +14795,8 @@ export const getContextAttributeNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetContextAttributeNamesRequest>,
   output: __S(1477, __c46, 5) as any as S.Schema<ContextAttributeNamesCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14695,7 +14813,8 @@ export const getContextAttributeValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetContextAttributeValuesRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<ContextAttributeValuesCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14715,7 +14834,8 @@ export const getContextInstanceSegmentsMembershipByEnv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>,
   output: __S(1539, __c48, 3) as any as S.Schema<ContextInstanceSegmentMemberships>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14732,7 +14852,8 @@ export const getContextKindsByProjectKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetContextKindsByProjectKeyRequest>,
   output: __S(1573, __c49, 5) as any as S.Schema<ContextKindsCollectionRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14749,7 +14870,8 @@ export const getContexts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetContextsRequest>,
   output: __S(1634, __c51, 2) as any as S.Schema<Contexts>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14766,7 +14888,8 @@ export const getContextsClientsideUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetContextsClientsideUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14783,7 +14906,8 @@ export const getContextsServersideUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetContextsServersideUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14800,7 +14924,8 @@ export const getContextsTotalUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetContextsTotalUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14817,7 +14942,8 @@ export const getCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetCustomRoleRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14834,7 +14960,8 @@ export const getCustomRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetCustomRolesRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<CustomRoles>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14851,7 +14978,8 @@ export const getCustomWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetCustomWorkflowRequest>,
   output: __S(1991, __c62, 7) as any as S.Schema<CustomWorkflowOutput>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14868,7 +14996,8 @@ export const getDataExportEventsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetDataExportEventsUsageRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<DataExportSeriesListRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14889,7 +15018,8 @@ export const getDataExportProjectRanking: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetDataExportProjectRankingRequest>,
   output: __S(2086, __c65, 6) as any as S.Schema<DataExportProjectRankingRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14906,7 +15036,8 @@ export const getDependentFlags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetDependentFlagsRequest>,
   output: __S(2115, __c66, 3) as any as S.Schema<MultiEnvironmentDependentFlags>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14923,7 +15054,8 @@ export const getDependentFlagsByEnv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetDependentFlagsByEnvRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<DependentFlagsByEnvironment>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14940,7 +15072,8 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(2250, __c70, 10) as any as S.Schema<DeploymentRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14961,7 +15094,8 @@ export const getDeploymentFrequencyChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetDeploymentFrequencyChartRequest>,
   output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14978,7 +15112,8 @@ export const getDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetDeploymentsRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<DeploymentCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14995,7 +15130,8 @@ export const getDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetDestinationRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15012,7 +15148,8 @@ export const getDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetDestinationsRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<Destinations>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15029,7 +15166,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15046,7 +15184,8 @@ export const getEnvironmentRelease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetEnvironmentReleaseRequest>,
   output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15063,7 +15202,8 @@ export const getEnvironmentsByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<GetEnvironmentsByProjectRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<Environments>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15080,7 +15220,8 @@ export const getEvaluationsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetEvaluationsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15097,7 +15238,8 @@ export const getEventsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetEventsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15114,7 +15256,8 @@ export const getExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetExperimentRequest>,
   output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15131,7 +15274,8 @@ export const getExperimentationEventsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetExperimentationEventsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15148,7 +15292,8 @@ export const getExperimentationKeysUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetExperimentationKeysUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15169,7 +15314,8 @@ export const getExperimentationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetExperimentationSettingsRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<RandomizationSettingsRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15186,7 +15332,8 @@ export const getExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetExperimentsRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<ExperimentCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15203,7 +15350,8 @@ export const getExperimentsAnyEnv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<GetExperimentsAnyEnvRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<ExperimentCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15220,7 +15368,8 @@ export const getExpiringContextTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<GetExpiringContextTargetsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ExpiringTargetGetResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15237,7 +15386,8 @@ export const getExpiringTargetsForSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<GetExpiringTargetsForSegmentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ExpiringTargetGetResponse>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15254,7 +15404,8 @@ export const getExpiringUserTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<GetExpiringUserTargetsRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15271,7 +15422,8 @@ export const getExpiringUserTargetsForSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<GetExpiringUserTargetsForSegmentRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ExpiringUserTargetGetResponse>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15288,7 +15440,8 @@ export const getExtinctions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<GetExtinctionsRequest>,
   output: __S(3394, __c106, 2) as any as S.Schema<ExtinctionCollectionRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15305,7 +15458,8 @@ export const getFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<GetFeatureFlagRequest>,
   output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15322,7 +15476,8 @@ export const getFeatureFlags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<GetFeatureFlagsRequest>,
   output: __S(3490, __c109, 2) as any as S.Schema<FeatureFlags>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15339,7 +15494,8 @@ export const getFeatureFlagScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<GetFeatureFlagScheduledChangeRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15356,7 +15512,8 @@ export const getFeatureFlagStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<GetFeatureFlagStatusRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<FlagStatusRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15376,7 +15533,8 @@ export const getFeatureFlagStatusAcrossEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<GetFeatureFlagStatusAcrossEnvironmentsRequest>,
   output: __S(3715, __c116, 3) as any as S.Schema<FeatureFlagStatusAcrossEnvironments>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15393,7 +15551,8 @@ export const getFeatureFlagStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<GetFeatureFlagStatusesRequest>,
   output: __S(3746, __c117, 2) as any as S.Schema<FeatureFlagStatuses>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15414,7 +15573,8 @@ export const getFlagConfigScheduledChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetFlagConfigScheduledChangesRequest>,
   output: __S(3778, __c118, 2) as any as S.Schema<FeatureFlagScheduledChanges>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15431,7 +15591,8 @@ export const getFlagDefaultsByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetFlagDefaultsByProjectRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<FlagDefaultsRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15448,7 +15609,8 @@ export const getFlagEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetFlagEventsRequest>,
   output: __S(3852, __c120, 12) as any as S.Schema<FlagEventCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15465,7 +15627,8 @@ export const getFlagFollowers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<GetFlagFollowersRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<FlagFollowersGetRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15487,7 +15650,8 @@ export const getFlagImportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetFlagImportConfigurationRequest>,
   output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15509,7 +15673,8 @@ export const getFlagImportConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<GetFlagImportConfigurationsRequest>,
   output: __S(3938, __c123, 2) as any as S.Schema<FlagImportIntegrationCollection>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15526,7 +15691,8 @@ export const getFlagLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<GetFlagLinksRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<FlagLinkCollectionRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15543,7 +15709,8 @@ export const getFlagStatusChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetFlagStatusChartRequest>,
   output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15560,7 +15727,8 @@ export const getFollowersByProjEnv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<GetFollowersByProjEnvRequest>,
   output: __S(4131, __c129, 3) as any as S.Schema<FlagFollowersByProjEnvGetRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15577,7 +15745,8 @@ export const getHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<GetHoldoutRequest>,
   output: __S(4161, __c130, 1) as any as S.Schema<HoldoutDetailRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15594,7 +15763,8 @@ export const getHoldoutById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetHoldoutByIdRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15611,7 +15781,8 @@ export const getInsightGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<GetInsightGroupRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15628,7 +15799,8 @@ export const getInsightGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<GetInsightGroupsRequest>,
   output: __S(4292, __c134, 4) as any as S.Schema<InsightGroupCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15645,7 +15817,8 @@ export const getInsightsRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetInsightsRepositoriesRequest>,
   output: __S(4324, __c135, 4) as any as S.Schema<InsightsRepositoryCollection>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15662,7 +15835,8 @@ export const getInsightsScores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetInsightsScoresRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<InsightScores>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15683,7 +15857,8 @@ export const getIntegrationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetIntegrationConfigurationRequest>,
   output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15707,7 +15882,8 @@ export const getIntegrationDeliveryConfigurationByEnvironment: API.OperationMeth
     0,
   ) as any as S.Schema<GetIntegrationDeliveryConfigurationByEnvironmentRequest>,
   output: __S(4577, __c143, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15724,7 +15900,8 @@ export const getIntegrationDeliveryConfigurationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationByIdRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15741,7 +15918,8 @@ export const getIntegrationDeliveryConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationsRequest>,
   output: __S(4577, __c143, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15758,7 +15936,8 @@ export const getIpAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetIpAllowlistRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<IpAllowlistResponse>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15775,7 +15954,8 @@ export const getIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<GetIpsRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<IpList>,
-  errors: [UnknownLaunchDarklyError],
+  errors: [],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15792,7 +15972,8 @@ export const getLayers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<GetLayersRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<LayerCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15809,7 +15990,8 @@ export const getLeadTimeChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetLeadTimeChartRequest>,
   output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15826,7 +16008,8 @@ export const getLinkedResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetLinkedResourcesRequest>,
   output: __S(4867, __c152, 3) as any as S.Schema<ViewLinkedResources>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15843,7 +16026,8 @@ export const getLinkedViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetLinkedViewsRequest>,
   output: __S(4929, __c154, 1) as any as S.Schema<Views>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15860,7 +16044,8 @@ export const getMAUClientsideUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<GetMAUClientsideUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15877,7 +16062,8 @@ export const getMauSdksByType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<GetMauSdksByTypeRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<SdkListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15894,7 +16080,8 @@ export const getMAUTotalUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<GetMAUTotalUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15911,7 +16098,8 @@ export const getMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetMemberRequest>,
   output: __S(6980, __c218, 4) as any as S.Schema<Member>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15928,7 +16116,8 @@ export const getMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<GetMembersRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<Members>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15945,7 +16134,8 @@ export const getMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<GetMetricRequest>,
   output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15962,7 +16152,8 @@ export const getMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<GetMetricGroupRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15979,7 +16170,8 @@ export const getMetricGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<GetMetricGroupsRequest>,
   output: __S(5314, __c166, 2) as any as S.Schema<MetricGroupCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15996,7 +16188,8 @@ export const getMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<GetMetricsRequest>,
   output: __S(5346, __c167, 2) as any as S.Schema<MetricCollectionRep>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16013,7 +16206,8 @@ export const getModelConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<GetModelConfigRequest>,
   output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16030,7 +16224,8 @@ export const getOAuthClientById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<GetOAuthClientByIdRequest>,
   output: __S(8288, __c259, 0) as any as S.Schema<Client>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16047,7 +16242,8 @@ export const getOAuthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<GetOAuthClientsRequest>,
   output: __S(5538, __c173, 2) as any as S.Schema<ClientCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16068,7 +16264,8 @@ export const getObservabilityErrorsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<GetObservabilityErrorsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16089,7 +16286,8 @@ export const getObservabilityLogsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<GetObservabilityLogsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16110,7 +16308,8 @@ export const getObservabilityMetricsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetObservabilityMetricsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16131,7 +16330,8 @@ export const getObservabilitySessionsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<GetObservabilitySessionsUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16152,7 +16352,8 @@ export const getObservabilityTracesUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<GetObservabilityTracesUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16169,7 +16370,8 @@ export const getOpenapiSpec: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<GetOpenapiSpecRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetOpenapiSpecResponse>,
-  errors: [UnknownLaunchDarklyError],
+  errors: [],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16186,7 +16388,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16203,7 +16406,8 @@ export const getProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<GetProjectsRequest>,
   output: __S(5794, __c181, 2) as any as S.Schema<Projects>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16220,7 +16424,8 @@ export const getProjectSdkKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetProjectSdkKeysRequest>,
   output: __S(5828, __c182, 4) as any as S.Schema<SdkKeys>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16237,7 +16442,8 @@ export const getPromptSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<GetPromptSnippetRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16254,7 +16460,8 @@ export const getPullRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<GetPullRequestsRequest>,
   output: __S(2248, __c70, 8) as any as S.Schema<PullRequestCollectionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16271,7 +16478,8 @@ export const getRelayProxyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<GetRelayProxyConfigRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16288,7 +16496,8 @@ export const getRelayProxyConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<GetRelayProxyConfigsRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<RelayAutoConfigCollectionRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16305,7 +16514,8 @@ export const getReleaseFrequencyChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetReleaseFrequencyChartRequest>,
   output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16322,7 +16532,8 @@ export const getReleasePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetReleasePoliciesRequest>,
   output: __S(6177, __c193, 1) as any as S.Schema<ReleasePoliciesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16339,7 +16550,8 @@ export const getReleasePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<GetReleasePolicyRequest>,
   output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16356,7 +16568,8 @@ export const getRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetRepositoriesRequest>,
   output: __S(6306, __c197, 2) as any as S.Schema<RepositoryCollectionRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16373,7 +16586,8 @@ export const getRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetRepositoryRequest>,
   output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16390,7 +16604,8 @@ export const getRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<GetRootRequest>,
   output: __S(6401, __c200, 1) as any as S.Schema<RootResponse>,
-  errors: [UnknownLaunchDarklyError],
+  errors: [],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16407,7 +16622,8 @@ export const getRootStatistic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<GetRootStatisticRequest>,
   output: __S(6498, __c203, 2) as any as S.Schema<StatisticsRoot>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16424,7 +16640,8 @@ export const getSdkAllVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetSdkAllVersionsRequest>,
   output: __S(6562, __c205, 2) as any as S.Schema<GetSdkAllVersionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16441,7 +16658,8 @@ export const getSdkKeyByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GetSdkKeyByKeyRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16458,7 +16676,8 @@ export const getSdkKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<GetSdkKeysRequest>,
   output: __S(6658, __c208, 2) as any as S.Schema<SdkKeysForGetSdkKeys>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16475,7 +16694,8 @@ export const getSdkVersionsDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetSdkVersionsDetailsRequest>,
   output: __S(6562, __c205, 2) as any as S.Schema<GetSdkVersionsDetailsResponse>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16492,7 +16712,8 @@ export const getSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetSegmentRequest>,
   output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16509,7 +16730,8 @@ export const getSegmentMembershipForContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetSegmentMembershipForContextRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<BigSegmentTarget>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16526,7 +16748,8 @@ export const getSegmentMembershipForUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetSegmentMembershipForUserRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<BigSegmentTarget>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16543,7 +16766,8 @@ export const getSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<GetSegmentsRequest>,
   output: __S(6850, __c214, 2) as any as S.Schema<UserSegments>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16564,7 +16788,8 @@ export const getSegmentScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<GetSegmentScheduledChangeRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16585,7 +16810,8 @@ export const getSegmentScheduledChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<GetSegmentScheduledChangesRequest>,
   output: __S(7042, __c220, 2) as any as S.Schema<SegmentScheduledChanges>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16602,7 +16828,8 @@ export const getServiceConnectionsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<GetServiceConnectionsUsageRequest>,
   output: __S(7073, __c221, 1) as any as S.Schema<SeriesListRepFloat>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16619,7 +16846,8 @@ export const getStaleFlagsChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<GetStaleFlagsChartRequest>,
   output: __S(2317, __c72, 13) as any as S.Schema<InsightsChart>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16636,7 +16864,8 @@ export const getStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<GetStatisticsRequest>,
   output: __S(7140, __c223, 4) as any as S.Schema<StatisticCollectionRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16653,7 +16882,8 @@ export const getStreamUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<GetStreamUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16674,7 +16904,8 @@ export const getStreamUsageBySdkVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetStreamUsageBySdkVersionRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16691,7 +16922,8 @@ export const getStreamUsageSdkversion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<GetStreamUsageSdkversionRequest>,
   output: __S(7235, __c226, 3) as any as S.Schema<SdkVersionListRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16708,7 +16940,8 @@ export const getSubscriptionByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetSubscriptionByIDRequest>,
   output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16725,7 +16958,8 @@ export const getSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetSubscriptionsRequest>,
   output: __S(7298, __c228, 2) as any as S.Schema<Integrations>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16742,7 +16976,8 @@ export const getTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<GetTagsRequest>,
   output: __S(7329, __c229, 1) as any as S.Schema<TagsCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16759,7 +16994,8 @@ export const getTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetTeamRequest>,
   output: __S(10369, __c324, 1) as any as S.Schema<Team>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16776,7 +17012,8 @@ export const getTeamMaintainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetTeamMaintainersRequest>,
   output: __S(10304, __c322, 0) as any as S.Schema<TeamMaintainers>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16793,7 +17030,8 @@ export const getTeamRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetTeamRolesRequest>,
   output: __S(10339, __c323, 3) as any as S.Schema<TeamCustomRoles>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16810,7 +17048,8 @@ export const getTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetTeamsRequest>,
   output: __S(7490, __c234, 2) as any as S.Schema<Teams>,
-  errors: [UnknownLaunchDarklyError],
+  errors: [],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16827,7 +17066,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(11104, __c347, 0) as any as S.Schema<Token>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16844,7 +17084,8 @@ export const getTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetTokensRequest>,
   output: __S(7554, __c236, 2) as any as S.Schema<Tokens>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16861,7 +17102,8 @@ export const getTriggerWorkflowById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetTriggerWorkflowByIdRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16878,7 +17120,8 @@ export const getTriggerWorkflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetTriggerWorkflowsRequest>,
   output: __S(7618, __c238, 2) as any as S.Schema<TriggerWorkflowCollectionRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16895,7 +17138,8 @@ export const getVegaAIUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetVegaAIUsageRequest>,
   output: __S(17216, __c538, 0) as any as S.Schema<SeriesListRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16912,7 +17156,8 @@ export const getVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetVersionsRequest>,
   output: __S(7682, __c240, 2) as any as S.Schema<VersionsRep>,
-  errors: [Forbidden, UnknownLaunchDarklyError],
+  errors: [Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16929,7 +17174,8 @@ export const getView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<GetViewRequest>,
   output: __S(11963, __c373, 27) as any as S.Schema<View>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16946,7 +17192,8 @@ export const getViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetViewsRequest>,
   output: __S(4929, __c154, 1) as any as S.Schema<Views>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16963,7 +17210,8 @@ export const getWarehouseExportUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetWarehouseExportUsageRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<DataExportSeriesListRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16980,7 +17228,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16997,7 +17246,8 @@ export const getWorkflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetWorkflowsRequest>,
   output: __S(7970, __c249, 2) as any as S.Schema<CustomWorkflowsListingOutput>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17014,7 +17264,8 @@ export const getWorkflowTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetWorkflowTemplatesRequest>,
   output: __S(8002, __c250, 2) as any as S.Schema<WorkflowTemplatesListingOutputRep>,
-  errors: [NotFound, UnknownLaunchDarklyError],
+  errors: [NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17031,7 +17282,8 @@ export const linkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<LinkResourceRequest>,
   output: __S(8033, __c251, 1) as any as S.Schema<LinkResourceSuccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17048,7 +17300,8 @@ export const listAdaptiveTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<ListAdaptiveTriggersRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<AdaptiveTriggers>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17065,7 +17318,8 @@ export const listAgentGraphs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<ListAgentGraphsRequest>,
   output: __S(8130, __c254, 2) as any as S.Schema<AgentGraphs>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17082,7 +17336,8 @@ export const listAgentOptimizationResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<ListAgentOptimizationResultsRequest>,
   output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17099,7 +17354,8 @@ export const listAgentOptimizationResultsByRunId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<ListAgentOptimizationResultsByRunIdRequest>,
   output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17120,7 +17376,8 @@ export const listAgentOptimizationRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<ListAgentOptimizationRunsRequest>,
   output: __S(8355, __c261, 3) as any as S.Schema<AgentOptimizationRuns>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17137,7 +17394,8 @@ export const listAgentOptimizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<ListAgentOptimizationsRequest>,
   output: __S(8386, __c262, 2) as any as S.Schema<AgentOptimizations>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17154,7 +17412,8 @@ export const listAgentSkillReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<ListAgentSkillReferencesRequest>,
   output: __S(8450, __c264, 2) as any as S.Schema<AgentSkillReferences>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17171,7 +17430,8 @@ export const listAgentSkills: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<ListAgentSkillsRequest>,
   output: __S(8513, __c266, 1) as any as S.Schema<AgentSkills>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17188,7 +17448,8 @@ export const listAgentSkillVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<ListAgentSkillVersionsRequest>,
   output: __S(8513, __c266, 1) as any as S.Schema<AgentSkills>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17205,7 +17466,8 @@ export const listAIToolReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<ListAIToolReferencesRequest>,
   output: __S(8579, __c268, 3) as any as S.Schema<ToolReferences>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17222,7 +17484,8 @@ export const listAITools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<ListAIToolsRequest>,
   output: __S(8641, __c270, 1) as any as S.Schema<AITools>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17239,7 +17502,8 @@ export const listAIToolVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<ListAIToolVersionsRequest>,
   output: __S(8641, __c270, 1) as any as S.Schema<AITools>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17256,7 +17520,8 @@ export const listAllAgentOptimizationResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<ListAllAgentOptimizationResultsRequest>,
   output: __S(8193, __c256, 1) as any as S.Schema<AgentOptimizationResults>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17273,7 +17538,8 @@ export const listEnvironmentReleases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<ListEnvironmentReleasesRequest>,
   output: __S(8898, __c278, 2) as any as S.Schema<EnvironmentReleaseCollection>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17290,7 +17556,8 @@ export const listModelConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<ListModelConfigsRequest>,
   output: __S(8929, __c279, 1) as any as S.Schema<ListModelConfigsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17307,7 +17574,8 @@ export const listModelConfigVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<ListModelConfigVersionsRequest>,
   output: __S(8993, __c281, 1) as any as S.Schema<ModelConfigs>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17324,7 +17592,8 @@ export const listPromptSnippetReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<ListPromptSnippetReferencesRequest>,
   output: __S(8450, __c264, 2) as any as S.Schema<SnippetReferences>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17341,7 +17610,8 @@ export const listPromptSnippets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<ListPromptSnippetsRequest>,
   output: __S(9089, __c284, 1) as any as S.Schema<PromptSnippets>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17362,7 +17632,8 @@ export const listPromptSnippetVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<ListPromptSnippetVersionsRequest>,
   output: __S(9089, __c284, 1) as any as S.Schema<PromptSnippets>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17379,7 +17650,8 @@ export const patchAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<PatchAdaptiveTriggerRequest>,
   output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17396,7 +17668,8 @@ export const patchAgentGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<PatchAgentGraphRequest>,
   output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17418,7 +17691,8 @@ export const patchAgentOptimization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<PatchAgentOptimizationRequest>,
   output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17439,7 +17713,8 @@ export const patchAgentOptimizationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<PatchAgentOptimizationResultRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<AgentOptimizationResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17461,7 +17736,8 @@ export const patchAgentSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<PatchAgentSkillRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17478,7 +17754,8 @@ export const patchAIConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<PatchAIConfigRequest>,
   output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17495,7 +17772,8 @@ export const patchAIConfigTargeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<PatchAIConfigTargetingRequest>,
   output: __S(17106, __c534, 18) as any as S.Schema<AIConfigTargeting>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17512,7 +17790,8 @@ export const patchAIConfigVariation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<PatchAIConfigVariationRequest>,
   output: __S(16780, __c524, 12) as any as S.Schema<AIConfigVariation>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17529,7 +17808,8 @@ export const patchAITool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<PatchAIToolRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AITool>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17550,7 +17830,8 @@ export const patchApprovalRequestSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<PatchApprovalRequestSettingsRequest>,
   output: __S(900, __c28, 4) as any as S.Schema<PatchApprovalRequestSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17572,7 +17853,8 @@ export const patchBigSegmentStoreIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<PatchBigSegmentStoreIntegrationRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<BigSegmentStoreIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17589,7 +17871,8 @@ export const patchCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<PatchCustomRoleRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17606,7 +17889,8 @@ export const patchEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<PatchEnvironmentRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17629,14 +17913,8 @@ export const patchExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<PatchExperimentRequest>,
   output: __S(2834, __c88, 18) as any as S.Schema<Experiment>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownLaunchDarklyError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17653,7 +17931,8 @@ export const patchExpiringTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<PatchExpiringTargetsRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17675,7 +17954,8 @@ export const patchExpiringTargetsForSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9858, __c308, 2) as any as S.Schema<PatchExpiringTargetsForSegmentRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17692,7 +17972,8 @@ export const patchExpiringUserTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<PatchExpiringUserTargetsRequest>,
   output: __S(9920, __c310, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17714,7 +17995,8 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9954, __c311, 2) as any as S.Schema<PatchExpiringUserTargetsForSegmentRequest>,
   output: __S(9920, __c310, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17731,7 +18013,8 @@ export const patchFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<PatchFeatureFlagRequest>,
   output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17748,7 +18031,8 @@ export const patchFlagConfigApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<PatchFlagConfigApprovalRequestRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17770,7 +18054,8 @@ export const patchFlagConfigScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<PatchFlagConfigScheduledChangeRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17792,7 +18077,8 @@ export const patchFlagDefaultsByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<PatchFlagDefaultsByProjectRequest>,
   output: __S(10114, __c316, 2) as any as S.Schema<UpsertPayloadRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17814,7 +18100,8 @@ export const patchFlagImportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<PatchFlagImportConfigurationRequest>,
   output: __S(3556, __c111, 4) as any as S.Schema<FlagImportIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17831,7 +18118,8 @@ export const patchHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<PatchHoldoutRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17853,7 +18141,8 @@ export const patchInsightGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<PatchInsightGroupRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<InsightGroup>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17875,7 +18164,8 @@ export const patchIntegrationDeliveryConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<PatchIntegrationDeliveryConfigurationRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17892,7 +18182,8 @@ export const patchIpAllowlistConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<PatchIpAllowlistConfigRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<IpAllowlistResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17909,7 +18200,8 @@ export const patchIpAllowlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<PatchIpAllowlistEntryRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<IpAllowlistEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17926,7 +18218,8 @@ export const patchMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<PatchMetricRequest>,
   output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17943,7 +18236,8 @@ export const patchMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<PatchMetricGroupRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<MetricGroupRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17960,7 +18254,8 @@ export const patchModelConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<PatchModelConfigRequest>,
   output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17977,7 +18272,8 @@ export const patchOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<PatchOAuthClientRequest>,
   output: __S(8288, __c259, 0) as any as S.Schema<Client>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17999,7 +18295,8 @@ export const patchPromptSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<PatchPromptSnippetRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18021,7 +18318,8 @@ export const patchRelayAutoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<PatchRelayAutoConfigRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18038,7 +18336,8 @@ export const patchRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<PatchRepositoryRequest>,
   output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18060,7 +18359,8 @@ export const patchSdkKeyByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<PatchSdkKeyByKeyRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18082,7 +18382,8 @@ export const patchTriggerWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<PatchTriggerWorkflowRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<TriggerWorkflowRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18104,7 +18405,8 @@ export const postAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<PostAdaptiveTriggerRequest>,
   output: __S(16452, __c514, 4) as any as S.Schema<AdaptiveTrigger>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18121,7 +18423,8 @@ export const postAgentGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<PostAgentGraphRequest>,
   output: __S(16514, __c516, 2) as any as S.Schema<AgentGraph>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18138,7 +18441,8 @@ export const postAgentOptimization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<PostAgentOptimizationRequest>,
   output: __S(16612, __c519, 4) as any as S.Schema<AgentOptimization>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18159,7 +18463,8 @@ export const postAgentOptimizationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<PostAgentOptimizationResultRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<AgentOptimizationResult>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18181,7 +18486,8 @@ export const postAgentSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<PostAgentSkillRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<AgentSkill>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18198,7 +18504,8 @@ export const postAIConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11009, __c344, 1) as any as S.Schema<PostAIConfigRequest>,
   output: __S(16738, __c523, 2) as any as S.Schema<AIConfig>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18215,7 +18522,8 @@ export const postAIConfigVariation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<PostAIConfigVariationRequest>,
   output: __S(16780, __c524, 12) as any as S.Schema<AIConfigVariation>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18232,7 +18540,8 @@ export const postAITool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<PostAIToolRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AITool>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18253,7 +18562,8 @@ export const postApprovalRequestApplyForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<PostApprovalRequestApplyForFlagRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18270,7 +18580,8 @@ export const postApprovalRequestForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<PostApprovalRequestForFlagRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18291,7 +18602,8 @@ export const postApprovalRequestReviewForFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<PostApprovalRequestReviewForFlagRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18308,7 +18620,8 @@ export const postAuditLogEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<PostAuditLogEntriesRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18325,7 +18638,8 @@ export const postAuditLogEntryCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<PostAuditLogEntryCountsRequest>,
   output: __S(11299, __c353, 3) as any as S.Schema<CountBucketsResult>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18346,7 +18660,8 @@ export const postCompleteWarehouseDestinationSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<PostCompleteWarehouseDestinationSetupRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18363,7 +18678,8 @@ export const postCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<PostCustomRoleRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<CustomRole>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18384,7 +18700,8 @@ export const postDisableAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<PostDisableAdaptiveTriggerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PostDisableAdaptiveTriggerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18405,7 +18722,8 @@ export const postEnableAdaptiveTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<PostEnableAdaptiveTriggerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PostEnableAdaptiveTriggerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18427,7 +18745,8 @@ export const postEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<PostEnvironmentRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18444,7 +18763,8 @@ export const postExtinction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<PostExtinctionRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PostExtinctionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18461,7 +18781,8 @@ export const postFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11587, __c362, 3) as any as S.Schema<PostFeatureFlagRequest>,
   output: __S(15000, __c468, 24) as any as S.Schema<FeatureFlag>,
-  errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18483,7 +18804,8 @@ export const postFlagConfigScheduledChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<PostFlagConfigScheduledChangesRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<FeatureFlagScheduledChange>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18504,7 +18826,8 @@ export const postFlagCopyConfigApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<PostFlagCopyConfigApprovalRequestRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18529,7 +18852,8 @@ export const postGenerateProjectEnvWarehouseDestinationKeyPair: API.OperationMet
     0,
   ) as any as S.Schema<PostGenerateProjectEnvWarehouseDestinationKeyPairRequest>,
   output: __S(11712, __c366, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18546,7 +18870,8 @@ export const postGenerateTrustPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<PostGenerateTrustPolicyRequest>,
   output: __S(11748, __c367, 4) as any as S.Schema<GenerateTrustPolicyPostRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18567,7 +18892,8 @@ export const postGenerateWarehouseDestinationKeyPair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<PostGenerateWarehouseDestinationKeyPairRequest>,
   output: __S(11712, __c366, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18591,7 +18917,8 @@ export const postGenerateWarehouseDestinationSetupScript: API.OperationMethod<
     0,
   ) as any as S.Schema<PostGenerateWarehouseDestinationSetupScriptRequest>,
   output: __S(11809, __c369, 1) as any as S.Schema<WarehouseDestinationSetupScriptRep>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18608,7 +18935,8 @@ export const postHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<PostHoldoutRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<HoldoutRep>,
-  errors: [BadRequest, UnknownLaunchDarklyError],
+  errors: [BadRequest],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18625,7 +18953,8 @@ export const postMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12036, __c376, 4) as any as S.Schema<PostMetricRequest>,
   output: __S(5251, __c164, 3) as any as S.Schema<MetricRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18646,7 +18975,8 @@ export const postMigrationSafetyIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<PostMigrationSafetyIssuesRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<PostMigrationSafetyIssuesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18663,7 +18993,8 @@ export const postModelConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<PostModelConfigRequest>,
   output: __S(5408, __c169, 0) as any as S.Schema<ModelConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18685,7 +19016,8 @@ export const postPromptSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<PostPromptSnippetRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<PromptSnippet>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18702,7 +19034,8 @@ export const postRelayAutoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<PostRelayAutoConfigRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
-  errors: [BadRequest, UnknownLaunchDarklyError],
+  errors: [BadRequest],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18719,7 +19052,8 @@ export const postReleasePoliciesOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<PostReleasePoliciesOrderRequest>,
   output: __S(12193, __c381, 1) as any as S.Schema<PostReleasePoliciesOrderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18741,7 +19075,8 @@ export const postReleasePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<PostReleasePolicyRequest>,
   output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18758,7 +19093,8 @@ export const postRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<PostRepositoryRequest>,
   output: __S(6336, __c198, 0) as any as S.Schema<RepositoryRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18775,7 +19111,8 @@ export const postRestrictedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<PostRestrictedModelsRequest>,
   output: __S(12291, __c384, 3) as any as S.Schema<RestrictedModelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18792,7 +19129,8 @@ export const postSdkKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<PostSdkKeyRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<SdkKey>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18809,7 +19147,8 @@ export const postWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<PostWorkflowRequest>,
   output: __S(1991, __c62, 7) as any as S.Schema<CustomWorkflowOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18826,7 +19165,8 @@ export const putBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<PutBranchRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PutBranchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18848,7 +19188,8 @@ export const putContextFlagSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<PutContextFlagSettingRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PutContextFlagSettingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18865,7 +19206,8 @@ export const putContextKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<PutContextKindRequest>,
   output: __S(12513, __c391, 1) as any as S.Schema<UpsertResponseRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18886,7 +19228,8 @@ export const putExperimentationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12546, __c392, 2) as any as S.Schema<PutExperimentationSettingsRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<RandomizationSettingsRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18908,7 +19251,8 @@ export const putFlagDefaultsByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<PutFlagDefaultsByProjectRequest>,
   output: __S(10114, __c316, 2) as any as S.Schema<UpsertPayloadRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18925,7 +19269,8 @@ export const putFlagFollower: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<PutFlagFollowerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<PutFlagFollowerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18942,7 +19287,8 @@ export const putReleasePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<PutReleasePolicyRequest>,
   output: __S(6213, __c194, 5) as any as S.Schema<ReleasePolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18959,7 +19305,8 @@ export const putSdkKeyViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<PutSdkKeyViewsRequest>,
   output: __S(12673, __c396, 1) as any as S.Schema<PutSdkKeyViewsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18981,7 +19328,8 @@ export const resetEnvironmentMobileKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<ResetEnvironmentMobileKeyRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19003,7 +19351,8 @@ export const resetEnvironmentSDKKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<ResetEnvironmentSDKKeyRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<Environment>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19020,7 +19369,8 @@ export const resetRelayAutoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<ResetRelayAutoConfigRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<RelayAutoConfigRep>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19037,7 +19387,8 @@ export const searchContexts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<SearchContextsRequest>,
   output: __S(1634, __c51, 2) as any as S.Schema<Contexts>,
-  errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19060,14 +19411,8 @@ export const startEnvironmentRelease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12963, __c405, 3) as any as S.Schema<StartEnvironmentReleaseRequest>,
   output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownLaunchDarklyError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19089,7 +19434,8 @@ export const stopEnvironmentRelease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<StopEnvironmentReleaseRequest>,
   output: __S(2568, __c80, 8) as any as S.Schema<EnvironmentRelease>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19111,7 +19457,8 @@ export const triggerFlagImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<TriggerFlagImportJobRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<TriggerFlagImportJobResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19128,7 +19475,8 @@ export const unlinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<UnlinkResourceRequest>,
   output: __S(13057, __c408, 1) as any as S.Schema<UnlinkResourceSuccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19150,7 +19498,8 @@ export const updateAnnouncementPublic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<UpdateAnnouncementPublicRequest>,
   output: __S(15649, __c489, 1) as any as S.Schema<AnnouncementResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19167,7 +19516,8 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<ApplicationRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19184,7 +19534,8 @@ export const updateApplicationVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<UpdateApplicationVersionRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<ApplicationVersionRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19201,7 +19552,8 @@ export const updateApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<UpdateApprovalRequestRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
-  errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19218,7 +19570,8 @@ export const updateBigSegmentContextTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<UpdateBigSegmentContextTargetsRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<UpdateBigSegmentContextTargetsResponse>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19235,7 +19588,8 @@ export const updateBigSegmentTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<UpdateBigSegmentTargetsRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<UpdateBigSegmentTargetsResponse>,
-  errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19252,7 +19606,8 @@ export const updateDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<UpdateDeploymentRequest>,
   output: __S(2250, __c70, 10) as any as S.Schema<DeploymentRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19269,7 +19624,8 @@ export const updateDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<UpdateDestinationRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19291,7 +19647,8 @@ export const updateDestinationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<UpdateDestinationByIdRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<Destination>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19313,7 +19670,8 @@ export const updateFlagLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<UpdateFlagLinkRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<FlagLinkRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19335,7 +19693,8 @@ export const updateIntegrationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<UpdateIntegrationConfigurationRequest>,
   output: __S(5039, __c157, 15) as any as S.Schema<IntegrationConfigurationsRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19352,7 +19711,8 @@ export const updateLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<UpdateLayerRequest>,
   output: __S(6468, __c202, 4) as any as S.Schema<LayerRep>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19369,7 +19729,8 @@ export const updateMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<UpdateMemberRequest>,
   output: __S(6980, __c218, 4) as any as S.Schema<Member>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19386,7 +19747,8 @@ export const updateMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<UpdateMembersRequest>,
   output: __S(13601, __c425, 1) as any as S.Schema<BulkEditMembersRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19403,7 +19765,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(8864, __c277, 0) as any as S.Schema<ProjectRep>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19420,7 +19783,8 @@ export const updateSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<UpdateSegmentRequest>,
   output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19442,7 +19806,8 @@ export const updateSegmentBySegmentKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<UpdateSegmentBySegmentKeyRequest>,
   output: __S(741, __c23, 5) as any as S.Schema<UserSegment>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19464,7 +19829,8 @@ export const updateSegmentScheduledChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<UpdateSegmentScheduledChangeRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<SegmentScheduledChange>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19486,7 +19852,8 @@ export const updateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(9731, __c304, 3) as any as S.Schema<Integration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19503,7 +19870,8 @@ export const updateTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<UpdateTeamRequest>,
   output: __S(10369, __c324, 1) as any as S.Schema<Team>,
-  errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19520,7 +19888,8 @@ export const updateTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<UpdateTeamsRequest>,
   output: __S(13857, __c433, 1) as any as S.Schema<BulkEditTeamsRep>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19543,14 +19912,8 @@ export const updateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<UpdateTokenRequest>,
   output: __S(11104, __c347, 0) as any as S.Schema<Token>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownLaunchDarklyError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19567,7 +19930,8 @@ export const updateView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13920, __c435, 0) as any as S.Schema<UpdateViewRequest>,
   output: __S(11963, __c373, 27) as any as S.Schema<View>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19584,7 +19948,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(12384, __c387, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19605,7 +19970,8 @@ export const validateIntegrationDeliveryConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14016, __c438, 0) as any as S.Schema<ValidateIntegrationDeliveryConfigurationRequest>,
   output: __S(14017, __c438, 1) as any as S.Schema<IntegrationDeliveryConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

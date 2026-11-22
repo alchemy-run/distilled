@@ -66,7 +66,7 @@ const xataSpec: SdkSpec = {
   operationDecl: {
     contextType: "XataOpContext",
     commonErrorType: "XataOpError",
-    commonErrorClasses: ["UnknownXataError"],
+    serviceErrors: "XataServiceErrors",
     protocol: "XataProtocol",
     retry: "Retry.Retry",
   },

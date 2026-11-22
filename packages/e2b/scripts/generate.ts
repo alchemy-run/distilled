@@ -131,9 +131,7 @@ const baseSpec: SdkSpec = {
   operationDecl: {
     contextType: "E2BOpContext",
     commonErrorType: "E2BOpError",
-    // Failures share a `{ code, message }` envelope; the protocol picks the
-    // class from the status.
-    commonErrorClasses: ["UnknownE2BError"],
+    serviceErrors: "E2BServiceErrors",
     protocol: "E2BProtocol",
     retry: "Retry.Retry",
   },

@@ -54,6 +54,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "azure" },
   { package: "boat-dev" },
   { package: "boxd" },
+  { package: "browserbase" },
   // celld publishes no API description: its models are hand-written in
   // spec-repos/celld/models/ and shipped by the mirror.
   { package: "celld" },
@@ -101,9 +102,11 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "meilisearch" },
   { package: "mercury" },
   { package: "metabase" },
+  { package: "microsoft-graph" },
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
+  { package: "mollie" },
   { package: "mux" },
   { package: "namespacelabs" },
   { package: "neon" },
@@ -142,6 +145,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   // of the docs.slack.dev reference pages.
   { package: "slack" },
   { package: "spacetimedb" },
+  { package: "sproutboat" },
   { package: "stackit" },
   { package: "squarespace" },
   { package: "starburst-galaxy" },
@@ -159,6 +163,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "turso" },
   { package: "twitch" },
   { package: "typesense" },
+  { package: "unifi" },
   { package: "unkey" },
   { package: "vanta" },
   { package: "vercel" },

@@ -603,3 +603,28 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-whatsapp.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/browserbase/specs/spec-mirror-browserbase"]
+	path = packages/browserbase/specs/spec-mirror-browserbase
+	url = https://github.com/distilled-mirror/spec-mirror-browserbase.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/mollie/specs/spec-mirror-mollie"]
+	path = packages/mollie/specs/spec-mirror-mollie
+	url = https://github.com/distilled-mirror/spec-mirror-mollie.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/unifi/specs/spec-mirror-unifi"]
+	path = packages/unifi/specs/spec-mirror-unifi
+	url = https://github.com/distilled-mirror/spec-mirror-unifi.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/microsoft-graph/specs/spec-mirror-microsoft-graph"]
+	path = packages/microsoft-graph/specs/spec-mirror-microsoft-graph
+	url = https://github.com/distilled-mirror/spec-mirror-microsoft-graph.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/sproutboat/specs/spec-mirror-sproutboat"]
+	path = packages/sproutboat/specs/spec-mirror-sproutboat
+	url = https://github.com/distilled-mirror/spec-mirror-sproutboat.git
+	ignore = dirty
+	shallow = true

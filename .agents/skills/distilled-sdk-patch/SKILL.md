@@ -150,6 +150,14 @@ operation's `errors`:
   `zz-shape-order.patch.json` files use that to keep shape order. The
   audit reports such a file as needed with "(key order only)".
 
+**Error that any operation of the SDK can return.** This one is not a
+patch. It is declared on the service: add a class with a matcher to the
+`<Pkg>ServiceErrors` list in `packages/<pkg>/src/errors.ts`, with the
+evidence of step 1 (`AGENTS.md` rule 1; copy `Gone` in
+`packages/github/src/errors.ts`). The matcher has the fields listed above,
+and no regeneration is needed. AWS keeps such errors in `service.json`
+(below).
+
 **Field is null or missing on the wire.** Being nullable and being
 required are independent. A field that is sometimes absent loses its
 `smithy.api#required` trait (`remove …/members/<name>/traits/smithy.api#required`);

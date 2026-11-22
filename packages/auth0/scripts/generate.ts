@@ -70,7 +70,7 @@ const auth0Spec: SdkSpec = {
   operationDecl: {
     contextType: "Auth0OpContext",
     commonErrorType: "Auth0OpError",
-    commonErrorClasses: ["UnknownAuth0Error"],
+    serviceErrors: "Auth0ServiceErrors",
     protocol: "Auth0Protocol",
     retry: "Retry.Retry",
   },

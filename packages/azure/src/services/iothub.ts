@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -998,6 +998,8 @@ export interface GetIotHubResourceEndpointHealthRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   iotHubName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Health statuses have following meanings. The 'healthy' status shows that the endpoint is accepting messages as expected. The 'unhealthy' status shows that the endpoint is not accepting messages as expected and IoT Hub is retrying to send data to this endpoint. The status of an unhealthy endpoint will be updated to healthy when IoT Hub has established an eventually consistent state of health. The 'dead' status shows that the endpoint is not accepting messages, after IoT Hub retried sending messages for the retrial period. See IoT Hub metrics to identify errors and monitor issues with endpoints. The 'unknown' status shows that the IoT Hub has not established a connection with the endpoint. No messages have been delivered to or rejected from this endpoint */
 export type EndpointHealthStatus = "unknown" | "healthy" | "degraded" | "unhealthy" | "dead";
@@ -1082,6 +1084,8 @@ export interface GetIotHubResourceQuotaMetricsRequest {
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Quota metrics properties. */
 export interface IotHubQuotaMetricInfo {
@@ -1124,6 +1128,8 @@ export interface GetIotHubResourceValidSkusRequest {
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The type of the scaling enabled. */
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -1563,6 +1569,8 @@ export interface ListIotHubResourceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IotHubDescriptionTagsMap = { [key: string]: string | undefined };
@@ -1601,6 +1609,8 @@ export interface IotHubDescriptionListResult {
 export interface ListIotHubResourceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceEventHubConsumerGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1611,6 +1621,8 @@ export interface ListIotHubResourceEventHubConsumerGroupsRequest {
   resourceName: string;
   /** The name of the EventHubEndpoint */
   eventHubEndpointName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags. */
 export type EventHubConsumerGroupInfoPropertiesMap = { [key: string]: unknown | undefined };
@@ -1645,6 +1657,8 @@ export interface ListIotHubResourceJobsRequest {
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The JobResponse items on this page */
 export type JobResponseListResultValueList = Array<JobResponse>;
@@ -1662,6 +1676,8 @@ export interface ListIotHubResourceKeysRequest {
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SharedAccessSignatureAuthorizationRule items on this page */
 export type SharedAccessSignatureAuthorizationRuleListResultValueList =
@@ -1673,7 +1689,10 @@ export interface SharedAccessSignatureAuthorizationRuleListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Devices */
@@ -1697,7 +1716,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -1942,7 +1961,8 @@ export const CertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CertificatesCreateOrUpdateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<CertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1959,7 +1979,8 @@ export const CheckIotHubResourceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CheckIotHubResourceNameAvailabilityRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<IotHubNameAvailabilityInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1976,7 +1997,8 @@ export const CreateIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c16, 1) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1993,7 +2015,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2010,7 +2033,8 @@ export const DeleteIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteIotHubResourceRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<DeleteIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2027,7 +2051,8 @@ export const DeleteIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2044,7 +2069,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2061,7 +2087,8 @@ export const ExportIotHubResourceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ExportIotHubResourceDevicesRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2078,7 +2105,8 @@ export const GenerateCertificateVerificationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GenerateCertificateVerificationCodeRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<CertificateWithNonceDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2095,7 +2123,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2112,7 +2141,8 @@ export const GetIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetIotHubResourceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2121,20 +2151,28 @@ export const GetIotHubResource: API.OperationMethod<
 
 export type GetIotHubResourceEndpointHealthError = AzureOpError;
 /** Get the health for routing endpoints Get the health for routing endpoints. */
-export const GetIotHubResourceEndpointHealth: API.OperationMethod<
+export const GetIotHubResourceEndpointHealth: API.PaginatedOperationMethod<
   GetIotHubResourceEndpointHealthRequest,
   EndpointHealthDataListResult,
   GetIotHubResourceEndpointHealthError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EndpointHealthData
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetIotHubResourceEndpointHealthRequest>,
   output: __S(195, __c6, 3) as any as S.Schema<EndpointHealthDataListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIotHubResourceEndpointHealth",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetIotHubResourceEventHubConsumerGroupError = AzureOpError;
 /** Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub. */
@@ -2146,7 +2184,8 @@ export const GetIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2163,7 +2202,8 @@ export const GetIotHubResourceJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetIotHubResourceJobRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2180,7 +2220,8 @@ export const GetIotHubResourceKeysForKeyName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetIotHubResourceKeysForKeyNameRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<SharedAccessSignatureAuthorizationRule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2189,20 +2230,28 @@ export const GetIotHubResourceKeysForKeyName: API.OperationMethod<
 
 export type GetIotHubResourceQuotaMetricsError = AzureOpError;
 /** Get the quota metrics for an IoT hub Get the quota metrics for an IoT hub. */
-export const GetIotHubResourceQuotaMetrics: API.OperationMethod<
+export const GetIotHubResourceQuotaMetrics: API.PaginatedOperationMethod<
   GetIotHubResourceQuotaMetricsRequest,
   IotHubQuotaMetricInfoListResult,
   GetIotHubResourceQuotaMetricsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IotHubQuotaMetricInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetIotHubResourceQuotaMetricsRequest>,
   output: __S(323, __c10, 3) as any as S.Schema<IotHubQuotaMetricInfoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIotHubResourceQuotaMetrics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetIotHubResourceStatsError = AzureOpError;
 /** Get the statistics from an IoT hub Get the statistics from an IoT hub. */
@@ -2214,7 +2263,8 @@ export const GetIotHubResourceStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetIotHubResourceStatsRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<RegistryStatistics>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2223,20 +2273,28 @@ export const GetIotHubResourceStats: API.OperationMethod<
 
 export type GetIotHubResourceValidSkusError = AzureOpError;
 /** Get the list of valid SKUs for an IoT hub Get the list of valid SKUs for an IoT hub. */
-export const GetIotHubResourceValidSkus: API.OperationMethod<
+export const GetIotHubResourceValidSkus: API.PaginatedOperationMethod<
   GetIotHubResourceValidSkusRequest,
   IotHubSkuDescriptionListResult,
   GetIotHubResourceValidSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IotHubSkuDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetIotHubResourceValidSkusRequest>,
   output: __S(388, __c12, 4) as any as S.Schema<IotHubSkuDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIotHubResourceValidSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
 /** Get private endpoint connection Get private endpoint connection properties */
@@ -2248,7 +2306,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2265,7 +2324,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<GroupIdInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2282,7 +2342,8 @@ export const GetResourceProviderCommonSubscriptionQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetResourceProviderCommonSubscriptionQuotaRequest>,
   output: __S(612, __c19, 4) as any as S.Schema<UserSubscriptionQuotaListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2299,7 +2360,8 @@ export const ImportIotHubResourceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ImportIotHubResourceDevicesRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2316,7 +2378,8 @@ export const IotHubManualFailover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<IotHubManualFailoverRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<IotHubManualFailoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2333,7 +2396,8 @@ export const IotHubResourceCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(717, __c22, 13) as any as S.Schema<IotHubResourceCreateOrUpdateRequest>,
   output: __S(718, __c22, 14) as any as S.Schema<IotHubResourceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2350,7 +2414,8 @@ export const ListCertificateByIotHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListCertificateByIotHubRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<CertificateListDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2359,105 +2424,153 @@ export const ListCertificateByIotHub: API.OperationMethod<
 
 export type ListIotHubResourceByResourceGroupError = AzureOpError;
 /** Get all the IoT hubs in a resource group Get all the IoT hubs in a resource group. */
-export const ListIotHubResourceByResourceGroup: API.OperationMethod<
+export const ListIotHubResourceByResourceGroup: API.PaginatedOperationMethod<
   ListIotHubResourceByResourceGroupRequest,
   IotHubDescriptionListResult,
   ListIotHubResourceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IotHubDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListIotHubResourceByResourceGroupRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIotHubResourceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIotHubResourceBySubscriptionError = AzureOpError;
 /** Get all the IoT hubs in a subscription Get all the IoT hubs in a subscription. */
-export const ListIotHubResourceBySubscription: API.OperationMethod<
+export const ListIotHubResourceBySubscription: API.PaginatedOperationMethod<
   ListIotHubResourceBySubscriptionRequest,
   IotHubDescriptionListResult,
   ListIotHubResourceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IotHubDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListIotHubResourceBySubscriptionRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIotHubResourceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIotHubResourceEventHubConsumerGroupsError = AzureOpError;
 /** Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub. */
-export const ListIotHubResourceEventHubConsumerGroups: API.OperationMethod<
+export const ListIotHubResourceEventHubConsumerGroups: API.PaginatedOperationMethod<
   ListIotHubResourceEventHubConsumerGroupsRequest,
   EventHubConsumerGroupsListResult,
   ListIotHubResourceEventHubConsumerGroupsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EventHubConsumerGroupInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListIotHubResourceEventHubConsumerGroupsRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<EventHubConsumerGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIotHubResourceEventHubConsumerGroups",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIotHubResourceJobsError = AzureOpError;
 /** Get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry Get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry. */
-export const ListIotHubResourceJobs: API.OperationMethod<
+export const ListIotHubResourceJobs: API.PaginatedOperationMethod<
   ListIotHubResourceJobsRequest,
   JobResponseListResult,
   ListIotHubResourceJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListIotHubResourceJobsRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<JobResponseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIotHubResourceJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIotHubResourceKeysError = AzureOpError;
 /** Get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security Get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security. */
-export const ListIotHubResourceKeys: API.OperationMethod<
+export const ListIotHubResourceKeys: API.PaginatedOperationMethod<
   ListIotHubResourceKeysRequest,
   SharedAccessSignatureAuthorizationRuleListResult,
   ListIotHubResourceKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedAccessSignatureAuthorizationRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListIotHubResourceKeysRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIotHubResourceKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** List private endpoint connections List private endpoint connection properties */
@@ -2469,7 +2582,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2486,7 +2600,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<PrivateLinkResources>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2503,7 +2618,8 @@ export const TestIotHubResourceAllRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<TestIotHubResourceAllRoutesRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<TestAllRoutesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2520,7 +2636,8 @@ export const TestIotHubResourceRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<TestIotHubResourceRouteRequest>,
   output: __S(1222, __c38, 6) as any as S.Schema<TestRouteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2537,7 +2654,8 @@ export const UpdateIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdateIotHubResourceRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<UpdateIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2554,7 +2672,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2571,7 +2690,8 @@ export const VerifyCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<VerifyCertificateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<VerifyCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2724,12 +2844,14 @@ function __c6(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           iotHubName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routingEndpointsHealth",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceEndpointHealthRequest" });
@@ -2824,12 +2946,14 @@ function __c10(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/quotaMetrics",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceQuotaMetricsRequest" });
@@ -2887,12 +3011,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/skus",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceValidSkusRequest" });
@@ -3326,12 +3452,14 @@ function __c25(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceByResourceGroupRequest" });
@@ -3356,12 +3484,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/IotHubs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceBySubscriptionRequest" });
@@ -3376,12 +3506,14 @@ function __c28(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           eventHubEndpointName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceEventHubConsumerGroupsRequest" });
@@ -3404,12 +3536,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/jobs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceJobsRequest" });
@@ -3432,12 +3566,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/listkeys",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceKeysRequest" });
@@ -3481,12 +3617,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Devices/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3511,7 +3650,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1059, __c33, 3)),
+          value: __S(1059, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });

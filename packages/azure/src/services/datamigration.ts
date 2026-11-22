@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1307,6 +1307,8 @@ export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest {
   resourceGroupName: string;
   /** The name of the target resource/account. */
   targetResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Database Migration Resource for Mongo to CosmosDb. */
 export interface DatabaseMigrationCosmosDbMongo {
@@ -1324,7 +1326,7 @@ export type DatabaseMigrationCosmosDbMongoListResultValueList =
   Array<DatabaseMigrationCosmosDbMongo>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationCosmosDbMongoListResult {
-  value?: DatabaseMigrationCosmosDbMongoListResultValueList | undefined;
+  value: DatabaseMigrationCosmosDbMongoListResultValueList;
   nextLink?: string | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
@@ -1355,6 +1357,8 @@ export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest {
   resourceGroupName: string;
   /** The name of the target resource/account. */
   targetResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1750,6 +1754,8 @@ export interface ListFilesRequest {
   serviceName: string;
   /** Name of the project */
   projectName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A file resource */
 export interface ProjectFile {
@@ -1770,7 +1776,7 @@ export interface ProjectFile {
 export type ListFilesResponseValueList = Array<ProjectFile>;
 export interface ListFilesResponse {
   /** List of files */
-  value?: ListFilesResponseValueList | undefined;
+  value: ListFilesResponseValueList;
   /** URL to load the next page of files */
   nextLink?: string | undefined;
 }
@@ -1779,6 +1785,8 @@ export interface ListMigrationServiceByResourceGroupRequest {
   subscriptionId: string;
   /** Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MigrationServiceTagsMap = { [key: string]: string | undefined };
@@ -1801,12 +1809,14 @@ export interface MigrationService {
 export type MigrationServiceListResultValueList = Array<MigrationService>;
 /** A list of Migration Service. */
 export interface MigrationServiceListResult {
-  value?: MigrationServiceListResultValueList | undefined;
+  value: MigrationServiceListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMigrationServiceMigrationsRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1815,6 +1825,8 @@ export interface ListMigrationServiceMigrationsRequest {
   resourceGroupName: string;
   /** Name of the Migration Service. */
   migrationServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Database Migration Base Resource properties. */
 export type DatabaseMigrationBaseProperties =
@@ -1837,10 +1849,13 @@ export interface DatabaseMigrationBase {
 export type DatabaseMigrationBaseListResultValueList = Array<DatabaseMigrationBase>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationBaseListResult {
-  value?: DatabaseMigrationBaseListResultValueList | undefined;
+  value: DatabaseMigrationBaseListResultValueList;
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 export interface OperationsDisplayDefinition {
   provider?: string | undefined;
   resource?: string | undefined;
@@ -1860,7 +1875,7 @@ export interface OperationsDefinition {
 export type OperationListResultValueList = Array<OperationsDefinition>;
 /** Result of the request to list SQL operations. */
 export interface OperationListResult {
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListProjectsRequest {
@@ -1870,6 +1885,8 @@ export interface ListProjectsRequest {
   groupName: string;
   /** Name of the service */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -1896,13 +1913,15 @@ export interface Project {
 export type ListProjectsResponseValueList = Array<Project>;
 export interface ListProjectsResponse {
   /** List of projects */
-  value?: ListProjectsResponseValueList | undefined;
+  value: ListProjectsResponseValueList;
   /** URL to load the next page of projects */
   nextLink?: string | undefined;
 }
 export interface ListResourceSkusSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The scale type applicable to the SKU. */
 export type ResourceSkuCapacityScaleType = "Automatic" | "Manual" | "None";
@@ -1998,6 +2017,8 @@ export interface ListServiceByResourceGroupRequest {
   subscriptionId: string;
   /** Name of the resource group */
   groupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DataMigrationServiceTagsMap = { [key: string]: string | undefined };
@@ -2028,19 +2049,21 @@ export interface DataMigrationService {
 export type ListServiceByResourceGroupResponseValueList = Array<DataMigrationService>;
 export interface ListServiceByResourceGroupResponse {
   /** List of services */
-  value?: ListServiceByResourceGroupResponseValueList | undefined;
+  value: ListServiceByResourceGroupResponseValueList;
   /** URL to load the next page of services */
   nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of services */
 export type ListServicesResponseValueList = Array<DataMigrationService>;
 export interface ListServicesResponse {
   /** List of services */
-  value?: ListServicesResponseValueList | undefined;
+  value: ListServicesResponseValueList;
   /** URL to load the next page of services */
   nextLink?: string | undefined;
 }
@@ -2051,6 +2074,8 @@ export interface ListServiceSkusRequest {
   groupName: string;
   /** Name of the service */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SKU name, tier, etc. */
 export interface AvailableServiceSkuSku {
@@ -2089,7 +2114,7 @@ export interface AvailableServiceSku {
 export type ListServiceSkusResponseValueList = Array<AvailableServiceSku>;
 export interface ListServiceSkusResponse {
   /** List of service SKUs */
-  value?: ListServiceSkusResponseValueList | undefined;
+  value: ListServiceSkusResponseValueList;
   /** URL to load the next page of service SKUs */
   nextLink?: string | undefined;
 }
@@ -2102,6 +2127,8 @@ export interface ListServiceTasksRequest {
   serviceName: string;
   /** Filter tasks by task type */
   taskType?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A task resource */
 export interface ProjectTask {
@@ -2122,7 +2149,7 @@ export interface ProjectTask {
 export type ListServiceTasksResponseValueList = Array<ProjectTask>;
 export interface ListServiceTasksResponse {
   /** List of tasks */
-  value?: ListServiceTasksResponseValueList | undefined;
+  value: ListServiceTasksResponseValueList;
   /** URL to load the next page of tasks */
   nextLink?: string | undefined;
 }
@@ -2146,6 +2173,8 @@ export interface ListSqlMigrationServiceByResourceGroupRequest {
   subscriptionId: string;
   /** Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SqlMigrationServiceTagsMap = { [key: string]: string | undefined };
@@ -2168,12 +2197,14 @@ export interface SqlMigrationService {
 export type SqlMigrationListResultValueList = Array<SqlMigrationService>;
 /** A list of SQL Migration Service. */
 export interface SqlMigrationListResult {
-  value?: SqlMigrationListResultValueList | undefined;
+  value: SqlMigrationListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceMigrationsRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2182,6 +2213,8 @@ export interface ListSqlMigrationServiceMigrationsRequest {
   resourceGroupName: string;
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Database Migration Resource properties. */
 export type DatabaseMigrationProperties =
@@ -2203,7 +2236,7 @@ export interface DatabaseMigration {
 export type DatabaseMigrationListResultValueList = Array<DatabaseMigration>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationListResult {
-  value?: DatabaseMigrationListResultValueList | undefined;
+  value: DatabaseMigrationListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceMonitoringDataRequest {
@@ -2256,12 +2289,14 @@ export interface ListTasksRequest {
   projectName: string;
   /** Filter tasks by task type */
   taskType?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of tasks */
 export type ListTasksResponseValueList = Array<ProjectTask>;
 export interface ListTasksResponse {
   /** List of tasks */
-  value?: ListTasksResponseValueList | undefined;
+  value: ListTasksResponseValueList;
   /** URL to load the next page of tasks */
   nextLink?: string | undefined;
 }
@@ -2270,6 +2305,8 @@ export interface ListUsagesRequest {
   subscriptionId: string;
   /** The Azure region of the operation */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The name of the quota */
 export interface QuotaName {
@@ -2295,7 +2332,7 @@ export interface Quota {
 export type ListUsagesResponseValueList = Array<Quota>;
 export interface ListUsagesResponse {
   /** List of quotas */
-  value?: ListUsagesResponseValueList | undefined;
+  value: ListUsagesResponseValueList;
   /** URL to load the next page of quotas, or null or missing if this is the last page */
   nextLink?: string | undefined;
 }
@@ -2980,7 +3017,8 @@ export const CancelDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2997,7 +3035,8 @@ export const CancelDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CancelDatabaseMigrationsSqlMiRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3014,7 +3053,8 @@ export const CancelDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3031,7 +3071,8 @@ export const CancelServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CancelServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<CancelServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3048,7 +3089,8 @@ export const CancelTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CancelTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<CancelTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3065,7 +3107,8 @@ export const CheckServiceChildrenNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3082,7 +3125,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<CheckServiceNameAvailabilityRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,7 +3143,8 @@ export const CheckServiceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<CheckServiceStatusRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<CheckServiceStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3124,7 +3169,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
     __c113,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3149,7 +3195,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
     __c113,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3166,7 +3213,8 @@ export const DatabaseMigrationsSqlDbCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3183,7 +3231,8 @@ export const DatabaseMigrationsSqlMiCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3200,7 +3249,8 @@ export const DatabaseMigrationsSqlMiCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3217,7 +3267,8 @@ export const DatabaseMigrationsSqlVmCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3234,7 +3285,8 @@ export const DatabaseMigrationsSqlVmCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3259,7 +3311,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
     __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3284,7 +3337,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
     __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3301,7 +3355,8 @@ export const DeleteDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3318,7 +3373,8 @@ export const DeleteDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3335,7 +3391,8 @@ export const DeleteDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3352,7 +3409,8 @@ export const DeleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3369,7 +3427,8 @@ export const DeleteMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteMigrationServiceRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<DeleteMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3386,7 +3445,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3403,7 +3463,8 @@ export const DeleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3420,7 +3481,8 @@ export const DeleteServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteServiceTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3437,7 +3499,8 @@ export const DeleteSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteSqlMigrationServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3454,7 +3517,8 @@ export const DeleteSqlMigrationServiceNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteSqlMigrationServiceNodeRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<DeleteNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3471,7 +3535,8 @@ export const DeleteTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3488,7 +3553,8 @@ export const FilesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<FilesCreateOrUpdateRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<FilesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3509,7 +3575,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod<
     __c113,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3518,24 +3585,32 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod<
 
 export type GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeError = AzureOpError;
 /** Get Database Migration resources for the scope. */
-export const GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope: API.OperationMethod<
+export const GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope: API.PaginatedOperationMethod<
   GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest,
   DatabaseMigrationCosmosDbMongoListResult,
   GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigrationCosmosDbMongo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     608,
     __c38,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetDatabaseMigrationsMongoToCosmosDbvCoreMongoError = AzureOpError;
 /** Get Database Migration resource. */
@@ -3555,7 +3630,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMethod
     __c113,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3564,24 +3640,32 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMethod
 
 export type GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeError = AzureOpError;
 /** Get Database Migration resources for the scope. */
-export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope: API.OperationMethod<
+export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope: API.PaginatedOperationMethod<
   GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest,
   DatabaseMigrationCosmosDbMongoListResult,
   GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigrationCosmosDbMongo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     656,
     __c41,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetDatabaseMigrationsSqlDbError = AzureOpError;
 /** Retrieve the Database Migration resource. */
@@ -3593,7 +3677,8 @@ export const GetDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3610,7 +3695,8 @@ export const GetDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3627,7 +3713,8 @@ export const GetDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3644,7 +3731,8 @@ export const GetFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetFileRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<GetFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3661,7 +3749,8 @@ export const GetMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetMigrationServiceRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<GetMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3678,7 +3767,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3785,8 @@ export const GetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<GetServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3712,7 +3803,8 @@ export const GetServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<GetServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3729,7 +3821,8 @@ export const GetSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetSqlMigrationServiceRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<GetSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3746,7 +3839,8 @@ export const GetTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<GetTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3755,190 +3849,278 @@ export const GetTask: API.OperationMethod<
 
 export type ListFilesError = AzureOpError;
 /** Get files in a project The project resource is a nested resource representing a stored migration project. This method returns a list of files owned by a project resource. */
-export const ListFiles: API.OperationMethod<
+export const ListFiles: API.PaginatedOperationMethod<
   ListFilesRequest,
   ListFilesResponse,
   ListFilesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProjectFile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListFilesRequest>,
   output: __S(930, __c58, 2) as any as S.Schema<ListFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFiles",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMigrationServiceByResourceGroupError = AzureOpError;
 /** Retrieve all migration services in the resource group. */
-export const ListMigrationServiceByResourceGroup: API.OperationMethod<
+export const ListMigrationServiceByResourceGroup: API.PaginatedOperationMethod<
   ListMigrationServiceByResourceGroupRequest,
   MigrationServiceListResult,
   ListMigrationServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListMigrationServiceByResourceGroupRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMigrationServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMigrationServiceBySubscriptionError = AzureOpError;
 /** Retrieve all migration services in the subscriptions. */
-export const ListMigrationServiceBySubscription: API.OperationMethod<
+export const ListMigrationServiceBySubscription: API.PaginatedOperationMethod<
   ListMigrationServiceBySubscriptionRequest,
   MigrationServiceListResult,
   ListMigrationServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListMigrationServiceBySubscriptionRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMigrationServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMigrationServiceMigrationsError = AzureOpError;
 /** Retrieve the List of database migrations attached to the service. */
-export const ListMigrationServiceMigrations: API.OperationMethod<
+export const ListMigrationServiceMigrations: API.PaginatedOperationMethod<
   ListMigrationServiceMigrationsRequest,
   DatabaseMigrationBaseListResult,
   ListMigrationServiceMigrationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigrationBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListMigrationServiceMigrationsRequest>,
   output: __S(996, __c62, 4) as any as S.Schema<DatabaseMigrationBaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMigrationServiceMigrations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available SQL Migration REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationsDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1012, __c63, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectsError = AzureOpError;
 /** Get projects in a service The project resource is a nested resource representing a stored migration project. This method returns a list of projects owned by a service resource. */
-export const ListProjects: API.OperationMethod<
+export const ListProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
   ListProjectsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceSkusSkusError = AzureOpError;
 /** Get supported SKUs The skus action returns the list of SKUs that DMS (classic) supports. */
-export const ListResourceSkusSkus: API.OperationMethod<
+export const ListResourceSkusSkus: API.PaginatedOperationMethod<
   ListResourceSkusSkusRequest,
   ListResourceSkusSkusResponse,
   ListResourceSkusSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListResourceSkusSkusRequest>,
   output: __S(1065, __c66, 9) as any as S.Schema<ListResourceSkusSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourceSkusSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceByResourceGroupError = AzureOpError;
 /** Get services in resource group The Services resource is the top-level resource that represents the Azure Database Migration Service (classic). This method returns a list of service resources in a resource group. */
-export const ListServiceByResourceGroup: API.OperationMethod<
+export const ListServiceByResourceGroup: API.PaginatedOperationMethod<
   ListServiceByResourceGroupRequest,
   ListServiceByResourceGroupResponse,
   ListServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataMigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ListServiceByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServicesError = AzureOpError;
 /** Get services in subscription The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This method returns a list of service resources in a subscription. */
-export const ListServices: API.OperationMethod<
+export const ListServices: API.PaginatedOperationMethod<
   ListServicesRequest,
   ListServicesResponse,
   ListServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataMigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ListServicesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceSkusError = AzureOpError;
 /** Get compatible SKUs The services resource is the top-level resource that represents the Database Migration Service (classic). The skus action returns the list of SKUs that a service resource can be updated to. */
-export const ListServiceSkus: API.OperationMethod<
+export const ListServiceSkus: API.PaginatedOperationMethod<
   ListServiceSkusRequest,
   ListServiceSkusResponse,
   ListServiceSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AvailableServiceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListServiceSkusRequest>,
   output: __S(1172, __c73, 4) as any as S.Schema<ListServiceSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceTasksError = AzureOpError;
 /** Get service level tasks for a service The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This method returns a list of service level tasks owned by a service resource. Some tasks may have a status of Unknown, which indicates that an error occurred while querying the status of that task. */
-export const ListServiceTasks: API.OperationMethod<
+export const ListServiceTasks: API.PaginatedOperationMethod<
   ListServiceTasksRequest,
   ListServiceTasksResponse,
   ListServiceTasksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProjectTask
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListServiceTasksRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListServiceTasksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceTasks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqlMigrationServiceAuthKeysError = AzureOpError;
 /** Retrieve the List of Authentication Keys for Self Hosted Integration Runtime. */
@@ -3950,7 +4132,8 @@ export const ListSqlMigrationServiceAuthKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListSqlMigrationServiceAuthKeysRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<AuthenticationKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3959,54 +4142,78 @@ export const ListSqlMigrationServiceAuthKeys: API.OperationMethod<
 
 export type ListSqlMigrationServiceByResourceGroupError = AzureOpError;
 /** Retrieve all SQL migration services in the resource group. */
-export const ListSqlMigrationServiceByResourceGroup: API.OperationMethod<
+export const ListSqlMigrationServiceByResourceGroup: API.PaginatedOperationMethod<
   ListSqlMigrationServiceByResourceGroupRequest,
   SqlMigrationListResult,
   ListSqlMigrationServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SqlMigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<ListSqlMigrationServiceByResourceGroupRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSqlMigrationServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqlMigrationServiceBySubscriptionError = AzureOpError;
 /** Retrieve all SQL migration services in the subscriptions. */
-export const ListSqlMigrationServiceBySubscription: API.OperationMethod<
+export const ListSqlMigrationServiceBySubscription: API.PaginatedOperationMethod<
   ListSqlMigrationServiceBySubscriptionRequest,
   SqlMigrationListResult,
   ListSqlMigrationServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SqlMigrationService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListSqlMigrationServiceBySubscriptionRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSqlMigrationServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqlMigrationServiceMigrationsError = AzureOpError;
 /** Retrieve the List of database migrations attached to the service. */
-export const ListSqlMigrationServiceMigrations: API.OperationMethod<
+export const ListSqlMigrationServiceMigrations: API.PaginatedOperationMethod<
   ListSqlMigrationServiceMigrationsRequest,
   DatabaseMigrationListResult,
   ListSqlMigrationServiceMigrationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListSqlMigrationServiceMigrationsRequest>,
   output: __S(1284, __c80, 4) as any as S.Schema<DatabaseMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSqlMigrationServiceMigrations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqlMigrationServiceMonitoringDataError = AzureOpError;
 /** Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database Migration Service. */
@@ -4018,7 +4225,8 @@ export const ListSqlMigrationServiceMonitoringData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListSqlMigrationServiceMonitoringDataRequest>,
   output: __S(1299, __c81, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4027,37 +4235,53 @@ export const ListSqlMigrationServiceMonitoringData: API.OperationMethod<
 
 export type ListTasksError = AzureOpError;
 /** Get tasks in a service The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This method returns a list of tasks owned by a service resource. Some tasks may have a status of Unknown, which indicates that an error occurred while querying the status of that task. */
-export const ListTasks: API.OperationMethod<
+export const ListTasks: API.PaginatedOperationMethod<
   ListTasksRequest,
   ListTasksResponse,
   ListTasksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProjectTask
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListTasksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTasks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagesError = AzureOpError;
 /** Get resource quotas and usage information This method returns region-specific quotas and resource usage information for the Azure Database Migration Service (classic). */
-export const ListUsages: API.OperationMethod<
+export const ListUsages: API.PaginatedOperationMethod<
   ListUsagesRequest,
   ListUsagesResponse,
   ListUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Quota
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(1348, __c84, 4) as any as S.Schema<ListUsagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MigrationServicesCreateOrUpdateError = AzureOpError;
 /** Create or Update Database Migration Service. */
@@ -4069,7 +4293,8 @@ export const MigrationServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<MigrationServicesCreateOrUpdateRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<MigrationServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,7 +4311,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4103,7 +4329,8 @@ export const ReadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ReadFileRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<ReadFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4120,7 +4347,8 @@ export const ReadFileWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ReadFileWriteRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<ReadFileWriteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4137,7 +4365,8 @@ export const RegenerateSqlMigrationServiceAuthKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<RegenerateSqlMigrationServiceAuthKeysRequest>,
   output: __S(1457, __c91, 1) as any as S.Schema<RegenAuthKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4154,7 +4383,8 @@ export const RetryDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4171,7 +4401,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ServicesCreateOrUpdateRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<ServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4419,8 @@ export const ServiceTasksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ServiceTasksCreateOrUpdateRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<ServiceTasksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +4437,8 @@ export const SqlMigrationServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<SqlMigrationServicesCreateOrUpdateRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<SqlMigrationServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4222,7 +4455,8 @@ export const StartService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<StartServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4239,7 +4473,8 @@ export const StopService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<StopServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4491,8 @@ export const TasksCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<TasksCommandRequest>,
   output: __S(565, __c35, 5) as any as S.Schema<TasksCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4273,7 +4509,8 @@ export const TasksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<TasksCreateOrUpdateRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<TasksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4290,7 +4527,8 @@ export const UpdateFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<UpdateFileRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<UpdateFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4307,7 +4545,8 @@ export const UpdateMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<UpdateMigrationServiceRequest>,
   output: __S(1681, __c105, 1) as any as S.Schema<UpdateMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,7 +4563,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4341,7 +4581,8 @@ export const UpdateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<UpdateServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4358,7 +4599,8 @@ export const UpdateServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<UpdateServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<UpdateServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4375,7 +4617,8 @@ export const UpdateSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<UpdateSqlMigrationServiceRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<UpdateSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4392,7 +4635,8 @@ export const UpdateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<UpdateTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<UpdateTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5363,12 +5607,14 @@ function __c38(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{targetResourceName}/providers/Microsoft.DataMigration/databaseMigrations",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest" });
@@ -5381,7 +5627,7 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(624, __c39, 0)),
+          value: __S(624, __c39, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationCosmosDbMongoListResult" });
@@ -5415,12 +5661,14 @@ function __c41(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{targetResourceName}/providers/Microsoft.DataMigration/databaseMigrations",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest" });
@@ -5808,12 +6056,14 @@ function __c58(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFilesRequest" });
@@ -5822,7 +6072,7 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(929, __c58, 1)),
+          value: __S(929, __c58, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFilesResponse" });
@@ -5835,12 +6085,14 @@ function __c59(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/migrationServices",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMigrationServiceByResourceGroupRequest" });
@@ -5853,7 +6105,7 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(960, __c60, 0)),
+          value: __S(960, __c60, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationServiceListResult" });
@@ -5865,12 +6117,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/migrationServices",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMigrationServiceBySubscriptionRequest" });
@@ -5884,12 +6138,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           migrationServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/migrationServices/{migrationServiceName}/listMigrations",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMigrationServiceMigrationsRequest" });
@@ -5915,7 +6171,7 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c62, 3)),
+          value: __S(995, __c62, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationBaseListResult" });
@@ -5925,12 +6181,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataMigration/operations",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5958,7 +6217,7 @@ function __c63(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1011, __c63, 3)),
+          value: __S(1011, __c63, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -5978,12 +6237,14 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -5992,7 +6253,7 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1041, __c65, 1)),
+          value: __S(1041, __c65, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
@@ -6004,12 +6265,14 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/skus",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceSkusSkusRequest" });
@@ -6123,12 +6386,14 @@ function __c70(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -6141,7 +6406,7 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1136, __c71, 0)),
+          value: __S(1136, __c71, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceByResourceGroupResponse" });
@@ -6153,12 +6418,14 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/services",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServicesRequest" });
@@ -6172,12 +6439,14 @@ function __c73(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceSkusRequest" });
@@ -6203,7 +6472,7 @@ function __c73(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1171, __c73, 3)),
+          value: __S(1171, __c73, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceSkusResponse" });
@@ -6218,12 +6487,14 @@ function __c74(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           taskType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/serviceTasks",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceTasksRequest" });
@@ -6236,7 +6507,7 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1200, __c75, 0)),
+          value: __S(1200, __c75, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceTasksResponse" });
@@ -6275,12 +6546,14 @@ function __c77(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSqlMigrationServiceByResourceGroupRequest" });
@@ -6293,7 +6566,7 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1248, __c78, 0)),
+          value: __S(1248, __c78, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlMigrationListResult" });
@@ -6305,12 +6578,14 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/sqlMigrationServices",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSqlMigrationServiceBySubscriptionRequest" });
@@ -6324,12 +6599,14 @@ function __c80(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sqlMigrationServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMigrations",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSqlMigrationServiceMigrationsRequest" });
@@ -6350,7 +6627,7 @@ function __c80(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1283, __c80, 3)),
+          value: __S(1283, __c80, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationListResult" });
@@ -6408,12 +6685,14 @@ function __c82(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           taskType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTasksRequest" });
@@ -6446,12 +6725,14 @@ function __c84(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages",
             code: 200,
             apiVersion: "2025-06-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagesRequest" });
@@ -6477,7 +6758,7 @@ function __c84(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1347, __c84, 3)),
+          value: __S(1347, __c84, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsagesResponse" });

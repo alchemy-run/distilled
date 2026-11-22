@@ -2,7 +2,7 @@
  * S2 (s2.dev) credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, accountBaseUrl, basin,
- * basinBaseUrl }` per request; the protocol layer formats the
+ * basinBaseUrl }` per request; the protocol formats the
  * `Authorization: Bearer <token>` header from it. The token is an S2 access
  * token, issued per account via `accessTokens.issueAccessToken` or
  * the S2 dashboard.
