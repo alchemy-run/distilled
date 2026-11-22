@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3116,7 +3116,8 @@ export const achCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AchCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [CustomerBlocked, PreconditionRequired, VerificationRequired, UnknownCoinflowError],
+  errors: [CustomerBlocked, PreconditionRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3133,7 +3134,8 @@ export const apaCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ApaCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutApaCheckoutResponse200>,
-  errors: [CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3154,7 +3156,8 @@ export const applePay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(169, __c10, 9) as any as S.Schema<ApplePayRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [PaymentRequired, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PaymentRequired, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3171,7 +3174,8 @@ export const capturePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CapturePaymentRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<CheckoutCapturePaymentResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3192,7 +3196,8 @@ export const cardCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<CardCheckoutRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<CardCheckoutResponse>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3209,7 +3214,8 @@ export const cardOnFileAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CardOnFileAuthorizedRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<CheckoutCardOnFileAuthorizedResponse200>,
-  errors: [Forbidden, Gone, PreconditionFailed, UnknownCoinflowError],
+  errors: [Forbidden, Gone, PreconditionFailed],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3226,7 +3232,8 @@ export const cardOnFileCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CardOnFileCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [Forbidden, Gone, PreconditionFailed, UnknownCoinflowError],
+  errors: [Forbidden, Gone, PreconditionFailed],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3247,7 +3254,8 @@ export const cashAppCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CashAppCheckoutRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<CheckoutCashAppCheckoutResponse200>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3264,7 +3272,8 @@ export const createAchAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateAchAuthorizationRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<IAchAuthorizationString>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3281,7 +3290,8 @@ export const createPixPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreatePixPaymentRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<PixCheckoutResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3298,7 +3308,8 @@ export const cryptoCheckoutHeadless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CryptoCheckoutHeadlessRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<HeadlessCheckoutSession>,
-  errors: [CustomerBlocked, UnknownCoinflowError],
+  errors: [CustomerBlocked],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3315,7 +3326,8 @@ export const getBankLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetBankLinkRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<CheckoutGetBankLinkResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3332,7 +3344,8 @@ export const getCheckoutJwtToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetCheckoutJwtTokenRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<CheckoutGetCheckoutJwtTokenResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3349,7 +3362,8 @@ export const getCheckoutLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetCheckoutLinkRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<CheckoutGetCheckoutLinkResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3366,7 +3380,8 @@ export const getDestinationAuthKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetDestinationAuthKeyRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<CheckoutGetDestinationAuthKeyResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3387,7 +3402,8 @@ export const getFees: API.OperationMethod<
     __c31,
     1,
   ) as any as S.Schema<PartialRecordPaymentMethodsFeeOptionArrayOrFeeDetailOrCurrencyCents>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3404,7 +3420,8 @@ export const getSupportedChainsAndTokensForMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetSupportedChainsAndTokensForMerchantRequest>,
   output: __S(517, __c32, 5) as any as S.Schema<SupportedChainTokenCombos>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3425,7 +3442,8 @@ export const getTotals: API.OperationMethod<
     __c33,
     3,
   ) as any as S.Schema<RecordPaymentMethodsTotalsResponseSettlementOrUndefined>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3442,7 +3460,8 @@ export const getUsdcAuthorizationMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetUsdcAuthorizationMessageRequest>,
   output: __S(546, __c34, 2) as any as S.Schema<GetUsdcAuthorizationResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3464,13 +3483,8 @@ export const googlePay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c35, 8) as any as S.Schema<GooglePayRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [
-    PaymentRequired,
-    PreconditionFailed,
-    CustomerBlocked,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [PaymentRequired, PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3492,13 +3506,8 @@ export const ibanCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(577, __c36, 1) as any as S.Schema<IbanCheckoutRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<IbanPaymentDetails>,
-  errors: [
-    CustomerBlocked,
-    UpgradeRequired,
-    PreconditionRequired,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [CustomerBlocked, UpgradeRequired, PreconditionRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3519,7 +3528,8 @@ export const ibanTokenCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<IbanTokenCheckoutRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<IbanPaymentDetails>,
-  errors: [CustomerBlocked, PreconditionRequired, VerificationRequired, UnknownCoinflowError],
+  errors: [CustomerBlocked, PreconditionRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3536,7 +3546,8 @@ export const interacCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<InteracCheckoutRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<InteracCheckoutResponse>,
-  errors: [CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3553,7 +3564,8 @@ export const interacTokenCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<InteracTokenCheckoutRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<InteracCheckoutResponse>,
-  errors: [CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3570,7 +3582,8 @@ export const merchantInitiatedTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<MerchantInitiatedTransactionRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [Forbidden, Conflict, Gone, UnknownCoinflowError],
+  errors: [Forbidden, Conflict, Gone],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3591,7 +3604,8 @@ export const newPayPalCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<NewPayPalCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PayPalCheckoutResponse>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3612,7 +3626,8 @@ export const newVenmoCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<NewVenmoCheckoutRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<VenmoCheckoutResponse>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3629,7 +3644,8 @@ export const reviewPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ReviewPaymentRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ReviewPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3646,7 +3662,8 @@ export const revokeAchAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<RevokeAchAuthorizationRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<RevokeAchAuthorizationResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3667,7 +3684,8 @@ export const savedPayPalCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<SavedPayPalCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PayPalCheckoutResponse>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3688,7 +3706,8 @@ export const savedVenmoCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<SavedVenmoCheckoutRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<VenmoCheckoutResponse>,
-  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3705,7 +3724,8 @@ export const setAchAuthorizationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<SetAchAuthorizationStatusRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<SetAchAuthorizationStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3727,13 +3747,8 @@ export const tokenCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(833, __c52, 1) as any as S.Schema<TokenCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [
-    PreconditionFailed,
-    UnprocessableEntity,
-    CustomerBlocked,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [PreconditionFailed, UnprocessableEntity, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3750,7 +3765,8 @@ export const validateMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ValidateMerchantRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ValidateMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3772,13 +3788,8 @@ export const vaultedPayPalCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<VaultedPayPalCheckoutRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PayPalCheckoutResponse>,
-  errors: [
-    BadRequest,
-    PreconditionFailed,
-    CustomerBlocked,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [BadRequest, PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3800,13 +3811,8 @@ export const vaultedVenmoCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<VaultedVenmoCheckoutRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<VenmoCheckoutResponse>,
-  errors: [
-    BadRequest,
-    PreconditionFailed,
-    CustomerBlocked,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [BadRequest, PreconditionFailed, CustomerBlocked, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3823,7 +3829,8 @@ export const voidPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<VoidPaymentRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<VoidPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3845,13 +3852,8 @@ export const wireCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(913, __c57, 1) as any as S.Schema<WireCheckoutRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<USWirePaymentDetails>,
-  errors: [
-    PreconditionFailed,
-    CustomerBlocked,
-    PreconditionRequired,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [PreconditionFailed, CustomerBlocked, PreconditionRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3873,13 +3875,8 @@ export const wireTokenCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<WireTokenCheckoutRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<USWirePaymentDetails>,
-  errors: [
-    PreconditionFailed,
-    CustomerBlocked,
-    PreconditionRequired,
-    VerificationRequired,
-    UnknownCoinflowError,
-  ],
+  errors: [PreconditionFailed, CustomerBlocked, PreconditionRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,7 +3893,8 @@ export const zeroAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ZeroAuthorizationRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<CardCheckoutResponse>,
-  errors: [Forbidden, Gone, PreconditionFailed, UnknownCoinflowError],
+  errors: [Forbidden, Gone, PreconditionFailed],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

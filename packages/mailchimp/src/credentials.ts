@@ -122,6 +122,14 @@ export class TransactionalCredentials
     Effect.Effect<TransactionalConfig, ConfigError>
   >()("MailchimpTransactionalCredentials") {}
 
+/**
+ * What resolving the Transactional credentials can fail with: declared on
+ * {@link TransactionalCredentials}.
+ */
+export type TransactionalCredentialsError = Effect.Error<
+  (typeof TransactionalCredentials)["Service"]
+>;
+
 const resolveTransactional = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string | undefined;
