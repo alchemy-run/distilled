@@ -19,10 +19,14 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * before it expires, so long-running programs keep working past the token
  * lifetime. Each layer owns its cache, and concurrent resolutions of a cold
  * or stale cache share one exchange.
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing variable or a domain that is not an HTTPS host is a `ConfigError`
+ * at setup, and no call fails for it. The service's effect can still fail
+ * with `ConfigError` when the token request it makes at run time fails.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Equal from "effect/Equal";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -101,17 +105,18 @@ const reuseFor = (expiresInSeconds: number): number => {
  * the exchange through the captured `HttpClient` and reuses the token for
  * {@link reuseFor} its `expires_in`. Concurrent resolutions of a cold or
  * stale cache share one exchange (core `refreshing`); a failed exchange is
- * not cached.
+ * not cached. The domain is checked here, once, before any exchange: a
+ * malformed one fails this effect and no request is made.
  * Exchange errors carry the status, never the secret or a token.
  */
 export const makeClientCredentials = (
   config: ClientCredentials,
-): Effect.Effect<Effect.Effect<Config, ConfigError>, never, HttpClient.HttpClient> =>
+): Effect.Effect<Effect.Effect<Config, ConfigError>, ConfigError, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
+    const apiBaseUrl = yield* apiBaseUrlFor(config.domain);
+    const url = `${apiBaseUrl}${TOKEN_PATH}`;
     const exchange = Effect.gen(function* () {
-      const apiBaseUrl = yield* apiBaseUrlFor(config.domain);
-      const url = `${apiBaseUrl}${TOKEN_PATH}`;
       const token = yield* client
         .execute(
           HttpClientRequest.post(url).pipe(
@@ -144,26 +149,29 @@ export const makeClientCredentials = (
   });
 
 /**
- * Layer from a service account's client credentials. The access token is
- * requested through the provided `HttpClient` on first use and refreshed
- * shortly before it expires.
+ * Layer from a service account's client credentials. The domain is checked
+ * when the layer is built. The access token is requested through the
+ * provided `HttpClient` on first use and refreshed shortly before it
+ * expires.
  */
 export const fromClientCredentials = (
   config: ClientCredentials,
-): Layer.Layer<Credentials, never, HttpClient.HttpClient> =>
+): Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =>
   Layer.effect(Credentials, makeClientCredentials(config));
 
-/** Layer from an access token already held (no refresh). */
+/**
+ * Layer from an access token already held (no refresh). The domain is
+ * checked when the layer is built.
+ */
 export const fromAccessToken = (config: {
   readonly domain: string;
   readonly accessToken: Redacted.Redacted<string>;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
+}): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
     Credentials,
-    Effect.map(apiBaseUrlFor(config.domain), (apiBaseUrl) => ({
-      accessToken: config.accessToken,
-      apiBaseUrl,
-    })),
+    Effect.map(apiBaseUrlFor(config.domain), (apiBaseUrl) =>
+      Effect.succeed({ accessToken: config.accessToken, apiBaseUrl }),
+    ),
   );
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
@@ -180,38 +188,16 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 );
 
-interface EnvClient {
-  readonly config: ClientCredentials;
-  readonly resolve: Effect.Effect<Config, ConfigError>;
-}
-
 /**
  * Reads STARBURST_GALAXY_DOMAIN, STARBURST_GALAXY_CLIENT_ID and
- * STARBURST_GALAXY_CLIENT_SECRET through `@distilled.cloud/core/config` on
- * every resolution, so a provided `ConfigProvider` supplies them, and
- * exchanges them for a cached access token on first use. The token cache
- * belongs to the built layer and is rebuilt when any of the three variables
- * changes, so a token is never sent to another account's domain.
+ * STARBURST_GALAXY_CLIENT_SECRET through `@distilled.cloud/core/config`, so
+ * a provided `ConfigProvider` supplies them, and exchanges them for a cached
+ * access token on first use. The variables are read, and the domain
+ * checked, once: when the layer is built. The token cache belongs to the
+ * built layer.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.HttpClient> =
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =
   /*@__PURE__*/ Layer.effect(
     Credentials,
-    Effect.gen(function* () {
-      const client = yield* HttpClient.HttpClient;
-      let current: EnvClient | undefined;
-      const resolveFor = (config: ClientCredentials) =>
-        Effect.suspend(() =>
-          current !== undefined && Equal.equals(current.config, config)
-            ? Effect.succeed(current.resolve)
-            : makeClientCredentials(config).pipe(
-                Effect.provideService(HttpClient.HttpClient, client),
-                Effect.tap((resolve) =>
-                  Effect.sync(() => {
-                    current = { config, resolve };
-                  }),
-                ),
-              ),
-        ).pipe(Effect.flatten);
-      return Effect.flatMap(envConfig, resolveFor);
-    }),
+    /*@__PURE__*/ Effect.flatMap(envConfig, makeClientCredentials),
   );
