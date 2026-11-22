@@ -20533,6 +20533,19 @@ export interface PremierAddOnProperties {
   /** Premier add on Marketplace offer. */
   marketplaceOffer?: string | undefined;
 }
+/** Azure Marketplace purchase plan of a 3rd-party store resource. */
+export interface PremierAddOnPlan {
+  /** Marketplace plan (SKU) ID. */
+  name?: string | undefined;
+  /** Marketplace publisher ID. */
+  publisher?: string | undefined;
+  /** Marketplace offer (product) ID. */
+  product?: string | undefined;
+  /** Promotion code. */
+  promotionCode?: string | undefined;
+  /** Plan version. */
+  version?: string | undefined;
+}
 export interface WebAppsAddPremierAddOnRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -20550,6 +20563,8 @@ export interface WebAppsAddPremierAddOnRequest {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 /** Resource tags. */
 export type WebAppsAddPremierAddOnResponseTagsMap = { [key: string]: string | undefined };
@@ -20570,6 +20585,8 @@ export interface WebAppsAddPremierAddOnResponse {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 /** Resource tags. */
 export type WebAppsAddPremierAddOnSlotRequestTagsMap = { [key: string]: string | undefined };
@@ -20592,6 +20609,8 @@ export interface WebAppsAddPremierAddOnSlotRequest {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 /** Resource tags. */
 export type WebAppsAddPremierAddOnSlotResponseTagsMap = { [key: string]: string | undefined };
@@ -20612,6 +20631,8 @@ export interface WebAppsAddPremierAddOnSlotResponse {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 export interface WebAppsAnalyzeCustomHostnameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22350,6 +22371,8 @@ export interface WebAppsGetPremierAddOnResponse {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 export interface WebAppsGetPremierAddOnSlotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22382,6 +22405,8 @@ export interface WebAppsGetPremierAddOnSlotResponse {
   properties?: PremierAddOnProperties | undefined;
   /** Kind of resource. */
   kind?: string | undefined;
+  /** Azure Marketplace purchase plan of the add-on. */
+  plan?: PremierAddOnPlan | undefined;
 }
 export interface WebAppsGetPrivateEndpointConnectionListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22637,7 +22662,7 @@ export const ApplyWebAppSlotConfigurationSlot: API.OperationMethod<
   ApplyWebAppSlotConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ApplyWebAppSlotConfigurationSlotRequest>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ApplyWebAppSlotConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ApplyWebAppSlotConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -22655,13 +22680,13 @@ export const AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection: API
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11072,
-    __c346,
+    11104,
+    __c347,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionRequest>,
   output: __S(
-    11169,
-    __c349,
+    11201,
+    __c350,
     1,
   ) as any as S.Schema<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -22679,8 +22704,8 @@ export const AppServiceEnvironmentsChangeVnet: API.OperationMethod<
   AppServiceEnvironmentsChangeVnetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetResponse>,
+  input: __S(15776, __c493, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetRequest>,
+  output: __S(16160, __c505, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22696,8 +22721,8 @@ export const AppServiceEnvironmentsCreateOrUpdate: API.OperationMethod<
   AppServiceEnvironmentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20608, __c644, 0) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateRequest>,
-  output: __S(20609, __c644, 1) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateResponse>,
+  input: __S(20640, __c645, 0) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateRequest>,
+  output: __S(20641, __c645, 1) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22714,13 +22739,13 @@ export const AppServiceEnvironmentsCreateOrUpdateMultiRolePool: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24672,
-    __c771,
+    24704,
+    __c772,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolRequest>,
   output: __S(
-    24704,
-    __c772,
+    24736,
+    __c773,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>,
   errors: [UnknownAzureError],
@@ -22739,13 +22764,13 @@ export const AppServiceEnvironmentsCreateOrUpdateWorkerPool: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28864,
-    __c902,
+    28928,
+    __c904,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateWorkerPoolRequest>,
   output: __S(
-    24704,
-    __c772,
+    24736,
+    __c773,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>,
   errors: [UnknownAzureError],
@@ -22764,11 +22789,11 @@ export const AppServiceEnvironmentsGetPrivateEndpointConnectionList: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30240,
-    __c945,
+    30336,
+    __c948,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsGetPrivateEndpointConnectionListRequest>,
-  output: __S(30305, __c947, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
+  output: __S(30401, __c950, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22784,8 +22809,8 @@ export const AppServiceEnvironmentsUpgrade: API.OperationMethod<
   AppServiceEnvironmentsUpgradeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30688, __c959, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeResponse>,
+  input: __S(30784, __c962, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22922,8 +22947,8 @@ export const CreateStaticSiteZipDeploymentForStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteRequest>,
   output: __S(
-    30720,
-    __c960,
+    30816,
+    __c963,
     0,
   ) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteResponse>,
   errors: [UnknownAzureError],
@@ -22942,13 +22967,13 @@ export const CreateStaticSiteZipDeploymentForStaticSiteBuild: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4960,
-    __c155,
+    4992,
+    __c156,
     0,
   ) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteBuildRequest>,
   output: __S(
-    30720,
-    __c960,
+    30816,
+    __c963,
     0,
   ) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteBuildResponse>,
   errors: [UnknownAzureError],
@@ -22966,8 +22991,8 @@ export const CreateWebAppDeployment: API.OperationMethod<
   CreateWebAppDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<CreateWebAppDeploymentRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<CreateWebAppDeploymentResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<CreateWebAppDeploymentRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<CreateWebAppDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22983,8 +23008,8 @@ export const CreateWebAppDeploymentSlot: API.OperationMethod<
   CreateWebAppDeploymentSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<CreateWebAppDeploymentSlotRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<CreateWebAppDeploymentSlotResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<CreateWebAppDeploymentSlotRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<CreateWebAppDeploymentSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23000,8 +23025,8 @@ export const CreateWebAppFunction: API.OperationMethod<
   CreateWebAppFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<CreateWebAppFunctionRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<CreateWebAppFunctionResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<CreateWebAppFunctionRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<CreateWebAppFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23017,8 +23042,8 @@ export const CreateWebAppInstanceFunctionSlot: API.OperationMethod<
   CreateWebAppInstanceFunctionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23034,7 +23059,7 @@ export const DeleteAiGateway: API.OperationMethod<
   DeleteAiGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<DeleteAiGatewayRequest>,
+  input: __S(7776, __c243, 0) as any as S.Schema<DeleteAiGatewayRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAiGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23051,8 +23076,8 @@ export const DeleteAppServiceEnvironment: API.OperationMethod<
   DeleteAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<DeleteAppServiceEnvironmentRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteAppServiceEnvironmentResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<DeleteAppServiceEnvironmentRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteAppServiceEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23069,13 +23094,13 @@ export const DeleteAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8544,
-    __c267,
+    8576,
+    __c268,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentAseCustomDnsSuffixConfigurationRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -23094,13 +23119,13 @@ export const DeleteAppServiceEnvironmentPrivateEndpointConnection: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9056,
-    __c283,
+    9088,
+    __c284,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentPrivateEndpointConnectionRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -23118,7 +23143,7 @@ export const DeleteAppServicePlan: API.OperationMethod<
   DeleteAppServicePlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteAppServicePlanRequest>,
+  input: __S(9536, __c298, 0) as any as S.Schema<DeleteAppServicePlanRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23135,7 +23160,7 @@ export const DeleteAppServicePlanHybridConnection: API.OperationMethod<
   DeleteAppServicePlanHybridConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DeleteAppServicePlanHybridConnectionRequest>,
+  input: __S(10048, __c314, 0) as any as S.Schema<DeleteAppServicePlanHybridConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanHybridConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23152,7 +23177,7 @@ export const DeleteAppServicePlanVnetRoute: API.OperationMethod<
   DeleteAppServicePlanVnetRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<DeleteAppServicePlanVnetRouteRequest>,
+  input: __S(10464, __c327, 0) as any as S.Schema<DeleteAppServicePlanVnetRouteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanVnetRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23169,7 +23194,7 @@ export const DeleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<DeleteCertificateRequest>,
+  input: __S(11264, __c352, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23186,8 +23211,8 @@ export const DeleteKubeEnvironment: API.OperationMethod<
   DeleteKubeEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<DeleteKubeEnvironmentRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteKubeEnvironmentResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<DeleteKubeEnvironmentRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteKubeEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23204,13 +23229,13 @@ export const DeleteServerFarmSiloResourceServerFarmSilo: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12320,
-    __c385,
+    12352,
+    __c386,
     0,
   ) as any as S.Schema<DeleteServerFarmSiloResourceServerFarmSiloRequest>,
   output: __S(
-    30720,
-    __c960,
+    30816,
+    __c963,
     0,
   ) as any as S.Schema<DeleteServerFarmSiloResourceServerFarmSiloResponse>,
   errors: [UnknownAzureError],
@@ -23228,7 +23253,7 @@ export const DeleteSiteCertificate: API.OperationMethod<
   DeleteSiteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<DeleteSiteCertificateRequest>,
+  input: __S(12736, __c398, 0) as any as S.Schema<DeleteSiteCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23245,7 +23270,7 @@ export const DeleteSiteCertificateSlot: API.OperationMethod<
   DeleteSiteCertificateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<DeleteSiteCertificateSlotRequest>,
+  input: __S(13184, __c412, 0) as any as S.Schema<DeleteSiteCertificateSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteCertificateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23262,8 +23287,8 @@ export const DeleteSiteSiloResourceSiteSilo: API.OperationMethod<
   DeleteSiteSiloResourceSiteSiloError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloResponse>,
+  input: __S(13664, __c427, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23280,8 +23305,8 @@ export const DeleteSiteSiloVirtualNetworkConnectionSiteSiloVnetConnection: API.O
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14048,
-    __c439,
+    14080,
+    __c440,
     0,
   ) as any as S.Schema<DeleteSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionRequest>,
   output: __S(
@@ -23304,7 +23329,7 @@ export const DeleteStaticSiteBuildDatabaseConnection: API.OperationMethod<
   DeleteStaticSiteBuildDatabaseConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<DeleteStaticSiteBuildDatabaseConnectionRequest>,
+  input: __S(14464, __c452, 0) as any as S.Schema<DeleteStaticSiteBuildDatabaseConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteBuildDatabaseConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23321,7 +23346,7 @@ export const DeleteStaticSiteDatabaseConnection: API.OperationMethod<
   DeleteStaticSiteDatabaseConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<DeleteStaticSiteDatabaseConnectionRequest>,
+  input: __S(14880, __c465, 0) as any as S.Schema<DeleteStaticSiteDatabaseConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteDatabaseConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23338,10 +23363,10 @@ export const DeleteStaticSitePrivateEndpointConnection: API.OperationMethod<
   DeleteStaticSitePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<DeleteStaticSitePrivateEndpointConnectionRequest>,
+  input: __S(15296, __c478, 0) as any as S.Schema<DeleteStaticSitePrivateEndpointConnectionRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<DeleteStaticSitePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -23359,8 +23384,8 @@ export const DeleteStaticSiteStaticSite: API.OperationMethod<
   DeleteStaticSiteStaticSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<DeleteStaticSiteStaticSiteRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteStaticSiteStaticSiteResponse>,
+  input: __S(16192, __c506, 0) as any as S.Schema<DeleteStaticSiteStaticSiteRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteStaticSiteStaticSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23376,8 +23401,8 @@ export const DeleteStaticSiteStaticSiteBuild: API.OperationMethod<
   DeleteStaticSiteStaticSiteBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildResponse>,
+  input: __S(16672, __c521, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23393,8 +23418,8 @@ export const DeleteStaticSiteStaticSiteCustomDomain: API.OperationMethod<
   DeleteStaticSiteStaticSiteCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainResponse>,
+  input: __S(17152, __c536, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23410,7 +23435,7 @@ export const DeleteStaticSiteStaticSiteUser: API.OperationMethod<
   DeleteStaticSiteStaticSiteUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17568, __c549, 0) as any as S.Schema<DeleteStaticSiteStaticSiteUserRequest>,
+  input: __S(17600, __c550, 0) as any as S.Schema<DeleteStaticSiteStaticSiteUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteStaticSiteUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23427,7 +23452,7 @@ export const DeleteWebApp: API.OperationMethod<
   DeleteWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<DeleteWebAppRequest>,
+  input: __S(18112, __c566, 0) as any as S.Schema<DeleteWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23444,7 +23469,7 @@ export const DeleteWebAppBackup: API.OperationMethod<
   DeleteWebAppBackupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18496, __c578, 0) as any as S.Schema<DeleteWebAppBackupRequest>,
+  input: __S(18528, __c579, 0) as any as S.Schema<DeleteWebAppBackupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23461,7 +23486,7 @@ export const DeleteWebAppBackupConfiguration: API.OperationMethod<
   DeleteWebAppBackupConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18912, __c591, 0) as any as S.Schema<DeleteWebAppBackupConfigurationRequest>,
+  input: __S(18944, __c592, 0) as any as S.Schema<DeleteWebAppBackupConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23478,7 +23503,7 @@ export const DeleteWebAppBackupConfigurationSlot: API.OperationMethod<
   DeleteWebAppBackupConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<DeleteWebAppBackupConfigurationSlotRequest>,
+  input: __S(19392, __c606, 0) as any as S.Schema<DeleteWebAppBackupConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23495,7 +23520,7 @@ export const DeleteWebAppBackupSlot: API.OperationMethod<
   DeleteWebAppBackupSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<DeleteWebAppBackupSlotRequest>,
+  input: __S(19808, __c619, 0) as any as S.Schema<DeleteWebAppBackupSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23512,7 +23537,7 @@ export const DeleteWebAppContinuousWebJob: API.OperationMethod<
   DeleteWebAppContinuousWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20192, __c631, 0) as any as S.Schema<DeleteWebAppContinuousWebJobRequest>,
+  input: __S(20224, __c632, 0) as any as S.Schema<DeleteWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppContinuousWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23529,7 +23554,7 @@ export const DeleteWebAppContinuousWebJobSlot: API.OperationMethod<
   DeleteWebAppContinuousWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20832, __c651, 0) as any as S.Schema<DeleteWebAppContinuousWebJobSlotRequest>,
+  input: __S(20864, __c652, 0) as any as S.Schema<DeleteWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppContinuousWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23546,7 +23571,7 @@ export const DeleteWebAppDeployment: API.OperationMethod<
   DeleteWebAppDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21184, __c662, 0) as any as S.Schema<DeleteWebAppDeploymentRequest>,
+  input: __S(21216, __c663, 0) as any as S.Schema<DeleteWebAppDeploymentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23563,7 +23588,7 @@ export const DeleteWebAppDeploymentSlot: API.OperationMethod<
   DeleteWebAppDeploymentSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21568, __c674, 0) as any as S.Schema<DeleteWebAppDeploymentSlotRequest>,
+  input: __S(21600, __c675, 0) as any as S.Schema<DeleteWebAppDeploymentSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDeploymentSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23580,7 +23605,7 @@ export const DeleteWebAppDomainOwnershipIdentifier: API.OperationMethod<
   DeleteWebAppDomainOwnershipIdentifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierRequest>,
+  input: __S(21984, __c687, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23597,7 +23622,7 @@ export const DeleteWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
   DeleteWebAppDomainOwnershipIdentifierSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22368, __c699, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierSlotRequest>,
+  input: __S(22400, __c700, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23614,7 +23639,7 @@ export const DeleteWebAppFunction: API.OperationMethod<
   DeleteWebAppFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<DeleteWebAppFunctionRequest>,
+  input: __S(22752, __c711, 0) as any as S.Schema<DeleteWebAppFunctionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23631,7 +23656,7 @@ export const DeleteWebAppFunctionSecret: API.OperationMethod<
   DeleteWebAppFunctionSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23136, __c723, 0) as any as S.Schema<DeleteWebAppFunctionSecretRequest>,
+  input: __S(23168, __c724, 0) as any as S.Schema<DeleteWebAppFunctionSecretRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23648,7 +23673,7 @@ export const DeleteWebAppFunctionSecretSlot: API.OperationMethod<
   DeleteWebAppFunctionSecretSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23584, __c737, 0) as any as S.Schema<DeleteWebAppFunctionSecretSlotRequest>,
+  input: __S(23616, __c738, 0) as any as S.Schema<DeleteWebAppFunctionSecretSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionSecretSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23665,7 +23690,7 @@ export const DeleteWebAppHostNameBinding: API.OperationMethod<
   DeleteWebAppHostNameBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23936, __c748, 0) as any as S.Schema<DeleteWebAppHostNameBindingRequest>,
+  input: __S(23968, __c749, 0) as any as S.Schema<DeleteWebAppHostNameBindingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostNameBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23682,7 +23707,7 @@ export const DeleteWebAppHostNameBindingSlot: API.OperationMethod<
   DeleteWebAppHostNameBindingSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24288, __c759, 0) as any as S.Schema<DeleteWebAppHostNameBindingSlotRequest>,
+  input: __S(24320, __c760, 0) as any as S.Schema<DeleteWebAppHostNameBindingSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostNameBindingSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23699,7 +23724,7 @@ export const DeleteWebAppHostSecret: API.OperationMethod<
   DeleteWebAppHostSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<DeleteWebAppHostSecretRequest>,
+  input: __S(24928, __c779, 0) as any as S.Schema<DeleteWebAppHostSecretRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23716,7 +23741,7 @@ export const DeleteWebAppHostSecretSlot: API.OperationMethod<
   DeleteWebAppHostSecretSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25280, __c790, 0) as any as S.Schema<DeleteWebAppHostSecretSlotRequest>,
+  input: __S(25312, __c791, 0) as any as S.Schema<DeleteWebAppHostSecretSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostSecretSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23733,7 +23758,7 @@ export const DeleteWebAppHybridConnection: API.OperationMethod<
   DeleteWebAppHybridConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25728, __c804, 0) as any as S.Schema<DeleteWebAppHybridConnectionRequest>,
+  input: __S(25760, __c805, 0) as any as S.Schema<DeleteWebAppHybridConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHybridConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23750,7 +23775,7 @@ export const DeleteWebAppHybridConnectionSlot: API.OperationMethod<
   DeleteWebAppHybridConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26080, __c815, 0) as any as S.Schema<DeleteWebAppHybridConnectionSlotRequest>,
+  input: __S(26112, __c816, 0) as any as S.Schema<DeleteWebAppHybridConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHybridConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23767,7 +23792,7 @@ export const DeleteWebAppInstanceFunctionSlot: API.OperationMethod<
   DeleteWebAppInstanceFunctionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26432, __c826, 0) as any as S.Schema<DeleteWebAppInstanceFunctionSlotRequest>,
+  input: __S(26464, __c827, 0) as any as S.Schema<DeleteWebAppInstanceFunctionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceFunctionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23784,7 +23809,7 @@ export const DeleteWebAppInstanceProcess: API.OperationMethod<
   DeleteWebAppInstanceProcessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26816, __c838, 0) as any as S.Schema<DeleteWebAppInstanceProcessRequest>,
+  input: __S(26848, __c839, 0) as any as S.Schema<DeleteWebAppInstanceProcessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceProcessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23801,7 +23826,7 @@ export const DeleteWebAppInstanceProcessSlot: API.OperationMethod<
   DeleteWebAppInstanceProcessSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27168, __c849, 0) as any as S.Schema<DeleteWebAppInstanceProcessSlotRequest>,
+  input: __S(27200, __c850, 0) as any as S.Schema<DeleteWebAppInstanceProcessSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceProcessSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23818,8 +23843,8 @@ export const DeleteWebAppPrivateEndpointConnection: API.OperationMethod<
   DeleteWebAppPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27648, __c864, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionResponse>,
+  input: __S(27712, __c866, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -23835,10 +23860,10 @@ export const DeleteWebAppPrivateEndpointConnectionSlot: API.OperationMethod<
   DeleteWebAppPrivateEndpointConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28032, __c876, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionSlotRequest>,
+  input: __S(28096, __c878, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionSlotRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionSlotResponse>,
   errors: [UnknownAzureError],
@@ -23856,7 +23881,7 @@ export const DeleteWebAppProcess: API.OperationMethod<
   DeleteWebAppProcessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28448, __c889, 0) as any as S.Schema<DeleteWebAppProcessRequest>,
+  input: __S(28512, __c891, 0) as any as S.Schema<DeleteWebAppProcessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppProcessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23873,7 +23898,7 @@ export const DeleteWebAppProcessSlot: API.OperationMethod<
   DeleteWebAppProcessSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28896, __c903, 0) as any as S.Schema<DeleteWebAppProcessSlotRequest>,
+  input: __S(28960, __c905, 0) as any as S.Schema<DeleteWebAppProcessSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppProcessSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23890,7 +23915,7 @@ export const DeleteWebAppPublicCertificate: API.OperationMethod<
   DeleteWebAppPublicCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29376, __c918, 0) as any as S.Schema<DeleteWebAppPublicCertificateRequest>,
+  input: __S(29440, __c920, 0) as any as S.Schema<DeleteWebAppPublicCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppPublicCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23907,7 +23932,7 @@ export const DeleteWebAppPublicCertificateSlot: API.OperationMethod<
   DeleteWebAppPublicCertificateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29728, __c929, 0) as any as S.Schema<DeleteWebAppPublicCertificateSlotRequest>,
+  input: __S(29792, __c931, 0) as any as S.Schema<DeleteWebAppPublicCertificateSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppPublicCertificateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23924,7 +23949,7 @@ export const DeleteWebAppRelayServiceConnection: API.OperationMethod<
   DeleteWebAppRelayServiceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30016, __c938, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionRequest>,
+  input: __S(30112, __c941, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23941,7 +23966,7 @@ export const DeleteWebAppRelayServiceConnectionSlot: API.OperationMethod<
   DeleteWebAppRelayServiceConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30048, __c939, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionSlotRequest>,
+  input: __S(30144, __c942, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23958,7 +23983,7 @@ export const DeleteWebAppSiteContainer: API.OperationMethod<
   DeleteWebAppSiteContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30080, __c940, 0) as any as S.Schema<DeleteWebAppSiteContainerRequest>,
+  input: __S(30176, __c943, 0) as any as S.Schema<DeleteWebAppSiteContainerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23975,7 +24000,7 @@ export const DeleteWebAppSiteContainerSlot: API.OperationMethod<
   DeleteWebAppSiteContainerSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30112, __c941, 0) as any as S.Schema<DeleteWebAppSiteContainerSlotRequest>,
+  input: __S(30208, __c944, 0) as any as S.Schema<DeleteWebAppSiteContainerSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteContainerSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -23992,7 +24017,7 @@ export const DeleteWebAppSiteExtension: API.OperationMethod<
   DeleteWebAppSiteExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30144, __c942, 0) as any as S.Schema<DeleteWebAppSiteExtensionRequest>,
+  input: __S(30240, __c945, 0) as any as S.Schema<DeleteWebAppSiteExtensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24009,7 +24034,7 @@ export const DeleteWebAppSiteExtensionSlot: API.OperationMethod<
   DeleteWebAppSiteExtensionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30176, __c943, 0) as any as S.Schema<DeleteWebAppSiteExtensionSlotRequest>,
+  input: __S(30272, __c946, 0) as any as S.Schema<DeleteWebAppSiteExtensionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteExtensionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24026,7 +24051,7 @@ export const DeleteWebAppSlot: API.OperationMethod<
   DeleteWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30208, __c944, 0) as any as S.Schema<DeleteWebAppSlotRequest>,
+  input: __S(30304, __c947, 0) as any as S.Schema<DeleteWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24043,7 +24068,7 @@ export const DeleteWebAppSourceControl: API.OperationMethod<
   DeleteWebAppSourceControlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30336, __c948, 0) as any as S.Schema<DeleteWebAppSourceControlRequest>,
+  input: __S(30432, __c951, 0) as any as S.Schema<DeleteWebAppSourceControlRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSourceControlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24060,7 +24085,7 @@ export const DeleteWebAppSourceControlSlot: API.OperationMethod<
   DeleteWebAppSourceControlSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30368, __c949, 0) as any as S.Schema<DeleteWebAppSourceControlSlotRequest>,
+  input: __S(30464, __c952, 0) as any as S.Schema<DeleteWebAppSourceControlSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSourceControlSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24077,7 +24102,7 @@ export const DeleteWebAppSwiftVirtualNetwork: API.OperationMethod<
   DeleteWebAppSwiftVirtualNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30400, __c950, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkRequest>,
+  input: __S(30496, __c953, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24094,7 +24119,7 @@ export const DeleteWebAppSwiftVirtualNetworkSlot: API.OperationMethod<
   DeleteWebAppSwiftVirtualNetworkSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30432, __c951, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkSlotRequest>,
+  input: __S(30528, __c954, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24111,7 +24136,7 @@ export const DeleteWebAppTriggeredWebJob: API.OperationMethod<
   DeleteWebAppTriggeredWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30464, __c952, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobRequest>,
+  input: __S(30560, __c955, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24128,7 +24153,7 @@ export const DeleteWebAppTriggeredWebJobSlot: API.OperationMethod<
   DeleteWebAppTriggeredWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30496, __c953, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobSlotRequest>,
+  input: __S(30592, __c956, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24145,7 +24170,7 @@ export const DeleteWebAppVnetConnection: API.OperationMethod<
   DeleteWebAppVnetConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30528, __c954, 0) as any as S.Schema<DeleteWebAppVnetConnectionRequest>,
+  input: __S(30624, __c957, 0) as any as S.Schema<DeleteWebAppVnetConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppVnetConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24162,7 +24187,7 @@ export const DeleteWebAppVnetConnectionSlot: API.OperationMethod<
   DeleteWebAppVnetConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30560, __c955, 0) as any as S.Schema<DeleteWebAppVnetConnectionSlotRequest>,
+  input: __S(30656, __c958, 0) as any as S.Schema<DeleteWebAppVnetConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppVnetConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24179,7 +24204,7 @@ export const DeployWebAppWorkflowArtifacts: API.OperationMethod<
   DeployWebAppWorkflowArtifactsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30592, __c956, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsRequest>,
+  input: __S(30688, __c959, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24196,7 +24221,7 @@ export const DeployWebAppWorkflowArtifactsSlot: API.OperationMethod<
   DeployWebAppWorkflowArtifactsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30656, __c958, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsSlotRequest>,
+  input: __S(30752, __c961, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24213,8 +24238,8 @@ export const DetachStaticSiteStaticSite: API.OperationMethod<
   DetachStaticSiteStaticSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30752, __c961, 0) as any as S.Schema<DetachStaticSiteStaticSiteRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<DetachStaticSiteStaticSiteResponse>,
+  input: __S(30848, __c964, 0) as any as S.Schema<DetachStaticSiteStaticSiteRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<DetachStaticSiteStaticSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -24231,8 +24256,8 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSite: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30784,
-    __c962,
+    30880,
+    __c965,
     0,
   ) as any as S.Schema<DetachStaticSiteUserProvidedFunctionAppFromStaticSiteRequest>,
   output: __S(
@@ -24256,8 +24281,8 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSiteBuild: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30816,
-    __c963,
+    30912,
+    __c966,
     0,
   ) as any as S.Schema<DetachStaticSiteUserProvidedFunctionAppFromStaticSiteBuildRequest>,
   output: __S(
@@ -24281,8 +24306,8 @@ export const DisableRecommendationAllForHostingEnvironment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30848,
-    __c964,
+    30944,
+    __c967,
     0,
   ) as any as S.Schema<DisableRecommendationAllForHostingEnvironmentRequest>,
   output: __S(
@@ -24305,7 +24330,7 @@ export const DisableRecommendationAllForWebApp: API.OperationMethod<
   DisableRecommendationAllForWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30880, __c965, 0) as any as S.Schema<DisableRecommendationAllForWebAppRequest>,
+  input: __S(30976, __c968, 0) as any as S.Schema<DisableRecommendationAllForWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableRecommendationAllForWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -24323,8 +24348,8 @@ export const DisableRecommendationRecommendationForHostingEnvironment: API.Opera
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30912,
-    __c966,
+    31008,
+    __c969,
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForHostingEnvironmentRequest>,
   output: __S(
@@ -24348,8 +24373,8 @@ export const DisableRecommendationRecommendationForSite: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30944,
-    __c967,
+    31040,
+    __c970,
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForSiteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableRecommendationRecommendationForSiteResponse>,
@@ -24369,8 +24394,8 @@ export const DisableRecommendationRecommendationForSubscription: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    30976,
-    __c968,
+    31072,
+    __c971,
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForSubscriptionRequest>,
   output: __S(
@@ -24393,8 +24418,8 @@ export const ExecuteDiagnosticSiteAnalysis: API.OperationMethod<
   ExecuteDiagnosticSiteAnalysisError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31008, __c969, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisRequest>,
-  output: __S(31046, __c970, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisResponse>,
+  input: __S(31104, __c972, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisRequest>,
+  output: __S(31142, __c973, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -24410,8 +24435,8 @@ export const ExecuteDiagnosticSiteAnalysisSlot: API.OperationMethod<
   ExecuteDiagnosticSiteAnalysisSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31136, __c973, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotRequest>,
-  output: __S(31046, __c970, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotResponse>,
+  input: __S(31232, __c976, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotRequest>,
+  output: __S(31142, __c973, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -24535,8 +24560,8 @@ export const GetAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Operat
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentAseCustomDnsSuffixConfigurationRequest>,
   output: __S(
-    20641,
-    __c645,
+    20673,
+    __c646,
     1,
   ) as any as S.Schema<GetAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -24560,8 +24585,8 @@ export const GetAppServiceEnvironmentAseV3NetworkingConfiguration: API.Operation
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentAseV3NetworkingConfigurationRequest>,
   output: __S(
-    20673,
-    __c646,
+    20705,
+    __c647,
     1,
   ) as any as S.Schema<GetAppServiceEnvironmentAseV3NetworkingConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -24661,8 +24686,8 @@ export const GetAppServiceEnvironmentPrivateEndpointConnection: API.OperationMet
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentPrivateEndpointConnectionRequest>,
   output: __S(
-    30272,
-    __c946,
+    30368,
+    __c949,
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -24838,7 +24863,7 @@ export const GetAppServicePlanServerFarmSkus: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetAppServicePlanServerFarmSkusRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetAppServicePlanServerFarmSkusResponse>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetAppServicePlanServerFarmSkusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25794,7 +25819,7 @@ export const GetStaticSitePrivateEndpointConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<GetStaticSitePrivateEndpointConnectionRequest>,
-  output: __S(30272, __c946, 0) as any as S.Schema<GetStaticSitePrivateEndpointConnectionResponse>,
+  output: __S(30368, __c949, 0) as any as S.Schema<GetStaticSitePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25873,8 +25898,8 @@ export const GetStaticSiteStaticSite: API.OperationMethod<
   GetStaticSiteStaticSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetStaticSiteStaticSiteRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<GetStaticSiteStaticSiteResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetStaticSiteStaticSiteRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<GetStaticSiteStaticSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25890,8 +25915,8 @@ export const GetStaticSiteStaticSiteBuild: API.OperationMethod<
   GetStaticSiteStaticSiteBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<GetStaticSiteStaticSiteBuildResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<GetStaticSiteStaticSiteBuildResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25907,8 +25932,8 @@ export const GetStaticSiteStaticSiteBuilds: API.OperationMethod<
   GetStaticSiteStaticSiteBuildsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildsRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<StaticSiteBuildCollection>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildsRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<StaticSiteBuildCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25924,8 +25949,8 @@ export const GetStaticSiteStaticSiteCustomDomain: API.OperationMethod<
   GetStaticSiteStaticSiteCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25941,8 +25966,8 @@ export const GetStaticSiteStaticSitesByResourceGroup: API.OperationMethod<
   GetStaticSiteStaticSitesByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetStaticSiteStaticSitesByResourceGroupRequest>,
-  output: __S(5153, __c161, 1) as any as S.Schema<StaticSiteCollection>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetStaticSiteStaticSitesByResourceGroupRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<StaticSiteCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -25959,13 +25984,13 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSite: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5184,
-    __c162,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteRequest>,
   output: __S(
-    5216,
-    __c163,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteResponse>,
   errors: [UnknownAzureError],
@@ -25984,13 +26009,13 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSiteBuild: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5248,
-    __c164,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteBuildRequest>,
   output: __S(
-    5216,
-    __c163,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteBuildResponse>,
   errors: [UnknownAzureError],
@@ -26009,11 +26034,11 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSite: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5280,
-    __c165,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppsForStaticSiteRequest>,
-  output: __S(5313, __c166, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
+  output: __S(5345, __c167, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26030,11 +26055,11 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuild: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5344,
-    __c167,
+    5376,
+    __c168,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuildRequest>,
-  output: __S(5313, __c166, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
+  output: __S(5345, __c167, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26050,8 +26075,8 @@ export const GetSubscriptionDeploymentLocations: API.OperationMethod<
   GetSubscriptionDeploymentLocationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetSubscriptionDeploymentLocationsRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<DeploymentLocations>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetSubscriptionDeploymentLocationsRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<DeploymentLocations>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26067,8 +26092,8 @@ export const GetWebApp: API.OperationMethod<
   GetWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetWebAppRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<GetWebAppResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetWebAppRequest>,
+  output: __S(16000, __c500, 0) as any as S.Schema<GetWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26084,8 +26109,8 @@ export const GetWebAppAppSettingKeyVaultReference: API.OperationMethod<
   GetWebAppAppSettingKeyVaultReferenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26101,8 +26126,8 @@ export const GetWebAppAppSettingKeyVaultReferenceSlot: API.OperationMethod<
   GetWebAppAppSettingKeyVaultReferenceSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26118,8 +26143,8 @@ export const GetWebAppAppSettingsKeyVaultReferences: API.OperationMethod<
   GetWebAppAppSettingsKeyVaultReferencesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesRequest>,
-  output: __S(5665, __c177, 1) as any as S.Schema<ApiKVReferenceCollection>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26135,8 +26160,8 @@ export const GetWebAppAppSettingsKeyVaultReferencesSlot: API.OperationMethod<
   GetWebAppAppSettingsKeyVaultReferencesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesSlotRequest>,
-  output: __S(5665, __c177, 1) as any as S.Schema<ApiKVReferenceCollection>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesSlotRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26152,8 +26177,8 @@ export const GetWebAppAuthSettings: API.OperationMethod<
   GetWebAppAuthSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetWebAppAuthSettingsRequest>,
-  output: __S(5761, __c180, 1) as any as S.Schema<GetWebAppAuthSettingsResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetWebAppAuthSettingsRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<GetWebAppAuthSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26169,8 +26194,8 @@ export const GetWebAppAuthSettingsSlot: API.OperationMethod<
   GetWebAppAuthSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetWebAppAuthSettingsSlotRequest>,
-  output: __S(5761, __c180, 1) as any as S.Schema<GetWebAppAuthSettingsSlotResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetWebAppAuthSettingsSlotRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<GetWebAppAuthSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26186,8 +26211,8 @@ export const GetWebAppAuthSettingsV2: API.OperationMethod<
   GetWebAppAuthSettingsV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetWebAppAuthSettingsV2Request>,
-  output: __S(5894, __c184, 6) as any as S.Schema<GetWebAppAuthSettingsV2Response>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetWebAppAuthSettingsV2Request>,
+  output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26203,8 +26228,8 @@ export const GetWebAppAuthSettingsV2Slot: API.OperationMethod<
   GetWebAppAuthSettingsV2SlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetWebAppAuthSettingsV2SlotRequest>,
-  output: __S(5894, __c184, 6) as any as S.Schema<GetWebAppAuthSettingsV2SlotResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetWebAppAuthSettingsV2SlotRequest>,
+  output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2SlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26220,8 +26245,8 @@ export const GetWebAppAuthSettingsV2WithoutSecrets: API.OperationMethod<
   GetWebAppAuthSettingsV2WithoutSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsRequest>,
-  output: __S(5894, __c184, 6) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsRequest>,
+  output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26237,10 +26262,10 @@ export const GetWebAppAuthSettingsV2WithoutSecretsSlot: API.OperationMethod<
   GetWebAppAuthSettingsV2WithoutSecretsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsSlotRequest>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsSlotRequest>,
   output: __S(
-    5894,
-    __c184,
+    5926,
+    __c185,
     6,
   ) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsSlotResponse>,
   errors: [UnknownAzureError],
@@ -26258,8 +26283,8 @@ export const GetWebAppBackupConfiguration: API.OperationMethod<
   GetWebAppBackupConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetWebAppBackupConfigurationRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<GetWebAppBackupConfigurationResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetWebAppBackupConfigurationRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<GetWebAppBackupConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26275,8 +26300,8 @@ export const GetWebAppBackupConfigurationSlot: API.OperationMethod<
   GetWebAppBackupConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetWebAppBackupConfigurationSlotRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<GetWebAppBackupConfigurationSlotResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetWebAppBackupConfigurationSlotRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<GetWebAppBackupConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26292,8 +26317,8 @@ export const GetWebAppBackupStatus: API.OperationMethod<
   GetWebAppBackupStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetWebAppBackupStatusRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<GetWebAppBackupStatusResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetWebAppBackupStatusRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<GetWebAppBackupStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26309,8 +26334,8 @@ export const GetWebAppBackupStatusSlot: API.OperationMethod<
   GetWebAppBackupStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetWebAppBackupStatusSlotRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<GetWebAppBackupStatusSlotResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetWebAppBackupStatusSlotRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<GetWebAppBackupStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26326,8 +26351,8 @@ export const GetWebAppConfiguration: API.OperationMethod<
   GetWebAppConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetWebAppConfigurationRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26343,8 +26368,8 @@ export const GetWebAppConfigurationSlot: API.OperationMethod<
   GetWebAppConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSlotRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationSlotResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetWebAppConfigurationSlotRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26360,8 +26385,8 @@ export const GetWebAppConfigurationSnapshot: API.OperationMethod<
   GetWebAppConfigurationSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetWebAppConfigurationSnapshotRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationSnapshotResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetWebAppConfigurationSnapshotRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26377,8 +26402,8 @@ export const GetWebAppConfigurationSnapshotSlot: API.OperationMethod<
   GetWebAppConfigurationSnapshotSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26394,8 +26419,8 @@ export const GetWebAppContainerLogsZip: API.OperationMethod<
   GetWebAppContainerLogsZipError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetWebAppContainerLogsZipRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppContainerLogsZipResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetWebAppContainerLogsZipRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppContainerLogsZipResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26411,8 +26436,8 @@ export const GetWebAppContainerLogsZipSlot: API.OperationMethod<
   GetWebAppContainerLogsZipSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26428,8 +26453,8 @@ export const GetWebAppContinuousWebJob: API.OperationMethod<
   GetWebAppContinuousWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetWebAppContinuousWebJobRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<GetWebAppContinuousWebJobResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetWebAppContinuousWebJobRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<GetWebAppContinuousWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26445,8 +26470,8 @@ export const GetWebAppContinuousWebJobSlot: API.OperationMethod<
   GetWebAppContinuousWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetWebAppContinuousWebJobSlotRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<GetWebAppContinuousWebJobSlotResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetWebAppContinuousWebJobSlotRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<GetWebAppContinuousWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26462,8 +26487,8 @@ export const GetWebAppDeployment: API.OperationMethod<
   GetWebAppDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetWebAppDeploymentRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<GetWebAppDeploymentResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetWebAppDeploymentRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<GetWebAppDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26479,8 +26504,8 @@ export const GetWebAppDeploymentSlot: API.OperationMethod<
   GetWebAppDeploymentSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetWebAppDeploymentSlotRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<GetWebAppDeploymentSlotResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetWebAppDeploymentSlotRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<GetWebAppDeploymentSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26496,8 +26521,8 @@ export const GetWebAppDiagnosticLogsConfiguration: API.OperationMethod<
   GetWebAppDiagnosticLogsConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationRequest>,
-  output: __S(6825, __c213, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationRequest>,
+  output: __S(6857, __c214, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26513,8 +26538,8 @@ export const GetWebAppDiagnosticLogsConfigurationSlot: API.OperationMethod<
   GetWebAppDiagnosticLogsConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotRequest>,
-  output: __S(6825, __c213, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotRequest>,
+  output: __S(6857, __c214, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26530,8 +26555,8 @@ export const GetWebAppDomainOwnershipIdentifier: API.OperationMethod<
   GetWebAppDomainOwnershipIdentifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26547,8 +26572,8 @@ export const GetWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
   GetWebAppDomainOwnershipIdentifierSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26564,8 +26589,8 @@ export const GetWebAppFtpAllowed: API.OperationMethod<
   GetWebAppFtpAllowedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetWebAppFtpAllowedRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetWebAppFtpAllowedResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetWebAppFtpAllowedRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetWebAppFtpAllowedResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26581,8 +26606,8 @@ export const GetWebAppFtpAllowedSlot: API.OperationMethod<
   GetWebAppFtpAllowedSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetWebAppFtpAllowedSlotRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetWebAppFtpAllowedSlotResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<GetWebAppFtpAllowedSlotRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetWebAppFtpAllowedSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26598,8 +26623,8 @@ export const GetWebAppFunction: API.OperationMethod<
   GetWebAppFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<GetWebAppFunctionRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<GetWebAppFunctionResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetWebAppFunctionRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<GetWebAppFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26615,8 +26640,8 @@ export const GetWebAppFunctionsAdminToken: API.OperationMethod<
   GetWebAppFunctionsAdminTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26632,8 +26657,8 @@ export const GetWebAppFunctionsAdminTokenSlot: API.OperationMethod<
   GetWebAppFunctionsAdminTokenSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26649,8 +26674,8 @@ export const GetWebAppHostNameBinding: API.OperationMethod<
   GetWebAppHostNameBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetWebAppHostNameBindingRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<GetWebAppHostNameBindingResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetWebAppHostNameBindingRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<GetWebAppHostNameBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26666,8 +26691,8 @@ export const GetWebAppHostNameBindingSlot: API.OperationMethod<
   GetWebAppHostNameBindingSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetWebAppHostNameBindingSlotRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<GetWebAppHostNameBindingSlotResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetWebAppHostNameBindingSlotRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<GetWebAppHostNameBindingSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26683,7 +26708,7 @@ export const GetWebAppHybridConnection: API.OperationMethod<
   GetWebAppHybridConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetWebAppHybridConnectionRequest>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetWebAppHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetWebAppHybridConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -26700,7 +26725,7 @@ export const GetWebAppHybridConnectionSlot: API.OperationMethod<
   GetWebAppHybridConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetWebAppHybridConnectionSlotRequest>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetWebAppHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetWebAppHybridConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -26717,8 +26742,8 @@ export const GetWebAppInstanceFunctionSlot: API.OperationMethod<
   GetWebAppInstanceFunctionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26734,8 +26759,8 @@ export const GetWebAppInstanceInfo: API.OperationMethod<
   GetWebAppInstanceInfoError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetWebAppInstanceInfoRequest>,
-  output: __S(7528, __c235, 8) as any as S.Schema<GetWebAppInstanceInfoResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetWebAppInstanceInfoRequest>,
+  output: __S(7560, __c236, 8) as any as S.Schema<GetWebAppInstanceInfoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26751,8 +26776,8 @@ export const GetWebAppInstanceInfoSlot: API.OperationMethod<
   GetWebAppInstanceInfoSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetWebAppInstanceInfoSlotRequest>,
-  output: __S(7528, __c235, 8) as any as S.Schema<GetWebAppInstanceInfoSlotResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetWebAppInstanceInfoSlotRequest>,
+  output: __S(7560, __c236, 8) as any as S.Schema<GetWebAppInstanceInfoSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26768,8 +26793,8 @@ export const GetWebAppInstanceProcess: API.OperationMethod<
   GetWebAppInstanceProcessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetWebAppInstanceProcessRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetWebAppInstanceProcessResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetWebAppInstanceProcessRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetWebAppInstanceProcessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26785,8 +26810,8 @@ export const GetWebAppInstanceProcessDump: API.OperationMethod<
   GetWebAppInstanceProcessDumpError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetWebAppInstanceProcessDumpRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppInstanceProcessDumpResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetWebAppInstanceProcessDumpRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppInstanceProcessDumpResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26802,8 +26827,8 @@ export const GetWebAppInstanceProcessDumpSlot: API.OperationMethod<
   GetWebAppInstanceProcessDumpSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26819,8 +26844,8 @@ export const GetWebAppInstanceProcessModule: API.OperationMethod<
   GetWebAppInstanceProcessModuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetWebAppInstanceProcessModuleRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<GetWebAppInstanceProcessModuleResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetWebAppInstanceProcessModuleRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetWebAppInstanceProcessModuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26836,8 +26861,8 @@ export const GetWebAppInstanceProcessModuleSlot: API.OperationMethod<
   GetWebAppInstanceProcessModuleSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetWebAppInstanceProcessModuleSlotRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<GetWebAppInstanceProcessModuleSlotResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<GetWebAppInstanceProcessModuleSlotRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetWebAppInstanceProcessModuleSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26853,8 +26878,8 @@ export const GetWebAppInstanceProcessSlot: API.OperationMethod<
   GetWebAppInstanceProcessSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetWebAppInstanceProcessSlotRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetWebAppInstanceProcessSlotResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetWebAppInstanceProcessSlotRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetWebAppInstanceProcessSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26870,8 +26895,8 @@ export const GetWebAppInstanceWorkflowSlot: API.OperationMethod<
   GetWebAppInstanceWorkflowSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetWebAppInstanceWorkflowSlotRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<GetWebAppInstanceWorkflowSlotResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetWebAppInstanceWorkflowSlotRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<GetWebAppInstanceWorkflowSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26887,8 +26912,8 @@ export const GetWebAppNetworkTraceOperation: API.OperationMethod<
   GetWebAppNetworkTraceOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetWebAppNetworkTraceOperationRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTraceOperationResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetWebAppNetworkTraceOperationRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTraceOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26904,8 +26929,8 @@ export const GetWebAppNetworkTraceOperationSlot: API.OperationMethod<
   GetWebAppNetworkTraceOperationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26921,8 +26946,8 @@ export const GetWebAppNetworkTraceOperationSlotV2: API.OperationMethod<
   GetWebAppNetworkTraceOperationSlotV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Request>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Response>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Request>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26938,8 +26963,8 @@ export const GetWebAppNetworkTraceOperationV2: API.OperationMethod<
   GetWebAppNetworkTraceOperationV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetWebAppNetworkTraceOperationV2Request>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTraceOperationV2Response>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetWebAppNetworkTraceOperationV2Request>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTraceOperationV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26955,8 +26980,8 @@ export const GetWebAppNetworkTraces: API.OperationMethod<
   GetWebAppNetworkTracesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetWebAppNetworkTracesRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTracesResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetWebAppNetworkTracesRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTracesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26972,8 +26997,8 @@ export const GetWebAppNetworkTracesSlot: API.OperationMethod<
   GetWebAppNetworkTracesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<GetWebAppNetworkTracesSlotRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTracesSlotResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<GetWebAppNetworkTracesSlotRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTracesSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -26989,8 +27014,8 @@ export const GetWebAppNetworkTracesSlotV2: API.OperationMethod<
   GetWebAppNetworkTracesSlotV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<GetWebAppNetworkTracesSlotV2Request>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTracesSlotV2Response>,
+  input: __S(8288, __c259, 0) as any as S.Schema<GetWebAppNetworkTracesSlotV2Request>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTracesSlotV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27006,8 +27031,8 @@ export const GetWebAppNetworkTracesV2: API.OperationMethod<
   GetWebAppNetworkTracesV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<GetWebAppNetworkTracesV2Request>,
-  output: __S(8034, __c251, 2) as any as S.Schema<GetWebAppNetworkTracesV2Response>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetWebAppNetworkTracesV2Request>,
+  output: __S(8066, __c252, 2) as any as S.Schema<GetWebAppNetworkTracesV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27023,8 +27048,8 @@ export const GetWebAppPrivateAccess: API.OperationMethod<
   GetWebAppPrivateAccessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetWebAppPrivateAccessRequest>,
-  output: __S(8357, __c261, 5) as any as S.Schema<GetWebAppPrivateAccessResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetWebAppPrivateAccessRequest>,
+  output: __S(8389, __c262, 5) as any as S.Schema<GetWebAppPrivateAccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27040,8 +27065,8 @@ export const GetWebAppPrivateAccessSlot: API.OperationMethod<
   GetWebAppPrivateAccessSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<GetWebAppPrivateAccessSlotRequest>,
-  output: __S(8357, __c261, 5) as any as S.Schema<GetWebAppPrivateAccessSlotResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetWebAppPrivateAccessSlotRequest>,
+  output: __S(8389, __c262, 5) as any as S.Schema<GetWebAppPrivateAccessSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27057,8 +27082,8 @@ export const GetWebAppPrivateEndpointConnection: API.OperationMethod<
   GetWebAppPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionRequest>,
-  output: __S(30272, __c946, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27074,8 +27099,8 @@ export const GetWebAppPrivateEndpointConnectionSlot: API.OperationMethod<
   GetWebAppPrivateEndpointConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotRequest>,
-  output: __S(30272, __c946, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27091,7 +27116,7 @@ export const GetWebAppPrivateLinkResources: API.OperationMethod<
   GetWebAppPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesRequest>,
+  input: __S(8512, __c266, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27108,7 +27133,7 @@ export const GetWebAppPrivateLinkResourcesSlot: API.OperationMethod<
   GetWebAppPrivateLinkResourcesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesSlotRequest>,
+  input: __S(8544, __c267, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesSlotRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27125,8 +27150,8 @@ export const GetWebAppProcess: API.OperationMethod<
   GetWebAppProcessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetWebAppProcessRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetWebAppProcessResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<GetWebAppProcessRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetWebAppProcessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27142,8 +27167,8 @@ export const GetWebAppProcessDump: API.OperationMethod<
   GetWebAppProcessDumpError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GetWebAppProcessDumpRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppProcessDumpResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<GetWebAppProcessDumpRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppProcessDumpResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27159,8 +27184,8 @@ export const GetWebAppProcessDumpSlot: API.OperationMethod<
   GetWebAppProcessDumpSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<GetWebAppProcessDumpSlotRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppProcessDumpSlotResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<GetWebAppProcessDumpSlotRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppProcessDumpSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27176,8 +27201,8 @@ export const GetWebAppProcessModule: API.OperationMethod<
   GetWebAppProcessModuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetWebAppProcessModuleRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<GetWebAppProcessModuleResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<GetWebAppProcessModuleRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetWebAppProcessModuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27193,8 +27218,8 @@ export const GetWebAppProcessModuleSlot: API.OperationMethod<
   GetWebAppProcessModuleSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GetWebAppProcessModuleSlotRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<GetWebAppProcessModuleSlotResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<GetWebAppProcessModuleSlotRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetWebAppProcessModuleSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27210,8 +27235,8 @@ export const GetWebAppProcessSlot: API.OperationMethod<
   GetWebAppProcessSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<GetWebAppProcessSlotRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetWebAppProcessSlotResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<GetWebAppProcessSlotRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetWebAppProcessSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27227,8 +27252,8 @@ export const GetWebAppProductionSiteDeploymentStatus: API.OperationMethod<
   GetWebAppProductionSiteDeploymentStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusRequest>,
-  output: __S(8832, __c276, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27244,8 +27269,8 @@ export const GetWebAppPublicCertificate: API.OperationMethod<
   GetWebAppPublicCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<GetWebAppPublicCertificateRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<GetWebAppPublicCertificateResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<GetWebAppPublicCertificateRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<GetWebAppPublicCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27261,8 +27286,8 @@ export const GetWebAppPublicCertificateSlot: API.OperationMethod<
   GetWebAppPublicCertificateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<GetWebAppPublicCertificateSlotRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<GetWebAppPublicCertificateSlotResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<GetWebAppPublicCertificateSlotRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<GetWebAppPublicCertificateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27278,8 +27303,8 @@ export const GetWebAppRelayServiceConnection: API.OperationMethod<
   GetWebAppRelayServiceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<GetWebAppRelayServiceConnectionRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<GetWebAppRelayServiceConnectionResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<GetWebAppRelayServiceConnectionRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<GetWebAppRelayServiceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27295,8 +27320,8 @@ export const GetWebAppRelayServiceConnectionSlot: API.OperationMethod<
   GetWebAppRelayServiceConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetWebAppRelayServiceConnectionSlotRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<GetWebAppRelayServiceConnectionSlotResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetWebAppRelayServiceConnectionSlotRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<GetWebAppRelayServiceConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27312,8 +27337,8 @@ export const GetWebAppScmAllowed: API.OperationMethod<
   GetWebAppScmAllowedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<GetWebAppScmAllowedRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetWebAppScmAllowedResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetWebAppScmAllowedRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetWebAppScmAllowedResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27329,8 +27354,8 @@ export const GetWebAppScmAllowedSlot: API.OperationMethod<
   GetWebAppScmAllowedSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetWebAppScmAllowedSlotRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetWebAppScmAllowedSlotResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<GetWebAppScmAllowedSlotRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetWebAppScmAllowedSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27347,13 +27372,13 @@ export const GetWebAppSiteConnectionStringKeyVaultReference: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9184,
-    __c287,
+    9216,
+    __c288,
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceRequest>,
   output: __S(
-    5505,
-    __c172,
+    5537,
+    __c173,
     1,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceResponse>,
   errors: [UnknownAzureError],
@@ -27372,11 +27397,11 @@ export const GetWebAppSiteConnectionStringKeyVaultReferences: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9216,
-    __c288,
+    9248,
+    __c289,
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferencesRequest>,
-  output: __S(5665, __c177, 1) as any as S.Schema<ApiKVReferenceCollection>,
+  output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27393,13 +27418,13 @@ export const GetWebAppSiteConnectionStringKeyVaultReferenceSlot: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9248,
-    __c289,
+    9280,
+    __c290,
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceSlotRequest>,
   output: __S(
-    5505,
-    __c172,
+    5537,
+    __c173,
     1,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceSlotResponse>,
   errors: [UnknownAzureError],
@@ -27418,11 +27443,11 @@ export const GetWebAppSiteConnectionStringKeyVaultReferencesSlot: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9280,
-    __c290,
+    9312,
+    __c291,
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferencesSlotRequest>,
-  output: __S(5665, __c177, 1) as any as S.Schema<ApiKVReferenceCollection>,
+  output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27438,8 +27463,8 @@ export const GetWebAppSiteContainer: API.OperationMethod<
   GetWebAppSiteContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<GetWebAppSiteContainerRequest>,
-  output: __S(9349, __c292, 5) as any as S.Schema<GetWebAppSiteContainerResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetWebAppSiteContainerRequest>,
+  output: __S(9381, __c293, 5) as any as S.Schema<GetWebAppSiteContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27455,8 +27480,8 @@ export const GetWebAppSiteContainerSlot: API.OperationMethod<
   GetWebAppSiteContainerSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<GetWebAppSiteContainerSlotRequest>,
-  output: __S(9349, __c292, 5) as any as S.Schema<GetWebAppSiteContainerSlotResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<GetWebAppSiteContainerSlotRequest>,
+  output: __S(9381, __c293, 5) as any as S.Schema<GetWebAppSiteContainerSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27472,8 +27497,8 @@ export const GetWebAppSiteExtension: API.OperationMethod<
   GetWebAppSiteExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetWebAppSiteExtensionRequest>,
-  output: __S(9472, __c296, 0) as any as S.Schema<GetWebAppSiteExtensionResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<GetWebAppSiteExtensionRequest>,
+  output: __S(9504, __c297, 0) as any as S.Schema<GetWebAppSiteExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27489,8 +27514,8 @@ export const GetWebAppSiteExtensionSlot: API.OperationMethod<
   GetWebAppSiteExtensionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetWebAppSiteExtensionSlotRequest>,
-  output: __S(9472, __c296, 0) as any as S.Schema<GetWebAppSiteExtensionSlotResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<GetWebAppSiteExtensionSlotRequest>,
+  output: __S(9504, __c297, 0) as any as S.Schema<GetWebAppSiteExtensionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27506,8 +27531,8 @@ export const GetWebAppSitePhpErrorLogFlag: API.OperationMethod<
   GetWebAppSitePhpErrorLogFlagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagRequest>,
-  output: __S(9601, __c300, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagRequest>,
+  output: __S(9633, __c301, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27523,8 +27548,8 @@ export const GetWebAppSitePhpErrorLogFlagSlot: API.OperationMethod<
   GetWebAppSitePhpErrorLogFlagSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotRequest>,
-  output: __S(9601, __c300, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotRequest>,
+  output: __S(9633, __c301, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27540,8 +27565,8 @@ export const GetWebAppSlot: API.OperationMethod<
   GetWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<GetWebAppSlotRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<GetWebAppSlotResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<GetWebAppSlotRequest>,
+  output: __S(16000, __c500, 0) as any as S.Schema<GetWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27557,8 +27582,8 @@ export const GetWebAppSlotSiteDeploymentStatusSlot: API.OperationMethod<
   GetWebAppSlotSiteDeploymentStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotRequest>,
-  output: __S(8832, __c276, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27574,8 +27599,8 @@ export const GetWebAppSourceControl: API.OperationMethod<
   GetWebAppSourceControlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<GetWebAppSourceControlRequest>,
-  output: __S(9760, __c305, 0) as any as S.Schema<GetWebAppSourceControlResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<GetWebAppSourceControlRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<GetWebAppSourceControlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27591,8 +27616,8 @@ export const GetWebAppSourceControlSlot: API.OperationMethod<
   GetWebAppSourceControlSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<GetWebAppSourceControlSlotRequest>,
-  output: __S(9760, __c305, 0) as any as S.Schema<GetWebAppSourceControlSlotResponse>,
+  input: __S(9856, __c308, 0) as any as S.Schema<GetWebAppSourceControlSlotRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<GetWebAppSourceControlSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27608,7 +27633,7 @@ export const GetWebAppSwiftVirtualNetworkConnection: API.OperationMethod<
   GetWebAppSwiftVirtualNetworkConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionRequest>,
+  input: __S(9888, __c309, 0) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27625,7 +27650,7 @@ export const GetWebAppSwiftVirtualNetworkConnectionSlot: API.OperationMethod<
   GetWebAppSwiftVirtualNetworkConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionSlotRequest>,
+  input: __S(9920, __c310, 0) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionSlotRequest>,
   output: __S(
     3681,
     __c115,
@@ -27646,8 +27671,8 @@ export const GetWebAppTriggeredWebJob: API.OperationMethod<
   GetWebAppTriggeredWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<GetWebAppTriggeredWebJobRequest>,
-  output: __S(9985, __c312, 1) as any as S.Schema<GetWebAppTriggeredWebJobResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<GetWebAppTriggeredWebJobRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<GetWebAppTriggeredWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27663,8 +27688,8 @@ export const GetWebAppTriggeredWebJobHistory: API.OperationMethod<
   GetWebAppTriggeredWebJobHistoryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistoryRequest>,
-  output: __S(10082, __c315, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistoryResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistoryRequest>,
+  output: __S(10114, __c316, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistoryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27680,8 +27705,8 @@ export const GetWebAppTriggeredWebJobHistorySlot: API.OperationMethod<
   GetWebAppTriggeredWebJobHistorySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotRequest>,
-  output: __S(10082, __c315, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotRequest>,
+  output: __S(10114, __c316, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27697,8 +27722,8 @@ export const GetWebAppTriggeredWebJobSlot: API.OperationMethod<
   GetWebAppTriggeredWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<GetWebAppTriggeredWebJobSlotRequest>,
-  output: __S(9985, __c312, 1) as any as S.Schema<GetWebAppTriggeredWebJobSlotResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<GetWebAppTriggeredWebJobSlotRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<GetWebAppTriggeredWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27714,7 +27739,7 @@ export const GetWebAppVnetConnection: API.OperationMethod<
   GetWebAppVnetConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<GetWebAppVnetConnectionRequest>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetWebAppVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetWebAppVnetConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27731,7 +27756,7 @@ export const GetWebAppVnetConnectionGateway: API.OperationMethod<
   GetWebAppVnetConnectionGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<GetWebAppVnetConnectionGatewayRequest>,
+  input: __S(10240, __c320, 0) as any as S.Schema<GetWebAppVnetConnectionGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<GetWebAppVnetConnectionGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27748,7 +27773,7 @@ export const GetWebAppVnetConnectionGatewaySlot: API.OperationMethod<
   GetWebAppVnetConnectionGatewaySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<GetWebAppVnetConnectionGatewaySlotRequest>,
+  input: __S(10272, __c321, 0) as any as S.Schema<GetWebAppVnetConnectionGatewaySlotRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<GetWebAppVnetConnectionGatewaySlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27765,7 +27790,7 @@ export const GetWebAppVnetConnectionSlot: API.OperationMethod<
   GetWebAppVnetConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<GetWebAppVnetConnectionSlotRequest>,
+  input: __S(10304, __c322, 0) as any as S.Schema<GetWebAppVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetWebAppVnetConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -27782,8 +27807,8 @@ export const GetWebAppWebJob: API.OperationMethod<
   GetWebAppWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<GetWebAppWebJobRequest>,
-  output: __S(10337, __c323, 1) as any as S.Schema<GetWebAppWebJobResponse>,
+  input: __S(10336, __c323, 0) as any as S.Schema<GetWebAppWebJobRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<GetWebAppWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27799,8 +27824,8 @@ export const GetWebAppWebJobSlot: API.OperationMethod<
   GetWebAppWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GetWebAppWebJobSlotRequest>,
-  output: __S(10337, __c323, 1) as any as S.Schema<GetWebAppWebJobSlotResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<GetWebAppWebJobSlotRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<GetWebAppWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27816,8 +27841,8 @@ export const GetWebAppWebSiteContainerLogs: API.OperationMethod<
   GetWebAppWebSiteContainerLogsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27833,8 +27858,8 @@ export const GetWebAppWebSiteContainerLogsSlot: API.OperationMethod<
   GetWebAppWebSiteContainerLogsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27850,8 +27875,8 @@ export const GetWebAppWorkflow: API.OperationMethod<
   GetWebAppWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetWebAppWorkflowRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<GetWebAppWorkflowResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<GetWebAppWorkflowRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<GetWebAppWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27867,8 +27892,8 @@ export const GetWorkflowRun: API.OperationMethod<
   GetWorkflowRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<GetWorkflowRunRequest>,
-  output: __S(10628, __c332, 4) as any as S.Schema<GetWorkflowRunResponse>,
+  input: __S(10560, __c330, 0) as any as S.Schema<GetWorkflowRunRequest>,
+  output: __S(10660, __c333, 4) as any as S.Schema<GetWorkflowRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27884,8 +27909,8 @@ export const GetWorkflowRunAction: API.OperationMethod<
   GetWorkflowRunActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<GetWorkflowRunActionRequest>,
-  output: __S(10721, __c335, 1) as any as S.Schema<GetWorkflowRunActionResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<GetWorkflowRunActionRequest>,
+  output: __S(10753, __c336, 1) as any as S.Schema<GetWorkflowRunActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27901,8 +27926,8 @@ export const GetWorkflowRunActionRepetition: API.OperationMethod<
   GetWorkflowRunActionRepetitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<GetWorkflowRunActionRepetitionRequest>,
-  output: __S(10787, __c337, 3) as any as S.Schema<GetWorkflowRunActionRepetitionResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<GetWorkflowRunActionRepetitionRequest>,
+  output: __S(10819, __c338, 3) as any as S.Schema<GetWorkflowRunActionRepetitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27919,13 +27944,13 @@ export const GetWorkflowRunActionRepetitionsRequestHistory: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10816,
-    __c338,
+    10848,
+    __c339,
     0,
   ) as any as S.Schema<GetWorkflowRunActionRepetitionsRequestHistoryRequest>,
   output: __S(
-    10851,
-    __c339,
+    10883,
+    __c340,
     3,
   ) as any as S.Schema<GetWorkflowRunActionRepetitionsRequestHistoryResponse>,
   errors: [UnknownAzureError],
@@ -27943,8 +27968,8 @@ export const GetWorkflowRunActionScopeRepetition: API.OperationMethod<
   GetWorkflowRunActionScopeRepetitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<GetWorkflowRunActionScopeRepetitionRequest>,
-  output: __S(10787, __c337, 3) as any as S.Schema<GetWorkflowRunActionScopeRepetitionResponse>,
+  input: __S(10912, __c341, 0) as any as S.Schema<GetWorkflowRunActionScopeRepetitionRequest>,
+  output: __S(10819, __c338, 3) as any as S.Schema<GetWorkflowRunActionScopeRepetitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27960,8 +27985,8 @@ export const GetWorkflowTrigger: API.OperationMethod<
   GetWorkflowTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<GetWorkflowTriggerRequest>,
-  output: __S(10950, __c342, 6) as any as S.Schema<GetWorkflowTriggerResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<GetWorkflowTriggerRequest>,
+  output: __S(10982, __c343, 6) as any as S.Schema<GetWorkflowTriggerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27977,8 +28002,8 @@ export const GetWorkflowTriggerHistory: API.OperationMethod<
   GetWorkflowTriggerHistoryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<GetWorkflowTriggerHistoryRequest>,
-  output: __S(11009, __c344, 1) as any as S.Schema<GetWorkflowTriggerHistoryResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<GetWorkflowTriggerHistoryRequest>,
+  output: __S(11041, __c345, 1) as any as S.Schema<GetWorkflowTriggerHistoryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -27994,8 +28019,8 @@ export const GetWorkflowTriggerSchemaJson: API.OperationMethod<
   GetWorkflowTriggerSchemaJsonError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<GetWorkflowTriggerSchemaJsonRequest>,
-  output: __S(11041, __c345, 1) as any as S.Schema<JsonSchema>,
+  input: __S(11072, __c346, 0) as any as S.Schema<GetWorkflowTriggerSchemaJsonRequest>,
+  output: __S(11073, __c346, 1) as any as S.Schema<JsonSchema>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28011,8 +28036,8 @@ export const GetWorkflowVersion: API.OperationMethod<
   GetWorkflowVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<GetWorkflowVersionRequest>,
-  output: __S(11298, __c353, 2) as any as S.Schema<GetWorkflowVersionResponse>,
+  input: __S(11296, __c353, 0) as any as S.Schema<GetWorkflowVersionRequest>,
+  output: __S(11330, __c354, 2) as any as S.Schema<GetWorkflowVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28028,8 +28053,8 @@ export const InstallWebAppSiteExtension: API.OperationMethod<
   InstallWebAppSiteExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<InstallWebAppSiteExtensionRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<InstallWebAppSiteExtensionResponse>,
+  input: __S(11392, __c356, 0) as any as S.Schema<InstallWebAppSiteExtensionRequest>,
+  output: __S(11424, __c357, 0) as any as S.Schema<InstallWebAppSiteExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28045,8 +28070,8 @@ export const InstallWebAppSiteExtensionSlot: API.OperationMethod<
   InstallWebAppSiteExtensionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotResponse>,
+  input: __S(11456, __c358, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotRequest>,
+  output: __S(11424, __c357, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28062,8 +28087,8 @@ export const KubeEnvironmentsCreateOrUpdate: API.OperationMethod<
   KubeEnvironmentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11457, __c358, 1) as any as S.Schema<KubeEnvironmentsCreateOrUpdateRequest>,
-  output: __S(11458, __c358, 2) as any as S.Schema<KubeEnvironmentsCreateOrUpdateResponse>,
+  input: __S(11489, __c359, 1) as any as S.Schema<KubeEnvironmentsCreateOrUpdateRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<KubeEnvironmentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28079,7 +28104,7 @@ export const LastKnownGoodResourcesMarkLastKnownGood: API.OperationMethod<
   LastKnownGoodResourcesMarkLastKnownGoodError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<LastKnownGoodResourcesMarkLastKnownGoodRequest>,
+  input: __S(11520, __c360, 0) as any as S.Schema<LastKnownGoodResourcesMarkLastKnownGoodRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<LastKnownGoodResourcesMarkLastKnownGoodResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -28096,8 +28121,8 @@ export const ListAiGatewayByResourceGroup: API.OperationMethod<
   ListAiGatewayByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<ListAiGatewayByResourceGroupRequest>,
-  output: __S(11553, __c361, 1) as any as S.Schema<AiGatewayListResult>,
+  input: __S(11552, __c361, 0) as any as S.Schema<ListAiGatewayByResourceGroupRequest>,
+  output: __S(11585, __c362, 1) as any as S.Schema<AiGatewayListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28113,8 +28138,8 @@ export const ListAiGatewayBySubscription: API.OperationMethod<
   ListAiGatewayBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<ListAiGatewayBySubscriptionRequest>,
-  output: __S(11553, __c361, 1) as any as S.Schema<AiGatewayListResult>,
+  input: __S(11616, __c363, 0) as any as S.Schema<ListAiGatewayBySubscriptionRequest>,
+  output: __S(11585, __c362, 1) as any as S.Schema<AiGatewayListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28130,8 +28155,8 @@ export const ListAppServiceEnvironmentAppServicePlans: API.OperationMethod<
   ListAppServiceEnvironmentAppServicePlansError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<ListAppServiceEnvironmentAppServicePlansRequest>,
-  output: __S(11649, __c364, 1) as any as S.Schema<AppServicePlanCollection>,
+  input: __S(11648, __c364, 0) as any as S.Schema<ListAppServiceEnvironmentAppServicePlansRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<AppServicePlanCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28147,8 +28172,8 @@ export const ListAppServiceEnvironmentByResourceGroup: API.OperationMethod<
   ListAppServiceEnvironmentByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<ListAppServiceEnvironmentByResourceGroupRequest>,
-  output: __S(11713, __c366, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
+  input: __S(11712, __c366, 0) as any as S.Schema<ListAppServiceEnvironmentByResourceGroupRequest>,
+  output: __S(11745, __c367, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28164,8 +28189,8 @@ export const ListAppServiceEnvironmentCapacities: API.OperationMethod<
   ListAppServiceEnvironmentCapacitiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<ListAppServiceEnvironmentCapacitiesRequest>,
-  output: __S(11747, __c367, 3) as any as S.Schema<StampCapacityCollection>,
+  input: __S(11776, __c368, 0) as any as S.Schema<ListAppServiceEnvironmentCapacitiesRequest>,
+  output: __S(11779, __c368, 3) as any as S.Schema<StampCapacityCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28181,8 +28206,8 @@ export const ListAppServiceEnvironmentDiagnostics: API.OperationMethod<
   ListAppServiceEnvironmentDiagnosticsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11808, __c369, 0) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsRequest>,
-  output: __S(11810, __c369, 2) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsResponse>,
+  input: __S(11840, __c370, 0) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsRequest>,
+  output: __S(11842, __c370, 2) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28199,11 +28224,11 @@ export const ListAppServiceEnvironmentMultiRoleMetricDefinitions: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11840,
-    __c370,
+    11872,
+    __c371,
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRoleMetricDefinitionsRequest>,
-  output: __S(11877, __c371, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
+  output: __S(11909, __c372, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28220,11 +28245,11 @@ export const ListAppServiceEnvironmentMultiRolePoolInstanceMetricDefinitions: AP
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11904,
-    __c372,
+    11936,
+    __c373,
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolInstanceMetricDefinitionsRequest>,
-  output: __S(11877, __c371, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
+  output: __S(11909, __c372, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28240,8 +28265,8 @@ export const ListAppServiceEnvironmentMultiRolePools: API.OperationMethod<
   ListAppServiceEnvironmentMultiRolePoolsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolsRequest>,
-  output: __S(11969, __c374, 1) as any as S.Schema<WorkerPoolCollection>,
+  input: __S(11968, __c374, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolsRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<WorkerPoolCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28258,11 +28283,11 @@ export const ListAppServiceEnvironmentMultiRolePoolSkus: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12000,
-    __c375,
+    12032,
+    __c376,
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolSkusRequest>,
-  output: __S(12034, __c376, 2) as any as S.Schema<SkuInfoCollection>,
+  output: __S(12066, __c377, 2) as any as S.Schema<SkuInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28278,8 +28303,8 @@ export const ListAppServiceEnvironmentMultiRoleUsages: API.OperationMethod<
   ListAppServiceEnvironmentMultiRoleUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRoleUsagesRequest>,
-  output: __S(12099, __c378, 3) as any as S.Schema<UsageCollection>,
+  input: __S(12096, __c378, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRoleUsagesRequest>,
+  output: __S(12131, __c379, 3) as any as S.Schema<UsageCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28295,8 +28320,8 @@ export const ListAppServiceEnvironmentOperations: API.OperationMethod<
   ListAppServiceEnvironmentOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<ListAppServiceEnvironmentOperationsRequest>,
-  output: __S(12130, __c379, 2) as any as S.Schema<ListAppServiceEnvironmentOperationsResponse>,
+  input: __S(12160, __c380, 0) as any as S.Schema<ListAppServiceEnvironmentOperationsRequest>,
+  output: __S(12162, __c380, 2) as any as S.Schema<ListAppServiceEnvironmentOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28312,8 +28337,8 @@ export const ListAppServiceEnvironments: API.OperationMethod<
   ListAppServiceEnvironmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<ListAppServiceEnvironmentsRequest>,
-  output: __S(11713, __c366, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
+  input: __S(12192, __c381, 0) as any as S.Schema<ListAppServiceEnvironmentsRequest>,
+  output: __S(11745, __c367, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28329,8 +28354,8 @@ export const ListAppServiceEnvironmentUsages: API.OperationMethod<
   ListAppServiceEnvironmentUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<ListAppServiceEnvironmentUsagesRequest>,
-  output: __S(12227, __c382, 3) as any as S.Schema<CsmUsageQuotaCollection>,
+  input: __S(12224, __c382, 0) as any as S.Schema<ListAppServiceEnvironmentUsagesRequest>,
+  output: __S(12259, __c383, 3) as any as S.Schema<CsmUsageQuotaCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28346,8 +28371,8 @@ export const ListAppServiceEnvironmentWebApps: API.OperationMethod<
   ListAppServiceEnvironmentWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<ListAppServiceEnvironmentWebAppsRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<WebAppCollection>,
+  input: __S(12288, __c384, 0) as any as S.Schema<ListAppServiceEnvironmentWebAppsRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<WebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28364,11 +28389,11 @@ export const ListAppServiceEnvironmentWebWorkerMetricDefinitions: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12352,
-    __c386,
+    12384,
+    __c387,
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentWebWorkerMetricDefinitionsRequest>,
-  output: __S(11877, __c371, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
+  output: __S(11909, __c372, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28384,8 +28409,8 @@ export const ListAppServiceEnvironmentWebWorkerUsages: API.OperationMethod<
   ListAppServiceEnvironmentWebWorkerUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<ListAppServiceEnvironmentWebWorkerUsagesRequest>,
-  output: __S(12099, __c378, 3) as any as S.Schema<UsageCollection>,
+  input: __S(12416, __c388, 0) as any as S.Schema<ListAppServiceEnvironmentWebWorkerUsagesRequest>,
+  output: __S(12131, __c379, 3) as any as S.Schema<UsageCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28402,11 +28427,11 @@ export const ListAppServiceEnvironmentWorkerPoolInstanceMetricDefinitions: API.O
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12416,
-    __c388,
+    12448,
+    __c389,
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolInstanceMetricDefinitionsRequest>,
-  output: __S(11877, __c371, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
+  output: __S(11909, __c372, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28422,8 +28447,8 @@ export const ListAppServiceEnvironmentWorkerPools: API.OperationMethod<
   ListAppServiceEnvironmentWorkerPoolsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolsRequest>,
-  output: __S(11969, __c374, 1) as any as S.Schema<WorkerPoolCollection>,
+  input: __S(12480, __c390, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolsRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<WorkerPoolCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28439,8 +28464,8 @@ export const ListAppServiceEnvironmentWorkerPoolSkus: API.OperationMethod<
   ListAppServiceEnvironmentWorkerPoolSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolSkusRequest>,
-  output: __S(12034, __c376, 2) as any as S.Schema<SkuInfoCollection>,
+  input: __S(12512, __c391, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolSkusRequest>,
+  output: __S(12066, __c377, 2) as any as S.Schema<SkuInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28456,8 +28481,8 @@ export const ListAppServicePlanByResourceGroup: API.OperationMethod<
   ListAppServicePlanByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<ListAppServicePlanByResourceGroupRequest>,
-  output: __S(11649, __c364, 1) as any as S.Schema<AppServicePlanCollection>,
+  input: __S(12544, __c392, 0) as any as S.Schema<ListAppServicePlanByResourceGroupRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<AppServicePlanCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28473,8 +28498,8 @@ export const ListAppServicePlanCapabilities: API.OperationMethod<
   ListAppServicePlanCapabilitiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<ListAppServicePlanCapabilitiesRequest>,
-  output: __S(12545, __c392, 1) as any as S.Schema<ListAppServicePlanCapabilitiesResponse>,
+  input: __S(12576, __c393, 0) as any as S.Schema<ListAppServicePlanCapabilitiesRequest>,
+  output: __S(12577, __c393, 1) as any as S.Schema<ListAppServicePlanCapabilitiesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28490,8 +28515,8 @@ export const ListAppServicePlanHybridConnectionKeys: API.OperationMethod<
   ListAppServicePlanHybridConnectionKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<ListAppServicePlanHybridConnectionKeysRequest>,
-  output: __S(12578, __c393, 2) as any as S.Schema<ListAppServicePlanHybridConnectionKeysResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<ListAppServicePlanHybridConnectionKeysRequest>,
+  output: __S(12610, __c394, 2) as any as S.Schema<ListAppServicePlanHybridConnectionKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28507,8 +28532,8 @@ export const ListAppServicePlanHybridConnections: API.OperationMethod<
   ListAppServicePlanHybridConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<ListAppServicePlanHybridConnectionsRequest>,
-  output: __S(12609, __c394, 1) as any as S.Schema<HybridConnectionCollection>,
+  input: __S(12640, __c395, 0) as any as S.Schema<ListAppServicePlanHybridConnectionsRequest>,
+  output: __S(12641, __c395, 1) as any as S.Schema<HybridConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28524,7 +28549,7 @@ export const ListAppServicePlanRoutesForVnet: API.OperationMethod<
   ListAppServicePlanRoutesForVnetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<ListAppServicePlanRoutesForVnetRequest>,
+  input: __S(12704, __c397, 0) as any as S.Schema<ListAppServicePlanRoutesForVnetRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<ListAppServicePlanRoutesForVnetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -28541,8 +28566,8 @@ export const ListAppServicePlans: API.OperationMethod<
   ListAppServicePlansError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12736, __c398, 0) as any as S.Schema<ListAppServicePlansRequest>,
-  output: __S(11649, __c364, 1) as any as S.Schema<AppServicePlanCollection>,
+  input: __S(12768, __c399, 0) as any as S.Schema<ListAppServicePlansRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<AppServicePlanCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28558,8 +28583,8 @@ export const ListAppServicePlanUsages: API.OperationMethod<
   ListAppServicePlanUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<ListAppServicePlanUsagesRequest>,
-  output: __S(12227, __c382, 3) as any as S.Schema<CsmUsageQuotaCollection>,
+  input: __S(12800, __c400, 0) as any as S.Schema<ListAppServicePlanUsagesRequest>,
+  output: __S(12259, __c383, 3) as any as S.Schema<CsmUsageQuotaCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28575,8 +28600,8 @@ export const ListAppServicePlanVnets: API.OperationMethod<
   ListAppServicePlanVnetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<ListAppServicePlanVnetsRequest>,
-  output: __S(12833, __c401, 1) as any as S.Schema<ListAppServicePlanVnetsResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<ListAppServicePlanVnetsRequest>,
+  output: __S(12865, __c402, 1) as any as S.Schema<ListAppServicePlanVnetsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28592,8 +28617,8 @@ export const ListAppServicePlanWebApps: API.OperationMethod<
   ListAppServicePlanWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<ListAppServicePlanWebAppsRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<WebAppCollection>,
+  input: __S(12896, __c403, 0) as any as S.Schema<ListAppServicePlanWebAppsRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<WebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28610,11 +28635,11 @@ export const ListAppServicePlanWebAppsByHybridConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12896,
-    __c403,
+    12928,
+    __c404,
     0,
   ) as any as S.Schema<ListAppServicePlanWebAppsByHybridConnectionRequest>,
-  output: __S(12897, __c403, 1) as any as S.Schema<ResourceCollection>,
+  output: __S(12929, __c404, 1) as any as S.Schema<ResourceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28630,8 +28655,8 @@ export const ListAseRegions: API.OperationMethod<
   ListAseRegionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<ListAseRegionsRequest>,
-  output: __S(12932, __c404, 4) as any as S.Schema<AseRegionCollection>,
+  input: __S(12960, __c405, 0) as any as S.Schema<ListAseRegionsRequest>,
+  output: __S(12964, __c405, 4) as any as S.Schema<AseRegionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28647,8 +28672,8 @@ export const ListBillingMeters: API.OperationMethod<
   ListBillingMetersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<ListBillingMetersRequest>,
-  output: __S(12964, __c405, 4) as any as S.Schema<BillingMeterCollection>,
+  input: __S(12992, __c406, 0) as any as S.Schema<ListBillingMetersRequest>,
+  output: __S(12996, __c406, 4) as any as S.Schema<BillingMeterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28664,8 +28689,8 @@ export const ListCertificateByResourceGroup: API.OperationMethod<
   ListCertificateByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<ListCertificateByResourceGroupRequest>,
-  output: __S(13025, __c407, 1) as any as S.Schema<CertificateCollection>,
+  input: __S(13024, __c407, 0) as any as S.Schema<ListCertificateByResourceGroupRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<CertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28681,8 +28706,8 @@ export const ListCertificates: API.OperationMethod<
   ListCertificatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<ListCertificatesRequest>,
-  output: __S(13025, __c407, 1) as any as S.Schema<CertificateCollection>,
+  input: __S(13088, __c409, 0) as any as S.Schema<ListCertificatesRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<CertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28698,8 +28723,8 @@ export const ListCustomHostNameSites: API.OperationMethod<
   ListCustomHostNameSitesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<ListCustomHostNameSitesRequest>,
-  output: __S(13092, __c409, 4) as any as S.Schema<CustomHostnameSitesCollection>,
+  input: __S(13120, __c410, 0) as any as S.Schema<ListCustomHostNameSitesRequest>,
+  output: __S(13124, __c410, 4) as any as S.Schema<CustomHostnameSitesCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28715,8 +28740,8 @@ export const ListDeletedWebAppByLocation: API.OperationMethod<
   ListDeletedWebAppByLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<ListDeletedWebAppByLocationRequest>,
-  output: __S(13217, __c413, 1) as any as S.Schema<DeletedWebAppCollection>,
+  input: __S(13216, __c413, 0) as any as S.Schema<ListDeletedWebAppByLocationRequest>,
+  output: __S(13249, __c414, 1) as any as S.Schema<DeletedWebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28732,8 +28757,8 @@ export const ListDeletedWebApps: API.OperationMethod<
   ListDeletedWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<ListDeletedWebAppsRequest>,
-  output: __S(13217, __c413, 1) as any as S.Schema<DeletedWebAppCollection>,
+  input: __S(13280, __c415, 0) as any as S.Schema<ListDeletedWebAppsRequest>,
+  output: __S(13249, __c414, 1) as any as S.Schema<DeletedWebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28750,11 +28775,11 @@ export const ListDiagnosticHostingEnvironmentDetectorResponses: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13280,
-    __c415,
+    13312,
+    __c416,
     0,
   ) as any as S.Schema<ListDiagnosticHostingEnvironmentDetectorResponsesRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<DetectorResponseCollection>,
+  output: __S(13345, __c417, 1) as any as S.Schema<DetectorResponseCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28770,8 +28795,8 @@ export const ListDiagnosticSiteAnalyses: API.OperationMethod<
   ListDiagnosticSiteAnalysesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13344, __c417, 0) as any as S.Schema<ListDiagnosticSiteAnalysesRequest>,
-  output: __S(13377, __c418, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
+  input: __S(13376, __c418, 0) as any as S.Schema<ListDiagnosticSiteAnalysesRequest>,
+  output: __S(13409, __c419, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28787,8 +28812,8 @@ export const ListDiagnosticSiteAnalysesSlot: API.OperationMethod<
   ListDiagnosticSiteAnalysesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<ListDiagnosticSiteAnalysesSlotRequest>,
-  output: __S(13377, __c418, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
+  input: __S(13440, __c420, 0) as any as S.Schema<ListDiagnosticSiteAnalysesSlotRequest>,
+  output: __S(13409, __c419, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28804,8 +28829,8 @@ export const ListDiagnosticSiteDetectorResponses: API.OperationMethod<
   ListDiagnosticSiteDetectorResponsesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13440, __c420, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<DetectorResponseCollection>,
+  input: __S(13472, __c421, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesRequest>,
+  output: __S(13345, __c417, 1) as any as S.Schema<DetectorResponseCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28821,8 +28846,8 @@ export const ListDiagnosticSiteDetectorResponsesSlot: API.OperationMethod<
   ListDiagnosticSiteDetectorResponsesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesSlotRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<DetectorResponseCollection>,
+  input: __S(13504, __c422, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesSlotRequest>,
+  output: __S(13345, __c417, 1) as any as S.Schema<DetectorResponseCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28838,8 +28863,8 @@ export const ListDiagnosticSiteDetectors: API.OperationMethod<
   ListDiagnosticSiteDetectorsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<ListDiagnosticSiteDetectorsRequest>,
-  output: __S(13537, __c423, 1) as any as S.Schema<DiagnosticDetectorCollection>,
+  input: __S(13536, __c423, 0) as any as S.Schema<ListDiagnosticSiteDetectorsRequest>,
+  output: __S(13569, __c424, 1) as any as S.Schema<DiagnosticDetectorCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28855,8 +28880,8 @@ export const ListDiagnosticSiteDetectorsSlot: API.OperationMethod<
   ListDiagnosticSiteDetectorsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<ListDiagnosticSiteDetectorsSlotRequest>,
-  output: __S(13537, __c423, 1) as any as S.Schema<DiagnosticDetectorCollection>,
+  input: __S(13600, __c425, 0) as any as S.Schema<ListDiagnosticSiteDetectorsSlotRequest>,
+  output: __S(13569, __c424, 1) as any as S.Schema<DiagnosticDetectorCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28872,8 +28897,8 @@ export const ListDiagnosticSiteDiagnosticCategories: API.OperationMethod<
   ListDiagnosticSiteDiagnosticCategoriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<ListDiagnosticSiteDiagnosticCategoriesRequest>,
-  output: __S(13377, __c418, 1) as any as S.Schema<DiagnosticCategoryCollection>,
+  input: __S(13632, __c426, 0) as any as S.Schema<ListDiagnosticSiteDiagnosticCategoriesRequest>,
+  output: __S(13409, __c419, 1) as any as S.Schema<DiagnosticCategoryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28890,11 +28915,11 @@ export const ListDiagnosticSiteDiagnosticCategoriesSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13664,
-    __c427,
+    13696,
+    __c428,
     0,
   ) as any as S.Schema<ListDiagnosticSiteDiagnosticCategoriesSlotRequest>,
-  output: __S(13377, __c418, 1) as any as S.Schema<DiagnosticCategoryCollection>,
+  output: __S(13409, __c419, 1) as any as S.Schema<DiagnosticCategoryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28910,8 +28935,8 @@ export const ListGeoRegions: API.OperationMethod<
   ListGeoRegionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<ListGeoRegionsRequest>,
-  output: __S(13697, __c428, 1) as any as S.Schema<GeoRegionCollection>,
+  input: __S(13728, __c429, 0) as any as S.Schema<ListGeoRegionsRequest>,
+  output: __S(13729, __c429, 1) as any as S.Schema<GeoRegionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28927,8 +28952,8 @@ export const ListGetUsagesInLocation: API.OperationMethod<
   ListGetUsagesInLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<ListGetUsagesInLocationRequest>,
-  output: __S(12227, __c382, 3) as any as S.Schema<CsmUsageQuotaCollection>,
+  input: __S(13760, __c430, 0) as any as S.Schema<ListGetUsagesInLocationRequest>,
+  output: __S(12259, __c383, 3) as any as S.Schema<CsmUsageQuotaCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28944,8 +28969,8 @@ export const ListKubeEnvironmentByResourceGroup: API.OperationMethod<
   ListKubeEnvironmentByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<ListKubeEnvironmentByResourceGroupRequest>,
-  output: __S(13793, __c431, 1) as any as S.Schema<KubeEnvironmentCollection>,
+  input: __S(13792, __c431, 0) as any as S.Schema<ListKubeEnvironmentByResourceGroupRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<KubeEnvironmentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28961,8 +28986,8 @@ export const ListKubeEnvironmentBySubscription: API.OperationMethod<
   ListKubeEnvironmentBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<ListKubeEnvironmentBySubscriptionRequest>,
-  output: __S(13793, __c431, 1) as any as S.Schema<KubeEnvironmentCollection>,
+  input: __S(13856, __c433, 0) as any as S.Schema<ListKubeEnvironmentBySubscriptionRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<KubeEnvironmentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28978,8 +29003,8 @@ export const ListLastKnownGoodResourceLastKnownGoods: API.OperationMethod<
   ListLastKnownGoodResourceLastKnownGoodsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<ListLastKnownGoodResourceLastKnownGoodsRequest>,
-  output: __S(13858, __c433, 2) as any as S.Schema<LastKnownGoodCollection>,
+  input: __S(13888, __c434, 0) as any as S.Schema<ListLastKnownGoodResourceLastKnownGoodsRequest>,
+  output: __S(13890, __c434, 2) as any as S.Schema<LastKnownGoodCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -28996,11 +29021,11 @@ export const ListManagedTrafficConfigResourceManagedTrafficConfigs: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13888,
-    __c434,
+    13920,
+    __c435,
     0,
   ) as any as S.Schema<ListManagedTrafficConfigResourceManagedTrafficConfigsRequest>,
-  output: __S(13890, __c434, 2) as any as S.Schema<ManagedTrafficConfigCollection>,
+  output: __S(13922, __c435, 2) as any as S.Schema<ManagedTrafficConfigCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29016,8 +29041,8 @@ export const ListPremierAddOnOffers: API.OperationMethod<
   ListPremierAddOnOffersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<ListPremierAddOnOffersRequest>,
-  output: __S(13924, __c435, 4) as any as S.Schema<PremierAddOnOfferCollection>,
+  input: __S(13952, __c436, 0) as any as S.Schema<ListPremierAddOnOffersRequest>,
+  output: __S(13956, __c436, 4) as any as S.Schema<PremierAddOnOfferCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29033,8 +29058,8 @@ export const ListProviderOperations: API.OperationMethod<
   ListProviderOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<ListProviderOperationsRequest>,
-  output: __S(13966, __c436, 14) as any as S.Schema<CsmOperationCollection>,
+  input: __S(13984, __c437, 0) as any as S.Schema<ListProviderOperationsRequest>,
+  output: __S(13998, __c437, 14) as any as S.Schema<CsmOperationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29051,11 +29076,11 @@ export const ListRecommendationHistoryForHostingEnvironment: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13984,
-    __c437,
+    14016,
+    __c438,
     0,
   ) as any as S.Schema<ListRecommendationHistoryForHostingEnvironmentRequest>,
-  output: __S(14019, __c438, 3) as any as S.Schema<RecommendationCollection>,
+  output: __S(14051, __c439, 3) as any as S.Schema<RecommendationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29071,8 +29096,8 @@ export const ListRecommendationHistoryForWebApp: API.OperationMethod<
   ListRecommendationHistoryForWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<ListRecommendationHistoryForWebAppRequest>,
-  output: __S(14019, __c438, 3) as any as S.Schema<RecommendationCollection>,
+  input: __S(14112, __c441, 0) as any as S.Schema<ListRecommendationHistoryForWebAppRequest>,
+  output: __S(14051, __c439, 3) as any as S.Schema<RecommendationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29089,11 +29114,11 @@ export const ListRecommendationRecommendedRulesForHostingEnvironment: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14112,
-    __c441,
+    14144,
+    __c442,
     0,
   ) as any as S.Schema<ListRecommendationRecommendedRulesForHostingEnvironmentRequest>,
-  output: __S(14019, __c438, 3) as any as S.Schema<RecommendationCollection>,
+  output: __S(14051, __c439, 3) as any as S.Schema<RecommendationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29110,11 +29135,11 @@ export const ListRecommendationRecommendedRulesForWebApp: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14144,
-    __c442,
+    14176,
+    __c443,
     0,
   ) as any as S.Schema<ListRecommendationRecommendedRulesForWebAppRequest>,
-  output: __S(14019, __c438, 3) as any as S.Schema<RecommendationCollection>,
+  output: __S(14051, __c439, 3) as any as S.Schema<RecommendationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29130,8 +29155,8 @@ export const ListRecommendations: API.OperationMethod<
   ListRecommendationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<ListRecommendationsRequest>,
-  output: __S(14019, __c438, 3) as any as S.Schema<RecommendationCollection>,
+  input: __S(14208, __c444, 0) as any as S.Schema<ListRecommendationsRequest>,
+  output: __S(14051, __c439, 3) as any as S.Schema<RecommendationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29147,8 +29172,8 @@ export const ListResourceHealthMetadata: API.OperationMethod<
   ListResourceHealthMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<ListResourceHealthMetadataRequest>,
-  output: __S(14241, __c445, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
+  input: __S(14240, __c445, 0) as any as S.Schema<ListResourceHealthMetadataRequest>,
+  output: __S(14273, __c446, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29164,8 +29189,8 @@ export const ListResourceHealthMetadataByResourceGroup: API.OperationMethod<
   ListResourceHealthMetadataByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<ListResourceHealthMetadataByResourceGroupRequest>,
-  output: __S(14241, __c445, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
+  input: __S(14304, __c447, 0) as any as S.Schema<ListResourceHealthMetadataByResourceGroupRequest>,
+  output: __S(14273, __c446, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29181,8 +29206,8 @@ export const ListResourceHealthMetadataBySite: API.OperationMethod<
   ListResourceHealthMetadataBySiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<ListResourceHealthMetadataBySiteRequest>,
-  output: __S(14241, __c445, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
+  input: __S(14336, __c448, 0) as any as S.Schema<ListResourceHealthMetadataBySiteRequest>,
+  output: __S(14273, __c446, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29198,8 +29223,8 @@ export const ListResourceHealthMetadataBySiteSlot: API.OperationMethod<
   ListResourceHealthMetadataBySiteSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<ListResourceHealthMetadataBySiteSlotRequest>,
-  output: __S(14241, __c445, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
+  input: __S(14368, __c449, 0) as any as S.Schema<ListResourceHealthMetadataBySiteSlotRequest>,
+  output: __S(14273, __c446, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29215,8 +29240,8 @@ export const ListServerFarmSiloResourceServerFarmSilos: API.OperationMethod<
   ListServerFarmSiloResourceServerFarmSilosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<ListServerFarmSiloResourceServerFarmSilosRequest>,
-  output: __S(14370, __c449, 2) as any as S.Schema<ServerFarmSiloCollection>,
+  input: __S(14400, __c450, 0) as any as S.Schema<ListServerFarmSiloResourceServerFarmSilosRequest>,
+  output: __S(14402, __c450, 2) as any as S.Schema<ServerFarmSiloCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29232,8 +29257,8 @@ export const ListSiteCertificates: API.OperationMethod<
   ListSiteCertificatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14400, __c450, 0) as any as S.Schema<ListSiteCertificatesRequest>,
-  output: __S(13025, __c407, 1) as any as S.Schema<CertificateCollection>,
+  input: __S(14432, __c451, 0) as any as S.Schema<ListSiteCertificatesRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<CertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29249,8 +29274,8 @@ export const ListSiteCertificateSlot: API.OperationMethod<
   ListSiteCertificateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<ListSiteCertificateSlotRequest>,
-  output: __S(13025, __c407, 1) as any as S.Schema<CertificateCollection>,
+  input: __S(14496, __c453, 0) as any as S.Schema<ListSiteCertificateSlotRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<CertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29266,8 +29291,8 @@ export const ListSiteIdentifiersAssignedToHostName: API.OperationMethod<
   ListSiteIdentifiersAssignedToHostNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<ListSiteIdentifiersAssignedToHostNameRequest>,
-  output: __S(14528, __c454, 0) as any as S.Schema<IdentifierCollection>,
+  input: __S(14528, __c454, 0) as any as S.Schema<ListSiteIdentifiersAssignedToHostNameRequest>,
+  output: __S(14560, __c455, 0) as any as S.Schema<IdentifierCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29284,11 +29309,11 @@ export const ListSiteNetworkSecurityPerimeterConfigurations: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14560,
-    __c455,
+    14592,
+    __c456,
     0,
   ) as any as S.Schema<ListSiteNetworkSecurityPerimeterConfigurationsRequest>,
-  output: __S(14562, __c455, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationCollection>,
+  output: __S(14594, __c456, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29304,8 +29329,8 @@ export const ListSiteSiloResourceSiteSilos: API.OperationMethod<
   ListSiteSiloResourceSiteSilosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<ListSiteSiloResourceSiteSilosRequest>,
-  output: __S(14594, __c456, 2) as any as S.Schema<SiteSiloCollection>,
+  input: __S(14624, __c457, 0) as any as S.Schema<ListSiteSiloResourceSiteSilosRequest>,
+  output: __S(14626, __c457, 2) as any as S.Schema<SiteSiloCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29322,11 +29347,11 @@ export const ListSiteSiloVirtualNetworkConnectionSiteSiloVnetConnections: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14624,
-    __c457,
+    14656,
+    __c458,
     0,
   ) as any as S.Schema<ListSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionsRequest>,
-  output: __S(14626, __c457, 2) as any as S.Schema<SiteSiloVirtualNetworkConnectionCollection>,
+  output: __S(14658, __c458, 2) as any as S.Schema<SiteSiloVirtualNetworkConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29342,8 +29367,8 @@ export const ListSkus: API.OperationMethod<
   ListSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14656, __c458, 0) as any as S.Schema<ListSkusRequest>,
-  output: __S(14659, __c458, 3) as any as S.Schema<SkuInfos>,
+  input: __S(14688, __c459, 0) as any as S.Schema<ListSkusRequest>,
+  output: __S(14691, __c459, 3) as any as S.Schema<SkuInfos>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29359,8 +29384,8 @@ export const ListSourceControls: API.OperationMethod<
   ListSourceControlsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14688, __c459, 0) as any as S.Schema<ListSourceControlsRequest>,
-  output: __S(14690, __c459, 2) as any as S.Schema<SourceControlCollection>,
+  input: __S(14720, __c460, 0) as any as S.Schema<ListSourceControlsRequest>,
+  output: __S(14722, __c460, 2) as any as S.Schema<SourceControlCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29376,8 +29401,8 @@ export const ListStaticSiteBasicAuth: API.OperationMethod<
   ListStaticSiteBasicAuthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<ListStaticSiteBasicAuthRequest>,
-  output: __S(14722, __c460, 2) as any as S.Schema<StaticSiteBasicAuthPropertiesCollection>,
+  input: __S(14752, __c461, 0) as any as S.Schema<ListStaticSiteBasicAuthRequest>,
+  output: __S(14754, __c461, 2) as any as S.Schema<StaticSiteBasicAuthPropertiesCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29393,8 +29418,8 @@ export const ListStaticSites: API.OperationMethod<
   ListStaticSitesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<ListStaticSitesRequest>,
-  output: __S(5153, __c161, 1) as any as S.Schema<StaticSiteCollection>,
+  input: __S(14784, __c462, 0) as any as S.Schema<ListStaticSitesRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<StaticSiteCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29410,8 +29435,8 @@ export const ListStaticSiteStaticSiteAppSettings: API.OperationMethod<
   ListStaticSiteStaticSiteAppSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29427,10 +29452,10 @@ export const ListStaticSiteStaticSiteBuildAppSettings: API.OperationMethod<
   ListStaticSiteStaticSiteBuildAppSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<ListStaticSiteStaticSiteBuildAppSettingsRequest>,
+  input: __S(14912, __c466, 0) as any as S.Schema<ListStaticSiteStaticSiteBuildAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteBuildAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -29449,13 +29474,13 @@ export const ListStaticSiteStaticSiteBuildFunctionAppSettings: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14912,
-    __c466,
+    14944,
+    __c467,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -29473,8 +29498,8 @@ export const ListStaticSiteStaticSiteBuildFunctions: API.OperationMethod<
   ListStaticSiteStaticSiteBuildFunctionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionsRequest>,
-  output: __S(14979, __c468, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
+  input: __S(14976, __c468, 0) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionsRequest>,
+  output: __S(15011, __c469, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29490,8 +29515,8 @@ export const ListStaticSiteStaticSiteConfiguredRoles: API.OperationMethod<
   ListStaticSiteStaticSiteConfiguredRolesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesRequest>,
-  output: __S(15009, __c469, 1) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesResponse>,
+  input: __S(15040, __c470, 0) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesRequest>,
+  output: __S(15041, __c470, 1) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29507,8 +29532,8 @@ export const ListStaticSiteStaticSiteCustomDomains: API.OperationMethod<
   ListStaticSiteStaticSiteCustomDomainsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<ListStaticSiteStaticSiteCustomDomainsRequest>,
-  output: __S(15042, __c470, 2) as any as S.Schema<StaticSiteCustomDomainOverviewCollection>,
+  input: __S(15072, __c471, 0) as any as S.Schema<ListStaticSiteStaticSiteCustomDomainsRequest>,
+  output: __S(15074, __c471, 2) as any as S.Schema<StaticSiteCustomDomainOverviewCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29525,13 +29550,13 @@ export const ListStaticSiteStaticSiteFunctionAppSettings: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15072,
-    __c471,
+    15104,
+    __c472,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteFunctionAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteFunctionAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -29549,8 +29574,8 @@ export const ListStaticSiteStaticSiteFunctions: API.OperationMethod<
   ListStaticSiteStaticSiteFunctionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<ListStaticSiteStaticSiteFunctionsRequest>,
-  output: __S(14979, __c468, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
+  input: __S(15136, __c473, 0) as any as S.Schema<ListStaticSiteStaticSiteFunctionsRequest>,
+  output: __S(15011, __c469, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29566,8 +29591,8 @@ export const ListStaticSiteStaticSiteSecrets: API.OperationMethod<
   ListStaticSiteStaticSiteSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29583,8 +29608,8 @@ export const ListStaticSiteStaticSiteUsers: API.OperationMethod<
   ListStaticSiteStaticSiteUsersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<ListStaticSiteStaticSiteUsersRequest>,
-  output: __S(15170, __c474, 2) as any as S.Schema<StaticSiteUserCollection>,
+  input: __S(15200, __c475, 0) as any as S.Schema<ListStaticSiteStaticSiteUsersRequest>,
+  output: __S(15202, __c475, 2) as any as S.Schema<StaticSiteUserCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29600,8 +29625,8 @@ export const ListWebAppApplicationSettings: API.OperationMethod<
   ListWebAppApplicationSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<ListWebAppApplicationSettingsRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppApplicationSettingsResponse>,
+  input: __S(15264, __c477, 0) as any as S.Schema<ListWebAppApplicationSettingsRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppApplicationSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29617,8 +29642,8 @@ export const ListWebAppApplicationSettingsSlot: API.OperationMethod<
   ListWebAppApplicationSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotResponse>,
+  input: __S(15328, __c479, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29634,8 +29659,8 @@ export const ListWebAppAzureStorageAccounts: API.OperationMethod<
   ListWebAppAzureStorageAccountsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<ListWebAppAzureStorageAccountsRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<ListWebAppAzureStorageAccountsResponse>,
+  input: __S(15360, __c480, 0) as any as S.Schema<ListWebAppAzureStorageAccountsRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<ListWebAppAzureStorageAccountsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29651,8 +29676,8 @@ export const ListWebAppAzureStorageAccountsSlot: API.OperationMethod<
   ListWebAppAzureStorageAccountsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29668,8 +29693,8 @@ export const ListWebAppBackups: API.OperationMethod<
   ListWebAppBackupsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<ListWebAppBackupsRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<BackupItemCollection>,
+  input: __S(15456, __c483, 0) as any as S.Schema<ListWebAppBackupsRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<BackupItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29685,8 +29710,8 @@ export const ListWebAppBackupsSlot: API.OperationMethod<
   ListWebAppBackupsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<ListWebAppBackupsSlotRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<BackupItemCollection>,
+  input: __S(15520, __c485, 0) as any as S.Schema<ListWebAppBackupsSlotRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<BackupItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29702,8 +29727,8 @@ export const ListWebAppBackupStatusSecrets: API.OperationMethod<
   ListWebAppBackupStatusSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<ListWebAppBackupStatusSecretsRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<ListWebAppBackupStatusSecretsResponse>,
+  input: __S(15552, __c486, 0) as any as S.Schema<ListWebAppBackupStatusSecretsRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<ListWebAppBackupStatusSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29719,8 +29744,8 @@ export const ListWebAppBackupStatusSecretsSlot: API.OperationMethod<
   ListWebAppBackupStatusSecretsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<ListWebAppBackupStatusSecretsSlotRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<ListWebAppBackupStatusSecretsSlotResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<ListWebAppBackupStatusSecretsSlotRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<ListWebAppBackupStatusSecretsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29737,11 +29762,11 @@ export const ListWebAppBasicPublishingCredentialsPolicies: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15616,
-    __c488,
+    15648,
+    __c489,
     0,
   ) as any as S.Schema<ListWebAppBasicPublishingCredentialsPoliciesRequest>,
-  output: __S(15649, __c489, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
+  output: __S(15681, __c490, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29758,11 +29783,11 @@ export const ListWebAppBasicPublishingCredentialsPoliciesSlot: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15680,
-    __c490,
+    15712,
+    __c491,
     0,
   ) as any as S.Schema<ListWebAppBasicPublishingCredentialsPoliciesSlotRequest>,
-  output: __S(15649, __c489, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
+  output: __S(15681, __c490, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29778,8 +29803,8 @@ export const ListWebAppByResourceGroup: API.OperationMethod<
   ListWebAppByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<ListWebAppByResourceGroupRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<WebAppCollection>,
+  input: __S(15744, __c492, 0) as any as S.Schema<ListWebAppByResourceGroupRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<WebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29795,8 +29820,8 @@ export const ListWebAppConfigurations: API.OperationMethod<
   ListWebAppConfigurationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<ListWebAppConfigurationsRequest>,
-  output: __S(16225, __c507, 1) as any as S.Schema<SiteConfigResourceCollection>,
+  input: __S(16224, __c507, 0) as any as S.Schema<ListWebAppConfigurationsRequest>,
+  output: __S(16257, __c508, 1) as any as S.Schema<SiteConfigResourceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29812,8 +29837,8 @@ export const ListWebAppConfigurationSnapshotInfo: API.OperationMethod<
   ListWebAppConfigurationSnapshotInfoError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoRequest>,
-  output: __S(16291, __c509, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
+  input: __S(16288, __c509, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoRequest>,
+  output: __S(16323, __c510, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29829,8 +29854,8 @@ export const ListWebAppConfigurationSnapshotInfoSlot: API.OperationMethod<
   ListWebAppConfigurationSnapshotInfoSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16320, __c510, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoSlotRequest>,
-  output: __S(16291, __c509, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
+  input: __S(16352, __c511, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoSlotRequest>,
+  output: __S(16323, __c510, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29846,8 +29871,8 @@ export const ListWebAppConfigurationsSlot: API.OperationMethod<
   ListWebAppConfigurationsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16352, __c511, 0) as any as S.Schema<ListWebAppConfigurationsSlotRequest>,
-  output: __S(16225, __c507, 1) as any as S.Schema<SiteConfigResourceCollection>,
+  input: __S(16384, __c512, 0) as any as S.Schema<ListWebAppConfigurationsSlotRequest>,
+  output: __S(16257, __c508, 1) as any as S.Schema<SiteConfigResourceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29863,8 +29888,8 @@ export const ListWebAppConnectionStrings: API.OperationMethod<
   ListWebAppConnectionStringsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<ListWebAppConnectionStringsRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<ListWebAppConnectionStringsResponse>,
+  input: __S(16416, __c513, 0) as any as S.Schema<ListWebAppConnectionStringsRequest>,
+  output: __S(16450, __c514, 2) as any as S.Schema<ListWebAppConnectionStringsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29880,8 +29905,8 @@ export const ListWebAppConnectionStringsSlot: API.OperationMethod<
   ListWebAppConnectionStringsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<ListWebAppConnectionStringsSlotRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<ListWebAppConnectionStringsSlotResponse>,
+  input: __S(16480, __c515, 0) as any as S.Schema<ListWebAppConnectionStringsSlotRequest>,
+  output: __S(16450, __c514, 2) as any as S.Schema<ListWebAppConnectionStringsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29897,8 +29922,8 @@ export const ListWebAppContinuousWebJobs: API.OperationMethod<
   ListWebAppContinuousWebJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<ListWebAppContinuousWebJobsRequest>,
-  output: __S(16513, __c516, 1) as any as S.Schema<ContinuousWebJobCollection>,
+  input: __S(16512, __c516, 0) as any as S.Schema<ListWebAppContinuousWebJobsRequest>,
+  output: __S(16545, __c517, 1) as any as S.Schema<ContinuousWebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29914,8 +29939,8 @@ export const ListWebAppContinuousWebJobsSlot: API.OperationMethod<
   ListWebAppContinuousWebJobsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<ListWebAppContinuousWebJobsSlotRequest>,
-  output: __S(16513, __c516, 1) as any as S.Schema<ContinuousWebJobCollection>,
+  input: __S(16576, __c518, 0) as any as S.Schema<ListWebAppContinuousWebJobsSlotRequest>,
+  output: __S(16545, __c517, 1) as any as S.Schema<ContinuousWebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29931,8 +29956,8 @@ export const ListWebAppDeploymentLog: API.OperationMethod<
   ListWebAppDeploymentLogError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16576, __c518, 0) as any as S.Schema<ListWebAppDeploymentLogRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<ListWebAppDeploymentLogResponse>,
+  input: __S(16608, __c519, 0) as any as S.Schema<ListWebAppDeploymentLogRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<ListWebAppDeploymentLogResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29948,8 +29973,8 @@ export const ListWebAppDeploymentLogSlot: API.OperationMethod<
   ListWebAppDeploymentLogSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16608, __c519, 0) as any as S.Schema<ListWebAppDeploymentLogSlotRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<ListWebAppDeploymentLogSlotResponse>,
+  input: __S(16640, __c520, 0) as any as S.Schema<ListWebAppDeploymentLogSlotRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<ListWebAppDeploymentLogSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29965,8 +29990,8 @@ export const ListWebAppDeployments: API.OperationMethod<
   ListWebAppDeploymentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16672, __c521, 0) as any as S.Schema<ListWebAppDeploymentsRequest>,
-  output: __S(16705, __c522, 1) as any as S.Schema<DeploymentCollection>,
+  input: __S(16704, __c522, 0) as any as S.Schema<ListWebAppDeploymentsRequest>,
+  output: __S(16737, __c523, 1) as any as S.Schema<DeploymentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29982,8 +30007,8 @@ export const ListWebAppDeploymentsSlot: API.OperationMethod<
   ListWebAppDeploymentsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<ListWebAppDeploymentsSlotRequest>,
-  output: __S(16705, __c522, 1) as any as S.Schema<DeploymentCollection>,
+  input: __S(16768, __c524, 0) as any as S.Schema<ListWebAppDeploymentsSlotRequest>,
+  output: __S(16737, __c523, 1) as any as S.Schema<DeploymentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -29999,8 +30024,8 @@ export const ListWebAppDomainOwnershipIdentifiers: API.OperationMethod<
   ListWebAppDomainOwnershipIdentifiersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersRequest>,
-  output: __S(14528, __c454, 0) as any as S.Schema<IdentifierCollection>,
+  input: __S(16800, __c525, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersRequest>,
+  output: __S(14560, __c455, 0) as any as S.Schema<IdentifierCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30016,8 +30041,8 @@ export const ListWebAppDomainOwnershipIdentifiersSlot: API.OperationMethod<
   ListWebAppDomainOwnershipIdentifiersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersSlotRequest>,
-  output: __S(14528, __c454, 0) as any as S.Schema<IdentifierCollection>,
+  input: __S(16832, __c526, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersSlotRequest>,
+  output: __S(14560, __c455, 0) as any as S.Schema<IdentifierCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30033,8 +30058,8 @@ export const ListWebAppFunctionKeys: API.OperationMethod<
   ListWebAppFunctionKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<ListWebAppFunctionKeysRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppFunctionKeysResponse>,
+  input: __S(16864, __c527, 0) as any as S.Schema<ListWebAppFunctionKeysRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppFunctionKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30050,8 +30075,8 @@ export const ListWebAppFunctionKeysSlot: API.OperationMethod<
   ListWebAppFunctionKeysSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<ListWebAppFunctionKeysSlotRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppFunctionKeysSlotResponse>,
+  input: __S(16896, __c528, 0) as any as S.Schema<ListWebAppFunctionKeysSlotRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppFunctionKeysSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30067,8 +30092,8 @@ export const ListWebAppFunctions: API.OperationMethod<
   ListWebAppFunctionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<ListWebAppFunctionsRequest>,
-  output: __S(16929, __c529, 1) as any as S.Schema<FunctionEnvelopeCollection>,
+  input: __S(16928, __c529, 0) as any as S.Schema<ListWebAppFunctionsRequest>,
+  output: __S(16961, __c530, 1) as any as S.Schema<FunctionEnvelopeCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30084,8 +30109,8 @@ export const ListWebAppFunctionSecrets: API.OperationMethod<
   ListWebAppFunctionSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<ListWebAppFunctionSecretsRequest>,
-  output: __S(16992, __c531, 0) as any as S.Schema<FunctionSecrets>,
+  input: __S(16992, __c531, 0) as any as S.Schema<ListWebAppFunctionSecretsRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<FunctionSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30101,8 +30126,8 @@ export const ListWebAppFunctionSecretsSlot: API.OperationMethod<
   ListWebAppFunctionSecretsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<ListWebAppFunctionSecretsSlotRequest>,
-  output: __S(16992, __c531, 0) as any as S.Schema<FunctionSecrets>,
+  input: __S(17056, __c533, 0) as any as S.Schema<ListWebAppFunctionSecretsSlotRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<FunctionSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30118,8 +30143,8 @@ export const ListWebAppHostKeys: API.OperationMethod<
   ListWebAppHostKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<ListWebAppHostKeysRequest>,
-  output: __S(17088, __c534, 0) as any as S.Schema<HostKeys>,
+  input: __S(17088, __c534, 0) as any as S.Schema<ListWebAppHostKeysRequest>,
+  output: __S(17120, __c535, 0) as any as S.Schema<HostKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30135,8 +30160,8 @@ export const ListWebAppHostKeysSlot: API.OperationMethod<
   ListWebAppHostKeysSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<ListWebAppHostKeysSlotRequest>,
-  output: __S(17088, __c534, 0) as any as S.Schema<HostKeys>,
+  input: __S(17184, __c537, 0) as any as S.Schema<ListWebAppHostKeysSlotRequest>,
+  output: __S(17120, __c535, 0) as any as S.Schema<HostKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30152,8 +30177,8 @@ export const ListWebAppHostNameBindings: API.OperationMethod<
   ListWebAppHostNameBindingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17184, __c537, 0) as any as S.Schema<ListWebAppHostNameBindingsRequest>,
-  output: __S(17217, __c538, 1) as any as S.Schema<HostNameBindingCollection>,
+  input: __S(17216, __c538, 0) as any as S.Schema<ListWebAppHostNameBindingsRequest>,
+  output: __S(17249, __c539, 1) as any as S.Schema<HostNameBindingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30169,8 +30194,8 @@ export const ListWebAppHostNameBindingsSlot: API.OperationMethod<
   ListWebAppHostNameBindingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<ListWebAppHostNameBindingsSlotRequest>,
-  output: __S(17217, __c538, 1) as any as S.Schema<HostNameBindingCollection>,
+  input: __S(17280, __c540, 0) as any as S.Schema<ListWebAppHostNameBindingsSlotRequest>,
+  output: __S(17249, __c539, 1) as any as S.Schema<HostNameBindingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30186,7 +30211,7 @@ export const ListWebAppHybridConnections: API.OperationMethod<
   ListWebAppHybridConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17280, __c540, 0) as any as S.Schema<ListWebAppHybridConnectionsRequest>,
+  input: __S(17312, __c541, 0) as any as S.Schema<ListWebAppHybridConnectionsRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ListWebAppHybridConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -30203,7 +30228,7 @@ export const ListWebAppHybridConnectionsSlot: API.OperationMethod<
   ListWebAppHybridConnectionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<ListWebAppHybridConnectionsSlotRequest>,
+  input: __S(17344, __c542, 0) as any as S.Schema<ListWebAppHybridConnectionsSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ListWebAppHybridConnectionsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -30220,8 +30245,8 @@ export const ListWebAppInstanceFunctionsSlot: API.OperationMethod<
   ListWebAppInstanceFunctionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17344, __c542, 0) as any as S.Schema<ListWebAppInstanceFunctionsSlotRequest>,
-  output: __S(16929, __c529, 1) as any as S.Schema<FunctionEnvelopeCollection>,
+  input: __S(17376, __c543, 0) as any as S.Schema<ListWebAppInstanceFunctionsSlotRequest>,
+  output: __S(16961, __c530, 1) as any as S.Schema<FunctionEnvelopeCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30237,8 +30262,8 @@ export const ListWebAppInstanceIdentifiers: API.OperationMethod<
   ListWebAppInstanceIdentifiersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17376, __c543, 0) as any as S.Schema<ListWebAppInstanceIdentifiersRequest>,
-  output: __S(17409, __c544, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
+  input: __S(17408, __c544, 0) as any as S.Schema<ListWebAppInstanceIdentifiersRequest>,
+  output: __S(17441, __c545, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30254,8 +30279,8 @@ export const ListWebAppInstanceIdentifiersSlot: API.OperationMethod<
   ListWebAppInstanceIdentifiersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17440, __c545, 0) as any as S.Schema<ListWebAppInstanceIdentifiersSlotRequest>,
-  output: __S(17409, __c544, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
+  input: __S(17472, __c546, 0) as any as S.Schema<ListWebAppInstanceIdentifiersSlotRequest>,
+  output: __S(17441, __c545, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30271,8 +30296,8 @@ export const ListWebAppInstanceProcesses: API.OperationMethod<
   ListWebAppInstanceProcessesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17472, __c546, 0) as any as S.Schema<ListWebAppInstanceProcessesRequest>,
-  output: __S(17505, __c547, 1) as any as S.Schema<ProcessInfoCollection>,
+  input: __S(17504, __c547, 0) as any as S.Schema<ListWebAppInstanceProcessesRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<ProcessInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30288,8 +30313,8 @@ export const ListWebAppInstanceProcessesSlot: API.OperationMethod<
   ListWebAppInstanceProcessesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17536, __c548, 0) as any as S.Schema<ListWebAppInstanceProcessesSlotRequest>,
-  output: __S(17505, __c547, 1) as any as S.Schema<ProcessInfoCollection>,
+  input: __S(17568, __c549, 0) as any as S.Schema<ListWebAppInstanceProcessesSlotRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<ProcessInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30305,8 +30330,8 @@ export const ListWebAppInstanceProcessModules: API.OperationMethod<
   ListWebAppInstanceProcessModulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<ListWebAppInstanceProcessModulesRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProcessModuleInfoCollection>,
+  input: __S(17632, __c551, 0) as any as S.Schema<ListWebAppInstanceProcessModulesRequest>,
+  output: __S(17664, __c552, 0) as any as S.Schema<ProcessModuleInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30322,8 +30347,8 @@ export const ListWebAppInstanceProcessModulesSlot: API.OperationMethod<
   ListWebAppInstanceProcessModulesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17664, __c552, 0) as any as S.Schema<ListWebAppInstanceProcessModulesSlotRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProcessModuleInfoCollection>,
+  input: __S(17696, __c553, 0) as any as S.Schema<ListWebAppInstanceProcessModulesSlotRequest>,
+  output: __S(17664, __c552, 0) as any as S.Schema<ProcessModuleInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30339,8 +30364,8 @@ export const ListWebAppInstanceProcessThreads: API.OperationMethod<
   ListWebAppInstanceProcessThreadsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17696, __c553, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsRequest>,
-  output: __S(17728, __c554, 0) as any as S.Schema<ProcessThreadInfoCollection>,
+  input: __S(17728, __c554, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsRequest>,
+  output: __S(17760, __c555, 0) as any as S.Schema<ProcessThreadInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30356,8 +30381,8 @@ export const ListWebAppInstanceProcessThreadsSlot: API.OperationMethod<
   ListWebAppInstanceProcessThreadsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17760, __c555, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsSlotRequest>,
-  output: __S(17728, __c554, 0) as any as S.Schema<ProcessThreadInfoCollection>,
+  input: __S(17792, __c556, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsSlotRequest>,
+  output: __S(17760, __c555, 0) as any as S.Schema<ProcessThreadInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30373,8 +30398,8 @@ export const ListWebAppInstanceWorkflowsSlot: API.OperationMethod<
   ListWebAppInstanceWorkflowsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17792, __c556, 0) as any as S.Schema<ListWebAppInstanceWorkflowsSlotRequest>,
-  output: __S(17825, __c557, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
+  input: __S(17824, __c557, 0) as any as S.Schema<ListWebAppInstanceWorkflowsSlotRequest>,
+  output: __S(17857, __c558, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30390,8 +30415,8 @@ export const ListWebAppMetadata: API.OperationMethod<
   ListWebAppMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17856, __c558, 0) as any as S.Schema<ListWebAppMetadataRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppMetadataResponse>,
+  input: __S(17888, __c559, 0) as any as S.Schema<ListWebAppMetadataRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppMetadataResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30407,8 +30432,8 @@ export const ListWebAppMetadataSlot: API.OperationMethod<
   ListWebAppMetadataSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17888, __c559, 0) as any as S.Schema<ListWebAppMetadataSlotRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<ListWebAppMetadataSlotResponse>,
+  input: __S(17920, __c560, 0) as any as S.Schema<ListWebAppMetadataSlotRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<ListWebAppMetadataSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30424,8 +30449,8 @@ export const ListWebAppNetworkFeatures: API.OperationMethod<
   ListWebAppNetworkFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17920, __c560, 0) as any as S.Schema<ListWebAppNetworkFeaturesRequest>,
-  output: __S(17954, __c561, 2) as any as S.Schema<ListWebAppNetworkFeaturesResponse>,
+  input: __S(17952, __c561, 0) as any as S.Schema<ListWebAppNetworkFeaturesRequest>,
+  output: __S(17986, __c562, 2) as any as S.Schema<ListWebAppNetworkFeaturesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30441,8 +30466,8 @@ export const ListWebAppNetworkFeaturesSlot: API.OperationMethod<
   ListWebAppNetworkFeaturesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17984, __c562, 0) as any as S.Schema<ListWebAppNetworkFeaturesSlotRequest>,
-  output: __S(17954, __c561, 2) as any as S.Schema<ListWebAppNetworkFeaturesSlotResponse>,
+  input: __S(18016, __c563, 0) as any as S.Schema<ListWebAppNetworkFeaturesSlotRequest>,
+  output: __S(17986, __c562, 2) as any as S.Schema<ListWebAppNetworkFeaturesSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30458,8 +30483,8 @@ export const ListWebAppPerfMonCounters: API.OperationMethod<
   ListWebAppPerfMonCountersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18016, __c563, 0) as any as S.Schema<ListWebAppPerfMonCountersRequest>,
-  output: __S(18053, __c564, 5) as any as S.Schema<PerfMonCounterCollection>,
+  input: __S(18048, __c564, 0) as any as S.Schema<ListWebAppPerfMonCountersRequest>,
+  output: __S(18085, __c565, 5) as any as S.Schema<PerfMonCounterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30475,8 +30500,8 @@ export const ListWebAppPerfMonCountersSlot: API.OperationMethod<
   ListWebAppPerfMonCountersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<ListWebAppPerfMonCountersSlotRequest>,
-  output: __S(18053, __c564, 5) as any as S.Schema<PerfMonCounterCollection>,
+  input: __S(18144, __c567, 0) as any as S.Schema<ListWebAppPerfMonCountersSlotRequest>,
+  output: __S(18085, __c565, 5) as any as S.Schema<PerfMonCounterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30492,8 +30517,8 @@ export const ListWebAppProcesses: API.OperationMethod<
   ListWebAppProcessesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<ListWebAppProcessesRequest>,
-  output: __S(17505, __c547, 1) as any as S.Schema<ProcessInfoCollection>,
+  input: __S(18176, __c568, 0) as any as S.Schema<ListWebAppProcessesRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<ProcessInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30509,8 +30534,8 @@ export const ListWebAppProcessesSlot: API.OperationMethod<
   ListWebAppProcessesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<ListWebAppProcessesSlotRequest>,
-  output: __S(17505, __c547, 1) as any as S.Schema<ProcessInfoCollection>,
+  input: __S(18208, __c569, 0) as any as S.Schema<ListWebAppProcessesSlotRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<ProcessInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30526,8 +30551,8 @@ export const ListWebAppProcessModules: API.OperationMethod<
   ListWebAppProcessModulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<ListWebAppProcessModulesRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProcessModuleInfoCollection>,
+  input: __S(18240, __c570, 0) as any as S.Schema<ListWebAppProcessModulesRequest>,
+  output: __S(17664, __c552, 0) as any as S.Schema<ProcessModuleInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30543,8 +30568,8 @@ export const ListWebAppProcessModulesSlot: API.OperationMethod<
   ListWebAppProcessModulesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18240, __c570, 0) as any as S.Schema<ListWebAppProcessModulesSlotRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProcessModuleInfoCollection>,
+  input: __S(18272, __c571, 0) as any as S.Schema<ListWebAppProcessModulesSlotRequest>,
+  output: __S(17664, __c552, 0) as any as S.Schema<ProcessModuleInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30560,8 +30585,8 @@ export const ListWebAppProcessThreads: API.OperationMethod<
   ListWebAppProcessThreadsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18272, __c571, 0) as any as S.Schema<ListWebAppProcessThreadsRequest>,
-  output: __S(17728, __c554, 0) as any as S.Schema<ProcessThreadInfoCollection>,
+  input: __S(18304, __c572, 0) as any as S.Schema<ListWebAppProcessThreadsRequest>,
+  output: __S(17760, __c555, 0) as any as S.Schema<ProcessThreadInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30577,8 +30602,8 @@ export const ListWebAppProcessThreadsSlot: API.OperationMethod<
   ListWebAppProcessThreadsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18304, __c572, 0) as any as S.Schema<ListWebAppProcessThreadsSlotRequest>,
-  output: __S(17728, __c554, 0) as any as S.Schema<ProcessThreadInfoCollection>,
+  input: __S(18336, __c573, 0) as any as S.Schema<ListWebAppProcessThreadsSlotRequest>,
+  output: __S(17760, __c555, 0) as any as S.Schema<ProcessThreadInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30595,11 +30620,11 @@ export const ListWebAppProductionSiteDeploymentStatuses: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18336,
-    __c573,
+    18368,
+    __c574,
     0,
   ) as any as S.Schema<ListWebAppProductionSiteDeploymentStatusesRequest>,
-  output: __S(18370, __c574, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
+  output: __S(18402, __c575, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30615,8 +30640,8 @@ export const ListWebAppPublicCertificates: API.OperationMethod<
   ListWebAppPublicCertificatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18400, __c575, 0) as any as S.Schema<ListWebAppPublicCertificatesRequest>,
-  output: __S(18433, __c576, 1) as any as S.Schema<PublicCertificateCollection>,
+  input: __S(18432, __c576, 0) as any as S.Schema<ListWebAppPublicCertificatesRequest>,
+  output: __S(18465, __c577, 1) as any as S.Schema<PublicCertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30632,8 +30657,8 @@ export const ListWebAppPublicCertificatesSlot: API.OperationMethod<
   ListWebAppPublicCertificatesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18464, __c577, 0) as any as S.Schema<ListWebAppPublicCertificatesSlotRequest>,
-  output: __S(18433, __c576, 1) as any as S.Schema<PublicCertificateCollection>,
+  input: __S(18496, __c578, 0) as any as S.Schema<ListWebAppPublicCertificatesSlotRequest>,
+  output: __S(18465, __c577, 1) as any as S.Schema<PublicCertificateCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30649,8 +30674,8 @@ export const ListWebAppPublishingCredentials: API.OperationMethod<
   ListWebAppPublishingCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<ListWebAppPublishingCredentialsRequest>,
-  output: __S(18560, __c580, 0) as any as S.Schema<ListWebAppPublishingCredentialsResponse>,
+  input: __S(18560, __c580, 0) as any as S.Schema<ListWebAppPublishingCredentialsRequest>,
+  output: __S(18592, __c581, 0) as any as S.Schema<ListWebAppPublishingCredentialsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30666,8 +30691,8 @@ export const ListWebAppPublishingCredentialsSlot: API.OperationMethod<
   ListWebAppPublishingCredentialsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotRequest>,
-  output: __S(18560, __c580, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotResponse>,
+  input: __S(18624, __c582, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotRequest>,
+  output: __S(18592, __c581, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30683,10 +30708,10 @@ export const ListWebAppPublishingProfileXmlWithSecrets: API.OperationMethod<
   ListWebAppPublishingProfileXmlWithSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsRequest>,
+  input: __S(18656, __c583, 0) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsResponse>,
   errors: [UnknownAzureError],
@@ -30705,13 +30730,13 @@ export const ListWebAppPublishingProfileXmlWithSecretsSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18656,
-    __c583,
+    18688,
+    __c584,
     0,
   ) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsSlotRequest>,
   output: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsSlotResponse>,
   errors: [UnknownAzureError],
@@ -30729,8 +30754,8 @@ export const ListWebAppRelayServiceConnections: API.OperationMethod<
   ListWebAppRelayServiceConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18688, __c584, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsResponse>,
+  input: __S(18720, __c585, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30746,8 +30771,8 @@ export const ListWebAppRelayServiceConnectionsSlot: API.OperationMethod<
   ListWebAppRelayServiceConnectionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotResponse>,
+  input: __S(18752, __c586, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30763,8 +30788,8 @@ export const ListWebApps: API.OperationMethod<
   ListWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18752, __c586, 0) as any as S.Schema<ListWebAppsRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<WebAppCollection>,
+  input: __S(18784, __c587, 0) as any as S.Schema<ListWebAppsRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<WebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30780,8 +30805,8 @@ export const ListWebAppSiteBackups: API.OperationMethod<
   ListWebAppSiteBackupsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18784, __c587, 0) as any as S.Schema<ListWebAppSiteBackupsRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<BackupItemCollection>,
+  input: __S(18816, __c588, 0) as any as S.Schema<ListWebAppSiteBackupsRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<BackupItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30797,8 +30822,8 @@ export const ListWebAppSiteBackupsSlot: API.OperationMethod<
   ListWebAppSiteBackupsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18816, __c588, 0) as any as S.Schema<ListWebAppSiteBackupsSlotRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<BackupItemCollection>,
+  input: __S(18848, __c589, 0) as any as S.Schema<ListWebAppSiteBackupsSlotRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<BackupItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30814,8 +30839,8 @@ export const ListWebAppSiteContainers: API.OperationMethod<
   ListWebAppSiteContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18848, __c589, 0) as any as S.Schema<ListWebAppSiteContainersRequest>,
-  output: __S(18881, __c590, 1) as any as S.Schema<SiteContainerCollection>,
+  input: __S(18880, __c590, 0) as any as S.Schema<ListWebAppSiteContainersRequest>,
+  output: __S(18913, __c591, 1) as any as S.Schema<SiteContainerCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30831,8 +30856,8 @@ export const ListWebAppSiteContainersSlot: API.OperationMethod<
   ListWebAppSiteContainersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18944, __c592, 0) as any as S.Schema<ListWebAppSiteContainersSlotRequest>,
-  output: __S(18881, __c590, 1) as any as S.Schema<SiteContainerCollection>,
+  input: __S(18976, __c593, 0) as any as S.Schema<ListWebAppSiteContainersSlotRequest>,
+  output: __S(18913, __c591, 1) as any as S.Schema<SiteContainerCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30848,8 +30873,8 @@ export const ListWebAppSiteExtensions: API.OperationMethod<
   ListWebAppSiteExtensionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<ListWebAppSiteExtensionsRequest>,
-  output: __S(19009, __c594, 1) as any as S.Schema<SiteExtensionInfoCollection>,
+  input: __S(19008, __c594, 0) as any as S.Schema<ListWebAppSiteExtensionsRequest>,
+  output: __S(19041, __c595, 1) as any as S.Schema<SiteExtensionInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30865,8 +30890,8 @@ export const ListWebAppSiteExtensionsSlot: API.OperationMethod<
   ListWebAppSiteExtensionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<ListWebAppSiteExtensionsSlotRequest>,
-  output: __S(19009, __c594, 1) as any as S.Schema<SiteExtensionInfoCollection>,
+  input: __S(19072, __c596, 0) as any as S.Schema<ListWebAppSiteExtensionsSlotRequest>,
+  output: __S(19041, __c595, 1) as any as S.Schema<SiteExtensionInfoCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30882,8 +30907,8 @@ export const ListWebAppSitePushSettings: API.OperationMethod<
   ListWebAppSitePushSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<ListWebAppSitePushSettingsRequest>,
-  output: __S(15905, __c497, 1) as any as S.Schema<ListWebAppSitePushSettingsResponse>,
+  input: __S(19104, __c597, 0) as any as S.Schema<ListWebAppSitePushSettingsRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<ListWebAppSitePushSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30899,8 +30924,8 @@ export const ListWebAppSitePushSettingsSlot: API.OperationMethod<
   ListWebAppSitePushSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19104, __c597, 0) as any as S.Schema<ListWebAppSitePushSettingsSlotRequest>,
-  output: __S(15905, __c497, 1) as any as S.Schema<ListWebAppSitePushSettingsSlotResponse>,
+  input: __S(19136, __c598, 0) as any as S.Schema<ListWebAppSitePushSettingsSlotRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<ListWebAppSitePushSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30916,8 +30941,8 @@ export const ListWebAppSlotConfigurationNames: API.OperationMethod<
   ListWebAppSlotConfigurationNamesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19136, __c598, 0) as any as S.Schema<ListWebAppSlotConfigurationNamesRequest>,
-  output: __S(19169, __c599, 1) as any as S.Schema<ListWebAppSlotConfigurationNamesResponse>,
+  input: __S(19168, __c599, 0) as any as S.Schema<ListWebAppSlotConfigurationNamesRequest>,
+  output: __S(19201, __c600, 1) as any as S.Schema<ListWebAppSlotConfigurationNamesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30933,8 +30958,8 @@ export const ListWebAppSlotDifferencesFromProduction: API.OperationMethod<
   ListWebAppSlotDifferencesFromProductionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19200, __c600, 0) as any as S.Schema<ListWebAppSlotDifferencesFromProductionRequest>,
-  output: __S(19235, __c601, 3) as any as S.Schema<SlotDifferenceCollection>,
+  input: __S(19232, __c601, 0) as any as S.Schema<ListWebAppSlotDifferencesFromProductionRequest>,
+  output: __S(19267, __c602, 3) as any as S.Schema<SlotDifferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30950,8 +30975,8 @@ export const ListWebAppSlotDifferencesSlot: API.OperationMethod<
   ListWebAppSlotDifferencesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19264, __c602, 0) as any as S.Schema<ListWebAppSlotDifferencesSlotRequest>,
-  output: __S(19235, __c601, 3) as any as S.Schema<SlotDifferenceCollection>,
+  input: __S(19296, __c603, 0) as any as S.Schema<ListWebAppSlotDifferencesSlotRequest>,
+  output: __S(19267, __c602, 3) as any as S.Schema<SlotDifferenceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30967,8 +30992,8 @@ export const ListWebAppSlots: API.OperationMethod<
   ListWebAppSlotsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19296, __c603, 0) as any as S.Schema<ListWebAppSlotsRequest>,
-  output: __S(12288, __c384, 0) as any as S.Schema<WebAppCollection>,
+  input: __S(19328, __c604, 0) as any as S.Schema<ListWebAppSlotsRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<WebAppCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -30984,8 +31009,8 @@ export const ListWebAppSlotSiteDeploymentStatusesSlot: API.OperationMethod<
   ListWebAppSlotSiteDeploymentStatusesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19328, __c604, 0) as any as S.Schema<ListWebAppSlotSiteDeploymentStatusesSlotRequest>,
-  output: __S(18370, __c574, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
+  input: __S(19360, __c605, 0) as any as S.Schema<ListWebAppSlotSiteDeploymentStatusesSlotRequest>,
+  output: __S(18402, __c575, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31001,8 +31026,8 @@ export const ListWebAppSnapshots: API.OperationMethod<
   ListWebAppSnapshotsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<ListWebAppSnapshotsRequest>,
-  output: __S(19424, __c607, 0) as any as S.Schema<SnapshotCollection>,
+  input: __S(19424, __c607, 0) as any as S.Schema<ListWebAppSnapshotsRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SnapshotCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31018,8 +31043,8 @@ export const ListWebAppSnapshotsFromDRSecondary: API.OperationMethod<
   ListWebAppSnapshotsFromDRSecondaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19456, __c608, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondaryRequest>,
-  output: __S(19424, __c607, 0) as any as S.Schema<SnapshotCollection>,
+  input: __S(19488, __c609, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondaryRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SnapshotCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31035,8 +31060,8 @@ export const ListWebAppSnapshotsFromDRSecondarySlot: API.OperationMethod<
   ListWebAppSnapshotsFromDRSecondarySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19488, __c609, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondarySlotRequest>,
-  output: __S(19424, __c607, 0) as any as S.Schema<SnapshotCollection>,
+  input: __S(19520, __c610, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondarySlotRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SnapshotCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31052,8 +31077,8 @@ export const ListWebAppSnapshotsSlot: API.OperationMethod<
   ListWebAppSnapshotsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19520, __c610, 0) as any as S.Schema<ListWebAppSnapshotsSlotRequest>,
-  output: __S(19424, __c607, 0) as any as S.Schema<SnapshotCollection>,
+  input: __S(19552, __c611, 0) as any as S.Schema<ListWebAppSnapshotsSlotRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SnapshotCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31069,8 +31094,8 @@ export const ListWebAppSyncFunctionTriggers: API.OperationMethod<
   ListWebAppSyncFunctionTriggersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19552, __c611, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersRequest>,
-  output: __S(16992, __c531, 0) as any as S.Schema<FunctionSecrets>,
+  input: __S(19584, __c612, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<FunctionSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31086,8 +31111,8 @@ export const ListWebAppSyncFunctionTriggersSlot: API.OperationMethod<
   ListWebAppSyncFunctionTriggersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19584, __c612, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersSlotRequest>,
-  output: __S(16992, __c531, 0) as any as S.Schema<FunctionSecrets>,
+  input: __S(19616, __c613, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersSlotRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<FunctionSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31103,7 +31128,7 @@ export const ListWebAppSyncStatus: API.OperationMethod<
   ListWebAppSyncStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19616, __c613, 0) as any as S.Schema<ListWebAppSyncStatusRequest>,
+  input: __S(19648, __c614, 0) as any as S.Schema<ListWebAppSyncStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ListWebAppSyncStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31120,7 +31145,7 @@ export const ListWebAppSyncStatusSlot: API.OperationMethod<
   ListWebAppSyncStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<ListWebAppSyncStatusSlotRequest>,
+  input: __S(19680, __c615, 0) as any as S.Schema<ListWebAppSyncStatusSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ListWebAppSyncStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31137,8 +31162,8 @@ export const ListWebAppTriggeredWebJobHistory: API.OperationMethod<
   ListWebAppTriggeredWebJobHistoryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19680, __c615, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistoryRequest>,
-  output: __S(19713, __c616, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
+  input: __S(19712, __c616, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistoryRequest>,
+  output: __S(19745, __c617, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31154,8 +31179,8 @@ export const ListWebAppTriggeredWebJobHistorySlot: API.OperationMethod<
   ListWebAppTriggeredWebJobHistorySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistorySlotRequest>,
-  output: __S(19713, __c616, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
+  input: __S(19776, __c618, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistorySlotRequest>,
+  output: __S(19745, __c617, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31171,8 +31196,8 @@ export const ListWebAppTriggeredWebJobs: API.OperationMethod<
   ListWebAppTriggeredWebJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<ListWebAppTriggeredWebJobsRequest>,
-  output: __S(19841, __c620, 1) as any as S.Schema<TriggeredWebJobCollection>,
+  input: __S(19840, __c620, 0) as any as S.Schema<ListWebAppTriggeredWebJobsRequest>,
+  output: __S(19873, __c621, 1) as any as S.Schema<TriggeredWebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31188,8 +31213,8 @@ export const ListWebAppTriggeredWebJobsSlot: API.OperationMethod<
   ListWebAppTriggeredWebJobsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19872, __c621, 0) as any as S.Schema<ListWebAppTriggeredWebJobsSlotRequest>,
-  output: __S(19841, __c620, 1) as any as S.Schema<TriggeredWebJobCollection>,
+  input: __S(19904, __c622, 0) as any as S.Schema<ListWebAppTriggeredWebJobsSlotRequest>,
+  output: __S(19873, __c621, 1) as any as S.Schema<TriggeredWebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31205,8 +31230,8 @@ export const ListWebAppUsages: API.OperationMethod<
   ListWebAppUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19904, __c622, 0) as any as S.Schema<ListWebAppUsagesRequest>,
-  output: __S(12227, __c382, 3) as any as S.Schema<CsmUsageQuotaCollection>,
+  input: __S(19936, __c623, 0) as any as S.Schema<ListWebAppUsagesRequest>,
+  output: __S(12259, __c383, 3) as any as S.Schema<CsmUsageQuotaCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31222,8 +31247,8 @@ export const ListWebAppUsagesSlot: API.OperationMethod<
   ListWebAppUsagesSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19936, __c623, 0) as any as S.Schema<ListWebAppUsagesSlotRequest>,
-  output: __S(12227, __c382, 3) as any as S.Schema<CsmUsageQuotaCollection>,
+  input: __S(19968, __c624, 0) as any as S.Schema<ListWebAppUsagesSlotRequest>,
+  output: __S(12259, __c383, 3) as any as S.Schema<CsmUsageQuotaCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31239,8 +31264,8 @@ export const ListWebAppVnetConnections: API.OperationMethod<
   ListWebAppVnetConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<ListWebAppVnetConnectionsRequest>,
-  output: __S(12833, __c401, 1) as any as S.Schema<ListWebAppVnetConnectionsResponse>,
+  input: __S(20000, __c625, 0) as any as S.Schema<ListWebAppVnetConnectionsRequest>,
+  output: __S(12865, __c402, 1) as any as S.Schema<ListWebAppVnetConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31256,8 +31281,8 @@ export const ListWebAppVnetConnectionsSlot: API.OperationMethod<
   ListWebAppVnetConnectionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<ListWebAppVnetConnectionsSlotRequest>,
-  output: __S(12833, __c401, 1) as any as S.Schema<ListWebAppVnetConnectionsSlotResponse>,
+  input: __S(20032, __c626, 0) as any as S.Schema<ListWebAppVnetConnectionsSlotRequest>,
+  output: __S(12865, __c402, 1) as any as S.Schema<ListWebAppVnetConnectionsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31273,8 +31298,8 @@ export const ListWebAppWebJobs: API.OperationMethod<
   ListWebAppWebJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20032, __c626, 0) as any as S.Schema<ListWebAppWebJobsRequest>,
-  output: __S(20065, __c627, 1) as any as S.Schema<WebJobCollection>,
+  input: __S(20064, __c627, 0) as any as S.Schema<ListWebAppWebJobsRequest>,
+  output: __S(20097, __c628, 1) as any as S.Schema<WebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31290,8 +31315,8 @@ export const ListWebAppWebJobsSlot: API.OperationMethod<
   ListWebAppWebJobsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20096, __c628, 0) as any as S.Schema<ListWebAppWebJobsSlotRequest>,
-  output: __S(20065, __c627, 1) as any as S.Schema<WebJobCollection>,
+  input: __S(20128, __c629, 0) as any as S.Schema<ListWebAppWebJobsSlotRequest>,
+  output: __S(20097, __c628, 1) as any as S.Schema<WebJobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31307,8 +31332,8 @@ export const ListWebAppWorkflows: API.OperationMethod<
   ListWebAppWorkflowsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20128, __c629, 0) as any as S.Schema<ListWebAppWorkflowsRequest>,
-  output: __S(17825, __c557, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
+  input: __S(20160, __c630, 0) as any as S.Schema<ListWebAppWorkflowsRequest>,
+  output: __S(17857, __c558, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31324,8 +31349,8 @@ export const ListWebAppWorkflowsConnections: API.OperationMethod<
   ListWebAppWorkflowsConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20160, __c630, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsResponse>,
+  input: __S(20192, __c631, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31341,8 +31366,8 @@ export const ListWebAppWorkflowsConnectionsSlot: API.OperationMethod<
   ListWebAppWorkflowsConnectionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20224, __c632, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotResponse>,
+  input: __S(20256, __c633, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotRequest>,
+  output: __S(8002, __c250, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31358,8 +31383,8 @@ export const ListWorkflowRunActionExpressionTraces: API.OperationMethod<
   ListWorkflowRunActionExpressionTracesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20256, __c633, 0) as any as S.Schema<ListWorkflowRunActionExpressionTracesRequest>,
-  output: __S(20295, __c634, 7) as any as S.Schema<ExpressionTraces>,
+  input: __S(20288, __c634, 0) as any as S.Schema<ListWorkflowRunActionExpressionTracesRequest>,
+  output: __S(20327, __c635, 7) as any as S.Schema<ExpressionTraces>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31376,11 +31401,11 @@ export const ListWorkflowRunActionRepetitionExpressionTraces: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20320,
-    __c635,
+    20352,
+    __c636,
     0,
   ) as any as S.Schema<ListWorkflowRunActionRepetitionExpressionTracesRequest>,
-  output: __S(20295, __c634, 7) as any as S.Schema<ExpressionTraces>,
+  output: __S(20327, __c635, 7) as any as S.Schema<ExpressionTraces>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31396,8 +31421,8 @@ export const ListWorkflowRunActionRepetitions: API.OperationMethod<
   ListWorkflowRunActionRepetitionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20352, __c636, 0) as any as S.Schema<ListWorkflowRunActionRepetitionsRequest>,
-  output: __S(20385, __c637, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
+  input: __S(20384, __c637, 0) as any as S.Schema<ListWorkflowRunActionRepetitionsRequest>,
+  output: __S(20417, __c638, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31414,11 +31439,11 @@ export const ListWorkflowRunActionRepetitionsRequestHistories: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20416,
-    __c638,
+    20448,
+    __c639,
     0,
   ) as any as S.Schema<ListWorkflowRunActionRepetitionsRequestHistoriesRequest>,
-  output: __S(20418, __c638, 2) as any as S.Schema<RequestHistoryListResult>,
+  output: __S(20450, __c639, 2) as any as S.Schema<RequestHistoryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31434,8 +31459,8 @@ export const ListWorkflowRunActions: API.OperationMethod<
   ListWorkflowRunActionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20448, __c639, 0) as any as S.Schema<ListWorkflowRunActionsRequest>,
-  output: __S(20450, __c639, 2) as any as S.Schema<WorkflowRunActionListResult>,
+  input: __S(20480, __c640, 0) as any as S.Schema<ListWorkflowRunActionsRequest>,
+  output: __S(20482, __c640, 2) as any as S.Schema<WorkflowRunActionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31451,8 +31476,8 @@ export const ListWorkflowRunActionScopeRepetitions: API.OperationMethod<
   ListWorkflowRunActionScopeRepetitionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20480, __c640, 0) as any as S.Schema<ListWorkflowRunActionScopeRepetitionsRequest>,
-  output: __S(20385, __c637, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
+  input: __S(20512, __c641, 0) as any as S.Schema<ListWorkflowRunActionScopeRepetitionsRequest>,
+  output: __S(20417, __c638, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31468,8 +31493,8 @@ export const ListWorkflowRuns: API.OperationMethod<
   ListWorkflowRunsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20512, __c641, 0) as any as S.Schema<ListWorkflowRunsRequest>,
-  output: __S(20514, __c641, 2) as any as S.Schema<WorkflowRunListResult>,
+  input: __S(20544, __c642, 0) as any as S.Schema<ListWorkflowRunsRequest>,
+  output: __S(20546, __c642, 2) as any as S.Schema<WorkflowRunListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31485,8 +31510,8 @@ export const ListWorkflowTriggerCallbackUrl: API.OperationMethod<
   ListWorkflowTriggerCallbackUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20544, __c642, 0) as any as S.Schema<ListWorkflowTriggerCallbackUrlRequest>,
-  output: __S(20546, __c642, 2) as any as S.Schema<WorkflowTriggerCallbackUrl>,
+  input: __S(20576, __c643, 0) as any as S.Schema<ListWorkflowTriggerCallbackUrlRequest>,
+  output: __S(20578, __c643, 2) as any as S.Schema<WorkflowTriggerCallbackUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31502,8 +31527,8 @@ export const ListWorkflowTriggerHistories: API.OperationMethod<
   ListWorkflowTriggerHistoriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20576, __c643, 0) as any as S.Schema<ListWorkflowTriggerHistoriesRequest>,
-  output: __S(20578, __c643, 2) as any as S.Schema<WorkflowTriggerHistoryListResult>,
+  input: __S(20608, __c644, 0) as any as S.Schema<ListWorkflowTriggerHistoriesRequest>,
+  output: __S(20610, __c644, 2) as any as S.Schema<WorkflowTriggerHistoryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31519,8 +31544,8 @@ export const ListWorkflowTriggers: API.OperationMethod<
   ListWorkflowTriggersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20864, __c652, 0) as any as S.Schema<ListWorkflowTriggersRequest>,
-  output: __S(20866, __c652, 2) as any as S.Schema<WorkflowTriggerListResult>,
+  input: __S(20896, __c653, 0) as any as S.Schema<ListWorkflowTriggersRequest>,
+  output: __S(20898, __c653, 2) as any as S.Schema<WorkflowTriggerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31536,8 +31561,8 @@ export const ListWorkflowVersions: API.OperationMethod<
   ListWorkflowVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20896, __c653, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
-  output: __S(20898, __c653, 2) as any as S.Schema<WorkflowVersionListResult>,
+  input: __S(20928, __c654, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
+  output: __S(20930, __c654, 2) as any as S.Schema<WorkflowVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31553,8 +31578,8 @@ export const MigrateWebAppMySql: API.OperationMethod<
   MigrateWebAppMySqlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20929, __c654, 1) as any as S.Schema<MigrateWebAppMySqlRequest>,
-  output: __S(20930, __c654, 2) as any as S.Schema<MigrateWebAppMySqlResponse>,
+  input: __S(20961, __c655, 1) as any as S.Schema<MigrateWebAppMySqlRequest>,
+  output: __S(20962, __c655, 2) as any as S.Schema<MigrateWebAppMySqlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31570,8 +31595,8 @@ export const MigrateWebAppStorage: API.OperationMethod<
   MigrateWebAppStorageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20961, __c655, 1) as any as S.Schema<MigrateWebAppStorageRequest>,
-  output: __S(20963, __c655, 3) as any as S.Schema<MigrateWebAppStorageResponse>,
+  input: __S(20993, __c656, 1) as any as S.Schema<MigrateWebAppStorageRequest>,
+  output: __S(20995, __c656, 3) as any as S.Schema<MigrateWebAppStorageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31583,7 +31608,7 @@ export type MoveError = AzureOpError;
 /** Move resources between resource groups. Description for Move resources between resource groups. */
 export const Move: API.OperationMethod<MoveRequest, MoveResponse, MoveError, AzureOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(20992, __c656, 0) as any as S.Schema<MoveRequest>,
+    input: __S(21024, __c657, 0) as any as S.Schema<MoveRequest>,
     output: __S(32, __c1, 0) as any as S.Schema<MoveResponse>,
     errors: [UnknownAzureError],
     protocol: AzureProtocol,
@@ -31600,7 +31625,7 @@ export const PatchAiGateway: API.OperationMethod<
   PatchAiGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21024, __c657, 0) as any as S.Schema<PatchAiGatewayRequest>,
+  input: __S(21056, __c658, 0) as any as S.Schema<PatchAiGatewayRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<PatchAiGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31617,8 +31642,8 @@ export const PreviewStaticSiteWorkflow: API.OperationMethod<
   PreviewStaticSiteWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21057, __c658, 1) as any as S.Schema<PreviewStaticSiteWorkflowRequest>,
-  output: __S(21059, __c658, 3) as any as S.Schema<PreviewStaticSiteWorkflowResponse>,
+  input: __S(21089, __c659, 1) as any as S.Schema<PreviewStaticSiteWorkflowRequest>,
+  output: __S(21091, __c659, 3) as any as S.Schema<PreviewStaticSiteWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31634,8 +31659,8 @@ export const PutWebAppPrivateAccessVnet: API.OperationMethod<
   PutWebAppPrivateAccessVnetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21088, __c659, 0) as any as S.Schema<PutWebAppPrivateAccessVnetRequest>,
-  output: __S(8357, __c261, 5) as any as S.Schema<PutWebAppPrivateAccessVnetResponse>,
+  input: __S(21120, __c660, 0) as any as S.Schema<PutWebAppPrivateAccessVnetRequest>,
+  output: __S(8389, __c262, 5) as any as S.Schema<PutWebAppPrivateAccessVnetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31651,8 +31676,8 @@ export const PutWebAppPrivateAccessVnetSlot: API.OperationMethod<
   PutWebAppPrivateAccessVnetSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21120, __c660, 0) as any as S.Schema<PutWebAppPrivateAccessVnetSlotRequest>,
-  output: __S(8357, __c261, 5) as any as S.Schema<PutWebAppPrivateAccessVnetSlotResponse>,
+  input: __S(21152, __c661, 0) as any as S.Schema<PutWebAppPrivateAccessVnetSlotRequest>,
+  output: __S(8389, __c262, 5) as any as S.Schema<PutWebAppPrivateAccessVnetSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31668,7 +31693,7 @@ export const RebootAppServiceEnvironment: API.OperationMethod<
   RebootAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21152, __c661, 0) as any as S.Schema<RebootAppServiceEnvironmentRequest>,
+  input: __S(21184, __c662, 0) as any as S.Schema<RebootAppServiceEnvironmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RebootAppServiceEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31685,7 +31710,7 @@ export const RebootAppServicePlanWorker: API.OperationMethod<
   RebootAppServicePlanWorkerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21216, __c663, 0) as any as S.Schema<RebootAppServicePlanWorkerRequest>,
+  input: __S(21248, __c664, 0) as any as S.Schema<RebootAppServicePlanWorkerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RebootAppServicePlanWorkerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31702,7 +31727,7 @@ export const RecoverWebAppSiteConfigurationSnapshot: API.OperationMethod<
   RecoverWebAppSiteConfigurationSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21248, __c664, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotRequest>,
+  input: __S(21280, __c665, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31720,8 +31745,8 @@ export const RecoverWebAppSiteConfigurationSnapshotSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21280,
-    __c665,
+    21312,
+    __c666,
     0,
   ) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotSlotResponse>,
@@ -31740,7 +31765,7 @@ export const RefreshSiteSiloResourceSiteSilos: API.OperationMethod<
   RefreshSiteSiloResourceSiteSilosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21312, __c666, 0) as any as S.Schema<RefreshSiteSiloResourceSiteSilosRequest>,
+  input: __S(21344, __c667, 0) as any as S.Schema<RefreshSiteSiloResourceSiteSilosRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RefreshSiteSiloResourceSiteSilosResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31757,7 +31782,7 @@ export const RegenerateWorkflowAccessKey: API.OperationMethod<
   RegenerateWorkflowAccessKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21344, __c667, 0) as any as S.Schema<RegenerateWorkflowAccessKeyRequest>,
+  input: __S(21376, __c668, 0) as any as S.Schema<RegenerateWorkflowAccessKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RegenerateWorkflowAccessKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31774,8 +31799,8 @@ export const RegionalCheckNameAvailability: API.OperationMethod<
   RegionalCheckNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21376, __c668, 0) as any as S.Schema<RegionalCheckNameAvailabilityRequest>,
-  output: __S(21377, __c668, 1) as any as S.Schema<DnlResourceNameAvailability>,
+  input: __S(21408, __c669, 0) as any as S.Schema<RegionalCheckNameAvailabilityRequest>,
+  output: __S(21409, __c669, 1) as any as S.Schema<DnlResourceNameAvailability>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -31792,13 +31817,13 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSite: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21408,
-    __c669,
+    21440,
+    __c670,
     0,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteRequest>,
   output: __S(
-    21441,
-    __c670,
+    21473,
+    __c671,
     1,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse>,
   errors: [UnknownAzureError],
@@ -31817,13 +31842,13 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuild: API.O
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21472,
-    __c671,
+    21504,
+    __c672,
     0,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildRequest>,
   output: __S(
-    21441,
-    __c670,
+    21473,
+    __c671,
     1,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildResponse>,
   errors: [UnknownAzureError],
@@ -31841,7 +31866,7 @@ export const ResetRecommendationAllFilters: API.OperationMethod<
   ResetRecommendationAllFiltersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21504, __c672, 0) as any as S.Schema<ResetRecommendationAllFiltersRequest>,
+  input: __S(21536, __c673, 0) as any as S.Schema<ResetRecommendationAllFiltersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetRecommendationAllFiltersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31859,8 +31884,8 @@ export const ResetRecommendationAllFiltersForHostingEnvironment: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21536,
-    __c673,
+    21568,
+    __c674,
     0,
   ) as any as S.Schema<ResetRecommendationAllFiltersForHostingEnvironmentRequest>,
   output: __S(
@@ -31883,7 +31908,7 @@ export const ResetRecommendationAllFiltersForWebApp: API.OperationMethod<
   ResetRecommendationAllFiltersForWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21600, __c675, 0) as any as S.Schema<ResetRecommendationAllFiltersForWebAppRequest>,
+  input: __S(21632, __c676, 0) as any as S.Schema<ResetRecommendationAllFiltersForWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetRecommendationAllFiltersForWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31900,7 +31925,7 @@ export const ResetStaticSiteStaticSiteApiKey: API.OperationMethod<
   ResetStaticSiteStaticSiteApiKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21633, __c676, 1) as any as S.Schema<ResetStaticSiteStaticSiteApiKeyRequest>,
+  input: __S(21665, __c677, 1) as any as S.Schema<ResetStaticSiteStaticSiteApiKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetStaticSiteStaticSiteApiKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31917,7 +31942,7 @@ export const ResetWebAppProductionSlotConfig: API.OperationMethod<
   ResetWebAppProductionSlotConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21664, __c677, 0) as any as S.Schema<ResetWebAppProductionSlotConfigRequest>,
+  input: __S(21696, __c678, 0) as any as S.Schema<ResetWebAppProductionSlotConfigRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetWebAppProductionSlotConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31934,7 +31959,7 @@ export const ResetWebAppSlotConfigurationSlot: API.OperationMethod<
   ResetWebAppSlotConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21696, __c678, 0) as any as S.Schema<ResetWebAppSlotConfigurationSlotRequest>,
+  input: __S(21728, __c679, 0) as any as S.Schema<ResetWebAppSlotConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetWebAppSlotConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31951,7 +31976,7 @@ export const RestartAppServicePlanWebApps: API.OperationMethod<
   RestartAppServicePlanWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21728, __c679, 0) as any as S.Schema<RestartAppServicePlanWebAppsRequest>,
+  input: __S(21760, __c680, 0) as any as S.Schema<RestartAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartAppServicePlanWebAppsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31968,7 +31993,7 @@ export const RestartWebApp: API.OperationMethod<
   RestartWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21760, __c680, 0) as any as S.Schema<RestartWebAppRequest>,
+  input: __S(21792, __c681, 0) as any as S.Schema<RestartWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -31985,7 +32010,7 @@ export const RestartWebAppSlot: API.OperationMethod<
   RestartWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21792, __c681, 0) as any as S.Schema<RestartWebAppSlotRequest>,
+  input: __S(21824, __c682, 0) as any as S.Schema<RestartWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32002,8 +32027,8 @@ export const RestoreWebApp: API.OperationMethod<
   RestoreWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21824, __c682, 0) as any as S.Schema<RestoreWebAppRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppResponse>,
+  input: __S(21856, __c683, 0) as any as S.Schema<RestoreWebAppRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32019,8 +32044,8 @@ export const RestoreWebAppFromBackupBlob: API.OperationMethod<
   RestoreWebAppFromBackupBlobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21888, __c684, 0) as any as S.Schema<RestoreWebAppFromBackupBlobRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppFromBackupBlobResponse>,
+  input: __S(21920, __c685, 0) as any as S.Schema<RestoreWebAppFromBackupBlobRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppFromBackupBlobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32036,8 +32061,8 @@ export const RestoreWebAppFromBackupBlobSlot: API.OperationMethod<
   RestoreWebAppFromBackupBlobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21920, __c685, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotResponse>,
+  input: __S(21952, __c686, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32053,8 +32078,8 @@ export const RestoreWebAppFromDeletedApp: API.OperationMethod<
   RestoreWebAppFromDeletedAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21984, __c687, 0) as any as S.Schema<RestoreWebAppFromDeletedAppRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppFromDeletedAppResponse>,
+  input: __S(22016, __c688, 0) as any as S.Schema<RestoreWebAppFromDeletedAppRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppFromDeletedAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32070,8 +32095,8 @@ export const RestoreWebAppFromDeletedAppSlot: API.OperationMethod<
   RestoreWebAppFromDeletedAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22048, __c689, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotResponse>,
+  input: __S(22080, __c690, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32087,8 +32112,8 @@ export const RestoreWebAppSlot: API.OperationMethod<
   RestoreWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22080, __c690, 0) as any as S.Schema<RestoreWebAppSlotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppSlotResponse>,
+  input: __S(22112, __c691, 0) as any as S.Schema<RestoreWebAppSlotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32104,8 +32129,8 @@ export const RestoreWebAppSnapshot: API.OperationMethod<
   RestoreWebAppSnapshotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22112, __c691, 0) as any as S.Schema<RestoreWebAppSnapshotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppSnapshotResponse>,
+  input: __S(22144, __c692, 0) as any as S.Schema<RestoreWebAppSnapshotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppSnapshotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32121,8 +32146,8 @@ export const RestoreWebAppSnapshotSlot: API.OperationMethod<
   RestoreWebAppSnapshotSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22176, __c693, 0) as any as S.Schema<RestoreWebAppSnapshotSlotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<RestoreWebAppSnapshotSlotResponse>,
+  input: __S(22208, __c694, 0) as any as S.Schema<RestoreWebAppSnapshotSlotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<RestoreWebAppSnapshotSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32138,8 +32163,8 @@ export const ResumeAppServiceEnvironment: API.OperationMethod<
   ResumeAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22208, __c694, 0) as any as S.Schema<ResumeAppServiceEnvironmentRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<ResumeAppServiceEnvironmentResponse>,
+  input: __S(22240, __c695, 0) as any as S.Schema<ResumeAppServiceEnvironmentRequest>,
+  output: __S(16160, __c505, 0) as any as S.Schema<ResumeAppServiceEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32155,7 +32180,7 @@ export const RunWebAppTriggeredWebJob: API.OperationMethod<
   RunWebAppTriggeredWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22240, __c695, 0) as any as S.Schema<RunWebAppTriggeredWebJobRequest>,
+  input: __S(22272, __c696, 0) as any as S.Schema<RunWebAppTriggeredWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunWebAppTriggeredWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32172,7 +32197,7 @@ export const RunWebAppTriggeredWebJobSlot: API.OperationMethod<
   RunWebAppTriggeredWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22272, __c696, 0) as any as S.Schema<RunWebAppTriggeredWebJobSlotRequest>,
+  input: __S(22304, __c697, 0) as any as S.Schema<RunWebAppTriggeredWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunWebAppTriggeredWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32190,13 +32215,13 @@ export const ServerFarmSiloResourcesCreateOrUpdateServerFarmSilo: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22305,
-    __c697,
+    22337,
+    __c698,
     1,
   ) as any as S.Schema<ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloRequest>,
   output: __S(
-    22306,
-    __c697,
+    22338,
+    __c698,
     2,
   ) as any as S.Schema<ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloResponse>,
   errors: [UnknownAzureError],
@@ -32214,7 +32239,7 @@ export const SiteCertificatesCreateOrUpdate: API.OperationMethod<
   SiteCertificatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22336, __c698, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateRequest>,
+  input: __S(22368, __c699, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<SiteCertificatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32231,7 +32256,7 @@ export const SiteCertificatesCreateOrUpdateSlot: API.OperationMethod<
   SiteCertificatesCreateOrUpdateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22400, __c700, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateSlotRequest>,
+  input: __S(22432, __c701, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateSlotRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<SiteCertificatesCreateOrUpdateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32248,8 +32273,8 @@ export const SiteSiloResourcesCreateOrUpdateSiteSilo: API.OperationMethod<
   SiteSiloResourcesCreateOrUpdateSiteSiloError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22433, __c701, 1) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloRequest>,
-  output: __S(22434, __c701, 2) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloResponse>,
+  input: __S(22465, __c702, 1) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloRequest>,
+  output: __S(22466, __c702, 2) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32267,8 +32292,8 @@ export const SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnecti
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22464,
-    __c702,
+    22496,
+    __c703,
     0,
   ) as any as S.Schema<SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnectionRequest>,
   output: __S(
@@ -32291,7 +32316,7 @@ export const StartAppServicePlanWebApps: API.OperationMethod<
   StartAppServicePlanWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22496, __c703, 0) as any as S.Schema<StartAppServicePlanWebAppsRequest>,
+  input: __S(22528, __c704, 0) as any as S.Schema<StartAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartAppServicePlanWebAppsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32308,7 +32333,7 @@ export const StartWebApp: API.OperationMethod<
   StartWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22528, __c704, 0) as any as S.Schema<StartWebAppRequest>,
+  input: __S(22560, __c705, 0) as any as S.Schema<StartWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32325,7 +32350,7 @@ export const StartWebAppContinuousWebJob: API.OperationMethod<
   StartWebAppContinuousWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22560, __c705, 0) as any as S.Schema<StartWebAppContinuousWebJobRequest>,
+  input: __S(22592, __c706, 0) as any as S.Schema<StartWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppContinuousWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32342,7 +32367,7 @@ export const StartWebAppContinuousWebJobSlot: API.OperationMethod<
   StartWebAppContinuousWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22592, __c706, 0) as any as S.Schema<StartWebAppContinuousWebJobSlotRequest>,
+  input: __S(22624, __c707, 0) as any as S.Schema<StartWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppContinuousWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32359,8 +32384,8 @@ export const StartWebAppNetworkTrace: API.OperationMethod<
   StartWebAppNetworkTraceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22624, __c707, 0) as any as S.Schema<StartWebAppNetworkTraceRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<StartWebAppNetworkTraceResponse>,
+  input: __S(22656, __c708, 0) as any as S.Schema<StartWebAppNetworkTraceRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<StartWebAppNetworkTraceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32376,8 +32401,8 @@ export const StartWebAppNetworkTraceSlot: API.OperationMethod<
   StartWebAppNetworkTraceSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22656, __c708, 0) as any as S.Schema<StartWebAppNetworkTraceSlotRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<StartWebAppNetworkTraceSlotResponse>,
+  input: __S(22688, __c709, 0) as any as S.Schema<StartWebAppNetworkTraceSlotRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<StartWebAppNetworkTraceSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32393,7 +32418,7 @@ export const StartWebAppSlot: API.OperationMethod<
   StartWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22688, __c709, 0) as any as S.Schema<StartWebAppSlotRequest>,
+  input: __S(22720, __c710, 0) as any as S.Schema<StartWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32410,8 +32435,8 @@ export const StartWebAppWebSiteNetworkTrace: API.OperationMethod<
   StartWebAppWebSiteNetworkTraceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22752, __c711, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceResponse>,
+  input: __S(22784, __c712, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32427,8 +32452,8 @@ export const StartWebAppWebSiteNetworkTraceOperation: API.OperationMethod<
   StartWebAppWebSiteNetworkTraceOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22784, __c712, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationResponse>,
+  input: __S(22816, __c713, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationRequest>,
+  output: __S(8066, __c252, 2) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32445,13 +32470,13 @@ export const StartWebAppWebSiteNetworkTraceOperationSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22816,
-    __c713,
+    22848,
+    __c714,
     0,
   ) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationSlotRequest>,
   output: __S(
-    8034,
-    __c251,
+    8066,
+    __c252,
     2,
   ) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationSlotResponse>,
   errors: [UnknownAzureError],
@@ -32469,8 +32494,8 @@ export const StartWebAppWebSiteNetworkTraceSlot: API.OperationMethod<
   StartWebAppWebSiteNetworkTraceSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22848, __c714, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotResponse>,
+  input: __S(22880, __c715, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32487,13 +32512,13 @@ export const StaticSitesApproveOrRejectPrivateEndpointConnection: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22880,
-    __c715,
+    22912,
+    __c716,
     0,
   ) as any as S.Schema<StaticSitesApproveOrRejectPrivateEndpointConnectionRequest>,
   output: __S(
-    11169,
-    __c349,
+    11201,
+    __c350,
     1,
   ) as any as S.Schema<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -32511,7 +32536,7 @@ export const StaticSitesCreateOrUpdateBasicAuth: API.OperationMethod<
   StaticSitesCreateOrUpdateBasicAuthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22913, __c716, 1) as any as S.Schema<StaticSitesCreateOrUpdateBasicAuthRequest>,
+  input: __S(22945, __c717, 1) as any as S.Schema<StaticSitesCreateOrUpdateBasicAuthRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<StaticSitesCreateOrUpdateBasicAuthResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32529,8 +32554,8 @@ export const StaticSitesCreateOrUpdateBuildDatabaseConnection: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22944,
-    __c717,
+    22976,
+    __c718,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateBuildDatabaseConnectionRequest>,
   output: __S(
@@ -32554,8 +32579,8 @@ export const StaticSitesCreateOrUpdateDatabaseConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23008,
-    __c719,
+    23040,
+    __c720,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateDatabaseConnectionRequest>,
   output: __S(
@@ -32578,8 +32603,8 @@ export const StaticSitesCreateOrUpdateStaticSite: API.OperationMethod<
   StaticSitesCreateOrUpdateStaticSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23040, __c720, 0) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteRequest>,
-  output: __S(23041, __c720, 1) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteResponse>,
+  input: __S(23072, __c721, 0) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteRequest>,
+  output: __S(23073, __c721, 1) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32596,13 +32621,13 @@ export const StaticSitesCreateOrUpdateStaticSiteAppSettings: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23104,
-    __c722,
+    23136,
+    __c723,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -32621,13 +32646,13 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildAppSettings: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23168,
-    __c724,
+    23200,
+    __c725,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -32646,13 +32671,13 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23200,
-    __c725,
+    23232,
+    __c726,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -32671,13 +32696,13 @@ export const StaticSitesCreateOrUpdateStaticSiteCustomDomain: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23232,
-    __c726,
+    23264,
+    __c727,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteCustomDomainRequest>,
   output: __S(
-    23233,
-    __c726,
+    23265,
+    __c727,
     1,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>,
   errors: [UnknownAzureError],
@@ -32696,13 +32721,13 @@ export const StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23296,
-    __c728,
+    23328,
+    __c729,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsRequest>,
   output: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>,
   errors: [UnknownAzureError],
@@ -32721,11 +32746,11 @@ export const StaticSitesGetPrivateEndpointConnectionList: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23328,
-    __c729,
+    23360,
+    __c730,
     0,
   ) as any as S.Schema<StaticSitesGetPrivateEndpointConnectionListRequest>,
-  output: __S(30305, __c947, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
+  output: __S(30401, __c950, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32741,8 +32766,8 @@ export const StaticSitesLinkBackend: API.OperationMethod<
   StaticSitesLinkBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23360, __c730, 0) as any as S.Schema<StaticSitesLinkBackendRequest>,
-  output: __S(23392, __c731, 0) as any as S.Schema<StaticSitesLinkBackendResponse>,
+  input: __S(23392, __c731, 0) as any as S.Schema<StaticSitesLinkBackendRequest>,
+  output: __S(23424, __c732, 0) as any as S.Schema<StaticSitesLinkBackendResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32758,8 +32783,8 @@ export const StaticSitesLinkBackendToBuild: API.OperationMethod<
   StaticSitesLinkBackendToBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23456, __c733, 0) as any as S.Schema<StaticSitesLinkBackendToBuildRequest>,
-  output: __S(23392, __c731, 0) as any as S.Schema<StaticSitesLinkBackendToBuildResponse>,
+  input: __S(23488, __c734, 0) as any as S.Schema<StaticSitesLinkBackendToBuildRequest>,
+  output: __S(23424, __c732, 0) as any as S.Schema<StaticSitesLinkBackendToBuildResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32775,7 +32800,7 @@ export const StopAppServicePlanWebApps: API.OperationMethod<
   StopAppServicePlanWebAppsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23488, __c734, 0) as any as S.Schema<StopAppServicePlanWebAppsRequest>,
+  input: __S(23520, __c735, 0) as any as S.Schema<StopAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopAppServicePlanWebAppsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32792,7 +32817,7 @@ export const StopWebApp: API.OperationMethod<
   StopWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23520, __c735, 0) as any as S.Schema<StopWebAppRequest>,
+  input: __S(23552, __c736, 0) as any as S.Schema<StopWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32809,7 +32834,7 @@ export const StopWebAppContinuousWebJob: API.OperationMethod<
   StopWebAppContinuousWebJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23552, __c736, 0) as any as S.Schema<StopWebAppContinuousWebJobRequest>,
+  input: __S(23584, __c737, 0) as any as S.Schema<StopWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppContinuousWebJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32826,7 +32851,7 @@ export const StopWebAppContinuousWebJobSlot: API.OperationMethod<
   StopWebAppContinuousWebJobSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23616, __c738, 0) as any as S.Schema<StopWebAppContinuousWebJobSlotRequest>,
+  input: __S(23648, __c739, 0) as any as S.Schema<StopWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppContinuousWebJobSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32843,7 +32868,7 @@ export const StopWebAppNetworkTrace: API.OperationMethod<
   StopWebAppNetworkTraceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23648, __c739, 0) as any as S.Schema<StopWebAppNetworkTraceRequest>,
+  input: __S(23680, __c740, 0) as any as S.Schema<StopWebAppNetworkTraceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppNetworkTraceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32860,7 +32885,7 @@ export const StopWebAppNetworkTraceSlot: API.OperationMethod<
   StopWebAppNetworkTraceSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23680, __c740, 0) as any as S.Schema<StopWebAppNetworkTraceSlotRequest>,
+  input: __S(23712, __c741, 0) as any as S.Schema<StopWebAppNetworkTraceSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppNetworkTraceSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32877,7 +32902,7 @@ export const StopWebAppSlot: API.OperationMethod<
   StopWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23712, __c741, 0) as any as S.Schema<StopWebAppSlotRequest>,
+  input: __S(23744, __c742, 0) as any as S.Schema<StopWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32894,7 +32919,7 @@ export const StopWebAppWebSiteNetworkTrace: API.OperationMethod<
   StopWebAppWebSiteNetworkTraceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23744, __c742, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceRequest>,
+  input: __S(23776, __c743, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32911,7 +32936,7 @@ export const StopWebAppWebSiteNetworkTraceSlot: API.OperationMethod<
   StopWebAppWebSiteNetworkTraceSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceSlotRequest>,
+  input: __S(23808, __c744, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32928,8 +32953,8 @@ export const SuspendAppServiceEnvironment: API.OperationMethod<
   SuspendAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23808, __c744, 0) as any as S.Schema<SuspendAppServiceEnvironmentRequest>,
-  output: __S(16128, __c504, 0) as any as S.Schema<SuspendAppServiceEnvironmentResponse>,
+  input: __S(23840, __c745, 0) as any as S.Schema<SuspendAppServiceEnvironmentRequest>,
+  output: __S(16160, __c505, 0) as any as S.Schema<SuspendAppServiceEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32945,8 +32970,8 @@ export const SwapWebAppSlotSlot: API.OperationMethod<
   SwapWebAppSlotSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23840, __c745, 0) as any as S.Schema<SwapWebAppSlotSlotRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<SwapWebAppSlotSlotResponse>,
+  input: __S(23872, __c746, 0) as any as S.Schema<SwapWebAppSlotSlotRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<SwapWebAppSlotSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32962,8 +32987,8 @@ export const SwapWebAppSlotWithProduction: API.OperationMethod<
   SwapWebAppSlotWithProductionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23872, __c746, 0) as any as S.Schema<SwapWebAppSlotWithProductionRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<SwapWebAppSlotWithProductionResponse>,
+  input: __S(23904, __c747, 0) as any as S.Schema<SwapWebAppSlotWithProductionRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<SwapWebAppSlotWithProductionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -32979,7 +33004,7 @@ export const SyncWebAppFunctions: API.OperationMethod<
   SyncWebAppFunctionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23904, __c747, 0) as any as S.Schema<SyncWebAppFunctionsRequest>,
+  input: __S(23936, __c748, 0) as any as S.Schema<SyncWebAppFunctionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -32996,7 +33021,7 @@ export const SyncWebAppFunctionsSlot: API.OperationMethod<
   SyncWebAppFunctionsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23968, __c749, 0) as any as S.Schema<SyncWebAppFunctionsSlotRequest>,
+  input: __S(24000, __c750, 0) as any as S.Schema<SyncWebAppFunctionsSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33013,7 +33038,7 @@ export const SyncWebAppFunctionTriggers: API.OperationMethod<
   SyncWebAppFunctionTriggersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<SyncWebAppFunctionTriggersRequest>,
+  input: __S(24032, __c751, 0) as any as S.Schema<SyncWebAppFunctionTriggersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionTriggersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33030,7 +33055,7 @@ export const SyncWebAppFunctionTriggersSlot: API.OperationMethod<
   SyncWebAppFunctionTriggersSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24032, __c751, 0) as any as S.Schema<SyncWebAppFunctionTriggersSlotRequest>,
+  input: __S(24064, __c752, 0) as any as S.Schema<SyncWebAppFunctionTriggersSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionTriggersSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33047,7 +33072,7 @@ export const SyncWebAppRepository: API.OperationMethod<
   SyncWebAppRepositoryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<SyncWebAppRepositoryRequest>,
+  input: __S(24096, __c753, 0) as any as S.Schema<SyncWebAppRepositoryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppRepositoryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33064,7 +33089,7 @@ export const SyncWebAppRepositorySlot: API.OperationMethod<
   SyncWebAppRepositorySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24096, __c753, 0) as any as S.Schema<SyncWebAppRepositorySlotRequest>,
+  input: __S(24128, __c754, 0) as any as S.Schema<SyncWebAppRepositorySlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppRepositorySlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33082,8 +33107,8 @@ export const TestAppServiceEnvironmentUpgradeAvailableNotification: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24128,
-    __c754,
+    24160,
+    __c755,
     0,
   ) as any as S.Schema<TestAppServiceEnvironmentUpgradeAvailableNotificationRequest>,
   output: __S(
@@ -33106,8 +33131,8 @@ export const TriggerRunWorkflow: API.OperationMethod<
   TriggerRunWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24160, __c755, 0) as any as S.Schema<TriggerRunWorkflowRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<TriggerRunWorkflowResponse>,
+  input: __S(24192, __c756, 0) as any as S.Schema<TriggerRunWorkflowRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<TriggerRunWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33123,7 +33148,7 @@ export const UnlinkStaticSiteBackend: API.OperationMethod<
   UnlinkStaticSiteBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24192, __c756, 0) as any as S.Schema<UnlinkStaticSiteBackendRequest>,
+  input: __S(24224, __c757, 0) as any as S.Schema<UnlinkStaticSiteBackendRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UnlinkStaticSiteBackendResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33140,7 +33165,7 @@ export const UnlinkStaticSiteBackendFromBuild: API.OperationMethod<
   UnlinkStaticSiteBackendFromBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24224, __c757, 0) as any as S.Schema<UnlinkStaticSiteBackendFromBuildRequest>,
+  input: __S(24256, __c758, 0) as any as S.Schema<UnlinkStaticSiteBackendFromBuildRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UnlinkStaticSiteBackendFromBuildResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33157,7 +33182,7 @@ export const UpdateAppServiceEnvironment: API.OperationMethod<
   UpdateAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24256, __c758, 0) as any as S.Schema<UpdateAppServiceEnvironmentRequest>,
+  input: __S(24288, __c759, 0) as any as S.Schema<UpdateAppServiceEnvironmentRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<UpdateAppServiceEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33175,13 +33200,13 @@ export const UpdateAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24320,
-    __c760,
+    24352,
+    __c761,
     0,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseCustomDnsSuffixConfigurationRequest>,
   output: __S(
-    20641,
-    __c645,
+    20673,
+    __c646,
     1,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -33200,13 +33225,13 @@ export const UpdateAppServiceEnvironmentAseNetworkingConfiguration: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24352,
-    __c761,
+    24384,
+    __c762,
     0,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseNetworkingConfigurationRequest>,
   output: __S(
-    20673,
-    __c646,
+    20705,
+    __c647,
     1,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseNetworkingConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -33224,7 +33249,7 @@ export const UpdateAppServiceEnvironmentMultiRolePool: API.OperationMethod<
   UpdateAppServiceEnvironmentMultiRolePoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24384, __c762, 0) as any as S.Schema<UpdateAppServiceEnvironmentMultiRolePoolRequest>,
+  input: __S(24416, __c763, 0) as any as S.Schema<UpdateAppServiceEnvironmentMultiRolePoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<UpdateAppServiceEnvironmentMultiRolePoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33241,7 +33266,7 @@ export const UpdateAppServiceEnvironmentWorkerPool: API.OperationMethod<
   UpdateAppServiceEnvironmentWorkerPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24416, __c763, 0) as any as S.Schema<UpdateAppServiceEnvironmentWorkerPoolRequest>,
+  input: __S(24448, __c764, 0) as any as S.Schema<UpdateAppServiceEnvironmentWorkerPoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<UpdateAppServiceEnvironmentWorkerPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33258,7 +33283,7 @@ export const UpdateAppServicePlan: API.OperationMethod<
   UpdateAppServicePlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24449, __c764, 1) as any as S.Schema<UpdateAppServicePlanRequest>,
+  input: __S(24481, __c765, 1) as any as S.Schema<UpdateAppServicePlanRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<UpdateAppServicePlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33275,7 +33300,7 @@ export const UpdateAppServicePlanVnetGateway: API.OperationMethod<
   UpdateAppServicePlanVnetGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24480, __c765, 0) as any as S.Schema<UpdateAppServicePlanVnetGatewayRequest>,
+  input: __S(24512, __c766, 0) as any as S.Schema<UpdateAppServicePlanVnetGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateAppServicePlanVnetGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33292,7 +33317,7 @@ export const UpdateAppServicePlanVnetRoute: API.OperationMethod<
   UpdateAppServicePlanVnetRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24512, __c766, 0) as any as S.Schema<UpdateAppServicePlanVnetRouteRequest>,
+  input: __S(24544, __c767, 0) as any as S.Schema<UpdateAppServicePlanVnetRouteRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<UpdateAppServicePlanVnetRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33309,7 +33334,7 @@ export const UpdateCertificate: API.OperationMethod<
   UpdateCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24544, __c767, 0) as any as S.Schema<UpdateCertificateRequest>,
+  input: __S(24576, __c768, 0) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33326,7 +33351,7 @@ export const UpdateKubeEnvironment: API.OperationMethod<
   UpdateKubeEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24609, __c769, 1) as any as S.Schema<UpdateKubeEnvironmentRequest>,
+  input: __S(24641, __c770, 1) as any as S.Schema<UpdateKubeEnvironmentRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<UpdateKubeEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33344,8 +33369,8 @@ export const UpdateManagedTrafficConfigResourceManagedTrafficConfig: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24640,
-    __c770,
+    24672,
+    __c771,
     0,
   ) as any as S.Schema<UpdateManagedTrafficConfigResourceManagedTrafficConfigRequest>,
   output: __S(
@@ -33368,7 +33393,7 @@ export const UpdatePublishingUser: API.OperationMethod<
   UpdatePublishingUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24928, __c779, 0) as any as S.Schema<UpdatePublishingUserRequest>,
+  input: __S(24960, __c780, 0) as any as S.Schema<UpdatePublishingUserRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<UpdatePublishingUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33386,8 +33411,8 @@ export const UpdateServerFarmSiloResourceServerFarmSilo: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24960,
-    __c780,
+    24992,
+    __c781,
     0,
   ) as any as S.Schema<UpdateServerFarmSiloResourceServerFarmSiloRequest>,
   output: __S(
@@ -33410,7 +33435,7 @@ export const UpdateSiteCertificate: API.OperationMethod<
   UpdateSiteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24992, __c781, 0) as any as S.Schema<UpdateSiteCertificateRequest>,
+  input: __S(25024, __c782, 0) as any as S.Schema<UpdateSiteCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateSiteCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33427,7 +33452,7 @@ export const UpdateSiteCertificateSlot: API.OperationMethod<
   UpdateSiteCertificateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<UpdateSiteCertificateSlotRequest>,
+  input: __S(25056, __c783, 0) as any as S.Schema<UpdateSiteCertificateSlotRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateSiteCertificateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33444,7 +33469,7 @@ export const UpdateSiteSiloResourceSiteSilo: API.OperationMethod<
   UpdateSiteSiloResourceSiteSiloError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25056, __c783, 0) as any as S.Schema<UpdateSiteSiloResourceSiteSiloRequest>,
+  input: __S(25088, __c784, 0) as any as S.Schema<UpdateSiteSiloResourceSiteSiloRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<UpdateSiteSiloResourceSiteSiloResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33462,8 +33487,8 @@ export const UpdateSiteSiloVirtualNetworkConnectionSiteSiloVnetConnection: API.O
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25088,
-    __c784,
+    25120,
+    __c785,
     0,
   ) as any as S.Schema<UpdateSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionRequest>,
   output: __S(
@@ -33486,7 +33511,7 @@ export const UpdateSourceControl: API.OperationMethod<
   UpdateSourceControlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25120, __c785, 0) as any as S.Schema<UpdateSourceControlRequest>,
+  input: __S(25152, __c786, 0) as any as S.Schema<UpdateSourceControlRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<UpdateSourceControlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33503,7 +33528,7 @@ export const UpdateStaticSiteBuildDatabaseConnection: API.OperationMethod<
   UpdateStaticSiteBuildDatabaseConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25152, __c786, 0) as any as S.Schema<UpdateStaticSiteBuildDatabaseConnectionRequest>,
+  input: __S(25184, __c787, 0) as any as S.Schema<UpdateStaticSiteBuildDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<UpdateStaticSiteBuildDatabaseConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33520,7 +33545,7 @@ export const UpdateStaticSiteDatabaseConnection: API.OperationMethod<
   UpdateStaticSiteDatabaseConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25216, __c788, 0) as any as S.Schema<UpdateStaticSiteDatabaseConnectionRequest>,
+  input: __S(25248, __c789, 0) as any as S.Schema<UpdateStaticSiteDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<UpdateStaticSiteDatabaseConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33537,8 +33562,8 @@ export const UpdateStaticSiteStaticSite: API.OperationMethod<
   UpdateStaticSiteStaticSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25248, __c789, 0) as any as S.Schema<UpdateStaticSiteStaticSiteRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<UpdateStaticSiteStaticSiteResponse>,
+  input: __S(25280, __c790, 0) as any as S.Schema<UpdateStaticSiteStaticSiteRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<UpdateStaticSiteStaticSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33554,8 +33579,8 @@ export const UpdateStaticSiteStaticSiteUser: API.OperationMethod<
   UpdateStaticSiteStaticSiteUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25313, __c791, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserRequest>,
-  output: __S(15201, __c475, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserResponse>,
+  input: __S(25345, __c792, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserRequest>,
+  output: __S(15233, __c476, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33571,8 +33596,8 @@ export const UpdateWebApp: API.OperationMethod<
   UpdateWebAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25344, __c792, 0) as any as S.Schema<UpdateWebAppRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<UpdateWebAppResponse>,
+  input: __S(25376, __c793, 0) as any as S.Schema<UpdateWebAppRequest>,
+  output: __S(16000, __c500, 0) as any as S.Schema<UpdateWebAppResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33588,8 +33613,8 @@ export const UpdateWebAppApplicationSettings: API.OperationMethod<
   UpdateWebAppApplicationSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25472, __c796, 0) as any as S.Schema<UpdateWebAppApplicationSettingsRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<UpdateWebAppApplicationSettingsResponse>,
+  input: __S(25504, __c797, 0) as any as S.Schema<UpdateWebAppApplicationSettingsRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<UpdateWebAppApplicationSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33605,8 +33630,8 @@ export const UpdateWebAppApplicationSettingsSlot: API.OperationMethod<
   UpdateWebAppApplicationSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25504, __c797, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotResponse>,
+  input: __S(25536, __c798, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33622,8 +33647,8 @@ export const UpdateWebAppAuthSettings: API.OperationMethod<
   UpdateWebAppAuthSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25536, __c798, 0) as any as S.Schema<UpdateWebAppAuthSettingsRequest>,
-  output: __S(5761, __c180, 1) as any as S.Schema<UpdateWebAppAuthSettingsResponse>,
+  input: __S(25568, __c799, 0) as any as S.Schema<UpdateWebAppAuthSettingsRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<UpdateWebAppAuthSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33639,8 +33664,8 @@ export const UpdateWebAppAuthSettingsSlot: API.OperationMethod<
   UpdateWebAppAuthSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25568, __c799, 0) as any as S.Schema<UpdateWebAppAuthSettingsSlotRequest>,
-  output: __S(5761, __c180, 1) as any as S.Schema<UpdateWebAppAuthSettingsSlotResponse>,
+  input: __S(25600, __c800, 0) as any as S.Schema<UpdateWebAppAuthSettingsSlotRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<UpdateWebAppAuthSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33656,8 +33681,8 @@ export const UpdateWebAppAuthSettingsV2: API.OperationMethod<
   UpdateWebAppAuthSettingsV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25600, __c800, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2Request>,
-  output: __S(5894, __c184, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2Response>,
+  input: __S(25632, __c801, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2Request>,
+  output: __S(5926, __c185, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2Response>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33673,8 +33698,8 @@ export const UpdateWebAppAuthSettingsV2Slot: API.OperationMethod<
   UpdateWebAppAuthSettingsV2SlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25632, __c801, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotRequest>,
-  output: __S(5894, __c184, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotResponse>,
+  input: __S(25664, __c802, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotRequest>,
+  output: __S(5926, __c185, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33690,8 +33715,8 @@ export const UpdateWebAppAzureStorageAccounts: API.OperationMethod<
   UpdateWebAppAzureStorageAccountsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25664, __c802, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsResponse>,
+  input: __S(25696, __c803, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33707,8 +33732,8 @@ export const UpdateWebAppAzureStorageAccountsSlot: API.OperationMethod<
   UpdateWebAppAzureStorageAccountsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25696, __c803, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotResponse>,
+  input: __S(25728, __c804, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33724,8 +33749,8 @@ export const UpdateWebAppBackupConfiguration: API.OperationMethod<
   UpdateWebAppBackupConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25760, __c805, 0) as any as S.Schema<UpdateWebAppBackupConfigurationRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<UpdateWebAppBackupConfigurationResponse>,
+  input: __S(25792, __c806, 0) as any as S.Schema<UpdateWebAppBackupConfigurationRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<UpdateWebAppBackupConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33741,8 +33766,8 @@ export const UpdateWebAppBackupConfigurationSlot: API.OperationMethod<
   UpdateWebAppBackupConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25792, __c806, 0) as any as S.Schema<UpdateWebAppBackupConfigurationSlotRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<UpdateWebAppBackupConfigurationSlotResponse>,
+  input: __S(25824, __c807, 0) as any as S.Schema<UpdateWebAppBackupConfigurationSlotRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<UpdateWebAppBackupConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33758,8 +33783,8 @@ export const UpdateWebAppConfiguration: API.OperationMethod<
   UpdateWebAppConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25824, __c807, 0) as any as S.Schema<UpdateWebAppConfigurationRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<UpdateWebAppConfigurationResponse>,
+  input: __S(25856, __c808, 0) as any as S.Schema<UpdateWebAppConfigurationRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<UpdateWebAppConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33775,8 +33800,8 @@ export const UpdateWebAppConfigurationSlot: API.OperationMethod<
   UpdateWebAppConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25856, __c808, 0) as any as S.Schema<UpdateWebAppConfigurationSlotRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<UpdateWebAppConfigurationSlotResponse>,
+  input: __S(25888, __c809, 0) as any as S.Schema<UpdateWebAppConfigurationSlotRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<UpdateWebAppConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33792,8 +33817,8 @@ export const UpdateWebAppConnectionStrings: API.OperationMethod<
   UpdateWebAppConnectionStringsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25888, __c809, 0) as any as S.Schema<UpdateWebAppConnectionStringsRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<UpdateWebAppConnectionStringsResponse>,
+  input: __S(25920, __c810, 0) as any as S.Schema<UpdateWebAppConnectionStringsRequest>,
+  output: __S(16450, __c514, 2) as any as S.Schema<UpdateWebAppConnectionStringsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33809,8 +33834,8 @@ export const UpdateWebAppConnectionStringsSlot: API.OperationMethod<
   UpdateWebAppConnectionStringsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25920, __c810, 0) as any as S.Schema<UpdateWebAppConnectionStringsSlotRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<UpdateWebAppConnectionStringsSlotResponse>,
+  input: __S(25952, __c811, 0) as any as S.Schema<UpdateWebAppConnectionStringsSlotRequest>,
+  output: __S(16450, __c514, 2) as any as S.Schema<UpdateWebAppConnectionStringsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33826,8 +33851,8 @@ export const UpdateWebAppDiagnosticLogsConfig: API.OperationMethod<
   UpdateWebAppDiagnosticLogsConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25952, __c811, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigRequest>,
-  output: __S(6825, __c213, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigResponse>,
+  input: __S(25984, __c812, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigRequest>,
+  output: __S(6857, __c214, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33843,8 +33868,8 @@ export const UpdateWebAppDiagnosticLogsConfigSlot: API.OperationMethod<
   UpdateWebAppDiagnosticLogsConfigSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25984, __c812, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotRequest>,
-  output: __S(6825, __c213, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotResponse>,
+  input: __S(26016, __c813, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotRequest>,
+  output: __S(6857, __c214, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33860,8 +33885,8 @@ export const UpdateWebAppDomainOwnershipIdentifier: API.OperationMethod<
   UpdateWebAppDomainOwnershipIdentifierError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26016, __c813, 0) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierResponse>,
+  input: __S(26048, __c814, 0) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33877,10 +33902,10 @@ export const UpdateWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
   UpdateWebAppDomainOwnershipIdentifierSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26048, __c814, 0) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierSlotRequest>,
+  input: __S(26080, __c815, 0) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierSlotRequest>,
   output: __S(
-    6913,
-    __c216,
+    6945,
+    __c217,
     1,
   ) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierSlotResponse>,
   errors: [UnknownAzureError],
@@ -33898,8 +33923,8 @@ export const UpdateWebAppFtpAllowed: API.OperationMethod<
   UpdateWebAppFtpAllowedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26112, __c816, 0) as any as S.Schema<UpdateWebAppFtpAllowedRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<UpdateWebAppFtpAllowedResponse>,
+  input: __S(26144, __c817, 0) as any as S.Schema<UpdateWebAppFtpAllowedRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<UpdateWebAppFtpAllowedResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33915,8 +33940,8 @@ export const UpdateWebAppFtpAllowedSlot: API.OperationMethod<
   UpdateWebAppFtpAllowedSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26144, __c817, 0) as any as S.Schema<UpdateWebAppFtpAllowedSlotRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<UpdateWebAppFtpAllowedSlotResponse>,
+  input: __S(26176, __c818, 0) as any as S.Schema<UpdateWebAppFtpAllowedSlotRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<UpdateWebAppFtpAllowedSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33932,7 +33957,7 @@ export const UpdateWebAppHybridConnection: API.OperationMethod<
   UpdateWebAppHybridConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26176, __c818, 0) as any as S.Schema<UpdateWebAppHybridConnectionRequest>,
+  input: __S(26208, __c819, 0) as any as S.Schema<UpdateWebAppHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateWebAppHybridConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33949,7 +33974,7 @@ export const UpdateWebAppHybridConnectionSlot: API.OperationMethod<
   UpdateWebAppHybridConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26208, __c819, 0) as any as S.Schema<UpdateWebAppHybridConnectionSlotRequest>,
+  input: __S(26240, __c820, 0) as any as S.Schema<UpdateWebAppHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateWebAppHybridConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -33966,8 +33991,8 @@ export const UpdateWebAppMachineKey: API.OperationMethod<
   UpdateWebAppMachineKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26240, __c820, 0) as any as S.Schema<UpdateWebAppMachineKeyRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<UpdateWebAppMachineKeyResponse>,
+  input: __S(26272, __c821, 0) as any as S.Schema<UpdateWebAppMachineKeyRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<UpdateWebAppMachineKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33983,8 +34008,8 @@ export const UpdateWebAppMetadata: API.OperationMethod<
   UpdateWebAppMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26272, __c821, 0) as any as S.Schema<UpdateWebAppMetadataRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<UpdateWebAppMetadataResponse>,
+  input: __S(26304, __c822, 0) as any as S.Schema<UpdateWebAppMetadataRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<UpdateWebAppMetadataResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34000,8 +34025,8 @@ export const UpdateWebAppMetadataSlot: API.OperationMethod<
   UpdateWebAppMetadataSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26304, __c822, 0) as any as S.Schema<UpdateWebAppMetadataSlotRequest>,
-  output: __S(14816, __c463, 0) as any as S.Schema<UpdateWebAppMetadataSlotResponse>,
+  input: __S(26336, __c823, 0) as any as S.Schema<UpdateWebAppMetadataSlotRequest>,
+  output: __S(14848, __c464, 0) as any as S.Schema<UpdateWebAppMetadataSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34017,8 +34042,8 @@ export const UpdateWebAppRelayServiceConnection: API.OperationMethod<
   UpdateWebAppRelayServiceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26336, __c823, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionResponse>,
+  input: __S(26368, __c824, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34034,8 +34059,8 @@ export const UpdateWebAppRelayServiceConnectionSlot: API.OperationMethod<
   UpdateWebAppRelayServiceConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26368, __c824, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotResponse>,
+  input: __S(26400, __c825, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34051,8 +34076,8 @@ export const UpdateWebAppScmAllowed: API.OperationMethod<
   UpdateWebAppScmAllowedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26400, __c825, 0) as any as S.Schema<UpdateWebAppScmAllowedRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<UpdateWebAppScmAllowedResponse>,
+  input: __S(26432, __c826, 0) as any as S.Schema<UpdateWebAppScmAllowedRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<UpdateWebAppScmAllowedResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34068,8 +34093,8 @@ export const UpdateWebAppScmAllowedSlot: API.OperationMethod<
   UpdateWebAppScmAllowedSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26464, __c827, 0) as any as S.Schema<UpdateWebAppScmAllowedSlotRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<UpdateWebAppScmAllowedSlotResponse>,
+  input: __S(26496, __c828, 0) as any as S.Schema<UpdateWebAppScmAllowedSlotRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<UpdateWebAppScmAllowedSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34085,8 +34110,8 @@ export const UpdateWebAppSitePushSettings: API.OperationMethod<
   UpdateWebAppSitePushSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26496, __c828, 0) as any as S.Schema<UpdateWebAppSitePushSettingsRequest>,
-  output: __S(15905, __c497, 1) as any as S.Schema<UpdateWebAppSitePushSettingsResponse>,
+  input: __S(26528, __c829, 0) as any as S.Schema<UpdateWebAppSitePushSettingsRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<UpdateWebAppSitePushSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34102,8 +34127,8 @@ export const UpdateWebAppSitePushSettingsSlot: API.OperationMethod<
   UpdateWebAppSitePushSettingsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26528, __c829, 0) as any as S.Schema<UpdateWebAppSitePushSettingsSlotRequest>,
-  output: __S(15905, __c497, 1) as any as S.Schema<UpdateWebAppSitePushSettingsSlotResponse>,
+  input: __S(26560, __c830, 0) as any as S.Schema<UpdateWebAppSitePushSettingsSlotRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<UpdateWebAppSitePushSettingsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34119,8 +34144,8 @@ export const UpdateWebAppSlot: API.OperationMethod<
   UpdateWebAppSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26560, __c830, 0) as any as S.Schema<UpdateWebAppSlotRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<UpdateWebAppSlotResponse>,
+  input: __S(26592, __c831, 0) as any as S.Schema<UpdateWebAppSlotRequest>,
+  output: __S(16000, __c500, 0) as any as S.Schema<UpdateWebAppSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34136,8 +34161,8 @@ export const UpdateWebAppSlotConfigurationNames: API.OperationMethod<
   UpdateWebAppSlotConfigurationNamesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26592, __c831, 0) as any as S.Schema<UpdateWebAppSlotConfigurationNamesRequest>,
-  output: __S(19169, __c599, 1) as any as S.Schema<UpdateWebAppSlotConfigurationNamesResponse>,
+  input: __S(26624, __c832, 0) as any as S.Schema<UpdateWebAppSlotConfigurationNamesRequest>,
+  output: __S(19201, __c600, 1) as any as S.Schema<UpdateWebAppSlotConfigurationNamesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34153,8 +34178,8 @@ export const UpdateWebAppSourceControl: API.OperationMethod<
   UpdateWebAppSourceControlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26624, __c832, 0) as any as S.Schema<UpdateWebAppSourceControlRequest>,
-  output: __S(9760, __c305, 0) as any as S.Schema<UpdateWebAppSourceControlResponse>,
+  input: __S(26656, __c833, 0) as any as S.Schema<UpdateWebAppSourceControlRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<UpdateWebAppSourceControlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34170,8 +34195,8 @@ export const UpdateWebAppSourceControlSlot: API.OperationMethod<
   UpdateWebAppSourceControlSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26656, __c833, 0) as any as S.Schema<UpdateWebAppSourceControlSlotRequest>,
-  output: __S(9760, __c305, 0) as any as S.Schema<UpdateWebAppSourceControlSlotResponse>,
+  input: __S(26688, __c834, 0) as any as S.Schema<UpdateWebAppSourceControlSlotRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<UpdateWebAppSourceControlSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34188,8 +34213,8 @@ export const UpdateWebAppSwiftVirtualNetworkConnectionWithCheck: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26688,
-    __c834,
+    26720,
+    __c835,
     0,
   ) as any as S.Schema<UpdateWebAppSwiftVirtualNetworkConnectionWithCheckRequest>,
   output: __S(
@@ -34213,8 +34238,8 @@ export const UpdateWebAppSwiftVirtualNetworkConnectionWithCheckSlot: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26720,
-    __c835,
+    26752,
+    __c836,
     0,
   ) as any as S.Schema<UpdateWebAppSwiftVirtualNetworkConnectionWithCheckSlotRequest>,
   output: __S(
@@ -34237,7 +34262,7 @@ export const UpdateWebAppVnetConnection: API.OperationMethod<
   UpdateWebAppVnetConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26752, __c836, 0) as any as S.Schema<UpdateWebAppVnetConnectionRequest>,
+  input: __S(26784, __c837, 0) as any as S.Schema<UpdateWebAppVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<UpdateWebAppVnetConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34254,7 +34279,7 @@ export const UpdateWebAppVnetConnectionGateway: API.OperationMethod<
   UpdateWebAppVnetConnectionGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26848, __c839, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewayRequest>,
+  input: __S(26880, __c840, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateWebAppVnetConnectionGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34271,7 +34296,7 @@ export const UpdateWebAppVnetConnectionGatewaySlot: API.OperationMethod<
   UpdateWebAppVnetConnectionGatewaySlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26880, __c840, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewaySlotRequest>,
+  input: __S(26912, __c841, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewaySlotRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateWebAppVnetConnectionGatewaySlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34288,7 +34313,7 @@ export const UpdateWebAppVnetConnectionSlot: API.OperationMethod<
   UpdateWebAppVnetConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26912, __c841, 0) as any as S.Schema<UpdateWebAppVnetConnectionSlotRequest>,
+  input: __S(26944, __c842, 0) as any as S.Schema<UpdateWebAppVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<UpdateWebAppVnetConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34305,8 +34330,8 @@ export const Validate: API.OperationMethod<
   ValidateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26945, __c842, 1) as any as S.Schema<ValidateRequest>,
-  output: __S(26946, __c842, 2) as any as S.Schema<ValidateResponse>,
+  input: __S(26977, __c843, 1) as any as S.Schema<ValidateRequest>,
+  output: __S(26978, __c843, 2) as any as S.Schema<ValidateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34322,7 +34347,7 @@ export const ValidateMove: API.OperationMethod<
   ValidateMoveError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26976, __c843, 0) as any as S.Schema<ValidateMoveRequest>,
+  input: __S(27008, __c844, 0) as any as S.Schema<ValidateMoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ValidateMoveResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34339,8 +34364,8 @@ export const ValidateStaticSiteBackend: API.OperationMethod<
   ValidateStaticSiteBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27008, __c844, 0) as any as S.Schema<ValidateStaticSiteBackendRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<ValidateStaticSiteBackendResponse>,
+  input: __S(27040, __c845, 0) as any as S.Schema<ValidateStaticSiteBackendRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<ValidateStaticSiteBackendResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34356,8 +34381,8 @@ export const ValidateStaticSiteBackendForBuild: API.OperationMethod<
   ValidateStaticSiteBackendForBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27040, __c845, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildResponse>,
+  input: __S(27072, __c846, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34374,13 +34399,13 @@ export const ValidateStaticSiteCustomDomainCanBeAddedToStaticSite: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27072,
-    __c846,
+    27104,
+    __c847,
     0,
   ) as any as S.Schema<ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest>,
   output: __S(
-    30720,
-    __c960,
+    30816,
+    __c963,
     0,
   ) as any as S.Schema<ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse>,
   errors: [UnknownAzureError],
@@ -34398,7 +34423,7 @@ export const ValidateWorkflow: API.OperationMethod<
   ValidateWorkflowError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27105, __c847, 1) as any as S.Schema<ValidateWorkflowRequest>,
+  input: __S(27137, __c848, 1) as any as S.Schema<ValidateWorkflowRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ValidateWorkflowResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34415,8 +34440,8 @@ export const VerifyHostingEnvironmentVnet: API.OperationMethod<
   VerifyHostingEnvironmentVnetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27137, __c848, 1) as any as S.Schema<VerifyHostingEnvironmentVnetRequest>,
-  output: __S(27142, __c848, 6) as any as S.Schema<VerifyHostingEnvironmentVnetResponse>,
+  input: __S(27169, __c849, 1) as any as S.Schema<VerifyHostingEnvironmentVnetRequest>,
+  output: __S(27174, __c849, 6) as any as S.Schema<VerifyHostingEnvironmentVnetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34432,8 +34457,8 @@ export const WebAppsAddPremierAddOn: API.OperationMethod<
   WebAppsAddPremierAddOnError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27200, __c850, 0) as any as S.Schema<WebAppsAddPremierAddOnRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsAddPremierAddOnResponse>,
+  input: __S(27232, __c851, 0) as any as S.Schema<WebAppsAddPremierAddOnRequest>,
+  output: __S(27264, __c852, 0) as any as S.Schema<WebAppsAddPremierAddOnResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34449,8 +34474,8 @@ export const WebAppsAddPremierAddOnSlot: API.OperationMethod<
   WebAppsAddPremierAddOnSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27264, __c852, 0) as any as S.Schema<WebAppsAddPremierAddOnSlotRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsAddPremierAddOnSlotResponse>,
+  input: __S(27328, __c854, 0) as any as S.Schema<WebAppsAddPremierAddOnSlotRequest>,
+  output: __S(27264, __c852, 0) as any as S.Schema<WebAppsAddPremierAddOnSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34466,8 +34491,8 @@ export const WebAppsAnalyzeCustomHostname: API.OperationMethod<
   WebAppsAnalyzeCustomHostnameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27296, __c853, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameRequest>,
-  output: __S(27329, __c854, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameResponse>,
+  input: __S(27360, __c855, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameRequest>,
+  output: __S(27393, __c856, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34483,8 +34508,8 @@ export const WebAppsAnalyzeCustomHostnameSlot: API.OperationMethod<
   WebAppsAnalyzeCustomHostnameSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27360, __c855, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotRequest>,
-  output: __S(27329, __c854, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotResponse>,
+  input: __S(27424, __c857, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotRequest>,
+  output: __S(27393, __c856, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34501,13 +34526,13 @@ export const WebAppsApproveOrRejectPrivateEndpointConnection: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27392,
-    __c856,
+    27456,
+    __c858,
     0,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionRequest>,
   output: __S(
-    11169,
-    __c349,
+    11201,
+    __c350,
     1,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
@@ -34526,13 +34551,13 @@ export const WebAppsApproveOrRejectPrivateEndpointConnectionSlot: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27424,
-    __c857,
+    27488,
+    __c859,
     0,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionSlotRequest>,
   output: __S(
-    11169,
-    __c349,
+    11201,
+    __c350,
     1,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>,
   errors: [UnknownAzureError],
@@ -34550,8 +34575,8 @@ export const WebAppsBackup: API.OperationMethod<
   WebAppsBackupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27456, __c858, 0) as any as S.Schema<WebAppsBackupRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<WebAppsBackupResponse>,
+  input: __S(27520, __c860, 0) as any as S.Schema<WebAppsBackupRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<WebAppsBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34567,8 +34592,8 @@ export const WebAppsBackupSlot: API.OperationMethod<
   WebAppsBackupSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27488, __c859, 0) as any as S.Schema<WebAppsBackupSlotRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<WebAppsBackupSlotResponse>,
+  input: __S(27552, __c861, 0) as any as S.Schema<WebAppsBackupSlotRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<WebAppsBackupSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34584,8 +34609,8 @@ export const WebAppsCreateInstanceMSDeployOperation: API.OperationMethod<
   WebAppsCreateInstanceMSDeployOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27520, __c860, 0) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationRequest>,
-  output: __S(27555, __c861, 3) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationResponse>,
+  input: __S(27584, __c862, 0) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationRequest>,
+  output: __S(27619, __c863, 3) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34602,13 +34627,13 @@ export const WebAppsCreateInstanceMSDeployOperationSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27616,
-    __c863,
+    27680,
+    __c865,
     0,
   ) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationSlotRequest>,
   output: __S(
-    27555,
-    __c861,
+    27619,
+    __c863,
     3,
   ) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationSlotResponse>,
   errors: [UnknownAzureError],
@@ -34626,8 +34651,8 @@ export const WebAppsCreateMSDeployOperation: API.OperationMethod<
   WebAppsCreateMSDeployOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27680, __c865, 0) as any as S.Schema<WebAppsCreateMSDeployOperationRequest>,
-  output: __S(27555, __c861, 3) as any as S.Schema<WebAppsCreateMSDeployOperationResponse>,
+  input: __S(27744, __c867, 0) as any as S.Schema<WebAppsCreateMSDeployOperationRequest>,
+  output: __S(27619, __c863, 3) as any as S.Schema<WebAppsCreateMSDeployOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34643,8 +34668,8 @@ export const WebAppsCreateMSDeployOperationSlot: API.OperationMethod<
   WebAppsCreateMSDeployOperationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27712, __c866, 0) as any as S.Schema<WebAppsCreateMSDeployOperationSlotRequest>,
-  output: __S(27555, __c861, 3) as any as S.Schema<WebAppsCreateMSDeployOperationSlotResponse>,
+  input: __S(27776, __c868, 0) as any as S.Schema<WebAppsCreateMSDeployOperationSlotRequest>,
+  output: __S(27619, __c863, 3) as any as S.Schema<WebAppsCreateMSDeployOperationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34660,8 +34685,8 @@ export const WebAppsCreateOneDeployOperation: API.OperationMethod<
   WebAppsCreateOneDeployOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27745, __c867, 1) as any as S.Schema<WebAppsCreateOneDeployOperationRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<WebAppsCreateOneDeployOperationResponse>,
+  input: __S(27809, __c869, 1) as any as S.Schema<WebAppsCreateOneDeployOperationRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<WebAppsCreateOneDeployOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34677,8 +34702,8 @@ export const WebAppsCreateOrUpdate: API.OperationMethod<
   WebAppsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27776, __c868, 0) as any as S.Schema<WebAppsCreateOrUpdateRequest>,
-  output: __S(27809, __c869, 1) as any as S.Schema<WebAppsCreateOrUpdateResponse>,
+  input: __S(27840, __c870, 0) as any as S.Schema<WebAppsCreateOrUpdateRequest>,
+  output: __S(27873, __c871, 1) as any as S.Schema<WebAppsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34694,8 +34719,8 @@ export const WebAppsCreateOrUpdateConfiguration: API.OperationMethod<
   WebAppsCreateOrUpdateConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27840, __c870, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationResponse>,
+  input: __S(27904, __c872, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34711,8 +34736,8 @@ export const WebAppsCreateOrUpdateConfigurationSlot: API.OperationMethod<
   WebAppsCreateOrUpdateConfigurationSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27872, __c871, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotResponse>,
+  input: __S(27936, __c873, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34729,13 +34754,13 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifier: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27904,
-    __c872,
+    27968,
+    __c874,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierRequest>,
   output: __S(
-    6913,
-    __c216,
+    6945,
+    __c217,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>,
   errors: [UnknownAzureError],
@@ -34754,13 +34779,13 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27936,
-    __c873,
+    28000,
+    __c875,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotRequest>,
   output: __S(
-    6913,
-    __c216,
+    6945,
+    __c217,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>,
   errors: [UnknownAzureError],
@@ -34778,8 +34803,8 @@ export const WebAppsCreateOrUpdateFunctionSecret: API.OperationMethod<
   WebAppsCreateOrUpdateFunctionSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27968, __c874, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretRequest>,
-  output: __S(16064, __c502, 0) as any as S.Schema<KeyInfo>,
+  input: __S(28032, __c876, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretRequest>,
+  output: __S(16096, __c503, 0) as any as S.Schema<KeyInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34795,8 +34820,8 @@ export const WebAppsCreateOrUpdateFunctionSecretSlot: API.OperationMethod<
   WebAppsCreateOrUpdateFunctionSecretSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28000, __c875, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretSlotRequest>,
-  output: __S(16064, __c502, 0) as any as S.Schema<KeyInfo>,
+  input: __S(28064, __c877, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretSlotRequest>,
+  output: __S(16096, __c503, 0) as any as S.Schema<KeyInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34812,8 +34837,8 @@ export const WebAppsCreateOrUpdateHostNameBinding: API.OperationMethod<
   WebAppsCreateOrUpdateHostNameBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28064, __c877, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingResponse>,
+  input: __S(28128, __c879, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34829,8 +34854,8 @@ export const WebAppsCreateOrUpdateHostNameBindingSlot: API.OperationMethod<
   WebAppsCreateOrUpdateHostNameBindingSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28128, __c879, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotResponse>,
+  input: __S(28192, __c881, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34846,8 +34871,8 @@ export const WebAppsCreateOrUpdateHostSecret: API.OperationMethod<
   WebAppsCreateOrUpdateHostSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28160, __c880, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretRequest>,
-  output: __S(16064, __c502, 0) as any as S.Schema<KeyInfo>,
+  input: __S(28224, __c882, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretRequest>,
+  output: __S(16096, __c503, 0) as any as S.Schema<KeyInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34863,8 +34888,8 @@ export const WebAppsCreateOrUpdateHostSecretSlot: API.OperationMethod<
   WebAppsCreateOrUpdateHostSecretSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28192, __c881, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretSlotRequest>,
-  output: __S(16064, __c502, 0) as any as S.Schema<KeyInfo>,
+  input: __S(28256, __c883, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretSlotRequest>,
+  output: __S(16096, __c503, 0) as any as S.Schema<KeyInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34880,7 +34905,7 @@ export const WebAppsCreateOrUpdateHybridConnection: API.OperationMethod<
   WebAppsCreateOrUpdateHybridConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28224, __c882, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionRequest>,
+  input: __S(28288, __c884, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34897,7 +34922,7 @@ export const WebAppsCreateOrUpdateHybridConnectionSlot: API.OperationMethod<
   WebAppsCreateOrUpdateHybridConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28256, __c883, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionSlotRequest>,
+  input: __S(28320, __c885, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -34914,8 +34939,8 @@ export const WebAppsCreateOrUpdatePublicCertificate: API.OperationMethod<
   WebAppsCreateOrUpdatePublicCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28288, __c884, 0) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateResponse>,
+  input: __S(28352, __c886, 0) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -34932,13 +34957,13 @@ export const WebAppsCreateOrUpdatePublicCertificateSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28352,
-    __c886,
+    28416,
+    __c888,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateSlotRequest>,
   output: __S(
-    8929,
-    __c279,
+    8961,
+    __c280,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateSlotResponse>,
   errors: [UnknownAzureError],
@@ -34957,13 +34982,13 @@ export const WebAppsCreateOrUpdateRelayServiceConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28384,
-    __c887,
+    28448,
+    __c889,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionRequest>,
   output: __S(
-    9025,
-    __c282,
+    9057,
+    __c283,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionResponse>,
   errors: [UnknownAzureError],
@@ -34982,13 +35007,13 @@ export const WebAppsCreateOrUpdateRelayServiceConnectionSlot: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28416,
-    __c888,
+    28480,
+    __c890,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionSlotRequest>,
   output: __S(
-    9025,
-    __c282,
+    9057,
+    __c283,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>,
   errors: [UnknownAzureError],
@@ -35006,8 +35031,8 @@ export const WebAppsCreateOrUpdateSiteContainer: API.OperationMethod<
   WebAppsCreateOrUpdateSiteContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28480, __c890, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerRequest>,
-  output: __S(9349, __c292, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerResponse>,
+  input: __S(28544, __c892, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerRequest>,
+  output: __S(9381, __c293, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35023,8 +35048,8 @@ export const WebAppsCreateOrUpdateSiteContainerSlot: API.OperationMethod<
   WebAppsCreateOrUpdateSiteContainerSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28544, __c892, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotRequest>,
-  output: __S(9349, __c292, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotResponse>,
+  input: __S(28608, __c894, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotRequest>,
+  output: __S(9381, __c293, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35040,8 +35065,8 @@ export const WebAppsCreateOrUpdateSlot: API.OperationMethod<
   WebAppsCreateOrUpdateSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28576, __c893, 0) as any as S.Schema<WebAppsCreateOrUpdateSlotRequest>,
-  output: __S(27809, __c869, 1) as any as S.Schema<WebAppsCreateOrUpdateSlotResponse>,
+  input: __S(28640, __c895, 0) as any as S.Schema<WebAppsCreateOrUpdateSlotRequest>,
+  output: __S(27873, __c871, 1) as any as S.Schema<WebAppsCreateOrUpdateSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35057,8 +35082,8 @@ export const WebAppsCreateOrUpdateSourceControl: API.OperationMethod<
   WebAppsCreateOrUpdateSourceControlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28608, __c894, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlRequest>,
-  output: __S(28640, __c895, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlResponse>,
+  input: __S(28672, __c896, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlRequest>,
+  output: __S(28704, __c897, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35074,8 +35099,8 @@ export const WebAppsCreateOrUpdateSourceControlSlot: API.OperationMethod<
   WebAppsCreateOrUpdateSourceControlSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28672, __c896, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotRequest>,
-  output: __S(28640, __c895, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotResponse>,
+  input: __S(28736, __c898, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotRequest>,
+  output: __S(28704, __c897, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35092,8 +35117,8 @@ export const WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28704,
-    __c897,
+    28768,
+    __c899,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckRequest>,
   output: __S(
@@ -35117,8 +35142,8 @@ export const WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot: AP
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28736,
-    __c898,
+    28800,
+    __c900,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotRequest>,
   output: __S(
@@ -35141,7 +35166,7 @@ export const WebAppsCreateOrUpdateVnetConnection: API.OperationMethod<
   WebAppsCreateOrUpdateVnetConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28768, __c899, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionRequest>,
+  input: __S(28832, __c901, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -35159,8 +35184,8 @@ export const WebAppsCreateOrUpdateVnetConnectionGateway: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28800,
-    __c900,
+    28864,
+    __c902,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionGatewayRequest>,
   output: __S(
@@ -35184,8 +35209,8 @@ export const WebAppsCreateOrUpdateVnetConnectionGatewaySlot: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    28832,
-    __c901,
+    28896,
+    __c903,
     0,
   ) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionGatewaySlotRequest>,
   output: __S(
@@ -35208,7 +35233,7 @@ export const WebAppsCreateOrUpdateVnetConnectionSlot: API.OperationMethod<
   WebAppsCreateOrUpdateVnetConnectionSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28928, __c904, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionSlotRequest>,
+  input: __S(28992, __c906, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -35225,7 +35250,7 @@ export const WebAppsDeletePremierAddOn: API.OperationMethod<
   WebAppsDeletePremierAddOnError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28960, __c905, 0) as any as S.Schema<WebAppsDeletePremierAddOnRequest>,
+  input: __S(29024, __c907, 0) as any as S.Schema<WebAppsDeletePremierAddOnRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<WebAppsDeletePremierAddOnResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -35242,7 +35267,7 @@ export const WebAppsDeletePremierAddOnSlot: API.OperationMethod<
   WebAppsDeletePremierAddOnSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28992, __c906, 0) as any as S.Schema<WebAppsDeletePremierAddOnSlotRequest>,
+  input: __S(29056, __c908, 0) as any as S.Schema<WebAppsDeletePremierAddOnSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<WebAppsDeletePremierAddOnSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -35259,8 +35284,8 @@ export const WebAppsDiscoverBackup: API.OperationMethod<
   WebAppsDiscoverBackupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29024, __c907, 0) as any as S.Schema<WebAppsDiscoverBackupRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<WebAppsDiscoverBackupResponse>,
+  input: __S(29088, __c909, 0) as any as S.Schema<WebAppsDiscoverBackupRequest>,
+  output: __S(29120, __c910, 0) as any as S.Schema<WebAppsDiscoverBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35276,8 +35301,8 @@ export const WebAppsDiscoverBackupSlot: API.OperationMethod<
   WebAppsDiscoverBackupSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29088, __c909, 0) as any as S.Schema<WebAppsDiscoverBackupSlotRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<WebAppsDiscoverBackupSlotResponse>,
+  input: __S(29152, __c911, 0) as any as S.Schema<WebAppsDiscoverBackupSlotRequest>,
+  output: __S(29120, __c910, 0) as any as S.Schema<WebAppsDiscoverBackupSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35293,8 +35318,8 @@ export const WebAppsGetInstanceMSDeployLog: API.OperationMethod<
   WebAppsGetInstanceMSDeployLogError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29120, __c910, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogRequest>,
-  output: __S(29155, __c911, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogResponse>,
+  input: __S(29184, __c912, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogRequest>,
+  output: __S(29219, __c913, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35310,8 +35335,8 @@ export const WebAppsGetInstanceMSDeployLogSlot: API.OperationMethod<
   WebAppsGetInstanceMSDeployLogSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29184, __c912, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotRequest>,
-  output: __S(29155, __c911, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotResponse>,
+  input: __S(29248, __c914, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotRequest>,
+  output: __S(29219, __c913, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35327,8 +35352,8 @@ export const WebAppsGetInstanceMsDeployStatus: API.OperationMethod<
   WebAppsGetInstanceMsDeployStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29216, __c913, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusResponse>,
+  input: __S(29280, __c915, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35344,8 +35369,8 @@ export const WebAppsGetInstanceMsDeployStatusSlot: API.OperationMethod<
   WebAppsGetInstanceMsDeployStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29280, __c915, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotResponse>,
+  input: __S(29344, __c917, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35361,8 +35386,8 @@ export const WebAppsGetMigrateMySqlStatus: API.OperationMethod<
   WebAppsGetMigrateMySqlStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29312, __c916, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusRequest>,
-  output: __S(29345, __c917, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusResponse>,
+  input: __S(29376, __c918, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusRequest>,
+  output: __S(29409, __c919, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35378,8 +35403,8 @@ export const WebAppsGetMigrateMySqlStatusSlot: API.OperationMethod<
   WebAppsGetMigrateMySqlStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29408, __c919, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotRequest>,
-  output: __S(29345, __c917, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotResponse>,
+  input: __S(29472, __c921, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotRequest>,
+  output: __S(29409, __c919, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35395,8 +35420,8 @@ export const WebAppsGetMSDeployLog: API.OperationMethod<
   WebAppsGetMSDeployLogError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29440, __c920, 0) as any as S.Schema<WebAppsGetMSDeployLogRequest>,
-  output: __S(29155, __c911, 3) as any as S.Schema<WebAppsGetMSDeployLogResponse>,
+  input: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetMSDeployLogRequest>,
+  output: __S(29219, __c913, 3) as any as S.Schema<WebAppsGetMSDeployLogResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35412,8 +35437,8 @@ export const WebAppsGetMSDeployLogSlot: API.OperationMethod<
   WebAppsGetMSDeployLogSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29472, __c921, 0) as any as S.Schema<WebAppsGetMSDeployLogSlotRequest>,
-  output: __S(29155, __c911, 3) as any as S.Schema<WebAppsGetMSDeployLogSlotResponse>,
+  input: __S(29536, __c923, 0) as any as S.Schema<WebAppsGetMSDeployLogSlotRequest>,
+  output: __S(29219, __c913, 3) as any as S.Schema<WebAppsGetMSDeployLogSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35429,8 +35454,8 @@ export const WebAppsGetMSDeployStatus: API.OperationMethod<
   WebAppsGetMSDeployStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetMSDeployStatusRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<WebAppsGetMSDeployStatusResponse>,
+  input: __S(29568, __c924, 0) as any as S.Schema<WebAppsGetMSDeployStatusRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<WebAppsGetMSDeployStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35446,8 +35471,8 @@ export const WebAppsGetMSDeployStatusSlot: API.OperationMethod<
   WebAppsGetMSDeployStatusSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29536, __c923, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotResponse>,
+  input: __S(29600, __c925, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35463,8 +35488,8 @@ export const WebAppsGetOneDeployStatus: API.OperationMethod<
   WebAppsGetOneDeployStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29568, __c924, 0) as any as S.Schema<WebAppsGetOneDeployStatusRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<WebAppsGetOneDeployStatusResponse>,
+  input: __S(29632, __c926, 0) as any as S.Schema<WebAppsGetOneDeployStatusRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<WebAppsGetOneDeployStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35480,8 +35505,8 @@ export const WebAppsGetPremierAddOn: API.OperationMethod<
   WebAppsGetPremierAddOnError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29600, __c925, 0) as any as S.Schema<WebAppsGetPremierAddOnRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsGetPremierAddOnResponse>,
+  input: __S(29664, __c927, 0) as any as S.Schema<WebAppsGetPremierAddOnRequest>,
+  output: __S(27264, __c852, 0) as any as S.Schema<WebAppsGetPremierAddOnResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35497,8 +35522,8 @@ export const WebAppsGetPremierAddOnSlot: API.OperationMethod<
   WebAppsGetPremierAddOnSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29632, __c926, 0) as any as S.Schema<WebAppsGetPremierAddOnSlotRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsGetPremierAddOnSlotResponse>,
+  input: __S(29696, __c928, 0) as any as S.Schema<WebAppsGetPremierAddOnSlotRequest>,
+  output: __S(27264, __c852, 0) as any as S.Schema<WebAppsGetPremierAddOnSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35514,8 +35539,8 @@ export const WebAppsGetPrivateEndpointConnectionList: API.OperationMethod<
   WebAppsGetPrivateEndpointConnectionListError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29664, __c927, 0) as any as S.Schema<WebAppsGetPrivateEndpointConnectionListRequest>,
-  output: __S(30305, __c947, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
+  input: __S(29728, __c929, 0) as any as S.Schema<WebAppsGetPrivateEndpointConnectionListRequest>,
+  output: __S(30401, __c950, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35532,11 +35557,11 @@ export const WebAppsGetPrivateEndpointConnectionListSlot: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    29696,
-    __c928,
+    29760,
+    __c930,
     0,
   ) as any as S.Schema<WebAppsGetPrivateEndpointConnectionListSlotRequest>,
-  output: __S(30305, __c947, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
+  output: __S(30401, __c950, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35552,8 +35577,8 @@ export const WebAppsIsCloneable: API.OperationMethod<
   WebAppsIsCloneableError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29760, __c930, 0) as any as S.Schema<WebAppsIsCloneableRequest>,
-  output: __S(29794, __c931, 2) as any as S.Schema<SiteCloneability>,
+  input: __S(29824, __c932, 0) as any as S.Schema<WebAppsIsCloneableRequest>,
+  output: __S(29858, __c933, 2) as any as S.Schema<SiteCloneability>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35569,8 +35594,8 @@ export const WebAppsIsCloneableSlot: API.OperationMethod<
   WebAppsIsCloneableSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29824, __c932, 0) as any as S.Schema<WebAppsIsCloneableSlotRequest>,
-  output: __S(29794, __c931, 2) as any as S.Schema<SiteCloneability>,
+  input: __S(29888, __c934, 0) as any as S.Schema<WebAppsIsCloneableSlotRequest>,
+  output: __S(29858, __c933, 2) as any as S.Schema<SiteCloneability>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35586,8 +35611,8 @@ export const WebAppsListPremierAddOns: API.OperationMethod<
   WebAppsListPremierAddOnsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29856, __c933, 0) as any as S.Schema<WebAppsListPremierAddOnsRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsListPremierAddOnsResponse>,
+  input: __S(29920, __c935, 0) as any as S.Schema<WebAppsListPremierAddOnsRequest>,
+  output: __S(29952, __c936, 0) as any as S.Schema<WebAppsListPremierAddOnsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35603,8 +35628,8 @@ export const WebAppsListPremierAddOnsSlot: API.OperationMethod<
   WebAppsListPremierAddOnsSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29888, __c934, 0) as any as S.Schema<WebAppsListPremierAddOnsSlotRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsListPremierAddOnsSlotResponse>,
+  input: __S(29984, __c937, 0) as any as S.Schema<WebAppsListPremierAddOnsSlotRequest>,
+  output: __S(29952, __c936, 0) as any as S.Schema<WebAppsListPremierAddOnsSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35620,8 +35645,8 @@ export const WebAppsUpdatePremierAddOn: API.OperationMethod<
   WebAppsUpdatePremierAddOnError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29920, __c935, 0) as any as S.Schema<WebAppsUpdatePremierAddOnRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsUpdatePremierAddOnResponse>,
+  input: __S(30016, __c938, 0) as any as S.Schema<WebAppsUpdatePremierAddOnRequest>,
+  output: __S(29952, __c936, 0) as any as S.Schema<WebAppsUpdatePremierAddOnResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35637,8 +35662,8 @@ export const WebAppsUpdatePremierAddOnSlot: API.OperationMethod<
   WebAppsUpdatePremierAddOnSlotError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29952, __c936, 0) as any as S.Schema<WebAppsUpdatePremierAddOnSlotRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<WebAppsUpdatePremierAddOnSlotResponse>,
+  input: __S(30048, __c939, 0) as any as S.Schema<WebAppsUpdatePremierAddOnSlotRequest>,
+  output: __S(29952, __c936, 0) as any as S.Schema<WebAppsUpdatePremierAddOnSlotResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35654,8 +35679,8 @@ export const WorkflowTriggerHistoriesResubmit: API.OperationMethod<
   WorkflowTriggerHistoriesResubmitError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29984, __c937, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitRequest>,
-  output: __S(30720, __c960, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitResponse>,
+  input: __S(30080, __c940, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitRequest>,
+  output: __S(30816, __c963, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -35762,7 +35787,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           workerTierName: S.optional(S.String),
-          hostingEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          hostingEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           perSiteScaling: S.optional(S.Boolean),
           elasticScaleEnabled: S.optional(S.Boolean),
           maximumElasticWorkerCount: S.optional(S.Number),
@@ -35774,7 +35799,7 @@ function __c6(j: number): any {
           hyperV: S.optional(S.Boolean),
           targetWorkerCount: S.optional(S.Number),
           targetWorkerSizeId: S.optional(S.Number),
-          kubeEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          kubeEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           zoneRedundant: S.optional(S.Boolean),
           asyncScalingEnabled: S.optional(S.Boolean),
           planDefaultIdentity: S.optional(__S(224, __c7, 0)),
@@ -35795,7 +35820,7 @@ function __c6(j: number): any {
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
           properties: S.optional(__S(192, __c6, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           extendedLocation: S.optional(__S(256, __c8, 0)),
           kind: S.optional(S.String),
           identity: S.optional(__S(289, __c9, 1)),
@@ -35818,10 +35843,10 @@ function __c6(j: number): any {
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
           properties: S.optional(__S(234, __c7, 10)),
-          sku: S.optional(__S(24800, __c775, 0)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(15810, __c494, 2)),
+          identity: S.optional(__S(15842, __c495, 2)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "AppServicePlansCreateOrUpdateResponse" });
@@ -35893,7 +35918,7 @@ function __c7(j: number): any {
           workerTierName: S.optional(S.String),
           status: S.optional(S.String),
           subscription: S.optional(S.String),
-          hostingEnvironmentProfile: S.optional(__S(15840, __c495, 0)),
+          hostingEnvironmentProfile: S.optional(__S(15872, __c496, 0)),
           maximumNumberOfWorkers: S.optional(S.Number),
           numberOfWorkers: S.optional(S.Number),
           geoRegion: S.optional(S.String),
@@ -35911,7 +35936,7 @@ function __c7(j: number): any {
           targetWorkerCount: S.optional(S.Number),
           targetWorkerSizeId: S.optional(S.Number),
           provisioningState: S.optional(S.String),
-          kubeEnvironmentProfile: S.optional(__S(15840, __c495, 0)),
+          kubeEnvironmentProfile: S.optional(__S(15872, __c496, 0)),
           zoneRedundant: S.optional(S.Boolean),
           asyncScalingEnabled: S.optional(S.Boolean),
           planDefaultIdentity: S.optional(__S(224, __c7, 0)),
@@ -35980,11 +36005,11 @@ function __c11(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           issueDetected: S.optional(S.Boolean),
-          detectorDefinition: S.optional(__S(31104, __c972, 0)),
-          metrics: S.optional(__S(31080, __c971, 8)),
-          abnormalTimePeriods: S.optional(__S(31076, __c971, 4)),
-          data: S.optional(__S(31072, __c971, 0)),
-          responseMetaData: S.optional(__S(31082, __c971, 10)),
+          detectorDefinition: S.optional(__S(31200, __c975, 0)),
+          metrics: S.optional(__S(31176, __c974, 8)),
+          abnormalTimePeriods: S.optional(__S(31172, __c974, 4)),
+          data: S.optional(__S(31168, __c974, 0)),
+          responseMetaData: S.optional(__S(31178, __c974, 10)),
         }),
       ).annotate({ identifier: "DiagnosticDetectorResponseProperties" });
     case 1:
@@ -36112,7 +36137,7 @@ function __c17(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(20705, __c647, 1)),
+          properties: S.optional(__S(20737, __c648, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAppServiceEnvironmentResponse" });
@@ -36210,8 +36235,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          endpoints: S.optional(__S(11104, __c347, 0)),
-          ports: S.optional(__S(11104, __c347, 0)),
+          endpoints: S.optional(__S(11136, __c348, 0)),
+          ports: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "InboundEnvironmentEndpoint" });
     case 2:
@@ -36299,8 +36324,8 @@ function __c26(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(24832, __c776, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24864, __c777, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAppServiceEnvironmentMultiRolePoolResponse" });
@@ -36408,8 +36433,8 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(11104, __c347, 0)),
-          requiredZoneNames: S.optional(__S(11104, __c347, 0)),
+          requiredMembers: S.optional(__S(11136, __c348, 0)),
+          requiredZoneNames: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -36465,7 +36490,7 @@ function __c31(j: number): any {
         S.Struct({
           serviceIpAddress: S.optional(S.String),
           internalIpAddress: S.optional(S.String),
-          outboundIpAddresses: S.optional(__S(11104, __c347, 0)),
+          outboundIpAddresses: S.optional(__S(11136, __c348, 0)),
           vipMappings: S.optional(__S(994, __c31, 2)),
         }),
       ).annotate({ identifier: "AddressResponseProperties" });
@@ -36533,10 +36558,10 @@ function __c34(j: number): any {
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
           properties: S.optional(__S(234, __c7, 10)),
-          sku: S.optional(__S(24800, __c775, 0)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(15810, __c494, 2)),
+          identity: S.optional(__S(15842, __c495, 2)),
         }),
       ).annotate({ identifier: "GetAppServicePlanResponse" });
   }
@@ -36691,7 +36716,7 @@ function __c42(j: number): any {
         S.Struct({
           extendedCode: S.optional(S.String),
           messageTemplate: S.optional(S.String),
-          parameters: S.optional(__S(11104, __c347, 0)),
+          parameters: S.optional(__S(11136, __c348, 0)),
           innerErrors: S.optional(__S(1344, __c42, 0)),
           details: S.optional(__S(1344, __c42, 0)),
           target: S.optional(S.String),
@@ -37009,7 +37034,7 @@ function __c57(j: number): any {
           author: S.optional(S.String),
           category: S.optional(S.String),
           supportTopicList: S.optional(__S(1825, __c57, 1)),
-          analysisType: S.optional(__S(11104, __c347, 0)),
+          analysisType: S.optional(__S(11136, __c348, 0)),
           type: S.optional(S.String),
           score: S.optional(S.Number),
         }),
@@ -37025,7 +37050,7 @@ function __c57(j: number): any {
     case 4:
       return S.Array(__S(1827, __c57, 3));
     case 5:
-      return S.Array(__S(11104, __c347, 0));
+      return S.Array(__S(11136, __c348, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -37080,7 +37105,7 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          links: S.optional(__S(11104, __c347, 0)),
+          links: S.optional(__S(11136, __c348, 0)),
           qid: S.optional(S.String),
         }),
       ).annotate({ identifier: "SampleUtterance" });
@@ -37238,7 +37263,7 @@ function __c63(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(31104, __c972, 0)),
+          properties: S.optional(__S(31200, __c975, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDiagnosticSiteDetectorResponse2" });
@@ -37528,7 +37553,7 @@ function __c75(j: number): any {
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
           properties: S.optional(__S(2373, __c74, 5)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetKubeEnvironmentResponse" });
@@ -37565,7 +37590,7 @@ function __c77(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           friendlyName: S.optional(S.String),
           subjectName: S.optional(S.String),
-          hostNames: S.optional(__S(11104, __c347, 0)),
+          hostNames: S.optional(__S(11136, __c348, 0)),
           pfxBlob: S.optional(S.String),
           siteName: S.optional(S.String),
           selfLink: S.optional(S.String),
@@ -37576,7 +37601,7 @@ function __c77(j: number): any {
           valid: S.optional(S.Boolean),
           cerBlob: S.optional(S.String),
           publicKeyHash: S.optional(S.String),
-          hostingEnvironmentProfile: S.optional(__S(15840, __c495, 0)),
+          hostingEnvironmentProfile: S.optional(__S(15872, __c496, 0)),
           keyVaultId: S.optional(S.String),
           keyVaultSecretName: S.optional(S.String),
           keyVaultSecretStatus: S.optional(S.String),
@@ -37606,7 +37631,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          hostNames: S.optional(__S(11104, __c347, 0)),
+          hostNames: S.optional(__S(11136, __c348, 0)),
           pfxBlob: S.optional(S.String),
           keyVaultId: S.optional(S.String),
           keyVaultSecretName: S.optional(S.String),
@@ -37750,8 +37775,8 @@ function __c84(j: number): any {
           isPreview: S.optional(S.Boolean),
           isDeprecated: S.optional(S.Boolean),
           isHidden: S.optional(S.Boolean),
-          appSettingsDictionary: S.optional(__S(30624, __c957, 0)),
-          siteConfigPropertiesDictionary: S.optional(__S(30624, __c957, 0)),
+          appSettingsDictionary: S.optional(__S(30720, __c960, 0)),
+          siteConfigPropertiesDictionary: S.optional(__S(30720, __c960, 0)),
         }),
       ).annotate({ identifier: "StackMajorVersion" });
     case 3:
@@ -37845,7 +37870,7 @@ function __c87(j: number): any {
           gitHubActionSettings: S.optional(__S(2817, __c88, 1)),
           appSettingsDictionary: S.optional(__S(128, __c4, 0)),
           siteConfigPropertiesDictionary: S.optional(__S(2784, __c87, 0)),
-          supportedFunctionsExtensionVersions: S.optional(__S(11104, __c347, 0)),
+          supportedFunctionsExtensionVersions: S.optional(__S(11136, __c348, 0)),
           isPreview: S.optional(S.Boolean),
           isDeprecated: S.optional(S.Boolean),
           isHidden: S.optional(S.Boolean),
@@ -38166,7 +38191,7 @@ function __c97(j: number): any {
           actionName: S.optional(S.String),
           level: S.optional(S.String),
           channels: S.optional(S.String),
-          categoryTags: S.optional(__S(11104, __c347, 0)),
+          categoryTags: S.optional(__S(11136, __c348, 0)),
           isDynamic: S.optional(S.Boolean),
           extensionName: S.optional(S.String),
           bladeName: S.optional(S.String),
@@ -38381,8 +38406,8 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectedServerFarmsId: S.optional(__S(11104, __c347, 0)),
-          connectedSitesId: S.optional(__S(11104, __c347, 0)),
+          connectedServerFarmsId: S.optional(__S(11136, __c348, 0)),
+          connectedSitesId: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "ServerFarmSiloResourceAllocation" });
     case 3:
@@ -38476,8 +38501,8 @@ function __c110(j: number): any {
           issueType: S.optional(S.String),
           severity: S.optional(S.String),
           description: S.optional(S.String),
-          suggestedResourceIds: S.optional(__S(11104, __c347, 0)),
-          suggestedAccessRules: S.optional(__S(11104, __c347, 0)),
+          suggestedResourceIds: S.optional(__S(11136, __c348, 0)),
+          suggestedAccessRules: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "NspProvisioningIssueProperties" });
     case 1:
@@ -38508,27 +38533,27 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          features: S.optional(__S(11104, __c347, 0)),
+          features: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "NspProfileAccessRuleGranularFeature" });
     case 6:
       return S.Array(__S(3525, __c110, 5));
     case 7:
-      return S.Array(__S(11136, __c348, 0));
+      return S.Array(__S(11168, __c349, 0));
     case 8:
       return S.Array(__S(3523, __c110, 3));
     case 9:
       return S.suspend(() =>
         S.Struct({
           direction: S.optional(S.String),
-          addressPrefixes: S.optional(__S(11104, __c347, 0)),
-          serviceTags: S.optional(__S(11104, __c347, 0)),
+          addressPrefixes: S.optional(__S(11136, __c348, 0)),
+          serviceTags: S.optional(__S(11136, __c348, 0)),
           appliesTo: S.optional(__S(3526, __c110, 6)),
           subscriptions: S.optional(__S(3527, __c110, 7)),
           networkSecurityPerimeters: S.optional(__S(3528, __c110, 8)),
-          fullyQualifiedDomainNames: S.optional(__S(11104, __c347, 0)),
-          emailAddresses: S.optional(__S(11104, __c347, 0)),
-          phoneNumbers: S.optional(__S(11104, __c347, 0)),
+          fullyQualifiedDomainNames: S.optional(__S(11136, __c348, 0)),
+          emailAddresses: S.optional(__S(11136, __c348, 0)),
+          phoneNumbers: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "NspProfileAccessRuleProperties" });
     case 10:
@@ -38547,7 +38572,7 @@ function __c110(j: number): any {
           accessRulesVersion: S.optional(S.String),
           accessRules: S.optional(__S(3531, __c110, 11)),
           diagnosticSettingsVersion: S.optional(S.String),
-          enabledLogCategories: S.optional(__S(11104, __c347, 0)),
+          enabledLogCategories: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "NspProfile" });
     case 13:
@@ -38810,7 +38835,7 @@ function __c120(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretUrl: S.optional(S.String),
           applicableEnvironmentsMode: S.String,
-          environments: S.optional(__S(11104, __c347, 0)),
+          environments: S.optional(__S(11136, __c348, 0)),
           secretState: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteBasicAuthPropertiesARMResourceProperties" });
@@ -39287,8 +39312,8 @@ function __c144(j: number): any {
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          staticSiteProperties: S.optional(__S(4741, __c148, 5)),
-          error: S.optional(__S(4768, __c149, 0)),
+          staticSiteProperties: S.optional(__S(4740, __c148, 4)),
+          error: S.optional(__S(4800, __c150, 0)),
         }),
       ).annotate({ identifier: "StaticSitesOperationStatusProperties" });
     case 2:
@@ -39366,24 +39391,14 @@ function __c148(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          publisher: S.optional(S.String),
-          product: S.optional(S.String),
-          promotionCode: S.optional(S.String),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ArmPlan" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(11201, __c350, 1)),
+          properties: S.optional(__S(11233, __c351, 1)),
         }),
       ).annotate({ identifier: "RemotePrivateEndpointConnection" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -39391,18 +39406,18 @@ function __c148(j: number): any {
           type: S.optional(S.String),
           location: S.optional(S.String),
           tags: S.optional(__S(128, __c4, 0)),
-          plan: S.optional(__S(4736, __c148, 0)),
-          properties: S.optional(__S(4737, __c148, 1)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          plan: S.optional(__S(4768, __c149, 0)),
+          properties: S.optional(__S(4736, __c148, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           status: S.optional(S.String),
           error: S.optional(__S(1345, __c42, 1)),
-          identity: S.optional(__S(15810, __c494, 2)),
-          zones: S.optional(__S(11104, __c347, 0)),
+          identity: S.optional(__S(15842, __c495, 2)),
+          zones: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "ResponseMessageEnvelopeRemotePrivateEndpointConnection" });
+    case 2:
+      return S.Array(__S(4737, __c148, 1));
     case 3:
-      return S.Array(__S(4738, __c148, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           templateRepositoryUrl: S.optional(S.String),
@@ -39412,19 +39427,19 @@ function __c148(j: number): any {
           isPrivate: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StaticSiteTemplateOptions" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           defaultHostname: S.optional(S.String),
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
-          customDomains: S.optional(__S(11104, __c347, 0)),
+          customDomains: S.optional(__S(11136, __c348, 0)),
           repositoryToken: S.optional(S.String),
           buildProperties: S.optional(__S(4704, __c147, 0)),
-          privateEndpointConnections: S.optional(__S(4739, __c148, 3)),
+          privateEndpointConnections: S.optional(__S(4738, __c148, 2)),
           stagingEnvironmentPolicy: S.optional(S.String),
           allowConfigFileUpdates: S.optional(S.Boolean),
-          templateProperties: S.optional(__S(4740, __c148, 4)),
+          templateProperties: S.optional(__S(4739, __c148, 3)),
           contentDistributionEndpoint: S.optional(S.String),
           keyVaultReferenceIdentity: S.optional(S.String),
           userProvidedFunctionApps: S.optional(__S(4673, __c146, 1)),
@@ -39442,12 +39457,26 @@ function __c149(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(4800, __c150, 0)),
+          name: S.optional(S.String),
+          publisher: S.optional(S.String),
+          product: S.optional(S.String),
+          promotionCode: S.optional(S.String),
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ArmPlan" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39458,7 +39487,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ErrorProperties" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39477,7 +39506,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetStaticSiteStaticSiteRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39488,15 +39517,15 @@ function __c152(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(4741, __c148, 5)),
+          properties: S.optional(__S(4740, __c148, 4)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(24800, __c775, 0)),
-          identity: S.optional(__S(15810, __c494, 2)),
+          sku: S.optional(__S(24832, __c776, 0)),
+          identity: S.optional(__S(15842, __c495, 2)),
         }),
       ).annotate({ identifier: "GetStaticSiteStaticSiteResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39516,7 +39545,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetStaticSiteStaticSiteBuildRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39540,13 +39569,13 @@ function __c154(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(4928, __c154, 0)),
+          properties: S.optional(__S(4960, __c155, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetStaticSiteStaticSiteBuildResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39568,7 +39597,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "CreateStaticSiteZipDeploymentForStaticSiteBuildRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39586,17 +39615,17 @@ function __c156(j: number): any {
         ),
       ).annotate({ identifier: "GetStaticSiteStaticSiteBuildsRequest" });
     case 1:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(4993, __c156, 1),
+          value: __S(5025, __c157, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteBuildCollection" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39616,7 +39645,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetStaticSiteStaticSiteCustomDomainRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39625,13 +39654,13 @@ function __c158(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(5088, __c159, 0)),
+          properties: S.optional(__S(5120, __c160, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetStaticSiteStaticSiteCustomDomainResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39645,7 +39674,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "StaticSiteCustomDomainOverviewARMResourceProperties" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39663,20 +39692,20 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetStaticSiteStaticSitesByResourceGroupRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4864, __c152, 0));
+      return S.Array(__S(4896, __c153, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5152, __c161, 0),
+          value: __S(5184, __c162, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteCollection" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39696,7 +39725,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetStaticSiteUserProvidedFunctionAppForStaticSiteRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39711,7 +39740,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetStaticSiteUserProvidedFunctionAppForStaticSiteResponse" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39732,7 +39761,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetStaticSiteUserProvidedFunctionAppForStaticSiteBuildRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39751,20 +39780,20 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetStaticSiteUserProvidedFunctionAppsForStaticSiteRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5216, __c163, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5312, __c166, 0),
+          value: __S(5344, __c167, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteUserProvidedFunctionAppsCollection" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39784,7 +39813,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuildRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39800,7 +39829,7 @@ function __c168(j: number): any {
         ),
       ).annotate({ identifier: "GetSubscriptionDeploymentLocationsRequest" });
     case 1:
-      return S.Array(__S(20705, __c647, 1));
+      return S.Array(__S(20737, __c648, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -39809,18 +39838,18 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "HostingEnvironmentDeploymentInfo" });
     case 3:
-      return S.Array(__S(5378, __c168, 2));
+      return S.Array(__S(5410, __c169, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(5410, __c169, 2)),
-          hostingEnvironments: S.optional(__S(5377, __c168, 1)),
-          hostingEnvironmentDeploymentInfos: S.optional(__S(5379, __c168, 3)),
+          locations: S.optional(__S(5442, __c170, 2)),
+          hostingEnvironments: S.optional(__S(5409, __c169, 1)),
+          hostingEnvironmentDeploymentInfos: S.optional(__S(5411, __c169, 3)),
         }),
       ).annotate({ identifier: "DeploymentLocations" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39837,14 +39866,14 @@ function __c169(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(5440, __c170, 0)),
         }),
       ).annotate({ identifier: "GeoRegion" });
     case 2:
-      return S.Array(__S(5409, __c169, 1));
+      return S.Array(__S(5441, __c170, 1));
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39863,7 +39892,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetWebAppRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39883,7 +39912,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetWebAppAppSettingKeyVaultReferenceRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39893,7 +39922,7 @@ function __c172(j: number): any {
           vaultName: S.optional(S.String),
           secretName: S.optional(S.String),
           secretVersion: S.optional(S.String),
-          identityType: S.optional(__S(15810, __c494, 2)),
+          identityType: S.optional(__S(15842, __c495, 2)),
           details: S.optional(S.String),
           source: S.optional(S.String),
           activeVersion: S.optional(S.String),
@@ -39906,13 +39935,13 @@ function __c172(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(5504, __c172, 0)),
+          properties: S.optional(__S(5536, __c173, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppAppSettingKeyVaultReferenceResponse" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39921,7 +39950,7 @@ function __c173(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5568, __c174, 0)),
+          properties: S.optional(__S(5600, __c175, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -39934,7 +39963,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "CreateWebAppDeploymentRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39957,13 +39986,13 @@ function __c174(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(5568, __c174, 0)),
+          properties: S.optional(__S(5600, __c175, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateWebAppDeploymentResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39984,7 +40013,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetWebAppAppSettingKeyVaultReferenceSlotRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40003,20 +40032,20 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetWebAppAppSettingsKeyVaultReferencesRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5505, __c172, 1));
+      return S.Array(__S(5537, __c173, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5664, __c177, 0),
+          value: __S(5696, __c178, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiKVReferenceCollection" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40036,7 +40065,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetWebAppAppSettingsKeyVaultReferencesSlotRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40055,7 +40084,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40064,7 +40093,7 @@ function __c180(j: number): any {
           runtimeVersion: S.optional(S.String),
           unauthenticatedClientAction: S.optional(S.String),
           tokenStoreEnabled: S.optional(S.Boolean),
-          allowedExternalRedirectUrls: S.optional(__S(11104, __c347, 0)),
+          allowedExternalRedirectUrls: S.optional(__S(11136, __c348, 0)),
           defaultProvider: S.optional(S.String),
           tokenRefreshExtensionHours: S.optional(S.Number),
           clientId: S.optional(S.String),
@@ -40073,28 +40102,28 @@ function __c180(j: number): any {
           clientSecretCertificateThumbprint: S.optional(S.String),
           issuer: S.optional(S.String),
           validateIssuer: S.optional(S.Boolean),
-          allowedAudiences: S.optional(__S(11104, __c347, 0)),
-          additionalLoginParams: S.optional(__S(11104, __c347, 0)),
+          allowedAudiences: S.optional(__S(11136, __c348, 0)),
+          additionalLoginParams: S.optional(__S(11136, __c348, 0)),
           aadClaimsAuthorization: S.optional(S.String),
           googleClientId: S.optional(S.String),
           googleClientSecret: S.optional(S.String),
           googleClientSecretSettingName: S.optional(S.String),
-          googleOAuthScopes: S.optional(__S(11104, __c347, 0)),
+          googleOAuthScopes: S.optional(__S(11136, __c348, 0)),
           facebookAppId: S.optional(S.String),
           facebookAppSecret: S.optional(S.String),
           facebookAppSecretSettingName: S.optional(S.String),
-          facebookOAuthScopes: S.optional(__S(11104, __c347, 0)),
+          facebookOAuthScopes: S.optional(__S(11136, __c348, 0)),
           gitHubClientId: S.optional(S.String),
           gitHubClientSecret: S.optional(S.String),
           gitHubClientSecretSettingName: S.optional(S.String),
-          gitHubOAuthScopes: S.optional(__S(11104, __c347, 0)),
+          gitHubOAuthScopes: S.optional(__S(11136, __c348, 0)),
           twitterConsumerKey: S.optional(S.String),
           twitterConsumerSecret: S.optional(S.String),
           twitterConsumerSecretSettingName: S.optional(S.String),
           microsoftAccountClientId: S.optional(S.String),
           microsoftAccountClientSecret: S.optional(S.String),
           microsoftAccountClientSecretSettingName: S.optional(S.String),
-          microsoftAccountOAuthScopes: S.optional(__S(11104, __c347, 0)),
+          microsoftAccountOAuthScopes: S.optional(__S(11136, __c348, 0)),
           isAuthFromFile: S.optional(S.String),
           authFilePath: S.optional(S.String),
           configVersion: S.optional(S.String),
@@ -40107,12 +40136,12 @@ function __c180(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5760, __c180, 0)),
+          properties: S.optional(__S(5792, __c181, 0)),
         }),
       ).annotate({ identifier: "GetWebAppAuthSettingsResponse" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40132,7 +40161,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsSlotRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40151,7 +40180,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsV2Request" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40167,7 +40196,7 @@ function __c183(j: number): any {
           requireAuthentication: S.optional(S.Boolean),
           unauthenticatedClientAction: S.optional(S.String),
           redirectToProvider: S.optional(S.String),
-          excludedPaths: S.optional(__S(11104, __c347, 0)),
+          excludedPaths: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "GlobalValidation" });
     case 2:
@@ -40184,46 +40213,46 @@ function __c183(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          loginParameters: S.optional(__S(11104, __c347, 0)),
+          loginParameters: S.optional(__S(11136, __c348, 0)),
           disableWWWAuthenticate: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AzureActiveDirectoryLogin" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          allowedGroups: S.optional(__S(11104, __c347, 0)),
-          allowedClientApplications: S.optional(__S(11104, __c347, 0)),
+          allowedGroups: S.optional(__S(11136, __c348, 0)),
+          allowedClientApplications: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "JwtClaimChecks" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(11104, __c347, 0)),
-          identities: S.optional(__S(11104, __c347, 0)),
+          groups: S.optional(__S(11136, __c348, 0)),
+          identities: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "AllowedPrincipals" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          allowedPrincipals: S.optional(__S(5861, __c183, 5)),
-          allowedApplications: S.optional(__S(11104, __c347, 0)),
+          allowedPrincipals: S.optional(__S(5893, __c184, 5)),
+          allowedApplications: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "DefaultAuthorizationPolicy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          jwtClaimChecks: S.optional(__S(5860, __c183, 4)),
-          allowedAudiences: S.optional(__S(11104, __c347, 0)),
-          defaultAuthorizationPolicy: S.optional(__S(5862, __c183, 6)),
+          jwtClaimChecks: S.optional(__S(5892, __c184, 4)),
+          allowedAudiences: S.optional(__S(11136, __c348, 0)),
+          defaultAuthorizationPolicy: S.optional(__S(5894, __c184, 6)),
         }),
       ).annotate({ identifier: "AzureActiveDirectoryValidation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5858, __c183, 2)),
-          login: S.optional(__S(5859, __c183, 3)),
-          validation: S.optional(__S(5863, __c183, 7)),
+          registration: S.optional(__S(5890, __c184, 2)),
+          login: S.optional(__S(5891, __c184, 3)),
+          validation: S.optional(__S(5895, __c184, 7)),
           isAutoProvisioned: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AzureActiveDirectory" });
@@ -40237,16 +40266,16 @@ function __c183(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(11104, __c347, 0)),
+          scopes: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "LoginScopes" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5865, __c183, 9)),
+          registration: S.optional(__S(5897, __c184, 9)),
           graphApiVersion: S.optional(S.String),
-          login: S.optional(__S(5866, __c183, 10)),
+          login: S.optional(__S(5898, __c184, 10)),
         }),
       ).annotate({ identifier: "Facebook" });
     case 12:
@@ -40260,23 +40289,23 @@ function __c183(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5868, __c183, 12)),
-          login: S.optional(__S(5866, __c183, 10)),
+          registration: S.optional(__S(5900, __c184, 12)),
+          login: S.optional(__S(5898, __c184, 10)),
         }),
       ).annotate({ identifier: "GitHub" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          allowedAudiences: S.optional(__S(11104, __c347, 0)),
+          allowedAudiences: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "AllowedAudiencesValidation" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5868, __c183, 12)),
-          login: S.optional(__S(5866, __c183, 10)),
-          validation: S.optional(__S(5870, __c183, 14)),
+          registration: S.optional(__S(5900, __c184, 12)),
+          login: S.optional(__S(5898, __c184, 10)),
+          validation: S.optional(__S(5902, __c184, 14)),
         }),
       ).annotate({ identifier: "Google" });
     case 16:
@@ -40290,7 +40319,7 @@ function __c183(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5872, __c183, 16)),
+          registration: S.optional(__S(5904, __c184, 16)),
         }),
       ).annotate({ identifier: "Twitter" });
     case 18:
@@ -40303,7 +40332,7 @@ function __c183(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5874, __c183, 18)),
+          registration: S.optional(__S(5906, __c184, 18)),
         }),
       ).annotate({ identifier: "AzureStaticWebApps" });
     case 20:
@@ -40327,39 +40356,39 @@ function __c183(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
-          clientCredential: S.optional(__S(5876, __c183, 20)),
-          openIdConnectConfiguration: S.optional(__S(5877, __c183, 21)),
+          clientCredential: S.optional(__S(5908, __c184, 20)),
+          openIdConnectConfiguration: S.optional(__S(5909, __c184, 21)),
         }),
       ).annotate({ identifier: "OpenIdConnectRegistration" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           nameClaimType: S.optional(S.String),
-          scopes: S.optional(__S(11104, __c347, 0)),
+          scopes: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "OpenIdConnectLogin" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          registration: S.optional(__S(5878, __c183, 22)),
-          login: S.optional(__S(5879, __c183, 23)),
+          registration: S.optional(__S(5910, __c184, 22)),
+          login: S.optional(__S(5911, __c184, 23)),
         }),
       ).annotate({ identifier: "CustomOpenIdConnectProvider" });
     case 25:
-      return S.Record(S.String, __S(5880, __c183, 24));
+      return S.Record(S.String, __S(5912, __c184, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          azureActiveDirectory: S.optional(__S(5864, __c183, 8)),
-          facebook: S.optional(__S(5867, __c183, 11)),
-          gitHub: S.optional(__S(5869, __c183, 13)),
-          google: S.optional(__S(5871, __c183, 15)),
-          legacyMicrosoftAccount: S.optional(__S(5871, __c183, 15)),
-          twitter: S.optional(__S(5873, __c183, 17)),
-          apple: S.optional(__S(5869, __c183, 13)),
-          azureStaticWebApps: S.optional(__S(5875, __c183, 19)),
-          customOpenIdConnectProviders: S.optional(__S(5881, __c183, 25)),
+          azureActiveDirectory: S.optional(__S(5896, __c184, 8)),
+          facebook: S.optional(__S(5899, __c184, 11)),
+          gitHub: S.optional(__S(5901, __c184, 13)),
+          google: S.optional(__S(5903, __c184, 15)),
+          legacyMicrosoftAccount: S.optional(__S(5903, __c184, 15)),
+          twitter: S.optional(__S(5905, __c184, 17)),
+          apple: S.optional(__S(5901, __c184, 13)),
+          azureStaticWebApps: S.optional(__S(5907, __c184, 19)),
+          customOpenIdConnectProviders: S.optional(__S(5913, __c184, 25)),
         }),
       ).annotate({ identifier: "IdentityProviders" });
     case 27:
@@ -40385,8 +40414,8 @@ function __c183(j: number): any {
         S.Struct({
           enabled: S.optional(S.Boolean),
           tokenRefreshExtensionHours: S.optional(S.Number),
-          fileSystem: S.optional(__S(5884, __c183, 28)),
-          azureBlobStorage: S.optional(__S(5885, __c183, 29)),
+          fileSystem: S.optional(__S(5916, __c184, 28)),
+          azureBlobStorage: S.optional(__S(5917, __c184, 29)),
         }),
       ).annotate({ identifier: "TokenStore" });
     case 31:
@@ -40398,7 +40427,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "CookieExpiration" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40410,12 +40439,12 @@ function __c184(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(5883, __c183, 27)),
-          tokenStore: S.optional(__S(5886, __c183, 30)),
+          routes: S.optional(__S(5915, __c184, 27)),
+          tokenStore: S.optional(__S(5918, __c184, 30)),
           preserveUrlFragmentsForLogins: S.optional(S.Boolean),
-          allowedExternalRedirectUrls: S.optional(__S(11104, __c347, 0)),
-          cookieExpiration: S.optional(__S(5887, __c183, 31)),
-          nonce: S.optional(__S(5888, __c184, 0)),
+          allowedExternalRedirectUrls: S.optional(__S(11136, __c348, 0)),
+          cookieExpiration: S.optional(__S(5919, __c184, 31)),
+          nonce: S.optional(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "Login" });
     case 2:
@@ -40436,18 +40465,18 @@ function __c184(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requireHttps: S.optional(S.Boolean),
-          routes: S.optional(__S(5890, __c184, 2)),
-          forwardProxy: S.optional(__S(5891, __c184, 3)),
+          routes: S.optional(__S(5922, __c185, 2)),
+          forwardProxy: S.optional(__S(5923, __c185, 3)),
         }),
       ).annotate({ identifier: "HttpSettings" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          platform: S.optional(__S(5856, __c183, 0)),
-          globalValidation: S.optional(__S(5857, __c183, 1)),
-          identityProviders: S.optional(__S(5882, __c183, 26)),
-          login: S.optional(__S(5889, __c184, 1)),
-          httpSettings: S.optional(__S(5892, __c184, 4)),
+          platform: S.optional(__S(5888, __c184, 0)),
+          globalValidation: S.optional(__S(5889, __c184, 1)),
+          identityProviders: S.optional(__S(5914, __c184, 26)),
+          login: S.optional(__S(5921, __c185, 1)),
+          httpSettings: S.optional(__S(5924, __c185, 4)),
         }),
       ).annotate({ identifier: "SiteAuthSettingsV2Properties" });
     case 6:
@@ -40457,13 +40486,13 @@ function __c184(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(5893, __c184, 5)),
+          properties: S.optional(__S(5925, __c185, 5)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppAuthSettingsV2Response" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40483,7 +40512,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsV2SlotRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40502,7 +40531,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsV2WithoutSecretsRequest" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40522,7 +40551,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetWebAppAuthSettingsV2WithoutSecretsSlotRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40541,7 +40570,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetWebAppBackupConfigurationRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40553,10 +40582,10 @@ function __c189(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseBackupSetting" });
     case 1:
-      return S.Array(__S(6048, __c189, 0));
+      return S.Array(__S(6080, __c190, 0));
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40575,8 +40604,8 @@ function __c190(j: number): any {
           backupName: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           storageAccountUrl: S.String,
-          backupSchedule: S.optional(__S(6080, __c190, 0)),
-          databases: S.optional(__S(6049, __c189, 1)),
+          backupSchedule: S.optional(__S(6112, __c191, 0)),
+          databases: S.optional(__S(6081, __c190, 1)),
         }),
       ).annotate({ identifier: "BackupRequestProperties" });
     case 2:
@@ -40586,12 +40615,12 @@ function __c190(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6081, __c190, 1)),
+          properties: S.optional(__S(6113, __c191, 1)),
         }),
       ).annotate({ identifier: "GetWebAppBackupConfigurationResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40613,7 +40642,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "ApplyWebAppSlotConfigurationSlotRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40623,7 +40652,7 @@ function __c192(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5568, __c174, 0)),
+          properties: S.optional(__S(5600, __c175, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -40636,7 +40665,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "CreateWebAppDeploymentSlotRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40656,7 +40685,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetWebAppBackupConfigurationSlotRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40676,7 +40705,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetWebAppBackupStatusRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40689,7 +40718,7 @@ function __c195(j: number): any {
           sizeInBytes: S.optional(S.Number),
           created: S.optional(S.String),
           log: S.optional(S.String),
-          databases: S.optional(__S(6049, __c189, 1)),
+          databases: S.optional(__S(6081, __c190, 1)),
           scheduled: S.optional(S.Boolean),
           lastRestoreTimeStamp: S.optional(S.String),
           finishedTimeStamp: S.optional(S.String),
@@ -40704,13 +40733,13 @@ function __c195(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6240, __c195, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppBackupStatusResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40731,7 +40760,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetWebAppBackupStatusSlotRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40750,7 +40779,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetWebAppConfigurationRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40759,13 +40788,13 @@ function __c198(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(15965, __c498, 29)),
+          properties: S.optional(__S(15997, __c499, 29)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppConfigurationResponse" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40785,7 +40814,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetWebAppConfigurationSlotRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40805,7 +40834,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetWebAppConfigurationSnapshotRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40826,7 +40855,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetWebAppConfigurationSnapshotSlotRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40845,7 +40874,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetWebAppContainerLogsZipRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40865,7 +40894,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetWebAppContainerLogsZipSlotRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40885,7 +40914,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetWebAppContinuousWebJobRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40899,7 +40928,7 @@ function __c205(j: number): any {
           web_job_type: S.optional(S.String),
           error: S.optional(S.String),
           using_sdk: S.optional(S.Boolean),
-          settings: S.optional(__S(30624, __c957, 0)),
+          settings: S.optional(__S(30720, __c960, 0)),
         }),
       ).annotate({ identifier: "ContinuousWebJobProperties" });
     case 1:
@@ -40909,13 +40938,13 @@ function __c205(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6560, __c205, 0)),
+          properties: S.optional(__S(6592, __c206, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppContinuousWebJobResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40924,7 +40953,7 @@ function __c206(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           functionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6656, __c208, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -40937,7 +40966,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "CreateWebAppFunctionRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40946,7 +40975,7 @@ function __c207(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6656, __c208, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -40954,7 +40983,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CreateWebAppFunctionResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40976,7 +41005,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "FunctionEnvelopeProperties" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40997,7 +41026,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetWebAppContinuousWebJobSlotRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41017,7 +41046,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "GetWebAppDeploymentRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41038,7 +41067,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetWebAppDeploymentSlotRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41057,7 +41086,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetWebAppDiagnosticLogsConfigurationRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41083,9 +41112,9 @@ function __c213(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fileSystem: S.optional(__S(6816, __c213, 0)),
-          azureTableStorage: S.optional(__S(6817, __c213, 1)),
-          azureBlobStorage: S.optional(__S(6818, __c213, 2)),
+          fileSystem: S.optional(__S(6848, __c214, 0)),
+          azureTableStorage: S.optional(__S(6849, __c214, 1)),
+          azureBlobStorage: S.optional(__S(6850, __c214, 2)),
         }),
       ).annotate({ identifier: "ApplicationLogsConfig" });
     case 4:
@@ -41107,8 +41136,8 @@ function __c213(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fileSystem: S.optional(__S(6820, __c213, 4)),
-          azureBlobStorage: S.optional(__S(6821, __c213, 5)),
+          fileSystem: S.optional(__S(6852, __c214, 4)),
+          azureBlobStorage: S.optional(__S(6853, __c214, 5)),
         }),
       ).annotate({ identifier: "HttpLogsConfig" });
     case 7:
@@ -41120,10 +41149,10 @@ function __c213(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          applicationLogs: S.optional(__S(6819, __c213, 3)),
-          httpLogs: S.optional(__S(6822, __c213, 6)),
-          failedRequestsTracing: S.optional(__S(6823, __c213, 7)),
-          detailedErrorMessages: S.optional(__S(6823, __c213, 7)),
+          applicationLogs: S.optional(__S(6851, __c214, 3)),
+          httpLogs: S.optional(__S(6854, __c214, 6)),
+          failedRequestsTracing: S.optional(__S(6855, __c214, 7)),
+          detailedErrorMessages: S.optional(__S(6855, __c214, 7)),
         }),
       ).annotate({ identifier: "SiteLogsConfigProperties" });
     case 9:
@@ -41133,13 +41162,13 @@ function __c213(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6824, __c213, 8)),
+          properties: S.optional(__S(6856, __c214, 8)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppDiagnosticLogsConfigurationResponse" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41159,7 +41188,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetWebAppDiagnosticLogsConfigurationSlotRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41179,7 +41208,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "GetWebAppDomainOwnershipIdentifierRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41194,13 +41223,13 @@ function __c216(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6912, __c216, 0)),
+          properties: S.optional(__S(6944, __c217, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppDomainOwnershipIdentifierResponse" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41221,7 +41250,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetWebAppDomainOwnershipIdentifierSlotRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41240,7 +41269,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetWebAppFtpAllowedRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41255,13 +41284,13 @@ function __c219(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7008, __c219, 0)),
+          properties: S.optional(__S(7040, __c220, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppFtpAllowedResponse" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41281,7 +41310,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetWebAppFtpAllowedSlotRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41301,7 +41330,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetWebAppFunctionRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41310,13 +41339,13 @@ function __c222(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6656, __c208, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppFunctionResponse" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41326,7 +41355,7 @@ function __c223(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           functionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6656, __c208, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -41339,7 +41368,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateWebAppInstanceFunctionSlotRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41358,7 +41387,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetWebAppFunctionsAdminTokenRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -41366,7 +41395,7 @@ function __c225(j: number): any {
       });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41386,7 +41415,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetWebAppFunctionsAdminTokenSlotRequest" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41406,7 +41435,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetWebAppHostNameBindingRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41429,13 +41458,13 @@ function __c228(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7296, __c228, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppHostNameBindingResponse" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41456,7 +41485,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetWebAppHostNameBindingSlotRequest" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41477,7 +41506,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetWebAppHybridConnectionRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41499,7 +41528,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetWebAppHybridConnectionSlotRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41520,7 +41549,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceFunctionSlotRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41540,19 +41569,19 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceInfoRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           totalUsage: S.optional(S.Number),
-          perCpuUsage: S.optional(__S(7488, __c234, 0)),
+          perCpuUsage: S.optional(__S(7520, __c235, 0)),
           kernelModeUsage: S.optional(S.Number),
           userModeUsage: S.optional(S.Number),
         }),
@@ -41568,10 +41597,10 @@ function __c235(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cpuUsage: S.optional(__S(7520, __c235, 0)),
+          cpuUsage: S.optional(__S(7552, __c236, 0)),
           systemCpuUsage: S.optional(S.Number),
           onlineCpuCount: S.optional(S.Number),
-          throttlingData: S.optional(__S(7521, __c235, 1)),
+          throttlingData: S.optional(__S(7553, __c236, 1)),
         }),
       ).annotate({ identifier: "ContainerCpuStatistics" });
     case 3:
@@ -41600,16 +41629,16 @@ function __c235(j: number): any {
         S.Struct({
           currentTimeStamp: S.optional(S.String),
           previousTimeStamp: S.optional(S.String),
-          currentCpuStats: S.optional(__S(7522, __c235, 2)),
-          previousCpuStats: S.optional(__S(7522, __c235, 2)),
-          memoryStats: S.optional(__S(7523, __c235, 3)),
+          currentCpuStats: S.optional(__S(7554, __c236, 2)),
+          previousCpuStats: S.optional(__S(7554, __c236, 2)),
+          memoryStats: S.optional(__S(7555, __c236, 3)),
           name: S.optional(S.String),
           id: S.optional(S.String),
-          eth0: S.optional(__S(7524, __c235, 4)),
+          eth0: S.optional(__S(7556, __c236, 4)),
         }),
       ).annotate({ identifier: "ContainerInfo" });
     case 6:
-      return S.Record(S.String, __S(7525, __c235, 5));
+      return S.Record(S.String, __S(7557, __c236, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -41618,7 +41647,7 @@ function __c235(j: number): any {
           detectorUrl: S.optional(S.String),
           consoleUrl: S.optional(S.String),
           healthCheckUrl: S.optional(S.String),
-          containers: S.optional(__S(7526, __c235, 6)),
+          containers: S.optional(__S(7558, __c236, 6)),
           physicalZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebSiteInstanceStatusProperties" });
@@ -41629,13 +41658,13 @@ function __c235(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7527, __c235, 7)),
+          properties: S.optional(__S(7559, __c236, 7)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppInstanceInfoResponse" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41656,7 +41685,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceInfoSlotRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41677,7 +41706,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41702,19 +41731,19 @@ function __c238(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7616, __c238, 0)),
+          properties: S.optional(__S(7648, __c239, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessModuleInfo" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7617, __c238, 1));
+      return S.Array(__S(7649, __c239, 1));
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41740,14 +41769,14 @@ function __c240(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7680, __c240, 0)),
+          properties: S.optional(__S(7712, __c241, 0)),
         }),
       ).annotate({ identifier: "ProcessThreadInfo" });
     case 2:
-      return S.Array(__S(7681, __c240, 1));
+      return S.Array(__S(7713, __c241, 1));
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41760,10 +41789,10 @@ function __c241(j: number): any {
           is_iis_profile_running: S.optional(S.Boolean),
           iis_profile_timeout_in_seconds: S.optional(S.Number),
           parent: S.optional(S.String),
-          children: S.optional(__S(11104, __c347, 0)),
-          threads: S.optional(__S(7682, __c240, 2)),
-          open_file_handles: S.optional(__S(11104, __c347, 0)),
-          modules: S.optional(__S(7648, __c239, 0)),
+          children: S.optional(__S(11136, __c348, 0)),
+          threads: S.optional(__S(7714, __c241, 2)),
+          open_file_handles: S.optional(__S(11136, __c348, 0)),
+          modules: S.optional(__S(7680, __c240, 0)),
           file_name: S.optional(S.String),
           command_line: S.optional(S.String),
           user_name: S.optional(S.String),
@@ -41797,13 +41826,13 @@ function __c241(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7712, __c241, 0)),
+          properties: S.optional(__S(7744, __c242, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppInstanceProcessResponse" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41822,7 +41851,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41843,7 +41872,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessDumpRequest" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41865,7 +41894,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessDumpSlotRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41887,7 +41916,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessModuleRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41910,7 +41939,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessModuleSlotRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41932,7 +41961,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceProcessSlotRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41953,7 +41982,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetWebAppInstanceWorkflowSlotRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41965,9 +41994,9 @@ function __c249(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(30624, __c957, 0)),
+          files: S.optional(__S(30720, __c960, 0)),
           flowState: S.optional(S.String),
-          health: S.optional(__S(7968, __c249, 0)),
+          health: S.optional(__S(8000, __c250, 0)),
         }),
       ).annotate({ identifier: "WorkflowEnvelopeProperties" });
     case 2:
@@ -41977,14 +42006,14 @@ function __c249(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7969, __c249, 1)),
+          properties: S.optional(__S(8001, __c250, 1)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppInstanceWorkflowSlotResponse" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42004,7 +42033,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTraceOperationRequest" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42015,14 +42044,14 @@ function __c251(j: number): any {
         }),
       ).annotate({ identifier: "NetworkTrace" });
     case 1:
-      return S.Array(__S(8032, __c251, 0));
+      return S.Array(__S(8064, __c252, 0));
     case 2:
-      return S.suspend(() => __S(8033, __c251, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8065, __c252, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetWebAppNetworkTraceOperationResponse",
       });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42043,7 +42072,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTraceOperationSlotRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42064,7 +42093,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTraceOperationSlotV2Request" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42084,7 +42113,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTraceOperationV2Request" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42104,7 +42133,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "DeleteAppServiceEnvironmentRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42124,7 +42153,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTracesRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42145,7 +42174,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTracesSlotRequest" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42166,7 +42195,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTracesSlotV2Request" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42186,7 +42215,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "GetWebAppNetworkTracesV2Request" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42205,7 +42234,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateAccessRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42215,23 +42244,23 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "PrivateAccessSubnet" });
     case 1:
-      return S.Array(__S(8352, __c261, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           key: S.optional(S.Number),
           resourceId: S.optional(S.String),
-          subnets: S.optional(__S(8353, __c261, 1)),
+          subnets: S.optional(__S(8385, __c262, 1)),
         }),
       ).annotate({ identifier: "PrivateAccessVirtualNetwork" });
     case 3:
-      return S.Array(__S(8354, __c261, 2));
+      return S.Array(__S(8386, __c262, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          virtualNetworks: S.optional(__S(8355, __c261, 3)),
+          virtualNetworks: S.optional(__S(8387, __c262, 3)),
         }),
       ).annotate({ identifier: "PrivateAccessProperties" });
     case 5:
@@ -42241,13 +42270,13 @@ function __c261(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(8356, __c261, 4)),
+          properties: S.optional(__S(8388, __c262, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppPrivateAccessResponse" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42267,7 +42296,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateAccessSlotRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42287,7 +42316,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateEndpointConnectionRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42308,7 +42337,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateEndpointConnectionSlotRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42327,7 +42356,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateLinkResourcesRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42347,7 +42376,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "GetWebAppPrivateLinkResourcesSlotRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42368,7 +42397,7 @@ function __c267(j: number): any {
       });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -42376,7 +42405,7 @@ function __c268(j: number): any {
       });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42396,7 +42425,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42416,7 +42445,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessDumpRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42437,7 +42466,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessDumpSlotRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42458,7 +42487,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessModuleRequest" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42480,7 +42509,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessModuleSlotRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42501,7 +42530,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "GetWebAppProcessSlotRequest" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42521,7 +42550,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetWebAppProductionSiteDeploymentStatusRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42530,14 +42559,14 @@ function __c276(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(8864, __c277, 0)),
+          properties: S.optional(__S(8896, __c278, 0)),
           kind: S.optional(S.String),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "GetWebAppProductionSiteDeploymentStatusResponse" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42547,13 +42576,13 @@ function __c277(j: number): any {
           numberOfInstancesInProgress: S.optional(S.Number),
           numberOfInstancesSuccessful: S.optional(S.Number),
           numberOfInstancesFailed: S.optional(S.Number),
-          failedInstancesLogs: S.optional(__S(11104, __c347, 0)),
+          failedInstancesLogs: S.optional(__S(11136, __c348, 0)),
           errors: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "CsmDeploymentStatusProperties" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42573,7 +42602,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "GetWebAppPublicCertificateRequest" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42590,13 +42619,13 @@ function __c279(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(8928, __c279, 0)),
+          properties: S.optional(__S(8960, __c280, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppPublicCertificateResponse" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42617,7 +42646,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetWebAppPublicCertificateSlotRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42637,7 +42666,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetWebAppRelayServiceConnectionRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42658,13 +42687,13 @@ function __c282(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9024, __c282, 0)),
+          properties: S.optional(__S(9056, __c283, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppRelayServiceConnectionResponse" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42684,7 +42713,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeleteAppServiceEnvironmentPrivateEndpointConnectionRequest" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42705,7 +42734,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetWebAppRelayServiceConnectionSlotRequest" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42724,7 +42753,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetWebAppScmAllowedRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42744,7 +42773,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetWebAppScmAllowedSlotRequest" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42764,7 +42793,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteConnectionStringKeyVaultReferenceRequest" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42783,7 +42812,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteConnectionStringKeyVaultReferencesRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42804,7 +42833,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteConnectionStringKeyVaultReferenceSlotRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42824,7 +42853,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteConnectionStringKeyVaultReferencesSlotRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42844,7 +42873,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteContainerRequest" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42856,7 +42885,7 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "VolumeMount" });
     case 1:
-      return S.Array(__S(9344, __c292, 0));
+      return S.Array(__S(9376, __c293, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -42865,7 +42894,7 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 3:
-      return S.Array(__S(9346, __c292, 2));
+      return S.Array(__S(9378, __c293, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -42879,9 +42908,9 @@ function __c292(j: number): any {
           userManagedIdentityClientId: S.optional(S.String),
           createdTime: S.optional(S.String),
           lastModifiedTime: S.optional(S.String),
-          volumeMounts: S.optional(__S(9345, __c292, 1)),
+          volumeMounts: S.optional(__S(9377, __c293, 1)),
           inheritAppSettingsAndConnectionStrings: S.optional(S.Boolean),
-          environmentVariables: S.optional(__S(9347, __c292, 3)),
+          environmentVariables: S.optional(__S(9379, __c293, 3)),
         }),
       ).annotate({ identifier: "SiteContainerProperties" });
     case 5:
@@ -42891,13 +42920,13 @@ function __c292(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9348, __c292, 4)),
+          properties: S.optional(__S(9380, __c293, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppSiteContainerResponse" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42918,7 +42947,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteContainerSlotRequest" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42938,7 +42967,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteExtensionRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42952,7 +42981,7 @@ function __c295(j: number): any {
           icon_url: S.optional(S.String),
           license_url: S.optional(S.String),
           feed_url: S.optional(S.String),
-          authors: S.optional(__S(11104, __c347, 0)),
+          authors: S.optional(__S(11136, __c348, 0)),
           installer_command_line_params: S.optional(S.String),
           published_date_time: S.optional(S.String),
           download_count: S.optional(S.Number),
@@ -42967,7 +42996,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "SiteExtensionInfoProperties" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42976,13 +43005,13 @@ function __c296(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9440, __c295, 0)),
+          properties: S.optional(__S(9472, __c296, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppSiteExtensionResponse" });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43001,7 +43030,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteAppServicePlanRequest" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43022,7 +43051,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetWebAppSiteExtensionSlotRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43041,7 +43070,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "GetWebAppSitePhpErrorLogFlagRequest" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43059,12 +43088,12 @@ function __c300(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(9600, __c300, 0)),
+          properties: S.optional(__S(9632, __c301, 0)),
         }),
       ).annotate({ identifier: "GetWebAppSitePhpErrorLogFlagResponse" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43084,7 +43113,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetWebAppSitePhpErrorLogFlagSlotRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43104,7 +43133,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "GetWebAppSlotRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43125,7 +43154,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetWebAppSlotSiteDeploymentStatusSlotRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43144,7 +43173,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "GetWebAppSourceControlRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43153,13 +43182,13 @@ function __c305(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppSourceControlResponse" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43180,8 +43209,8 @@ function __c306(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          codeConfiguration: S.optional(__S(9792, __c306, 0)),
-          containerConfiguration: S.optional(__S(9793, __c306, 1)),
+          codeConfiguration: S.optional(__S(9824, __c307, 0)),
+          containerConfiguration: S.optional(__S(9825, __c307, 1)),
           isLinux: S.optional(S.Boolean),
           generateWorkflowFile: S.optional(S.Boolean),
         }),
@@ -43195,12 +43224,12 @@ function __c306(j: number): any {
           isGitHubAction: S.optional(S.Boolean),
           deploymentRollbackEnabled: S.optional(S.Boolean),
           isMercurial: S.optional(S.Boolean),
-          gitHubActionConfiguration: S.optional(__S(9794, __c306, 2)),
+          gitHubActionConfiguration: S.optional(__S(9826, __c307, 2)),
         }),
       ).annotate({ identifier: "SiteSourceControlProperties" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43220,7 +43249,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "GetWebAppSourceControlSlotRequest" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43239,7 +43268,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "GetWebAppSwiftVirtualNetworkConnectionRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43259,7 +43288,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "GetWebAppSwiftVirtualNetworkConnectionSlotRequest" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43279,7 +43308,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "GetWebAppTriggeredWebJobRequest" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43299,12 +43328,12 @@ function __c311(j: number): any {
       ).annotate({ identifier: "TriggeredJobRun" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          latest_run: S.optional(__S(9952, __c311, 0)),
+          latest_run: S.optional(__S(9984, __c312, 0)),
           history_url: S.optional(S.String),
           scheduler_logs_url: S.optional(S.String),
           run_command: S.optional(S.String),
@@ -43315,7 +43344,7 @@ function __c312(j: number): any {
           using_sdk: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
           storageAccountRequired: S.optional(S.Boolean),
-          settings: S.optional(__S(30624, __c957, 0)),
+          settings: S.optional(__S(30720, __c960, 0)),
         }),
       ).annotate({ identifier: "TriggeredWebJobProperties" });
     case 1:
@@ -43325,13 +43354,13 @@ function __c312(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9984, __c312, 0)),
+          properties: S.optional(__S(10016, __c313, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppTriggeredWebJobResponse" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43352,7 +43381,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DeleteAppServicePlanHybridConnectionRequest" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43373,14 +43402,14 @@ function __c314(j: number): any {
       ).annotate({ identifier: "GetWebAppTriggeredWebJobHistoryRequest" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9952, __c311, 0));
+      return S.Array(__S(9984, __c312, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          runs: S.optional(__S(10080, __c315, 0)),
+          runs: S.optional(__S(10112, __c316, 0)),
         }),
       ).annotate({ identifier: "TriggeredJobHistoryProperties" });
     case 2:
@@ -43390,13 +43419,13 @@ function __c315(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(10081, __c315, 1)),
+          properties: S.optional(__S(10113, __c316, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppTriggeredWebJobHistoryResponse" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43418,7 +43447,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "GetWebAppTriggeredWebJobHistorySlotRequest" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43439,7 +43468,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "GetWebAppTriggeredWebJobSlotRequest" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43459,7 +43488,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "GetWebAppVnetConnectionRequest" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43480,7 +43509,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetWebAppVnetConnectionGatewayRequest" });
   }
 }
-function __c320(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43502,7 +43531,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GetWebAppVnetConnectionGatewaySlotRequest" });
   }
 }
-function __c321(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43523,7 +43552,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "GetWebAppVnetConnectionSlotRequest" });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43543,7 +43572,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "GetWebAppWebJobRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43554,7 +43583,7 @@ function __c323(j: number): any {
           web_job_type: S.optional(S.String),
           error: S.optional(S.String),
           using_sdk: S.optional(S.Boolean),
-          settings: S.optional(__S(30624, __c957, 0)),
+          settings: S.optional(__S(30720, __c960, 0)),
         }),
       ).annotate({ identifier: "WebJobProperties" });
     case 1:
@@ -43564,13 +43593,13 @@ function __c323(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(10336, __c323, 0)),
+          properties: S.optional(__S(10368, __c324, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWebAppWebJobResponse" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43591,7 +43620,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "GetWebAppWebJobSlotRequest" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43610,7 +43639,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "GetWebAppWebSiteContainerLogsRequest" });
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43631,7 +43660,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "DeleteAppServicePlanVnetRouteRequest" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43651,7 +43680,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "GetWebAppWebSiteContainerLogsSlotRequest" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43671,7 +43700,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetWebAppWorkflowRequest" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43692,7 +43721,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunRequest" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43707,13 +43736,13 @@ function __c330(j: number): any {
           uri: S.optional(S.String),
           contentVersion: S.optional(S.String),
           contentSize: S.optional(S.Number),
-          contentHash: S.optional(__S(10560, __c330, 0)),
+          contentHash: S.optional(__S(10592, __c331, 0)),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ContentLink" });
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43723,21 +43752,21 @@ function __c331(j: number): any {
       ).annotate({ identifier: "Correlation" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           inputs: S.optional(S.Unknown),
-          inputsLink: S.optional(__S(10561, __c330, 1)),
+          inputsLink: S.optional(__S(10593, __c331, 1)),
           outputs: S.optional(S.Unknown),
-          outputsLink: S.optional(__S(10561, __c330, 1)),
+          outputsLink: S.optional(__S(10593, __c331, 1)),
           scheduledTime: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           trackingId: S.optional(S.String),
-          correlation: S.optional(__S(10592, __c331, 0)),
+          correlation: S.optional(__S(10624, __c332, 0)),
           code: S.optional(S.String),
           status: S.optional(S.String),
           error: S.optional(S.Unknown),
@@ -43755,7 +43784,7 @@ function __c332(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowOutputParameter" });
     case 2:
-      return S.Record(S.String, __S(10625, __c332, 1));
+      return S.Record(S.String, __S(10657, __c333, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -43766,11 +43795,11 @@ function __c332(j: number): any {
           code: S.optional(S.String),
           error: S.optional(S.Unknown),
           correlationId: S.optional(S.String),
-          correlation: S.optional(__S(10592, __c331, 0)),
-          workflow: S.optional(__S(15840, __c495, 0)),
-          trigger: S.optional(__S(10624, __c332, 0)),
-          outputs: S.optional(__S(10626, __c332, 2)),
-          response: S.optional(__S(10624, __c332, 0)),
+          correlation: S.optional(__S(10624, __c332, 0)),
+          workflow: S.optional(__S(15872, __c496, 0)),
+          trigger: S.optional(__S(10656, __c333, 0)),
+          outputs: S.optional(__S(10658, __c333, 2)),
+          response: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "WorkflowRunProperties" });
     case 4:
@@ -43780,12 +43809,12 @@ function __c332(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(10627, __c332, 3)),
+          properties: S.optional(__S(10659, __c333, 3)),
         }),
       ).annotate({ identifier: "GetWorkflowRunResponse" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43807,13 +43836,13 @@ function __c333(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunActionRequest" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientTrackingId: S.optional(S.String),
-          clientKeywords: S.optional(__S(11104, __c347, 0)),
+          clientKeywords: S.optional(__S(11136, __c348, 0)),
           actionTrackingId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunActionCorrelation" });
@@ -43825,14 +43854,14 @@ function __c334(j: number): any {
           code: S.optional(S.String),
           clientRequestId: S.optional(S.String),
           serviceRequestId: S.optional(S.String),
-          error: S.optional(__S(4768, __c149, 0)),
+          error: S.optional(__S(4800, __c150, 0)),
         }),
       ).annotate({ identifier: "RetryHistory" });
     case 2:
-      return S.Array(__S(10689, __c334, 1));
+      return S.Array(__S(10721, __c335, 1));
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43843,11 +43872,11 @@ function __c335(j: number): any {
           code: S.optional(S.String),
           error: S.optional(S.Unknown),
           trackingId: S.optional(S.String),
-          correlation: S.optional(__S(10688, __c334, 0)),
-          inputsLink: S.optional(__S(10561, __c330, 1)),
-          outputsLink: S.optional(__S(10561, __c330, 1)),
+          correlation: S.optional(__S(10720, __c335, 0)),
+          inputsLink: S.optional(__S(10593, __c331, 1)),
+          outputsLink: S.optional(__S(10593, __c331, 1)),
           trackedProperties: S.optional(S.Unknown),
-          retryHistory: S.optional(__S(10690, __c334, 2)),
+          retryHistory: S.optional(__S(10722, __c335, 2)),
         }),
       ).annotate({ identifier: "WorkflowRunActionProperties" });
     case 1:
@@ -43857,12 +43886,12 @@ function __c335(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(10720, __c335, 0)),
+          properties: S.optional(__S(10752, __c336, 0)),
         }),
       ).annotate({ identifier: "GetWorkflowRunActionResponse" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43885,7 +43914,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunActionRepetitionRequest" });
   }
 }
-function __c337(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43895,25 +43924,25 @@ function __c337(j: number): any {
         }),
       ).annotate({ identifier: "RepetitionIndex" });
     case 1:
-      return S.Array(__S(10784, __c337, 0));
+      return S.Array(__S(10816, __c338, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          correlation: S.optional(__S(10688, __c334, 0)),
+          correlation: S.optional(__S(10720, __c335, 0)),
           status: S.optional(S.String),
           code: S.optional(S.String),
           error: S.optional(S.Unknown),
           trackingId: S.optional(S.String),
           inputs: S.optional(S.Unknown),
-          inputsLink: S.optional(__S(10561, __c330, 1)),
+          inputsLink: S.optional(__S(10593, __c331, 1)),
           outputs: S.optional(S.Unknown),
-          outputsLink: S.optional(__S(10561, __c330, 1)),
+          outputsLink: S.optional(__S(10593, __c331, 1)),
           trackedProperties: S.optional(S.Unknown),
-          retryHistory: S.optional(__S(10690, __c334, 2)),
+          retryHistory: S.optional(__S(10722, __c335, 2)),
           iterationCount: S.optional(S.Number),
-          repetitionIndexes: S.optional(__S(10785, __c337, 1)),
+          repetitionIndexes: S.optional(__S(10817, __c338, 1)),
         }),
       ).annotate({ identifier: "WorkflowRunActionRepetitionProperties" });
     case 3:
@@ -43925,12 +43954,12 @@ function __c337(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: __S(10786, __c337, 2),
+          properties: __S(10818, __c338, 2),
         }),
       ).annotate({ identifier: "GetWorkflowRunActionRepetitionResponse" });
   }
 }
-function __c338(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43954,7 +43983,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunActionRepetitionsRequestHistoryRequest" });
   }
 }
-function __c339(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43969,7 +43998,7 @@ function __c339(j: number): any {
         S.Struct({
           headers: S.optional(S.Unknown),
           statusCode: S.optional(S.Number),
-          bodyLink: S.optional(__S(10561, __c330, 1)),
+          bodyLink: S.optional(__S(10593, __c331, 1)),
         }),
       ).annotate({ identifier: "Response" });
     case 2:
@@ -43977,8 +44006,8 @@ function __c339(j: number): any {
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          request: S.optional(__S(10848, __c339, 0)),
-          response: S.optional(__S(10849, __c339, 1)),
+          request: S.optional(__S(10880, __c340, 0)),
+          response: S.optional(__S(10881, __c340, 1)),
         }),
       ).annotate({ identifier: "RequestHistoryProperties" });
     case 3:
@@ -43990,12 +44019,12 @@ function __c339(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(10850, __c339, 2)),
+          properties: S.optional(__S(10882, __c340, 2)),
         }),
       ).annotate({ identifier: "GetWorkflowRunActionRepetitionsRequestHistoryResponse" });
   }
 }
-function __c340(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44018,7 +44047,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunActionScopeRepetitionRequest" });
   }
 }
-function __c341(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44039,7 +44068,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "GetWorkflowTriggerRequest" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -44051,15 +44080,15 @@ function __c342(j: number): any {
         }),
       ).annotate({ identifier: "RecurrenceScheduleOccurrence" });
     case 2:
-      return S.Array(__S(10945, __c342, 1));
+      return S.Array(__S(10977, __c343, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          minutes: S.optional(__S(7488, __c234, 0)),
-          hours: S.optional(__S(7488, __c234, 0)),
-          weekDays: S.optional(__S(10944, __c342, 0)),
-          monthDays: S.optional(__S(7488, __c234, 0)),
-          monthlyOccurrences: S.optional(__S(10946, __c342, 2)),
+          minutes: S.optional(__S(7520, __c235, 0)),
+          hours: S.optional(__S(7520, __c235, 0)),
+          weekDays: S.optional(__S(10976, __c343, 0)),
+          monthDays: S.optional(__S(7520, __c235, 0)),
+          monthlyOccurrences: S.optional(__S(10978, __c343, 2)),
         }),
       ).annotate({ identifier: "RecurrenceSchedule" });
     case 4:
@@ -44070,7 +44099,7 @@ function __c342(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           timeZone: S.optional(S.String),
-          schedule: S.optional(__S(10947, __c342, 3)),
+          schedule: S.optional(__S(10979, __c343, 3)),
         }),
       ).annotate({ identifier: "WorkflowTriggerRecurrence" });
     case 5:
@@ -44083,8 +44112,8 @@ function __c342(j: number): any {
           status: S.optional(S.String),
           lastExecutionTime: S.optional(S.String),
           nextExecutionTime: S.optional(S.String),
-          recurrence: S.optional(__S(10948, __c342, 4)),
-          workflow: S.optional(__S(15840, __c495, 0)),
+          recurrence: S.optional(__S(10980, __c343, 4)),
+          workflow: S.optional(__S(15872, __c496, 0)),
         }),
       ).annotate({ identifier: "WorkflowTriggerProperties" });
     case 6:
@@ -44094,12 +44123,12 @@ function __c342(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(10949, __c342, 5)),
+          properties: S.optional(__S(10981, __c343, 5)),
         }),
       ).annotate({ identifier: "GetWorkflowTriggerResponse" });
   }
 }
-function __c343(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44121,7 +44150,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "GetWorkflowTriggerHistoryRequest" });
   }
 }
-function __c344(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44133,11 +44162,11 @@ function __c344(j: number): any {
           code: S.optional(S.String),
           error: S.optional(S.Unknown),
           trackingId: S.optional(S.String),
-          correlation: S.optional(__S(10592, __c331, 0)),
-          inputsLink: S.optional(__S(10561, __c330, 1)),
-          outputsLink: S.optional(__S(10561, __c330, 1)),
+          correlation: S.optional(__S(10624, __c332, 0)),
+          inputsLink: S.optional(__S(10593, __c331, 1)),
+          outputsLink: S.optional(__S(10593, __c331, 1)),
           fired: S.optional(S.Boolean),
-          run: S.optional(__S(15840, __c495, 0)),
+          run: S.optional(__S(15872, __c496, 0)),
         }),
       ).annotate({ identifier: "WorkflowTriggerHistoryProperties" });
     case 1:
@@ -44147,12 +44176,12 @@ function __c344(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(11008, __c344, 0)),
+          properties: S.optional(__S(11040, __c345, 0)),
         }),
       ).annotate({ identifier: "GetWorkflowTriggerHistoryResponse" });
   }
 }
-function __c345(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44180,7 +44209,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "JsonSchema" });
   }
 }
-function __c346(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44189,7 +44218,7 @@ function __c346(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11168, __c349, 0)),
+          properties: S.optional(__S(11200, __c350, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -44204,13 +44233,13 @@ function __c346(j: number): any {
       });
   }
 }
-function __c347(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c348(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44220,14 +44249,14 @@ function __c348(j: number): any {
       ).annotate({ identifier: "ArmIdWrapper" });
   }
 }
-function __c349(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           privateEndpoint: S.optional(__S(32, __c1, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(11200, __c350, 0)),
-          ipAddresses: S.optional(__S(11104, __c347, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(11232, __c351, 0)),
+          ipAddresses: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "RemotePrivateEndpointConnectionARMResourcePropertiesInput" });
     case 1:
@@ -44237,7 +44266,7 @@ function __c349(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(11201, __c350, 1)),
+          properties: S.optional(__S(11233, __c351, 1)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -44246,7 +44275,7 @@ function __c349(j: number): any {
       });
   }
 }
-function __c350(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44260,14 +44289,14 @@ function __c350(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          privateEndpoint: S.optional(__S(11136, __c348, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(11200, __c350, 0)),
-          ipAddresses: S.optional(__S(11104, __c347, 0)),
+          privateEndpoint: S.optional(__S(11168, __c349, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(11232, __c351, 0)),
+          ipAddresses: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "RemotePrivateEndpointConnectionARMResourceProperties" });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44286,7 +44315,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44307,13 +44336,13 @@ function __c352(j: number): any {
       ).annotate({ identifier: "GetWorkflowVersionRequest" });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          plan: S.optional(__S(15840, __c495, 0)),
+          plan: S.optional(__S(15872, __c496, 0)),
         }),
       ).annotate({ identifier: "WorkflowSku" });
     case 1:
@@ -44325,12 +44354,12 @@ function __c353(j: number): any {
           state: S.optional(S.String),
           version: S.optional(S.String),
           accessEndpoint: S.optional(S.String),
-          endpointsConfiguration: S.optional(__S(11331, __c354, 3)),
-          accessControl: S.optional(__S(11338, __c354, 10)),
-          sku: S.optional(__S(11296, __c353, 0)),
-          integrationAccount: S.optional(__S(15840, __c495, 0)),
+          endpointsConfiguration: S.optional(__S(11363, __c355, 3)),
+          accessControl: S.optional(__S(11370, __c355, 10)),
+          sku: S.optional(__S(11328, __c354, 0)),
+          integrationAccount: S.optional(__S(15872, __c496, 0)),
           definition: S.optional(S.Unknown),
-          parameters: S.optional(__S(11340, __c354, 12)),
+          parameters: S.optional(__S(11372, __c355, 12)),
         }),
       ).annotate({ identifier: "WorkflowVersionProperties" });
     case 2:
@@ -44342,12 +44371,12 @@ function __c353(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(11297, __c353, 1)),
+          properties: S.optional(__S(11329, __c354, 1)),
         }),
       ).annotate({ identifier: "GetWorkflowVersionResponse" });
   }
 }
-function __c354(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44356,19 +44385,19 @@ function __c354(j: number): any {
         }),
       ).annotate({ identifier: "IpAddress" });
     case 1:
-      return S.Array(__S(11328, __c354, 0));
+      return S.Array(__S(11360, __c355, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          outgoingIpAddresses: S.optional(__S(11329, __c354, 1)),
-          accessEndpointIpAddresses: S.optional(__S(11329, __c354, 1)),
+          outgoingIpAddresses: S.optional(__S(11361, __c355, 1)),
+          accessEndpointIpAddresses: S.optional(__S(11361, __c355, 1)),
         }),
       ).annotate({ identifier: "FlowEndpoints" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workflow: S.optional(__S(11330, __c354, 2)),
-          connector: S.optional(__S(11330, __c354, 2)),
+          workflow: S.optional(__S(11362, __c355, 2)),
+          connector: S.optional(__S(11362, __c355, 2)),
         }),
       ).annotate({ identifier: "FlowEndpointsConfiguration" });
     case 4:
@@ -44378,36 +44407,36 @@ function __c354(j: number): any {
         }),
       ).annotate({ identifier: "IpAddressRange" });
     case 5:
-      return S.Array(__S(11332, __c354, 4));
+      return S.Array(__S(11364, __c355, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          claims: S.optional(__S(16096, __c503, 0)),
+          claims: S.optional(__S(16128, __c504, 0)),
         }),
       ).annotate({ identifier: "OpenAuthenticationAccessPolicy" });
     case 7:
-      return S.Record(S.String, __S(11334, __c354, 6));
+      return S.Record(S.String, __S(11366, __c355, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(11335, __c354, 7)),
+          policies: S.optional(__S(11367, __c355, 7)),
         }),
       ).annotate({ identifier: "OpenAuthenticationAccessPolicies" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          allowedCallerIpAddresses: S.optional(__S(11333, __c354, 5)),
-          openAuthenticationPolicies: S.optional(__S(11336, __c354, 8)),
+          allowedCallerIpAddresses: S.optional(__S(11365, __c355, 5)),
+          openAuthenticationPolicies: S.optional(__S(11368, __c355, 8)),
         }),
       ).annotate({ identifier: "FlowAccessControlConfigurationPolicy" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(11337, __c354, 9)),
-          contents: S.optional(__S(11337, __c354, 9)),
-          actions: S.optional(__S(11337, __c354, 9)),
-          workflowManagement: S.optional(__S(11337, __c354, 9)),
+          triggers: S.optional(__S(11369, __c355, 9)),
+          contents: S.optional(__S(11369, __c355, 9)),
+          actions: S.optional(__S(11369, __c355, 9)),
+          workflowManagement: S.optional(__S(11369, __c355, 9)),
         }),
       ).annotate({ identifier: "FlowAccessControlConfiguration" });
     case 11:
@@ -44420,10 +44449,10 @@ function __c354(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowParameter" });
     case 12:
-      return S.Record(S.String, __S(11339, __c354, 11));
+      return S.Record(S.String, __S(11371, __c355, 11));
   }
 }
-function __c355(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44444,7 +44473,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "InstallWebAppSiteExtensionRequest" });
   }
 }
-function __c356(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44453,7 +44482,7 @@ function __c356(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9440, __c295, 0)),
+          properties: S.optional(__S(9472, __c296, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -44461,7 +44490,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "InstallWebAppSiteExtensionResponse" });
   }
 }
-function __c357(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44483,7 +44512,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "InstallWebAppSiteExtensionSlotRequest" });
   }
 }
-function __c358(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44505,7 +44534,7 @@ function __c358(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(11456, __c358, 0)),
+          properties: S.optional(__S(11488, __c359, 0)),
           extendedLocation: S.optional(__S(256, __c8, 0)),
           kind: S.optional(S.String),
         }).pipe(
@@ -44527,7 +44556,7 @@ function __c358(j: number): any {
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
           properties: S.optional(__S(2373, __c74, 5)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -44535,7 +44564,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "KubeEnvironmentsCreateOrUpdateResponse" });
   }
 }
-function __c359(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44554,7 +44583,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "LastKnownGoodResourcesMarkLastKnownGoodRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44565,9 +44594,9 @@ function __c360(j: number): any {
           skip: S.optional(S.Number.pipe(T.Query())),
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          select: S.optional(__S(11104, __c347, 0).pipe(T.Query())),
-          expand: S.optional(__S(11104, __c347, 0).pipe(T.Query())),
-          orderby: S.optional(__S(11104, __c347, 0).pipe(T.Query())),
+          select: S.optional(__S(11136, __c348, 0).pipe(T.Query())),
+          expand: S.optional(__S(11136, __c348, 0).pipe(T.Query())),
+          orderby: S.optional(__S(11136, __c348, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -44579,20 +44608,20 @@ function __c360(j: number): any {
       ).annotate({ identifier: "ListAiGatewayByResourceGroupRequest" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(65, __c2, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11552, __c361, 0),
+          value: __S(11584, __c362, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayListResult" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44609,7 +44638,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "ListAiGatewayBySubscriptionRequest" });
   }
 }
-function __c363(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44628,20 +44657,20 @@ function __c363(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentAppServicePlansRequest" });
   }
 }
-function __c364(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1088, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11648, __c364, 0),
+          value: __S(11680, __c365, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppServicePlanCollection" });
   }
 }
-function __c365(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44659,20 +44688,20 @@ function __c365(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentByResourceGroupRequest" });
   }
 }
-function __c366(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(544, __c17, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11712, __c366, 0),
+          value: __S(11744, __c367, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppServiceEnvironmentCollection" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44706,17 +44735,17 @@ function __c367(j: number): any {
         }),
       ).annotate({ identifier: "StampCapacity" });
     case 2:
-      return S.Array(__S(11745, __c367, 1));
+      return S.Array(__S(11777, __c368, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11746, __c367, 2),
+          value: __S(11778, __c368, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StampCapacityCollection" });
   }
 }
-function __c368(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44735,7 +44764,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "DeleteKubeEnvironmentRequest" });
   }
 }
-function __c369(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44755,12 +44784,12 @@ function __c369(j: number): any {
     case 1:
       return S.Array(__S(672, __c21, 0));
     case 2:
-      return S.suspend(() => __S(11809, __c369, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(11841, __c370, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServiceEnvironmentDiagnosticsResponse",
       });
   }
 }
-function __c370(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44779,7 +44808,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentMultiRoleMetricDefinitionsRequest" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44789,13 +44818,13 @@ function __c371(j: number): any {
         }),
       ).annotate({ identifier: "ResourceMetricAvailability" });
     case 1:
-      return S.Array(__S(11872, __c371, 0));
+      return S.Array(__S(11904, __c372, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unit: S.optional(S.String),
           primaryAggregationType: S.optional(S.String),
-          metricAvailabilities: S.optional(__S(11873, __c371, 1)),
+          metricAvailabilities: S.optional(__S(11905, __c372, 1)),
           resourceUri: S.optional(S.String),
           properties: S.optional(__S(128, __c4, 0)),
         }),
@@ -44807,21 +44836,21 @@ function __c371(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(11874, __c371, 2)),
+          properties: S.optional(__S(11906, __c372, 2)),
         }),
       ).annotate({ identifier: "ResourceMetricDefinition" });
     case 4:
-      return S.Array(__S(11875, __c371, 3));
+      return S.Array(__S(11907, __c372, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11876, __c371, 4),
+          value: __S(11908, __c372, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceMetricDefinitionCollection" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44843,7 +44872,7 @@ function __c372(j: number): any {
       });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44862,20 +44891,20 @@ function __c373(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentMultiRolePoolsRequest" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(832, __c26, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11968, __c374, 0),
+          value: __S(12000, __c375, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerPoolCollection" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44894,28 +44923,28 @@ function __c375(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentMultiRolePoolSkusRequest" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          sku: S.optional(__S(24800, __c775, 0)),
-          capacity: S.optional(__S(24768, __c774, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
+          capacity: S.optional(__S(24800, __c775, 0)),
         }),
       ).annotate({ identifier: "SkuInfo" });
     case 1:
-      return S.Array(__S(12032, __c376, 0));
+      return S.Array(__S(12064, __c377, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12033, __c376, 1),
+          value: __S(12065, __c377, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuInfoCollection" });
   }
 }
-function __c377(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44934,7 +44963,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentMultiRoleUsagesRequest" });
   }
 }
-function __c378(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44956,21 +44985,21 @@ function __c378(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12096, __c378, 0)),
+          properties: S.optional(__S(12128, __c379, 0)),
         }),
       ).annotate({ identifier: "Usage" });
     case 2:
-      return S.Array(__S(12097, __c378, 1));
+      return S.Array(__S(12129, __c379, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12098, __c378, 2),
+          value: __S(12130, __c379, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageCollection" });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44990,12 +45019,12 @@ function __c379(j: number): any {
     case 1:
       return S.Array(__S(1408, __c44, 0));
     case 2:
-      return S.suspend(() => __S(12129, __c379, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12161, __c380, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServiceEnvironmentOperationsResponse",
       });
   }
 }
-function __c380(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45012,7 +45041,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentsRequest" });
   }
 }
-function __c381(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45032,7 +45061,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentUsagesRequest" });
   }
 }
-function __c382(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45048,21 +45077,21 @@ function __c382(j: number): any {
           nextResetTime: S.optional(S.String),
           currentValue: S.optional(S.Number),
           limit: S.optional(S.Number),
-          name: S.optional(__S(12224, __c382, 0)),
+          name: S.optional(__S(12256, __c383, 0)),
         }),
       ).annotate({ identifier: "CsmUsageQuota" });
     case 2:
-      return S.Array(__S(12225, __c382, 1));
+      return S.Array(__S(12257, __c383, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12226, __c382, 2),
+          value: __S(12258, __c383, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsmUsageQuotaCollection" });
   }
 }
-function __c383(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45082,18 +45111,18 @@ function __c383(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentWebAppsRequest" });
   }
 }
-function __c384(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16032, __c501, 0),
+          value: __S(16064, __c502, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebAppCollection" });
   }
 }
-function __c385(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45113,7 +45142,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "DeleteServerFarmSiloResourceServerFarmSiloRequest" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45133,7 +45162,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentWebWorkerMetricDefinitionsRequest" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45153,7 +45182,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentWebWorkerUsagesRequest" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45176,7 +45205,7 @@ function __c388(j: number): any {
       });
   }
 }
-function __c389(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45195,7 +45224,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentWorkerPoolsRequest" });
   }
 }
-function __c390(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45215,7 +45244,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "ListAppServiceEnvironmentWorkerPoolSkusRequest" });
   }
 }
-function __c391(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45233,7 +45262,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "ListAppServicePlanByResourceGroupRequest" });
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45251,12 +45280,12 @@ function __c392(j: number): any {
         ),
       ).annotate({ identifier: "ListAppServicePlanCapabilitiesRequest" });
     case 1:
-      return S.suspend(() => __S(24737, __c773, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(24769, __c774, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServicePlanCapabilitiesResponse",
       });
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45289,12 +45318,12 @@ function __c393(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12577, __c393, 1)),
+          properties: S.optional(__S(12609, __c394, 1)),
         }),
       ).annotate({ identifier: "ListAppServicePlanHybridConnectionKeysResponse" });
   }
 }
-function __c394(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45314,19 +45343,19 @@ function __c394(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12640, __c395, 0),
+          value: __S(12672, __c396, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HybridConnectionCollection" });
   }
 }
-function __c395(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1153, __c36, 1));
   }
 }
-function __c396(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45346,7 +45375,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "ListAppServicePlanRoutesForVnetRequest" });
   }
 }
-function __c397(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45366,7 +45395,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "DeleteSiteCertificateRequest" });
   }
 }
-function __c398(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45384,7 +45413,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "ListAppServicePlansRequest" });
   }
 }
-function __c399(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45404,7 +45433,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "ListAppServicePlanUsagesRequest" });
   }
 }
-function __c400(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45423,17 +45452,17 @@ function __c400(j: number): any {
       ).annotate({ identifier: "ListAppServicePlanVnetsRequest" });
   }
 }
-function __c401(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1600, __c50, 0));
     case 1:
-      return S.suspend(() => __S(12832, __c401, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12864, __c402, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServicePlanVnetsResponse",
       });
   }
 }
-function __c402(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45455,7 +45484,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "ListAppServicePlanWebAppsRequest" });
   }
 }
-function __c403(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45477,13 +45506,13 @@ function __c403(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11104, __c347, 0),
+          value: __S(11136, __c348, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceCollection" });
   }
 }
-function __c404(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45505,8 +45534,8 @@ function __c404(j: number): any {
           standard: S.optional(S.Boolean),
           dedicatedHost: S.optional(S.Boolean),
           zoneRedundant: S.optional(S.Boolean),
-          availableSku: S.optional(__S(11104, __c347, 0)),
-          availableOS: S.optional(__S(11104, __c347, 0)),
+          availableSku: S.optional(__S(11136, __c348, 0)),
+          availableOS: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "AseRegionProperties" });
     case 2:
@@ -45516,21 +45545,21 @@ function __c404(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12929, __c404, 1)),
+          properties: S.optional(__S(12961, __c405, 1)),
         }),
       ).annotate({ identifier: "AseRegion" });
     case 3:
-      return S.Array(__S(12930, __c404, 2));
+      return S.Array(__S(12962, __c405, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12931, __c404, 3),
+          value: __S(12963, __c405, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AseRegionCollection" });
   }
 }
-function __c405(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45566,21 +45595,21 @@ function __c405(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12961, __c405, 1)),
+          properties: S.optional(__S(12993, __c406, 1)),
         }),
       ).annotate({ identifier: "BillingMeter" });
     case 3:
-      return S.Array(__S(12962, __c405, 2));
+      return S.Array(__S(12994, __c406, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12963, __c405, 3),
+          value: __S(12995, __c406, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingMeterCollection" });
   }
 }
-function __c406(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45598,20 +45627,20 @@ function __c406(j: number): any {
       ).annotate({ identifier: "ListCertificateByResourceGroupRequest" });
   }
 }
-function __c407(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2465, __c77, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13024, __c407, 0),
+          value: __S(13056, __c408, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateCollection" });
   }
 }
-function __c408(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45629,7 +45658,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "ListCertificatesRequest" });
   }
 }
-function __c409(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45650,7 +45679,7 @@ function __c409(j: number): any {
         S.Struct({
           customHostname: S.optional(S.String),
           region: S.optional(S.String),
-          siteResourceIds: S.optional(__S(13120, __c410, 0)),
+          siteResourceIds: S.optional(__S(13152, __c411, 0)),
         }),
       ).annotate({ identifier: "CustomHostnameSitesProperties" });
     case 2:
@@ -45660,27 +45689,27 @@ function __c409(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(13089, __c409, 1)),
+          properties: S.optional(__S(13121, __c410, 1)),
         }),
       ).annotate({ identifier: "CustomHostnameSites" });
     case 3:
-      return S.Array(__S(13090, __c409, 2));
+      return S.Array(__S(13122, __c410, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13091, __c409, 3),
+          value: __S(13123, __c410, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomHostnameSitesCollection" });
   }
 }
-function __c410(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6913, __c216, 1));
+      return S.Array(__S(6945, __c217, 1));
   }
 }
-function __c411(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45701,7 +45730,7 @@ function __c411(j: number): any {
       ).annotate({ identifier: "DeleteSiteCertificateSlotRequest" });
   }
 }
-function __c412(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45719,20 +45748,20 @@ function __c412(j: number): any {
       ).annotate({ identifier: "ListDeletedWebAppByLocationRequest" });
   }
 }
-function __c413(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1761, __c55, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13216, __c413, 0),
+          value: __S(13248, __c414, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeletedWebAppCollection" });
   }
 }
-function __c414(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45749,7 +45778,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "ListDeletedWebAppsRequest" });
   }
 }
-function __c415(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45768,20 +45797,20 @@ function __c415(j: number): any {
       ).annotate({ identifier: "ListDiagnosticHostingEnvironmentDetectorResponsesRequest" });
   }
 }
-function __c416(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1844, __c57, 20));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13312, __c416, 0),
+          value: __S(13344, __c417, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DetectorResponseCollection" });
   }
 }
-function __c417(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45801,20 +45830,20 @@ function __c417(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteAnalysesRequest" });
   }
 }
-function __c418(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1889, __c59, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13376, __c418, 0),
+          value: __S(13408, __c419, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiagnosticAnalysisCollection" });
   }
 }
-function __c419(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45835,7 +45864,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteAnalysesSlotRequest" });
   }
 }
-function __c420(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45854,7 +45883,7 @@ function __c420(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDetectorResponsesRequest" });
   }
 }
-function __c421(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45874,7 +45903,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDetectorResponsesSlotRequest" });
   }
 }
-function __c422(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45894,20 +45923,20 @@ function __c422(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDetectorsRequest" });
   }
 }
-function __c423(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2016, __c63, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13536, __c423, 0),
+          value: __S(13568, __c424, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiagnosticDetectorCollection" });
   }
 }
-function __c424(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45928,7 +45957,7 @@ function __c424(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDetectorsSlotRequest" });
   }
 }
-function __c425(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45947,7 +45976,7 @@ function __c425(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDiagnosticCategoriesRequest" });
   }
 }
-function __c426(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45967,7 +45996,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "DeleteSiteSiloResourceSiteSiloRequest" });
   }
 }
-function __c427(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45987,7 +46016,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "ListDiagnosticSiteDiagnosticCategoriesSlotRequest" });
   }
 }
-function __c428(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46010,13 +46039,13 @@ function __c428(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5410, __c169, 2),
+          value: __S(5442, __c170, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GeoRegionCollection" });
   }
 }
-function __c429(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46034,7 +46063,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "ListGetUsagesInLocationRequest" });
   }
 }
-function __c430(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46052,20 +46081,20 @@ function __c430(j: number): any {
       ).annotate({ identifier: "ListKubeEnvironmentByResourceGroupRequest" });
   }
 }
-function __c431(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2400, __c75, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13792, __c431, 0),
+          value: __S(13824, __c432, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "KubeEnvironmentCollection" });
   }
 }
-function __c432(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46082,7 +46111,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "ListKubeEnvironmentBySubscriptionRequest" });
   }
 }
-function __c433(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46104,13 +46133,13 @@ function __c433(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13857, __c433, 1),
+          value: __S(13889, __c434, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LastKnownGoodCollection" });
   }
 }
-function __c434(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46133,13 +46162,13 @@ function __c434(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13889, __c434, 1),
+          value: __S(13921, __c435, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedTrafficConfigCollection" });
   }
 }
-function __c435(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46176,21 +46205,21 @@ function __c435(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(13921, __c435, 1)),
+          properties: S.optional(__S(13953, __c436, 1)),
         }),
       ).annotate({ identifier: "PremierAddOnOffer" });
     case 3:
-      return S.Array(__S(13922, __c435, 2));
+      return S.Array(__S(13954, __c436, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13923, __c435, 3),
+          value: __S(13955, __c436, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PremierAddOnOfferCollection" });
   }
 }
-function __c436(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46222,7 +46251,7 @@ function __c436(j: number): any {
         }),
       ).annotate({ identifier: "Dimension" });
     case 3:
-      return S.Array(__S(13954, __c436, 2));
+      return S.Array(__S(13986, __c437, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -46231,7 +46260,7 @@ function __c436(j: number): any {
         }),
       ).annotate({ identifier: "MetricAvailability" });
     case 5:
-      return S.Array(__S(13956, __c436, 4));
+      return S.Array(__S(13988, __c437, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -46247,15 +46276,15 @@ function __c436(j: number): any {
           metricFilterPattern: S.optional(S.String),
           fillGapWithZero: S.optional(S.Boolean),
           isInternal: S.optional(S.Boolean),
-          dimensions: S.optional(__S(13955, __c436, 3)),
+          dimensions: S.optional(__S(13987, __c437, 3)),
           category: S.optional(S.String),
-          availabilities: S.optional(__S(13957, __c436, 5)),
-          supportedTimeGrainTypes: S.optional(__S(11104, __c347, 0)),
-          supportedAggregationTypes: S.optional(__S(11104, __c347, 0)),
+          availabilities: S.optional(__S(13989, __c437, 5)),
+          supportedTimeGrainTypes: S.optional(__S(11136, __c348, 0)),
+          supportedAggregationTypes: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "MetricSpecification" });
     case 7:
-      return S.Array(__S(13958, __c436, 6));
+      return S.Array(__S(13990, __c437, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -46266,18 +46295,18 @@ function __c436(j: number): any {
         }),
       ).annotate({ identifier: "LogSpecification" });
     case 9:
-      return S.Array(__S(13960, __c436, 8));
+      return S.Array(__S(13992, __c437, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          metricSpecifications: S.optional(__S(13959, __c436, 7)),
-          logSpecifications: S.optional(__S(13961, __c436, 9)),
+          metricSpecifications: S.optional(__S(13991, __c437, 7)),
+          logSpecifications: S.optional(__S(13993, __c437, 9)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(13962, __c436, 10)),
+          serviceSpecification: S.optional(__S(13994, __c437, 10)),
         }),
       ).annotate({ identifier: "CsmOperationDescriptionProperties" });
     case 12:
@@ -46285,23 +46314,23 @@ function __c436(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(13953, __c436, 1)),
+          display: S.optional(__S(13985, __c437, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(13963, __c436, 11)),
+          properties: S.optional(__S(13995, __c437, 11)),
         }),
       ).annotate({ identifier: "CsmOperationDescription" });
     case 13:
-      return S.Array(__S(13964, __c436, 12));
+      return S.Array(__S(13996, __c437, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13965, __c436, 13),
+          value: __S(13997, __c437, 13),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsmOperationCollection" });
   }
 }
-function __c437(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46322,7 +46351,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "ListRecommendationHistoryForHostingEnvironmentRequest" });
   }
 }
-function __c438(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46336,10 +46365,10 @@ function __c438(j: number): any {
           message: S.optional(S.String),
           level: S.optional(S.String),
           channels: S.optional(S.String),
-          categoryTags: S.optional(__S(11104, __c347, 0)),
+          categoryTags: S.optional(__S(11136, __c348, 0)),
           actionName: S.optional(S.String),
           enabled: S.optional(S.Number),
-          states: S.optional(__S(11104, __c347, 0)),
+          states: S.optional(__S(11136, __c348, 0)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           nextNotificationTime: S.optional(S.String),
@@ -46359,21 +46388,21 @@ function __c438(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(14016, __c438, 0)),
+          properties: S.optional(__S(14048, __c439, 0)),
         }),
       ).annotate({ identifier: "Recommendation" });
     case 2:
-      return S.Array(__S(14017, __c438, 1));
+      return S.Array(__S(14049, __c439, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14018, __c438, 2),
+          value: __S(14050, __c439, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecommendationCollection" });
   }
 }
-function __c439(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46395,7 +46424,7 @@ function __c439(j: number): any {
       });
   }
 }
-function __c440(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46416,7 +46445,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "ListRecommendationHistoryForWebAppRequest" });
   }
 }
-function __c441(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46437,7 +46466,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "ListRecommendationRecommendedRulesForHostingEnvironmentRequest" });
   }
 }
-function __c442(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46458,7 +46487,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "ListRecommendationRecommendedRulesForWebAppRequest" });
   }
 }
-function __c443(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46477,7 +46506,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "ListRecommendationsRequest" });
   }
 }
-function __c444(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46494,20 +46523,20 @@ function __c444(j: number): any {
       ).annotate({ identifier: "ListResourceHealthMetadataRequest" });
   }
 }
-function __c445(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3233, __c101, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14240, __c445, 0),
+          value: __S(14272, __c446, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceHealthMetadataCollection" });
   }
 }
-function __c446(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46525,7 +46554,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "ListResourceHealthMetadataByResourceGroupRequest" });
   }
 }
-function __c447(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46544,7 +46573,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "ListResourceHealthMetadataBySiteRequest" });
   }
 }
-function __c448(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46564,7 +46593,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "ListResourceHealthMetadataBySiteSlotRequest" });
   }
 }
-function __c449(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46586,13 +46615,13 @@ function __c449(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14369, __c449, 1),
+          value: __S(14401, __c450, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerFarmSiloCollection" });
   }
 }
-function __c450(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46611,7 +46640,7 @@ function __c450(j: number): any {
       ).annotate({ identifier: "ListSiteCertificatesRequest" });
   }
 }
-function __c451(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46632,7 +46661,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteBuildDatabaseConnectionRequest" });
   }
 }
-function __c452(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46652,7 +46681,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "ListSiteCertificateSlotRequest" });
   }
 }
-function __c453(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46670,18 +46699,18 @@ function __c453(j: number): any {
       ).annotate({ identifier: "ListSiteIdentifiersAssignedToHostNameRequest" });
   }
 }
-function __c454(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13120, __c410, 0),
+          value: __S(13152, __c411, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdentifierCollection" });
   }
 }
-function __c455(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46703,13 +46732,13 @@ function __c455(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14561, __c455, 1),
+          value: __S(14593, __c456, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkSecurityPerimeterConfigurationCollection" });
   }
 }
-function __c456(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46731,13 +46760,13 @@ function __c456(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14593, __c456, 1),
+          value: __S(14625, __c457, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteSiloCollection" });
   }
 }
-function __c457(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46762,13 +46791,13 @@ function __c457(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14625, __c457, 1),
+          value: __S(14657, __c458, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteSiloVirtualNetworkConnectionCollection" });
   }
 }
-function __c458(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46790,23 +46819,23 @@ function __c458(j: number): any {
           tier: S.optional(S.String),
           size: S.optional(S.String),
           family: S.optional(S.String),
-          capacity: S.optional(__S(24768, __c774, 0)),
-          locations: S.optional(__S(11104, __c347, 0)),
-          capabilities: S.optional(__S(24737, __c773, 1)),
+          capacity: S.optional(__S(24800, __c775, 0)),
+          locations: S.optional(__S(11136, __c348, 0)),
+          capabilities: S.optional(__S(24769, __c774, 1)),
         }),
       ).annotate({ identifier: "GlobalCsmSkuDescription" });
     case 2:
-      return S.Array(__S(14657, __c458, 1));
+      return S.Array(__S(14689, __c459, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          skus: S.optional(__S(14658, __c458, 2)),
+          skus: S.optional(__S(14690, __c459, 2)),
         }),
       ).annotate({ identifier: "SkuInfos" });
   }
 }
-function __c459(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46824,13 +46853,13 @@ function __c459(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14689, __c459, 1),
+          value: __S(14721, __c460, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceControlCollection" });
   }
 }
-function __c460(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46852,13 +46881,13 @@ function __c460(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14721, __c460, 1),
+          value: __S(14753, __c461, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteBasicAuthPropertiesCollection" });
   }
 }
-function __c461(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46875,7 +46904,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "ListStaticSitesRequest" });
   }
 }
-function __c462(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46894,7 +46923,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteAppSettingsRequest" });
   }
 }
-function __c463(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46908,7 +46937,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteAppSettingsResponse" });
   }
 }
-function __c464(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46928,7 +46957,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteDatabaseConnectionRequest" });
   }
 }
-function __c465(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46948,7 +46977,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteBuildAppSettingsRequest" });
   }
 }
-function __c466(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46968,7 +46997,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteBuildFunctionAppSettingsRequest" });
   }
 }
-function __c467(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46988,7 +47017,7 @@ function __c467(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteBuildFunctionsRequest" });
   }
 }
-function __c468(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47004,21 +47033,21 @@ function __c468(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(14976, __c468, 0)),
+          properties: S.optional(__S(15008, __c469, 0)),
         }),
       ).annotate({ identifier: "StaticSiteFunctionOverviewARMResource" });
     case 2:
-      return S.Array(__S(14977, __c468, 1));
+      return S.Array(__S(15009, __c469, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14978, __c468, 2),
+          value: __S(15010, __c469, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteFunctionOverviewCollection" });
   }
 }
-function __c469(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47042,12 +47071,12 @@ function __c469(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(11104, __c347, 0)),
+          properties: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "ListStaticSiteStaticSiteConfiguredRolesResponse" });
   }
 }
-function __c470(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47065,17 +47094,17 @@ function __c470(j: number): any {
         ),
       ).annotate({ identifier: "ListStaticSiteStaticSiteCustomDomainsRequest" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15041, __c470, 1),
+          value: __S(15073, __c471, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteCustomDomainOverviewCollection" });
   }
 }
-function __c471(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47094,7 +47123,7 @@ function __c471(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteFunctionAppSettingsRequest" });
   }
 }
-function __c472(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47113,7 +47142,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteFunctionsRequest" });
   }
 }
-function __c473(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47132,7 +47161,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "ListStaticSiteStaticSiteSecretsRequest" });
   }
 }
-function __c474(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47151,17 +47180,17 @@ function __c474(j: number): any {
         ),
       ).annotate({ identifier: "ListStaticSiteStaticSiteUsersRequest" });
     case 1:
-      return S.Array(__S(15201, __c475, 1));
+      return S.Array(__S(15233, __c476, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15169, __c474, 1),
+          value: __S(15201, __c475, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteUserCollection" });
   }
 }
-function __c475(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47179,12 +47208,12 @@ function __c475(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15200, __c475, 0)),
+          properties: S.optional(__S(15232, __c476, 0)),
         }),
       ).annotate({ identifier: "StaticSiteUserARMResource" });
   }
 }
-function __c476(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47203,7 +47232,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "ListWebAppApplicationSettingsRequest" });
   }
 }
-function __c477(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47223,7 +47252,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "DeleteStaticSitePrivateEndpointConnectionRequest" });
   }
 }
-function __c478(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47243,7 +47272,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "ListWebAppApplicationSettingsSlotRequest" });
   }
 }
-function __c479(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47262,7 +47291,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "ListWebAppAzureStorageAccountsRequest" });
   }
 }
-function __c480(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47271,12 +47300,12 @@ function __c480(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15873, __c496, 1)),
+          properties: S.optional(__S(15905, __c497, 1)),
         }),
       ).annotate({ identifier: "ListWebAppAzureStorageAccountsResponse" });
   }
 }
-function __c481(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47296,7 +47325,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "ListWebAppAzureStorageAccountsSlotRequest" });
   }
 }
-function __c482(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47315,20 +47344,20 @@ function __c482(j: number): any {
       ).annotate({ identifier: "ListWebAppBackupsRequest" });
   }
 }
-function __c483(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6241, __c195, 1));
+      return S.Array(__S(6273, __c196, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15456, __c483, 0),
+          value: __S(15488, __c484, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupItemCollection" });
   }
 }
-function __c484(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47348,7 +47377,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "ListWebAppBackupsSlotRequest" });
   }
 }
-function __c485(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47358,7 +47387,7 @@ function __c485(j: number): any {
           name: S.String.pipe(T.Label()),
           backupId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -47370,7 +47399,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "ListWebAppBackupStatusSecretsRequest" });
   }
 }
-function __c486(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47388,13 +47417,13 @@ function __c486(j: number): any {
           backupName: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           storageAccountUrl: S.String,
-          backupSchedule: S.optional(__S(15552, __c486, 0)),
-          databases: S.optional(__S(6049, __c189, 1)),
+          backupSchedule: S.optional(__S(15584, __c487, 0)),
+          databases: S.optional(__S(6081, __c190, 1)),
         }),
       ).annotate({ identifier: "BackupRequestPropertiesInput" });
   }
 }
-function __c487(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47405,7 +47434,7 @@ function __c487(j: number): any {
           slot: S.String.pipe(T.Label()),
           backupId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -47417,7 +47446,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "ListWebAppBackupStatusSecretsSlotRequest" });
   }
 }
-function __c488(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47436,20 +47465,20 @@ function __c488(j: number): any {
       ).annotate({ identifier: "ListWebAppBasicPublishingCredentialsPoliciesRequest" });
   }
 }
-function __c489(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7009, __c219, 1));
+      return S.Array(__S(7041, __c220, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15648, __c489, 0),
+          value: __S(15680, __c490, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublishingCredentialsPoliciesCollection" });
   }
 }
-function __c490(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47469,7 +47498,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "ListWebAppBasicPublishingCredentialsPoliciesSlotRequest" });
   }
 }
-function __c491(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47488,7 +47517,7 @@ function __c491(j: number): any {
       ).annotate({ identifier: "ListWebAppByResourceGroupRequest" });
   }
 }
-function __c492(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47509,7 +47538,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsChangeVnetRequest" });
   }
 }
-function __c493(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47520,7 +47549,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "ExtendedLocation" });
   }
 }
-function __c494(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47530,19 +47559,19 @@ function __c494(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 1:
-      return S.Record(S.String, __S(15808, __c494, 0));
+      return S.Record(S.String, __S(15840, __c495, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           tenantId: S.optional(S.String),
           principalId: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(15809, __c494, 1)),
+          userAssignedIdentities: S.optional(__S(15841, __c495, 1)),
         }),
       ).annotate({ identifier: "ManagedServiceIdentity" });
   }
 }
-function __c495(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47554,7 +47583,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "HostingEnvironmentProfile" });
   }
 }
-function __c496(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47569,10 +47598,10 @@ function __c496(j: number): any {
         }),
       ).annotate({ identifier: "AzureStorageInfoValue" });
     case 1:
-      return S.Record(S.String, __S(15872, __c496, 0));
+      return S.Record(S.String, __S(15904, __c497, 0));
   }
 }
-function __c497(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47590,12 +47619,12 @@ function __c497(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15904, __c497, 0)),
+          properties: S.optional(__S(15936, __c498, 0)),
         }),
       ).annotate({ identifier: "PushSettings" });
   }
 }
-function __c498(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47606,7 +47635,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "ConnStringInfo" });
     case 1:
-      return S.Array(__S(15936, __c498, 0));
+      return S.Array(__S(15968, __c499, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -47625,7 +47654,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "HandlerMapping" });
     case 4:
-      return S.Array(__S(15939, __c498, 3));
+      return S.Array(__S(15971, __c499, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -47634,18 +47663,18 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "VirtualDirectory" });
     case 6:
-      return S.Array(__S(15941, __c498, 5));
+      return S.Array(__S(15973, __c499, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           virtualPath: S.optional(S.String),
           physicalPath: S.optional(S.String),
           preloadEnabled: S.optional(S.Boolean),
-          virtualDirectories: S.optional(__S(15942, __c498, 6)),
+          virtualDirectories: S.optional(__S(15974, __c499, 6)),
         }),
       ).annotate({ identifier: "VirtualApplication" });
     case 8:
-      return S.Array(__S(15943, __c498, 7));
+      return S.Array(__S(15975, __c499, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -47660,11 +47689,11 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "RampUpRule" });
     case 10:
-      return S.Array(__S(15945, __c498, 9));
+      return S.Array(__S(15977, __c499, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          rampUpRules: S.optional(__S(15946, __c498, 10)),
+          rampUpRules: S.optional(__S(15978, __c499, 10)),
         }),
       ).annotate({ identifier: "Experiments" });
     case 12:
@@ -47694,7 +47723,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "StatusCodesBasedTrigger" });
     case 15:
-      return S.Array(__S(15950, __c498, 14));
+      return S.Array(__S(15982, __c499, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -47705,7 +47734,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "SlowRequestsBasedTrigger" });
     case 17:
-      return S.Array(__S(15952, __c498, 16));
+      return S.Array(__S(15984, __c499, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -47716,16 +47745,16 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "StatusCodesRangeBasedTrigger" });
     case 19:
-      return S.Array(__S(15954, __c498, 18));
+      return S.Array(__S(15986, __c499, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(15949, __c498, 13)),
+          requests: S.optional(__S(15981, __c499, 13)),
           privateBytesInKB: S.optional(S.Number),
-          statusCodes: S.optional(__S(15951, __c498, 15)),
-          slowRequests: S.optional(__S(15952, __c498, 16)),
-          slowRequestsWithPath: S.optional(__S(15953, __c498, 17)),
-          statusCodesRange: S.optional(__S(15955, __c498, 19)),
+          statusCodes: S.optional(__S(15983, __c499, 15)),
+          slowRequests: S.optional(__S(15984, __c499, 16)),
+          slowRequestsWithPath: S.optional(__S(15985, __c499, 17)),
+          statusCodesRange: S.optional(__S(15987, __c499, 19)),
         }),
       ).annotate({ identifier: "AutoHealTriggers" });
     case 21:
@@ -47739,21 +47768,21 @@ function __c498(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionType: S.optional(S.String),
-          customAction: S.optional(__S(15957, __c498, 21)),
+          customAction: S.optional(__S(15989, __c499, 21)),
           minProcessExecutionTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoHealActions" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(15956, __c498, 20)),
-          actions: S.optional(__S(15958, __c498, 22)),
+          triggers: S.optional(__S(15988, __c499, 20)),
+          actions: S.optional(__S(15990, __c499, 22)),
         }),
       ).annotate({ identifier: "AutoHealRules" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          allowedOrigins: S.optional(__S(11104, __c347, 0)),
+          allowedOrigins: S.optional(__S(11136, __c348, 0)),
           supportCredentials: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CorsSettings" });
@@ -47764,7 +47793,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "ApiDefinitionInfo" });
     case 26:
-      return S.Record(S.String, __S(11104, __c347, 0));
+      return S.Record(S.String, __S(11136, __c348, 0));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -47778,16 +47807,16 @@ function __c498(j: number): any {
           priority: S.optional(S.Number),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          headers: S.optional(__S(15962, __c498, 26)),
+          headers: S.optional(__S(15994, __c499, 26)),
         }),
       ).annotate({ identifier: "IpSecurityRestriction" });
     case 28:
-      return S.Array(__S(15963, __c498, 27));
+      return S.Array(__S(15995, __c499, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
           numberOfWorkers: S.optional(S.Number),
-          defaultDocuments: S.optional(__S(11104, __c347, 0)),
+          defaultDocuments: S.optional(__S(11136, __c348, 0)),
           netFrameworkVersion: S.optional(S.String),
           phpVersion: S.optional(S.String),
           pythonVersion: S.optional(S.String),
@@ -47805,11 +47834,11 @@ function __c498(j: number): any {
           logsDirectorySizeLimit: S.optional(S.Number),
           detailedErrorLoggingEnabled: S.optional(S.Boolean),
           publishingUsername: S.optional(S.String),
-          appSettings: S.optional(__S(16096, __c503, 0)),
-          metadata: S.optional(__S(16096, __c503, 0)),
-          connectionStrings: S.optional(__S(15937, __c498, 1)),
-          machineKey: S.optional(__S(15938, __c498, 2)),
-          handlerMappings: S.optional(__S(15940, __c498, 4)),
+          appSettings: S.optional(__S(16128, __c504, 0)),
+          metadata: S.optional(__S(16128, __c504, 0)),
+          connectionStrings: S.optional(__S(15969, __c499, 1)),
+          machineKey: S.optional(__S(15970, __c499, 2)),
+          handlerMappings: S.optional(__S(15972, __c499, 4)),
           documentRoot: S.optional(S.String),
           scmType: S.optional(S.String),
           use32BitWorkerProcess: S.optional(S.Boolean),
@@ -47820,28 +47849,28 @@ function __c498(j: number): any {
           javaContainerVersion: S.optional(S.String),
           appCommandLine: S.optional(S.String),
           managedPipelineMode: S.optional(S.String),
-          virtualApplications: S.optional(__S(15944, __c498, 8)),
+          virtualApplications: S.optional(__S(15976, __c499, 8)),
           loadBalancing: S.optional(S.String),
-          experiments: S.optional(__S(15947, __c498, 11)),
-          limits: S.optional(__S(15948, __c498, 12)),
+          experiments: S.optional(__S(15979, __c499, 11)),
+          limits: S.optional(__S(15980, __c499, 12)),
           autoHealEnabled: S.optional(S.Boolean),
-          autoHealRules: S.optional(__S(15959, __c498, 23)),
+          autoHealRules: S.optional(__S(15991, __c499, 23)),
           tracingOptions: S.optional(S.String),
           vnetName: S.optional(S.String),
           vnetRouteAllEnabled: S.optional(S.Boolean),
           vnetPrivatePortsCount: S.optional(S.Number),
-          cors: S.optional(__S(15960, __c498, 24)),
-          push: S.optional(__S(15905, __c497, 1)),
-          apiDefinition: S.optional(__S(15961, __c498, 25)),
-          apiManagementConfig: S.optional(__S(11136, __c348, 0)),
+          cors: S.optional(__S(15992, __c499, 24)),
+          push: S.optional(__S(15937, __c498, 1)),
+          apiDefinition: S.optional(__S(15993, __c499, 25)),
+          apiManagementConfig: S.optional(__S(11168, __c349, 0)),
           autoSwapSlotName: S.optional(S.String),
           localMySqlEnabled: S.optional(S.Boolean),
           managedServiceIdentityId: S.optional(S.Number),
           xManagedServiceIdentityId: S.optional(S.Number),
           keyVaultReferenceIdentity: S.optional(S.String),
-          ipSecurityRestrictions: S.optional(__S(15964, __c498, 28)),
+          ipSecurityRestrictions: S.optional(__S(15996, __c499, 28)),
           ipSecurityRestrictionsDefaultAction: S.optional(S.String),
-          scmIpSecurityRestrictions: S.optional(__S(15964, __c498, 28)),
+          scmIpSecurityRestrictions: S.optional(__S(15996, __c499, 28)),
           scmIpSecurityRestrictionsDefaultAction: S.optional(S.String),
           scmIpSecurityRestrictionsUseMain: S.optional(S.Boolean),
           http20Enabled: S.optional(S.Boolean),
@@ -47857,13 +47886,13 @@ function __c498(j: number): any {
           functionsRuntimeScaleMonitoringEnabled: S.optional(S.Boolean),
           websiteTimeZone: S.optional(S.String),
           minimumElasticInstanceCount: S.optional(S.Number),
-          azureStorageAccounts: S.optional(__S(15873, __c496, 1)),
+          azureStorageAccounts: S.optional(__S(15905, __c497, 1)),
           publicNetworkAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteConfig" });
   }
 }
-function __c499(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47874,15 +47903,15 @@ function __c499(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(16024, __c500, 24)),
-          identity: S.optional(__S(15810, __c494, 2)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          properties: S.optional(__S(16056, __c501, 24)),
+          identity: S.optional(__S(15842, __c495, 2)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Site" });
   }
 }
-function __c500(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47896,11 +47925,11 @@ function __c500(j: number): any {
         }),
       ).annotate({ identifier: "HostNameSslState" });
     case 1:
-      return S.Array(__S(16000, __c500, 0));
+      return S.Array(__S(16032, __c501, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dnsServers: S.optional(__S(11104, __c347, 0)),
+          dnsServers: S.optional(__S(11136, __c348, 0)),
           dnsAltServer: S.optional(S.String),
           dnsRetryAttemptTimeout: S.optional(S.Number),
           dnsRetryAttemptCount: S.optional(S.Number),
@@ -47932,13 +47961,13 @@ function __c500(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           value: S.optional(S.String),
-          authentication: S.optional(__S(16004, __c500, 4)),
+          authentication: S.optional(__S(16036, __c501, 4)),
         }),
       ).annotate({ identifier: "FunctionsDeploymentStorage" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(16005, __c500, 5)),
+          storage: S.optional(__S(16037, __c501, 5)),
         }),
       ).annotate({ identifier: "FunctionsDeployment" });
     case 7:
@@ -47956,7 +47985,7 @@ function __c500(j: number): any {
         }),
       ).annotate({ identifier: "FunctionsAlwaysReadyConfig" });
     case 9:
-      return S.Array(__S(16008, __c500, 8));
+      return S.Array(__S(16040, __c501, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -47966,16 +47995,16 @@ function __c500(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          http: S.optional(__S(16010, __c500, 10)),
+          http: S.optional(__S(16042, __c501, 10)),
         }),
       ).annotate({ identifier: "FunctionsScaleAndConcurrencyTriggers" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          alwaysReady: S.optional(__S(16009, __c500, 9)),
+          alwaysReady: S.optional(__S(16041, __c501, 9)),
           maximumInstanceCount: S.optional(S.Number),
           instanceMemoryMB: S.optional(S.Number),
-          triggers: S.optional(__S(16011, __c500, 11)),
+          triggers: S.optional(__S(16043, __c501, 11)),
         }),
       ).annotate({ identifier: "FunctionsScaleAndConcurrency" });
     case 13:
@@ -47987,10 +48016,10 @@ function __c500(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          deployment: S.optional(__S(16006, __c500, 6)),
-          runtime: S.optional(__S(16007, __c500, 7)),
-          scaleAndConcurrency: S.optional(__S(16012, __c500, 12)),
-          siteUpdateStrategy: S.optional(__S(16013, __c500, 13)),
+          deployment: S.optional(__S(16038, __c501, 6)),
+          runtime: S.optional(__S(16039, __c501, 7)),
+          scaleAndConcurrency: S.optional(__S(16044, __c501, 12)),
+          siteUpdateStrategy: S.optional(__S(16045, __c501, 13)),
         }),
       ).annotate({ identifier: "FunctionAppConfig" });
     case 15:
@@ -48012,15 +48041,15 @@ function __c500(j: number): any {
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           endpoint: S.optional(S.String),
-          toolList: S.optional(__S(11104, __c347, 0)),
+          toolList: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "McpServerConfig" });
     case 17:
-      return S.Array(__S(16016, __c500, 16));
+      return S.Array(__S(16048, __c501, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          servers: S.optional(__S(16017, __c500, 17)),
+          servers: S.optional(__S(16049, __c501, 17)),
         }),
       ).annotate({ identifier: "McpSettings" });
     case 19:
@@ -48030,15 +48059,15 @@ function __c500(j: number): any {
           issuer: S.optional(S.String),
           audience: S.optional(S.String),
           wellKnownOpenIdConfiguration: S.optional(S.String),
-          scopes: S.optional(__S(11104, __c347, 0)),
+          scopes: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "SiteAuthInfo" });
     case 20:
       return S.suspend(() =>
         S.Struct({
           apiSpecPath: S.optional(S.String),
-          mcp: S.optional(__S(16018, __c500, 18)),
-          siteAuth: S.optional(__S(16019, __c500, 19)),
+          mcp: S.optional(__S(16050, __c501, 18)),
+          siteAuth: S.optional(__S(16051, __c501, 19)),
         }),
       ).annotate({ identifier: "AiIntegration" });
     case 21:
@@ -48076,31 +48105,31 @@ function __c500(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          hostNames: S.optional(__S(11104, __c347, 0)),
+          hostNames: S.optional(__S(11136, __c348, 0)),
           repositorySiteName: S.optional(S.String),
           usageState: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           siteScopedCertificatesEnabled: S.optional(S.Boolean),
-          enabledHostNames: S.optional(__S(11104, __c347, 0)),
+          enabledHostNames: S.optional(__S(11136, __c348, 0)),
           availabilityState: S.optional(S.String),
-          hostNameSslStates: S.optional(__S(16001, __c500, 1)),
+          hostNameSslStates: S.optional(__S(16033, __c501, 1)),
           serverFarmId: S.optional(S.String),
           reserved: S.optional(S.Boolean),
           isXenon: S.optional(S.Boolean),
           hyperV: S.optional(S.Boolean),
           lastModifiedTimeUtc: S.optional(S.String),
-          dnsConfiguration: S.optional(__S(16002, __c500, 2)),
-          outboundVnetRouting: S.optional(__S(16003, __c500, 3)),
-          siteConfig: S.optional(__S(15965, __c498, 29)),
-          functionAppConfig: S.optional(__S(16014, __c500, 14)),
-          daprConfig: S.optional(__S(16015, __c500, 15)),
-          aiIntegration: S.optional(__S(16020, __c500, 20)),
+          dnsConfiguration: S.optional(__S(16034, __c501, 2)),
+          outboundVnetRouting: S.optional(__S(16035, __c501, 3)),
+          siteConfig: S.optional(__S(15997, __c499, 29)),
+          functionAppConfig: S.optional(__S(16046, __c501, 14)),
+          daprConfig: S.optional(__S(16047, __c501, 15)),
+          aiIntegration: S.optional(__S(16052, __c501, 20)),
           workloadProfileName: S.optional(S.String),
-          resourceConfig: S.optional(__S(16021, __c500, 21)),
-          trafficManagerHostNames: S.optional(__S(11104, __c347, 0)),
+          resourceConfig: S.optional(__S(16053, __c501, 21)),
+          trafficManagerHostNames: S.optional(__S(11136, __c348, 0)),
           scmSiteAlsoStopped: S.optional(S.Boolean),
           targetSwapSlot: S.optional(S.String),
-          hostingEnvironmentProfile: S.optional(__S(15840, __c495, 0)),
+          hostingEnvironmentProfile: S.optional(__S(15872, __c496, 0)),
           clientAffinityEnabled: S.optional(S.Boolean),
           clientAffinityPartitioningEnabled: S.optional(S.Boolean),
           clientAffinityProxyEnabled: S.optional(S.Boolean),
@@ -48118,11 +48147,11 @@ function __c500(j: number): any {
           dailyMemoryTimeQuota: S.optional(S.Number),
           suspendedTill: S.optional(S.String),
           maxNumberOfWorkers: S.optional(S.Number),
-          cloningInfo: S.optional(__S(16022, __c500, 22)),
+          cloningInfo: S.optional(__S(16054, __c501, 22)),
           resourceGroup: S.optional(S.String),
           isDefaultContainer: S.optional(S.Boolean),
           defaultHostName: S.optional(S.String),
-          slotSwapStatus: S.optional(__S(16023, __c500, 23)),
+          slotSwapStatus: S.optional(__S(16055, __c501, 23)),
           httpsOnly: S.optional(S.Boolean),
           redundancyMode: S.optional(S.String),
           inProgressOperationId: S.optional(S.String),
@@ -48139,13 +48168,13 @@ function __c500(j: number): any {
       ).annotate({ identifier: "SiteProperties" });
   }
 }
-function __c501(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15968, __c499, 0));
+      return S.Array(__S(16000, __c500, 0));
   }
 }
-function __c502(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48156,25 +48185,25 @@ function __c502(j: number): any {
       ).annotate({ identifier: "NameValuePair" });
   }
 }
-function __c503(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16064, __c502, 0));
+      return S.Array(__S(16096, __c503, 0));
   }
 }
-function __c504(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16032, __c501, 0),
+          value: __S(16064, __c502, 0),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "AppServiceEnvironmentsChangeVnetResponse" });
   }
 }
-function __c505(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48193,7 +48222,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteStaticSiteRequest" });
   }
 }
-function __c506(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48212,20 +48241,20 @@ function __c506(j: number): any {
       ).annotate({ identifier: "ListWebAppConfigurationsRequest" });
   }
 }
-function __c507(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6336, __c198, 0));
+      return S.Array(__S(6368, __c199, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16224, __c507, 0),
+          value: __S(16256, __c508, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteConfigResourceCollection" });
   }
 }
-function __c508(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48244,7 +48273,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "ListWebAppConfigurationSnapshotInfoRequest" });
   }
 }
-function __c509(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48260,21 +48289,21 @@ function __c509(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(16288, __c509, 0)),
+          properties: S.optional(__S(16320, __c510, 0)),
         }),
       ).annotate({ identifier: "SiteConfigurationSnapshotInfo" });
     case 2:
-      return S.Array(__S(16289, __c509, 1));
+      return S.Array(__S(16321, __c510, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16290, __c509, 2),
+          value: __S(16322, __c510, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteConfigurationSnapshotInfoCollection" });
   }
 }
-function __c510(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48294,7 +48323,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "ListWebAppConfigurationSnapshotInfoSlotRequest" });
   }
 }
-function __c511(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48314,7 +48343,7 @@ function __c511(j: number): any {
       ).annotate({ identifier: "ListWebAppConfigurationsSlotRequest" });
   }
 }
-function __c512(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48333,7 +48362,7 @@ function __c512(j: number): any {
       ).annotate({ identifier: "ListWebAppConnectionStringsRequest" });
   }
 }
-function __c513(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48343,7 +48372,7 @@ function __c513(j: number): any {
         }),
       ).annotate({ identifier: "ConnStringValueTypePair" });
     case 1:
-      return S.Record(S.String, __S(16416, __c513, 0));
+      return S.Record(S.String, __S(16448, __c514, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -48351,12 +48380,12 @@ function __c513(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(16417, __c513, 1)),
+          properties: S.optional(__S(16449, __c514, 1)),
         }),
       ).annotate({ identifier: "ListWebAppConnectionStringsResponse" });
   }
 }
-function __c514(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48376,7 +48405,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "ListWebAppConnectionStringsSlotRequest" });
   }
 }
-function __c515(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48395,20 +48424,20 @@ function __c515(j: number): any {
       ).annotate({ identifier: "ListWebAppContinuousWebJobsRequest" });
   }
 }
-function __c516(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6561, __c205, 1));
+      return S.Array(__S(6593, __c206, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16512, __c516, 0),
+          value: __S(16544, __c517, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContinuousWebJobCollection" });
   }
 }
-function __c517(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48428,7 +48457,7 @@ function __c517(j: number): any {
       ).annotate({ identifier: "ListWebAppContinuousWebJobsSlotRequest" });
   }
 }
-function __c518(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48448,7 +48477,7 @@ function __c518(j: number): any {
       ).annotate({ identifier: "ListWebAppDeploymentLogRequest" });
   }
 }
-function __c519(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48469,7 +48498,7 @@ function __c519(j: number): any {
       ).annotate({ identifier: "ListWebAppDeploymentLogSlotRequest" });
   }
 }
-function __c520(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48489,7 +48518,7 @@ function __c520(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteStaticSiteBuildRequest" });
   }
 }
-function __c521(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48508,20 +48537,20 @@ function __c521(j: number): any {
       ).annotate({ identifier: "ListWebAppDeploymentsRequest" });
   }
 }
-function __c522(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5569, __c174, 1));
+      return S.Array(__S(5601, __c175, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16704, __c522, 0),
+          value: __S(16736, __c523, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentCollection" });
   }
 }
-function __c523(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48541,7 +48570,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "ListWebAppDeploymentsSlotRequest" });
   }
 }
-function __c524(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48560,7 +48589,7 @@ function __c524(j: number): any {
       ).annotate({ identifier: "ListWebAppDomainOwnershipIdentifiersRequest" });
   }
 }
-function __c525(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48580,7 +48609,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "ListWebAppDomainOwnershipIdentifiersSlotRequest" });
   }
 }
-function __c526(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48600,7 +48629,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "ListWebAppFunctionKeysRequest" });
   }
 }
-function __c527(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48621,7 +48650,7 @@ function __c527(j: number): any {
       ).annotate({ identifier: "ListWebAppFunctionKeysSlotRequest" });
   }
 }
-function __c528(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48640,20 +48669,20 @@ function __c528(j: number): any {
       ).annotate({ identifier: "ListWebAppFunctionsRequest" });
   }
 }
-function __c529(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7104, __c222, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16928, __c529, 0),
+          value: __S(16960, __c530, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionEnvelopeCollection" });
   }
 }
-function __c530(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48673,7 +48702,7 @@ function __c530(j: number): any {
       ).annotate({ identifier: "ListWebAppFunctionSecretsRequest" });
   }
 }
-function __c531(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48684,7 +48713,7 @@ function __c531(j: number): any {
       ).annotate({ identifier: "FunctionSecrets" });
   }
 }
-function __c532(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48705,7 +48734,7 @@ function __c532(j: number): any {
       ).annotate({ identifier: "ListWebAppFunctionSecretsSlotRequest" });
   }
 }
-function __c533(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48724,7 +48753,7 @@ function __c533(j: number): any {
       ).annotate({ identifier: "ListWebAppHostKeysRequest" });
   }
 }
-function __c534(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48736,7 +48765,7 @@ function __c534(j: number): any {
       ).annotate({ identifier: "HostKeys" });
   }
 }
-function __c535(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48756,7 +48785,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteStaticSiteCustomDomainRequest" });
   }
 }
-function __c536(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48776,7 +48805,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "ListWebAppHostKeysSlotRequest" });
   }
 }
-function __c537(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48795,20 +48824,20 @@ function __c537(j: number): any {
       ).annotate({ identifier: "ListWebAppHostNameBindingsRequest" });
   }
 }
-function __c538(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7297, __c228, 1));
+      return S.Array(__S(7329, __c229, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(17216, __c538, 0),
+          value: __S(17248, __c539, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostNameBindingCollection" });
   }
 }
-function __c539(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48828,7 +48857,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "ListWebAppHostNameBindingsSlotRequest" });
   }
 }
-function __c540(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48847,7 +48876,7 @@ function __c540(j: number): any {
       ).annotate({ identifier: "ListWebAppHybridConnectionsRequest" });
   }
 }
-function __c541(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48867,7 +48896,7 @@ function __c541(j: number): any {
       ).annotate({ identifier: "ListWebAppHybridConnectionsSlotRequest" });
   }
 }
-function __c542(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48887,7 +48916,7 @@ function __c542(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceFunctionsSlotRequest" });
   }
 }
-function __c543(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48906,20 +48935,20 @@ function __c543(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceIdentifiersRequest" });
   }
 }
-function __c544(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7528, __c235, 8));
+      return S.Array(__S(7560, __c236, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(17408, __c544, 0),
+          value: __S(17440, __c545, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebAppInstanceStatusCollection" });
   }
 }
-function __c545(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48939,7 +48968,7 @@ function __c545(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceIdentifiersSlotRequest" });
   }
 }
-function __c546(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48959,20 +48988,20 @@ function __c546(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessesRequest" });
   }
 }
-function __c547(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7713, __c241, 1));
+      return S.Array(__S(7745, __c242, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(17504, __c547, 0),
+          value: __S(17536, __c548, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessInfoCollection" });
   }
 }
-function __c548(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48993,7 +49022,7 @@ function __c548(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessesSlotRequest" });
   }
 }
-function __c549(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49014,7 +49043,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "DeleteStaticSiteStaticSiteUserRequest" });
   }
 }
-function __c550(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49035,18 +49064,18 @@ function __c550(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessModulesRequest" });
   }
 }
-function __c551(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(7648, __c239, 0),
+          value: __S(7680, __c240, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessModuleInfoCollection" });
   }
 }
-function __c552(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49068,7 +49097,7 @@ function __c552(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessModulesSlotRequest" });
   }
 }
-function __c553(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49089,18 +49118,18 @@ function __c553(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessThreadsRequest" });
   }
 }
-function __c554(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(7682, __c240, 2),
+          value: __S(7714, __c241, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessThreadInfoCollection" });
   }
 }
-function __c555(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49122,7 +49151,7 @@ function __c555(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceProcessThreadsSlotRequest" });
   }
 }
-function __c556(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49142,20 +49171,20 @@ function __c556(j: number): any {
       ).annotate({ identifier: "ListWebAppInstanceWorkflowsSlotRequest" });
   }
 }
-function __c557(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7970, __c249, 2));
+      return S.Array(__S(8002, __c250, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(17824, __c557, 0),
+          value: __S(17856, __c558, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowEnvelopeCollection" });
   }
 }
-function __c558(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49174,7 +49203,7 @@ function __c558(j: number): any {
       ).annotate({ identifier: "ListWebAppMetadataRequest" });
   }
 }
-function __c559(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49194,7 +49223,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "ListWebAppMetadataSlotRequest" });
   }
 }
-function __c560(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49214,17 +49243,17 @@ function __c560(j: number): any {
       ).annotate({ identifier: "ListWebAppNetworkFeaturesRequest" });
   }
 }
-function __c561(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9025, __c282, 1));
+      return S.Array(__S(9057, __c283, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           virtualNetworkName: S.optional(S.String),
           virtualNetworkConnection: S.optional(__S(1568, __c49, 0)),
-          hybridConnections: S.optional(__S(17952, __c561, 0)),
-          hybridConnectionsV2: S.optional(__S(12640, __c395, 0)),
+          hybridConnections: S.optional(__S(17984, __c562, 0)),
+          hybridConnectionsV2: S.optional(__S(12672, __c396, 0)),
         }),
       ).annotate({ identifier: "NetworkFeaturesProperties" });
     case 2:
@@ -49234,13 +49263,13 @@ function __c561(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(17953, __c561, 1)),
+          properties: S.optional(__S(17985, __c562, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWebAppNetworkFeaturesResponse" });
   }
 }
-function __c562(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49261,7 +49290,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "ListWebAppNetworkFeaturesSlotRequest" });
   }
 }
-function __c563(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49281,7 +49310,7 @@ function __c563(j: number): any {
       ).annotate({ identifier: "ListWebAppPerfMonCountersRequest" });
   }
 }
-function __c564(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49292,7 +49321,7 @@ function __c564(j: number): any {
         }),
       ).annotate({ identifier: "PerfMonSample" });
     case 1:
-      return S.Array(__S(18048, __c564, 0));
+      return S.Array(__S(18080, __c565, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -49300,7 +49329,7 @@ function __c564(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           timeGrain: S.optional(S.String),
-          values: S.optional(__S(18049, __c564, 1)),
+          values: S.optional(__S(18081, __c565, 1)),
         }),
       ).annotate({ identifier: "PerfMonSet" });
     case 3:
@@ -49308,21 +49337,21 @@ function __c564(j: number): any {
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          data: S.optional(__S(18050, __c564, 2)),
+          data: S.optional(__S(18082, __c565, 2)),
         }),
       ).annotate({ identifier: "PerfMonResponse" });
     case 4:
-      return S.Array(__S(18051, __c564, 3));
+      return S.Array(__S(18083, __c565, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: __S(18052, __c564, 4),
+          value: __S(18084, __c565, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PerfMonCounterCollection" });
   }
 }
-function __c565(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49343,7 +49372,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "DeleteWebAppRequest" });
   }
 }
-function __c566(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49364,7 +49393,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "ListWebAppPerfMonCountersSlotRequest" });
   }
 }
-function __c567(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49383,7 +49412,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessesRequest" });
   }
 }
-function __c568(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49403,7 +49432,7 @@ function __c568(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessesSlotRequest" });
   }
 }
-function __c569(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49423,7 +49452,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessModulesRequest" });
   }
 }
-function __c570(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49444,7 +49473,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessModulesSlotRequest" });
   }
 }
-function __c571(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49464,7 +49493,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessThreadsRequest" });
   }
 }
-function __c572(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49485,7 +49514,7 @@ function __c572(j: number): any {
       ).annotate({ identifier: "ListWebAppProcessThreadsSlotRequest" });
   }
 }
-function __c573(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49504,7 +49533,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "ListWebAppProductionSiteDeploymentStatusesRequest" });
   }
 }
-function __c574(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49513,22 +49542,22 @@ function __c574(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(8864, __c277, 0)),
+          properties: S.optional(__S(8896, __c278, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsmDeploymentStatus" });
     case 1:
-      return S.Array(__S(18368, __c574, 0));
+      return S.Array(__S(18400, __c575, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(18369, __c574, 1),
+          value: __S(18401, __c575, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsmDeploymentStatusCollection" });
   }
 }
-function __c575(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49547,20 +49576,20 @@ function __c575(j: number): any {
       ).annotate({ identifier: "ListWebAppPublicCertificatesRequest" });
   }
 }
-function __c576(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8929, __c279, 1));
+      return S.Array(__S(8961, __c280, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(18432, __c576, 0),
+          value: __S(18464, __c577, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCertificateCollection" });
   }
 }
-function __c577(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49580,7 +49609,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "ListWebAppPublicCertificatesSlotRequest" });
   }
 }
-function __c578(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49600,7 +49629,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "DeleteWebAppBackupRequest" });
   }
 }
-function __c579(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49619,7 +49648,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "ListWebAppPublishingCredentialsRequest" });
   }
 }
-function __c580(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49635,7 +49664,7 @@ function __c580(j: number): any {
       ).annotate({ identifier: "ListWebAppPublishingCredentialsResponse" });
   }
 }
-function __c581(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49655,7 +49684,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "ListWebAppPublishingCredentialsSlotRequest" });
   }
 }
-function __c582(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49676,7 +49705,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "ListWebAppPublishingProfileXmlWithSecretsRequest" });
   }
 }
-function __c583(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49698,7 +49727,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "ListWebAppPublishingProfileXmlWithSecretsSlotRequest" });
   }
 }
-function __c584(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49717,7 +49746,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "ListWebAppRelayServiceConnectionsRequest" });
   }
 }
-function __c585(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49737,7 +49766,7 @@ function __c585(j: number): any {
       ).annotate({ identifier: "ListWebAppRelayServiceConnectionsSlotRequest" });
   }
 }
-function __c586(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49754,7 +49783,7 @@ function __c586(j: number): any {
       ).annotate({ identifier: "ListWebAppsRequest" });
   }
 }
-function __c587(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49773,7 +49802,7 @@ function __c587(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteBackupsRequest" });
   }
 }
-function __c588(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49793,7 +49822,7 @@ function __c588(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteBackupsSlotRequest" });
   }
 }
-function __c589(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49812,20 +49841,20 @@ function __c589(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteContainersRequest" });
   }
 }
-function __c590(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9349, __c292, 5));
+      return S.Array(__S(9381, __c293, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(18880, __c590, 0),
+          value: __S(18912, __c591, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteContainerCollection" });
   }
 }
-function __c591(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49844,7 +49873,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "DeleteWebAppBackupConfigurationRequest" });
   }
 }
-function __c592(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49864,7 +49893,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteContainersSlotRequest" });
   }
 }
-function __c593(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49883,20 +49912,20 @@ function __c593(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteExtensionsRequest" });
   }
 }
-function __c594(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9472, __c296, 0));
+      return S.Array(__S(9504, __c297, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(19008, __c594, 0),
+          value: __S(19040, __c595, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteExtensionInfoCollection" });
   }
 }
-function __c595(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49916,7 +49945,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "ListWebAppSiteExtensionsSlotRequest" });
   }
 }
-function __c596(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49935,7 +49964,7 @@ function __c596(j: number): any {
       ).annotate({ identifier: "ListWebAppSitePushSettingsRequest" });
   }
 }
-function __c597(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49955,7 +49984,7 @@ function __c597(j: number): any {
       ).annotate({ identifier: "ListWebAppSitePushSettingsSlotRequest" });
   }
 }
-function __c598(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49974,14 +50003,14 @@ function __c598(j: number): any {
       ).annotate({ identifier: "ListWebAppSlotConfigurationNamesRequest" });
   }
 }
-function __c599(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connectionStringNames: S.optional(__S(11104, __c347, 0)),
-          appSettingNames: S.optional(__S(11104, __c347, 0)),
-          azureStorageConfigNames: S.optional(__S(11104, __c347, 0)),
+          connectionStringNames: S.optional(__S(11136, __c348, 0)),
+          appSettingNames: S.optional(__S(11136, __c348, 0)),
+          azureStorageConfigNames: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "SlotConfigNames" });
     case 1:
@@ -49991,13 +50020,13 @@ function __c599(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(19168, __c599, 0)),
+          properties: S.optional(__S(19200, __c600, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWebAppSlotConfigurationNamesResponse" });
   }
 }
-function __c600(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50018,7 +50047,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "ListWebAppSlotDifferencesFromProductionRequest" });
   }
 }
-function __c601(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50039,21 +50068,21 @@ function __c601(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(19232, __c601, 0)),
+          properties: S.optional(__S(19264, __c602, 0)),
         }),
       ).annotate({ identifier: "SlotDifference" });
     case 2:
-      return S.Array(__S(19233, __c601, 1));
+      return S.Array(__S(19265, __c602, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(19234, __c601, 2),
+          value: __S(19266, __c602, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SlotDifferenceCollection" });
   }
 }
-function __c602(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50075,7 +50104,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "ListWebAppSlotDifferencesSlotRequest" });
   }
 }
-function __c603(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50094,7 +50123,7 @@ function __c603(j: number): any {
       ).annotate({ identifier: "ListWebAppSlotsRequest" });
   }
 }
-function __c604(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50114,7 +50143,7 @@ function __c604(j: number): any {
       ).annotate({ identifier: "ListWebAppSlotSiteDeploymentStatusesSlotRequest" });
   }
 }
-function __c605(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50134,7 +50163,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "DeleteWebAppBackupConfigurationSlotRequest" });
   }
 }
-function __c606(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50153,7 +50182,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "ListWebAppSnapshotsRequest" });
   }
 }
-function __c607(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50164,7 +50193,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "SnapshotCollection" });
   }
 }
-function __c608(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50183,7 +50212,7 @@ function __c608(j: number): any {
       ).annotate({ identifier: "ListWebAppSnapshotsFromDRSecondaryRequest" });
   }
 }
-function __c609(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50203,7 +50232,7 @@ function __c609(j: number): any {
       ).annotate({ identifier: "ListWebAppSnapshotsFromDRSecondarySlotRequest" });
   }
 }
-function __c610(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50223,7 +50252,7 @@ function __c610(j: number): any {
       ).annotate({ identifier: "ListWebAppSnapshotsSlotRequest" });
   }
 }
-function __c611(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50242,7 +50271,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "ListWebAppSyncFunctionTriggersRequest" });
   }
 }
-function __c612(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50262,7 +50291,7 @@ function __c612(j: number): any {
       ).annotate({ identifier: "ListWebAppSyncFunctionTriggersSlotRequest" });
   }
 }
-function __c613(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50281,7 +50310,7 @@ function __c613(j: number): any {
       ).annotate({ identifier: "ListWebAppSyncStatusRequest" });
   }
 }
-function __c614(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50301,7 +50330,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "ListWebAppSyncStatusSlotRequest" });
   }
 }
-function __c615(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50321,20 +50350,20 @@ function __c615(j: number): any {
       ).annotate({ identifier: "ListWebAppTriggeredWebJobHistoryRequest" });
   }
 }
-function __c616(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10082, __c315, 2));
+      return S.Array(__S(10114, __c316, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(19712, __c616, 0),
+          value: __S(19744, __c617, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TriggeredJobHistoryCollection" });
   }
 }
-function __c617(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50355,7 +50384,7 @@ function __c617(j: number): any {
       ).annotate({ identifier: "ListWebAppTriggeredWebJobHistorySlotRequest" });
   }
 }
-function __c618(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50376,7 +50405,7 @@ function __c618(j: number): any {
       ).annotate({ identifier: "DeleteWebAppBackupSlotRequest" });
   }
 }
-function __c619(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50395,20 +50424,20 @@ function __c619(j: number): any {
       ).annotate({ identifier: "ListWebAppTriggeredWebJobsRequest" });
   }
 }
-function __c620(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9985, __c312, 1));
+      return S.Array(__S(10017, __c313, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(19840, __c620, 0),
+          value: __S(19872, __c621, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TriggeredWebJobCollection" });
   }
 }
-function __c621(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50428,7 +50457,7 @@ function __c621(j: number): any {
       ).annotate({ identifier: "ListWebAppTriggeredWebJobsSlotRequest" });
   }
 }
-function __c622(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50448,7 +50477,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "ListWebAppUsagesRequest" });
   }
 }
-function __c623(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50469,7 +50498,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "ListWebAppUsagesSlotRequest" });
   }
 }
-function __c624(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50488,7 +50517,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "ListWebAppVnetConnectionsRequest" });
   }
 }
-function __c625(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50508,7 +50537,7 @@ function __c625(j: number): any {
       ).annotate({ identifier: "ListWebAppVnetConnectionsSlotRequest" });
   }
 }
-function __c626(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50527,20 +50556,20 @@ function __c626(j: number): any {
       ).annotate({ identifier: "ListWebAppWebJobsRequest" });
   }
 }
-function __c627(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10337, __c323, 1));
+      return S.Array(__S(10369, __c324, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20064, __c627, 0),
+          value: __S(20096, __c628, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebJobCollection" });
   }
 }
-function __c628(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50560,7 +50589,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "ListWebAppWebJobsSlotRequest" });
   }
 }
-function __c629(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50579,7 +50608,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "ListWebAppWorkflowsRequest" });
   }
 }
-function __c630(j: number): any {
+function __c631(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50598,7 +50627,7 @@ function __c630(j: number): any {
       ).annotate({ identifier: "ListWebAppWorkflowsConnectionsRequest" });
   }
 }
-function __c631(j: number): any {
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50618,7 +50647,7 @@ function __c631(j: number): any {
       ).annotate({ identifier: "DeleteWebAppContinuousWebJobRequest" });
   }
 }
-function __c632(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50638,7 +50667,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "ListWebAppWorkflowsConnectionsSlotRequest" });
   }
 }
-function __c633(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50660,18 +50689,18 @@ function __c633(j: number): any {
       ).annotate({ identifier: "ListWorkflowRunActionExpressionTracesRequest" });
   }
 }
-function __c634(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(20291, __c634, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(20323, __c635, 3)));
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(20290, __c634, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(20322, __c635, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
-          details: S.optional(__S(20289, __c634, 1)),
+          details: S.optional(__S(20321, __c635, 1)),
         }),
       ).annotate({ identifier: "AzureResourceErrorInfo" });
     case 3:
@@ -50679,35 +50708,35 @@ function __c634(j: number): any {
         S.Struct({
           text: S.optional(S.String),
           value: S.optional(S.Unknown),
-          subexpressions: S.optional(__S(20288, __c634, 0)),
-          error: S.optional(__S(20290, __c634, 2)),
+          subexpressions: S.optional(__S(20320, __c635, 0)),
+          error: S.optional(__S(20322, __c635, 2)),
         }),
       ).annotate({ identifier: "Expression" });
     case 4:
-      return S.Array(__S(20291, __c634, 3));
+      return S.Array(__S(20323, __c635, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
           value: S.optional(S.Unknown),
-          subexpressions: S.optional(__S(20292, __c634, 4)),
-          error: S.optional(__S(20290, __c634, 2)),
+          subexpressions: S.optional(__S(20324, __c635, 4)),
+          error: S.optional(__S(20322, __c635, 2)),
           path: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressionRoot" });
     case 6:
-      return S.Array(__S(20293, __c634, 5));
+      return S.Array(__S(20325, __c635, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
-          inputs: S.optional(__S(20294, __c634, 6)),
+          inputs: S.optional(__S(20326, __c635, 6)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressionTraces" });
   }
 }
-function __c635(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50730,7 +50759,7 @@ function __c635(j: number): any {
       ).annotate({ identifier: "ListWorkflowRunActionRepetitionExpressionTracesRequest" });
   }
 }
-function __c636(j: number): any {
+function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50752,20 +50781,20 @@ function __c636(j: number): any {
       ).annotate({ identifier: "ListWorkflowRunActionRepetitionsRequest" });
   }
 }
-function __c637(j: number): any {
+function __c638(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10787, __c337, 3));
+      return S.Array(__S(10819, __c338, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20384, __c637, 0),
+          value: __S(20416, __c638, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowRunActionRepetitionDefinitionCollection" });
   }
 }
-function __c638(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50787,17 +50816,17 @@ function __c638(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowRunActionRepetitionsRequestHistoriesRequest" });
     case 1:
-      return S.Array(__S(10851, __c339, 3));
+      return S.Array(__S(10883, __c340, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20417, __c638, 1),
+          value: __S(20449, __c639, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RequestHistoryListResult" });
   }
 }
-function __c639(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50819,17 +50848,17 @@ function __c639(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowRunActionsRequest" });
     case 1:
-      return S.Array(__S(10721, __c335, 1));
+      return S.Array(__S(10753, __c336, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20449, __c639, 1),
+          value: __S(20481, __c640, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowRunActionListResult" });
   }
 }
-function __c640(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50851,7 +50880,7 @@ function __c640(j: number): any {
       ).annotate({ identifier: "ListWorkflowRunActionScopeRepetitionsRequest" });
   }
 }
-function __c641(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50872,17 +50901,17 @@ function __c641(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowRunsRequest" });
     case 1:
-      return S.Array(__S(10628, __c332, 4));
+      return S.Array(__S(10660, __c333, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20513, __c641, 1),
+          value: __S(20545, __c642, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowRunListResult" });
   }
 }
-function __c642(j: number): any {
+function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50918,13 +50947,13 @@ function __c642(j: number): any {
           method: S.optional(S.String),
           basePath: S.optional(S.String),
           relativePath: S.optional(S.String),
-          relativePathParameters: S.optional(__S(11104, __c347, 0)),
-          queries: S.optional(__S(20545, __c642, 1)),
+          relativePathParameters: S.optional(__S(11136, __c348, 0)),
+          queries: S.optional(__S(20577, __c643, 1)),
         }),
       ).annotate({ identifier: "WorkflowTriggerCallbackUrl" });
   }
 }
-function __c643(j: number): any {
+function __c644(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50946,17 +50975,17 @@ function __c643(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowTriggerHistoriesRequest" });
     case 1:
-      return S.Array(__S(11009, __c344, 1));
+      return S.Array(__S(11041, __c345, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20577, __c643, 1),
+          value: __S(20609, __c644, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowTriggerHistoryListResult" });
   }
 }
-function __c644(j: number): any {
+function __c645(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50966,7 +50995,7 @@ function __c644(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(20803, __c650, 3)),
+          properties: S.optional(__S(20835, __c651, 3)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -50986,7 +51015,7 @@ function __c644(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(20705, __c647, 1)),
+          properties: S.optional(__S(20737, __c648, 1)),
           kind: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -50994,7 +51023,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsCreateOrUpdateResponse" });
   }
 }
-function __c645(j: number): any {
+function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51013,21 +51042,21 @@ function __c645(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(20640, __c645, 0)),
+          properties: S.optional(__S(20672, __c646, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDnsSuffixConfiguration" });
   }
 }
-function __c646(j: number): any {
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          windowsOutboundIpAddresses: S.optional(__S(11104, __c347, 0)),
-          linuxOutboundIpAddresses: S.optional(__S(11104, __c347, 0)),
-          externalInboundIpAddresses: S.optional(__S(11104, __c347, 0)),
-          internalInboundIpAddresses: S.optional(__S(11104, __c347, 0)),
+          windowsOutboundIpAddresses: S.optional(__S(11136, __c348, 0)),
+          linuxOutboundIpAddresses: S.optional(__S(11136, __c348, 0)),
+          externalInboundIpAddresses: S.optional(__S(11136, __c348, 0)),
+          internalInboundIpAddresses: S.optional(__S(11136, __c348, 0)),
           allowNewPrivateEndpointConnections: S.optional(S.Boolean),
           ftpEnabled: S.optional(S.Boolean),
           remoteDebugEnabled: S.optional(S.Boolean),
@@ -51041,13 +51070,13 @@ function __c646(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(20672, __c646, 0)),
+          properties: S.optional(__S(20704, __c647, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AseV3NetworkingConfiguration" });
   }
 }
-function __c647(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51063,7 +51092,7 @@ function __c647(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           status: S.optional(S.String),
-          virtualNetwork: __S(20704, __c647, 0),
+          virtualNetwork: __S(20736, __c648, 0),
           internalLoadBalancingMode: S.optional(S.String),
           multiSize: S.optional(S.String),
           multiRoleCount: S.optional(S.Number),
@@ -51072,20 +51101,20 @@ function __c647(j: number): any {
           maximumNumberOfMachines: S.optional(S.Number),
           frontEndScaleFactor: S.optional(S.Number),
           suspended: S.optional(S.Boolean),
-          clusterSettings: S.optional(__S(16096, __c503, 0)),
-          userWhitelistedIpRanges: S.optional(__S(11104, __c347, 0)),
+          clusterSettings: S.optional(__S(16128, __c504, 0)),
+          userWhitelistedIpRanges: S.optional(__S(11136, __c348, 0)),
           hasLinuxWorkers: S.optional(S.Boolean),
           upgradePreference: S.optional(S.String),
           dedicatedHostCount: S.optional(S.Number),
           zoneRedundant: S.optional(S.Boolean),
-          customDnsSuffixConfiguration: S.optional(__S(20641, __c645, 1)),
-          networkingConfiguration: S.optional(__S(20673, __c646, 1)),
+          customDnsSuffixConfiguration: S.optional(__S(20673, __c646, 1)),
+          networkingConfiguration: S.optional(__S(20705, __c647, 1)),
           upgradeAvailability: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppServiceEnvironment" });
   }
 }
-function __c648(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51097,7 +51126,7 @@ function __c648(j: number): any {
       ).annotate({ identifier: "CustomDnsSuffixConfigurationPropertiesInput" });
   }
 }
-function __c649(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51110,7 +51139,7 @@ function __c649(j: number): any {
       ).annotate({ identifier: "AseV3NetworkingConfigurationPropertiesInput" });
   }
 }
-function __c650(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51122,38 +51151,38 @@ function __c650(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(20736, __c648, 0)),
+          properties: S.optional(__S(20768, __c649, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDnsSuffixConfigurationInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(20768, __c649, 0)),
+          properties: S.optional(__S(20800, __c650, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AseV3NetworkingConfigurationInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          virtualNetwork: __S(20800, __c650, 0),
+          virtualNetwork: __S(20832, __c651, 0),
           internalLoadBalancingMode: S.optional(S.String),
           multiSize: S.optional(S.String),
           ipsslAddressCount: S.optional(S.Number),
           dnsSuffix: S.optional(S.String),
           frontEndScaleFactor: S.optional(S.Number),
-          clusterSettings: S.optional(__S(16096, __c503, 0)),
-          userWhitelistedIpRanges: S.optional(__S(11104, __c347, 0)),
+          clusterSettings: S.optional(__S(16128, __c504, 0)),
+          userWhitelistedIpRanges: S.optional(__S(11136, __c348, 0)),
           upgradePreference: S.optional(S.String),
           dedicatedHostCount: S.optional(S.Number),
           zoneRedundant: S.optional(S.Boolean),
-          customDnsSuffixConfiguration: S.optional(__S(20801, __c650, 1)),
-          networkingConfiguration: S.optional(__S(20802, __c650, 2)),
+          customDnsSuffixConfiguration: S.optional(__S(20833, __c651, 1)),
+          networkingConfiguration: S.optional(__S(20834, __c651, 2)),
         }),
       ).annotate({ identifier: "AppServiceEnvironmentInput" });
   }
 }
-function __c651(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51174,7 +51203,7 @@ function __c651(j: number): any {
       ).annotate({ identifier: "DeleteWebAppContinuousWebJobSlotRequest" });
   }
 }
-function __c652(j: number): any {
+function __c653(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51195,17 +51224,17 @@ function __c652(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowTriggersRequest" });
     case 1:
-      return S.Array(__S(10950, __c342, 6));
+      return S.Array(__S(10982, __c343, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20865, __c652, 1),
+          value: __S(20897, __c653, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowTriggerListResult" });
   }
 }
-function __c653(j: number): any {
+function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51225,17 +51254,17 @@ function __c653(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkflowVersionsRequest" });
     case 1:
-      return S.Array(__S(11298, __c353, 2));
+      return S.Array(__S(11330, __c354, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(20897, __c653, 1),
+          value: __S(20929, __c654, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowVersionListResult" });
   }
 }
-function __c654(j: number): any {
+function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51251,7 +51280,7 @@ function __c654(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(20928, __c654, 0)),
+          properties: S.optional(__S(20960, __c655, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51277,7 +51306,7 @@ function __c654(j: number): any {
       ).annotate({ identifier: "MigrateWebAppMySqlResponse" });
   }
 }
-function __c655(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51296,7 +51325,7 @@ function __c655(j: number): any {
           name: S.String.pipe(T.Label()),
           subscriptionName: S.String.pipe(T.Query()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(20960, __c655, 0)),
+          properties: S.optional(__S(20992, __c656, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -51319,13 +51348,13 @@ function __c655(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(20962, __c655, 2)),
+          properties: S.optional(__S(20994, __c656, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "MigrateWebAppStorageResponse" });
   }
 }
-function __c656(j: number): any {
+function __c657(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51333,7 +51362,7 @@ function __c656(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceGroup: S.optional(S.String),
-          resources: S.optional(__S(11104, __c347, 0)),
+          resources: S.optional(__S(11136, __c348, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51345,7 +51374,7 @@ function __c656(j: number): any {
       ).annotate({ identifier: "MoveRequest" });
   }
 }
-function __c657(j: number): any {
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51365,7 +51394,7 @@ function __c657(j: number): any {
       ).annotate({ identifier: "PatchAiGatewayRequest" });
   }
 }
-function __c658(j: number): any {
+function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51381,7 +51410,7 @@ function __c658(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21056, __c658, 0)),
+          properties: S.optional(__S(21088, __c659, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51405,12 +51434,12 @@ function __c658(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(21058, __c658, 2)),
+          properties: S.optional(__S(21090, __c659, 2)),
         }),
       ).annotate({ identifier: "PreviewStaticSiteWorkflowResponse" });
   }
 }
-function __c659(j: number): any {
+function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51418,7 +51447,7 @@ function __c659(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8356, __c261, 4)),
+          properties: S.optional(__S(8388, __c262, 4)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -51431,7 +51460,7 @@ function __c659(j: number): any {
       ).annotate({ identifier: "PutWebAppPrivateAccessVnetRequest" });
   }
 }
-function __c660(j: number): any {
+function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51440,7 +51469,7 @@ function __c660(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8356, __c261, 4)),
+          properties: S.optional(__S(8388, __c262, 4)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -51453,7 +51482,7 @@ function __c660(j: number): any {
       ).annotate({ identifier: "PutWebAppPrivateAccessVnetSlotRequest" });
   }
 }
-function __c661(j: number): any {
+function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51472,7 +51501,7 @@ function __c661(j: number): any {
       ).annotate({ identifier: "RebootAppServiceEnvironmentRequest" });
   }
 }
-function __c662(j: number): any {
+function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51492,7 +51521,7 @@ function __c662(j: number): any {
       ).annotate({ identifier: "DeleteWebAppDeploymentRequest" });
   }
 }
-function __c663(j: number): any {
+function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51512,7 +51541,7 @@ function __c663(j: number): any {
       ).annotate({ identifier: "RebootAppServicePlanWorkerRequest" });
   }
 }
-function __c664(j: number): any {
+function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51532,7 +51561,7 @@ function __c664(j: number): any {
       ).annotate({ identifier: "RecoverWebAppSiteConfigurationSnapshotRequest" });
   }
 }
-function __c665(j: number): any {
+function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51553,7 +51582,7 @@ function __c665(j: number): any {
       ).annotate({ identifier: "RecoverWebAppSiteConfigurationSnapshotSlotRequest" });
   }
 }
-function __c666(j: number): any {
+function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51572,7 +51601,7 @@ function __c666(j: number): any {
       ).annotate({ identifier: "RefreshSiteSiloResourceSiteSilosRequest" });
   }
 }
-function __c667(j: number): any {
+function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51593,7 +51622,7 @@ function __c667(j: number): any {
       ).annotate({ identifier: "RegenerateWorkflowAccessKeyRequest" });
   }
 }
-function __c668(j: number): any {
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51624,7 +51653,7 @@ function __c668(j: number): any {
       ).annotate({ identifier: "DnlResourceNameAvailability" });
   }
 }
-function __c669(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51634,7 +51663,7 @@ function __c669(j: number): any {
           name: S.String.pipe(T.Label()),
           functionAppName: S.String.pipe(T.Label()),
           isForced: S.optional(S.Boolean.pipe(T.Query())),
-          properties: S.optional(__S(21440, __c670, 0)),
+          properties: S.optional(__S(21472, __c671, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -51647,7 +51676,7 @@ function __c669(j: number): any {
       ).annotate({ identifier: "RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteRequest" });
   }
 }
-function __c670(j: number): any {
+function __c671(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51670,7 +51699,7 @@ function __c670(j: number): any {
       ).annotate({ identifier: "RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse" });
   }
 }
-function __c671(j: number): any {
+function __c672(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51681,7 +51710,7 @@ function __c671(j: number): any {
           environmentName: S.String.pipe(T.Label()),
           functionAppName: S.String.pipe(T.Label()),
           isForced: S.optional(S.Boolean.pipe(T.Query())),
-          properties: S.optional(__S(21440, __c670, 0)),
+          properties: S.optional(__S(21472, __c671, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -51696,7 +51725,7 @@ function __c671(j: number): any {
       });
   }
 }
-function __c672(j: number): any {
+function __c673(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51713,7 +51742,7 @@ function __c672(j: number): any {
       ).annotate({ identifier: "ResetRecommendationAllFiltersRequest" });
   }
 }
-function __c673(j: number): any {
+function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51733,7 +51762,7 @@ function __c673(j: number): any {
       ).annotate({ identifier: "ResetRecommendationAllFiltersForHostingEnvironmentRequest" });
   }
 }
-function __c674(j: number): any {
+function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51754,7 +51783,7 @@ function __c674(j: number): any {
       ).annotate({ identifier: "DeleteWebAppDeploymentSlotRequest" });
   }
 }
-function __c675(j: number): any {
+function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51773,7 +51802,7 @@ function __c675(j: number): any {
       ).annotate({ identifier: "ResetRecommendationAllFiltersForWebAppRequest" });
   }
 }
-function __c676(j: number): any {
+function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51789,7 +51818,7 @@ function __c676(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21632, __c676, 0)),
+          properties: S.optional(__S(21664, __c677, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51801,7 +51830,7 @@ function __c676(j: number): any {
       ).annotate({ identifier: "ResetStaticSiteStaticSiteApiKeyRequest" });
   }
 }
-function __c677(j: number): any {
+function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51820,7 +51849,7 @@ function __c677(j: number): any {
       ).annotate({ identifier: "ResetWebAppProductionSlotConfigRequest" });
   }
 }
-function __c678(j: number): any {
+function __c679(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51840,7 +51869,7 @@ function __c678(j: number): any {
       ).annotate({ identifier: "ResetWebAppSlotConfigurationSlotRequest" });
   }
 }
-function __c679(j: number): any {
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51860,7 +51889,7 @@ function __c679(j: number): any {
       ).annotate({ identifier: "RestartAppServicePlanWebAppsRequest" });
   }
 }
-function __c680(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51881,7 +51910,7 @@ function __c680(j: number): any {
       ).annotate({ identifier: "RestartWebAppRequest" });
   }
 }
-function __c681(j: number): any {
+function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51903,7 +51932,7 @@ function __c681(j: number): any {
       ).annotate({ identifier: "RestartWebAppSlotRequest" });
   }
 }
-function __c682(j: number): any {
+function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51913,7 +51942,7 @@ function __c682(j: number): any {
           name: S.String.pipe(T.Label()),
           backupId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51925,7 +51954,7 @@ function __c682(j: number): any {
       ).annotate({ identifier: "RestoreWebAppRequest" });
   }
 }
-function __c683(j: number): any {
+function __c684(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51934,7 +51963,7 @@ function __c683(j: number): any {
           blobName: S.optional(S.String),
           overwrite: S.Boolean,
           siteName: S.optional(S.String),
-          databases: S.optional(__S(6049, __c189, 1)),
+          databases: S.optional(__S(6081, __c190, 1)),
           ignoreConflictingHostNames: S.optional(S.Boolean),
           ignoreDatabases: S.optional(S.Boolean),
           appServicePlan: S.optional(S.String),
@@ -51945,7 +51974,7 @@ function __c683(j: number): any {
       ).annotate({ identifier: "RestoreRequestProperties" });
   }
 }
-function __c684(j: number): any {
+function __c685(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51954,7 +51983,7 @@ function __c684(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51966,7 +51995,7 @@ function __c684(j: number): any {
       ).annotate({ identifier: "RestoreWebAppFromBackupBlobRequest" });
   }
 }
-function __c685(j: number): any {
+function __c686(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51976,7 +52005,7 @@ function __c685(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51988,7 +52017,7 @@ function __c685(j: number): any {
       ).annotate({ identifier: "RestoreWebAppFromBackupBlobSlotRequest" });
   }
 }
-function __c686(j: number): any {
+function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52008,7 +52037,7 @@ function __c686(j: number): any {
       ).annotate({ identifier: "DeleteWebAppDomainOwnershipIdentifierRequest" });
   }
 }
-function __c687(j: number): any {
+function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52017,7 +52046,7 @@ function __c687(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(22016, __c688, 0)),
+          properties: S.optional(__S(22048, __c689, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52029,7 +52058,7 @@ function __c687(j: number): any {
       ).annotate({ identifier: "RestoreWebAppFromDeletedAppRequest" });
   }
 }
-function __c688(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52042,7 +52071,7 @@ function __c688(j: number): any {
       ).annotate({ identifier: "DeletedAppRestoreRequestProperties" });
   }
 }
-function __c689(j: number): any {
+function __c690(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52052,7 +52081,7 @@ function __c689(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(22016, __c688, 0)),
+          properties: S.optional(__S(22048, __c689, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52064,7 +52093,7 @@ function __c689(j: number): any {
       ).annotate({ identifier: "RestoreWebAppFromDeletedAppSlotRequest" });
   }
 }
-function __c690(j: number): any {
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52075,7 +52104,7 @@ function __c690(j: number): any {
           slot: S.String.pipe(T.Label()),
           backupId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52087,7 +52116,7 @@ function __c690(j: number): any {
       ).annotate({ identifier: "RestoreWebAppSlotRequest" });
   }
 }
-function __c691(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52096,7 +52125,7 @@ function __c691(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(22145, __c692, 1)),
+          properties: S.optional(__S(22177, __c693, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52108,7 +52137,7 @@ function __c691(j: number): any {
       ).annotate({ identifier: "RestoreWebAppSnapshotRequest" });
   }
 }
-function __c692(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52121,7 +52150,7 @@ function __c692(j: number): any {
       return S.suspend(() =>
         S.Struct({
           snapshotTime: S.optional(S.String),
-          recoverySource: S.optional(__S(22144, __c692, 0)),
+          recoverySource: S.optional(__S(22176, __c693, 0)),
           overwrite: S.Boolean,
           recoverConfiguration: S.optional(S.Boolean),
           ignoreConflictingHostNames: S.optional(S.Boolean),
@@ -52130,7 +52159,7 @@ function __c692(j: number): any {
       ).annotate({ identifier: "SnapshotRestoreRequestProperties" });
   }
 }
-function __c693(j: number): any {
+function __c694(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52140,7 +52169,7 @@ function __c693(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(22145, __c692, 1)),
+          properties: S.optional(__S(22177, __c693, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52152,7 +52181,7 @@ function __c693(j: number): any {
       ).annotate({ identifier: "RestoreWebAppSnapshotSlotRequest" });
   }
 }
-function __c694(j: number): any {
+function __c695(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52171,7 +52200,7 @@ function __c694(j: number): any {
       ).annotate({ identifier: "ResumeAppServiceEnvironmentRequest" });
   }
 }
-function __c695(j: number): any {
+function __c696(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52191,7 +52220,7 @@ function __c695(j: number): any {
       ).annotate({ identifier: "RunWebAppTriggeredWebJobRequest" });
   }
 }
-function __c696(j: number): any {
+function __c697(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52212,7 +52241,7 @@ function __c696(j: number): any {
       ).annotate({ identifier: "RunWebAppTriggeredWebJobSlotRequest" });
   }
 }
-function __c697(j: number): any {
+function __c698(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52233,7 +52262,7 @@ function __c697(j: number): any {
           siloName: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(22304, __c697, 0)),
+          properties: S.optional(__S(22336, __c698, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -52260,7 +52289,7 @@ function __c697(j: number): any {
       ).annotate({ identifier: "ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloResponse" });
   }
 }
-function __c698(j: number): any {
+function __c699(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52284,7 +52313,7 @@ function __c698(j: number): any {
       ).annotate({ identifier: "SiteCertificatesCreateOrUpdateRequest" });
   }
 }
-function __c699(j: number): any {
+function __c700(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52305,7 +52334,7 @@ function __c699(j: number): any {
       ).annotate({ identifier: "DeleteWebAppDomainOwnershipIdentifierSlotRequest" });
   }
 }
-function __c700(j: number): any {
+function __c701(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52330,7 +52359,7 @@ function __c700(j: number): any {
       ).annotate({ identifier: "SiteCertificatesCreateOrUpdateSlotRequest" });
   }
 }
-function __c701(j: number): any {
+function __c702(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52353,7 +52382,7 @@ function __c701(j: number): any {
           siloName: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(22432, __c701, 0)),
+          properties: S.optional(__S(22464, __c702, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -52380,7 +52409,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "SiteSiloResourcesCreateOrUpdateSiteSiloResponse" });
   }
 }
-function __c702(j: number): any {
+function __c703(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52404,7 +52433,7 @@ function __c702(j: number): any {
       });
   }
 }
-function __c703(j: number): any {
+function __c704(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52423,7 +52452,7 @@ function __c703(j: number): any {
       ).annotate({ identifier: "StartAppServicePlanWebAppsRequest" });
   }
 }
-function __c704(j: number): any {
+function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52442,7 +52471,7 @@ function __c704(j: number): any {
       ).annotate({ identifier: "StartWebAppRequest" });
   }
 }
-function __c705(j: number): any {
+function __c706(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52462,7 +52491,7 @@ function __c705(j: number): any {
       ).annotate({ identifier: "StartWebAppContinuousWebJobRequest" });
   }
 }
-function __c706(j: number): any {
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52483,7 +52512,7 @@ function __c706(j: number): any {
       ).annotate({ identifier: "StartWebAppContinuousWebJobSlotRequest" });
   }
 }
-function __c707(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52505,7 +52534,7 @@ function __c707(j: number): any {
       ).annotate({ identifier: "StartWebAppNetworkTraceRequest" });
   }
 }
-function __c708(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52528,7 +52557,7 @@ function __c708(j: number): any {
       ).annotate({ identifier: "StartWebAppNetworkTraceSlotRequest" });
   }
 }
-function __c709(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52548,7 +52577,7 @@ function __c709(j: number): any {
       ).annotate({ identifier: "StartWebAppSlotRequest" });
   }
 }
-function __c710(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52568,7 +52597,7 @@ function __c710(j: number): any {
       ).annotate({ identifier: "DeleteWebAppFunctionRequest" });
   }
 }
-function __c711(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52590,7 +52619,7 @@ function __c711(j: number): any {
       ).annotate({ identifier: "StartWebAppWebSiteNetworkTraceRequest" });
   }
 }
-function __c712(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52612,7 +52641,7 @@ function __c712(j: number): any {
       ).annotate({ identifier: "StartWebAppWebSiteNetworkTraceOperationRequest" });
   }
 }
-function __c713(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52635,7 +52664,7 @@ function __c713(j: number): any {
       ).annotate({ identifier: "StartWebAppWebSiteNetworkTraceOperationSlotRequest" });
   }
 }
-function __c714(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52658,7 +52687,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "StartWebAppWebSiteNetworkTraceSlotRequest" });
   }
 }
-function __c715(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52667,7 +52696,7 @@ function __c715(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11168, __c349, 0)),
+          properties: S.optional(__S(11200, __c350, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -52680,7 +52709,7 @@ function __c715(j: number): any {
       ).annotate({ identifier: "StaticSitesApproveOrRejectPrivateEndpointConnectionRequest" });
   }
 }
-function __c716(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52688,7 +52717,7 @@ function __c716(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretUrl: S.optional(S.String),
           applicableEnvironmentsMode: S.String,
-          environments: S.optional(__S(11104, __c347, 0)),
+          environments: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "StaticSiteBasicAuthPropertiesARMResourcePropertiesInput" });
     case 1:
@@ -52698,7 +52727,7 @@ function __c716(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           basicAuthName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(22912, __c716, 0)),
+          properties: S.optional(__S(22944, __c717, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -52711,7 +52740,7 @@ function __c716(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateBasicAuthRequest" });
   }
 }
-function __c717(j: number): any {
+function __c718(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52721,7 +52750,7 @@ function __c717(j: number): any {
           name: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           databaseConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(22976, __c718, 0)),
+          properties: S.optional(__S(23008, __c719, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -52734,7 +52763,7 @@ function __c717(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateBuildDatabaseConnectionRequest" });
   }
 }
-function __c718(j: number): any {
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52747,7 +52776,7 @@ function __c718(j: number): any {
       ).annotate({ identifier: "DatabaseConnectionPropertiesInput" });
   }
 }
-function __c719(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52756,7 +52785,7 @@ function __c719(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           databaseConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(22976, __c718, 0)),
+          properties: S.optional(__S(23008, __c719, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -52769,7 +52798,7 @@ function __c719(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateDatabaseConnectionRequest" });
   }
 }
-function __c720(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52779,9 +52808,9 @@ function __c720(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(23072, __c721, 0)),
+          properties: S.optional(__S(23104, __c722, 0)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(24800, __c775, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           identity: S.optional(__S(289, __c9, 1)),
         }).pipe(
           T.Http({
@@ -52801,16 +52830,16 @@ function __c720(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(4741, __c148, 5)),
+          properties: S.optional(__S(4740, __c148, 4)),
           kind: S.optional(S.String),
-          sku: S.optional(__S(24800, __c775, 0)),
-          identity: S.optional(__S(15810, __c494, 2)),
+          sku: S.optional(__S(24832, __c776, 0)),
+          identity: S.optional(__S(15842, __c495, 2)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "StaticSitesCreateOrUpdateStaticSiteResponse" });
   }
 }
-function __c721(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52821,7 +52850,7 @@ function __c721(j: number): any {
           buildProperties: S.optional(__S(4704, __c147, 0)),
           stagingEnvironmentPolicy: S.optional(S.String),
           allowConfigFileUpdates: S.optional(S.Boolean),
-          templateProperties: S.optional(__S(4740, __c148, 4)),
+          templateProperties: S.optional(__S(4739, __c148, 3)),
           provider: S.optional(S.String),
           enterpriseGradeCdnStatus: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
@@ -52829,7 +52858,7 @@ function __c721(j: number): any {
       ).annotate({ identifier: "StaticSiteInput" });
   }
 }
-function __c722(j: number): any {
+function __c723(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52850,7 +52879,7 @@ function __c722(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateStaticSiteAppSettingsRequest" });
   }
 }
-function __c723(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52871,7 +52900,7 @@ function __c723(j: number): any {
       ).annotate({ identifier: "DeleteWebAppFunctionSecretRequest" });
   }
 }
-function __c724(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52893,7 +52922,7 @@ function __c724(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsRequest" });
   }
 }
-function __c725(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52917,7 +52946,7 @@ function __c725(j: number): any {
       });
   }
 }
-function __c726(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52927,7 +52956,7 @@ function __c726(j: number): any {
           name: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(23264, __c727, 0)),
+          properties: S.optional(__S(23296, __c728, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -52944,14 +52973,14 @@ function __c726(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(5088, __c159, 0)),
+          properties: S.optional(__S(5120, __c160, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse" });
   }
 }
-function __c727(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52961,7 +52990,7 @@ function __c727(j: number): any {
       ).annotate({ identifier: "StaticSiteCustomDomainRequestPropertiesARMResourceProperties" });
   }
 }
-function __c728(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52982,7 +53011,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsRequest" });
   }
 }
-function __c729(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53001,7 +53030,7 @@ function __c729(j: number): any {
       ).annotate({ identifier: "StaticSitesGetPrivateEndpointConnectionListRequest" });
   }
 }
-function __c730(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53010,7 +53039,7 @@ function __c730(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           linkedBackendName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23424, __c732, 0)),
+          properties: S.optional(__S(23456, __c733, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53023,7 +53052,7 @@ function __c730(j: number): any {
       ).annotate({ identifier: "StaticSitesLinkBackendRequest" });
   }
 }
-function __c731(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53039,7 +53068,7 @@ function __c731(j: number): any {
       ).annotate({ identifier: "StaticSitesLinkBackendResponse" });
   }
 }
-function __c732(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53050,7 +53079,7 @@ function __c732(j: number): any {
       ).annotate({ identifier: "StaticSiteLinkedBackendARMResourcePropertiesInput" });
   }
 }
-function __c733(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53060,7 +53089,7 @@ function __c733(j: number): any {
           name: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           linkedBackendName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23424, __c732, 0)),
+          properties: S.optional(__S(23456, __c733, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53073,7 +53102,7 @@ function __c733(j: number): any {
       ).annotate({ identifier: "StaticSitesLinkBackendToBuildRequest" });
   }
 }
-function __c734(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53092,7 +53121,7 @@ function __c734(j: number): any {
       ).annotate({ identifier: "StopAppServicePlanWebAppsRequest" });
   }
 }
-function __c735(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53111,7 +53140,7 @@ function __c735(j: number): any {
       ).annotate({ identifier: "StopWebAppRequest" });
   }
 }
-function __c736(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53131,7 +53160,7 @@ function __c736(j: number): any {
       ).annotate({ identifier: "StopWebAppContinuousWebJobRequest" });
   }
 }
-function __c737(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53153,7 +53182,7 @@ function __c737(j: number): any {
       ).annotate({ identifier: "DeleteWebAppFunctionSecretSlotRequest" });
   }
 }
-function __c738(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53174,7 +53203,7 @@ function __c738(j: number): any {
       ).annotate({ identifier: "StopWebAppContinuousWebJobSlotRequest" });
   }
 }
-function __c739(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53193,7 +53222,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "StopWebAppNetworkTraceRequest" });
   }
 }
-function __c740(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53213,7 +53242,7 @@ function __c740(j: number): any {
       ).annotate({ identifier: "StopWebAppNetworkTraceSlotRequest" });
   }
 }
-function __c741(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53233,7 +53262,7 @@ function __c741(j: number): any {
       ).annotate({ identifier: "StopWebAppSlotRequest" });
   }
 }
-function __c742(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53252,7 +53281,7 @@ function __c742(j: number): any {
       ).annotate({ identifier: "StopWebAppWebSiteNetworkTraceRequest" });
   }
 }
-function __c743(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53272,7 +53301,7 @@ function __c743(j: number): any {
       ).annotate({ identifier: "StopWebAppWebSiteNetworkTraceSlotRequest" });
   }
 }
-function __c744(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53291,7 +53320,7 @@ function __c744(j: number): any {
       ).annotate({ identifier: "SuspendAppServiceEnvironmentRequest" });
   }
 }
-function __c745(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53313,7 +53342,7 @@ function __c745(j: number): any {
       ).annotate({ identifier: "SwapWebAppSlotSlotRequest" });
   }
 }
-function __c746(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53334,7 +53363,7 @@ function __c746(j: number): any {
       ).annotate({ identifier: "SwapWebAppSlotWithProductionRequest" });
   }
 }
-function __c747(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53353,7 +53382,7 @@ function __c747(j: number): any {
       ).annotate({ identifier: "SyncWebAppFunctionsRequest" });
   }
 }
-function __c748(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53373,7 +53402,7 @@ function __c748(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHostNameBindingRequest" });
   }
 }
-function __c749(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53393,7 +53422,7 @@ function __c749(j: number): any {
       ).annotate({ identifier: "SyncWebAppFunctionsSlotRequest" });
   }
 }
-function __c750(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53412,7 +53441,7 @@ function __c750(j: number): any {
       ).annotate({ identifier: "SyncWebAppFunctionTriggersRequest" });
   }
 }
-function __c751(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53432,7 +53461,7 @@ function __c751(j: number): any {
       ).annotate({ identifier: "SyncWebAppFunctionTriggersSlotRequest" });
   }
 }
-function __c752(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53451,7 +53480,7 @@ function __c752(j: number): any {
       ).annotate({ identifier: "SyncWebAppRepositoryRequest" });
   }
 }
-function __c753(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53471,7 +53500,7 @@ function __c753(j: number): any {
       ).annotate({ identifier: "SyncWebAppRepositorySlotRequest" });
   }
 }
-function __c754(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53490,7 +53519,7 @@ function __c754(j: number): any {
       ).annotate({ identifier: "TestAppServiceEnvironmentUpgradeAvailableNotificationRequest" });
   }
 }
-function __c755(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53511,7 +53540,7 @@ function __c755(j: number): any {
       ).annotate({ identifier: "TriggerRunWorkflowRequest" });
   }
 }
-function __c756(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53532,7 +53561,7 @@ function __c756(j: number): any {
       ).annotate({ identifier: "UnlinkStaticSiteBackendRequest" });
   }
 }
-function __c757(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53554,7 +53583,7 @@ function __c757(j: number): any {
       ).annotate({ identifier: "UnlinkStaticSiteBackendFromBuildRequest" });
   }
 }
-function __c758(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53563,7 +53592,7 @@ function __c758(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(20803, __c650, 3)),
+          properties: S.optional(__S(20835, __c651, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -53575,7 +53604,7 @@ function __c758(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceEnvironmentRequest" });
   }
 }
-function __c759(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53596,7 +53625,7 @@ function __c759(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHostNameBindingSlotRequest" });
   }
 }
-function __c760(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53604,7 +53633,7 @@ function __c760(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20736, __c648, 0)),
+          properties: S.optional(__S(20768, __c649, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53619,7 +53648,7 @@ function __c760(j: number): any {
       });
   }
 }
-function __c761(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53627,7 +53656,7 @@ function __c761(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20768, __c649, 0)),
+          properties: S.optional(__S(20800, __c650, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53640,7 +53669,7 @@ function __c761(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceEnvironmentAseNetworkingConfigurationRequest" });
   }
 }
-function __c762(j: number): any {
+function __c763(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53648,8 +53677,8 @@ function __c762(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(24864, __c777, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24896, __c778, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53662,7 +53691,7 @@ function __c762(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceEnvironmentMultiRolePoolRequest" });
   }
 }
-function __c763(j: number): any {
+function __c764(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53671,8 +53700,8 @@ function __c763(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           workerPoolName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(24864, __c777, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24896, __c778, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53685,13 +53714,13 @@ function __c763(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceEnvironmentWorkerPoolRequest" });
   }
 }
-function __c764(j: number): any {
+function __c765(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           workerTierName: S.optional(S.String),
-          hostingEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          hostingEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           perSiteScaling: S.optional(S.Boolean),
           elasticScaleEnabled: S.optional(S.Boolean),
           maximumElasticWorkerCount: S.optional(S.Number),
@@ -53703,7 +53732,7 @@ function __c764(j: number): any {
           hyperV: S.optional(S.Boolean),
           targetWorkerCount: S.optional(S.Number),
           targetWorkerSizeId: S.optional(S.Number),
-          kubeEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          kubeEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           zoneRedundant: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AppServicePlanPatchResourcePropertiesInput" });
@@ -53714,7 +53743,7 @@ function __c764(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(24448, __c764, 0)),
+          properties: S.optional(__S(24480, __c765, 0)),
           identity: S.optional(__S(289, __c9, 1)),
         }).pipe(
           T.Http({
@@ -53727,7 +53756,7 @@ function __c764(j: number): any {
       ).annotate({ identifier: "UpdateAppServicePlanRequest" });
   }
 }
-function __c765(j: number): any {
+function __c766(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53750,7 +53779,7 @@ function __c765(j: number): any {
       ).annotate({ identifier: "UpdateAppServicePlanVnetGatewayRequest" });
   }
 }
-function __c766(j: number): any {
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53773,7 +53802,7 @@ function __c766(j: number): any {
       ).annotate({ identifier: "UpdateAppServicePlanVnetRouteRequest" });
   }
 }
-function __c767(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53782,7 +53811,7 @@ function __c767(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(24576, __c768, 0)),
+          properties: S.optional(__S(24608, __c769, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -53794,12 +53823,12 @@ function __c767(j: number): any {
       ).annotate({ identifier: "UpdateCertificateRequest" });
   }
 }
-function __c768(j: number): any {
+function __c769(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hostNames: S.optional(__S(11104, __c347, 0)),
+          hostNames: S.optional(__S(11136, __c348, 0)),
           pfxBlob: S.optional(S.String),
           keyVaultId: S.optional(S.String),
           keyVaultSecretName: S.optional(S.String),
@@ -53810,7 +53839,7 @@ function __c768(j: number): any {
       ).annotate({ identifier: "CertificatePatchResourcePropertiesInput" });
   }
 }
-function __c769(j: number): any {
+function __c770(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53830,7 +53859,7 @@ function __c769(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(24608, __c769, 0)),
+          properties: S.optional(__S(24640, __c770, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -53842,7 +53871,7 @@ function __c769(j: number): any {
       ).annotate({ identifier: "UpdateKubeEnvironmentRequest" });
   }
 }
-function __c770(j: number): any {
+function __c771(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53862,7 +53891,7 @@ function __c770(j: number): any {
       ).annotate({ identifier: "UpdateManagedTrafficConfigResourceManagedTrafficConfigRequest" });
   }
 }
-function __c771(j: number): any {
+function __c772(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53870,8 +53899,8 @@ function __c771(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(24864, __c777, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24896, __c778, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -53884,7 +53913,7 @@ function __c771(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsCreateOrUpdateMultiRolePoolRequest" });
   }
 }
-function __c772(j: number): any {
+function __c773(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53893,15 +53922,15 @@ function __c772(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(24832, __c776, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24864, __c777, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse" });
   }
 }
-function __c773(j: number): any {
+function __c774(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53912,10 +53941,10 @@ function __c773(j: number): any {
         }),
       ).annotate({ identifier: "Capability" });
     case 1:
-      return S.Array(__S(24736, __c773, 0));
+      return S.Array(__S(24768, __c774, 0));
   }
 }
-function __c774(j: number): any {
+function __c775(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53929,7 +53958,7 @@ function __c774(j: number): any {
       ).annotate({ identifier: "SkuCapacity" });
   }
 }
-function __c775(j: number): any {
+function __c776(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53939,14 +53968,14 @@ function __c775(j: number): any {
           size: S.optional(S.String),
           family: S.optional(S.String),
           capacity: S.optional(S.Number),
-          skuCapacity: S.optional(__S(24768, __c774, 0)),
-          locations: S.optional(__S(11104, __c347, 0)),
-          capabilities: S.optional(__S(24737, __c773, 1)),
+          skuCapacity: S.optional(__S(24800, __c775, 0)),
+          locations: S.optional(__S(11136, __c348, 0)),
+          capabilities: S.optional(__S(24769, __c774, 1)),
         }),
       ).annotate({ identifier: "SkuDescription" });
   }
 }
-function __c776(j: number): any {
+function __c777(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53955,12 +53984,12 @@ function __c776(j: number): any {
           computeMode: S.optional(S.String),
           workerSize: S.optional(S.String),
           workerCount: S.optional(S.Number),
-          instanceNames: S.optional(__S(11104, __c347, 0)),
+          instanceNames: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "WorkerPool" });
   }
 }
-function __c777(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53973,7 +54002,7 @@ function __c777(j: number): any {
       ).annotate({ identifier: "WorkerPoolInput" });
   }
 }
-function __c778(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53994,7 +54023,7 @@ function __c778(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHostSecretRequest" });
   }
 }
-function __c779(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54012,7 +54041,7 @@ function __c779(j: number): any {
       ).annotate({ identifier: "UpdatePublishingUserRequest" });
   }
 }
-function __c780(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54033,7 +54062,7 @@ function __c780(j: number): any {
       ).annotate({ identifier: "UpdateServerFarmSiloResourceServerFarmSiloRequest" });
   }
 }
-function __c781(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54043,7 +54072,7 @@ function __c781(j: number): any {
           name: S.String.pipe(T.Label()),
           certificateName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(24576, __c768, 0)),
+          properties: S.optional(__S(24608, __c769, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54055,7 +54084,7 @@ function __c781(j: number): any {
       ).annotate({ identifier: "UpdateSiteCertificateRequest" });
   }
 }
-function __c782(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54066,7 +54095,7 @@ function __c782(j: number): any {
           slot: S.String.pipe(T.Label()),
           certificateName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(24576, __c768, 0)),
+          properties: S.optional(__S(24608, __c769, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54078,7 +54107,7 @@ function __c782(j: number): any {
       ).annotate({ identifier: "UpdateSiteCertificateSlotRequest" });
   }
 }
-function __c783(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54099,7 +54128,7 @@ function __c783(j: number): any {
       ).annotate({ identifier: "UpdateSiteSiloResourceSiteSiloRequest" });
   }
 }
-function __c784(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54123,7 +54152,7 @@ function __c784(j: number): any {
       });
   }
 }
-function __c785(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54142,7 +54171,7 @@ function __c785(j: number): any {
       ).annotate({ identifier: "UpdateSourceControlRequest" });
   }
 }
-function __c786(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54152,7 +54181,7 @@ function __c786(j: number): any {
           name: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           databaseConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25184, __c787, 0)),
+          properties: S.optional(__S(25216, __c788, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54164,7 +54193,7 @@ function __c786(j: number): any {
       ).annotate({ identifier: "UpdateStaticSiteBuildDatabaseConnectionRequest" });
   }
 }
-function __c787(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54177,7 +54206,7 @@ function __c787(j: number): any {
       ).annotate({ identifier: "DatabaseConnectionPatchRequestProperties" });
   }
 }
-function __c788(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54186,7 +54215,7 @@ function __c788(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           databaseConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25184, __c787, 0)),
+          properties: S.optional(__S(25216, __c788, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54198,7 +54227,7 @@ function __c788(j: number): any {
       ).annotate({ identifier: "UpdateStaticSiteDatabaseConnectionRequest" });
   }
 }
-function __c789(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54207,7 +54236,7 @@ function __c789(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(23072, __c721, 0)),
+          properties: S.optional(__S(23104, __c722, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54219,7 +54248,7 @@ function __c789(j: number): any {
       ).annotate({ identifier: "UpdateStaticSiteStaticSiteRequest" });
   }
 }
-function __c790(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54241,7 +54270,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHostSecretSlotRequest" });
   }
 }
-function __c791(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54258,7 +54287,7 @@ function __c791(j: number): any {
           authprovider: S.String.pipe(T.Label()),
           userid: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(25312, __c791, 0)),
+          properties: S.optional(__S(25344, __c792, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -54270,7 +54299,7 @@ function __c791(j: number): any {
       ).annotate({ identifier: "UpdateStaticSiteStaticSiteUserRequest" });
   }
 }
-function __c792(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54279,7 +54308,7 @@ function __c792(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(25408, __c794, 0)),
+          properties: S.optional(__S(25440, __c795, 0)),
           identity: S.optional(__S(289, __c9, 1)),
         }).pipe(
           T.Http({
@@ -54292,20 +54321,20 @@ function __c792(j: number): any {
       ).annotate({ identifier: "UpdateWebAppRequest" });
   }
 }
-function __c793(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          properties: S.optional(__S(15904, __c497, 0)),
+          properties: S.optional(__S(15936, __c498, 0)),
         }),
       ).annotate({ identifier: "PushSettingsInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           numberOfWorkers: S.optional(S.Number),
-          defaultDocuments: S.optional(__S(11104, __c347, 0)),
+          defaultDocuments: S.optional(__S(11136, __c348, 0)),
           netFrameworkVersion: S.optional(S.String),
           phpVersion: S.optional(S.String),
           pythonVersion: S.optional(S.String),
@@ -54323,10 +54352,10 @@ function __c793(j: number): any {
           logsDirectorySizeLimit: S.optional(S.Number),
           detailedErrorLoggingEnabled: S.optional(S.Boolean),
           publishingUsername: S.optional(S.String),
-          appSettings: S.optional(__S(16096, __c503, 0)),
-          metadata: S.optional(__S(16096, __c503, 0)),
-          connectionStrings: S.optional(__S(15937, __c498, 1)),
-          handlerMappings: S.optional(__S(15940, __c498, 4)),
+          appSettings: S.optional(__S(16128, __c504, 0)),
+          metadata: S.optional(__S(16128, __c504, 0)),
+          connectionStrings: S.optional(__S(15969, __c499, 1)),
+          handlerMappings: S.optional(__S(15972, __c499, 4)),
           documentRoot: S.optional(S.String),
           scmType: S.optional(S.String),
           use32BitWorkerProcess: S.optional(S.Boolean),
@@ -54337,28 +54366,28 @@ function __c793(j: number): any {
           javaContainerVersion: S.optional(S.String),
           appCommandLine: S.optional(S.String),
           managedPipelineMode: S.optional(S.String),
-          virtualApplications: S.optional(__S(15944, __c498, 8)),
+          virtualApplications: S.optional(__S(15976, __c499, 8)),
           loadBalancing: S.optional(S.String),
-          experiments: S.optional(__S(15947, __c498, 11)),
-          limits: S.optional(__S(15948, __c498, 12)),
+          experiments: S.optional(__S(15979, __c499, 11)),
+          limits: S.optional(__S(15980, __c499, 12)),
           autoHealEnabled: S.optional(S.Boolean),
-          autoHealRules: S.optional(__S(15959, __c498, 23)),
+          autoHealRules: S.optional(__S(15991, __c499, 23)),
           tracingOptions: S.optional(S.String),
           vnetName: S.optional(S.String),
           vnetRouteAllEnabled: S.optional(S.Boolean),
           vnetPrivatePortsCount: S.optional(S.Number),
-          cors: S.optional(__S(15960, __c498, 24)),
-          push: S.optional(__S(25376, __c793, 0)),
-          apiDefinition: S.optional(__S(15961, __c498, 25)),
-          apiManagementConfig: S.optional(__S(11136, __c348, 0)),
+          cors: S.optional(__S(15992, __c499, 24)),
+          push: S.optional(__S(25408, __c794, 0)),
+          apiDefinition: S.optional(__S(15993, __c499, 25)),
+          apiManagementConfig: S.optional(__S(11168, __c349, 0)),
           autoSwapSlotName: S.optional(S.String),
           localMySqlEnabled: S.optional(S.Boolean),
           managedServiceIdentityId: S.optional(S.Number),
           xManagedServiceIdentityId: S.optional(S.Number),
           keyVaultReferenceIdentity: S.optional(S.String),
-          ipSecurityRestrictions: S.optional(__S(15964, __c498, 28)),
+          ipSecurityRestrictions: S.optional(__S(15996, __c499, 28)),
           ipSecurityRestrictionsDefaultAction: S.optional(S.String),
-          scmIpSecurityRestrictions: S.optional(__S(15964, __c498, 28)),
+          scmIpSecurityRestrictions: S.optional(__S(15996, __c499, 28)),
           scmIpSecurityRestrictionsDefaultAction: S.optional(S.String),
           scmIpSecurityRestrictionsUseMain: S.optional(S.Boolean),
           http20Enabled: S.optional(S.Boolean),
@@ -54374,29 +54403,29 @@ function __c793(j: number): any {
           functionsRuntimeScaleMonitoringEnabled: S.optional(S.Boolean),
           websiteTimeZone: S.optional(S.String),
           minimumElasticInstanceCount: S.optional(S.Number),
-          azureStorageAccounts: S.optional(__S(15873, __c496, 1)),
+          azureStorageAccounts: S.optional(__S(15905, __c497, 1)),
           publicNetworkAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteConfigInput" });
   }
 }
-function __c794(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           siteScopedCertificatesEnabled: S.optional(S.Boolean),
-          hostNameSslStates: S.optional(__S(16001, __c500, 1)),
+          hostNameSslStates: S.optional(__S(16033, __c501, 1)),
           serverFarmId: S.optional(S.String),
           reserved: S.optional(S.Boolean),
           isXenon: S.optional(S.Boolean),
           hyperV: S.optional(S.Boolean),
-          dnsConfiguration: S.optional(__S(25440, __c795, 0)),
-          siteConfig: S.optional(__S(25377, __c793, 1)),
-          aiIntegration: S.optional(__S(16020, __c500, 20)),
+          dnsConfiguration: S.optional(__S(25472, __c796, 0)),
+          siteConfig: S.optional(__S(25409, __c794, 1)),
+          aiIntegration: S.optional(__S(16052, __c501, 20)),
           scmSiteAlsoStopped: S.optional(S.Boolean),
-          hostingEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          hostingEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           clientAffinityEnabled: S.optional(S.Boolean),
           clientAffinityProxyEnabled: S.optional(S.Boolean),
           clientCertEnabled: S.optional(S.Boolean),
@@ -54406,7 +54435,7 @@ function __c794(j: number): any {
           customDomainVerificationId: S.optional(S.String),
           containerSize: S.optional(S.Number),
           dailyMemoryTimeQuota: S.optional(S.Number),
-          cloningInfo: S.optional(__S(16022, __c500, 22)),
+          cloningInfo: S.optional(__S(16054, __c501, 22)),
           httpsOnly: S.optional(S.Boolean),
           redundancyMode: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
@@ -54417,12 +54446,12 @@ function __c794(j: number): any {
       ).annotate({ identifier: "SitePatchResourcePropertiesInput" });
   }
 }
-function __c795(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dnsServers: S.optional(__S(11104, __c347, 0)),
+          dnsServers: S.optional(__S(11136, __c348, 0)),
           dnsAltServer: S.optional(S.String),
           dnsRetryAttemptTimeout: S.optional(S.Number),
           dnsRetryAttemptCount: S.optional(S.Number),
@@ -54431,7 +54460,7 @@ function __c795(j: number): any {
       ).annotate({ identifier: "SiteDnsConfigInput" });
   }
 }
-function __c796(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54452,7 +54481,7 @@ function __c796(j: number): any {
       ).annotate({ identifier: "UpdateWebAppApplicationSettingsRequest" });
   }
 }
-function __c797(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54474,7 +54503,7 @@ function __c797(j: number): any {
       ).annotate({ identifier: "UpdateWebAppApplicationSettingsSlotRequest" });
   }
 }
-function __c798(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54483,7 +54512,7 @@ function __c798(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(5760, __c180, 0)),
+          properties: S.optional(__S(5792, __c181, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54495,7 +54524,7 @@ function __c798(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAuthSettingsRequest" });
   }
 }
-function __c799(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54505,7 +54534,7 @@ function __c799(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(5760, __c180, 0)),
+          properties: S.optional(__S(5792, __c181, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54517,7 +54546,7 @@ function __c799(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAuthSettingsSlotRequest" });
   }
 }
-function __c800(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54525,7 +54554,7 @@ function __c800(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5893, __c184, 5)),
+          properties: S.optional(__S(5925, __c185, 5)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54538,7 +54567,7 @@ function __c800(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAuthSettingsV2Request" });
   }
 }
-function __c801(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54547,7 +54576,7 @@ function __c801(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5893, __c184, 5)),
+          properties: S.optional(__S(5925, __c185, 5)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54560,7 +54589,7 @@ function __c801(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAuthSettingsV2SlotRequest" });
   }
 }
-function __c802(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54569,7 +54598,7 @@ function __c802(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15873, __c496, 1)),
+          properties: S.optional(__S(15905, __c497, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54581,7 +54610,7 @@ function __c802(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAzureStorageAccountsRequest" });
   }
 }
-function __c803(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54591,7 +54620,7 @@ function __c803(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15873, __c496, 1)),
+          properties: S.optional(__S(15905, __c497, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54603,7 +54632,7 @@ function __c803(j: number): any {
       ).annotate({ identifier: "UpdateWebAppAzureStorageAccountsSlotRequest" });
   }
 }
-function __c804(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54624,7 +54653,7 @@ function __c804(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHybridConnectionRequest" });
   }
 }
-function __c805(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54633,7 +54662,7 @@ function __c805(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54645,7 +54674,7 @@ function __c805(j: number): any {
       ).annotate({ identifier: "UpdateWebAppBackupConfigurationRequest" });
   }
 }
-function __c806(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54655,7 +54684,7 @@ function __c806(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54667,7 +54696,7 @@ function __c806(j: number): any {
       ).annotate({ identifier: "UpdateWebAppBackupConfigurationSlotRequest" });
   }
 }
-function __c807(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54675,7 +54704,7 @@ function __c807(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25377, __c793, 1)),
+          properties: S.optional(__S(25409, __c794, 1)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54688,7 +54717,7 @@ function __c807(j: number): any {
       ).annotate({ identifier: "UpdateWebAppConfigurationRequest" });
   }
 }
-function __c808(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54697,7 +54726,7 @@ function __c808(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25377, __c793, 1)),
+          properties: S.optional(__S(25409, __c794, 1)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54710,7 +54739,7 @@ function __c808(j: number): any {
       ).annotate({ identifier: "UpdateWebAppConfigurationSlotRequest" });
   }
 }
-function __c809(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54719,7 +54748,7 @@ function __c809(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(16417, __c513, 1)),
+          properties: S.optional(__S(16449, __c514, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54731,7 +54760,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "UpdateWebAppConnectionStringsRequest" });
   }
 }
-function __c810(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54741,7 +54770,7 @@ function __c810(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(16417, __c513, 1)),
+          properties: S.optional(__S(16449, __c514, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -54753,7 +54782,7 @@ function __c810(j: number): any {
       ).annotate({ identifier: "UpdateWebAppConnectionStringsSlotRequest" });
   }
 }
-function __c811(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54761,7 +54790,7 @@ function __c811(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6824, __c213, 8)),
+          properties: S.optional(__S(6856, __c214, 8)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54774,7 +54803,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "UpdateWebAppDiagnosticLogsConfigRequest" });
   }
 }
-function __c812(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54783,7 +54812,7 @@ function __c812(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6824, __c213, 8)),
+          properties: S.optional(__S(6856, __c214, 8)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54796,7 +54825,7 @@ function __c812(j: number): any {
       ).annotate({ identifier: "UpdateWebAppDiagnosticLogsConfigSlotRequest" });
   }
 }
-function __c813(j: number): any {
+function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54805,7 +54834,7 @@ function __c813(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           domainOwnershipIdentifierName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6912, __c216, 0)),
+          properties: S.optional(__S(6944, __c217, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54818,7 +54847,7 @@ function __c813(j: number): any {
       ).annotate({ identifier: "UpdateWebAppDomainOwnershipIdentifierRequest" });
   }
 }
-function __c814(j: number): any {
+function __c815(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54828,7 +54857,7 @@ function __c814(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           domainOwnershipIdentifierName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6912, __c216, 0)),
+          properties: S.optional(__S(6944, __c217, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54841,7 +54870,7 @@ function __c814(j: number): any {
       ).annotate({ identifier: "UpdateWebAppDomainOwnershipIdentifierSlotRequest" });
   }
 }
-function __c815(j: number): any {
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54863,7 +54892,7 @@ function __c815(j: number): any {
       ).annotate({ identifier: "DeleteWebAppHybridConnectionSlotRequest" });
   }
 }
-function __c816(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54871,7 +54900,7 @@ function __c816(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7008, __c219, 0)),
+          properties: S.optional(__S(7040, __c220, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54884,7 +54913,7 @@ function __c816(j: number): any {
       ).annotate({ identifier: "UpdateWebAppFtpAllowedRequest" });
   }
 }
-function __c817(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54893,7 +54922,7 @@ function __c817(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7008, __c219, 0)),
+          properties: S.optional(__S(7040, __c220, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -54906,7 +54935,7 @@ function __c817(j: number): any {
       ).annotate({ identifier: "UpdateWebAppFtpAllowedSlotRequest" });
   }
 }
-function __c818(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54929,7 +54958,7 @@ function __c818(j: number): any {
       ).annotate({ identifier: "UpdateWebAppHybridConnectionRequest" });
   }
 }
-function __c819(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54953,7 +54982,7 @@ function __c819(j: number): any {
       ).annotate({ identifier: "UpdateWebAppHybridConnectionSlotRequest" });
   }
 }
-function __c820(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54972,7 +55001,7 @@ function __c820(j: number): any {
       ).annotate({ identifier: "UpdateWebAppMachineKeyRequest" });
   }
 }
-function __c821(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54993,7 +55022,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "UpdateWebAppMetadataRequest" });
   }
 }
-function __c822(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55015,7 +55044,7 @@ function __c822(j: number): any {
       ).annotate({ identifier: "UpdateWebAppMetadataSlotRequest" });
   }
 }
-function __c823(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55024,7 +55053,7 @@ function __c823(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           entityName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9024, __c282, 0)),
+          properties: S.optional(__S(9056, __c283, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55037,7 +55066,7 @@ function __c823(j: number): any {
       ).annotate({ identifier: "UpdateWebAppRelayServiceConnectionRequest" });
   }
 }
-function __c824(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55047,7 +55076,7 @@ function __c824(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           entityName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9024, __c282, 0)),
+          properties: S.optional(__S(9056, __c283, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55060,7 +55089,7 @@ function __c824(j: number): any {
       ).annotate({ identifier: "UpdateWebAppRelayServiceConnectionSlotRequest" });
   }
 }
-function __c825(j: number): any {
+function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55068,7 +55097,7 @@ function __c825(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7008, __c219, 0)),
+          properties: S.optional(__S(7040, __c220, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55081,7 +55110,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "UpdateWebAppScmAllowedRequest" });
   }
 }
-function __c826(j: number): any {
+function __c827(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55102,7 +55131,7 @@ function __c826(j: number): any {
       ).annotate({ identifier: "DeleteWebAppInstanceFunctionSlotRequest" });
   }
 }
-function __c827(j: number): any {
+function __c828(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55111,7 +55140,7 @@ function __c827(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7008, __c219, 0)),
+          properties: S.optional(__S(7040, __c220, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55124,7 +55153,7 @@ function __c827(j: number): any {
       ).annotate({ identifier: "UpdateWebAppScmAllowedSlotRequest" });
   }
 }
-function __c828(j: number): any {
+function __c829(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55133,7 +55162,7 @@ function __c828(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15904, __c497, 0)),
+          properties: S.optional(__S(15936, __c498, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -55143,28 +55172,6 @@ function __c828(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateWebAppSitePushSettingsRequest" });
-  }
-}
-function __c829(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          slot: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          properties: S.optional(__S(15904, __c497, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/pushsettings",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateWebAppSitePushSettingsSlotRequest" });
   }
 }
 function __c830(j: number): any {
@@ -55177,7 +55184,29 @@ function __c830(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(25408, __c794, 0)),
+          properties: S.optional(__S(15936, __c498, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/pushsettings",
+            code: 200,
+            apiVersion: "2026-08-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWebAppSitePushSettingsSlotRequest" });
+  }
+}
+function __c831(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          slot: S.String.pipe(T.Label()),
+          kind: S.optional(S.String),
+          properties: S.optional(__S(25440, __c795, 0)),
           identity: S.optional(__S(289, __c9, 1)),
         }).pipe(
           T.Http({
@@ -55190,7 +55219,7 @@ function __c830(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSlotRequest" });
   }
 }
-function __c831(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55198,7 +55227,7 @@ function __c831(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19168, __c599, 0)),
+          properties: S.optional(__S(19200, __c600, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55211,7 +55240,7 @@ function __c831(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSlotConfigurationNamesRequest" });
   }
 }
-function __c832(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55219,7 +55248,7 @@ function __c832(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55232,7 +55261,7 @@ function __c832(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSourceControlRequest" });
   }
 }
-function __c833(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55241,7 +55270,7 @@ function __c833(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55254,7 +55283,7 @@ function __c833(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSourceControlSlotRequest" });
   }
 }
-function __c834(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55275,7 +55304,7 @@ function __c834(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSwiftVirtualNetworkConnectionWithCheckRequest" });
   }
 }
-function __c835(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55297,7 +55326,7 @@ function __c835(j: number): any {
       ).annotate({ identifier: "UpdateWebAppSwiftVirtualNetworkConnectionWithCheckSlotRequest" });
   }
 }
-function __c836(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55306,7 +55335,7 @@ function __c836(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           vnetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(26784, __c837, 0)),
+          properties: S.optional(__S(26816, __c838, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55319,7 +55348,7 @@ function __c836(j: number): any {
       ).annotate({ identifier: "UpdateWebAppVnetConnectionRequest" });
   }
 }
-function __c837(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55332,7 +55361,7 @@ function __c837(j: number): any {
       ).annotate({ identifier: "VnetInfoInput" });
   }
 }
-function __c838(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55353,7 +55382,7 @@ function __c838(j: number): any {
       ).annotate({ identifier: "DeleteWebAppInstanceProcessRequest" });
   }
 }
-function __c839(j: number): any {
+function __c840(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55376,7 +55405,7 @@ function __c839(j: number): any {
       ).annotate({ identifier: "UpdateWebAppVnetConnectionGatewayRequest" });
   }
 }
-function __c840(j: number): any {
+function __c841(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55400,7 +55429,7 @@ function __c840(j: number): any {
       ).annotate({ identifier: "UpdateWebAppVnetConnectionGatewaySlotRequest" });
   }
 }
-function __c841(j: number): any {
+function __c842(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55410,7 +55439,7 @@ function __c841(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           vnetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(26784, __c837, 0)),
+          properties: S.optional(__S(26816, __c838, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55423,7 +55452,7 @@ function __c841(j: number): any {
       ).annotate({ identifier: "UpdateWebAppVnetConnectionSlotRequest" });
   }
 }
-function __c842(j: number): any {
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55441,7 +55470,7 @@ function __c842(j: number): any {
           containerImageRepository: S.optional(S.String),
           containerImageTag: S.optional(S.String),
           containerImagePlatform: S.optional(S.String),
-          appServiceEnvironment: S.optional(__S(20803, __c650, 3)),
+          appServiceEnvironment: S.optional(__S(20835, __c651, 3)),
         }),
       ).annotate({ identifier: "ValidatePropertiesInput" });
     case 1:
@@ -55452,7 +55481,7 @@ function __c842(j: number): any {
           name: S.String,
           type: S.String,
           location: S.String,
-          properties: __S(26944, __c842, 0),
+          properties: __S(26976, __c843, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55466,12 +55495,12 @@ function __c842(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          error: S.optional(__S(4800, __c150, 0)),
+          error: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "ValidateResponse" });
   }
 }
-function __c843(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55479,7 +55508,7 @@ function __c843(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceGroup: S.optional(S.String),
-          resources: S.optional(__S(11104, __c347, 0)),
+          resources: S.optional(__S(11136, __c348, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55491,7 +55520,7 @@ function __c843(j: number): any {
       ).annotate({ identifier: "ValidateMoveRequest" });
   }
 }
-function __c844(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55500,7 +55529,7 @@ function __c844(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           linkedBackendName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23424, __c732, 0)),
+          properties: S.optional(__S(23456, __c733, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55513,7 +55542,7 @@ function __c844(j: number): any {
       ).annotate({ identifier: "ValidateStaticSiteBackendRequest" });
   }
 }
-function __c845(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55523,7 +55552,7 @@ function __c845(j: number): any {
           name: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           linkedBackendName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23424, __c732, 0)),
+          properties: S.optional(__S(23456, __c733, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55536,7 +55565,7 @@ function __c845(j: number): any {
       ).annotate({ identifier: "ValidateStaticSiteBackendForBuildRequest" });
   }
 }
-function __c846(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55546,7 +55575,7 @@ function __c846(j: number): any {
           name: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(23264, __c727, 0)),
+          properties: S.optional(__S(23296, __c728, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55558,18 +55587,18 @@ function __c846(j: number): any {
       ).annotate({ identifier: "ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest" });
   }
 }
-function __c847(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          endpointsConfiguration: S.optional(__S(11331, __c354, 3)),
-          accessControl: S.optional(__S(11338, __c354, 10)),
-          integrationAccount: S.optional(__S(11136, __c348, 0)),
-          integrationServiceEnvironment: S.optional(__S(11136, __c348, 0)),
+          endpointsConfiguration: S.optional(__S(11363, __c355, 3)),
+          accessControl: S.optional(__S(11370, __c355, 10)),
+          integrationAccount: S.optional(__S(11168, __c349, 0)),
+          integrationServiceEnvironment: S.optional(__S(11168, __c349, 0)),
           definition: S.optional(S.Unknown),
-          parameters: S.optional(__S(11340, __c354, 12)),
+          parameters: S.optional(__S(11372, __c355, 12)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowPropertiesInput" });
@@ -55582,7 +55611,7 @@ function __c847(j: number): any {
           workflowName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
           tags: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(27104, __c847, 0)),
+          properties: S.optional(__S(27136, __c848, 0)),
           identity: S.optional(__S(289, __c9, 1)),
         }).pipe(
           T.Http({
@@ -55595,7 +55624,7 @@ function __c847(j: number): any {
       ).annotate({ identifier: "ValidateWorkflowRequest" });
   }
 }
-function __c848(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55611,7 +55640,7 @@ function __c848(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27136, __c848, 0)),
+          properties: S.optional(__S(27168, __c849, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55635,18 +55664,18 @@ function __c848(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(27138, __c848, 2)),
+          properties: S.optional(__S(27170, __c849, 2)),
         }),
       ).annotate({ identifier: "VnetValidationTestFailure" });
     case 4:
-      return S.Array(__S(27139, __c848, 3));
+      return S.Array(__S(27171, __c849, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           failed: S.optional(S.Boolean),
-          failedTests: S.optional(__S(27140, __c848, 4)),
-          warnings: S.optional(__S(27140, __c848, 4)),
+          failedTests: S.optional(__S(27172, __c849, 4)),
+          warnings: S.optional(__S(27172, __c849, 4)),
         }),
       ).annotate({ identifier: "VnetValidationFailureDetailsProperties" });
     case 6:
@@ -55656,12 +55685,12 @@ function __c848(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(27141, __c848, 5)),
+          properties: S.optional(__S(27173, __c849, 5)),
         }),
       ).annotate({ identifier: "VerifyHostingEnvironmentVnetResponse" });
   }
 }
-function __c849(j: number): any {
+function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55683,7 +55712,7 @@ function __c849(j: number): any {
       ).annotate({ identifier: "DeleteWebAppInstanceProcessSlotRequest" });
   }
 }
-function __c850(j: number): any {
+function __c851(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55694,8 +55723,9 @@ function __c850(j: number): any {
           premierAddOnName: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(27232, __c851, 0)),
+          properties: S.optional(__S(27296, __c853, 0)),
           kind: S.optional(S.String),
+          plan: S.optional(__S(4768, __c149, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -55707,7 +55737,25 @@ function __c850(j: number): any {
       ).annotate({ identifier: "WebAppsAddPremierAddOnRequest" });
   }
 }
-function __c851(j: number): any {
+function __c852(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(96, __c3, 0)),
+          tags: S.optional(__S(128, __c4, 0)),
+          location: S.String,
+          properties: S.optional(__S(27296, __c853, 0)),
+          kind: S.optional(S.String),
+          plan: S.optional(__S(4768, __c149, 0)),
+        }),
+      ).annotate({ identifier: "WebAppsAddPremierAddOnResponse" });
+  }
+}
+function __c853(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55719,22 +55767,9 @@ function __c851(j: number): any {
           marketplaceOffer: S.optional(S.String),
         }),
       ).annotate({ identifier: "PremierAddOnProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          tags: S.optional(__S(128, __c4, 0)),
-          location: S.String,
-          properties: S.optional(__S(27232, __c851, 0)),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebAppsAddPremierAddOnResponse" });
   }
 }
-function __c852(j: number): any {
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55746,8 +55781,9 @@ function __c852(j: number): any {
           premierAddOnName: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(27232, __c851, 0)),
+          properties: S.optional(__S(27296, __c853, 0)),
           kind: S.optional(S.String),
+          plan: S.optional(__S(4768, __c149, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -55759,7 +55795,7 @@ function __c852(j: number): any {
       ).annotate({ identifier: "WebAppsAddPremierAddOnSlotRequest" });
   }
 }
-function __c853(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55779,7 +55815,7 @@ function __c853(j: number): any {
       ).annotate({ identifier: "WebAppsAnalyzeCustomHostnameRequest" });
   }
 }
-function __c854(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55790,11 +55826,11 @@ function __c854(j: number): any {
           hasConflictOnScaleUnit: S.optional(S.Boolean),
           hasConflictAcrossSubscription: S.optional(S.Boolean),
           conflictingAppResourceId: S.optional(S.String),
-          cNameRecords: S.optional(__S(11104, __c347, 0)),
-          txtRecords: S.optional(__S(11104, __c347, 0)),
-          aRecords: S.optional(__S(11104, __c347, 0)),
-          alternateCNameRecords: S.optional(__S(11104, __c347, 0)),
-          alternateTxtRecords: S.optional(__S(11104, __c347, 0)),
+          cNameRecords: S.optional(__S(11136, __c348, 0)),
+          txtRecords: S.optional(__S(11136, __c348, 0)),
+          aRecords: S.optional(__S(11136, __c348, 0)),
+          alternateCNameRecords: S.optional(__S(11136, __c348, 0)),
+          alternateTxtRecords: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "CustomHostnameAnalysisResultProperties" });
     case 1:
@@ -55804,12 +55840,12 @@ function __c854(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(27328, __c854, 0)),
+          properties: S.optional(__S(27392, __c856, 0)),
         }),
       ).annotate({ identifier: "WebAppsAnalyzeCustomHostnameResponse" });
   }
 }
-function __c855(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55830,7 +55866,7 @@ function __c855(j: number): any {
       ).annotate({ identifier: "WebAppsAnalyzeCustomHostnameSlotRequest" });
   }
 }
-function __c856(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55839,7 +55875,7 @@ function __c856(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11168, __c349, 0)),
+          properties: S.optional(__S(11200, __c350, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55852,7 +55888,7 @@ function __c856(j: number): any {
       ).annotate({ identifier: "WebAppsApproveOrRejectPrivateEndpointConnectionRequest" });
   }
 }
-function __c857(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55862,7 +55898,7 @@ function __c857(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11168, __c349, 0)),
+          properties: S.optional(__S(11200, __c350, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -55875,7 +55911,7 @@ function __c857(j: number): any {
       ).annotate({ identifier: "WebAppsApproveOrRejectPrivateEndpointConnectionSlotRequest" });
   }
 }
-function __c858(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55884,7 +55920,7 @@ function __c858(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55896,7 +55932,7 @@ function __c858(j: number): any {
       ).annotate({ identifier: "WebAppsBackupRequest" });
   }
 }
-function __c859(j: number): any {
+function __c861(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55906,7 +55942,7 @@ function __c859(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(15553, __c486, 1)),
+          properties: S.optional(__S(15585, __c487, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55918,7 +55954,7 @@ function __c859(j: number): any {
       ).annotate({ identifier: "WebAppsBackupSlotRequest" });
   }
 }
-function __c860(j: number): any {
+function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55928,7 +55964,7 @@ function __c860(j: number): any {
           name: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27554, __c861, 2)),
+          properties: S.optional(__S(27618, __c863, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -55940,7 +55976,7 @@ function __c860(j: number): any {
       ).annotate({ identifier: "WebAppsCreateInstanceMSDeployOperationRequest" });
   }
 }
-function __c861(j: number): any {
+function __c863(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55955,7 +55991,7 @@ function __c861(j: number): any {
         }),
       ).annotate({ identifier: "MSDeployCore" });
     case 1:
-      return S.Array(__S(27552, __c861, 0));
+      return S.Array(__S(27616, __c863, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -55966,7 +56002,7 @@ function __c861(j: number): any {
           setParameters: S.optional(__S(128, __c4, 0)),
           skipAppData: S.optional(S.Boolean),
           appOffline: S.optional(S.Boolean),
-          addOnPackages: S.optional(__S(27553, __c861, 1)),
+          addOnPackages: S.optional(__S(27617, __c863, 1)),
         }),
       ).annotate({ identifier: "MSDeployProperties" });
     case 3:
@@ -55976,7 +56012,7 @@ function __c861(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(27584, __c862, 0)),
+          properties: S.optional(__S(27648, __c864, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -55984,7 +56020,7 @@ function __c861(j: number): any {
       ).annotate({ identifier: "WebAppsCreateInstanceMSDeployOperationResponse" });
   }
 }
-function __c862(j: number): any {
+function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55998,7 +56034,7 @@ function __c862(j: number): any {
       ).annotate({ identifier: "MSDeployStatusProperties" });
   }
 }
-function __c863(j: number): any {
+function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56009,7 +56045,7 @@ function __c863(j: number): any {
           slot: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27554, __c861, 2)),
+          properties: S.optional(__S(27618, __c863, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56021,7 +56057,7 @@ function __c863(j: number): any {
       ).annotate({ identifier: "WebAppsCreateInstanceMSDeployOperationSlotRequest" });
   }
 }
-function __c864(j: number): any {
+function __c866(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56041,7 +56077,7 @@ function __c864(j: number): any {
       ).annotate({ identifier: "DeleteWebAppPrivateEndpointConnectionRequest" });
   }
 }
-function __c865(j: number): any {
+function __c867(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56050,7 +56086,7 @@ function __c865(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27554, __c861, 2)),
+          properties: S.optional(__S(27618, __c863, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56062,7 +56098,7 @@ function __c865(j: number): any {
       ).annotate({ identifier: "WebAppsCreateMSDeployOperationRequest" });
   }
 }
-function __c866(j: number): any {
+function __c868(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56072,7 +56108,7 @@ function __c866(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27554, __c861, 2)),
+          properties: S.optional(__S(27618, __c863, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56084,7 +56120,7 @@ function __c866(j: number): any {
       ).annotate({ identifier: "WebAppsCreateMSDeployOperationSlotRequest" });
   }
 }
-function __c867(j: number): any {
+function __c869(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56103,7 +56139,7 @@ function __c867(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(27744, __c867, 0)),
+          properties: S.optional(__S(27808, __c869, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56115,7 +56151,7 @@ function __c867(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOneDeployOperationRequest" });
   }
 }
-function __c868(j: number): any {
+function __c870(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56125,7 +56161,7 @@ function __c868(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(27808, __c869, 0)),
+          properties: S.optional(__S(27872, __c871, 0)),
           identity: S.optional(__S(289, __c9, 1)),
           extendedLocation: S.optional(__S(256, __c8, 0)),
           kind: S.optional(S.String),
@@ -56140,28 +56176,28 @@ function __c868(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateRequest" });
   }
 }
-function __c869(j: number): any {
+function __c871(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           siteScopedCertificatesEnabled: S.optional(S.Boolean),
-          hostNameSslStates: S.optional(__S(16001, __c500, 1)),
+          hostNameSslStates: S.optional(__S(16033, __c501, 1)),
           serverFarmId: S.optional(S.String),
           reserved: S.optional(S.Boolean),
           isXenon: S.optional(S.Boolean),
           hyperV: S.optional(S.Boolean),
-          dnsConfiguration: S.optional(__S(25440, __c795, 0)),
-          outboundVnetRouting: S.optional(__S(16003, __c500, 3)),
-          siteConfig: S.optional(__S(25377, __c793, 1)),
-          functionAppConfig: S.optional(__S(16014, __c500, 14)),
-          daprConfig: S.optional(__S(16015, __c500, 15)),
-          aiIntegration: S.optional(__S(16020, __c500, 20)),
+          dnsConfiguration: S.optional(__S(25472, __c796, 0)),
+          outboundVnetRouting: S.optional(__S(16035, __c501, 3)),
+          siteConfig: S.optional(__S(25409, __c794, 1)),
+          functionAppConfig: S.optional(__S(16046, __c501, 14)),
+          daprConfig: S.optional(__S(16047, __c501, 15)),
+          aiIntegration: S.optional(__S(16052, __c501, 20)),
           workloadProfileName: S.optional(S.String),
-          resourceConfig: S.optional(__S(16021, __c500, 21)),
+          resourceConfig: S.optional(__S(16053, __c501, 21)),
           scmSiteAlsoStopped: S.optional(S.Boolean),
-          hostingEnvironmentProfile: S.optional(__S(11136, __c348, 0)),
+          hostingEnvironmentProfile: S.optional(__S(11168, __c349, 0)),
           clientAffinityEnabled: S.optional(S.Boolean),
           clientAffinityPartitioningEnabled: S.optional(S.Boolean),
           clientAffinityProxyEnabled: S.optional(S.Boolean),
@@ -56175,7 +56211,7 @@ function __c869(j: number): any {
           customDomainVerificationId: S.optional(S.String),
           containerSize: S.optional(S.Number),
           dailyMemoryTimeQuota: S.optional(S.Number),
-          cloningInfo: S.optional(__S(16022, __c500, 22)),
+          cloningInfo: S.optional(__S(16054, __c501, 22)),
           httpsOnly: S.optional(S.Boolean),
           redundancyMode: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
@@ -56197,16 +56233,16 @@ function __c869(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(16024, __c500, 24)),
-          identity: S.optional(__S(15810, __c494, 2)),
-          extendedLocation: S.optional(__S(15776, __c493, 0)),
+          properties: S.optional(__S(16056, __c501, 24)),
+          identity: S.optional(__S(15842, __c495, 2)),
+          extendedLocation: S.optional(__S(15808, __c494, 0)),
           kind: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "WebAppsCreateOrUpdateResponse" });
   }
 }
-function __c870(j: number): any {
+function __c872(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56214,7 +56250,7 @@ function __c870(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25377, __c793, 1)),
+          properties: S.optional(__S(25409, __c794, 1)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56227,7 +56263,7 @@ function __c870(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateConfigurationRequest" });
   }
 }
-function __c871(j: number): any {
+function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56236,7 +56272,7 @@ function __c871(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(25377, __c793, 1)),
+          properties: S.optional(__S(25409, __c794, 1)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56249,7 +56285,7 @@ function __c871(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateConfigurationSlotRequest" });
   }
 }
-function __c872(j: number): any {
+function __c874(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56258,7 +56294,7 @@ function __c872(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           domainOwnershipIdentifierName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6912, __c216, 0)),
+          properties: S.optional(__S(6944, __c217, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56271,7 +56307,7 @@ function __c872(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateDomainOwnershipIdentifierRequest" });
   }
 }
-function __c873(j: number): any {
+function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56281,7 +56317,7 @@ function __c873(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           domainOwnershipIdentifierName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6912, __c216, 0)),
+          properties: S.optional(__S(6944, __c217, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56294,7 +56330,7 @@ function __c873(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotRequest" });
   }
 }
-function __c874(j: number): any {
+function __c876(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56304,7 +56340,7 @@ function __c874(j: number): any {
           name: S.String.pipe(T.Label()),
           functionName: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16064, __c502, 0)),
+          properties: S.optional(__S(16096, __c503, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56316,7 +56352,7 @@ function __c874(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateFunctionSecretRequest" });
   }
 }
-function __c875(j: number): any {
+function __c877(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56327,7 +56363,7 @@ function __c875(j: number): any {
           slot: S.String.pipe(T.Label()),
           functionName: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16064, __c502, 0)),
+          properties: S.optional(__S(16096, __c503, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56339,7 +56375,7 @@ function __c875(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateFunctionSecretSlotRequest" });
   }
 }
-function __c876(j: number): any {
+function __c878(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56360,7 +56396,7 @@ function __c876(j: number): any {
       ).annotate({ identifier: "DeleteWebAppPrivateEndpointConnectionSlotRequest" });
   }
 }
-function __c877(j: number): any {
+function __c879(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56369,7 +56405,7 @@ function __c877(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           hostName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28096, __c878, 0)),
+          properties: S.optional(__S(28160, __c880, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56382,7 +56418,7 @@ function __c877(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHostNameBindingRequest" });
   }
 }
-function __c878(j: number): any {
+function __c880(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56399,7 +56435,7 @@ function __c878(j: number): any {
       ).annotate({ identifier: "HostNameBindingPropertiesInput" });
   }
 }
-function __c879(j: number): any {
+function __c881(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56409,7 +56445,7 @@ function __c879(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           hostName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28096, __c878, 0)),
+          properties: S.optional(__S(28160, __c880, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56422,7 +56458,7 @@ function __c879(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHostNameBindingSlotRequest" });
   }
 }
-function __c880(j: number): any {
+function __c882(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56432,7 +56468,7 @@ function __c880(j: number): any {
           name: S.String.pipe(T.Label()),
           keyType: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16064, __c502, 0)),
+          properties: S.optional(__S(16096, __c503, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56444,7 +56480,7 @@ function __c880(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHostSecretRequest" });
   }
 }
-function __c881(j: number): any {
+function __c883(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56455,7 +56491,7 @@ function __c881(j: number): any {
           slot: S.String.pipe(T.Label()),
           keyType: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16064, __c502, 0)),
+          properties: S.optional(__S(16096, __c503, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -56467,7 +56503,7 @@ function __c881(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHostSecretSlotRequest" });
   }
 }
-function __c882(j: number): any {
+function __c884(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56490,7 +56526,7 @@ function __c882(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHybridConnectionRequest" });
   }
 }
-function __c883(j: number): any {
+function __c885(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56514,7 +56550,7 @@ function __c883(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateHybridConnectionSlotRequest" });
   }
 }
-function __c884(j: number): any {
+function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56523,7 +56559,7 @@ function __c884(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           publicCertificateName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28320, __c885, 0)),
+          properties: S.optional(__S(28384, __c887, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56536,7 +56572,7 @@ function __c884(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdatePublicCertificateRequest" });
   }
 }
-function __c885(j: number): any {
+function __c887(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56547,7 +56583,7 @@ function __c885(j: number): any {
       ).annotate({ identifier: "PublicCertificatePropertiesInput" });
   }
 }
-function __c886(j: number): any {
+function __c888(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56557,7 +56593,7 @@ function __c886(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           publicCertificateName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28320, __c885, 0)),
+          properties: S.optional(__S(28384, __c887, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56570,7 +56606,7 @@ function __c886(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdatePublicCertificateSlotRequest" });
   }
 }
-function __c887(j: number): any {
+function __c889(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56579,7 +56615,7 @@ function __c887(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           entityName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9024, __c282, 0)),
+          properties: S.optional(__S(9056, __c283, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56592,7 +56628,7 @@ function __c887(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateRelayServiceConnectionRequest" });
   }
 }
-function __c888(j: number): any {
+function __c890(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56602,7 +56638,7 @@ function __c888(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           entityName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9024, __c282, 0)),
+          properties: S.optional(__S(9056, __c283, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56615,7 +56651,7 @@ function __c888(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateRelayServiceConnectionSlotRequest" });
   }
 }
-function __c889(j: number): any {
+function __c891(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56635,7 +56671,7 @@ function __c889(j: number): any {
       ).annotate({ identifier: "DeleteWebAppProcessRequest" });
   }
 }
-function __c890(j: number): any {
+function __c892(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56644,7 +56680,7 @@ function __c890(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28512, __c891, 0)),
+          properties: S.optional(__S(28576, __c893, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56657,7 +56693,7 @@ function __c890(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSiteContainerRequest" });
   }
 }
-function __c891(j: number): any {
+function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56670,14 +56706,14 @@ function __c891(j: number): any {
           userName: S.optional(S.String),
           passwordSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           userManagedIdentityClientId: S.optional(S.String),
-          volumeMounts: S.optional(__S(9345, __c292, 1)),
+          volumeMounts: S.optional(__S(9377, __c293, 1)),
           inheritAppSettingsAndConnectionStrings: S.optional(S.Boolean),
-          environmentVariables: S.optional(__S(9347, __c292, 3)),
+          environmentVariables: S.optional(__S(9379, __c293, 3)),
         }),
       ).annotate({ identifier: "SiteContainerPropertiesInput" });
   }
 }
-function __c892(j: number): any {
+function __c894(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56687,7 +56723,7 @@ function __c892(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(28512, __c891, 0)),
+          properties: S.optional(__S(28576, __c893, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56700,7 +56736,7 @@ function __c892(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSiteContainerSlotRequest" });
   }
 }
-function __c893(j: number): any {
+function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56711,7 +56747,7 @@ function __c893(j: number): any {
           slot: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c4, 0)),
           location: S.String,
-          properties: S.optional(__S(27808, __c869, 0)),
+          properties: S.optional(__S(27872, __c871, 0)),
           identity: S.optional(__S(289, __c9, 1)),
           extendedLocation: S.optional(__S(256, __c8, 0)),
           kind: S.optional(S.String),
@@ -56726,7 +56762,7 @@ function __c893(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSlotRequest" });
   }
 }
-function __c894(j: number): any {
+function __c896(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56734,7 +56770,7 @@ function __c894(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56747,7 +56783,7 @@ function __c894(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSourceControlRequest" });
   }
 }
-function __c895(j: number): any {
+function __c897(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56756,7 +56792,7 @@ function __c895(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -56764,7 +56800,7 @@ function __c895(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSourceControlResponse" });
   }
 }
-function __c896(j: number): any {
+function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56773,7 +56809,7 @@ function __c896(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9795, __c306, 3)),
+          properties: S.optional(__S(9827, __c307, 3)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56786,7 +56822,7 @@ function __c896(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateSourceControlSlotRequest" });
   }
 }
-function __c897(j: number): any {
+function __c899(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56809,7 +56845,7 @@ function __c897(j: number): any {
       });
   }
 }
-function __c898(j: number): any {
+function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56833,7 +56869,7 @@ function __c898(j: number): any {
       });
   }
 }
-function __c899(j: number): any {
+function __c901(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56842,7 +56878,7 @@ function __c899(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           vnetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(26784, __c837, 0)),
+          properties: S.optional(__S(26816, __c838, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56855,7 +56891,7 @@ function __c899(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateVnetConnectionRequest" });
   }
 }
-function __c900(j: number): any {
+function __c902(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56878,7 +56914,7 @@ function __c900(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateVnetConnectionGatewayRequest" });
   }
 }
-function __c901(j: number): any {
+function __c903(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56902,7 +56938,7 @@ function __c901(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateVnetConnectionGatewaySlotRequest" });
   }
 }
-function __c902(j: number): any {
+function __c904(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56911,8 +56947,8 @@ function __c902(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           workerPoolName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(24864, __c777, 0)),
-          sku: S.optional(__S(24800, __c775, 0)),
+          properties: S.optional(__S(24896, __c778, 0)),
+          sku: S.optional(__S(24832, __c776, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56925,7 +56961,7 @@ function __c902(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsCreateOrUpdateWorkerPoolRequest" });
   }
 }
-function __c903(j: number): any {
+function __c905(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56946,7 +56982,7 @@ function __c903(j: number): any {
       ).annotate({ identifier: "DeleteWebAppProcessSlotRequest" });
   }
 }
-function __c904(j: number): any {
+function __c906(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56956,7 +56992,7 @@ function __c904(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           vnetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(26784, __c837, 0)),
+          properties: S.optional(__S(26816, __c838, 0)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -56969,7 +57005,7 @@ function __c904(j: number): any {
       ).annotate({ identifier: "WebAppsCreateOrUpdateVnetConnectionSlotRequest" });
   }
 }
-function __c905(j: number): any {
+function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56989,7 +57025,7 @@ function __c905(j: number): any {
       ).annotate({ identifier: "WebAppsDeletePremierAddOnRequest" });
   }
 }
-function __c906(j: number): any {
+function __c908(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57010,7 +57046,7 @@ function __c906(j: number): any {
       ).annotate({ identifier: "WebAppsDeletePremierAddOnSlotRequest" });
   }
 }
-function __c907(j: number): any {
+function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57019,7 +57055,7 @@ function __c907(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -57031,7 +57067,7 @@ function __c907(j: number): any {
       ).annotate({ identifier: "WebAppsDiscoverBackupRequest" });
   }
 }
-function __c908(j: number): any {
+function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57040,12 +57076,12 @@ function __c908(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }),
       ).annotate({ identifier: "WebAppsDiscoverBackupResponse" });
   }
 }
-function __c909(j: number): any {
+function __c911(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57055,7 +57091,7 @@ function __c909(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(21856, __c683, 0)),
+          properties: S.optional(__S(21888, __c684, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -57067,7 +57103,7 @@ function __c909(j: number): any {
       ).annotate({ identifier: "WebAppsDiscoverBackupSlotRequest" });
   }
 }
-function __c910(j: number): any {
+function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57087,7 +57123,7 @@ function __c910(j: number): any {
       ).annotate({ identifier: "WebAppsGetInstanceMSDeployLogRequest" });
   }
 }
-function __c911(j: number): any {
+function __c913(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57098,11 +57134,11 @@ function __c911(j: number): any {
         }),
       ).annotate({ identifier: "MSDeployLogEntry" });
     case 1:
-      return S.Array(__S(29152, __c911, 0));
+      return S.Array(__S(29216, __c913, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(29153, __c911, 1)),
+          entries: S.optional(__S(29217, __c913, 1)),
         }),
       ).annotate({ identifier: "MSDeployLogProperties" });
     case 3:
@@ -57112,12 +57148,12 @@ function __c911(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(29154, __c911, 2)),
+          properties: S.optional(__S(29218, __c913, 2)),
         }),
       ).annotate({ identifier: "WebAppsGetInstanceMSDeployLogResponse" });
   }
 }
-function __c912(j: number): any {
+function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57138,7 +57174,7 @@ function __c912(j: number): any {
       ).annotate({ identifier: "WebAppsGetInstanceMSDeployLogSlotRequest" });
   }
 }
-function __c913(j: number): any {
+function __c915(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57158,7 +57194,7 @@ function __c913(j: number): any {
       ).annotate({ identifier: "WebAppsGetInstanceMsDeployStatusRequest" });
   }
 }
-function __c914(j: number): any {
+function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57167,13 +57203,13 @@ function __c914(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(27584, __c862, 0)),
+          properties: S.optional(__S(27648, __c864, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebAppsGetInstanceMsDeployStatusResponse" });
   }
 }
-function __c915(j: number): any {
+function __c917(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57194,7 +57230,7 @@ function __c915(j: number): any {
       ).annotate({ identifier: "WebAppsGetInstanceMsDeployStatusSlotRequest" });
   }
 }
-function __c916(j: number): any {
+function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57213,7 +57249,7 @@ function __c916(j: number): any {
       ).annotate({ identifier: "WebAppsGetMigrateMySqlStatusRequest" });
   }
 }
-function __c917(j: number): any {
+function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57230,13 +57266,13 @@ function __c917(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(29344, __c917, 0)),
+          properties: S.optional(__S(29408, __c919, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebAppsGetMigrateMySqlStatusResponse" });
   }
 }
-function __c918(j: number): any {
+function __c920(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57256,7 +57292,7 @@ function __c918(j: number): any {
       ).annotate({ identifier: "DeleteWebAppPublicCertificateRequest" });
   }
 }
-function __c919(j: number): any {
+function __c921(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57276,7 +57312,7 @@ function __c919(j: number): any {
       ).annotate({ identifier: "WebAppsGetMigrateMySqlStatusSlotRequest" });
   }
 }
-function __c920(j: number): any {
+function __c922(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57295,7 +57331,7 @@ function __c920(j: number): any {
       ).annotate({ identifier: "WebAppsGetMSDeployLogRequest" });
   }
 }
-function __c921(j: number): any {
+function __c923(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57315,7 +57351,7 @@ function __c921(j: number): any {
       ).annotate({ identifier: "WebAppsGetMSDeployLogSlotRequest" });
   }
 }
-function __c922(j: number): any {
+function __c924(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57334,7 +57370,7 @@ function __c922(j: number): any {
       ).annotate({ identifier: "WebAppsGetMSDeployStatusRequest" });
   }
 }
-function __c923(j: number): any {
+function __c925(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57354,7 +57390,7 @@ function __c923(j: number): any {
       ).annotate({ identifier: "WebAppsGetMSDeployStatusSlotRequest" });
   }
 }
-function __c924(j: number): any {
+function __c926(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57373,7 +57409,7 @@ function __c924(j: number): any {
       ).annotate({ identifier: "WebAppsGetOneDeployStatusRequest" });
   }
 }
-function __c925(j: number): any {
+function __c927(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57393,7 +57429,7 @@ function __c925(j: number): any {
       ).annotate({ identifier: "WebAppsGetPremierAddOnRequest" });
   }
 }
-function __c926(j: number): any {
+function __c928(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57414,7 +57450,7 @@ function __c926(j: number): any {
       ).annotate({ identifier: "WebAppsGetPremierAddOnSlotRequest" });
   }
 }
-function __c927(j: number): any {
+function __c929(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57433,7 +57469,7 @@ function __c927(j: number): any {
       ).annotate({ identifier: "WebAppsGetPrivateEndpointConnectionListRequest" });
   }
 }
-function __c928(j: number): any {
+function __c930(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57453,7 +57489,7 @@ function __c928(j: number): any {
       ).annotate({ identifier: "WebAppsGetPrivateEndpointConnectionListSlotRequest" });
   }
 }
-function __c929(j: number): any {
+function __c931(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57474,7 +57510,7 @@ function __c929(j: number): any {
       ).annotate({ identifier: "DeleteWebAppPublicCertificateSlotRequest" });
   }
 }
-function __c930(j: number): any {
+function __c932(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57493,7 +57529,7 @@ function __c930(j: number): any {
       ).annotate({ identifier: "WebAppsIsCloneableRequest" });
   }
 }
-function __c931(j: number): any {
+function __c933(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57503,19 +57539,19 @@ function __c931(j: number): any {
         }),
       ).annotate({ identifier: "SiteCloneabilityCriterion" });
     case 1:
-      return S.Array(__S(29792, __c931, 0));
+      return S.Array(__S(29856, __c933, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(S.String),
-          blockingFeatures: S.optional(__S(29793, __c931, 1)),
-          unsupportedFeatures: S.optional(__S(29793, __c931, 1)),
-          blockingCharacteristics: S.optional(__S(29793, __c931, 1)),
+          blockingFeatures: S.optional(__S(29857, __c933, 1)),
+          unsupportedFeatures: S.optional(__S(29857, __c933, 1)),
+          blockingCharacteristics: S.optional(__S(29857, __c933, 1)),
         }),
       ).annotate({ identifier: "SiteCloneability" });
   }
 }
-function __c932(j: number): any {
+function __c934(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57535,7 +57571,7 @@ function __c932(j: number): any {
       ).annotate({ identifier: "WebAppsIsCloneableSlotRequest" });
   }
 }
-function __c933(j: number): any {
+function __c935(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57554,7 +57590,24 @@ function __c933(j: number): any {
       ).annotate({ identifier: "WebAppsListPremierAddOnsRequest" });
   }
 }
-function __c934(j: number): any {
+function __c936(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(96, __c3, 0)),
+          tags: S.optional(__S(128, __c4, 0)),
+          location: S.String,
+          properties: S.optional(__S(27296, __c853, 0)),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebAppsListPremierAddOnsResponse" });
+  }
+}
+function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57574,7 +57627,7 @@ function __c934(j: number): any {
       ).annotate({ identifier: "WebAppsListPremierAddOnsSlotRequest" });
   }
 }
-function __c935(j: number): any {
+function __c938(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57584,7 +57637,7 @@ function __c935(j: number): any {
           name: S.String.pipe(T.Label()),
           premierAddOnName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27232, __c851, 0)),
+          properties: S.optional(__S(27296, __c853, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -57596,7 +57649,7 @@ function __c935(j: number): any {
       ).annotate({ identifier: "WebAppsUpdatePremierAddOnRequest" });
   }
 }
-function __c936(j: number): any {
+function __c939(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57607,7 +57660,7 @@ function __c936(j: number): any {
           slot: S.String.pipe(T.Label()),
           premierAddOnName: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(27232, __c851, 0)),
+          properties: S.optional(__S(27296, __c853, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -57619,7 +57672,7 @@ function __c936(j: number): any {
       ).annotate({ identifier: "WebAppsUpdatePremierAddOnSlotRequest" });
   }
 }
-function __c937(j: number): any {
+function __c940(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57641,7 +57694,7 @@ function __c937(j: number): any {
       ).annotate({ identifier: "WorkflowTriggerHistoriesResubmitRequest" });
   }
 }
-function __c938(j: number): any {
+function __c941(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57661,7 +57714,7 @@ function __c938(j: number): any {
       ).annotate({ identifier: "DeleteWebAppRelayServiceConnectionRequest" });
   }
 }
-function __c939(j: number): any {
+function __c942(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57682,7 +57735,7 @@ function __c939(j: number): any {
       ).annotate({ identifier: "DeleteWebAppRelayServiceConnectionSlotRequest" });
   }
 }
-function __c940(j: number): any {
+function __c943(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57702,7 +57755,7 @@ function __c940(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSiteContainerRequest" });
   }
 }
-function __c941(j: number): any {
+function __c944(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57723,7 +57776,7 @@ function __c941(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSiteContainerSlotRequest" });
   }
 }
-function __c942(j: number): any {
+function __c945(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57743,7 +57796,7 @@ function __c942(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSiteExtensionRequest" });
   }
 }
-function __c943(j: number): any {
+function __c946(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57764,7 +57817,7 @@ function __c943(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSiteExtensionSlotRequest" });
   }
 }
-function __c944(j: number): any {
+function __c947(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57786,7 +57839,7 @@ function __c944(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSlotRequest" });
   }
 }
-function __c945(j: number): any {
+function __c948(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57805,7 +57858,7 @@ function __c945(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsGetPrivateEndpointConnectionListRequest" });
   }
 }
-function __c946(j: number): any {
+function __c949(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57814,26 +57867,26 @@ function __c946(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(11201, __c350, 1)),
+          properties: S.optional(__S(11233, __c351, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemotePrivateEndpointConnectionARMResource" });
   }
 }
-function __c947(j: number): any {
+function __c950(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(30272, __c946, 0));
+      return S.Array(__S(30368, __c949, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(30304, __c947, 0),
+          value: __S(30400, __c950, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionCollection" });
   }
 }
-function __c948(j: number): any {
+function __c951(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57853,7 +57906,7 @@ function __c948(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSourceControlRequest" });
   }
 }
-function __c949(j: number): any {
+function __c952(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57874,7 +57927,7 @@ function __c949(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSourceControlSlotRequest" });
   }
 }
-function __c950(j: number): any {
+function __c953(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57893,7 +57946,7 @@ function __c950(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSwiftVirtualNetworkRequest" });
   }
 }
-function __c951(j: number): any {
+function __c954(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57913,7 +57966,7 @@ function __c951(j: number): any {
       ).annotate({ identifier: "DeleteWebAppSwiftVirtualNetworkSlotRequest" });
   }
 }
-function __c952(j: number): any {
+function __c955(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57933,7 +57986,7 @@ function __c952(j: number): any {
       ).annotate({ identifier: "DeleteWebAppTriggeredWebJobRequest" });
   }
 }
-function __c953(j: number): any {
+function __c956(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57954,7 +58007,7 @@ function __c953(j: number): any {
       ).annotate({ identifier: "DeleteWebAppTriggeredWebJobSlotRequest" });
   }
 }
-function __c954(j: number): any {
+function __c957(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57974,7 +58027,7 @@ function __c954(j: number): any {
       ).annotate({ identifier: "DeleteWebAppVnetConnectionRequest" });
   }
 }
-function __c955(j: number): any {
+function __c958(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57995,7 +58048,7 @@ function __c955(j: number): any {
       ).annotate({ identifier: "DeleteWebAppVnetConnectionSlotRequest" });
   }
 }
-function __c956(j: number): any {
+function __c959(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58004,8 +58057,8 @@ function __c956(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           appSettings: S.optional(S.Unknown),
-          files: S.optional(__S(30624, __c957, 0)),
-          filesToDelete: S.optional(__S(11104, __c347, 0)),
+          files: S.optional(__S(30720, __c960, 0)),
+          filesToDelete: S.optional(__S(11136, __c348, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -58017,13 +58070,13 @@ function __c956(j: number): any {
       ).annotate({ identifier: "DeployWebAppWorkflowArtifactsRequest" });
   }
 }
-function __c957(j: number): any {
+function __c960(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c958(j: number): any {
+function __c961(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58033,8 +58086,8 @@ function __c958(j: number): any {
           name: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
           appSettings: S.optional(S.Unknown),
-          files: S.optional(__S(30624, __c957, 0)),
-          filesToDelete: S.optional(__S(11104, __c347, 0)),
+          files: S.optional(__S(30720, __c960, 0)),
+          filesToDelete: S.optional(__S(11136, __c348, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -58046,7 +58099,7 @@ function __c958(j: number): any {
       ).annotate({ identifier: "DeployWebAppWorkflowArtifactsSlotRequest" });
   }
 }
-function __c959(j: number): any {
+function __c962(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58065,7 +58118,7 @@ function __c959(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsUpgradeRequest" });
   }
 }
-function __c960(j: number): any {
+function __c963(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58076,7 +58129,7 @@ function __c960(j: number): any {
       ).annotate({ identifier: "AppServiceEnvironmentsUpgradeResponse" });
   }
 }
-function __c961(j: number): any {
+function __c964(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58095,7 +58148,7 @@ function __c961(j: number): any {
       ).annotate({ identifier: "DetachStaticSiteStaticSiteRequest" });
   }
 }
-function __c962(j: number): any {
+function __c965(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58115,7 +58168,7 @@ function __c962(j: number): any {
       ).annotate({ identifier: "DetachStaticSiteUserProvidedFunctionAppFromStaticSiteRequest" });
   }
 }
-function __c963(j: number): any {
+function __c966(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58138,7 +58191,7 @@ function __c963(j: number): any {
       });
   }
 }
-function __c964(j: number): any {
+function __c967(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58158,7 +58211,7 @@ function __c964(j: number): any {
       ).annotate({ identifier: "DisableRecommendationAllForHostingEnvironmentRequest" });
   }
 }
-function __c965(j: number): any {
+function __c968(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58177,7 +58230,7 @@ function __c965(j: number): any {
       ).annotate({ identifier: "DisableRecommendationAllForWebAppRequest" });
   }
 }
-function __c966(j: number): any {
+function __c969(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58198,7 +58251,7 @@ function __c966(j: number): any {
       ).annotate({ identifier: "DisableRecommendationRecommendationForHostingEnvironmentRequest" });
   }
 }
-function __c967(j: number): any {
+function __c970(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58218,7 +58271,7 @@ function __c967(j: number): any {
       ).annotate({ identifier: "DisableRecommendationRecommendationForSiteRequest" });
   }
 }
-function __c968(j: number): any {
+function __c971(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58236,7 +58289,7 @@ function __c968(j: number): any {
       ).annotate({ identifier: "DisableRecommendationRecommendationForSubscriptionRequest" });
   }
 }
-function __c969(j: number): any {
+function __c972(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58260,41 +58313,41 @@ function __c969(j: number): any {
       ).annotate({ identifier: "ExecuteDiagnosticSiteAnalysisRequest" });
   }
 }
-function __c970(j: number): any {
+function __c973(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          events: S.optional(__S(31076, __c971, 4)),
-          solutions: S.optional(__S(31074, __c971, 2)),
+          events: S.optional(__S(31172, __c974, 4)),
+          solutions: S.optional(__S(31170, __c974, 2)),
         }),
       ).annotate({ identifier: "AbnormalTimePeriod" });
     case 1:
-      return S.Array(__S(31040, __c970, 0));
+      return S.Array(__S(31136, __c973, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
-          detectorDefinition: S.optional(__S(31104, __c972, 0)),
-          metrics: S.optional(__S(31080, __c971, 8)),
-          data: S.optional(__S(31072, __c971, 0)),
-          detectorMetaData: S.optional(__S(31082, __c971, 10)),
+          detectorDefinition: S.optional(__S(31200, __c975, 0)),
+          metrics: S.optional(__S(31176, __c974, 8)),
+          data: S.optional(__S(31168, __c974, 0)),
+          detectorMetaData: S.optional(__S(31178, __c974, 10)),
         }),
       ).annotate({ identifier: "AnalysisData" });
     case 3:
-      return S.Array(__S(31042, __c970, 2));
+      return S.Array(__S(31138, __c973, 2));
     case 4:
-      return S.Array(__S(31104, __c972, 0));
+      return S.Array(__S(31200, __c975, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          abnormalTimePeriods: S.optional(__S(31041, __c970, 1)),
-          payload: S.optional(__S(31043, __c970, 3)),
-          nonCorrelatedDetectors: S.optional(__S(31044, __c970, 4)),
+          abnormalTimePeriods: S.optional(__S(31137, __c973, 1)),
+          payload: S.optional(__S(31139, __c973, 3)),
+          nonCorrelatedDetectors: S.optional(__S(31140, __c973, 4)),
         }),
       ).annotate({ identifier: "DiagnosticAnalysisProperties" });
     case 6:
@@ -58304,15 +58357,15 @@ function __c970(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(31045, __c970, 5)),
+          properties: S.optional(__S(31141, __c973, 5)),
         }),
       ).annotate({ identifier: "ExecuteDiagnosticSiteAnalysisResponse" });
   }
 }
-function __c971(j: number): any {
+function __c974(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16096, __c503, 0));
+      return S.Array(__S(16128, __c504, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -58321,12 +58374,12 @@ function __c971(j: number): any {
           order: S.optional(S.Number),
           description: S.optional(S.String),
           type: S.optional(S.String),
-          data: S.optional(__S(31072, __c971, 0)),
-          metadata: S.optional(__S(31072, __c971, 0)),
+          data: S.optional(__S(31168, __c974, 0)),
+          metadata: S.optional(__S(31168, __c974, 0)),
         }),
       ).annotate({ identifier: "Solution" });
     case 2:
-      return S.Array(__S(31073, __c971, 1));
+      return S.Array(__S(31169, __c974, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -58335,13 +58388,13 @@ function __c971(j: number): any {
           message: S.optional(S.String),
           source: S.optional(S.String),
           priority: S.optional(S.Number),
-          metaData: S.optional(__S(31072, __c971, 0)),
+          metaData: S.optional(__S(31168, __c974, 0)),
           type: S.optional(S.String),
-          solutions: S.optional(__S(31074, __c971, 2)),
+          solutions: S.optional(__S(31170, __c974, 2)),
         }),
       ).annotate({ identifier: "DetectorAbnormalTimePeriod" });
     case 4:
-      return S.Array(__S(31075, __c971, 3));
+      return S.Array(__S(31171, __c974, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -58354,7 +58407,7 @@ function __c971(j: number): any {
         }),
       ).annotate({ identifier: "DiagnosticMetricSample" });
     case 6:
-      return S.Array(__S(31077, __c971, 5));
+      return S.Array(__S(31173, __c974, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -58363,27 +58416,27 @@ function __c971(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           timeGrain: S.optional(S.String),
-          values: S.optional(__S(31078, __c971, 6)),
+          values: S.optional(__S(31174, __c974, 6)),
         }),
       ).annotate({ identifier: "DiagnosticMetricSet" });
     case 8:
-      return S.Array(__S(31079, __c971, 7));
+      return S.Array(__S(31175, __c974, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          instructions: S.optional(__S(11104, __c347, 0)),
-          dataSourceUri: S.optional(__S(16096, __c503, 0)),
+          instructions: S.optional(__S(11136, __c348, 0)),
+          dataSourceUri: S.optional(__S(16128, __c504, 0)),
         }),
       ).annotate({ identifier: "DataSource" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(__S(31081, __c971, 9)),
+          dataSource: S.optional(__S(31177, __c974, 9)),
         }),
       ).annotate({ identifier: "ResponseMetaData" });
   }
 }
-function __c972(j: number): any {
+function __c975(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58396,7 +58449,7 @@ function __c972(j: number): any {
       ).annotate({ identifier: "DetectorDefinition" });
   }
 }
-function __c973(j: number): any {
+function __c976(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
