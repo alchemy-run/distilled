@@ -175,6 +175,55 @@ describe("operation type annotation overrides", () => {
   });
 });
 
+describe("raw-response root with a sensitive member", () => {
+  const model = {
+    smithy: "2.0",
+    shapes: {
+      "ns#Example": { type: "service", version: "1", operations: [{ target: "ns#GetSecret" }] },
+      "ns#GetSecret": {
+        type: "operation",
+        input: { target: "ns#GetSecretRequest" },
+        output: { target: "ns#GetSecretResponse" },
+        traits: { "smithy.api#http": { method: "GET", uri: "/secret" } },
+      },
+      "ns#GetSecretRequest": {
+        type: "structure",
+        traits: { "smithy.api#input": {} },
+        members: {},
+      },
+      "ns#GetSecretResponse": {
+        type: "structure",
+        members: {
+          body: {
+            target: "smithy.api#String",
+            traits: { "ns#raw": {}, "smithy.api#sensitive": {} },
+          },
+        },
+      },
+    },
+  };
+  const secretSpec: SdkSpec = {
+    ...spec,
+    extraBindings: [
+      {
+        trait: "ns#raw",
+        binding: "rawResponse",
+        pipe: "T.RawResponse()",
+        rootPipe: "T.RawResponseRoot()",
+      },
+    ],
+    memberTraitPipes: { "smithy.api#sensitive": "T.SensitiveValue" },
+    memberTsType: (m) =>
+      "smithy.api#sensitive" in m.traits ? "string | Redacted.Redacted<string>" : undefined,
+  };
+
+  test("keeps the sensitive mark and its type", () => {
+    const { code } = generateService(model, secretSpec);
+    expect(code).toContain("export type GetSecretResponse = string | Redacted.Redacted<string>;");
+    expect(code).toContain("T.RawResponseRoot(), T.SensitiveValue({})");
+  });
+});
+
 describe("pagination over a bare-array response", () => {
   const model = {
     smithy: "2.0",

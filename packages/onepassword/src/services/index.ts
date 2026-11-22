@@ -3,4 +3,6 @@ export * as connect from "./connect.ts";
 export * as events from "./events.ts";
 export * as oauth from "./oauth.ts";
 export * as partnership from "./partnership.ts";
+export * as sdk_local from "./sdk-local.ts";
+export * as sdk from "./sdk.ts";
 export * as users from "./users.ts";

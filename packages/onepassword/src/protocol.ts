@@ -179,3 +179,11 @@ export const PartnershipProtocol: Layer.Layer<API.Protocol> =
     unknownError,
     parseError,
   });
+
+export {
+  SdkProtocol,
+  SdkLocalProtocol,
+  type SdkOpContext,
+  type SdkLocalOpContext,
+  type OnepasswordSdkOpError,
+} from "./sdk-protocol.ts";

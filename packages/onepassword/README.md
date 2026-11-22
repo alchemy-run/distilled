@@ -96,6 +96,39 @@ const Live = Layer.mergeAll(Onepassword.UsersCredentialsFromEnv, Onepassword.Use
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+1Password SDK (vaults, items, secret references, item sharing, groups). Calls go
+through 1Password's SDK core, not HTTP. Install the optional peer
+`@1password/sdk-core` for service account auth:
+
+```ts
+import { Effect } from "effect";
+import * as Redacted from "effect/Redacted";
+import * as Onepassword from "@distilled.cloud/onepassword";
+import * as Sdk from "@distilled.cloud/onepassword/sdk";
+
+const program = Effect.gen(function* () {
+  // Create a Login with typed fields; secrets are `Redacted`.
+  const params = Onepassword.ItemCategories.Login.create({
+    vaultId: "<vault id>",
+    title: "Example",
+    values: { username: "me", password: Redacted.make("hunter2") },
+  });
+  const item = yield* Sdk.createItem({ params });
+  const { username, password } = Onepassword.ItemCategories.Login.read(item);
+  const secret = yield* Sdk.resolveSecret({ secret_reference: `op://${item.vaultId}/${item.id}/password` });
+  return { username, password, secret };
+});
+
+// SdkClientFromEnv reads OP_SERVICE_ACCOUNT_TOKEN, or OP_ACCOUNT for the desktop app.
+program.pipe(Effect.provide(Onepassword.SdkClientFromEnv), Effect.runPromise);
+```
+
+`Sdk` operations need `SdkClient`; `import * as SdkLocal from "@distilled.cloud/onepassword/sdk-local"`
+(`generatePassword`, `validateSecretReference`) needs nothing. Item categories are the
+generated `ItemCategory` union; `ItemCategories.Login`, `Password`, `SecureNote`,
+`Document` and `SshKey` are typed profiles, and `ItemCategories.defineCategory` makes
+one for any other category.
+
 ## Auth
 
 | API         | Required                                                 | Optional                                                    | Sent as                                   |
@@ -116,3 +149,15 @@ the layer is built with, cache it, and request a new one shortly before it expir
 `eventsCredentials({ token })`, `usersCredentials({ clientId, clientSecret })`,
 `usersCredentialsFromAccessToken({ accessToken })`, `oauthCredentials(...)` or
 `partnershipCredentials({ token })`; secrets are `Redacted<string>`.
+
+### SDK
+
+| Method | Set | Sent as |
+| ------ | --- | ------- |
+| Service account | `OP_SERVICE_ACCOUNT_TOKEN` (needs `@1password/sdk-core`) | WASM core |
+| Desktop app | `OP_ACCOUNT` (account name or UUID; app setting "Integrate with other apps") | the app's IPC library |
+
+Optional `OP_INTEGRATION_NAME` and `OP_INTEGRATION_VERSION`. Or pass values:
+`sdkServiceAccountCredentials({ token })` / `sdkDesktopAppCredentials({ accountName })`,
+then `sdkClientLayer`-based `SdkClientLive`. The client is scoped: it is released when
+the layer closes, and re-initialised once when a desktop session expires.

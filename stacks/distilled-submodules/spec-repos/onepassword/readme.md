@@ -9,6 +9,7 @@ A git mirror of 1Password's published OpenAPI specs, reduced to exactly the file
 - `specs/oauth.json` — OAuth API used by the Users API ([`oauth_api.yaml`](https://www.1password.dev/openapi/oauth_api.yaml))
 - `specs/partnership.json` — Partnership API ([`partnership_api.yaml`](https://www.1password.dev/openapi/partnership_api.yaml))
 - `specs/docs/` — vendor API docs snapshotted at fetch time
+- `specs/sdk/` — `client/src` of the latest [onepassword-sdk-js](https://github.com/1Password/onepassword-sdk-js) release (typeshare types + op-codegen API modules)
 
 Each upstream YAML document is parsed and written as JSON.
 Nothing else from `1Password/connect` or 1password.dev is mirrored, so this repository stays small

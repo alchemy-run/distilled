@@ -1,0 +1,25 @@
+{
+  "description": "Secret values the SDK core returns or accepts. The typeshare types carry no secrecy marks: an item field's value holds passwords, TOTP seeds and private keys, an environment variable's value is a secret, a resolved secret reference is the secret itself, and an item share link grants access to the item. The name-pattern detector already marks ResolvedReference.secret and GeneratePasswordResponse.password.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.sdk#ItemField/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.sdk#EnvironmentVariable/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.sdk#SecretsResolveResponse/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.sdk#ItemsSharesCreateResponse/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -1134,7 +1134,16 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             : []),
         ];
         const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
-        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
+        // Member trait pipes (e.g. sensitive) survive on the raw root.
+        const traitPipes = Object.entries(spec.memberTraitPipes ?? {})
+          .filter(([trait]) => m.traits?.[trait] !== undefined)
+          .map(([trait, builder]) => `${builder}(${JSON.stringify(m.traits[trait])})`);
+        const baseType = `${tsRef(m.target)}${nullable ? " | null" : ""}`;
+        const rootType =
+          traitPipes.length > 0
+            ? (spec.memberTsType?.(memberInfos(d, id)[0]!, tsRef) ?? baseType)
+            : baseType;
+        out.push(`export type ${name} = ${rootType};`);
         out.push(
           suspendConst({
             name,
@@ -1142,7 +1151,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             multiline: true,
             annotateIdentifier: true,
             castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
-            expr: `${nullable ? `S.NullOr(${ref(m.target, i)})` : ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
+            expr: `${nullable ? `S.NullOr(${ref(m.target, i)})` : ref(m.target, i)}.pipe(${[...rootPipes, ...traitPipes].join(", ")})`,
           }),
         );
         return;

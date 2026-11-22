@@ -44,3 +44,34 @@ export class OnepasswordParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * A 1Password SDK core error. `kind` is the core's error name when it sent one
+ * (`name` would shadow `Error.prototype.name`).
+ */
+export class OnepasswordSdkError
+  extends /*@__PURE__*/ Schema.TaggedError<OnepasswordSdkError>()("OnepasswordSdkError", {
+    kind: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: Schema.String,
+  }) {}
+
+/** The 1Password desktop app session expired; the SDK client re-initialises once and retries. */
+export class DesktopSessionExpired
+  extends /*@__PURE__*/ Schema.TaggedError<DesktopSessionExpired>()("DesktopSessionExpired", {
+    message: Schema.String,
+  }).pipe(Category.withAuthError) {}
+
+/** The 1Password SDK credentials were rejected or have expired. */
+export class AuthExpired
+  extends /*@__PURE__*/ Schema.TaggedError<AuthExpired>()("AuthExpired", {
+    message: Schema.String,
+  }).pipe(Category.withAuthError) {}
+
+/** The 1Password SDK core reported a rate limit. */
+export class RateLimitExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<RateLimitExceeded>()("RateLimitExceeded", {
+    message: Schema.String,
+  }).pipe(
+    Category.withThrottlingError,
+    /*@__PURE__*/ Category.withRetryable({ throttling: true }),
+  ) {}

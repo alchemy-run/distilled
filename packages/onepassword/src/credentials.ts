@@ -9,6 +9,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *   Users        `UsersCredentials`       OAuth 2.0 access token (client credentials grant)
  *   OAuth        `OAuthCredentials`       OAuth application client ID + secret (Basic)
  *   Partnership  `PartnershipCredentials` partner bearer token
+ *   SDK          `SdkCredentials`         service account token or desktop app account
  *
  * Each service holds an *effect* that resolves the current credentials; the
  * protocol layer resolves it per request on the calling fiber.
@@ -446,3 +447,92 @@ export const PartnershipCredentialsFromEnv: Layer.Layer<PartnershipCredentials> 
       ),
     ),
   );
+
+// ---------------------------------------------------------------------------
+// SDK -- service account token (WASM core) or desktop app (IPC)
+// ---------------------------------------------------------------------------
+
+/** Upstream `DEFAULT_INTEGRATION_NAME`. */
+export const DEFAULT_SDK_INTEGRATION_NAME = "Unknown";
+/** Upstream `DEFAULT_INTEGRATION_VERSION`. */
+export const DEFAULT_SDK_INTEGRATION_VERSION = "Unknown";
+
+/** How the SDK client authenticates: a service account token, or the 1Password desktop app. */
+export type SdkAuth =
+  | { readonly _tag: "ServiceAccount"; readonly token: Redacted.Redacted<string> }
+  | { readonly _tag: "DesktopApp"; readonly accountName: string };
+
+/** What the SDK client sends the 1Password core to initialise. */
+export interface SdkConfig {
+  readonly auth: SdkAuth;
+  /** Name of the integration, shown in 1Password's activity log. */
+  readonly integrationName: string;
+  readonly integrationVersion: string;
+}
+
+export class SdkCredentials
+  extends /*@__PURE__*/ Context.Service<SdkCredentials, Effect.Effect<SdkConfig, ConfigError>>()(
+    "OnepasswordSdkCredentials",
+  ) {}
+
+/** Layer from a service account token. */
+export const sdkServiceAccountCredentials = (config: {
+  readonly token: Redacted.Redacted<string>;
+  readonly integrationName?: string;
+  readonly integrationVersion?: string;
+}): Layer.Layer<SdkCredentials> =>
+  Layer.succeed(
+    SdkCredentials,
+    Effect.succeed({
+      auth: { _tag: "ServiceAccount", token: config.token },
+      integrationName: config.integrationName ?? DEFAULT_SDK_INTEGRATION_NAME,
+      integrationVersion: config.integrationVersion ?? DEFAULT_SDK_INTEGRATION_VERSION,
+    }),
+  );
+
+/** Layer from a 1Password desktop app account (account name or UUID). */
+export const sdkDesktopAppCredentials = (config: {
+  readonly accountName: string;
+  readonly integrationName?: string;
+  readonly integrationVersion?: string;
+}): Layer.Layer<SdkCredentials> =>
+  Layer.succeed(
+    SdkCredentials,
+    Effect.succeed({
+      auth: { _tag: "DesktopApp", accountName: config.accountName },
+      integrationName: config.integrationName ?? DEFAULT_SDK_INTEGRATION_NAME,
+      integrationVersion: config.integrationVersion ?? DEFAULT_SDK_INTEGRATION_VERSION,
+    }),
+  );
+
+/**
+ * Reads OP_SERVICE_ACCOUNT_TOKEN (a service account) or, when that is unset,
+ * OP_ACCOUNT (the desktop app account, as the 1Password CLI reads it), plus
+ * OP_INTEGRATION_NAME and OP_INTEGRATION_VERSION (optional).
+ */
+export const SdkCredentialsFromEnv: Layer.Layer<SdkCredentials> = /*@__PURE__*/ Layer.succeed(
+  SdkCredentials,
+  /*@__PURE__*/ EffectConfig.all({
+    auth: /*@__PURE__*/ EffectConfig.Redacted("OP_SERVICE_ACCOUNT_TOKEN").pipe(
+      /*@__PURE__*/ EffectConfig.map((token): SdkAuth => ({ _tag: "ServiceAccount", token })),
+      /*@__PURE__*/ EffectConfig.orElse(() =>
+        EffectConfig.String("OP_ACCOUNT").pipe(
+          EffectConfig.map((accountName): SdkAuth => ({ _tag: "DesktopApp", accountName })),
+        ),
+      ),
+    ),
+    integrationName: /*@__PURE__*/ EffectConfig.String("OP_INTEGRATION_NAME").pipe(
+      /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_SDK_INTEGRATION_NAME),
+    ),
+    integrationVersion: /*@__PURE__*/ EffectConfig.String("OP_INTEGRATION_VERSION").pipe(
+      /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_SDK_INTEGRATION_VERSION),
+    ),
+  }).pipe(
+    /*@__PURE__*/ Effect.mapError(
+      () =>
+        new ConfigError({
+          message: "OP_SERVICE_ACCOUNT_TOKEN or OP_ACCOUNT environment variable is required",
+        }),
+    ),
+  ),
+);

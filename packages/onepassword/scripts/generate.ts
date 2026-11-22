@@ -1,5 +1,4 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * 1Password Effect SDK, one service module per API:
@@ -9,6 +8,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *   users.json        → src/services/users.ts        UsersProtocol
  *   oauth.json        → src/services/oauth.ts        OAuthProtocol
  *   partnership.json  → src/services/partnership.ts  PartnershipProtocol
+ *   sdk.json          → src/services/sdk.ts          SdkProtocol       (SDK core invocations)
+ *   sdk-local.json    → src/services/sdk-local.ts    SdkLocalProtocol  (SDK core, no account)
  *
  * Each API authenticates differently, so each has its own protocol and
  * credentials service (src/protocol.ts, src/credentials.ts). Every API keeps
@@ -18,7 +19,12 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is 1Password's provider spec.
  */
-import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
+import type { OperationEmit, SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { typeshareConstants } from "./sdk-spec.ts";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -31,6 +37,12 @@ interface Api {
   readonly protocol: string;
   readonly contextType: string;
   readonly sourceNote: string;
+  /** Defaults to `OnepasswordOpError`. */
+  readonly commonErrorType?: string;
+  /** Defaults to `["UnknownOnepasswordError"]`. */
+  readonly commonErrorClasses?: readonly string[];
+  /** Operations are SDK-core invocations: emit `operationName`. */
+  readonly invocation?: true;
 }
 
 const APIS: Record<string, Api> = {
@@ -59,6 +71,23 @@ const APIS: Record<string, Api> = {
     contextType: "PartnershipOpContext",
     sourceNote: ".generated-specs (specs/spec-mirror-onepassword, Partnership API)",
   },
+  // The 1Password SDK: operations run through the SDK core, not HTTP.
+  "com.onepassword.sdk": {
+    protocol: "SdkProtocol",
+    contextType: "SdkOpContext",
+    commonErrorType: "OnepasswordSdkOpError",
+    commonErrorClasses: ["OnepasswordSdkError"],
+    invocation: true,
+    sourceNote: ".generated-specs (specs/spec-mirror-onepassword, 1Password SDK)",
+  },
+  "com.onepassword.sdklocal": {
+    protocol: "SdkLocalProtocol",
+    contextType: "SdkLocalOpContext",
+    commonErrorType: "OnepasswordSdkOpError",
+    commonErrorClasses: ["OnepasswordSdkError"],
+    invocation: true,
+    sourceNote: ".generated-specs (specs/spec-mirror-onepassword, 1Password SDK local functions)",
+  },
 };
 
 const namespaceOf = (model: any): string => {
@@ -67,6 +96,15 @@ const namespaceOf = (model: any): string => {
     if (ns in APIS) return ns;
   }
   throw new Error("model has no shape in a known com.onepassword.* namespace");
+};
+
+/** The core's invocation name for an SDK operation: its http uri without the slash. */
+const invocationName = (ctx: OperationEmit): string => {
+  const uri: unknown = ctx.op.def.traits?.["smithy.api#http"]?.uri;
+  if (typeof uri !== "string" || !/^\/[A-Za-z]+$/.test(uri)) {
+    throw new Error(`${ctx.opName}: expected an http uri "/<InvocationName>"`);
+  }
+  return uri.slice(1);
 };
 
 /** 1Password's provider spec for the shared smithy→SDK compiler. */
@@ -114,10 +152,27 @@ const onepasswordSpec = (api: Api): SdkSpec => ({
 
   operationDecl: {
     contextType: api.contextType,
-    commonErrorType: "OnepasswordOpError",
-    commonErrorClasses: ["UnknownOnepasswordError"],
+    commonErrorType: api.commonErrorType ?? "OnepasswordOpError",
+    commonErrorClasses: api.commonErrorClasses ?? ["UnknownOnepasswordError"],
     protocol: api.protocol,
     retry: "Retry.Retry",
+    // SDK operations are addressed by the core's invocation name, which the
+    // converter keeps as the operation's http uri (`/ItemsGet`). They run
+    // through the protocol's `call`, never over HTTP, so their type names
+    // the SDK client (or nothing) instead of the `HttpClient` that
+    // `API.make` infers; the annotation is cast to, like any overridden one.
+    ...(api.invocation
+      ? {
+          extraConfig: (ctx: OperationEmit) => [
+            `operationName: ${JSON.stringify(invocationName(ctx))}`,
+          ],
+          overrides: (ctx: OperationEmit) => ({
+            typeAnnotation:
+              `API.OperationMethod<\n  ${ctx.inputName},\n  ${ctx.outputTsType},\n` +
+              `  ${ctx.opName}Error,\n  ${api.contextType}\n>`,
+          }),
+        }
+      : {}),
   },
 
   sourceNote: api.sourceNote,
@@ -132,10 +187,28 @@ const onepasswordSpec = (api: Api): SdkSpec => ({
       : code,
 });
 
+/** The mirrored typeshare module; its numeric constants are appended to `sdk`. */
+const SDK_TYPES = "specs/spec-mirror-onepassword/specs/sdk/types.ts";
+
+/** `export const NAME = value;` for each typeshare constant (vault permission flags). */
+const permissionFlags = (): string =>
+  typeshareConstants(
+    fs.readFileSync(resolveSpecPath(path.resolve(import.meta.dirname, ".."), SDK_TYPES), "utf8"),
+  )
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+    .map(
+      (c) =>
+        `/** ${c.doc ?? "Vault permission flag; combine with |."} */\nexport const ${c.name} = ${c.value};`,
+    )
+    .join("\n\n");
+
 runGeneratorCli({
   description: "Generate the 1Password Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  append: (resource) => (resource === "sdk" ? permissionFlags() : undefined),
+  // `sdk-local` is not an identifier.
+  barrelExportName: (resource) => resource.replace(/-/g, "_"),
   // Smithy patches apply in scripts/convert.ts (finalizeConvert).
   patchesDir: false,
   spec: (model) => {

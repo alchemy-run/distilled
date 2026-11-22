@@ -56,6 +56,18 @@
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
+    "./SdkClient": {
+      "types": "./lib/sdk-client.d.ts",
+      "bun": "./src/sdk-client.ts",
+      "worker": "./src/sdk-client.ts",
+      "default": "./lib/sdk-client.js"
+    },
+    "./ItemCategories": {
+      "types": "./lib/item-categories.d.ts",
+      "bun": "./src/item-categories.ts",
+      "worker": "./src/item-categories.ts",
+      "default": "./lib/item-categories.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
@@ -76,14 +88,22 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@1password/sdk-core": "0.5.0",
     "@distilled.cloud/dev": "workspace:*",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "oxc-parser": "catalog:"
   },
   "peerDependencies": {
+    "@1password/sdk-core": "0.5.0",
     "effect": "catalog:"
   },
+  "peerDependenciesMeta": {
+    "@1password/sdk-core": {
+      "optional": true
+    }
+  },
   "distilled": {
-    "generatedAt": "2026-11-15",
+    "generatedAt": "2026-11-22",
     "specUpdatedAt": "2026-11-05"
   }
 }
