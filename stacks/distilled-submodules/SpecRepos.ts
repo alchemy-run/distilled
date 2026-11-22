@@ -102,6 +102,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "meilisearch" },
   { package: "mercury" },
   { package: "metabase" },
+  { package: "microsoft-graph" },
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
