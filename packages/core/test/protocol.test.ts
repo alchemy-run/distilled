@@ -9,6 +9,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
@@ -16,7 +17,7 @@ import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import { TooManyRequests, Unauthorized } from "../src/errors.ts";
 import { restProtocol, type RestProtocolError } from "../src/protocol-rest.ts";
-import type { ErrorOf, Protocol } from "../src/protocol.ts";
+import type { ErrorOf, Protocol, ProtocolOf } from "../src/protocol.ts";
 import * as S from "../src/schema.ts";
 import { SdkError } from "../src/sdk-error.ts";
 import * as T from "../src/trait.ts";
@@ -85,16 +86,26 @@ export const Keyed: Protocol<TestProtocolError, KeyedCreds> = restProtocol({
 // A hand-written protocol
 // =============================================================================
 
-export const HandWritten: Protocol<TestUnknownError | SdkError> = {
-  encode: () => Effect.fail(new SdkError({ message: "not built" })),
+// No annotation lists its errors either: `ProtocolOf` reads them, and what
+// the methods need, from the methods.
+const handWritten = {
+  encode: () =>
+    Effect.flatMap(TestCreds, () => Effect.fail(new SdkError({ message: "not built" }))),
   decode: ({ response, errors }) => {
     // A class the operation or its service declares.
     const Declared = errors[0];
     if (Declared) return Effect.fail(new Declared({ message: "declared" }));
     return Effect.fail(new TestUnknownError({ status: response.status }));
   },
-};
+} satisfies Protocol<unknown, unknown>;
 
+export const HandWritten: ProtocolOf<typeof handWritten> = handWritten;
+export const handWrittenType: Same<
+  typeof HandWritten,
+  Protocol<TestUnknownError | SdkError, TestCreds>
+> = true;
+
+// A protocol that is annotated cannot build a service error by name.
 export const buildsServiceError: Protocol<TestUnknownError | SdkError> = {
   encode: () => Effect.fail(new SdkError({ message: "not built" })),
   // @ts-expect-error Unauthorized is the service's to declare; the protocol gets it in `errors`
@@ -132,7 +143,18 @@ const getThingAlone = API.make(() => ({
   protocol: TestProtocol,
 }));
 
+const getThingByHand = API.make(() => ({
+  input: ThingInput,
+  output: ThingOutput,
+  errors: [ThingLocked],
+  protocol: HandWritten,
+}));
+
 type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
+export const byHand: Same<
+  Effect.Error<ReturnType<typeof getThingByHand>>,
+  ThingLocked | TestUnknownError | SdkError | HttpClientError.HttpClientError
+> = true;
 export const threePlaces: Same<
   Effect.Error<ReturnType<typeof getThing>>,
   ThingLocked | TestServiceError | TestProtocolError
