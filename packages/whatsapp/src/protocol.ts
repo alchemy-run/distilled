@@ -1,5 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { type API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { encodeLabel } from "@distilled.cloud/core/protocol-http";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -54,10 +55,25 @@ const graphError = (body: unknown): { code?: number; message?: string } | undefi
   return code === undefined && message === undefined ? undefined : { code, message };
 };
 
+/**
+ * `<apiBaseUrl>/<apiVersion>`. Throws {@link ConfigError} for a version that
+ * can't be a URL path segment (`""`, `.`, `..`, a lone UTF-16 surrogate);
+ * the protocol fails the call with it.
+ */
+const baseUrlFor = (creds: Config): string => {
+  const version = encodeLabel("apiVersion", creds.apiVersion);
+  if (version instanceof InvalidInput) {
+    throw new ConfigError({
+      message: `The configured WhatsApp API version ${JSON.stringify(creds.apiVersion)} cannot be a URL path segment`,
+    });
+  }
+  return `${creds.apiBaseUrl}/${version}`;
+};
+
 export const WhatsAppProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the calling fiber per request.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => `${creds.apiBaseUrl}/${creds.apiVersion}`,
+  baseUrl: baseUrlFor,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
     Accept: "application/json",

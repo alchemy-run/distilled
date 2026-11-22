@@ -1,0 +1,18 @@
+{
+  "description": "GET /v1/builds/{id}/events (streamBuildEvents) answers only `text/event-stream` (Server-Sent Events: `state`, `log` and `done` frames, open for up to 20 minutes). The converter reads JSON bodies only, so it generated with an empty output: a call would wait until the build ends and then return nothing. The shared REST protocol has no Server-Sent Events framing (core has NDJSON only). Remove the operation; poll getBuild until `state` is `ready`, `failed` or `canceled`, which the spec names as the alternative (\"or poll `GET /v1/builds/{id}`\").",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.sproutboat#Sproutboat/operations/17",
+      "value": { "target": "com.sproutboat#StreamBuildEvents" }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.sproutboat#Sproutboat/operations/17"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.sproutboat#StreamBuildEvents"
+    }
+  ]
+}
