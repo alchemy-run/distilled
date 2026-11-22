@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1095,11 +1096,13 @@ export const createEventBus: API.OperationMethod<
     InvalidStateException,
     LimitExceededException,
     ResourceAlreadyExistsException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBus",
@@ -1137,11 +1140,13 @@ export const createEventSource: API.OperationMethod<
     LimitExceededException,
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSource",
@@ -1179,11 +1184,13 @@ export const createSubscriber: API.OperationMethod<
     LimitExceededException,
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
@@ -1217,11 +1224,13 @@ export const deleteEventBus: API.OperationMethod<
     InvalidStateException,
     ResourceInUseException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBus",
@@ -1249,15 +1258,13 @@ export const deleteEventSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteEventSourceRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteEventSourceResponse>,
-  errors: [
-    ConcurrentModificationException,
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSource",
@@ -1285,15 +1292,13 @@ export const deleteResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DeleteResourcePolicyResponse>,
-  errors: [
-    ConcurrentModificationException,
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -1320,14 +1325,13 @@ export const deleteSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteSubscriberRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteSubscriberResponse>,
-  errors: [
-    ConcurrentModificationException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
@@ -1353,13 +1357,13 @@ export const describeEventBus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DescribeEventBusRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<DescribeEventBusResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventBus",
@@ -1385,13 +1389,13 @@ export const describeEventSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DescribeEventSourceRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<DescribeEventSourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSource",
@@ -1417,13 +1421,13 @@ export const describeSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DescribeSubscriberRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<DescribeSubscriberResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubscriber",
@@ -1449,13 +1453,13 @@ export const getResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetResourcePolicyRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<GetResourcePolicyResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -1481,7 +1485,13 @@ export const listEventBuses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListEventBusesRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<ListEventBusesResponse>,
-  errors: [AccessDeniedException, InternalException, InvalidInputException, ThrottlingException],
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    ThrottlingException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventBuses",
@@ -1514,13 +1524,13 @@ export const listEventSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListEventSourcesRequest>,
   output: __S(771, __c24, 3) as any as S.Schema<ListEventSourcesResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventSources",
@@ -1553,13 +1563,13 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListResourcePoliciesRequest>,
   output: __S(803, __c25, 3) as any as S.Schema<ListResourcePoliciesResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcePolicies",
@@ -1592,13 +1602,13 @@ export const listSubscribers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListSubscribersRequest>,
   output: __S(835, __c26, 3) as any as S.Schema<ListSubscribersResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscribers",
@@ -1630,13 +1640,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1665,14 +1675,13 @@ export const putEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(898, __c28, 2) as any as S.Schema<PutEventsRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<PutEventsResponse>,
-  errors: [
-    InternalException,
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
+    InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
@@ -1704,15 +1713,13 @@ export const putRawEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(966, __c30, 6) as any as S.Schema<PutRawEventsRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<PutRawEventsResponse>,
-  errors: [
-    InvalidStateException,
-    ResourceNotFoundException,
-    SchemaRegistryUnavailableException,
+  errors: [InvalidStateException, ResourceNotFoundException, SchemaRegistryUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRawEvents",
@@ -1748,11 +1755,13 @@ export const putResourcePolicy: API.OperationMethod<
     PolicyLengthExceededException,
     PublicPolicyException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -1780,15 +1789,13 @@ export const revokeResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<RevokeResourceRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<RevokeResourceResponse>,
-  errors: [
-    ConcurrentModificationException,
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeResource",
@@ -1846,11 +1853,13 @@ export const rotateWebhookCredentials: API.OperationMethod<
     InvalidStateException,
     LimitExceededException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateWebhookCredentials",
@@ -1884,11 +1893,13 @@ export const tagResource: API.OperationMethod<
     InvalidStateException,
     LimitExceededException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1916,15 +1927,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ConcurrentModificationException,
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1952,15 +1961,13 @@ export const updateEventBus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateEventBusRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateEventBusResponse>,
-  errors: [
-    ConcurrentModificationException,
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [ConcurrentModificationException, InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBus",
@@ -1994,11 +2001,13 @@ export const updateEventSource: API.OperationMethod<
     InvalidStateException,
     LimitExceededException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSource",
@@ -2032,11 +2041,13 @@ export const updateSubscriber: API.OperationMethod<
     InvalidStateException,
     LimitExceededException,
     ResourceNotFoundException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalException,
     InvalidInputException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",

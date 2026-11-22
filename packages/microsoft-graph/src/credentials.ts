@@ -19,6 +19,8 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -28,7 +30,6 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 import { TokenAcquisitionFailed } from "./errors.ts";
 
 /** Mint a new token when the cached one has less than this left. */
@@ -112,9 +113,18 @@ const clientSecretCredentials = (
 ): Effect.Effect<Config, CredentialsError, HttpClient.HttpClient> => {
   const apiBaseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
   const authority = (config.authorityHost ?? DEFAULT_AUTHORITY_HOST).replace(/\/+$/, "");
-  const tokenUrl = `${authority}/${encodeURIComponent(config.tenantId)}/oauth2/v2.0/token`;
+  // A tenant that can't be a path segment (`""`, `.`, `..`, a lone UTF-16
+  // surrogate) is a ConfigError: the value comes from the credentials.
+  const tenant = encodeLabel("tenantId", config.tenantId);
+  const tokenUrl =
+    tenant instanceof InvalidInput
+      ? new ConfigError({
+          message: `The configured tenantId ${JSON.stringify(config.tenantId)} cannot be a URL path segment`,
+        })
+      : `${authority}/${tenant}/oauth2/v2.0/token`;
 
   const mint = Effect.gen(function* () {
+    if (tokenUrl instanceof ConfigError) return yield* tokenUrl;
     const client = yield* HttpClient.HttpClient;
     const request = HttpClientRequest.post(tokenUrl).pipe(
       HttpClientRequest.bodyUrlParams({
@@ -145,29 +155,15 @@ const clientSecretCredentials = (
     };
   });
 
-  // Check the cache, take the one-permit lock, check again: concurrent
-  // calls on a cold or stale cache share one mint.
-  const lock = Semaphore.makeUnsafe(1);
-  let cached: { readonly value: Redacted.Redacted<string>; readonly expiresAt: number } | undefined;
-  const fresh = Effect.map(Clock.currentTimeMillis, (now) =>
-    cached !== undefined && now < cached.expiresAt - REFRESH_WINDOW_MS ? cached.value : undefined,
-  );
-  const token = Effect.flatMap(fresh, (hit) =>
-    hit !== undefined
-      ? Effect.succeed(hit)
-      : Semaphore.withPermit(
-          lock,
-          Effect.flatMap(fresh, (again) =>
-            again !== undefined
-              ? Effect.succeed(again)
-              : Effect.map(mint, (minted) => {
-                  cached = minted;
-                  return minted.value;
-                }),
-          ),
-        ),
-  );
-  return Effect.map(token, (bearerToken) => ({ bearerToken, apiBaseUrl }));
+  // Concurrent calls on a cold or stale cache share one mint (core
+  // `refreshing`, AGENTS.md rule 16).
+  const token = refreshing(mint, (minted) => minted.expiresAt - REFRESH_WINDOW_MS, {
+    onTimeout: (timeoutMs) =>
+      new TokenAcquisitionFailed({
+        message: `Microsoft Entra ID token request timed out after ${timeoutMs / 1000} s`,
+      }),
+  });
+  return Effect.map(token, (minted) => ({ bearerToken: minted.value, apiBaseUrl }));
 };
 
 /**

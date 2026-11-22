@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
@@ -41,11 +42,37 @@ export type IcebergOpContext = Credentials | HttpClient.HttpClient;
 /** Routes that are not scoped to a warehouse prefix. */
 const UNPREFIXED_ROUTES = /*@__PURE__*/ new Set(["/config"]);
 
-/** `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests. */
-export const baseUrlFor = (creds: Config, uri: string): string => {
+/** A `.` or `..` path segment, also percent-encoded (`%2e%2E`): URL parsers resolve both. */
+const DOT_SEGMENT = /^(?:\.|%2e){1,2}$/i;
+
+/**
+ * Characters a path can't carry as written, and a `%` that starts no escape.
+ * `/` and existing `%XX` escapes stay: a prefix may span segments (Glue's
+ * `catalogs/<id>`) and catalogs hand it out already encoded (S3 Tables'
+ * `arn%3Aaws%3As3tables...`), so the official Java client inserts it as is.
+ */
+const UNSAFE_PATH_CHARACTER = /%(?![0-9A-Fa-f]{2})|[^A-Za-z0-9\-._~!$&'()*+,;=:@%/]/gu;
+
+/**
+ * `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests.
+ * Refuses a prefix with a `.` or `..` segment or a lone UTF-16 surrogate
+ * with {@link ConfigError}; the protocol fails the call with it.
+ */
+export const baseUrlFor = (
+  creds: Config,
+  uri: string,
+): string | Effect.Effect<never, ConfigError> => {
   const root = `${creds.uri.replace(/\/+$/, "")}/v1`;
   const prefix = creds.prefix?.replace(/^\/+|\/+$/g, "");
-  return UNPREFIXED_ROUTES.has(uri) || !prefix ? root : `${root}/${prefix}`;
+  if (UNPREFIXED_ROUTES.has(uri) || !prefix) return root;
+  if (!prefix.isWellFormed() || prefix.split("/").some((s) => DOT_SEGMENT.test(s))) {
+    return Effect.fail(
+      new ConfigError({
+        message: `The configured Iceberg prefix ${JSON.stringify(creds.prefix)} cannot be a URL path`,
+      }),
+    );
+  }
+  return `${root}/${prefix.replace(UNSAFE_PATH_CHARACTER, encodeURIComponent)}`;
 };
 
 /**

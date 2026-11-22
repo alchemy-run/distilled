@@ -45,6 +45,7 @@ import * as blob from "../src/services/storage-blob.ts";
 import * as datalake from "../src/services/storage-datalake.ts";
 import * as file from "../src/services/storage-file.ts";
 import * as queue from "../src/services/storage-queue.ts";
+import * as syms from "../src/services/synapse-data.ts";
 import * as webpubsub from "../src/services/webpubsub-data.ts";
 import * as T from "../src/traits.ts";
 
@@ -614,6 +615,29 @@ describe("data-plane protocol details", () => {
     );
     expect(calls).toHaveLength(0);
     expect((error as { _tag: string })._tag).toBe("SdkError");
+  });
+
+  test("Synapse PutDatabase sends the database properties in SyMS's PascalCase", async () => {
+    const call = await send(
+      syms.PutDatabase({
+        endpoint: "https://ws.dev.azuresynapse.net",
+        databaseName: "sales",
+        name: "sales",
+        type: "DATABASE",
+        properties: {
+          source: { provider: "ADLS", location: "abfss://lake@acct.dfs.core.windows.net/sales" },
+          publishStatus: "PUBLISHED",
+        },
+      }),
+    );
+    expect(JSON.parse(call.body ?? "{}")).toEqual({
+      name: "sales",
+      type: "DATABASE",
+      properties: {
+        PublishStatus: "PUBLISHED",
+        Source: { Provider: "ADLS", Location: "abfss://lake@acct.dfs.core.windows.net/sales" },
+      },
+    });
   });
 
   test("a missing host member fails with InvalidInput before any request is sent", async () => {
