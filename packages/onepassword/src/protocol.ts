@@ -82,9 +82,6 @@ const record = (body: unknown): Record<string, unknown> | undefined =>
 
 const trimBase = (url: string) => url.replace(/\/+$/, "");
 
-// The annotations are the check: everything a protocol fails with, besides
-// the errors an operation and the service declare, must be listed there.
-
 /** Connect server API (default `http://localhost:8080/v1`). */
 export const ConnectProtocol = /*@__PURE__*/ restProtocol({
   credentials: ConnectCredentials,

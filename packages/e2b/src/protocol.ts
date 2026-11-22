@@ -66,8 +66,6 @@ const unknownError = (info: RestErrorInfo) => new UnknownE2BError(unknownErrorPr
 const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
   new E2BParseError({ body, cause });
 
-// The annotations are the check: everything a protocol fails with, besides
-// the errors an operation and the service declare, must be listed there.
 export const E2BProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the CALLING fiber per request, so a key rotated between calls
   // is picked up.
