@@ -1,0 +1,132 @@
+{
+  "description": "Page Browserbase's list operations, which the converter's detection does not recognise. Cursor lists (agents, runs, function secrets, labels, secrets, webhooks) take `cursor` and return `nextCursor` (\"Cursor for the next page. Null when there are no more results.\") beside `data`. Offset lists (downloads, functions, builds, versions, invocations) take `offset`/`limit` and return `total` beside the items. Run messages take `since` and return `nextSince`, the id of the last message returned, which pages like a cursor. All read off the spec's parameter and response descriptions.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#AgentsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#AgentRunsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#FunctionsListSecrets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#LabelsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#SecretsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#WebhooksList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#AgentRunsMessages/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "since",
+        "outputToken": "nextSince",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#DownloadsList/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "offset",
+        "outputToken": "total",
+        "items": "downloads",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#FunctionsList/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "offset",
+        "outputToken": "total",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#FunctionBuildsList/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "offset",
+        "outputToken": "total",
+        "items": "data",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#FunctionsListVersions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "offset",
+        "outputToken": "total",
+        "items": "results",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.browserbase#FunctionVersionsListInvocations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "offset",
+        "outputToken": "total",
+        "items": "results",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

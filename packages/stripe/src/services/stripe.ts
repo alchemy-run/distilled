@@ -113294,7 +113294,9 @@ function __c0(j: number): any {
         S.Struct({
           domain_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113327,7 +113329,9 @@ function __c2(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113361,7 +113365,9 @@ function __c3(j: number): any {
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113694,7 +113700,9 @@ function __c9(j: number): any {
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113766,7 +113774,9 @@ function __c11(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           transaction: S.optional(S.String),
           treasury: S.optional(__S(353, __c11, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113909,7 +113919,9 @@ function __c13(j: number): any {
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113944,7 +113956,9 @@ function __c14(j: number): any {
           physical_bundle: S.String,
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114026,7 +114040,9 @@ function __c17(j: number): any {
           bank_account: S.optional(__S(544, __c17, 0)),
           financial_account: S.String,
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/financial_addresses", code: 200 }),
         ),
@@ -114116,7 +114132,9 @@ function __c19(j: number): any {
           description: S.optional(S.String),
           from: __S(608, __c19, 0),
           to: __S(640, __c20, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/inbound_transfers", code: 200 }),
         ),
@@ -114231,7 +114249,9 @@ function __c23(j: number): any {
           recipient_verification: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           to: __S(736, __c23, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_payments", code: 200 }),
         ),
@@ -114374,7 +114394,9 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114394,7 +114416,9 @@ function __c27(j: number): any {
           amount: S.optional(S.Number),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114431,7 +114455,9 @@ function __c29(j: number): any {
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
           usage_intent: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_setup_intents", code: 200 }),
         ),
@@ -114536,7 +114562,9 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114561,7 +114589,9 @@ function __c34(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: __S(1184, __c37, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/money_management/payout_intents", code: 200 })),
       ).annotate({ identifier: "CreateMoneyManagementPayoutIntentRequest" });
   }
@@ -114753,7 +114783,9 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114770,7 +114802,9 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114787,7 +114821,9 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114804,7 +114840,9 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114823,7 +114861,9 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114840,7 +114880,9 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114858,7 +114900,9 @@ function __c44(j: number): any {
         S.Struct({
           payout_method: S.String,
           recipient: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114915,7 +114959,9 @@ function __c46(j: number): any {
           code_challenge: S.optional(S.String),
           code_challenge_method: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114966,7 +115012,9 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114986,7 +115034,9 @@ function __c49(j: number): any {
           amount: __S(7680, __c240, 0),
           network: S.String,
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115011,7 +115061,9 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115337,7 +115389,9 @@ function __c54(j: number): any {
           transfer_data: S.optional(__S(1738, __c54, 10)),
           transfer_group: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115454,7 +115508,9 @@ function __c57(j: number): any {
           amount: S.optional(S.Number),
           currency: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115474,7 +115530,9 @@ function __c58(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115531,7 +115589,9 @@ function __c59(j: number): any {
           statement_descriptor: S.optional(S.String),
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115737,7 +115797,9 @@ function __c60(j: number): any {
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(S.Unknown),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115800,7 +115862,9 @@ function __c61(j: number): any {
           payment_details: S.optional(__S(1956, __c61, 4)),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115821,7 +115885,9 @@ function __c62(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115840,7 +115906,9 @@ function __c63(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116025,7 +116093,9 @@ function __c64(j: number): any {
           subscription_data: S.optional(__S(2064, __c64, 16)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(__S(17376, __c543, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116322,7 +116392,9 @@ function __c67(j: number): any {
           us_bank_account: S.optional(__S(1760, __c55, 0)),
           wechat_pay: S.optional(S.Unknown),
           zip: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116353,7 +116425,9 @@ function __c69(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116435,7 +116509,9 @@ function __c70(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116564,7 +116640,9 @@ function __c73(j: number): any {
         S.Struct({
           payment_method: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116584,7 +116662,9 @@ function __c74(j: number): any {
           domain_name: S.String,
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116637,7 +116717,9 @@ function __c76(j: number): any {
         S.Struct({
           payment_method_domain: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116665,7 +116747,9 @@ function __c77(j: number): any {
           outcome: S.optional(S.String),
           payment_method_details: S.optional(__S(2596, __c81, 4)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117047,7 +117131,9 @@ function __c83(j: number): any {
           canceled_at: S.Number,
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117068,7 +117154,9 @@ function __c84(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           failed_at: S.Number,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117090,7 +117178,9 @@ function __c85(j: number): any {
           name: S.String,
           payload: S.String,
           scope: __S(2752, __c86, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117136,7 +117226,9 @@ function __c87(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           guaranteed_at: S.Number,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117159,7 +117251,9 @@ function __c88(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           shipping_details: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117218,7 +117312,9 @@ function __c90(j: number): any {
           outcome: S.String,
           processor_details: __S(2881, __c90, 1),
           refunded: S.optional(__S(2882, __c90, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117262,7 +117358,9 @@ function __c91(j: number): any {
           payment_method_details: __S(2596, __c81, 4),
           processor_details: S.optional(__S(2913, __c91, 1)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117289,7 +117387,9 @@ function __c92(j: number): any {
           payout_method: S.optional(S.String),
           source_type: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/payouts", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117346,7 +117446,9 @@ function __c94(j: number): any {
         S.Struct({
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117366,7 +117468,9 @@ function __c95(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117413,7 +117517,9 @@ function __c96(j: number): any {
           transform_usage: S.optional(__S(16930, __c529, 2)),
           trial_period_days: S.optional(S.Number),
           usage_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/plans", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117510,7 +117616,9 @@ function __c97(j: number): any {
           transform_quantity: S.optional(__S(16930, __c529, 2)),
           unit_amount: S.optional(S.Number),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/prices", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117606,7 +117714,9 @@ function __c99(j: number): any {
           type: S.optional(S.String),
           unit_label: S.optional(S.String),
           url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117673,7 +117783,9 @@ function __c101(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           name: S.String,
           scope: __S(2752, __c86, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117708,7 +117820,9 @@ function __c102(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           nickname: S.optional(S.String),
           price: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117773,7 +117887,9 @@ function __c104(j: number): any {
           product: S.String.pipe(T.Label()),
           entitlement_feature: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117829,7 +117945,9 @@ function __c106(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           promotion: __S(3392, __c106, 0),
           restrictions: S.optional(__S(3393, __c106, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117965,7 +118083,9 @@ function __c109(j: number): any {
           subscription_data: S.optional(__S(3492, __c109, 4)),
           test_clock: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/quotes", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -118112,7 +118232,9 @@ function __c112(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118131,7 +118253,9 @@ function __c113(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118151,7 +118275,9 @@ function __c114(j: number): any {
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118228,7 +118354,9 @@ function __c115(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           payment_details: __S(3685, __c115, 5),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118408,7 +118536,9 @@ function __c116(j: number): any {
           item_type: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118478,7 +118608,9 @@ function __c120(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           value: S.String,
           value_list: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118529,7 +118661,9 @@ function __c121(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           payments: S.optional(__S(3875, __c121, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118629,7 +118763,9 @@ function __c124(j: number): any {
           reason: S.optional(S.String),
           refund_application_fee: S.optional(S.Boolean),
           reverse_transfer: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/refunds", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -118643,7 +118779,9 @@ function __c125(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118676,7 +118814,9 @@ function __c126(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           parameters: S.optional(__S(4032, __c126, 0)),
           report_type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118727,7 +118867,9 @@ function __c128(j: number): any {
         S.Struct({
           review: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118979,7 +119121,9 @@ function __c130(j: number): any {
           single_use: S.optional(__S(6912, __c216, 0)),
           usage: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119121,7 +119265,9 @@ function __c132(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119321,7 +119467,9 @@ function __c133(j: number): any {
           payment_method_options: S.optional(__S(4267, __c133, 11)),
           return_url: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119342,7 +119490,9 @@ function __c134(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119367,7 +119517,9 @@ function __c135(j: number): any {
           tax_behavior: S.optional(S.String),
           tax_code: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119461,7 +119613,9 @@ function __c137(j: number): any {
           token: S.optional(S.String),
           type: S.optional(S.String),
           usage: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/sources", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -119927,7 +120081,9 @@ function __c140(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           title: S.String,
           usage_threshold: S.optional(__S(4482, __c140, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119981,7 +120137,9 @@ function __c142(j: number): any {
           source: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           values: __S(6176, __c193, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120122,7 +120280,9 @@ function __c143(j: number): any {
           trial_from_plan: S.optional(S.Boolean),
           trial_period_days: S.optional(S.Number),
           trial_settings: S.optional(__S(4641, __c145, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120185,7 +120345,9 @@ function __c146(j: number): any {
           quantity: S.optional(S.Number),
           subscription: S.String,
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120205,7 +120367,9 @@ function __c147(j: number): any {
           subscription: S.String.pipe(T.Label()),
           billing_mode: __S(17536, __c548, 0),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120227,7 +120391,9 @@ function __c148(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoicing_behavior: S.optional(S.String),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120250,7 +120416,9 @@ function __c149(j: number): any {
           payment_behavior: S.optional(S.String),
           proration_behavior: S.optional(S.String),
           proration_date: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120429,7 +120597,9 @@ function __c150(j: number): any {
           pause_schedules: S.optional(__S(4808, __c150, 8)),
           phases: S.optional(__S(4815, __c150, 15)),
           start_date: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120677,7 +120847,9 @@ function __c152(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_now: S.optional(S.Boolean),
           prorate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120697,7 +120869,9 @@ function __c153(j: number): any {
           schedule: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           preserve_cancel_date: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120784,7 +120958,9 @@ function __c154(j: number): any {
           ship_from_details: S.optional(__S(4933, __c154, 5)),
           shipping_cost: S.optional(__S(4934, __c154, 6)),
           tax_date: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120959,7 +121135,9 @@ function __c159(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120980,7 +121158,9 @@ function __c160(j: number): any {
           owner: S.optional(__S(30464, __c952, 0)),
           type: S.String,
           value: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tax_ids", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -121007,7 +121187,9 @@ function __c161(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121050,7 +121232,9 @@ function __c163(j: number): any {
           percentage: S.Number,
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121222,7 +121406,9 @@ function __c164(j: number): any {
           country_options: __S(5252, __c164, 4),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121453,7 +121639,9 @@ function __c166(j: number): any {
           defaults: S.optional(__S(5312, __c166, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           head_office: S.optional(__S(5313, __c166, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121511,7 +121699,9 @@ function __c168(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           posted_at: S.optional(S.Number),
           reference: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121626,7 +121816,9 @@ function __c171(j: number): any {
           original_transaction: S.String,
           reference: S.String,
           shipping_cost: S.optional(__S(5474, __c171, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121721,7 +121913,9 @@ function __c172(j: number): any {
           verifone_ux700: S.optional(__S(5512, __c172, 8)),
           verifone_v660p: S.optional(__S(5513, __c172, 9)),
           wifi: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121862,7 +122056,9 @@ function __c174(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           location: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121908,7 +122104,9 @@ function __c175(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121948,7 +122146,9 @@ function __c177(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121984,7 +122184,9 @@ function __c178(j: number): any {
           link_options: __S(5697, __c178, 1),
           link_type: S.String,
           on_behalf_of: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122029,7 +122231,9 @@ function __c179(j: number): any {
           location: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           registration_code: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122278,7 +122482,9 @@ function __c181(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122352,7 +122558,9 @@ function __c182(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           inputs: __S(5831, __c182, 7),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122382,7 +122590,9 @@ function __c183(j: number): any {
           collect_config: S.optional(__S(5856, __c183, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122403,7 +122613,9 @@ function __c184(j: number): any {
           confirm_config: S.optional(__S(5773, __c180, 13)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122434,7 +122646,9 @@ function __c185(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
           process_config: S.optional(__S(5920, __c185, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122456,7 +122670,9 @@ function __c186(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           process_config: S.optional(__S(5779, __c180, 19)),
           setup_intent: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122482,7 +122698,9 @@ function __c187(j: number): any {
           refund_application_fee: S.optional(S.Boolean),
           refund_payment_config: S.optional(__S(5779, __c180, 19)),
           reverse_transfer: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122512,7 +122730,9 @@ function __c188(j: number): any {
           cart: S.optional(__S(6016, __c188, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122752,7 +122972,9 @@ function __c189(j: number): any {
           settings: S.optional(__S(6065, __c189, 17)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123685,7 +123907,9 @@ function __c218(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123828,7 +124052,9 @@ function __c219(j: number): any {
           return_url: S.optional(S.String),
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(__S(7014, __c219, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123995,7 +124221,9 @@ function __c222(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           reference: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124223,7 +124451,9 @@ function __c224(j: number): any {
           risk_assessment: S.optional(__S(7173, __c224, 5)),
           verification_data: S.optional(__S(7174, __c224, 6)),
           wallet: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124649,7 +124879,9 @@ function __c229(j: number): any {
           close_authorization: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124735,7 +124967,9 @@ function __c231(j: number): any {
         S.Struct({
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124757,7 +124991,9 @@ function __c232(j: number): any {
           final_amount: S.Number,
           fleet: S.optional(__S(7268, __c227, 4)),
           fuel: S.optional(__S(7269, __c227, 5)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124777,7 +125013,9 @@ function __c233(j: number): any {
           authorization: S.String.pipe(T.Label()),
           confirmed: S.Boolean,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124800,7 +125038,9 @@ function __c234(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           increment_amount: S.Number,
           is_amount_controllable: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124820,7 +125060,9 @@ function __c235(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           reverse_amount: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124839,7 +125081,9 @@ function __c236(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124880,7 +125124,9 @@ function __c237(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
           priority: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124989,7 +125235,9 @@ function __c242(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125008,7 +125256,9 @@ function __c243(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125027,7 +125277,9 @@ function __c244(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125046,7 +125298,9 @@ function __c245(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125065,7 +125319,9 @@ function __c246(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125084,7 +125340,9 @@ function __c247(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125113,7 +125371,9 @@ function __c248(j: number): any {
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           rejection_reasons: __S(7936, __c248, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125133,7 +125393,9 @@ function __c249(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           refund_amount: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125156,7 +125418,9 @@ function __c250(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125179,7 +125443,9 @@ function __c251(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125198,7 +125464,9 @@ function __c252(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125218,7 +125486,9 @@ function __c253(j: number): any {
           match_result: S.String,
           payout_method: S.String,
           recipient: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125236,7 +125506,9 @@ function __c254(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125277,7 +125549,9 @@ function __c255(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           interac_present: S.optional(__S(8161, __c255, 1)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125297,7 +125571,9 @@ function __c256(j: number): any {
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           skip_non_required_inputs: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125316,7 +125592,9 @@ function __c257(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125337,7 +125615,9 @@ function __c258(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125387,7 +125667,9 @@ function __c260(j: number): any {
           test_clock: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125407,7 +125689,9 @@ function __c261(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           failure_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125518,7 +125802,9 @@ function __c265(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125537,7 +125823,9 @@ function __c266(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125556,7 +125844,9 @@ function __c267(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125575,7 +125865,9 @@ function __c268(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125713,7 +126005,9 @@ function __c272(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125733,7 +126027,9 @@ function __c273(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125752,7 +126048,9 @@ function __c274(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125829,7 +126127,9 @@ function __c276(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125849,7 +126149,9 @@ function __c277(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125873,7 +126175,9 @@ function __c278(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126031,7 +126335,9 @@ function __c283(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126169,7 +126475,9 @@ function __c285(j: number): any {
           reason: S.optional(S.String),
           shipping_address: S.optional(__S(6432, __c201, 0)),
           submit: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126336,7 +126644,9 @@ function __c287(j: number): any {
           authentication: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126355,7 +126665,9 @@ function __c288(j: number): any {
         S.Struct({
           description: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126401,7 +126713,9 @@ function __c291(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           fingerprinting_result: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126621,7 +126935,9 @@ function __c292(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           person: S.optional(__S(9360, __c292, 16)),
           pii: S.optional(__S(9361, __c292, 17)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tokens", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -126649,7 +126965,9 @@ function __c293(j: number): any {
           source: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/topups", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -126703,7 +127021,9 @@ function __c295(j: number): any {
         S.Struct({
           topup: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126729,7 +127049,9 @@ function __c296(j: number): any {
           source_transaction: S.optional(S.String),
           source_type: S.optional(S.String),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126752,7 +127074,9 @@ function __c297(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           refund_application_fee: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126791,7 +127115,9 @@ function __c299(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_credit: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126811,7 +127137,9 @@ function __c300(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_debit: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126870,7 +127198,9 @@ function __c302(j: number): any {
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
           supported_currencies: __S(6176, __c193, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127064,7 +127394,9 @@ function __c307(j: number): any {
           financial_account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           forwarding_settings: S.optional(__S(9856, __c308, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127095,7 +127427,9 @@ function __c309(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127121,7 +127455,9 @@ function __c310(j: number): any {
           intra_stripe_flows: S.optional(__S(19776, __c618, 0)),
           outbound_payments: S.optional(__S(9762, __c305, 2)),
           outbound_transfers: S.optional(__S(9762, __c305, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127146,7 +127482,9 @@ function __c311(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           origin_payment_method: S.String,
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127165,7 +127503,9 @@ function __c312(j: number): any {
         S.Struct({
           inbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127233,7 +127573,9 @@ function __c313(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127252,7 +127594,9 @@ function __c314(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127296,7 +127640,9 @@ function __c315(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127315,7 +127661,9 @@ function __c316(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127339,7 +127687,9 @@ function __c317(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127435,7 +127785,9 @@ function __c322(j: number): any {
           event_time_window: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           value_settings: S.optional(__S(10338, __c323, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127530,7 +127882,9 @@ function __c326(j: number): any {
         S.Struct({
           account_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -127558,7 +127912,9 @@ function __c328(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreEventDestinationRequest" });
   }
@@ -127702,7 +128058,9 @@ function __c336(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127911,7 +128269,9 @@ function __c347(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -128164,7 +128524,9 @@ function __c359(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_events", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventRequest2" });
     case 1:
@@ -128477,7 +128839,9 @@ function __c372(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           external_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -128512,7 +128876,9 @@ function __c374(j: number): any {
           event_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -128859,7 +129225,9 @@ function __c385(j: number): any {
           cancel: __S(12320, __c385, 0),
           event_name: S.String,
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_adjustments", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventAdjustmentRequest2" });
     case 2:
@@ -129232,7 +129600,9 @@ function __c397(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_session", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventSessionRequest" });
     case 1:
@@ -129510,7 +129880,9 @@ function __c409(j: number): any {
       return S.suspend(() =>
         S.Struct({
           events: __S(13089, __c409, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_stream", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventStreamRequest" });
     case 3:
@@ -129807,7 +130179,9 @@ function __c422(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -130104,7 +130478,9 @@ function __c434(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -130597,7 +130973,9 @@ function __c450(j: number): any {
           locale: S.optional(S.String),
           on_behalf_of: S.optional(S.String),
           return_url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -131099,7 +131477,9 @@ function __c467(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(14945, __c467, 1)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/charges", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -132390,7 +132770,9 @@ function __c495(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -133187,7 +133569,9 @@ function __c510(j: number): any {
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           ui_mode: S.optional(S.String),
           wallet_options: S.optional(__S(16771, __c524, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134900,7 +135284,9 @@ function __c563(j: number): any {
           refresh_url: S.optional(S.String),
           return_url: S.optional(S.String),
           type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134939,7 +135325,9 @@ function __c565(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -135214,7 +135602,9 @@ function __c576(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           metric_tons: S.optional(S.String),
           product: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -135592,7 +135982,9 @@ function __c590(j: number): any {
         S.Struct({
           order: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -136120,7 +136512,9 @@ function __c603(j: number): any {
           feed_type: S.String,
           metadata: __S(6208, __c194, 0),
           mode: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/product_catalog/imports", code: 200 })),
       ).annotate({ identifier: "CreateCommerceProductCatalogImportRequest" });
   }
@@ -136716,7 +137110,9 @@ function __c617(j: number): any {
           identity: S.optional(__S(19760, __c617, 16)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountRequest" });
   }
@@ -137934,7 +138330,9 @@ function __c643(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           applied_configurations: S.optional(__S(6560, __c205, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}/close", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountCloseRequest" });
   }
@@ -138250,7 +138648,9 @@ function __c657(j: number): any {
         S.Struct({
           account: S.String,
           use_case: __S(21025, __c657, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_links", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountLinkRequest" });
     case 3:
@@ -138525,7 +138925,9 @@ function __c668(j: number): any {
           script_addresses: S.optional(__S(20099, __c628, 3)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons", code: 200 }),
         ),
@@ -138847,7 +139249,9 @@ function __c681(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -139221,7 +139625,9 @@ function __c697(j: number): any {
           contact_phone: S.optional(S.String),
           display_name: S.optional(S.String),
           identity: S.optional(__S(22306, __c697, 2)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_tokens", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountTokenRequest" });
   }
@@ -139540,7 +139946,9 @@ function __c710(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -139592,7 +140000,9 @@ function __c711(j: number): any {
           snapshot_api_version: S.optional(S.String),
           type: S.String,
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations", code: 200 })),
       ).annotate({ identifier: "CreateCoreEventDestinationRequest" });
   }
@@ -140089,7 +140499,9 @@ function __c726(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/disable", code: 200 }),
         ),
@@ -140427,7 +140839,9 @@ function __c738(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/enable", code: 200 }),
         ),
@@ -140716,7 +141130,9 @@ function __c750(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/ping", code: 200 }),
         ),
@@ -141007,7 +141423,9 @@ function __c762(j: number): any {
           currency: S.String,
           iban: S.optional(S.String),
           sort_code: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/gb_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultGbBankAccountRequest" });
   }
@@ -141284,7 +141702,9 @@ function __c774(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141554,7 +141974,9 @@ function __c785(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141839,7 +142261,9 @@ function __c796(j: number): any {
           currency: S.String,
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultUsBankAccountRequest" });
   }
@@ -142377,7 +142801,9 @@ function __c809(j: number): any {
           metadata: S.optional(S.Unknown),
           settings: S.optional(__S(25902, __c809, 14)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142398,7 +142824,9 @@ function __c810(j: number): any {
           capability: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           requested: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142416,7 +142844,9 @@ function __c811(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142456,7 +142886,9 @@ function __c812(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142563,7 +142995,9 @@ function __c813(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142584,7 +143018,9 @@ function __c814(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142603,7 +143039,9 @@ function __c815(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142624,7 +143062,9 @@ function __c816(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142644,7 +143084,9 @@ function __c817(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142664,7 +143106,9 @@ function __c818(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142788,7 +143232,9 @@ function __c819(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142820,7 +143266,9 @@ function __c820(j: number): any {
           receipt_email: S.optional(S.String),
           shipping: S.optional(__S(14976, __c468, 0)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142927,7 +143375,9 @@ function __c821(j: number): any {
           metadata: S.optional(S.Unknown),
           payment_intent_data: S.optional(__S(26280, __c821, 8)),
           shipping_options: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142947,7 +143397,9 @@ function __c822(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142967,7 +143419,9 @@ function __c823(j: number): any {
           beneficiary: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143181,7 +143635,9 @@ function __c824(j: number): any {
           identity: S.optional(__S(26382, __c824, 14)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreAccountRequest" });
   }
@@ -143212,7 +143668,9 @@ function __c825(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons/{id}", code: 200 }),
         ),
@@ -143231,7 +143689,9 @@ function __c826(j: number): any {
           metadata: S.optional(__S(21920, __c685, 0)),
           name: S.optional(S.String),
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreEventDestinationRequest" });
   }
@@ -143244,7 +143704,9 @@ function __c827(j: number): any {
           id: S.String.pipe(T.Label()),
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreVaultUsBankAccountRequest" });
   }
@@ -143259,7 +143721,9 @@ function __c828(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143280,7 +143744,9 @@ function __c829(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           memo: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143335,7 +143801,9 @@ function __c830(j: number): any {
           tax: S.optional(__S(26561, __c830, 1)),
           tax_exempt: S.optional(S.String),
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143357,7 +143825,9 @@ function __c831(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143390,7 +143860,9 @@ function __c832(j: number): any {
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
           owner: S.optional(__S(2624, __c82, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143500,7 +143972,9 @@ function __c833(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143544,7 +144018,9 @@ function __c835(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143600,7 +144076,9 @@ function __c836(j: number): any {
           intended_submission_method: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           submit: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143622,7 +144100,9 @@ function __c837(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143643,7 +144123,9 @@ function __c838(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143672,7 +144154,9 @@ function __c839(j: number): any {
           options: S.optional(__S(26848, __c839, 0)),
           provided_details: S.optional(__S(30720, __c960, 0)),
           type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143751,7 +144235,9 @@ function __c840(j: number): any {
           shipping_details: S.optional(S.Unknown),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143785,7 +144271,9 @@ function __c841(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143847,7 +144335,9 @@ function __c842(j: number): any {
           quantity_decimal: S.optional(S.String),
           tax_amounts: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143867,7 +144357,9 @@ function __c843(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143894,7 +144386,9 @@ function __c844(j: number): any {
           shipping: S.optional(__S(259, __c8, 3)),
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143948,7 +144442,9 @@ function __c845(j: number): any {
           preferred_locales: S.optional(__S(6560, __c205, 0)),
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143966,7 +144462,9 @@ function __c846(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144001,7 +144499,9 @@ function __c847(j: number): any {
           evidence: S.optional(__S(27104, __c847, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144028,7 +144528,9 @@ function __c848(j: number): any {
           physical_bundle: S.optional(S.String),
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144048,7 +144550,9 @@ function __c849(j: number): any {
           token: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           status: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144068,7 +144572,9 @@ function __c850(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144088,7 +144594,9 @@ function __c851(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144107,7 +144615,9 @@ function __c852(j: number): any {
           id: S.String.pipe(T.Label()),
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144130,7 +144640,9 @@ function __c853(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: S.optional(__S(1184, __c37, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/payout_intents/{id}", code: 200 }),
         ),
@@ -144145,7 +144657,9 @@ function __c854(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/transactions/{id}", code: 200 }),
         ),
@@ -144356,7 +144870,9 @@ function __c855(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(27367, __c855, 7)),
           transfer_group: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144473,7 +144989,9 @@ function __c856(j: number): any {
           subscription_data: S.optional(__S(27399, __c856, 7)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144509,7 +145027,9 @@ function __c857(j: number): any {
           name: S.optional(S.String),
           percent_off: S.optional(S.Number),
           redeem_by: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/coupons", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -144599,7 +145119,9 @@ function __c859(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           us_bank_account: S.optional(__S(27491, __c859, 3)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144682,7 +145204,9 @@ function __c860(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144702,7 +145226,9 @@ function __c861(j: number): any {
           payment_method_domain: S.String.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144722,7 +145248,9 @@ function __c862(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144746,7 +145274,9 @@ function __c863(j: number): any {
           nickname: S.optional(S.String),
           product: S.optional(S.String),
           trial_period_days: S.optional(S.Number),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144772,7 +145302,9 @@ function __c864(j: number): any {
           nickname: S.optional(S.String),
           tax_behavior: S.optional(S.String),
           transfer_lookup_key: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144805,7 +145337,9 @@ function __c865(j: number): any {
           tax_details: S.optional(S.Unknown),
           unit_label: S.optional(S.Unknown),
           url: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144825,7 +145359,9 @@ function __c866(j: number): any {
           id: S.String.pipe(T.Label()),
           active: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144853,7 +145389,9 @@ function __c867(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           restrictions: S.optional(__S(27744, __c867, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144922,7 +145460,9 @@ function __c868(j: number): any {
           on_behalf_of: S.optional(S.Unknown),
           subscription_data: S.optional(__S(27779, __c868, 3)),
           transfer_data: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144970,7 +145510,9 @@ function __c869(j: number): any {
           refund_amount: S.optional(S.Number),
           refunds: S.optional(__S(27873, __c871, 1)),
           shipping_cost: S.optional(__S(27840, __c870, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145185,7 +145727,9 @@ function __c879(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145205,7 +145749,9 @@ function __c880(j: number): any {
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145407,7 +145953,9 @@ function __c881(j: number): any {
           payment_method_configuration: S.optional(S.String),
           payment_method_data: S.optional(__S(28193, __c881, 1)),
           payment_method_options: S.optional(__S(28203, __c881, 11)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145445,7 +145993,9 @@ function __c882(j: number): any {
           fixed_amount: S.optional(__S(28226, __c882, 2)),
           metadata: S.optional(S.Unknown),
           tax_behavior: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145479,7 +146029,9 @@ function __c883(j: number): any {
           metadata: S.optional(S.Unknown),
           owner: S.optional(__S(2624, __c82, 0)),
           source_order: S.optional(__S(4453, __c139, 5)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145606,7 +146158,9 @@ function __c884(j: number): any {
           trial_end: S.optional(S.Unknown),
           trial_from_plan: S.optional(S.Boolean),
           trial_settings: S.optional(__S(4641, __c145, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145638,7 +146192,9 @@ function __c885(j: number): any {
           proration_date: S.optional(S.Number),
           quantity: S.optional(S.Number),
           tax_rates: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145759,7 +146315,9 @@ function __c886(j: number): any {
           pause_schedules: S.optional(S.Unknown),
           phases: S.optional(__S(28360, __c886, 8)),
           proration_behavior: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145786,7 +146344,9 @@ function __c887(j: number): any {
           metadata: S.optional(S.Unknown),
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145807,7 +146367,9 @@ function __c888(j: number): any {
           active_from: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145826,7 +146388,9 @@ function __c889(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145862,7 +146426,9 @@ function __c890(j: number): any {
           verifone_ux700: S.optional(S.Unknown),
           verifone_v660p: S.optional(S.Unknown),
           wifi: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145894,7 +146460,9 @@ function __c891(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145919,7 +146487,9 @@ function __c892(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           label: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145943,7 +146513,9 @@ function __c893(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145985,7 +146557,9 @@ function __c895(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146006,7 +146580,9 @@ function __c896(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146027,7 +146603,9 @@ function __c897(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146048,7 +146626,9 @@ function __c898(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146072,7 +146652,9 @@ function __c899(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146096,7 +146678,9 @@ function __c900(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146152,7 +146736,9 @@ function __c901(j: number): any {
           tax_id_data: S.optional(__S(20129, __c629, 1)),
           test_clock: S.optional(S.String),
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146832,7 +147418,9 @@ function __c919(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146876,7 +147464,9 @@ function __c921(j: number): any {
           customer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           settings: S.optional(__S(29280, __c915, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146898,7 +147488,9 @@ function __c922(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           funding_type: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147089,7 +147681,9 @@ function __c924(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147190,7 +147784,9 @@ function __c925(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payouts_action: S.optional(S.String),
           reason: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147212,7 +147808,9 @@ function __c926(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           source: S.String,
           validate: S.optional(S.Boolean),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147241,7 +147839,9 @@ function __c928(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147299,7 +147899,9 @@ function __c930(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
           value: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147318,7 +147920,9 @@ function __c931(j: number): any {
         S.Struct({
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147571,7 +148175,9 @@ function __c935(j: number): any {
           lookup_key: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147609,7 +148215,9 @@ function __c937(j: number): any {
           issuing_card: S.optional(S.String),
           nonce: S.optional(S.String),
           verification_session: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147653,7 +148261,9 @@ function __c939(j: number): any {
           file: S.String,
           file_link_data: S.optional(__S(30048, __c939, 0)),
           purpose: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/v1/files", code: 200, contentType: "multipart" })),
       ).annotate({ identifier: "CreateFileRequest" });
   }
@@ -147720,7 +148330,9 @@ function __c943(j: number): any {
           expires_at: S.optional(S.Number),
           file: S.String,
           metadata: S.optional(S.Unknown),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147739,7 +148351,9 @@ function __c944(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147864,7 +148478,9 @@ function __c946(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148083,7 +148699,9 @@ function __c947(j: number): any {
           account: S.String,
           components: __S(30325, __c947, 21),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148309,7 +148927,9 @@ function __c949(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148329,7 +148949,9 @@ function __c950(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148368,7 +148990,9 @@ function __c951(j: number): any {
           permissions: __S(6560, __c205, 0),
           prefetch: S.optional(__S(6560, __c205, 0)),
           return_url: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148531,7 +149155,9 @@ function __c956(j: number): any {
           replacements: __S(6560, __c205, 0),
           request: S.optional(__S(30592, __c956, 0)),
           url: S.String,
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148608,7 +149234,9 @@ function __c958(j: number): any {
           return_url: S.optional(S.String),
           type: S.optional(S.String),
           verification_flow: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148729,7 +149357,9 @@ function __c961(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148748,7 +149378,9 @@ function __c962(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -148847,7 +149479,9 @@ function __c963(j: number): any {
           statement_descriptor: S.optional(S.String),
           subscription: S.optional(S.String),
           transfer_data: S.optional(__S(17376, __c543, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150698,7 +151332,9 @@ function __c981(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31396, __c981, 4),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150729,7 +151365,9 @@ function __c983(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.optional(S.String),
           payment_record: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150748,7 +151386,9 @@ function __c984(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150768,7 +151408,9 @@ function __c985(j: number): any {
           invoice: S.String.pipe(T.Label()),
           auto_advance: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150805,7 +151447,9 @@ function __c986(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(__S(6176, __c193, 0)),
           unit_amount_decimal: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150905,7 +151549,9 @@ function __c989(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150930,7 +151576,9 @@ function __c990(j: number): any {
           paid_out_of_band: S.optional(S.Boolean),
           payment_method: S.optional(S.String),
           source: S.optional(S.String),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150960,7 +151608,9 @@ function __c991(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31713, __c991, 1),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -150979,7 +151629,9 @@ function __c992(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -151015,7 +151667,9 @@ function __c994(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -151218,7 +151872,9 @@ function __c995(j: number): any {
           schedule_details: S.optional(__S(31851, __c995, 11)),
           subscription: S.optional(S.String),
           subscription_details: S.optional(__S(31855, __c995, 15)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -151311,7 +151967,9 @@ function __c1001(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -151384,7 +152042,9 @@ function __c1002(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(32068, __c1002, 4),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",

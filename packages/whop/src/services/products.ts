@@ -737,7 +737,9 @@ function __c1(j: number): any {
           send_welcome_message: S.optional(S.NullOr(S.Boolean)),
           title: S.String,
           visibility: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/products", code: 200 })),
       ).annotate({ identifier: "CreateProductRequest" });
   }
@@ -1004,7 +1006,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/products/{id}/publish", code: 200 })),
       ).annotate({ identifier: "PublishProductRequest" });
   }
@@ -1015,7 +1019,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/products/{id}/unpublish", code: 200 })),
       ).annotate({ identifier: "UnpublishProductRequest" });
   }

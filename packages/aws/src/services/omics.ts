@@ -307,7 +307,7 @@ export interface CreateConfigurationRequest {
   description?: string | undefined;
   runConfigurations: RunConfigurations;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
 }
 export type ConfigurationArn = string;
 export type ConfigurationUuid = string;
@@ -394,7 +394,7 @@ export interface CreateRunCacheRequest {
   cacheS3Location: string;
   description?: string | undefined;
   name?: string | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   cacheBucketOwnerId?: string | undefined;
 }
@@ -415,7 +415,7 @@ export interface CreateRunGroupRequest {
   maxRuns?: number | undefined;
   maxDuration?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   maxGpus?: number | undefined;
 }
 export type RunGroupArn = string;
@@ -560,7 +560,7 @@ export interface CreateWorkflowRequest {
   parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
   storageCapacity?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   accelerators?: string | undefined;
   storageType?: string | undefined;
   containerRegistryMap?: ContainerRegistryMap | undefined;
@@ -595,7 +595,7 @@ export interface CreateWorkflowVersionRequest {
   engine?: string | undefined;
   main?: string | undefined;
   parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   storageType?: string | undefined;
   storageCapacity?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -2216,7 +2216,7 @@ export interface StartRunRequest {
   outputUri: string;
   logLevel?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   retentionMode?: string | undefined;
   storageType?: string | undefined;
   workflowOwnerId?: string | undefined;
@@ -2256,7 +2256,7 @@ export type BatchRunSettings =
   | { inlineSettings?: undefined; s3UriSettings: string };
 export interface StartRunBatchRequest {
   batchName?: string | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   defaultRunSetting: DefaultRunSetting;
   batchRunSettings: BatchRunSettings;
@@ -6914,7 +6914,7 @@ function __c5(j: number): any {
           outputUri: S.String,
           logLevel: S.optional(S.String),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           retentionMode: S.optional(S.String),
           storageType: S.optional(S.String),
           workflowOwnerId: S.optional(S.String),
@@ -6968,7 +6968,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           batchName: S.optional(S.String),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(256, __c32, 0)),
           defaultRunSetting: __S(624, __c78, 0),
           batchRunSettings: __S(50, __c6, 2),
@@ -7602,7 +7602,7 @@ function __c39(j: number): any {
           description: S.optional(S.String),
           runConfigurations: __S(313, __c39, 1),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/configuration" }), svc, auth, proto, ver, rules),
         ),
@@ -7727,7 +7727,7 @@ function __c45(j: number): any {
           cacheS3Location: S.String,
           description: S.optional(S.String),
           name: S.optional(S.String),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(256, __c32, 0)),
           cacheBucketOwnerId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/runCache" }), svc, auth, proto, ver, rules)),
@@ -7753,7 +7753,7 @@ function __c46(j: number): any {
           maxRuns: S.optional(S.Number),
           maxDuration: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           maxGpus: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/runGroup" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRunGroupRequest" });
@@ -7884,7 +7884,7 @@ function __c52(j: number): any {
           parameterTemplate: S.optional(__S(433, __c54, 1)),
           storageCapacity: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           accelerators: S.optional(S.String),
           storageType: S.optional(S.String),
           containerRegistryMap: S.optional(__S(438, __c54, 6)),
@@ -7975,7 +7975,7 @@ function __c55(j: number): any {
           engine: S.optional(S.String),
           main: S.optional(S.String),
           parameterTemplate: S.optional(__S(433, __c54, 1)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           storageType: S.optional(S.String),
           storageCapacity: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),

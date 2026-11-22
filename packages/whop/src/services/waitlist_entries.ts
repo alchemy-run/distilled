@@ -450,7 +450,9 @@ function __c2(j: number): any {
         S.Struct({
           account_id: S.String,
           plan_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries/approve_all", code: 200 })),
       ).annotate({ identifier: "ApproveAllWaitlistEntriesRequest" });
     case 1:
@@ -469,7 +471,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries/{id}/approve", code: 200 })),
       ).annotate({ identifier: "ApproveWaitlistEntryRequest" });
   }
@@ -512,7 +516,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelWaitlistEntryRequest" });
   }
@@ -534,7 +540,9 @@ function __c6(j: number): any {
           custom_field_responses: S.optional(__S(25, __c6, 1)),
           metadata: S.optional(S.Unknown),
           plan_id: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries", code: 200 })),
       ).annotate({ identifier: "CreateWaitlistEntryRequest" });
   }
@@ -545,7 +553,9 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries/{id}/deny", code: 200 })),
       ).annotate({ identifier: "DenyWaitlistEntryRequest" });
   }

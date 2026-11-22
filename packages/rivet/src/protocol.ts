@@ -1,7 +1,9 @@
 import type { Protocol } from "@distilled.cloud/core/protocol";
+import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
 import {
   restProtocol,
   unknownErrorProps,
+  type RestErrorInfo,
   type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -17,22 +19,34 @@ import {
  * Per-operation error matchers in `patches/` match that header, so a missing
  * pool and a missing namespace are different tags; status classes from
  * core's shared map cover the rest. The envelope reports `<group>.<code>` as
- * the code of an unknown error.
+ * the code of an unknown error. A 404 without `x-rivet-ray-id` did not come
+ * from the engine, so it is `EngineNotReady`.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type CredentialsError } from "./credentials.ts";
-import { RivetParseError, UnknownRivetError, type RivetServiceError } from "./errors.ts";
+import {
+  EngineNotReady,
+  RivetParseError,
+  UnknownRivetError,
+  type RivetServiceError,
+} from "./errors.ts";
 
 /**
  * The errors declared on Rivet's protocol: what the code that builds requests
  * and reads responses fails with. A response that does not match its schema
  * ({@link RivetParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownRivetError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
+ * the service declares ({@link UnknownRivetError}), a 404 that did not come from
+ * the engine ({@link EngineNotReady}, see {@link engineNotReady}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type RivetProtocolError = RestProtocolError | RivetParseError | UnknownRivetError;
+export type RivetProtocolError =
+  | RestProtocolError
+  | RivetParseError
+  | UnknownRivetError
+  | EngineNotReady;
 
 /**
  * What every generated Rivet operation fails with besides its own errors: the
@@ -60,6 +74,19 @@ const errorEnvelope = (body: unknown) => {
   };
 };
 
+/**
+ * The engine sends `x-rivet-ray-id` on every response, so a 404 without it
+ * came from whatever sits in front of the engine: a platform's router while
+ * the engine is starting.
+ */
+const engineNotReady = (info: RestErrorInfo): EngineNotReady | undefined =>
+  info.status === 404 && info.headers["x-rivet-ray-id"] === undefined
+    ? new EngineNotReady({
+        message: `The Rivet engine did not answer: its endpoint returned a 404 without x-rivet-ray-id (${info.message})`,
+        ...responseErrorFields(undefined, { body: info.body, headers: info.headers }),
+      })
+    : undefined;
+
 // The annotation is the check: everything the protocol fails with, besides
 // the errors an operation and the service declare, must be listed here.
 export const RivetProtocol: Protocol<RivetProtocolError | CredentialsError, Credentials> =
@@ -72,6 +99,7 @@ export const RivetProtocol: Protocol<RivetProtocolError | CredentialsError, Cred
       Authorization: `Bearer ${Redacted.value(creds.token)}`,
     }),
     errorEnvelope,
+    classifyError: engineNotReady,
     unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
   });

@@ -320,7 +320,9 @@ function __c1(j: number): any {
           domain: S.String,
           metadata: S.optional(__S(16, __c2, 0)),
           replace_existing: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/domains", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
   }

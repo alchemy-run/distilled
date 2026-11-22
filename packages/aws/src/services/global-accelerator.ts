@@ -311,7 +311,7 @@ export interface CreateAcceleratorRequest {
   IpAddressType?: IpAddressType | undefined;
   IpAddresses?: string[] | undefined;
   Enabled?: boolean | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type IpAddressFamily = "IPv4" | "IPv6" | (string & {});
@@ -363,7 +363,7 @@ export interface CreateCrossAccountAttachmentRequest {
   Name: string;
   Principals?: string[] | undefined;
   Resources?: Resource[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export interface Attachment {
@@ -382,7 +382,7 @@ export interface CreateCustomRoutingAcceleratorRequest {
   IpAddressType?: IpAddressType | undefined;
   IpAddresses?: string[] | undefined;
   Enabled?: boolean | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type CustomRoutingAcceleratorStatus = "DEPLOYED" | "IN_PROGRESS" | (string & {});
@@ -412,7 +412,7 @@ export interface CreateCustomRoutingEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
   DestinationConfigurations: CustomRoutingDestinationConfiguration[];
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type Protocol = "TCP" | "UDP" | (string & {});
 export type Protocols = Protocol[];
@@ -439,7 +439,7 @@ export type PortRanges = PortRange[];
 export interface CreateCustomRoutingListenerRequest {
   AcceleratorArn: string;
   PortRanges: PortRange[];
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CustomRoutingListener {
   ListenerArn?: string | undefined;
@@ -469,7 +469,7 @@ export interface CreateEndpointGroupRequest {
   HealthCheckPath?: string | undefined;
   HealthCheckIntervalSeconds?: number | undefined;
   ThresholdCount?: number | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   PortOverrides?: PortOverride[] | undefined;
 }
 export interface EndpointGroup {
@@ -493,7 +493,7 @@ export interface CreateListenerRequest {
   PortRanges: PortRange[];
   Protocol: Protocol;
   ClientAffinity?: ClientAffinity | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface Listener {
   ListenerArn?: string | undefined;
@@ -3002,7 +3002,7 @@ function __c13(j: number): any {
           IpAddressType: S.optional(S.String),
           IpAddresses: S.optional(__S(80, __c10, 0)),
           Enabled: S.optional(S.Boolean),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAcceleratorRequest" });
@@ -3075,7 +3075,7 @@ function __c18(j: number): any {
           Name: S.String,
           Principals: S.optional(__S(80, __c10, 0)),
           Resources: S.optional(__S(153, __c19, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCrossAccountAttachmentRequest" });
@@ -3123,7 +3123,7 @@ function __c21(j: number): any {
           IpAddressType: S.optional(S.String),
           IpAddresses: S.optional(__S(80, __c10, 0)),
           Enabled: S.optional(S.Boolean),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingAcceleratorRequest" });
@@ -3169,7 +3169,7 @@ function __c24(j: number): any {
           ListenerArn: S.String,
           EndpointGroupRegion: S.String,
           DestinationConfigurations: __S(193, __c24, 1),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingEndpointGroupRequest" });
   }
@@ -3218,7 +3218,7 @@ function __c28(j: number): any {
         S.Struct({
           AcceleratorArn: S.String,
           PortRanges: __S(233, __c29, 1),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingListenerRequest" });
   }
@@ -3263,7 +3263,7 @@ function __c32(j: number): any {
           HealthCheckPath: S.optional(S.String),
           HealthCheckIntervalSeconds: S.optional(S.Number),
           ThresholdCount: S.optional(S.Number),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           PortOverrides: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateEndpointGroupRequest" });
@@ -3311,7 +3311,7 @@ function __c35(j: number): any {
           PortRanges: __S(233, __c29, 1),
           Protocol: S.String,
           ClientAffinity: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateListenerRequest" });
   }

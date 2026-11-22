@@ -326,7 +326,9 @@ function __c1(j: number): any {
         S.Struct({
           account_id: S.optional(S.String),
           hostname: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_method_domains", code: 200 })),
       ).annotate({ identifier: "CreatePaymentMethodDomainRequest" });
   }
@@ -419,7 +421,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_method_domains/{id}/verify", code: 200 })),
       ).annotate({ identifier: "VerifyPaymentMethodDomainRequest" });
   }

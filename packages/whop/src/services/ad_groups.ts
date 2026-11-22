@@ -1399,7 +1399,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
       ).annotate({ identifier: "PauseAdGroupRequest" });
   }
@@ -1435,7 +1437,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/unpause", code: 200 })),
       ).annotate({ identifier: "UnpauseAdGroupRequest" });
   }
@@ -1501,7 +1505,9 @@ function __c5(j: number): any {
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups", code: 200 })),
       ).annotate({ identifier: "CreateAdGroupRequest" });
   }
@@ -1851,7 +1857,9 @@ function __c12(j: number): any {
           count: S.optional(S.Number),
           preserve_engagement: S.optional(S.Boolean),
           target_ad_campaign_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/duplicate", code: 200 })),
       ).annotate({ identifier: "DuplicateAdGroupRequest" });
     case 1:
@@ -1881,7 +1889,9 @@ function __c14(j: number): any {
           languages: S.optional(__S(128, __c8, 0)),
           platform: S.String,
           regions: S.optional(__S(168, __c10, 8)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/estimate_reach", code: 200 })),
       ).annotate({ identifier: "EstimateAdGroupReachRequest" });
     case 1:

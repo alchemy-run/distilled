@@ -183,25 +183,25 @@ export interface ListForProductLicenseAssignmentsRequest {
 }
 export interface PatchLicenseAssignmentsRequest extends Omit<
   LicenseAssignment,
-  "skuId" | "productId" | "userId"
+  "productId" | "userId"
 > {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
-  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
-  skuId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
+  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  currentSkuId: string;
 }
 export interface UpdateLicenseAssignmentsRequest extends Omit<
   LicenseAssignment,
-  "skuId" | "productId" | "userId"
+  "productId" | "userId"
 > {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
-  skuId: string;
+  currentSkuId: string;
 }
 export type DeleteLicenseAssignmentsError =
   | NotFound
@@ -378,13 +378,13 @@ function __c0(j: number): any {
           __S(8, __c4, 0),
           S.Struct({
             productId: S.String.pipe(T.Label()),
-            skuId: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
+            currentSkuId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "PATCH",
-            uri: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+            uri: "apps/licensing/v1/product/{productId}/sku/{currentSkuId}/user/{userId}",
             baseUrl: "https://licensing.googleapis.com/",
           }),
         ),
@@ -400,12 +400,12 @@ function __c1(j: number): any {
           S.Struct({
             productId: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
-            skuId: S.String.pipe(T.Label()),
+            currentSkuId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "PUT",
-            uri: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
+            uri: "apps/licensing/v1/product/{productId}/sku/{currentSkuId}/user/{userId}",
             baseUrl: "https://licensing.googleapis.com/",
           }),
         ),

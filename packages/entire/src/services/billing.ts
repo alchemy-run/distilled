@@ -195,7 +195,7 @@ export interface CompleteOrgBillingSignupRequest {
   checkoutSessionId: string;
 }
 export interface CreateAccountBillingCheckoutPurchaseRequest {
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Credit to buy in USD cents, from 1000 to 1000000. */
   amount_cents: number;
   /** Trusted HTTPS cancellation URL. */
@@ -294,7 +294,7 @@ export interface BillingSettingsSession {
 }
 export interface CreateOrgBillingCheckoutPurchaseRequest {
   org_id: string;
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Credit to buy in USD cents, from 1000 to 1000000. */
   amount_cents: number;
   /** Trusted HTTPS cancellation URL. */
@@ -1094,7 +1094,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount_cents: S.Number,
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/orgs/{org_id}/billing/purchases", code: 200 }),
@@ -1622,7 +1624,9 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount_cents: S.Number,
           cancel_url: S.String,
           success_url: S.String,
@@ -1664,7 +1668,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           code: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/me/billing/promo-redemptions", code: 200 })),
       ).annotate({ identifier: "CreateAccountBillingPromoRedemptionRequest" });
@@ -1691,7 +1697,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount_cents: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/me/billing/purchases", code: 200 })),
       ).annotate({ identifier: "CreateAccountBillingPurchaseRequest" });
@@ -1727,7 +1735,9 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount_cents: S.Number,
           cancel_url: S.String,
           success_url: S.String,
@@ -1747,7 +1757,9 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           code: S.String,
         }).pipe(
           T.Http({

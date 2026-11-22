@@ -1,0 +1,34 @@
+{
+  "description": "Type Fly's host-capacity rejection of a Machine pinned to an existing volume (\"insufficient resources to create new machine with existing volume 'vol_…'\"), seen live on machinesCreate, so callers can tell a full volume host from a bad request.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#InsufficientHostResources",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": {
+                "includes": "insufficient resources to create new machine"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreate/errors/-",
+      "value": {
+        "target": "com.flyio.machines#InsufficientHostResources"
+      }
+    }
+  ]
+}
