@@ -37,7 +37,7 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  *   Authorization: FlyV1 {FLY_API_TOKEN}
  *
  * Org slug comes from Machines `GET /tokens/current` (GraphQL fallback).
- * The minted token is cached process-wide, then sent as
+ * The minted token is cached per `Credentials` layer value, then sent as
  * `Authorization: Bearer` on sprite ops. There is no `SPRITES_TOKEN`.
  */
 import * as Context from "effect/Context";
@@ -430,20 +430,31 @@ interface SpritesTokenCache {
   >;
 }
 
-// Keyed by the Fly token itself: `Redacted` hashes and compares by value.
-const spritesTokens = /*@__PURE__*/ MutableHashMap.empty<
-  Redacted.Redacted<string>,
-  SpritesTokenCache
+/**
+ * The Sprites bearer caches of each `Credentials` layer value, keyed by the
+ * Fly token (`Redacted` hashes and compares by value), so a layer that
+ * resolves another token (a new `FLY_API_TOKEN`) mints for it. Two layers
+ * never share a bearer.
+ */
+const spritesTokens = /*@__PURE__*/ new WeakMap<
+  Credentials["Service"],
+  MutableHashMap.MutableHashMap<Redacted.Redacted<string>, SpritesTokenCache>
 >();
 
 /**
- * Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. The
- * bearer does not expire; concurrent calls share one mint (core
- * `refreshing`, AGENTS.md rule 16), and a failed mint is tried again.
+ * The Sprites bearer for `fly`, minted from `FLY_API_TOKEN` and cached per
+ * `Credentials` layer value. The bearer does not expire; concurrent calls
+ * share one mint (core `refreshing`, AGENTS.md rule 16), and a failed mint
+ * is tried again.
  */
-const mintSpritesToken = (fly: Config) =>
+const mintSpritesToken = (credentials: Credentials["Service"], fly: Config) =>
   Effect.suspend(() => {
-    const hit = MutableHashMap.get(spritesTokens, fly.apiKey);
+    let byToken = spritesTokens.get(credentials);
+    if (byToken === undefined) {
+      byToken = MutableHashMap.empty();
+      spritesTokens.set(credentials, byToken);
+    }
+    const hit = MutableHashMap.get(byToken, fly.apiKey);
     if (Option.isSome(hit)) {
       hit.value.fly = fly;
       return hit.value.token;
@@ -461,7 +472,7 @@ const mintSpritesToken = (fly: Config) =>
         },
       ),
     };
-    MutableHashMap.set(spritesTokens, fly.apiKey, cache);
+    MutableHashMap.set(byToken, fly.apiKey, cache);
     return cache.token;
   });
 
@@ -473,14 +484,15 @@ const encodeSpritesRequest = ({
   readonly inputAst: AST.AST;
 }) =>
   Effect.gen(function* () {
-    const fly = yield* resolveFlyCreds;
+    const credentials = yield* Credentials;
+    const fly = yield* credentials;
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     const mint = isMintOp(http);
     let authorization: string;
     if (mint) {
       authorization = `FlyV1 ${stripFlyAuthScheme(Redacted.value(fly.apiKey))}`;
     } else {
-      const token = yield* mintSpritesToken(fly);
+      const token = yield* mintSpritesToken(credentials, fly);
       authorization = `Bearer ${Redacted.value(token)}`;
     }
     return yield* buildRequest({
