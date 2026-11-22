@@ -20,6 +20,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -159,6 +160,32 @@ export const envdBaseUrlFor = (config: SandboxConnectionConfig): string => {
     ? `https://sandbox.${domain}`
     : `https://${port}-${config.sandboxId}.${domain}`;
 };
+
+/**
+ * The {@link SandboxConnection} on the calling fiber, for the envd calls.
+ * Fails with `ConfigError` when none is provided, or when the sandbox is
+ * addressed by host name (`<port>-<id>.<domain>`) and that label is not one
+ * DNS label.
+ */
+export const resolveSandboxConnection: Effect.Effect<SandboxConnectionConfig, ConfigError> =
+  /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) => {
+    if (option._tag === "None") {
+      return Effect.fail(
+        new ConfigError({
+          message:
+            "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
+        }),
+      );
+    }
+    const sandbox = option.value;
+    const invalid = SHARED_SANDBOX_HOST_DOMAINS.has(sandbox.domain ?? DEFAULT_DOMAIN)
+      ? undefined
+      : invalidHostLabelConfig(
+          "E2B sandbox host label (<port>-<sandboxId>)",
+          `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`,
+        );
+    return invalid === undefined ? Effect.succeed(sandbox) : Effect.fail(invalid);
+  });
 
 // =============================================================================
 // Volume content: one volume
