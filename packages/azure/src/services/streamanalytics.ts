@@ -1540,6 +1540,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -1566,13 +1568,15 @@ export type ClusterListResultValueList = Array<Cluster>;
 /** A list of clusters populated by a 'list' operation. */
 export interface ClusterListResult {
   /** A list of clusters. */
-  value?: ClusterListResultValueList | undefined;
+  value: ClusterListResultValueList;
   /** The URL to fetch the next set of clusters. */
   nextLink?: string | undefined;
 }
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListClusterStreamingJobsRequest {
   /** The ID of the target subscription. */
@@ -1581,6 +1585,8 @@ export interface ListClusterStreamingJobsRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The current execution state of the streaming job. */
 export type JobState =
@@ -1607,7 +1613,7 @@ export type ClusterJobListResultValueList = Array<ClusterJob>;
 /** A list of streaming jobs. Populated by a List operation. */
 export interface ClusterJobListResult {
   /** A list of streaming jobs. */
-  value?: ClusterJobListResultValueList | undefined;
+  value: ClusterJobListResultValueList;
   /** The URL to fetch the next set of streaming jobs. */
   nextLink?: string | undefined;
 }
@@ -1620,6 +1626,8 @@ export interface ListFunctionByStreamingJobRequest {
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
   _select?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
 export type Function = StreamingJobPropertiesFunctionsItem;
@@ -1628,7 +1636,7 @@ export type FunctionListResultValueList = Array<StreamingJobPropertiesFunctionsI
 /** Object containing a list of functions under a streaming job. */
 export interface FunctionListResult {
   /** A list of functions under a streaming job. Populated by a 'List' operation. */
-  value?: FunctionListResultValueList | undefined;
+  value: FunctionListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1641,6 +1649,8 @@ export interface ListInputByStreamingJobRequest {
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
   _select?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
 export type Input = StreamingJobPropertiesInputsItem;
@@ -1649,11 +1659,14 @@ export type InputListResultValueList = Array<StreamingJobPropertiesInputsItem>;
 /** Object containing a list of inputs under a streaming job. */
 export interface InputListResult {
   /** A list of inputs under a streaming job. Populated by a 'List' operation. */
-  value?: InputListResultValueList | undefined;
+  value: InputListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Contains the localized display information for this particular operation / action. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name. */
@@ -1679,7 +1692,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Stream Analytics operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Stream Analytics operations supported by the Microsoft.StreamAnalytics resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -1692,6 +1705,8 @@ export interface ListOutputByStreamingJobRequest {
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
   _select?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
 export type Output = StreamingJobPropertiesOutputsItem;
@@ -1700,7 +1715,7 @@ export type OutputListResultValueList = Array<StreamingJobPropertiesOutputsItem>
 /** Object containing a list of outputs under a streaming job. */
 export interface OutputListResult {
   /** A list of outputs under a streaming job. Populated by a 'List' operation. */
-  value?: OutputListResultValueList | undefined;
+  value: OutputListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1711,6 +1726,8 @@ export interface ListPrivateEndpointByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Complete information about the private endpoint. */
 export interface PrivateEndpoint {
@@ -1730,7 +1747,7 @@ export type PrivateEndpointListResultValueList = Array<PrivateEndpoint>;
 /** A list of private endpoints. */
 export interface PrivateEndpointListResult {
   /** A list of private endpoints. */
-  value?: PrivateEndpointListResultValueList | undefined;
+  value: PrivateEndpointListResultValueList;
   /** The URL to fetch the next set of private endpoints. */
   nextLink?: string | undefined;
 }
@@ -1741,6 +1758,8 @@ export interface ListStreamingJobByResourceGroupRequest {
   resourceGroupName: string;
   /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StreamingJobTagsMap = { [key: string]: string | undefined };
@@ -1766,7 +1785,7 @@ export type StreamingJobListResultValueList = Array<StreamingJob>;
 /** Object containing a list of streaming jobs. */
 export interface StreamingJobListResult {
   /** A list of streaming jobs. Populated by a 'List' operation. */
-  value?: StreamingJobListResultValueList | undefined;
+  value: StreamingJobListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1775,6 +1794,8 @@ export interface ListStreamingJobsRequest {
   subscriptionId: string;
   /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionQuotasRequest {
   /** The ID of the target subscription. */
@@ -2620,12 +2641,13 @@ export const InputsCreateOrReplace: API.OperationMethod<
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** Lists all of the clusters in the given resource group. */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterListResult,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -2633,16 +2655,23 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterBySubscriptionError = AzureOpError;
 /** Lists all of the clusters in the given subscription. */
-export const ListClusterBySubscription: API.OperationMethod<
+export const ListClusterBySubscription: API.PaginatedOperationMethod<
   ListClusterBySubscriptionRequest,
   ClusterListResult,
   ListClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListClusterBySubscriptionRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -2650,16 +2679,23 @@ export const ListClusterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterStreamingJobsError = AzureOpError;
 /** Lists all of the streaming jobs in the given cluster. */
-export const ListClusterStreamingJobs: API.OperationMethod<
+export const ListClusterStreamingJobs: API.PaginatedOperationMethod<
   ListClusterStreamingJobsRequest,
   ClusterJobListResult,
   ListClusterStreamingJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClusterJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListClusterStreamingJobsRequest>,
   output: __S(931, __c29, 3) as any as S.Schema<ClusterJobListResult>,
   errors: [UnknownAzureError],
@@ -2667,16 +2703,23 @@ export const ListClusterStreamingJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterStreamingJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFunctionByStreamingJobError = AzureOpError;
 /** Lists all of the functions under the specified streaming job. */
-export const ListFunctionByStreamingJob: API.OperationMethod<
+export const ListFunctionByStreamingJob: API.PaginatedOperationMethod<
   ListFunctionByStreamingJobRequest,
   FunctionListResult,
   ListFunctionByStreamingJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StreamingJobPropertiesFunctionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListFunctionByStreamingJobRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<FunctionListResult>,
   errors: [UnknownAzureError],
@@ -2684,16 +2727,23 @@ export const ListFunctionByStreamingJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFunctionByStreamingJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInputByStreamingJobError = AzureOpError;
 /** Lists all of the inputs under the specified streaming job. */
-export const ListInputByStreamingJob: API.OperationMethod<
+export const ListInputByStreamingJob: API.PaginatedOperationMethod<
   ListInputByStreamingJobRequest,
   InputListResult,
   ListInputByStreamingJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StreamingJobPropertiesInputsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListInputByStreamingJobRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<InputListResult>,
   errors: [UnknownAzureError],
@@ -2701,16 +2751,23 @@ export const ListInputByStreamingJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInputByStreamingJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Stream Analytics related operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -2718,16 +2775,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOutputByStreamingJobError = AzureOpError;
 /** Lists all of the outputs under the specified streaming job. */
-export const ListOutputByStreamingJob: API.OperationMethod<
+export const ListOutputByStreamingJob: API.PaginatedOperationMethod<
   ListOutputByStreamingJobRequest,
   OutputListResult,
   ListOutputByStreamingJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StreamingJobPropertiesOutputsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListOutputByStreamingJobRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<OutputListResult>,
   errors: [UnknownAzureError],
@@ -2735,16 +2799,23 @@ export const ListOutputByStreamingJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOutputByStreamingJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointByClusterError = AzureOpError;
 /** Lists the private endpoints in the cluster. */
-export const ListPrivateEndpointByCluster: API.OperationMethod<
+export const ListPrivateEndpointByCluster: API.PaginatedOperationMethod<
   ListPrivateEndpointByClusterRequest,
   PrivateEndpointListResult,
   ListPrivateEndpointByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateEndpointByClusterRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<PrivateEndpointListResult>,
   errors: [UnknownAzureError],
@@ -2752,16 +2823,23 @@ export const ListPrivateEndpointByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStreamingJobByResourceGroupError = AzureOpError;
 /** Lists all of the streaming jobs in the specified resource group. */
-export const ListStreamingJobByResourceGroup: API.OperationMethod<
+export const ListStreamingJobByResourceGroup: API.PaginatedOperationMethod<
   ListStreamingJobByResourceGroupRequest,
   StreamingJobListResult,
   ListStreamingJobByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StreamingJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListStreamingJobByResourceGroupRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<StreamingJobListResult>,
   errors: [UnknownAzureError],
@@ -2769,16 +2847,23 @@ export const ListStreamingJobByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStreamingJobByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStreamingJobsError = AzureOpError;
 /** Lists all of the streaming jobs in the given subscription. */
-export const ListStreamingJobs: API.OperationMethod<
+export const ListStreamingJobs: API.PaginatedOperationMethod<
   ListStreamingJobsRequest,
   StreamingJobListResult,
   ListStreamingJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StreamingJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListStreamingJobsRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<StreamingJobListResult>,
   errors: [UnknownAzureError],
@@ -2786,7 +2871,13 @@ export const ListStreamingJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStreamingJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionQuotasError = AzureOpError;
 /** Retrieves the subscription's current quota information in a particular region. */
@@ -4042,12 +4133,14 @@ function __c26(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/clusters",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -4060,7 +4153,7 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(864, __c27, 0)),
+          value: __S(864, __c27, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterListResult" });
@@ -4072,12 +4165,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/clusters",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterBySubscriptionRequest" });
@@ -4091,12 +4186,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/clusters/{clusterName}/listStreamingJobs",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterStreamingJobsRequest" });
@@ -4113,7 +4210,7 @@ function __c29(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(930, __c29, 2)),
+          value: __S(930, __c29, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterJobListResult" });
@@ -4148,19 +4245,21 @@ function __c31(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           _select: S.optional(S.String.pipe(T.Query("$select"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFunctionByStreamingJobRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(608, __c19, 0)),
+          value: __S(608, __c19, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionListResult" });
@@ -4175,19 +4274,21 @@ function __c32(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           _select: S.optional(S.String.pipe(T.Query("$select"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInputByStreamingJobRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(640, __c20, 0)),
+          value: __S(640, __c20, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputListResult" });
@@ -4197,12 +4298,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StreamAnalytics/operations",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4228,7 +4332,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1059, __c33, 3)),
+          value: __S(1059, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -4243,19 +4347,21 @@ function __c34(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           _select: S.optional(S.String.pipe(T.Query("$select"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/outputs",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOutputByStreamingJobRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(672, __c21, 0)),
+          value: __S(672, __c21, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutputListResult" });
@@ -4269,12 +4375,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/clusters/{clusterName}/privateEndpoints",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointByClusterRequest" });
@@ -4283,7 +4391,7 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1121, __c35, 1)),
+          value: __S(1121, __c35, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointListResult" });
@@ -4297,12 +4405,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStreamingJobByResourceGroupRequest" });
@@ -4315,7 +4425,7 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1184, __c37, 0)),
+          value: __S(1184, __c37, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingJobListResult" });
@@ -4328,12 +4438,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/streamingjobs",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStreamingJobsRequest" });

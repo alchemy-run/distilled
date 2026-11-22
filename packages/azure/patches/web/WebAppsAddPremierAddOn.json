@@ -1,0 +1,85 @@
+{
+  "description": "Premier add-ons are 3rd-party store resources: Microsoft.Web rejects an add without the ARM `plan` envelope member with BadRequest \"Resource plan must be set for 3rd party store resources.\" The spec omits `plan`; add it to the add requests and the get/add responses.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#PremierAddOnPlan",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Marketplace plan (SKU) ID." }
+          },
+          "publisher": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Marketplace publisher ID." }
+          },
+          "product": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Marketplace offer (product) ID." }
+          },
+          "promotionCode": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Promotion code." }
+          },
+          "version": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Plan version." }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Azure Marketplace purchase plan of a 3rd-party store resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsAddPremierAddOnRequest/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsAddPremierAddOnSlotRequest/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsAddPremierAddOnResponse/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsAddPremierAddOnSlotResponse/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsGetPremierAddOnResponse/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsGetPremierAddOnSlotResponse/members/plan",
+      "value": {
+        "target": "com.azure.web#PremierAddOnPlan",
+        "traits": { "smithy.api#documentation": "Azure Marketplace purchase plan of the add-on." }
+      }
+    }
+  ]
+}

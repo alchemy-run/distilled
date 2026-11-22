@@ -399,6 +399,8 @@ export interface ListAzureBareMetalInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AzureBareMetalInstanceTagsMap = { [key: string]: string | undefined };
@@ -451,19 +453,23 @@ export type AzureBareMetalInstancesListResultValueList = Array<AzureBareMetalIns
 /** The response from the List AzureBareMetal Instances operation. */
 export interface AzureBareMetalInstancesListResult {
   /** The list of Azure BareMetal instances. */
-  value?: AzureBareMetalInstancesListResultValueList | undefined;
+  value: AzureBareMetalInstancesListResultValueList;
   /** The URL to get the next set of AzureBareMetal instances. */
   nextLink?: string | undefined;
 }
 export interface ListAzureBareMetalInstanceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAzureBareMetalStorageInstanceByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AzureBareMetalStorageInstanceTagsMap = { [key: string]: string | undefined };
@@ -517,13 +523,15 @@ export type AzureBareMetalStorageInstancesListResultValueList =
 /** The response from the Get AzureBareMetalStorageInstances operation. */
 export interface AzureBareMetalStorageInstancesListResult {
   /** The list of AzureBareMetalStorage instances. */
-  value?: AzureBareMetalStorageInstancesListResultValueList | undefined;
+  value: AzureBareMetalStorageInstancesListResultValueList;
   /** The URL to get the next set of AzureBareMetalStorage instances. */
   nextLink?: string | undefined;
 }
 export interface ListAzureBareMetalStorageInstanceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Detailed BareMetal operation information */
@@ -551,7 +559,7 @@ export type OperationListValueList = Array<Operation>;
 /** List of AzureBareMetal operations */
 export interface OperationList {
   /** List of AzureBareMetal operations */
-  value?: OperationListValueList | undefined;
+  value: OperationListValueList;
 }
 /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
 export type UpdateAzureBareMetalInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -743,12 +751,13 @@ export const GetAzureBareMetalStorageInstance: API.OperationMethod<
 
 export type ListAzureBareMetalInstanceByResourceGroupError = AzureOpError;
 /** Gets a list of Azure BareMetal instances in the specified subscription and resource group. Gets a list of AzureBareMetal instances in the specified subscription and resource group. The operations returns various properties of each Azure BareMetal instance. */
-export const ListAzureBareMetalInstanceByResourceGroup: API.OperationMethod<
+export const ListAzureBareMetalInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListAzureBareMetalInstanceByResourceGroupRequest,
   AzureBareMetalInstancesListResult,
   ListAzureBareMetalInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBareMetalInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListAzureBareMetalInstanceByResourceGroupRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<AzureBareMetalInstancesListResult>,
   errors: [UnknownAzureError],
@@ -756,16 +765,23 @@ export const ListAzureBareMetalInstanceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureBareMetalInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureBareMetalInstanceBySubscriptionError = AzureOpError;
 /** Gets a list of Azure BareMetal instances in the specified subscription. Gets a list of AzureBareMetal instances in the specified subscription. The operations returns various properties of each Azure BareMetal instance. */
-export const ListAzureBareMetalInstanceBySubscription: API.OperationMethod<
+export const ListAzureBareMetalInstanceBySubscription: API.PaginatedOperationMethod<
   ListAzureBareMetalInstanceBySubscriptionRequest,
   AzureBareMetalInstancesListResult,
   ListAzureBareMetalInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBareMetalInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListAzureBareMetalInstanceBySubscriptionRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<AzureBareMetalInstancesListResult>,
   errors: [UnknownAzureError],
@@ -773,16 +789,23 @@ export const ListAzureBareMetalInstanceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureBareMetalInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureBareMetalStorageInstanceByResourceGroupError = AzureOpError;
 /** Gets a list of Azure BareMetalStorage instances in the specified subscription and resource group. Gets a list of AzureBareMetalStorage instances in the specified subscription and resource group. The operations returns various properties of each Azure BareMetal instance. */
-export const ListAzureBareMetalStorageInstanceByResourceGroup: API.OperationMethod<
+export const ListAzureBareMetalStorageInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListAzureBareMetalStorageInstanceByResourceGroupRequest,
   AzureBareMetalStorageInstancesListResult,
   ListAzureBareMetalStorageInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBareMetalStorageInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     176,
     __c11,
@@ -794,16 +817,23 @@ export const ListAzureBareMetalStorageInstanceByResourceGroup: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureBareMetalStorageInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureBareMetalStorageInstanceBySubscriptionError = AzureOpError;
 /** Gets a list of Azure BareMetalStorage instances in the specified subscription. Gets a list of AzureBareMetalStorage instances in the specified subscription. The operations returns various properties of each Azure BareMetal instance. */
-export const ListAzureBareMetalStorageInstanceBySubscription: API.OperationMethod<
+export const ListAzureBareMetalStorageInstanceBySubscription: API.PaginatedOperationMethod<
   ListAzureBareMetalStorageInstanceBySubscriptionRequest,
   AzureBareMetalStorageInstancesListResult,
   ListAzureBareMetalStorageInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureBareMetalStorageInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     208,
     __c13,
@@ -815,16 +845,23 @@ export const ListAzureBareMetalStorageInstanceBySubscription: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureBareMetalStorageInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Gets a list of AzureBareMetal management operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(228, __c14, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -832,7 +869,8 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type UpdateAzureBareMetalInstanceError = AzureOpError;
 /** Patches the Tags field of a Azure BareMetal instance. Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource group, and instance name. */
@@ -1117,12 +1155,14 @@ function __c8(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
             code: 200,
             apiVersion: "2023-04-06",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureBareMetalInstanceByResourceGroupRequest" });
@@ -1135,7 +1175,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureBareMetalInstancesListResult" });
@@ -1147,12 +1187,14 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
             code: 200,
             apiVersion: "2023-04-06",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureBareMetalInstanceBySubscriptionRequest" });
@@ -1165,12 +1207,14 @@ function __c11(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
             code: 200,
             apiVersion: "2023-04-06",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureBareMetalStorageInstanceByResourceGroupRequest" });
@@ -1183,7 +1227,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(192, __c12, 0)),
+          value: __S(192, __c12, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureBareMetalStorageInstancesListResult" });
@@ -1195,12 +1239,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
             code: 200,
             apiVersion: "2023-04-06",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureBareMetalStorageInstanceBySubscriptionRequest" });
@@ -1241,7 +1287,7 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(227, __c14, 3)),
+          value: __S(227, __c14, 3),
         }),
       ).annotate({ identifier: "OperationList" });
   }

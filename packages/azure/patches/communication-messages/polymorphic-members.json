@@ -1,0 +1,45 @@
+{
+  "description": "The converter keeps only the `kind` discriminator of NotificationContent: add the scalar members of its sub-types (Text/Image/Video/Audio/DocumentNotificationContent) so they are sent.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSendRequest/members/content",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`text` message: the message text."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSendRequest/members/mediaUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`image`, `video`, `audio`, or `document` message: public URL of the media."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSendRequest/members/caption",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`image`, `video`, or `document` message: the caption."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSendRequest/members/fileName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`document` message: the file name shown to the user."
+        }
+      }
+    }
+  ]
+}

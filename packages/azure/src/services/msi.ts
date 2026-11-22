@@ -208,6 +208,8 @@ export interface ListFederatedIdentityCredentialsRequest {
   _top?: number | undefined;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a federated identity credential. */
 export interface FederatedIdentityCredential {
@@ -231,7 +233,10 @@ export interface FederatedIdentityCredentialsListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -264,6 +269,8 @@ export interface ListUserAssignedIdentityByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IdentityTagsMap = { [key: string]: string | undefined };
@@ -296,6 +303,8 @@ export interface UserAssignedIdentitiesListResult {
 export interface ListUserAssignedIdentityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type UpdateUserAssignedIdentityRequestTagsMap = { [key: string]: string | undefined };
@@ -478,12 +487,13 @@ export const GetUserAssignedIdentity: API.OperationMethod<
 
 export type ListFederatedIdentityCredentialsError = AzureOpError;
 /** Lists all the federated identity credentials under the specified user assigned identity. */
-export const ListFederatedIdentityCredentials: API.OperationMethod<
+export const ListFederatedIdentityCredentials: API.PaginatedOperationMethod<
   ListFederatedIdentityCredentialsRequest,
   FederatedIdentityCredentialsListResult,
   ListFederatedIdentityCredentialsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FederatedIdentityCredential
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListFederatedIdentityCredentialsRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<FederatedIdentityCredentialsListResult>,
   errors: [UnknownAzureError],
@@ -491,16 +501,23 @@ export const ListFederatedIdentityCredentials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFederatedIdentityCredentials",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(116, __c14, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -508,16 +525,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUserAssignedIdentityByResourceGroupError = AzureOpError;
 /** Lists all the userAssignedIdentities available under the specified ResourceGroup. */
-export const ListUserAssignedIdentityByResourceGroup: API.OperationMethod<
+export const ListUserAssignedIdentityByResourceGroup: API.PaginatedOperationMethod<
   ListUserAssignedIdentityByResourceGroupRequest,
   UserAssignedIdentitiesListResult,
   ListUserAssignedIdentityByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Identity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListUserAssignedIdentityByResourceGroupRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<UserAssignedIdentitiesListResult>,
   errors: [UnknownAzureError],
@@ -525,16 +549,23 @@ export const ListUserAssignedIdentityByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUserAssignedIdentityByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUserAssignedIdentityBySubscriptionError = AzureOpError;
 /** Lists all the userAssignedIdentities available under the specified subscription. */
-export const ListUserAssignedIdentityBySubscription: API.OperationMethod<
+export const ListUserAssignedIdentityBySubscription: API.PaginatedOperationMethod<
   ListUserAssignedIdentityBySubscriptionRequest,
   UserAssignedIdentitiesListResult,
   ListUserAssignedIdentityBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Identity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListUserAssignedIdentityBySubscriptionRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<UserAssignedIdentitiesListResult>,
   errors: [UnknownAzureError],
@@ -542,7 +573,13 @@ export const ListUserAssignedIdentityBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUserAssignedIdentityBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateUserAssignedIdentityError = AzureOpError;
 /** Update an identity in the specified subscription and resource group. */
@@ -848,12 +885,14 @@ function __c13(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials",
             code: 200,
             apiVersion: "2024-11-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFederatedIdentityCredentialsRequest" });
@@ -872,12 +911,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ManagedIdentity/operations",
             code: 200,
             apiVersion: "2024-11-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -915,12 +957,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
             code: 200,
             apiVersion: "2024-11-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUserAssignedIdentityByResourceGroupRequest" });
@@ -945,12 +989,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
             code: 200,
             apiVersion: "2024-11-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUserAssignedIdentityBySubscriptionRequest" });

@@ -225,6 +225,8 @@ export interface ListGeoCatalogByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GeoCatalogTagsMap = { [key: string]: string | undefined };
@@ -261,6 +263,8 @@ export interface GeoCatalogListResult {
 export interface ListGeoCatalogBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateGeoCatalogRequestTagsMap = { [key: string]: string | undefined };
@@ -375,12 +379,13 @@ export const GetGeoCatalog: API.OperationMethod<
 
 export type ListGeoCatalogByResourceGroupError = AzureOpError;
 /** List GeoCatalog resources by resource group */
-export const ListGeoCatalogByResourceGroup: API.OperationMethod<
+export const ListGeoCatalogByResourceGroup: API.PaginatedOperationMethod<
   ListGeoCatalogByResourceGroupRequest,
   GeoCatalogListResult,
   ListGeoCatalogByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GeoCatalog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListGeoCatalogByResourceGroupRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<GeoCatalogListResult>,
   errors: [UnknownAzureError],
@@ -388,16 +393,23 @@ export const ListGeoCatalogByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGeoCatalogByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGeoCatalogBySubscriptionError = AzureOpError;
 /** List GeoCatalog resources by subscription ID */
-export const ListGeoCatalogBySubscription: API.OperationMethod<
+export const ListGeoCatalogBySubscription: API.PaginatedOperationMethod<
   ListGeoCatalogBySubscriptionRequest,
   GeoCatalogListResult,
   ListGeoCatalogBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GeoCatalog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListGeoCatalogBySubscriptionRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<GeoCatalogListResult>,
   errors: [UnknownAzureError],
@@ -405,7 +417,13 @@ export const ListGeoCatalogBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGeoCatalogBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateGeoCatalogError = AzureOpError;
 /** Update a GeoCatalog */
@@ -598,12 +616,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/geoCatalogs",
             code: 200,
             apiVersion: "2026-04-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGeoCatalogByResourceGroupRequest" });
@@ -628,12 +648,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/geoCatalogs",
             code: 200,
             apiVersion: "2026-04-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGeoCatalogBySubscriptionRequest" });

@@ -323,6 +323,8 @@ export interface GetManagementGroupDescendantsRequest {
   _skiptoken?: string | undefined;
   /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The generic properties of an descendant. */
 export interface DescendantInfoProperties {
@@ -374,6 +376,8 @@ export interface GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup
   groupId: string;
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The details of subscription under management group. */
 export interface SubscriptionUnderManagementGroup {
@@ -472,6 +476,8 @@ export interface ListEntitiesRequest {
   _view?: ListEntitiesRequestView | (string & {}) | undefined;
   /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
   groupName?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** (Optional) The ID of the parent management group. */
 export type EntityParentGroupInfo = DescendantParentGroupInfo;
@@ -553,6 +559,8 @@ export interface HierarchySettingsList {
 export interface ListManagementGroupsRequest {
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The generic properties of a management group. */
 export interface ManagementGroupInfoProperties {
@@ -577,11 +585,14 @@ export type ManagementGroupListResultValueList = Array<ManagementGroupInfo>;
 /** Describes the result of the request to list management groups. */
 export interface ManagementGroupListResult {
   /** The list of management groups. */
-  value?: ManagementGroupListResultValueList | undefined;
+  value: ManagementGroupListResultValueList;
   /** The URL to use for getting the next set of results. */
   _nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -614,7 +625,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -902,12 +913,13 @@ export const GetManagementGroup: API.OperationMethod<
 
 export type GetManagementGroupDescendantsError = AzureOpError;
 /** List all entities that descend from a management group. */
-export const GetManagementGroupDescendants: API.OperationMethod<
+export const GetManagementGroupDescendants: API.PaginatedOperationMethod<
   GetManagementGroupDescendantsRequest,
   DescendantListResult,
   GetManagementGroupDescendantsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DescendantInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetManagementGroupDescendantsRequest>,
   output: __S(292, __c36, 4) as any as S.Schema<DescendantListResult>,
   errors: [UnknownAzureError],
@@ -915,7 +927,13 @@ export const GetManagementGroupDescendants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagementGroupDescendants",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetManagementGroupSubscriptionSubscriptionError = AzureOpError;
 /** Retrieves details about given subscription which is associated with the management group. */
@@ -936,12 +954,13 @@ export const GetManagementGroupSubscriptionSubscription: API.OperationMethod<
 
 export type GetManagementGroupSubscriptionSubscriptionsUnderManagementGroupError = AzureOpError;
 /** Retrieves details about all subscriptions which are associated with the management group. */
-export const GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup: API.OperationMethod<
+export const GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup: API.PaginatedOperationMethod<
   GetManagementGroupSubscriptionSubscriptionsUnderManagementGroupRequest,
   ListSubscriptionUnderManagementGroup,
   GetManagementGroupSubscriptionSubscriptionsUnderManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubscriptionUnderManagementGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     48,
     __c6,
@@ -953,7 +972,13 @@ export const GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetServiceGroupError = AzureOpError;
 /** Get the details of the serviceGroup */
@@ -991,12 +1016,13 @@ export const HierarchySettingsCreateOrUpdate: API.OperationMethod<
 
 export type ListEntitiesError = AzureOpError;
 /** List all entities (Management Groups, Subscriptions, etc.) for the authenticated user. */
-export const ListEntities: API.OperationMethod<
+export const ListEntities: API.PaginatedOperationMethod<
   ListEntitiesRequest,
   EntityListResult,
   ListEntitiesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EntityInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListEntitiesRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<EntityListResult>,
   errors: [UnknownAzureError],
@@ -1004,7 +1030,13 @@ export const ListEntities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEntities",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHierarchySettingsError = AzureOpError;
 /** Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on the root Management Group of the hierarchy. */
@@ -1025,12 +1057,13 @@ export const ListHierarchySettings: API.OperationMethod<
 
 export type ListManagementGroupsError = AzureOpError;
 /** List management groups for the authenticated user. */
-export const ListManagementGroups: API.OperationMethod<
+export const ListManagementGroups: API.PaginatedOperationMethod<
   ListManagementGroupsRequest,
   ManagementGroupListResult,
   ListManagementGroupsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagementGroupInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListManagementGroupsRequest>,
   output: __S(100, __c12, 4) as any as S.Schema<ManagementGroupListResult>,
   errors: [UnknownAzureError],
@@ -1038,16 +1071,23 @@ export const ListManagementGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagementGroups",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "_nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(108, __c13, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1055,7 +1095,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ManagementGroupsCreateOrUpdateError = AzureOpError;
 /** Create or update a management group. If a management group is already created and a subsequent create request is issued with different properties, the management group properties will be updated. */
@@ -1277,12 +1323,14 @@ function __c6(j: number): any {
         S.Struct({
           groupId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -1370,12 +1418,14 @@ function __c10(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _view: S.optional(S.String.pipe(T.Query("$view"))),
           groupName: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/providers/Microsoft.Management/getEntities",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEntitiesRequest" });
@@ -1456,12 +1506,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagementGroupsRequest" });
@@ -1486,7 +1538,7 @@ function __c12(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(99, __c12, 3)),
+          value: __S(99, __c12, 3),
           _nextLink: S.optional(S.String.pipe(T.Body("@nextLink"))),
         }),
       ).annotate({ identifier: "ManagementGroupListResult" });
@@ -1496,12 +1548,15 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/operations",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1529,7 +1584,7 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(107, __c13, 3)),
+          value: __S(107, __c13, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1989,12 +2044,14 @@ function __c36(j: number): any {
           groupId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{groupId}/descendants",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetManagementGroupDescendantsRequest" });

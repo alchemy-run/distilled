@@ -4589,6 +4589,8 @@ export interface GetResourceGuardProxyRequest {
   resourceGroupName: string;
   /** The name of the VaultResource */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardOperationDetail {
   vaultCriticalOperation?: string | undefined;
@@ -4630,7 +4632,7 @@ export interface GetResourceGuardProxyResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardProxyResponseValueList | undefined;
+  value: GetResourceGuardProxyResponseValueList;
 }
 export interface GetResourceGuardProxyRequest2 {
   /** The ID of the target subscription. */
@@ -4728,6 +4730,8 @@ export interface ListBackupEnginesRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupEngineBaseResourceTagsMap = { [key: string]: string | undefined };
@@ -4756,7 +4760,7 @@ export interface ListBackupEnginesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupEnginesResponseValueList | undefined;
+  value: ListBackupEnginesResponseValueList;
 }
 export interface ListBackupJobsRequest {
   /** The ID of the target subscription. */
@@ -4769,6 +4773,8 @@ export interface ListBackupJobsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
@@ -4797,7 +4803,7 @@ export interface ListBackupJobsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupJobsResponseValueList | undefined;
+  value: ListBackupJobsResponseValueList;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. */
@@ -4808,6 +4814,8 @@ export interface ListBackupPoliciesRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionPolicyResourceTagsMap = { [key: string]: string | undefined };
@@ -4836,7 +4844,7 @@ export interface ListBackupPoliciesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupPoliciesResponseValueList | undefined;
+  value: ListBackupPoliciesResponseValueList;
 }
 export interface ListBackupProtectableItemsRequest {
   /** The ID of the target subscription. */
@@ -4849,6 +4857,8 @@ export interface ListBackupProtectableItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadProtectableItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5272,7 +5282,7 @@ export interface ListBackupProtectableItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectableItemsResponseValueList | undefined;
+  value: ListBackupProtectableItemsResponseValueList;
 }
 export interface ListBackupProtectedItemsRequest {
   /** The ID of the target subscription. */
@@ -5285,6 +5295,8 @@ export interface ListBackupProtectedItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectedItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5313,7 +5325,7 @@ export interface ListBackupProtectedItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectedItemsResponseValueList | undefined;
+  value: ListBackupProtectedItemsResponseValueList;
 }
 export interface ListBackupProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -5324,6 +5336,8 @@ export interface ListBackupProtectionContainersRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionContainerResourceTagsMap = { [key: string]: string | undefined };
@@ -5352,7 +5366,7 @@ export interface ListBackupProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionContainersResponseValueList | undefined;
+  value: ListBackupProtectionContainersResponseValueList;
 }
 export interface ListBackupProtectionIntentRequest {
   /** The ID of the target subscription. */
@@ -5365,6 +5379,8 @@ export interface ListBackupProtectionIntentRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionIntentResourceTagsMap = { [key: string]: string | undefined };
@@ -5393,7 +5409,7 @@ export interface ListBackupProtectionIntentResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionIntentResponseValueList | undefined;
+  value: ListBackupProtectionIntentResponseValueList;
 }
 export interface ListBackupUsageSummariesRequest {
   /** The ID of the target subscription. */
@@ -5406,6 +5422,8 @@ export interface ListBackupUsageSummariesRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Unit of the usage. */
 export type UsagesUnit =
@@ -5443,7 +5461,7 @@ export interface ListBackupUsageSummariesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** The list of backup management usages for the given vault. */
-  value?: ListBackupUsageSummariesResponseValueList | undefined;
+  value: ListBackupUsageSummariesResponseValueList;
 }
 export interface ListBackupWorkloadItemsRequest {
   /** The ID of the target subscription. */
@@ -5460,6 +5478,8 @@ export interface ListBackupWorkloadItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5650,7 +5670,7 @@ export interface ListBackupWorkloadItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupWorkloadItemsResponseValueList | undefined;
+  value: ListBackupWorkloadItemsResponseValueList;
 }
 export interface ListDeletedProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -5661,6 +5681,8 @@ export interface ListDeletedProtectionContainersRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListDeletedProtectionContainersResponseValueList = Array<ProtectionContainerResource>;
@@ -5668,7 +5690,7 @@ export interface ListDeletedProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDeletedProtectionContainersResponseValueList | undefined;
+  value: ListDeletedProtectionContainersResponseValueList;
 }
 export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultRequest {
   /** The ID of the target subscription. */
@@ -5688,7 +5710,10 @@ export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResu
   /** Operation ID returned by the prior provisionInstantItemRecovery action whose iSCSI mount scripts are to be retrieved. */
   provisionInstantItemRecoveryOperationId: string;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
   /** Name of the provider for display purposes */
@@ -5738,7 +5763,7 @@ export type ClientDiscoveryResponseValueList = Array<ClientDiscoveryValueForSing
 /** Operations List response which contains list of available APIs. */
 export interface ClientDiscoveryResponse {
   /** List of available operations. */
-  value?: ClientDiscoveryResponseValueList | undefined;
+  value: ClientDiscoveryResponseValueList;
   /** Link to the next chunk of Response. */
   nextLink?: string | undefined;
 }
@@ -5752,6 +5777,8 @@ export interface ListProtectableContainersRequest {
   fabricName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectableContainerResourceTagsMap = { [key: string]: string | undefined };
@@ -5814,7 +5841,7 @@ export interface ListProtectableContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListProtectableContainersResponseValueList | undefined;
+  value: ListProtectableContainersResponseValueList;
 }
 export interface ListRecoveryPointsRequest {
   /** The ID of the target subscription. */
@@ -5831,6 +5858,8 @@ export interface ListRecoveryPointsRequest {
   protectedItemName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RecoveryPointResourceTagsMap = { [key: string]: string | undefined };
@@ -5859,7 +5888,7 @@ export interface ListRecoveryPointsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsResponseValueList | undefined;
+  value: ListRecoveryPointsResponseValueList;
 }
 /** List of Recovery Points excluded from Move */
 export type ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList = Array<string>;
@@ -5880,6 +5909,8 @@ export interface ListRecoveryPointsRecommendedForMoveRequest {
   objectType?: string | undefined;
   /** List of Recovery Points excluded from Move */
   excludedRPList?: ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsRecommendedForMoveResponseValueList = Array<RecoveryPointResource>;
@@ -5887,7 +5918,7 @@ export interface ListRecoveryPointsRecommendedForMoveResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsRecommendedForMoveResponseValueList | undefined;
+  value: ListRecoveryPointsRecommendedForMoveResponseValueList;
 }
 /** Source Container ArmIds This needs to be populated only if DataMoveLevel is set to container */
 export type MoveBMSPrepareDataRequestSourceContainerArmIdsList = Array<string>;
@@ -9110,12 +9141,13 @@ export const GetRecoveryPointRPExtendedInfoOperationResult: API.OperationMethod<
 
 export type GetResourceGuardProxyError = AzureOpError;
 /** List the ResourceGuardProxies under vault */
-export const GetResourceGuardProxy: API.OperationMethod<
+export const GetResourceGuardProxy: API.PaginatedOperationMethod<
   GetResourceGuardProxyRequest,
   GetResourceGuardProxyResponse,
   GetResourceGuardProxyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGuardProxyBaseResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetResourceGuardProxyRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<GetResourceGuardProxyResponse>,
   errors: [UnknownAzureError],
@@ -9123,7 +9155,13 @@ export const GetResourceGuardProxy: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGuardProxy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetResourceGuardProxy2Error = AzureOpError;
 /** Returns ResourceGuardProxy under vault and with the name referenced in request */
@@ -9212,12 +9250,13 @@ export const GetValidateOperationStatus: API.OperationMethod<
 
 export type ListBackupEnginesError = AzureOpError;
 /** Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers. */
-export const ListBackupEngines: API.OperationMethod<
+export const ListBackupEngines: API.PaginatedOperationMethod<
   ListBackupEnginesRequest,
   ListBackupEnginesResponse,
   ListBackupEnginesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupEngineBaseResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListBackupEnginesRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<ListBackupEnginesResponse>,
   errors: [UnknownAzureError],
@@ -9225,16 +9264,23 @@ export const ListBackupEngines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupEngines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupJobsError = AzureOpError;
 /** Provides a pageable list of jobs. */
-export const ListBackupJobs: API.OperationMethod<
+export const ListBackupJobs: API.PaginatedOperationMethod<
   ListBackupJobsRequest,
   ListBackupJobsResponse,
   ListBackupJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListBackupJobsRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListBackupJobsResponse>,
   errors: [UnknownAzureError],
@@ -9242,16 +9288,23 @@ export const ListBackupJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupPoliciesError = AzureOpError;
 /** Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch scoped results. */
-export const ListBackupPolicies: API.OperationMethod<
+export const ListBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
   ListBackupPoliciesResponse,
   ListBackupPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionPolicyResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<ListBackupPoliciesResponse>,
   errors: [UnknownAzureError],
@@ -9259,16 +9312,23 @@ export const ListBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectableItemsError = AzureOpError;
 /** Provides a pageable list of protectable objects within your subscription according to the query filter and the pagination parameters. */
-export const ListBackupProtectableItems: API.OperationMethod<
+export const ListBackupProtectableItems: API.PaginatedOperationMethod<
   ListBackupProtectableItemsRequest,
   ListBackupProtectableItemsResponse,
   ListBackupProtectableItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadProtectableItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListBackupProtectableItemsRequest>,
   output: __S(2313, __c72, 9) as any as S.Schema<ListBackupProtectableItemsResponse>,
   errors: [UnknownAzureError],
@@ -9276,16 +9336,23 @@ export const ListBackupProtectableItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectableItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectedItemsError = AzureOpError;
 /** Provides a pageable list of all items that are backed up within a vault. */
-export const ListBackupProtectedItems: API.OperationMethod<
+export const ListBackupProtectedItems: API.PaginatedOperationMethod<
   ListBackupProtectedItemsRequest,
   ListBackupProtectedItemsResponse,
   ListBackupProtectedItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectedItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListBackupProtectedItemsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<ListBackupProtectedItemsResponse>,
   errors: [UnknownAzureError],
@@ -9293,16 +9360,23 @@ export const ListBackupProtectedItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectedItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectionContainersError = AzureOpError;
 /** Lists the containers registered to Recovery Services Vault. */
-export const ListBackupProtectionContainers: API.OperationMethod<
+export const ListBackupProtectionContainers: API.PaginatedOperationMethod<
   ListBackupProtectionContainersRequest,
   ListBackupProtectionContainersResponse,
   ListBackupProtectionContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListBackupProtectionContainersRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListBackupProtectionContainersResponse>,
   errors: [UnknownAzureError],
@@ -9310,16 +9384,23 @@ export const ListBackupProtectionContainers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectionContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectionIntentError = AzureOpError;
 /** Provides a pageable list of all intents that are present within a vault. */
-export const ListBackupProtectionIntent: API.OperationMethod<
+export const ListBackupProtectionIntent: API.PaginatedOperationMethod<
   ListBackupProtectionIntentRequest,
   ListBackupProtectionIntentResponse,
   ListBackupProtectionIntentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionIntentResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListBackupProtectionIntentRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<ListBackupProtectionIntentResponse>,
   errors: [UnknownAzureError],
@@ -9327,16 +9408,23 @@ export const ListBackupProtectionIntent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectionIntent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupUsageSummariesError = AzureOpError;
 /** Fetches the backup management usage summaries of the vault. */
-export const ListBackupUsageSummaries: API.OperationMethod<
+export const ListBackupUsageSummaries: API.PaginatedOperationMethod<
   ListBackupUsageSummariesRequest,
   ListBackupUsageSummariesResponse,
   ListBackupUsageSummariesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupManagementUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListBackupUsageSummariesRequest>,
   output: __S(2500, __c78, 4) as any as S.Schema<ListBackupUsageSummariesResponse>,
   errors: [UnknownAzureError],
@@ -9344,16 +9432,23 @@ export const ListBackupUsageSummaries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupUsageSummaries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupWorkloadItemsError = AzureOpError;
 /** Provides a pageable list of workload item of a specific container according to the query filter and the pagination parameters. */
-export const ListBackupWorkloadItems: API.OperationMethod<
+export const ListBackupWorkloadItems: API.PaginatedOperationMethod<
   ListBackupWorkloadItemsRequest,
   ListBackupWorkloadItemsResponse,
   ListBackupWorkloadItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListBackupWorkloadItemsRequest>,
   output: __S(2534, __c79, 6) as any as S.Schema<ListBackupWorkloadItemsResponse>,
   errors: [UnknownAzureError],
@@ -9361,16 +9456,23 @@ export const ListBackupWorkloadItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupWorkloadItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedProtectionContainersError = AzureOpError;
 /** Lists the soft deleted containers registered to Recovery Services Vault. */
-export const ListDeletedProtectionContainers: API.OperationMethod<
+export const ListDeletedProtectionContainers: API.PaginatedOperationMethod<
   ListDeletedProtectionContainersRequest,
   ListDeletedProtectionContainersResponse,
   ListDeletedProtectionContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListDeletedProtectionContainersRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListDeletedProtectionContainersResponse>,
   errors: [UnknownAzureError],
@@ -9378,7 +9480,13 @@ export const ListDeletedProtectionContainers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeletedProtectionContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultError = AzureOpError;
 /** Fetches the mount scripts (iSCSI connection details) for an active Instant Item Recovery (ILR) session on the recovery point. Required from API version 2026-08-01 onwards; replaces the scripts previously returned inline in the operationsStatus (ILR provision) response. */
@@ -9403,12 +9511,13 @@ export const ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResult: 
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ClientDiscoveryResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClientDiscoveryValueForSingleApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2632, __c82, 8) as any as S.Schema<ClientDiscoveryResponse>,
   errors: [UnknownAzureError],
@@ -9416,16 +9525,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProtectableContainersError = AzureOpError;
 /** Lists the containers that can be registered to Recovery Services Vault. */
-export const ListProtectableContainers: API.OperationMethod<
+export const ListProtectableContainers: API.PaginatedOperationMethod<
   ListProtectableContainersRequest,
   ListProtectableContainersResponse,
   ListProtectableContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectableContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListProtectableContainersRequest>,
   output: __S(2661, __c83, 5) as any as S.Schema<ListProtectableContainersResponse>,
   errors: [UnknownAzureError],
@@ -9433,16 +9549,23 @@ export const ListProtectableContainers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProtectableContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointsError = AzureOpError;
 /** Lists the backup copies for the backed up item. */
-export const ListRecoveryPoints: API.OperationMethod<
+export const ListRecoveryPoints: API.PaginatedOperationMethod<
   ListRecoveryPointsRequest,
   ListRecoveryPointsResponse,
   ListRecoveryPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListRecoveryPointsRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<ListRecoveryPointsResponse>,
   errors: [UnknownAzureError],
@@ -9450,16 +9573,23 @@ export const ListRecoveryPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointsRecommendedForMoveError = AzureOpError;
 /** Lists the recovery points recommended for move to another tier */
-export const ListRecoveryPointsRecommendedForMove: API.OperationMethod<
+export const ListRecoveryPointsRecommendedForMove: API.PaginatedOperationMethod<
   ListRecoveryPointsRecommendedForMoveRequest,
   ListRecoveryPointsRecommendedForMoveResponse,
   ListRecoveryPointsRecommendedForMoveError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListRecoveryPointsRecommendedForMoveRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<ListRecoveryPointsRecommendedForMoveResponse>,
   errors: [UnknownAzureError],
@@ -9467,7 +9597,13 @@ export const ListRecoveryPointsRecommendedForMove: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPointsRecommendedForMove",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MoveBMSPrepareDataError = AzureOpError;
 /** Prepares source vault for Data Move operation */
@@ -12597,12 +12733,14 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardProxyRequest" });
@@ -12612,7 +12750,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1921, __c60, 1)),
+          value: __S(1921, __c60, 1),
         }),
       ).annotate({ identifier: "GetResourceGuardProxyResponse" });
   }
@@ -12800,12 +12938,14 @@ function __c69(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupEnginesRequest" });
@@ -12815,7 +12955,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2209, __c69, 1)),
+          value: __S(2209, __c69, 1),
         }),
       ).annotate({ identifier: "ListBackupEnginesResponse" });
   }
@@ -12830,12 +12970,14 @@ function __c70(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupJobsRequest" });
@@ -12845,7 +12987,7 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2241, __c70, 1)),
+          value: __S(2241, __c70, 1),
         }),
       ).annotate({ identifier: "ListBackupJobsResponse" });
   }
@@ -12859,12 +13001,14 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
@@ -12874,7 +13018,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2273, __c71, 1)),
+          value: __S(2273, __c71, 1),
         }),
       ).annotate({ identifier: "ListBackupPoliciesResponse" });
   }
@@ -12889,12 +13033,14 @@ function __c72(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectableItems",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectableItemsRequest" });
@@ -13005,7 +13151,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2312, __c72, 8)),
+          value: __S(2312, __c72, 8),
         }),
       ).annotate({ identifier: "ListBackupProtectableItemsResponse" });
   }
@@ -13020,12 +13166,14 @@ function __c73(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectedItems",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectedItemsRequest" });
@@ -13035,7 +13183,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2337, __c73, 1)),
+          value: __S(2337, __c73, 1),
         }),
       ).annotate({ identifier: "ListBackupProtectedItemsResponse" });
   }
@@ -13049,12 +13197,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectionContainersRequest" });
@@ -13068,7 +13218,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2400, __c75, 0)),
+          value: __S(2400, __c75, 0),
         }),
       ).annotate({ identifier: "ListBackupProtectionContainersResponse" });
   }
@@ -13083,12 +13233,14 @@ function __c76(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectionIntentRequest" });
@@ -13098,7 +13250,7 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2433, __c76, 1)),
+          value: __S(2433, __c76, 1),
         }),
       ).annotate({ identifier: "ListBackupProtectionIntentResponse" });
   }
@@ -13133,12 +13285,14 @@ function __c78(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupUsageSummariesRequest" });
@@ -13166,7 +13320,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2499, __c78, 3)),
+          value: __S(2499, __c78, 3),
         }),
       ).annotate({ identifier: "ListBackupUsageSummariesResponse" });
   }
@@ -13183,12 +13337,14 @@ function __c79(j: number): any {
           containerName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupWorkloadItemsRequest" });
@@ -13251,7 +13407,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2533, __c79, 5)),
+          value: __S(2533, __c79, 5),
         }),
       ).annotate({ identifier: "ListBackupWorkloadItemsResponse" });
   }
@@ -13265,12 +13421,14 @@ function __c80(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeletedProtectionContainersRequest" });
@@ -13306,12 +13464,15 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -13360,7 +13521,7 @@ function __c82(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2631, __c82, 7)),
+          value: __S(2631, __c82, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientDiscoveryResponse" });
@@ -13376,12 +13537,14 @@ function __c83(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProtectableContainersRequest" });
@@ -13416,7 +13579,7 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2660, __c83, 4)),
+          value: __S(2660, __c83, 4),
         }),
       ).annotate({ identifier: "ListProtectableContainersResponse" });
   }
@@ -13433,12 +13596,14 @@ function __c84(j: number): any {
           containerName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRequest" });
@@ -13452,7 +13617,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2720, __c85, 0)),
+          value: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "ListRecoveryPointsResponse" });
   }
@@ -13470,12 +13635,14 @@ function __c86(j: number): any {
           protectedItemName: S.String.pipe(T.Label()),
           objectType: S.optional(S.String),
           excludedRPList: S.optional(__S(64, __c2, 0)),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRecommendedForMoveRequest" });

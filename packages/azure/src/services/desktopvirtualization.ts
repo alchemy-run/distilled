@@ -1846,6 +1846,8 @@ export interface ImportAppAttachPackageInfoRequest {
   path?: string | undefined;
   /** Possible device architectures that an app attach package can be configured for */
   packageArchitecture?: AppAttachPackageArchitectures | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AppAttachPackageTagsMap = { [key: string]: string | undefined };
@@ -1882,12 +1884,16 @@ export interface ListAppAttachPackageByResourceGroupRequest {
   resourceGroupName: string;
   /** OData filter expression. Valid properties for filtering are package name and host pool. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAppAttachPackageBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** OData filter expression. Valid properties for filtering are package name, host pool, and resource group. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApplicationGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1902,6 +1908,8 @@ export interface ListApplicationGroupByResourceGroupRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApplicationGroupTagsMap = { [key: string]: string | undefined };
@@ -1954,6 +1962,8 @@ export interface ListApplicationGroupBySubscriptionRequest {
   subscriptionId: string;
   /** OData filter expression. Valid properties for filtering are applicationGroupType. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1968,6 +1978,8 @@ export interface ListApplicationsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema for Application properties. */
 export interface Application {
@@ -2004,6 +2016,8 @@ export interface ListDesktopsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema for Desktop properties. */
 export interface Desktop {
@@ -2038,6 +2052,8 @@ export interface ListHostPoolByResourceGroupRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HostPoolTagsMap = { [key: string]: string | undefined };
@@ -2092,6 +2108,8 @@ export interface ListHostPoolRegistrationTokensRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Minimal set of properties for RegistrationToken definition. */
 export interface RegistrationTokenMinimal {
@@ -2105,7 +2123,7 @@ export type RegistrationTokenListValueList = Array<RegistrationTokenMinimal>;
 /** List of RegistrationToken definitions. */
 export interface RegistrationTokenList {
   /** List of RegistrationToken definitions. */
-  value?: RegistrationTokenListValueList | undefined;
+  value: RegistrationTokenListValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2118,6 +2136,8 @@ export interface ListHostPoolsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMSIXPackagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2132,6 +2152,8 @@ export interface ListMSIXPackagesRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema for MSIX Package properties. */
 export interface MSIXPackage {
@@ -2155,7 +2177,10 @@ export interface MSIXPackageList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
   /** Resource provider: Microsoft Desktop Virtualization. */
@@ -2221,6 +2246,8 @@ export interface ListPrivateEndpointConnectionByHostPoolRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionWithSystemData {
@@ -2252,6 +2279,8 @@ export interface ListPrivateEndpointConnectionByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2266,6 +2295,8 @@ export interface ListPrivateLinkResourceByHostPoolRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -2315,6 +2346,8 @@ export interface ListPrivateLinkResourceByWorkspaceRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListScalingPlanByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2329,6 +2362,8 @@ export interface ListScalingPlanByHostPoolRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ScalingPlanTagsMap = { [key: string]: string | undefined };
@@ -2387,6 +2422,8 @@ export interface ListScalingPlanByResourceGroupRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListScalingPlanBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2397,6 +2434,8 @@ export interface ListScalingPlanBySubscriptionRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListScalingPlanPersonalSchedulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2411,6 +2450,8 @@ export interface ListScalingPlanPersonalSchedulesRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a ScalingPlanPersonalSchedule definition. */
 export interface ScalingPlanPersonalSchedule {
@@ -2447,6 +2488,8 @@ export interface ListScalingPlanPooledSchedulesRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a ScalingPlanPooledSchedule definition. */
 export interface ScalingPlanPooledSchedule {
@@ -2483,6 +2526,8 @@ export interface ListSessionHostsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a SessionHost definition. */
 export interface SessionHost {
@@ -2519,6 +2564,8 @@ export interface ListStartMenuItemsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema for StartMenuItem properties. */
 export interface StartMenuItemProperties {
@@ -2570,6 +2617,8 @@ export interface ListUserSessionByHostPoolRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a UserSession definition. */
 export interface UserSession {
@@ -2608,6 +2657,8 @@ export interface ListUserSessionsRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2620,6 +2671,8 @@ export interface ListWorkspaceByResourceGroupRequest {
   isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -2670,6 +2723,8 @@ export interface WorkspaceList {
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface MsixImagesExpandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2680,6 +2735,8 @@ export interface MsixImagesExpandRequest {
   hostPoolName: string;
   /** URI to Image */
   uri?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of package dependencies. */
 export type ExpandMsixImagePropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
@@ -4203,12 +4260,13 @@ export const HostPoolsCreateOrUpdate: API.OperationMethod<
 
 export type ImportAppAttachPackageInfoError = AzureOpError;
 /** Gets information from a package given the path to the package. */
-export const ImportAppAttachPackageInfo: API.OperationMethod<
+export const ImportAppAttachPackageInfo: API.PaginatedOperationMethod<
   ImportAppAttachPackageInfoRequest,
   AppAttachPackageList,
   ImportAppAttachPackageInfoError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppAttachPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ImportAppAttachPackageInfoRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
@@ -4216,16 +4274,23 @@ export const ImportAppAttachPackageInfo: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportAppAttachPackageInfo",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAppAttachPackageByResourceGroupError = AzureOpError;
 /** List App Attach packages in resource group. */
-export const ListAppAttachPackageByResourceGroup: API.OperationMethod<
+export const ListAppAttachPackageByResourceGroup: API.PaginatedOperationMethod<
   ListAppAttachPackageByResourceGroupRequest,
   AppAttachPackageList,
   ListAppAttachPackageByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppAttachPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListAppAttachPackageByResourceGroupRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
@@ -4233,16 +4298,23 @@ export const ListAppAttachPackageByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAppAttachPackageByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAppAttachPackageBySubscriptionError = AzureOpError;
 /** List App Attach packages in subscription. */
-export const ListAppAttachPackageBySubscription: API.OperationMethod<
+export const ListAppAttachPackageBySubscription: API.PaginatedOperationMethod<
   ListAppAttachPackageBySubscriptionRequest,
   AppAttachPackageList,
   ListAppAttachPackageBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppAttachPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListAppAttachPackageBySubscriptionRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
@@ -4250,16 +4322,23 @@ export const ListAppAttachPackageBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAppAttachPackageBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationGroupByResourceGroupError = AzureOpError;
 /** List applicationGroups. */
-export const ListApplicationGroupByResourceGroup: API.OperationMethod<
+export const ListApplicationGroupByResourceGroup: API.PaginatedOperationMethod<
   ListApplicationGroupByResourceGroupRequest,
   ApplicationGroupList,
   ListApplicationGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListApplicationGroupByResourceGroupRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<ApplicationGroupList>,
   errors: [UnknownAzureError],
@@ -4267,16 +4346,23 @@ export const ListApplicationGroupByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationGroupBySubscriptionError = AzureOpError;
 /** List applicationGroups in subscription. */
-export const ListApplicationGroupBySubscription: API.OperationMethod<
+export const ListApplicationGroupBySubscription: API.PaginatedOperationMethod<
   ListApplicationGroupBySubscriptionRequest,
   ApplicationGroupList,
   ListApplicationGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListApplicationGroupBySubscriptionRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<ApplicationGroupList>,
   errors: [UnknownAzureError],
@@ -4284,16 +4370,23 @@ export const ListApplicationGroupBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationsError = AzureOpError;
 /** List applications. */
-export const ListApplications: API.OperationMethod<
+export const ListApplications: API.PaginatedOperationMethod<
   ListApplicationsRequest,
   ApplicationList,
   ListApplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListApplicationsRequest>,
   output: __S(946, __c59, 2) as any as S.Schema<ApplicationList>,
   errors: [UnknownAzureError],
@@ -4301,16 +4394,23 @@ export const ListApplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDesktopsError = AzureOpError;
 /** List desktops. */
-export const ListDesktops: API.OperationMethod<
+export const ListDesktops: API.PaginatedOperationMethod<
   ListDesktopsRequest,
   DesktopList,
   ListDesktopsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Desktop
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListDesktopsRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<DesktopList>,
   errors: [UnknownAzureError],
@@ -4318,16 +4418,23 @@ export const ListDesktops: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDesktops",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHostPoolByResourceGroupError = AzureOpError;
 /** List hostPools. */
-export const ListHostPoolByResourceGroup: API.OperationMethod<
+export const ListHostPoolByResourceGroup: API.PaginatedOperationMethod<
   ListHostPoolByResourceGroupRequest,
   HostPoolList,
   ListHostPoolByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HostPool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListHostPoolByResourceGroupRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<HostPoolList>,
   errors: [UnknownAzureError],
@@ -4335,16 +4442,23 @@ export const ListHostPoolByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHostPoolByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHostPoolRegistrationTokensError = AzureOpError;
 /** Operation to list the RegistrationTokens associated with the HostPool. */
-export const ListHostPoolRegistrationTokens: API.OperationMethod<
+export const ListHostPoolRegistrationTokens: API.PaginatedOperationMethod<
   ListHostPoolRegistrationTokensRequest,
   RegistrationTokenList,
   ListHostPoolRegistrationTokensError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegistrationTokenMinimal
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListHostPoolRegistrationTokensRequest>,
   output: __S(1011, __c63, 3) as any as S.Schema<RegistrationTokenList>,
   errors: [UnknownAzureError],
@@ -4352,16 +4466,23 @@ export const ListHostPoolRegistrationTokens: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHostPoolRegistrationTokens",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHostPoolsError = AzureOpError;
 /** List hostPools in subscription. */
-export const ListHostPools: API.OperationMethod<
+export const ListHostPools: API.PaginatedOperationMethod<
   ListHostPoolsRequest,
   HostPoolList,
   ListHostPoolsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HostPool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListHostPoolsRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<HostPoolList>,
   errors: [UnknownAzureError],
@@ -4369,16 +4490,23 @@ export const ListHostPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHostPools",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMSIXPackagesError = AzureOpError;
 /** List MSIX packages in hostpool. */
-export const ListMSIXPackages: API.OperationMethod<
+export const ListMSIXPackages: API.PaginatedOperationMethod<
   ListMSIXPackagesRequest,
   MSIXPackageList,
   ListMSIXPackagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MSIXPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListMSIXPackagesRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<MSIXPackageList>,
   errors: [UnknownAzureError],
@@ -4386,16 +4514,23 @@ export const ListMSIXPackages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMSIXPackages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ResourceProviderOperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceProviderOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1064, __c66, 8) as any as S.Schema<ResourceProviderOperationListResult>,
   errors: [UnknownAzureError],
@@ -4403,16 +4538,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByHostPoolError = AzureOpError;
 /** List private endpoint connections associated with hostpool. */
-export const ListPrivateEndpointConnectionByHostPool: API.OperationMethod<
+export const ListPrivateEndpointConnectionByHostPool: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByHostPoolRequest,
   PrivateEndpointConnectionListResultWithSystemData,
   ListPrivateEndpointConnectionByHostPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionWithSystemData
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListPrivateEndpointConnectionByHostPoolRequest>,
   output: __S(1088, __c68, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
   errors: [UnknownAzureError],
@@ -4420,16 +4562,23 @@ export const ListPrivateEndpointConnectionByHostPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByHostPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByWorkspaceError = AzureOpError;
 /** List private endpoint connections associated with Workspace. */
-export const ListPrivateEndpointConnectionByWorkspace: API.OperationMethod<
+export const ListPrivateEndpointConnectionByWorkspace: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByWorkspaceRequest,
   PrivateEndpointConnectionListResultWithSystemData,
   ListPrivateEndpointConnectionByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionWithSystemData
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListPrivateEndpointConnectionByWorkspaceRequest>,
   output: __S(1088, __c68, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
   errors: [UnknownAzureError],
@@ -4437,16 +4586,23 @@ export const ListPrivateEndpointConnectionByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByHostPoolError = AzureOpError;
 /** List the private link resources available for this hostpool. */
-export const ListPrivateLinkResourceByHostPool: API.OperationMethod<
+export const ListPrivateLinkResourceByHostPool: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByHostPoolRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByHostPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListPrivateLinkResourceByHostPoolRequest>,
   output: __S(1171, __c73, 3) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -4454,16 +4610,23 @@ export const ListPrivateLinkResourceByHostPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByHostPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByWorkspaceError = AzureOpError;
 /** List the private link resources available for this workspace. */
-export const ListPrivateLinkResourceByWorkspace: API.OperationMethod<
+export const ListPrivateLinkResourceByWorkspace: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByWorkspaceRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListPrivateLinkResourceByWorkspaceRequest>,
   output: __S(1171, __c73, 3) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -4471,16 +4634,23 @@ export const ListPrivateLinkResourceByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScalingPlanByHostPoolError = AzureOpError;
 /** List scaling plan associated with hostpool. */
-export const ListScalingPlanByHostPool: API.OperationMethod<
+export const ListScalingPlanByHostPool: API.PaginatedOperationMethod<
   ListScalingPlanByHostPoolRequest,
   ScalingPlanList,
   ListScalingPlanByHostPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScalingPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<ListScalingPlanByHostPoolRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
@@ -4488,16 +4658,23 @@ export const ListScalingPlanByHostPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScalingPlanByHostPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScalingPlanByResourceGroupError = AzureOpError;
 /** List scaling plans. */
-export const ListScalingPlanByResourceGroup: API.OperationMethod<
+export const ListScalingPlanByResourceGroup: API.PaginatedOperationMethod<
   ListScalingPlanByResourceGroupRequest,
   ScalingPlanList,
   ListScalingPlanByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScalingPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<ListScalingPlanByResourceGroupRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
@@ -4505,16 +4682,23 @@ export const ListScalingPlanByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScalingPlanByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScalingPlanBySubscriptionError = AzureOpError;
 /** List scaling plans in subscription. */
-export const ListScalingPlanBySubscription: API.OperationMethod<
+export const ListScalingPlanBySubscription: API.PaginatedOperationMethod<
   ListScalingPlanBySubscriptionRequest,
   ScalingPlanList,
   ListScalingPlanBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScalingPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<ListScalingPlanBySubscriptionRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
@@ -4522,16 +4706,23 @@ export const ListScalingPlanBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScalingPlanBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScalingPlanPersonalSchedulesError = AzureOpError;
 /** List ScalingPlanPersonalSchedules. */
-export const ListScalingPlanPersonalSchedules: API.OperationMethod<
+export const ListScalingPlanPersonalSchedules: API.PaginatedOperationMethod<
   ListScalingPlanPersonalSchedulesRequest,
   ScalingPlanPersonalScheduleList,
   ListScalingPlanPersonalSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScalingPlanPersonalSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListScalingPlanPersonalSchedulesRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<ScalingPlanPersonalScheduleList>,
   errors: [UnknownAzureError],
@@ -4539,16 +4730,23 @@ export const ListScalingPlanPersonalSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScalingPlanPersonalSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScalingPlanPooledSchedulesError = AzureOpError;
 /** List ScalingPlanPooledSchedules. */
-export const ListScalingPlanPooledSchedules: API.OperationMethod<
+export const ListScalingPlanPooledSchedules: API.PaginatedOperationMethod<
   ListScalingPlanPooledSchedulesRequest,
   ScalingPlanPooledScheduleList,
   ListScalingPlanPooledSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScalingPlanPooledSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListScalingPlanPooledSchedulesRequest>,
   output: __S(1282, __c80, 2) as any as S.Schema<ScalingPlanPooledScheduleList>,
   errors: [UnknownAzureError],
@@ -4556,16 +4754,23 @@ export const ListScalingPlanPooledSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScalingPlanPooledSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSessionHostsError = AzureOpError;
 /** List sessionHosts. */
-export const ListSessionHosts: API.OperationMethod<
+export const ListSessionHosts: API.PaginatedOperationMethod<
   ListSessionHostsRequest,
   SessionHostList,
   ListSessionHostsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SessionHost
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListSessionHostsRequest>,
   output: __S(1298, __c81, 2) as any as S.Schema<SessionHostList>,
   errors: [UnknownAzureError],
@@ -4573,16 +4778,23 @@ export const ListSessionHosts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSessionHosts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStartMenuItemsError = AzureOpError;
 /** List start menu items in the given application group. */
-export const ListStartMenuItems: API.OperationMethod<
+export const ListStartMenuItems: API.PaginatedOperationMethod<
   ListStartMenuItemsRequest,
   StartMenuItemList,
   ListStartMenuItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StartMenuItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListStartMenuItemsRequest>,
   output: __S(1316, __c82, 4) as any as S.Schema<StartMenuItemList>,
   errors: [UnknownAzureError],
@@ -4590,16 +4802,23 @@ export const ListStartMenuItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStartMenuItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUserSessionByHostPoolError = AzureOpError;
 /** A synchronous resource action. */
-export const ListUserSessionByHostPool: API.OperationMethod<
+export const ListUserSessionByHostPool: API.PaginatedOperationMethod<
   ListUserSessionByHostPoolRequest,
   UserSessionList,
   ListUserSessionByHostPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UserSession
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ListUserSessionByHostPoolRequest>,
   output: __S(1345, __c84, 1) as any as S.Schema<UserSessionList>,
   errors: [UnknownAzureError],
@@ -4607,16 +4826,23 @@ export const ListUserSessionByHostPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUserSessionByHostPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUserSessionsError = AzureOpError;
 /** List userSessions. */
-export const ListUserSessions: API.OperationMethod<
+export const ListUserSessions: API.PaginatedOperationMethod<
   ListUserSessionsRequest,
   UserSessionList,
   ListUserSessionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UserSession
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ListUserSessionsRequest>,
   output: __S(1345, __c84, 1) as any as S.Schema<UserSessionList>,
   errors: [UnknownAzureError],
@@ -4624,16 +4850,23 @@ export const ListUserSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUserSessions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
 /** List workspaces. */
-export const ListWorkspaceByResourceGroup: API.OperationMethod<
+export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceByResourceGroupRequest,
   WorkspaceList,
   ListWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(1425, __c89, 1) as any as S.Schema<WorkspaceList>,
   errors: [UnknownAzureError],
@@ -4641,16 +4874,23 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
 /** List workspaces in subscription. */
-export const ListWorkspaceBySubscription: API.OperationMethod<
+export const ListWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListWorkspaceBySubscriptionRequest,
   WorkspaceList,
   ListWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
   output: __S(1425, __c89, 1) as any as S.Schema<WorkspaceList>,
   errors: [UnknownAzureError],
@@ -4658,16 +4898,23 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MsixImagesExpandError = AzureOpError;
 /** Expands and Lists MSIX packages in an Image, given the Image Path. This action uses incorrect Msix casing intentionally to match the previous APIs. */
-export const MsixImagesExpand: API.OperationMethod<
+export const MsixImagesExpand: API.PaginatedOperationMethod<
   MsixImagesExpandRequest,
   ExpandMsixImageList,
   MsixImagesExpandError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExpandMsixImage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<MsixImagesExpandRequest>,
   output: __S(1460, __c91, 4) as any as S.Schema<ExpandMsixImageList>,
   errors: [UnknownAzureError],
@@ -4675,7 +4922,13 @@ export const MsixImagesExpand: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MsixImagesExpand",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MSIXPackagesCreateOrUpdateError = AzureOpError;
 /** Create or update a MSIX package. */
@@ -6253,12 +6506,14 @@ function __c50(j: number): any {
           hostPoolName: S.String.pipe(T.Label()),
           path: S.optional(S.String),
           packageArchitecture: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/importAppAttachPackageInfo",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ImportAppAttachPackageInfoRequest" });
@@ -6285,12 +6540,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAppAttachPackageByResourceGroupRequest" });
@@ -6303,12 +6560,14 @@ function __c53(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAppAttachPackageBySubscriptionRequest" });
@@ -6325,12 +6584,14 @@ function __c54(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationGroupByResourceGroupRequest" });
@@ -6422,12 +6683,14 @@ function __c58(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationGroupBySubscriptionRequest" });
@@ -6444,12 +6707,14 @@ function __c59(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationsRequest" });
@@ -6475,12 +6740,14 @@ function __c60(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDesktopsRequest" });
@@ -6505,12 +6772,14 @@ function __c61(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolByResourceGroupRequest" });
@@ -6537,12 +6806,14 @@ function __c63(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/listRegistrationTokens",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolRegistrationTokensRequest" });
@@ -6558,7 +6829,7 @@ function __c63(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1010, __c63, 2)),
+          value: __S(1010, __c63, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationTokenList" });
@@ -6573,12 +6844,14 @@ function __c64(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolsRequest" });
@@ -6595,12 +6868,14 @@ function __c65(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMSIXPackagesRequest" });
@@ -6619,12 +6894,15 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DesktopVirtualization/operations",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6690,12 +6968,14 @@ function __c67(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByHostPoolRequest" });
@@ -6720,12 +7000,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByWorkspaceRequest" });
@@ -6799,12 +7081,14 @@ function __c72(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByHostPoolRequest" });
@@ -6852,12 +7136,14 @@ function __c74(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByWorkspaceRequest" });
@@ -6874,12 +7160,14 @@ function __c75(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/scalingPlans",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanByHostPoolRequest" });
@@ -6908,12 +7196,14 @@ function __c77(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanByResourceGroupRequest" });
@@ -6928,12 +7218,14 @@ function __c78(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanBySubscriptionRequest" });
@@ -6950,12 +7242,14 @@ function __c79(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanPersonalSchedulesRequest" });
@@ -6981,12 +7275,14 @@ function __c80(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanPooledSchedulesRequest" });
@@ -7012,12 +7308,14 @@ function __c81(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSessionHostsRequest" });
@@ -7043,12 +7341,14 @@ function __c82(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/startMenuItems",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStartMenuItemsRequest" });
@@ -7095,12 +7395,14 @@ function __c83(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUserSessionByHostPoolRequest" });
@@ -7158,12 +7460,14 @@ function __c87(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUserSessionsRequest" });
@@ -7179,12 +7483,14 @@ function __c88(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           isDescending: S.optional(S.Boolean.pipe(T.Query())),
           initialSkip: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
@@ -7209,12 +7515,14 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/workspaces",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
@@ -7229,12 +7537,14 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           uri: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/expandMsixImage",
             code: 200,
             apiVersion: "2026-04-16",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "MsixImagesExpandRequest" });

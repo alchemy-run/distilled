@@ -452,6 +452,8 @@ export interface ListImageVersionByImageRequest {
   resourceGroupName: string;
   /** Name of the image. */
   imageName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of the ImageVersionProperties. */
 export interface ImageVersionProperties {
@@ -480,7 +482,10 @@ export interface ImageVersionListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -513,7 +518,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -522,6 +527,8 @@ export interface ListPoolByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PoolTagsMap = { [key: string]: string | undefined };
@@ -570,6 +577,8 @@ export interface PoolListResult {
 export interface ListPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListResourceDetailByPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -578,6 +587,8 @@ export interface ListResourceDetailByPoolRequest {
   resourceGroupName: string;
   /** Name of the pool. It needs to be globally unique. */
   poolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The status of the machine resource. */
 export type ResourceStatus =
@@ -628,6 +639,8 @@ export interface ListSkuByLocationRequest {
   subscriptionId: string;
   /** Name of the location. */
   locationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of locations that the SKU is available. */
 export type ResourceSkuPropertiesLocationsList = Array<string>;
@@ -874,6 +887,8 @@ export interface SubscriptionUsagesUsagesRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Quota Names */
 export interface QuotaName {
@@ -1055,12 +1070,13 @@ export const GetPool: API.OperationMethod<
 
 export type ListImageVersionByImageError = AzureOpError;
 /** List ImageVersion resources by Image */
-export const ListImageVersionByImage: API.OperationMethod<
+export const ListImageVersionByImage: API.PaginatedOperationMethod<
   ListImageVersionByImageRequest,
   ImageVersionListResult,
   ListImageVersionByImageError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListImageVersionByImageRequest>,
   output: __S(420, __c13, 4) as any as S.Schema<ImageVersionListResult>,
   errors: [UnknownAzureError],
@@ -1068,16 +1084,23 @@ export const ListImageVersionByImage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageVersionByImage",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1085,16 +1108,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolByResourceGroupError = AzureOpError;
 /** List Pool resources by resource group */
-export const ListPoolByResourceGroup: API.OperationMethod<
+export const ListPoolByResourceGroup: API.PaginatedOperationMethod<
   ListPoolByResourceGroupRequest,
   PoolListResult,
   ListPoolByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListPoolByResourceGroupRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<PoolListResult>,
   errors: [UnknownAzureError],
@@ -1102,16 +1132,23 @@ export const ListPoolByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPoolByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolBySubscriptionError = AzureOpError;
 /** List Pool resources by subscription ID */
-export const ListPoolBySubscription: API.OperationMethod<
+export const ListPoolBySubscription: API.PaginatedOperationMethod<
   ListPoolBySubscriptionRequest,
   PoolListResult,
   ListPoolBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListPoolBySubscriptionRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<PoolListResult>,
   errors: [UnknownAzureError],
@@ -1119,16 +1156,23 @@ export const ListPoolBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPoolBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceDetailByPoolError = AzureOpError;
 /** List ResourceDetailsObject resources by Pool */
-export const ListResourceDetailByPool: API.OperationMethod<
+export const ListResourceDetailByPool: API.PaginatedOperationMethod<
   ListResourceDetailByPoolRequest,
   ResourceDetailsObjectListResult,
   ListResourceDetailByPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceDetailsObject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListResourceDetailByPoolRequest>,
   output: __S(580, __c18, 4) as any as S.Schema<ResourceDetailsObjectListResult>,
   errors: [UnknownAzureError],
@@ -1136,16 +1180,23 @@ export const ListResourceDetailByPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourceDetailByPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkuByLocationError = AzureOpError;
 /** List ResourceSku resources by subscription ID */
-export const ListSkuByLocation: API.OperationMethod<
+export const ListSkuByLocation: API.PaginatedOperationMethod<
   ListSkuByLocationRequest,
   ResourceSkuListResult,
   ListSkuByLocationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListSkuByLocationRequest>,
   output: __S(621, __c19, 13) as any as S.Schema<ResourceSkuListResult>,
   errors: [UnknownAzureError],
@@ -1153,7 +1204,13 @@ export const ListSkuByLocation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkuByLocation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PoolsCreateOrUpdateError = AzureOpError;
 /** Create a Pool */
@@ -1174,12 +1231,13 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
 
 export type SubscriptionUsagesUsagesError = AzureOpError;
 /** List Quota resources by subscription ID */
-export const SubscriptionUsagesUsages: API.OperationMethod<
+export const SubscriptionUsagesUsages: API.PaginatedOperationMethod<
   SubscriptionUsagesUsagesRequest,
   PagedQuota,
   SubscriptionUsagesUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Quota
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<SubscriptionUsagesUsagesRequest>,
   output: __S(132, __c4, 4) as any as S.Schema<PagedQuota>,
   errors: [UnknownAzureError],
@@ -1187,7 +1245,13 @@ export const SubscriptionUsagesUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscriptionUsagesUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdatePoolError = AzureOpError;
 /** Update a Pool */
@@ -1364,12 +1428,14 @@ function __c4(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "SubscriptionUsagesUsagesRequest" });
@@ -1754,12 +1820,14 @@ function __c13(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           imageName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageVersionByImageRequest" });
@@ -1794,12 +1862,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DevOpsInfrastructure/operations",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1827,7 +1898,7 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(451, __c14, 3)),
+          value: __S(451, __c14, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1840,12 +1911,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolByResourceGroupRequest" });
@@ -1870,12 +1943,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/pools",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolBySubscriptionRequest" });
@@ -1889,12 +1964,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceDetailByPoolRequest" });
@@ -1934,12 +2011,14 @@ function __c19(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           locationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus",
             code: 200,
             apiVersion: "2026-06-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkuByLocationRequest" });
