@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Service Bus accepts Microsoft Entra ID tokens for the `https://servicebus.azure.net` resource (Microsoft Learn: \"Authenticate and authorize an application with Microsoft Entra ID to access Azure Service Bus entities\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.servicebus_data#ServicebusData/traits/com.azure.protocols#audience",
+      "value": "https://servicebus.azure.net/.default"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -535,6 +535,8 @@ export interface ListAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AccountResourceTagsMap = { [key: string]: string | undefined };
@@ -604,11 +606,13 @@ export interface AccountResourceList {
   /** The link used to get the next page of RecommendationsService Account resources list. */
   nextLink?: string | undefined;
   /** The list of RecommendationsService Account resources. */
-  value?: AccountResourceListValueList | undefined;
+  value: AccountResourceListValueList;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListModelingByAccountResourceRequest {
   /** The ID of the target subscription. */
@@ -617,6 +621,8 @@ export interface ListModelingByAccountResourceRequest {
   resourceGroupName: string;
   /** The name of the RecommendationsService Account resource. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ModelingResourceTagsMap = { [key: string]: string | undefined };
@@ -690,9 +696,12 @@ export interface ModelingResourceList {
   /** The link used to get the next page of Modeling resources list. */
   nextLink?: string | undefined;
   /** The list of Modeling resources. */
-  value?: ModelingResourceListValueList | undefined;
+  value: ModelingResourceListValueList;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -725,7 +734,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -736,6 +745,8 @@ export interface ListServiceEndpointByAccountResourceRequest {
   resourceGroupName: string;
   /** The name of the RecommendationsService Account resource. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceEndpointResourceTagsMap = { [key: string]: string | undefined };
@@ -792,7 +803,7 @@ export interface ServiceEndpointResourceList {
   /** The link used to get the next page of ServiceEndpoint resources list. */
   nextLink?: string | undefined;
   /** The list of ServiceEndpoint resources. */
-  value?: ServiceEndpointResourceListValueList | undefined;
+  value: ServiceEndpointResourceListValueList;
 }
 /** Resource tags. */
 export type ModelingCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1200,8 +1211,7 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AccountsCreateOrUpdateRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<AccountsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,8 +1228,7 @@ export const CheckAccountNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CheckAccountNameAvailabilityRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CheckAccountNameAvailabilityResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1236,8 +1245,7 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1254,8 +1262,7 @@ export const DeleteModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteModelingRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteModelingResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1272,8 +1279,7 @@ export const DeleteServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteServiceEndpointRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteServiceEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,8 +1296,7 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<GetAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1308,8 +1313,7 @@ export const GetAccountStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetAccountStatusRequest>,
   output: __S(325, __c20, 5) as any as S.Schema<AccountStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1326,8 +1330,7 @@ export const GetModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetModelingRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<GetModelingResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1344,8 +1347,7 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(376, __c23, 8) as any as S.Schema<GetOperationStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1362,8 +1364,7 @@ export const GetServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetServiceEndpointRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetServiceEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1372,93 +1373,123 @@ export const GetServiceEndpoint: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** Returns list of RecommendationsService Account resources. */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   AccountResourceList,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AccountResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<AccountResourceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** Returns list of RecommendationsService Account resources. */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   AccountResourceList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AccountResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<AccountResourceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListModelingByAccountResourceError = AzureOpError;
 /** Returns list of Modeling resources for a given Account name. */
-export const ListModelingByAccountResource: API.OperationMethod<
+export const ListModelingByAccountResource: API.PaginatedOperationMethod<
   ListModelingByAccountResourceRequest,
   ModelingResourceList,
   ListModelingByAccountResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ModelingResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListModelingByAccountResourceRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<ModelingResourceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModelingByAccountResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Returns list of operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c8, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceEndpointByAccountResourceError = AzureOpError;
 /** Returns list of ServiceEndpoint resources for a given Account name. */
-export const ListServiceEndpointByAccountResource: API.OperationMethod<
+export const ListServiceEndpointByAccountResource: API.PaginatedOperationMethod<
   ListServiceEndpointByAccountResourceRequest,
   ServiceEndpointResourceList,
   ListServiceEndpointByAccountResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListServiceEndpointByAccountResourceRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<ServiceEndpointResourceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceEndpointByAccountResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ModelingCreateOrUpdateError = AzureOpError;
 /** Creates or updates Modeling resource. */
@@ -1470,8 +1501,7 @@ export const ModelingCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<ModelingCreateOrUpdateRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<ModelingCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1488,8 +1518,7 @@ export const ServiceEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(177, __c11, 1) as any as S.Schema<ServiceEndpointsCreateOrUpdateRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ServiceEndpointsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1506,8 +1535,7 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<UpdateAccountRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<UpdateAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1524,8 +1552,7 @@ export const UpdateModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c13, 1) as any as S.Schema<UpdateModelingRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<UpdateModelingResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1542,8 +1569,7 @@ export const UpdateServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateServiceEndpointRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<UpdateServiceEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1683,12 +1709,14 @@ function __c4(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecommendationsService/accounts",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -1702,7 +1730,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(80, __c5, 0)),
+          value: __S(80, __c5, 0),
         }),
       ).annotate({ identifier: "AccountResourceList" });
   }
@@ -1713,12 +1741,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecommendationsService/accounts",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -1732,12 +1762,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecommendationsService/accounts/{accountName}/modeling",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListModelingByAccountResourceRequest" });
@@ -1747,7 +1779,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(113, __c7, 1)),
+          value: __S(113, __c7, 1),
         }),
       ).annotate({ identifier: "ModelingResourceList" });
   }
@@ -1756,12 +1788,15 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.RecommendationsService/operations",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1789,7 +1824,7 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(131, __c8, 3)),
+          value: __S(131, __c8, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1803,12 +1838,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecommendationsService/accounts/{accountName}/serviceEndpoints",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceEndpointByAccountResourceRequest" });
@@ -1818,7 +1855,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(145, __c9, 1)),
+          value: __S(145, __c9, 1),
         }),
       ).annotate({ identifier: "ServiceEndpointResourceList" });
   }

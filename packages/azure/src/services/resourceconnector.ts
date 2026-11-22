@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -297,6 +297,8 @@ export interface ListApplianceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApplianceTagsMap = { [key: string]: string | undefined };
@@ -331,6 +333,8 @@ export interface ApplianceListResult {
 export interface ListApplianceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApplianceClusterUserCredentialRequest {
   /** The ID of the target subscription. */
@@ -414,7 +418,10 @@ export interface ApplianceListKeysResults {
   /** Map of Customer User Public, Private SSH Keys and Certificate when available. */
   sshKeys?: ApplianceListKeysResultsSshKeysMap | undefined;
 }
-export interface ListApplianceOperationsRequest {}
+export interface ListApplianceOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Describes the properties of an Appliances Operation Value Display. */
 export interface ApplianceOperationValueDisplay {
   /** The description of the operation. */
@@ -488,8 +495,7 @@ export const AppliancesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<AppliancesCreateOrUpdateRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<AppliancesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -506,8 +512,7 @@ export const DeleteAppliance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteApplianceRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteApplianceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -524,8 +529,7 @@ export const GetAppliance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetApplianceRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<GetApplianceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -542,8 +546,7 @@ export const GetApplianceTelemetryConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetApplianceTelemetryConfigRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<ApplianceGetTelemetryConfigResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -560,8 +563,7 @@ export const GetApplianceUpgradeGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetApplianceUpgradeGraphRequest>,
   output: __S(63, __c7, 7) as any as S.Schema<UpgradeGraph>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -570,39 +572,51 @@ export const GetApplianceUpgradeGraph: API.OperationMethod<
 
 export type ListApplianceByResourceGroupError = AzureOpError;
 /** Gets a list of Appliances in the specified subscription and resource group. Gets a list of Appliances in the specified subscription and resource group. The operation returns properties of each Appliance. */
-export const ListApplianceByResourceGroup: API.OperationMethod<
+export const ListApplianceByResourceGroup: API.PaginatedOperationMethod<
   ListApplianceByResourceGroupRequest,
   ApplianceListResult,
   ListApplianceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Appliance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListApplianceByResourceGroupRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ApplianceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplianceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplianceBySubscriptionError = AzureOpError;
 /** Gets a list of Appliances in a subscription. Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance */
-export const ListApplianceBySubscription: API.OperationMethod<
+export const ListApplianceBySubscription: API.PaginatedOperationMethod<
   ListApplianceBySubscriptionRequest,
   ApplianceListResult,
   ListApplianceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Appliance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListApplianceBySubscriptionRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ApplianceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplianceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplianceClusterUserCredentialError = AzureOpError;
 /** Returns the cluster user credential. Returns the cluster user credentials for the dedicated appliance. */
@@ -614,8 +628,7 @@ export const ListApplianceClusterUserCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListApplianceClusterUserCredentialRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<ApplianceListCredentialResults>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -632,8 +645,7 @@ export const ListApplianceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListApplianceKeysRequest>,
   output: __S(109, __c13, 5) as any as S.Schema<ApplianceListKeysResults>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -642,21 +654,27 @@ export const ListApplianceKeys: API.OperationMethod<
 
 export type ListApplianceOperationsError = AzureOpError;
 /** Lists all available Appliances operations. */
-export const ListApplianceOperations: API.OperationMethod<
+export const ListApplianceOperations: API.PaginatedOperationMethod<
   ListApplianceOperationsRequest,
   ApplianceOperationsList,
   ListApplianceOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplianceOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListApplianceOperationsRequest>,
   output: __S(116, __c14, 4) as any as S.Schema<ApplianceOperationsList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplianceOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateApplianceError = AzureOpError;
 /** Updates an Appliance. Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription. */
@@ -668,8 +686,7 @@ export const UpdateAppliance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<UpdateApplianceRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateApplianceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -951,12 +968,14 @@ function __c8(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances",
             code: 200,
             apiVersion: "2022-10-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplianceByResourceGroupRequest" });
@@ -981,12 +1000,14 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/appliances",
             code: 200,
             apiVersion: "2022-10-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplianceBySubscriptionRequest" });
@@ -1092,12 +1113,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ResourceConnector/operations",
             code: 200,
             apiVersion: "2022-10-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplianceOperationsRequest" });
