@@ -15,9 +15,6 @@ export type CelldOpContext = Endpoint | HttpClient.HttpClient;
  */
 export type CelldOpError = CelldServiceError | ErrorOf<typeof CelldProtocol>;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-
 /** Standard REST encoding; signed runtime headers are explicit modeled inputs. */
 export const CelldProtocol = /*@__PURE__*/ restProtocol({
   credentials: endpoint,

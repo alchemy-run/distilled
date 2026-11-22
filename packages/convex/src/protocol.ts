@@ -75,9 +75,6 @@ const shared = {
   parseError: ({ body, cause }) => new ConvexParseError({ body, cause }),
 } satisfies Pick<RestProtocolOptions<Config>, "unknownError" | "parseError">;
 
-// The annotations are the check: everything a protocol fails with, besides
-// the errors an operation and the service declare, must be listed there.
-
 /** The Management API, for the `convex` service. */
 export const ConvexProtocol = /*@__PURE__*/ restProtocol({
   credentials: withToken,
