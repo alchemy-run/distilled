@@ -244,6 +244,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
 
           const written: string[] = [];
           const relocatedDirs = new Set<string>();
+          const failedBefore = failedModels.length;
           let totalOps = 0;
 
           for (const { file, dir } of entries) {
@@ -362,6 +363,20 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
               })),
             ),
           );
+
+          // A full run that generated every model also deletes the modules it
+          // no longer writes: a service the spec dropped would otherwise stay
+          // on disk, frozen and still importable through `./*`, but missing
+          // from the barrel (scripts/check-services.ts fails CI on that).
+          // A `--resource` run or a run with a failed model keeps them.
+          if (!filtered && failedModels.length === failedBefore) {
+            const keep = new Set([...written.map((r) => `${r}.ts`), "index.ts"]);
+            for (const name of yield* fs.readDirectory(outDir)) {
+              if (!name.endsWith(".ts") || keep.has(name)) continue;
+              yield* fs.remove(path.join(outDir, name));
+              yield* Console.log(`   removed ${path.relative(root, path.join(outDir, name))}`);
+            }
+          }
 
           for (const dir of [outDir, ...relocatedDirs])
             yield* (options.finalize ?? formatGenerated)(dir);

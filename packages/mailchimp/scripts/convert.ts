@@ -17,6 +17,7 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { SENSITIVE_FIELD_PATTERNS } from "@distilled.cloud/dev/codegen/openapi";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
@@ -287,6 +288,9 @@ await runOpenApiConvert({
     // status in src/protocol.ts.
     statusToErrorClass: {},
     skipDeprecated: true,
+    // Core's `plain_text` pattern matches Mailchimp's plain-text email
+    // content (campaign and template bodies), which is not a secret.
+    sensitivePatterns: SENSITIVE_FIELD_PATTERNS.filter((re) => re.source !== "^plain[-_]?text$"),
     operationNames: (_id, ctx) => {
       const key = `${ctx.method.toUpperCase()} ${ctx.path}`;
       return OVERRIDES[key] ?? vendorNames.get(key);

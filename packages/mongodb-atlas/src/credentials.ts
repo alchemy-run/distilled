@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * MongoDB Atlas credentials -- hand-written.
  *
@@ -22,7 +23,6 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as Semaphore from "effect/Semaphore";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -114,39 +114,31 @@ const cachedTokenEffect = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
 ): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError>) => {
   // Concurrent calls on a cold or stale cache share one exchange.
-  const lock = Semaphore.makeUnsafe(1);
-  let cached: Config | undefined;
-  let refreshAt = 0;
-  const fresh = () => cached !== undefined && Date.now() < refreshAt;
-
-  return (client) =>
-    Effect.suspend(() =>
-      fresh()
-        ? Effect.succeed(cached!)
-        : Semaphore.withPermit(
-            lock,
-            Effect.suspend(() =>
-              fresh()
-                ? Effect.succeed(cached!)
-                : Effect.gen(function* () {
-                    const config = yield* load;
-                    const token = yield* exchangeToken(client, config);
-                    const next: Config = {
-                      accessToken: token.accessToken,
-                      apiBaseUrl: config.apiBaseUrl,
-                    };
-                    cached = next;
-                    refreshAt =
-                      Date.now() +
-                      Math.max(
-                        token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-                        TOKEN_REFRESH_WINDOW_MS,
-                      );
-                    return next;
-                  }),
-            ),
+  const cached = refreshing(
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      const config = yield* load;
+      const token = yield* exchangeToken(client, config);
+      return {
+        config: { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl } satisfies Config,
+        refreshAt:
+          Date.now() +
+          Math.max(
+            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+            TOKEN_REFRESH_WINDOW_MS,
           ),
-    );
+      };
+    }),
+    (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `MongoDB Atlas token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
+  ).pipe(Effect.map((token) => token.config));
+
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
 /**

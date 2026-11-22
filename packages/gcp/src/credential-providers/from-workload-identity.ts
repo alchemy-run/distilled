@@ -4,6 +4,7 @@
  * Google's Security Token Service, optionally for a service account's
  * token, and exchanged again before it expires.
  */
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -96,10 +97,16 @@ export const impersonateServiceAccount = (
 ): Effect.Effect<Token, GCPCredentialsError, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const step = `Impersonating ${serviceAccountEmail}`;
+    const account = encodeLabel("serviceAccountEmail", serviceAccountEmail);
+    if (account instanceof InvalidInput) {
+      return yield* new GCPCredentialsError({
+        message: `The service account ${JSON.stringify(serviceAccountEmail)} cannot be a URL path segment.`,
+      });
+    }
     const body = yield* requestJson(
       step,
       HttpClientRequest.post(
-        `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${encodeURIComponent(serviceAccountEmail)}:generateAccessToken`,
+        `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${account}:generateAccessToken`,
       ).pipe(
         HttpClientRequest.bearerToken(Redacted.value(source.accessToken)),
         HttpClientRequest.bodyJsonUnsafe({

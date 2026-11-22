@@ -3,6 +3,7 @@ import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import {
   type InvalidInput,
   InvalidInput as InvalidInputError,
+  invalidLabel,
 } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Clock from "effect/Clock";
@@ -23,7 +24,6 @@ import { toBase64 } from "./util/base64.ts";
 import {
   encodeGreedyLabel,
   encodeLabel,
-  invalidAwsLabel,
   invalidHostLabel,
   invalidRegion,
 } from "./util/serialize-input.ts";
@@ -152,8 +152,8 @@ const objectUrl = (
     (customEndpoint): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> => {
       const invalid =
         invalidRegion(region) ??
-        invalidAwsLabel("bucket", bucket, false) ??
-        invalidAwsLabel("key", key, true) ??
+        invalidLabel("bucket", bucket, false) ??
+        invalidLabel("key", key, true) ??
         (!customEndpoint && encodeLabel(bucket) !== bucket
           ? invalidHostLabel("bucket", bucket)
           : undefined);
