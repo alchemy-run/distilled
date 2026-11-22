@@ -42,6 +42,19 @@ export class ConfigError
     key: /*@__PURE__*/ Schema.optional(Schema.String),
   }).pipe(Category.withConfigurationError) {}
 
+declare const checked: unique symbol;
+
+/**
+ * A configuration its SDK has checked. `ConfigError` is a setup error: a
+ * layer reads and checks what the user configured when the layer is built,
+ * and fails there. The SDK's `check(config)` is the one place that returns
+ * a `Checked<Config>`, and its `Credentials` service holds one, so the code
+ * that builds a request can use the values without checking them again and
+ * no call fails for a malformed one. A `Credentials` layer written by hand
+ * has to go through `check` too.
+ */
+export type Checked<Config> = Config & { readonly [checked]: true };
+
 const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
 
 interface ProvidedConfigProvider {
