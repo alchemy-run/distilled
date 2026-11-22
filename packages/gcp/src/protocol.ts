@@ -7,6 +7,7 @@ import type {
   ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
+  encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
@@ -35,10 +36,10 @@ import {
  *
  *   request:  credentials -> `Authorization: Bearer <access token>`; the
  *             per-service base URL (rootUrl + servicePath) read from the
- *             extended `T.Http({ ... baseUrl })` trait; RFC 6570
- *             reserved-expansion for `{+param}` path tokens (Google
- *             discovery paths like `v1/{+name}` carry multi-segment
- *             resource names whose `/` must NOT be percent-encoded);
+ *             extended `T.Http({ ... baseUrl })` trait; `{+param}`
+ *             path tokens (Google discovery paths like `v1/{+name}` carry
+ *             multi-segment resource names) keep their `/` and encode
+ *             each segment, with core's `encodeLabel` checks;
  *             query params (arrays as repeated `k=v`); a single
  *             `HttpBody()` member as the whole JSON request body.
  *
@@ -73,14 +74,6 @@ export type GcpOpError = GcpServiceError | ErrorOf<typeof GcpProtocol>;
 
 /** Context (requirements) shared by every generated GCP operation. */
 export type GcpOpContext = Credentials | HttpClient.HttpClient;
-
-/**
- * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
- * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
- * sets. Used for `{+param}` path tokens (ported from the distilled core).
- */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
-const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
 const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
@@ -168,11 +161,13 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
 
       if (hasPropAnn(prop, labelSymbol)) {
         const token = nameOf(prop, labelSymbol);
-        // Discovery paths use RFC 6570 reserved expansion (`{+name}`) for
-        // multi-segment resource names; plain `{name}` is fully encoded.
-        uri = uri.includes(`{+${token}}`)
-          ? uri.replace(`{+${token}}`, encodeReserved(String(value)))
-          : uri.replace(`{${token}}`, encodeURIComponent(String(value)));
+        // `{+name}` is a multi-segment resource name (`projects/p/secrets/s`):
+        // like core's greedy `{name+}`, each segment is encoded and the `/`
+        // kept (google/api/http.proto). Plain `{name}` is fully encoded.
+        const greedy = uri.includes(`{+${token}}`);
+        const label = encodeLabel(String(prop.name), value, greedy);
+        if (typeof label !== "string") return yield* Effect.fail(label);
+        uri = uri.replace(greedy ? `{+${token}}` : `{${token}}`, () => label);
       } else if (hasPropAnn(prop, querySymbol)) {
         appendQuery(query, nameOf(prop, querySymbol), value);
       } else if (hasPropAnn(prop, headerSymbol)) {
