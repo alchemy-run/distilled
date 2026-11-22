@@ -1,5 +1,11 @@
-import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -12,7 +18,6 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * MongodbAtlasProtocol -- hand-written.
@@ -41,31 +46,13 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   MongodbAtlasParseError,
   type MongodbAtlasServiceError,
   UnknownMongodbAtlasError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Atlas's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link MongodbAtlasParseError}), a failed response that
- * neither the operation nor the service declares
- * ({@link UnknownMongodbAtlasError}, and `InternalServerError` for a 5xx), a
- * bad path label (`InvalidInput`), a request that can't be built
- * (`SdkError`), and a body read (`HttpClientError`).
- */
-export type MongodbAtlasProtocolError =
-  | MongodbAtlasParseError
-  | UnknownMongodbAtlasError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated Atlas operation fails with besides its own errors:
@@ -75,10 +62,7 @@ export type MongodbAtlasProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type MongodbAtlasOpError =
-  | MongodbAtlasServiceError
-  | MongodbAtlasProtocolError
-  | CredentialsError;
+export type MongodbAtlasOpError = MongodbAtlasServiceError | ErrorOf<typeof MongodbAtlasProtocol>;
 
 /** Context (requirements) shared by every generated Atlas operation. */
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
@@ -207,12 +191,10 @@ const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const MongodbAtlasProtocol: Protocol<
-  MongodbAtlasProtocolError | CredentialsError,
-  Credentials
-> = {
+const mongodbAtlasProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const MongodbAtlasProtocol: ProtocolOf<typeof mongodbAtlasProtocolMethods> =
+  mongodbAtlasProtocolMethods;

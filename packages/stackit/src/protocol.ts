@@ -1,5 +1,11 @@
-import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -34,29 +40,11 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { StackitParseError, UnknownStackitError, type StackitServiceError } from "./errors.ts";
 import type { StackitHttpTrait } from "./traits.ts";
-
-/**
- * The errors declared on STACKIT's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link StackitParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownStackitError}, and
- * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), an
- * operation without its `Http` trait or a request that can't be built
- * (`SdkError`), and a body read (`HttpClientError`).
- */
-export type StackitProtocolError =
-  | StackitParseError
-  | UnknownStackitError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated STACKIT operation fails with besides its own errors:
@@ -65,7 +53,7 @@ export type StackitProtocolError =
  * `API.OperationMethod<I, O, StackitOpError, StackitOpContext>` explicitly
  * so the compiler never infers these back out of the schema generics.
  */
-export type StackitOpError = StackitServiceError | StackitProtocolError | CredentialsError;
+export type StackitOpError = StackitServiceError | ErrorOf<typeof StackitProtocol>;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -124,9 +112,7 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   return applyRegion(specUrl, creds.region);
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const StackitProtocol: Protocol<StackitProtocolError | CredentialsError, Credentials> = {
+const stackitProtocolMethods = {
   encode: ({ input, inputAst }: EncodeArgs) =>
     Effect.gen(function* () {
       const resolve = yield* Credentials;
@@ -218,4 +204,6 @@ export const StackitProtocol: Protocol<StackitProtocolError | CredentialsError, 
         (info) => new StackitParseError(info),
       );
     }),
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const StackitProtocol: ProtocolOf<typeof stackitProtocolMethods> = stackitProtocolMethods;

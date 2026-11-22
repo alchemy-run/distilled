@@ -20,14 +20,15 @@ import {
   Forbidden,
   HTTP_STATUS_MAP,
   InternalServerError,
-  type InvalidInput,
   Unauthorized,
 } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
+  ErrorOf,
   Operation,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import { buildRequest, mapKeys, mapsVerbatim } from "@distilled.cloud/core/protocol-http";
 import {
@@ -36,7 +37,6 @@ import {
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -50,7 +50,7 @@ import * as UrlParams from "effect/http/UrlParams";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { type Config, Credentials, type CredentialsError } from "./credentials.ts";
+import { type Config, Credentials } from "./credentials.ts";
 import {
   TechnitiumError,
   TechnitiumParseError,
@@ -60,26 +60,10 @@ import {
 } from "./errors.ts";
 
 /**
- * The errors declared on Technitium's protocol: what the code that builds requests and reads
- * responses fails with. A response that does not match its schema ({@link TechnitiumParseError}),
- * a response the protocol cannot interpret or a failure that neither the operation nor the
- * service declares ({@link UnknownTechnitiumError}, and `InternalServerError` for a 5xx), a bad
- * path label (`InvalidInput`), a request that can't be built (`SdkError`), and the transport or
- * a body read (`HttpClientError`, without the credentials).
- */
-export type TechnitiumProtocolError =
-  | TechnitiumParseError
-  | UnknownTechnitiumError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Technitium operation fails with besides its own errors: the service's
  * errors, the protocol's, and what resolving the credentials fails with.
  */
-export type TechnitiumOpError = TechnitiumServiceError | TechnitiumProtocolError | CredentialsError;
+export type TechnitiumOpError = TechnitiumServiceError | ErrorOf<typeof TechnitiumProtocol>;
 
 /** Requirements shared by every generated Technitium operation. */
 export type TechnitiumOpContext = Credentials | HttpClient.HttpClient;
@@ -300,23 +284,23 @@ const decode = (
     },
   );
 
-// The annotation is the check: everything the protocol fails with, besides the errors an
-// operation and the service declare, must be listed here.
-export const TechnitiumProtocol: Protocol<TechnitiumProtocolError | CredentialsError, Credentials> =
-  {
-    encode: ({ input, inputAst }) =>
-      Effect.withFiber((fiber) => encode(fiber.context, input, inputAst)),
-    decode: ({ response, outputAst, errors }) => decode(response, outputAst, errors),
-    // Core's encode -> execute -> decode path (with its telemetry), with credentials removed
-    // from client errors.
-    call: (operation: Operation, input) =>
-      Effect.withFiber((fiber) => {
-        const context = fiber.context as Context.Context<any>;
-        return Effect.flatMap(encode(context, input, operation.inputAst), (request) =>
-          Send.send(context, Context.getUnsafe(context, HttpClient.HttpClient), request).pipe(
-            Effect.catch((error) => Effect.fail(withoutCredentials(error))),
-            Effect.flatMap((response) => decode(response, operation.outputAst, operation.errors)),
-          ),
-        );
-      }),
-  };
+const technitiumProtocolMethods = {
+  encode: ({ input, inputAst }) =>
+    Effect.withFiber((fiber) => encode(fiber.context, input, inputAst)),
+  decode: ({ response, outputAst, errors }) => decode(response, outputAst, errors),
+  // Core's encode -> execute -> decode path (with its telemetry), with credentials removed
+  // from client errors.
+  call: (operation: Operation, input) =>
+    Effect.withFiber((fiber) => {
+      const context = fiber.context as Context.Context<any>;
+      return Effect.flatMap(encode(context, input, operation.inputAst), (request) =>
+        Send.send(context, Context.getUnsafe(context, HttpClient.HttpClient), request).pipe(
+          Effect.catch((error) => Effect.fail(withoutCredentials(error))),
+          Effect.flatMap((response) => decode(response, operation.outputAst, operation.errors)),
+        ),
+      );
+    }),
+} satisfies Protocol<unknown, unknown>;
+
+export const TechnitiumProtocol: ProtocolOf<typeof technitiumProtocolMethods> =
+  technitiumProtocolMethods;

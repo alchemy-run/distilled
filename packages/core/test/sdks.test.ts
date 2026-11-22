@@ -72,9 +72,16 @@ describe("every SDK", () => {
       const aliases = typeAliases(pkg);
       const opError = [...aliases.keys()].find((name) => name.endsWith("OpError"));
       expect(opError, `packages/${pkg}/src declares no \`export type <Sdk>OpError\``).toBeDefined();
-      const parseError = [...reachable(aliases, opError!)].find((name) =>
-        name.endsWith("ParseError"),
+      const names = [...reachable(aliases, opError!)];
+      // A typed protocol (core/protocol) is not listed by hand: the union
+      // takes its errors from the protocol's type, `ErrorOf<typeof XProtocol>`,
+      // so the compiler puts the ParseError there once the protocol builds it.
+      const fromProtocol = names.some((name) =>
+        /\bErrorOf<\s*typeof \w+/.test(aliases.get(name) ?? ""),
       );
+      const parseError = fromProtocol
+        ? /^export class (\w*ParseError)\b/m.exec(read(pkg, "src/errors.ts") ?? "")?.[1]
+        : names.find((name) => name.endsWith("ParseError"));
       // Without it, `Effect.catchTag("<Sdk>ParseError")` on a strict call is a type error.
       expect(parseError, `${opError} has no ParseError member`).toBeDefined();
       expect(

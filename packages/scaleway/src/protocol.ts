@@ -9,7 +9,9 @@ import type {
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -59,11 +61,10 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, DEFAULT_API_URL, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, DEFAULT_API_URL, type Config } from "./credentials.ts";
 import {
   AlreadyExistsError,
   DeniedAuthenticationError,
@@ -83,30 +84,13 @@ import type { ScalewayErrors, ScalewayServiceError } from "./errors.ts";
 import type { ScalewayHttpTrait } from "./traits.ts";
 
 /**
- * The errors declared on Scaleway's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link ScalewayParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownScalewayError}, and
- * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), an
- * operation without its `Http` trait or a request that can't be built
- * (`SdkError`), and a body read (`HttpClientError`).
- */
-export type ScalewayProtocolError =
-  | ScalewayParseError
-  | UnknownScalewayError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Scaleway operation fails with besides its own
  * errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, ScalewayOpError, ScalewayOpContext>` explicitly
  * so the compiler never infers these back out of the schema generics.
  */
-export type ScalewayOpError = ScalewayServiceError | ScalewayProtocolError | CredentialsError;
+export type ScalewayOpError = ScalewayServiceError | ErrorOf<typeof ScalewayProtocol>;
 
 /** Context (requirements) shared by every generated Scaleway operation. */
 export type ScalewayOpContext = Credentials | HttpClient.HttpClient;
@@ -461,9 +445,7 @@ export const failureFor = (
   });
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const ScalewayProtocol: Protocol<ScalewayProtocolError | CredentialsError, Credentials> = {
+const scalewayProtocolMethods = {
   encode: ({ input, inputAst }: EncodeArgs) => encodeRequest(input, inputAst),
   decode: ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     Effect.gen(function* () {
@@ -512,4 +494,6 @@ export const ScalewayProtocol: Protocol<ScalewayProtocolError | CredentialsError
         (info) => new ScalewayParseError(info),
       );
     }),
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const ScalewayProtocol: ProtocolOf<typeof scalewayProtocolMethods> = scalewayProtocolMethods;

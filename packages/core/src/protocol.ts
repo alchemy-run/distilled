@@ -14,10 +14,13 @@
  * `API.make` adds the three together. A protocol never names an error of
  * groups 1 and 2: it receives their classes, matches a failed response
  * against them, and fails with the instance as a {@link DeclaredError}.
- * Everything else it fails with has to be in its own type, so the compiler
- * checks group 3:
+ * Everything else it fails with is in its own type, and passes through to
+ * every operation that names the protocol. Nobody writes that list: the
+ * compiler reads it from the protocol's code ({@link ErrorOf}, and
+ * {@link ProtocolOf} for a protocol written by hand).
  *
- *   export const NeonProtocol: Protocol<NeonProtocolError, Credentials> = restProtocol({ ... });
+ *   export const NeonProtocol = restProtocol({ ... });
+ *   export type NeonOpError = NeonServiceError | ErrorOf<typeof NeonProtocol>;
  *
  * Types only: this module has no runtime code.
  */
@@ -102,3 +105,43 @@ export interface Protocol<ProtocolError, Requirements = never> {
     input: unknown,
   ) => Stream.Stream<unknown, DeclaredError | ProtocolError, Requirements>;
 }
+
+/** What the methods of `P` return: its effects and its stream. */
+type Outcome<P> = P[Extract<keyof P, keyof Protocol<unknown>>] extends infer Method
+  ? Method extends (...args: any) => infer Result
+    ? Result
+    : never
+  : never;
+
+/**
+ * The errors a protocol declares (group 3), read from what its methods fail
+ * with. An SDK uses it to name what every operation fails with besides its
+ * own errors: `<Sdk>ServiceError | ErrorOf<typeof <Sdk>Protocol>`.
+ */
+export type ErrorOf<P> =
+  Outcome<P> extends infer Result
+    ? Result extends Effect.Effect<any, infer Failure, any>
+      ? Exclude<Failure, DeclaredError>
+      : Result extends Stream.Stream<any, infer Failure, any>
+        ? Exclude<Failure, DeclaredError>
+        : never
+    : never;
+
+/** What a protocol's methods read from the calling fiber. */
+export type RequirementsOf<P> =
+  Outcome<P> extends infer Result
+    ? Result extends Effect.Effect<any, any, infer Requirements>
+      ? Requirements
+      : Result extends Stream.Stream<any, any, infer Requirements>
+        ? Requirements
+        : never
+    : never;
+
+/**
+ * The type of a protocol written by hand, read from its methods, so that
+ * nobody lists its errors:
+ *
+ *   const methods = { encode, decode } satisfies Protocol<unknown, unknown>;
+ *   export const GcpProtocol: ProtocolOf<typeof methods> = methods;
+ */
+export type ProtocolOf<Methods> = Protocol<ErrorOf<Methods>, RequirementsOf<Methods>>;

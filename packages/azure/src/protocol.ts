@@ -1,10 +1,12 @@
-import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -19,7 +21,6 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * AzureProtocol -- hand-written.
@@ -54,10 +55,9 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   AZURE_ERROR_CODE_MAP,
   matchAzureErrorMessage,
@@ -68,22 +68,6 @@ import {
 import type { HttpTrait } from "./traits.ts";
 
 /**
- * The errors declared on Azure's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link AzureParseError}), a failed response that the service
- * does not declare ({@link UnknownAzureError}, and `InternalServerError`
- * for a 5xx), a bad path label (`InvalidInput`), a request that can't be
- * built (`SdkError`), and a body read (`HttpClientError`).
- */
-export type AzureProtocolError =
-  | AzureParseError
-  | UnknownAzureError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Azure operation fails with: the service's errors,
  * the protocol's, and what resolving the credentials fails with. Generated
  * service files annotate operations with `API.OperationMethod<I, O,
@@ -91,7 +75,7 @@ export type AzureProtocolError =
  * these back out of the schema generics. Operations declare no errors of
  * their own (v0 parity: `includeOperationErrors=false`).
  */
-export type AzureOpError = AzureServiceError | AzureProtocolError | CredentialsError;
+export type AzureOpError = AzureServiceError | ErrorOf<typeof AzureProtocol>;
 
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
@@ -324,9 +308,9 @@ const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors the service declares, must be listed here.
-export const AzureProtocol: Protocol<AzureProtocolError | CredentialsError, Credentials> = {
+const azureProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const AzureProtocol: ProtocolOf<typeof azureProtocolMethods> = azureProtocolMethods;

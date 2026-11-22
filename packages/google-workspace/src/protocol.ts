@@ -1,5 +1,11 @@
 import { InternalServerError } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
@@ -48,32 +54,15 @@ import {
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import {
   GoogleWorkspaceParseError,
   UnknownGoogleWorkspaceError,
   type GoogleWorkspaceServiceError,
 } from "./errors.ts";
 import type { GoogleWorkspaceHttpTrait } from "./traits.ts";
-
-/**
- * The errors declared on Google Workspace's protocol: what the code that
- * builds requests and reads responses fails with. A response that does not
- * match its schema ({@link GoogleWorkspaceParseError}), a failed response
- * that neither the operation nor the service declares
- * ({@link UnknownGoogleWorkspaceError}, and `InternalServerError` for a
- * 5xx), an operation without its `Http` trait (`SdkError`), and a body read
- * (`HttpClientError`).
- */
-export type GoogleWorkspaceProtocolError =
-  | GoogleWorkspaceParseError
-  | UnknownGoogleWorkspaceError
-  | InternalServerError
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated Google Workspace operation fails with besides its
@@ -85,8 +74,7 @@ export type GoogleWorkspaceProtocolError =
  */
 export type GoogleWorkspaceOpError =
   | GoogleWorkspaceServiceError
-  | GoogleWorkspaceProtocolError
-  | CredentialsError;
+  | ErrorOf<typeof GoogleWorkspaceProtocol>;
 
 /** Context (requirements) shared by every generated Google Workspace operation. */
 export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;
@@ -292,12 +280,10 @@ const decode = ({ response, outputAst, errors }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const GoogleWorkspaceProtocol: Protocol<
-  GoogleWorkspaceProtocolError | CredentialsError,
-  Credentials
-> = {
+const googleWorkspaceProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const GoogleWorkspaceProtocol: ProtocolOf<typeof googleWorkspaceProtocolMethods> =
+  googleWorkspaceProtocolMethods;
