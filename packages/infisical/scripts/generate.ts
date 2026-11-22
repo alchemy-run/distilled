@@ -66,7 +66,7 @@ const infisicalSpec: SdkSpec = {
   operationDecl: {
     contextType: "InfisicalOpContext",
     commonErrorType: "InfisicalOpError",
-    commonErrorClasses: ["UnknownInfisicalError"],
+    serviceErrors: "InfisicalServiceErrors",
     protocol: "InfisicalProtocol",
     retry: "Retry.Retry",
   },

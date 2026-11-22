@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * Auth0Protocol -- hand-written.
  *
  * Auth0's Management API speaks plain bearer-authenticated JSON REST (no
- * response envelope), so the whole protocol is one `makeRestProtocol` call
+ * response envelope), so the whole protocol is one `restProtocol` call
  * from `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <token>` + base URL
@@ -21,34 +19,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownAuth0Error, Auth0ParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownAuth0Error, Auth0ParseError, type Auth0ServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Auth0 operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, Auth0OpError,
- * Auth0OpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Auth0 operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, Auth0OpError, Auth0OpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type Auth0OpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownAuth0Error
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | Auth0ParseError
-  | InvalidInput
-  | SdkError;
+export type Auth0OpError = Auth0ServiceError | ErrorOf<typeof Auth0Protocol>;
 
 /** Context (requirements) shared by every generated Auth0 operation. */
 export type Auth0OpContext = Credentials | HttpClient.HttpClient;
 
-export const Auth0Protocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const Auth0Protocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,

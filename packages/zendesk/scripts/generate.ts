@@ -71,7 +71,7 @@ const zendeskSpec: SdkSpec = {
   operationDecl: {
     contextType: "ZendeskOpContext",
     commonErrorType: "ZendeskOpError",
-    commonErrorClasses: ["UnknownZendeskError"],
+    serviceErrors: "ZendeskServiceErrors",
     protocol: "ZendeskProtocol",
     retry: "Retry.Retry",
   },

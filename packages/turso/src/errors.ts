@@ -34,7 +34,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -77,3 +77,11 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the Turso service: any operation can return them, and
+ * every generated operation lists them as its `serviceErrors`. Today that is
+ * each of core's status classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const TursoServiceErrors = API_ERRORS;
+export type TursoServiceError = InstanceType<(typeof TursoServiceErrors)[number]>;

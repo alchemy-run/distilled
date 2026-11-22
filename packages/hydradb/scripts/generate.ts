@@ -66,10 +66,7 @@ const hydraDbSpec: SdkSpec = {
   operationDecl: {
     contextType: "HydraDBOpContext",
     commonErrorType: "HydraDBOpError",
-    // No per-status error classes beyond 413/415: every failure is the shared
-    // envelope, so every status rides HydraDBOpError and the protocol picks
-    // the class (see src/errors.ts).
-    commonErrorClasses: ["UnknownHydraDBError"],
+    serviceErrors: "HydraDBServiceErrors",
     protocol: "HydraDBProtocol",
     retry: "Retry.Retry",
   },

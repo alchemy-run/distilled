@@ -7,7 +7,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * on the calling fiber). OVH REST accepts an OAuth2 access token as
  * `Authorization: Bearer <token>` (`OVH_ACCESS_TOKEN`); callers hand an
  * already-fetched token. Application-key request signing is not modelled
- * here -- `makeRestProtocol` injects static headers only.
+ * here -- `restProtocol` injects static headers only.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

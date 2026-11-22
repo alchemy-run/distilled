@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownHydraDBError } from "../errors.ts";
+import { HydraDBServiceErrors } from "../errors.ts";
 import { HydraDBProtocol, type HydraDBOpError, type HydraDBOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2527,7 +2527,8 @@ export const clearWebhookSigningSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ClearWebhookSigningSecretRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2544,7 +2545,8 @@ export const configureConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1668, __c52, 4) as any as S.Schema<ConfigureConnectorRequest>,
   output: __S(1669, __c52, 5) as any as S.Schema<HandlerConfigureResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,7 +2563,8 @@ export const createConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<CreateConnectorRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<HandlerConnectorCreateResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2578,7 +2581,8 @@ export const createConnectorResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreateConnectorResourceRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<HandlerResourceCreateResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2595,7 +2599,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<TenantsTenantCreateAcceptedResponse>,
-  errors: [DatabaseAlreadyExists, UnknownHydraDBError],
+  errors: [DatabaseAlreadyExists],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,7 +2617,8 @@ export const deleteCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteCollectionRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<TenantsSubTenantDeleteResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2629,7 +2635,8 @@ export const deleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<HandlerConnectorDeleteResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2646,7 +2653,8 @@ export const deleteConnectorResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteConnectorResourceRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<HandlerResourceDeleteResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2663,7 +2671,8 @@ export const deleteContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteContextRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<SourcesMemoryDeleteResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2680,7 +2689,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<TenantsTenantDeleteResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2697,7 +2707,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<WebhooksWebhookDeleteResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2714,7 +2725,8 @@ export const discoverConnectorResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DiscoverConnectorResourcesRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<HandlerDiscoverResponseBody>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2731,7 +2743,8 @@ export const getConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<HandlerConnectorAPIView>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2748,7 +2761,8 @@ export const getConnectorStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetConnectorStatusRequest>,
   output: __S(356, __c11, 4) as any as S.Schema<HandlerConnectorStatusResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2765,7 +2779,8 @@ export const getContextStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetContextStatusRequest>,
   output: __S(419, __c13, 3) as any as S.Schema<IngestionV2BatchProcessingStatus>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2782,7 +2797,8 @@ export const getContextSubgraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetContextSubgraphRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2799,7 +2815,8 @@ export const getContextSubgraphById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetContextSubgraphByIdRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2816,7 +2833,8 @@ export const getDatabaseStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetDatabaseStatsRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<TenantsTenantStatsResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2833,7 +2851,8 @@ export const getDatabaseStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetDatabaseStatusRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<TenantsInfraStatusResponseV2>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2850,7 +2869,8 @@ export const getMetadataSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetMetadataSchemaRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<TenantsTenantMetadataSchemaResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2867,7 +2887,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<WebhooksWebhookGetResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2884,7 +2905,8 @@ export const getWebhookDelivery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetWebhookDeliveryRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<WebhooksDeliveryItem>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2905,7 +2927,8 @@ export const ingestContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(769, __c24, 1) as any as S.Schema<IngestContextRequest>,
   output: __S(772, __c24, 4) as any as S.Schema<IngestionV2IngestResponse>,
-  errors: [ContentTooLarge, UnsupportedMediaType, DatabaseNotReady, UnknownHydraDBError],
+  errors: [ContentTooLarge, UnsupportedMediaType, DatabaseNotReady],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2922,7 +2945,8 @@ export const inspectContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<InspectContextRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<FetchV2SourceFetchResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2939,7 +2963,8 @@ export const listCollections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListCollectionsRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<TenantsSubTenantIdsResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2956,7 +2981,8 @@ export const listConnectorProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListConnectorProvidersRequest>,
   output: __S(874, __c27, 10) as any as S.Schema<ListConnectorProvidersResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2973,7 +2999,8 @@ export const listConnectorResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListConnectorResourcesRequest>,
   output: __S(899, __c28, 3) as any as S.Schema<HandlerConnectorResourcesResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2990,7 +3017,8 @@ export const listConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListConnectorsRequest>,
   output: __S(931, __c29, 3) as any as S.Schema<HandlerConnectorListResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3007,7 +3035,8 @@ export const listContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(962, __c30, 2) as any as S.Schema<ListContextRequest>,
   output: __S(969, __c30, 9) as any as S.Schema<ListV2ListResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3024,7 +3053,8 @@ export const listContextRelations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListContextRelationsRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<GraphGraphRelationsResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3041,7 +3071,8 @@ export const listDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListDatabasesRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<TenantsTenantIdsResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3058,7 +3089,8 @@ export const listWebhookDeliveries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<WebhooksDeliveryListResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3075,7 +3107,8 @@ export const pauseConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<PauseConnectorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3088,7 +3121,8 @@ export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(1155, __c36, 3) as any as S.Schema<QueryRequest>,
     output: __S(1191, __c37, 7) as any as S.Schema<QueryResponse>,
-    errors: [DatabaseNotFound, DatabaseNotReady, UnknownHydraDBError],
+    errors: [DatabaseNotFound, DatabaseNotReady],
+    serviceErrors: HydraDBServiceErrors,
     protocol: HydraDBProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3105,7 +3139,8 @@ export const registerWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<RegisterWebhookRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3122,7 +3157,8 @@ export const resumeConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ResumeConnectorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3139,7 +3175,8 @@ export const retryWebhookDelivery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<RetryWebhookDeliveryRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<WebhooksRetryResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3156,7 +3193,8 @@ export const setWebhookSigningSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<SetWebhookSigningSecretRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<WebhooksSigningSecretResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3173,7 +3211,8 @@ export const submitFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1345, __c42, 1) as any as S.Schema<SubmitFeedbackRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<FeedbackSubmitResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3190,7 +3229,8 @@ export const syncConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<SyncConnectorRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<HandlerConnectorSyncResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3207,7 +3247,8 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<WebhooksWebhookTestResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3224,7 +3265,8 @@ export const updateConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateConnectorRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<HandlerConnectorUpdateResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3241,7 +3283,8 @@ export const updateConnectorResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<UpdateConnectorResourceRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<HandlerResourceUpdateResponse>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3262,7 +3305,8 @@ export const updateContextMetadata: API.OperationMethod<
     __c47,
     1,
   ) as any as S.Schema<GithubComHydradbHydradbApplicationInternalServiceMetadataEditResult>,
-  errors: [UnknownHydraDBError],
+  errors: [],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3279,7 +3323,8 @@ export const updateMetadataSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<UpdateMetadataSchemaRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<HandlerMetadataSchemaUpdateResponse>,
-  errors: [DatabaseNotFound, UnknownHydraDBError],
+  errors: [DatabaseNotFound],
+  serviceErrors: HydraDBServiceErrors,
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

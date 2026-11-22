@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -375,7 +375,8 @@ export const createTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTemplateRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<TemplateRequestResponseV3>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -392,7 +393,8 @@ export const deleteTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteTemplateRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<DeleteTemplateResponse>,
-  errors: [TemplateInUse, UnknownE2BError],
+  errors: [TemplateInUse],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -409,7 +411,8 @@ export const getTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetTemplateRequest>,
   output: __S(27, __c6, 3) as any as S.Schema<GetTemplateResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -426,7 +429,8 @@ export const getTemplateBuildStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetTemplateBuildStatusRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<TemplateBuildInfo>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -443,7 +447,8 @@ export const getTemplateByAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetTemplateByAliasRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<TemplateAliasResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -460,7 +465,8 @@ export const getTemplateFileUploadLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetTemplateFileUploadLinkRequest>,
   output: __S(46, __c11, 2) as any as S.Schema<TemplateBuildFileUpload>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -477,7 +483,8 @@ export const listDefaultTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListDefaultTemplatesRequest>,
   output: __S(49, __c12, 1) as any as S.Schema<ListDefaultTemplatesResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -494,7 +501,8 @@ export const listTemplateBuildLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListTemplateBuildLogsRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<TemplateBuildLogsResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -513,7 +521,8 @@ export const listTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(60, __c15, 0) as any as S.Schema<ListTemplatesRequest>,
     output: __S(61, __c15, 1) as any as S.Schema<ListTemplatesResponse>,
-    errors: [UnknownE2BError],
+    errors: [],
+    serviceErrors: E2BServiceErrors,
     protocol: E2BProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -538,7 +547,8 @@ export const startTemplateBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c2, 2) as any as S.Schema<StartTemplateBuildRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<StartTemplateBuildResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -555,7 +565,8 @@ export const updateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<UpdateTemplateRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<TemplateUpdateResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

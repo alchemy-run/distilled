@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -635,7 +635,8 @@ export const archiveCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ArchiveCredentialRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<BetaManagedAgentsCredential>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -652,7 +653,8 @@ export const archiveVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ArchiveVaultRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<BetaManagedAgentsVault>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -669,7 +671,8 @@ export const createCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateCredentialRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<BetaManagedAgentsCredential>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -686,7 +689,8 @@ export const createVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CreateVaultRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<BetaManagedAgentsVault>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -703,7 +707,8 @@ export const deleteCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteCredentialRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<BetaManagedAgentsDeletedCredential>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -720,7 +725,8 @@ export const deleteVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeleteVaultRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<BetaManagedAgentsDeletedVault>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -737,7 +743,8 @@ export const getCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetCredentialRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<BetaManagedAgentsCredential>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -754,7 +761,8 @@ export const getVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetVaultRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<BetaManagedAgentsVault>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -773,7 +781,8 @@ export const listCredentials: API.PaginatedOperationMethod<
   () => ({
     input: __S(136, __c17, 0) as any as S.Schema<ListCredentialsRequest>,
     output: __S(138, __c17, 2) as any as S.Schema<BetaManagedAgentsListCredentialsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -801,7 +810,8 @@ export const listVaults: API.PaginatedOperationMethod<
   () => ({
     input: __S(144, __c18, 0) as any as S.Schema<ListVaultsRequest>,
     output: __S(146, __c18, 2) as any as S.Schema<BetaManagedAgentsListVaultsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -827,7 +837,8 @@ export const updateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateCredentialRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<BetaManagedAgentsCredential>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -844,7 +855,8 @@ export const updateVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<UpdateVaultRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<BetaManagedAgentsVault>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -861,7 +873,8 @@ export const validateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ValidateCredentialRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<BetaManagedAgentsCredentialValidation>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

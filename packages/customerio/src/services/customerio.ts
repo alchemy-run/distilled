@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCustomerioError } from "../errors.ts";
+import { CustomerioServiceErrors } from "../errors.ts";
 import {
   CustomerioProtocol,
   type CustomerioOpError,
@@ -23196,7 +23196,8 @@ export const addCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<AddCollectionRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<AddCollectionResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23213,7 +23214,8 @@ export const broadcastActionLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<BroadcastActionLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<BroadcastActionLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23230,7 +23232,8 @@ export const broadcastActionMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<BroadcastActionMetricsRequest>,
   output: __S(2801, __c175, 1) as any as S.Schema<BroadcastActionMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23247,7 +23250,8 @@ export const broadcastActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<BroadcastActionsRequest>,
   output: __S(3090, __c193, 2) as any as S.Schema<BroadcastActionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23264,7 +23268,8 @@ export const broadcastErrors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<BroadcastErrorsRequest>,
   output: __S(3329, __c208, 1) as any as S.Schema<BroadcastErrorsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23281,7 +23286,8 @@ export const broadcastLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<BroadcastLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<BroadcastLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23298,7 +23304,8 @@ export const broadcastMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<BroadcastMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<BroadcastMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23315,7 +23322,8 @@ export const broadcastMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<BroadcastMetricsRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<BroadcastMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23332,7 +23340,8 @@ export const broadcastStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<BroadcastStatusRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<BroadcastStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23349,7 +23358,8 @@ export const campaignActionLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<CampaignActionLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<CampaignActionLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23366,7 +23376,8 @@ export const campaignActionMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<CampaignActionMetricsRequest>,
   output: __S(1185, __c74, 1) as any as S.Schema<CampaignActionMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23383,7 +23394,8 @@ export const campaignJourneyMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<CampaignJourneyMetricsRequest>,
   output: __S(1362, __c85, 2) as any as S.Schema<CampaignJourneyMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23400,7 +23412,8 @@ export const campaignLinkMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<CampaignLinkMetricsRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<CampaignLinkMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23417,7 +23430,8 @@ export const campaignMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<CampaignMetricsRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<CampaignMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23434,7 +23448,8 @@ export const cancelBroadcastTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<CancelBroadcastTriggerRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CancelBroadcastTriggerResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23455,7 +23470,8 @@ export const checkCollectionSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<CheckCollectionSourceRequest>,
   output: __S(1537, __c96, 1) as any as S.Schema<CheckCollectionSourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23472,7 +23488,8 @@ export const createAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<CreateAssetRequest>,
   output: __S(1568, __c98, 0) as any as S.Schema<CreateAssetResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23489,7 +23506,8 @@ export const createAssetFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<CreateAssetFolderRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<CreateAssetFolderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23506,7 +23524,8 @@ export const createCollectionSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<CreateCollectionSourceRequest>,
   output: __S(1664, __c104, 0) as any as S.Schema<CreateCollectionSourceResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23523,7 +23542,8 @@ export const createManSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CreateManSegmentRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<CreateManSegmentResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23540,7 +23560,8 @@ export const createNewsletter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<CreateNewsletterRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23561,7 +23582,8 @@ export const createNewsletterLanguageVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<CreateNewsletterLanguageVariantRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23578,7 +23600,8 @@ export const createNewsletterTestGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<CreateNewsletterTestGroupRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23599,7 +23622,8 @@ export const createNewsletterTestLanguageVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23616,7 +23640,8 @@ export const createSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateSnippetRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<CreateSnippetResponse>,
-  errors: [UnprocessableEntity, UnknownCustomerioError],
+  errors: [UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23633,7 +23658,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1921, __c120, 1) as any as S.Schema<CreateWebhookResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23650,7 +23676,8 @@ export const deleteAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<DeleteAssetRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23667,7 +23694,8 @@ export const deleteAssetFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<DeleteAssetFolderRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetFolderResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23684,7 +23712,8 @@ export const deleteCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<DeleteCollectionRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23701,7 +23730,8 @@ export const deleteCollectionSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<DeleteCollectionSourceRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSourceResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23718,7 +23748,8 @@ export const deleteCollectionSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<DeleteCollectionSyncRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSyncResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23735,7 +23766,8 @@ export const deleteManSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<DeleteManSegmentRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteManSegmentResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23752,7 +23784,8 @@ export const deleteNewsletterLanguageVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<DeleteNewsletterLanguageVariantRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23769,7 +23802,8 @@ export const deleteNewsletters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<DeleteNewslettersRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewslettersResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23786,7 +23820,8 @@ export const deleteNewsletterTestLanguageVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23803,7 +23838,8 @@ export const deleteSnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<DeleteSnippetRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteSnippetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23820,7 +23856,8 @@ export const deleteSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<DeleteSuppressionRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23837,7 +23874,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23854,7 +23892,8 @@ export const downloadExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<DownloadExportRequest>,
   output: __S(2161, __c135, 1) as any as S.Schema<DownloadExportResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23871,7 +23910,8 @@ export const endLiveNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<EndLiveNotificationRequest>,
   output: __S(2194, __c137, 2) as any as S.Schema<EndLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23888,7 +23928,8 @@ export const exportDeliveriesData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ExportDeliveriesDataRequest>,
   output: __S(2224, __c139, 0) as any as S.Schema<ExportDeliveriesDataResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23905,7 +23946,8 @@ export const exportPeopleData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ExportPeopleDataRequest>,
   output: __S(2224, __c139, 0) as any as S.Schema<ExportPeopleDataResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23922,7 +23964,8 @@ export const getArchivedMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<GetArchivedMessageRequest>,
   output: __S(2274, __c142, 2) as any as S.Schema<GetArchivedMessageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23939,7 +23982,8 @@ export const getAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetAssetRequest>,
   output: __S(1568, __c98, 0) as any as S.Schema<GetAssetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23956,7 +24000,8 @@ export const getAssetFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetAssetFolderRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<GetAssetFolderResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23973,7 +24018,8 @@ export const getBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<GetBroadcastRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<GetBroadcastResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23990,7 +24036,8 @@ export const getBroadcastAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetBroadcastActionRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<GetBroadcastActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24007,7 +24054,8 @@ export const getBroadcastActionLanguage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetBroadcastActionLanguageRequest>,
   output: __S(2433, __c152, 1) as any as S.Schema<GetBroadcastActionLanguageResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24024,7 +24072,8 @@ export const getCampaignAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<GetCampaignActionRequest>,
   output: __S(2449, __c153, 1) as any as S.Schema<GetCampaignActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24041,7 +24090,8 @@ export const getCampaignActionTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<GetCampaignActionTranslationRequest>,
   output: __S(2465, __c154, 1) as any as S.Schema<GetCampaignActionTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24058,7 +24108,8 @@ export const getCampaignMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<GetCampaignMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetCampaignMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24075,7 +24126,8 @@ export const getCampaigns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetCampaignsRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<GetCampaignsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24092,7 +24144,8 @@ export const getChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<GetChannelsRequest>,
   output: __S(2515, __c157, 3) as any as S.Schema<GetChannelsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24109,7 +24162,8 @@ export const getCioAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<GetCioAllowlistRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<GetCioAllowlistResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24126,7 +24180,8 @@ export const getCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<GetCollectionRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<GetCollectionResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24143,7 +24198,8 @@ export const getCollectionContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetCollectionContentsRequest>,
   output: __S(2609, __c163, 1) as any as S.Schema<GetCollectionContentsResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24160,7 +24216,8 @@ export const getCollections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetCollectionsRequest>,
   output: __S(2626, __c164, 2) as any as S.Schema<GetCollectionsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24177,7 +24234,8 @@ export const getCollectionSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetCollectionSourceRequest>,
   output: __S(1664, __c104, 0) as any as S.Schema<GetCollectionSourceResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24194,7 +24252,8 @@ export const getCollectionSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetCollectionSyncRequest>,
   output: __S(2675, __c167, 3) as any as S.Schema<GetCollectionSyncResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24211,7 +24270,8 @@ export const getCollectionSyncRejects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetCollectionSyncRejectsRequest>,
   output: __S(2691, __c168, 3) as any as S.Schema<GetCollectionSyncRejectsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24228,7 +24288,8 @@ export const getCollectionWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<GetCollectionWriteRequest>,
   output: __S(2708, __c169, 4) as any as S.Schema<GetCollectionWriteResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24245,7 +24306,8 @@ export const getDomainSuppressionsByType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<GetDomainSuppressionsByTypeRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<GetDomainSuppressionsByTypeResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24262,7 +24324,8 @@ export const getExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<GetExportRequest>,
   output: __S(2224, __c139, 0) as any as S.Schema<GetExportResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24279,7 +24342,8 @@ export const getImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<GetImportRequest>,
   output: __S(2770, __c173, 2) as any as S.Schema<GetImportResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24296,7 +24360,8 @@ export const getLiveNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<GetLiveNotificationRequest>,
   output: __S(2786, __c174, 2) as any as S.Schema<GetLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24313,7 +24378,8 @@ export const getMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<GetMessageRequest>,
   output: __S(2865, __c179, 1) as any as S.Schema<GetMessageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24330,7 +24396,8 @@ export const getNewsletterLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<GetNewsletterLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<GetNewsletterLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24347,7 +24414,8 @@ export const getNewsletterMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<GetNewsletterMetricsRequest>,
   output: __S(2913, __c182, 1) as any as S.Schema<GetNewsletterMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24364,7 +24432,8 @@ export const getNewsletterMsgMeta: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<GetNewsletterMsgMetaRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetNewsletterMsgMetaResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24381,7 +24450,8 @@ export const getNewsletters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<GetNewslettersRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<GetNewslettersResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24398,7 +24468,8 @@ export const getNewsletterTestGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<GetNewsletterTestGroupsRequest>,
   output: __S(2963, __c185, 3) as any as S.Schema<GetNewsletterTestGroupsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24415,7 +24486,8 @@ export const getNewsletterVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<GetNewsletterVariantRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24432,7 +24504,8 @@ export const getNewsletterVariantTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<GetNewsletterVariantTranslationRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24449,7 +24522,8 @@ export const getNewsletterVariantTranslationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<GetNewsletterVariantTranslationTestRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationTestResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24466,7 +24540,8 @@ export const getObjectAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<GetObjectAttributesRequest>,
   output: __S(3059, __c191, 3) as any as S.Schema<GetObjectAttributesResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24483,7 +24558,8 @@ export const getObjectRelationships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<GetObjectRelationshipsRequest>,
   output: __S(3108, __c194, 4) as any as S.Schema<GetObjectRelationshipsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24500,7 +24576,8 @@ export const getObjectsFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<GetObjectsFilterRequest>,
   output: __S(3122, __c195, 2) as any as S.Schema<GetObjectsFilterResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24517,7 +24594,8 @@ export const getObjectTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<GetObjectTypesRequest>,
   output: __S(3155, __c197, 3) as any as S.Schema<GetObjectTypesResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24534,7 +24612,8 @@ export const getOptouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<GetOptoutsRequest>,
   output: __S(3171, __c198, 3) as any as S.Schema<GetOptoutsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24551,7 +24630,8 @@ export const getPeopleById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<GetPeopleByIdRequest>,
   output: __S(3202, __c200, 2) as any as S.Schema<GetPeopleByIdResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24568,7 +24648,8 @@ export const getPeopleEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<GetPeopleEmailRequest>,
   output: __S(3233, __c202, 1) as any as S.Schema<GetPeopleEmailResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24585,7 +24666,8 @@ export const getPeopleFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<GetPeopleFilterRequest>,
   output: __S(3265, __c204, 1) as any as S.Schema<GetPeopleFilterResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24602,7 +24684,8 @@ export const getPersonActivities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<GetPersonActivitiesRequest>,
   output: __S(3283, __c205, 3) as any as S.Schema<GetPersonActivitiesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24619,7 +24702,8 @@ export const getPersonAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<GetPersonAttributesRequest>,
   output: __S(3222, __c201, 6) as any as S.Schema<GetPersonAttributesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24636,7 +24720,8 @@ export const getPersonMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<GetPersonMessagesRequest>,
   output: __S(3316, __c207, 4) as any as S.Schema<GetPersonMessagesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24653,7 +24738,8 @@ export const getPersonOptouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<GetPersonOptoutsRequest>,
   output: __S(3345, __c209, 1) as any as S.Schema<GetPersonOptoutsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24670,7 +24756,8 @@ export const getPersonRelationships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<GetPersonRelationshipsRequest>,
   output: __S(3363, __c210, 3) as any as S.Schema<GetPersonRelationshipsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24687,7 +24774,8 @@ export const getPersonSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<GetPersonSegmentsRequest>,
   output: __S(3379, __c211, 3) as any as S.Schema<GetPersonSegmentsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24704,7 +24792,8 @@ export const getPersonSubscriptionPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<GetPersonSubscriptionPreferencesRequest>,
   output: __S(3397, __c212, 5) as any as S.Schema<GetPersonSubscriptionPreferencesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24721,7 +24810,8 @@ export const getSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<GetSegmentRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<GetSegmentResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24738,7 +24828,8 @@ export const getSegmentCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<GetSegmentCountRequest>,
   output: __S(3425, __c214, 1) as any as S.Schema<GetSegmentCountResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24755,7 +24846,8 @@ export const getSegmentDependencies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<GetSegmentDependenciesRequest>,
   output: __S(3442, __c215, 2) as any as S.Schema<GetSegmentDependenciesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24772,7 +24864,8 @@ export const getSegmentMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<GetSegmentMembershipRequest>,
   output: __S(3457, __c216, 1) as any as S.Schema<GetSegmentMembershipResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24789,7 +24882,8 @@ export const getSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<GetSenderRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<GetSenderResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24806,7 +24900,8 @@ export const getSenderUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<GetSenderUsageRequest>,
   output: __S(3505, __c219, 1) as any as S.Schema<GetSenderUsageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24823,7 +24918,8 @@ export const getSubscriptionCenterToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetSubscriptionCenterTokenRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<GetSubscriptionCenterTokenResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24840,7 +24936,8 @@ export const getSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetSuppressionRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24857,7 +24954,8 @@ export const getSuppressionByType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetSuppressionByTypeRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionByTypeResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24874,7 +24972,8 @@ export const getTopics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetTopicsRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<GetTopicsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24891,7 +24990,8 @@ export const getTransactional: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetTransactionalRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<GetTransactionalResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24908,7 +25008,8 @@ export const getTransactionalTranslationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetTransactionalTranslationByIdRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<GetTransactionalTranslationByIdResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24925,7 +25026,8 @@ export const getTransactionalVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetTransactionalVariantRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetTransactionalVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24942,7 +25044,8 @@ export const getVariantLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetVariantLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<GetVariantLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24959,7 +25062,8 @@ export const getVariantMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetVariantMetricsRequest>,
   output: __S(2913, __c182, 1) as any as S.Schema<GetVariantMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24976,7 +25080,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(1921, __c120, 1) as any as S.Schema<GetWebhookResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24993,7 +25098,8 @@ export const Import: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ImportRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<ImportResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25010,7 +25116,8 @@ export const listActivities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListActivitiesRequest>,
   output: __S(435, __c27, 3) as any as S.Schema<ListActivitiesResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25027,7 +25134,8 @@ export const listAssetFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListAssetFoldersRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ListAssetFoldersResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25044,7 +25152,8 @@ export const listAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListAssetsRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<ListAssetsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25061,7 +25170,8 @@ export const listBroadcasts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListBroadcastsRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<ListBroadcastsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25078,7 +25188,8 @@ export const listBroadcastTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListBroadcastTriggersRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<ListBroadcastTriggersResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25095,7 +25206,8 @@ export const listCampaignActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListCampaignActionsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<ListCampaignActionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25112,7 +25224,8 @@ export const listCampaigns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListCampaignsRequest>,
   output: __S(546, __c34, 2) as any as S.Schema<ListCampaignsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25129,7 +25242,8 @@ export const listCollectionSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListCollectionSourcesRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<ListCollectionSourcesResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25146,7 +25260,8 @@ export const listExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListExportsRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<ListExportsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25163,7 +25278,8 @@ export const listMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ListMessagesResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25180,7 +25296,8 @@ export const listNewsletters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListNewslettersRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<ListNewslettersResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25197,7 +25314,8 @@ export const listNewsletterVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListNewsletterVariantsRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<ListNewsletterVariantsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25214,7 +25332,8 @@ export const listSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListSegmentsRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<ListSegmentsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25231,7 +25350,8 @@ export const listSenders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListSendersRequest>,
   output: __S(690, __c43, 2) as any as S.Schema<ListSendersResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25248,7 +25368,8 @@ export const listSnippets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListSnippetsRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<ListSnippetsResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25265,7 +25386,8 @@ export const listTransactional: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListTransactionalRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<ListTransactionalResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25282,7 +25404,8 @@ export const listTransactionalVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListTransactionalVariantsRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<ListTransactionalVariantsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25299,7 +25422,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25316,7 +25440,8 @@ export const listWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(771, __c48, 3) as any as S.Schema<ListWorkspacesResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25333,7 +25458,8 @@ export const pollCollectionSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<PollCollectionSyncRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<PollCollectionSyncResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25350,7 +25476,8 @@ export const postSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<PostSuppressionRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<PostSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25371,7 +25498,8 @@ export const putCollectionSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<PutCollectionSyncRequest>,
   output: __S(2675, __c167, 3) as any as S.Schema<PutCollectionSyncResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25392,7 +25520,8 @@ export const scheduleNewsletter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ScheduleNewsletterRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<ScheduleNewsletterResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25409,7 +25538,8 @@ export const sendEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(897, __c56, 1) as any as S.Schema<SendEmailRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendEmailResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25426,7 +25556,8 @@ export const sendInApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<SendInAppRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendInAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25443,7 +25574,8 @@ export const sendInboxMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<SendInboxMessageRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendInboxMessageResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25460,7 +25592,8 @@ export const sendNewsletter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<SendNewsletterRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<SendNewsletterResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25477,7 +25610,8 @@ export const sendPush: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(985, __c61, 9) as any as S.Schema<SendPushRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendPushResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25494,7 +25628,8 @@ export const sendSMS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<SendSMSRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendSMSResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25511,7 +25646,8 @@ export const sendWhatsApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<SendWhatsAppRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<SendWhatsAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25528,7 +25664,8 @@ export const startLiveNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1041, __c65, 1) as any as S.Schema<StartLiveNotificationRequest>,
   output: __S(2194, __c137, 2) as any as S.Schema<StartLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25545,7 +25682,8 @@ export const submitCollectionWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<SubmitCollectionWriteRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<SubmitCollectionWriteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25562,7 +25700,8 @@ export const transactionalLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<TransactionalLinksRequest>,
   output: __S(2581, __c161, 5) as any as S.Schema<TransactionalLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25579,7 +25718,8 @@ export const transactionalMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<TransactionalMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<TransactionalMessagesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25596,7 +25736,8 @@ export const transactionalMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<TransactionalMetricsRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<TransactionalMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25613,7 +25754,8 @@ export const triggerBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1121, __c70, 1) as any as S.Schema<TriggerBroadcastRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<TriggerBroadcastResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25630,7 +25772,8 @@ export const updateAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateAssetRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25647,7 +25790,8 @@ export const updateAssetFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<UpdateAssetFolderRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetFolderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25664,7 +25808,8 @@ export const updateAttributeMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1170, __c73, 2) as any as S.Schema<UpdateAttributeMetadataRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<UpdateAttributeMetadataResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25681,7 +25826,8 @@ export const updateBroadcastAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<UpdateBroadcastActionRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<UpdateBroadcastActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25698,7 +25844,8 @@ export const updateBroadcastActionLanguage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<UpdateBroadcastActionLanguageRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<UpdateBroadcastActionLanguageResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25715,7 +25862,8 @@ export const updateCampaignAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<UpdateCampaignActionRequest>,
   output: __S(1233, __c77, 1) as any as S.Schema<UpdateCampaignActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25732,7 +25880,8 @@ export const updateCampaignActionTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<UpdateCampaignActionTranslationRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<UpdateCampaignActionTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25749,7 +25898,8 @@ export const updateCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<UpdateCollectionRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25766,7 +25916,8 @@ export const updateCollectionContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1281, __c80, 1) as any as S.Schema<UpdateCollectionContentsRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionContentsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25783,7 +25934,8 @@ export const updateEventMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1297, __c81, 1) as any as S.Schema<UpdateEventMetadataRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<UpdateEventMetadataResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25800,7 +25952,8 @@ export const updateLiveNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<UpdateLiveNotificationRequest>,
   output: __S(2194, __c137, 2) as any as S.Schema<UpdateLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25817,7 +25970,8 @@ export const updateNewsletterTestTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<UpdateNewsletterTestTranslationRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterTestTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25834,7 +25988,8 @@ export const updateNewsletterVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<UpdateNewsletterVariantRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25851,7 +26006,8 @@ export const updateNewsletterVariantTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<UpdateNewsletterVariantTranslationRequest>,
   output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25868,7 +26024,8 @@ export const updatePersonOptouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1394, __c87, 2) as any as S.Schema<UpdatePersonOptoutsRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<UpdatePersonOptoutsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25885,7 +26042,8 @@ export const updateSnippets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateSnippetsRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<UpdateSnippetsResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25902,7 +26060,8 @@ export const updateTransactional: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateTransactionalRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25919,7 +26078,8 @@ export const updateTransactionalVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<UpdateTransactionalVariantRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalVariantResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25936,7 +26096,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(1921, __c120, 1) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

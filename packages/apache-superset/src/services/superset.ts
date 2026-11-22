@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownApacheSupersetError } from "../errors.ts";
+import { ApacheSupersetServiceErrors } from "../errors.ts";
 import {
   ApacheSupersetProtocol,
   type ApacheSupersetOpError,
@@ -10814,7 +10814,8 @@ export const bulkTagCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5585, __c349, 1) as any as S.Schema<BulkTagCreateRequest>,
   output: __S(5587, __c349, 3) as any as S.Schema<TagPostBulkResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10836,7 +10837,8 @@ export const clearSemanticLayerCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c362, 0) as any as S.Schema<ClearSemanticLayerCacheRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<ClearSemanticLayerCacheResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10858,7 +10860,8 @@ export const copyDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c374, 0) as any as S.Schema<CopyDashboardRequest>,
   output: __S(5985, __c374, 1) as any as S.Schema<CopyDashboardResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10875,7 +10878,8 @@ export const createAnnotationLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6160, __c385, 0) as any as S.Schema<CreateAnnotationLayerRequest>,
   output: __S(6162, __c385, 2) as any as S.Schema<CreateAnnotationLayerResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10892,7 +10896,8 @@ export const createAnnotationLayerAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c396, 0) as any as S.Schema<CreateAnnotationLayerAnnotationRequest>,
   output: __S(6338, __c396, 2) as any as S.Schema<CreateAnnotationLayerAnnotationResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10909,7 +10914,8 @@ export const createChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(98, __c6, 2) as any as S.Schema<CreateChartRequest>,
   output: __S(102, __c6, 6) as any as S.Schema<CreateChartResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10926,7 +10932,8 @@ export const createChartData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c22, 8) as any as S.Schema<CreateChartDataRequest>,
   output: __S(408, __c25, 8) as any as S.Schema<ChartDataResponseSchema>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10943,7 +10950,8 @@ export const createChartFavorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<CreateChartFavoriteRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateChartFavoriteResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10960,7 +10968,8 @@ export const createCssTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<CreateCssTemplateRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<CreateCssTemplateResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10977,7 +10986,8 @@ export const createDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1154, __c72, 2) as any as S.Schema<CreateDashboardRequest>,
   output: __S(1158, __c72, 6) as any as S.Schema<CreateDashboardResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10997,7 +11007,8 @@ export const createDashboardCacheDashboardScreenshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<CreateDashboardCacheDashboardScreenshotRequest>,
   output: __S(1377, __c86, 1) as any as S.Schema<DashboardCacheScreenshotResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11014,7 +11025,8 @@ export const createDashboardEmbedded: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<CreateDashboardEmbeddedRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<CreateDashboardEmbeddedResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11031,7 +11043,8 @@ export const createDashboardFavorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<CreateDashboardFavoriteRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateDashboardFavoriteResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11051,7 +11064,8 @@ export const createDashboardFilterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<CreateDashboardFilterStateRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<CreateDashboardFilterStateResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11071,7 +11085,8 @@ export const createDashboardPermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2369, __c148, 1) as any as S.Schema<CreateDashboardPermalinkRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<CreateDashboardPermalinkResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11088,7 +11103,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(2594, __c162, 2) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11110,7 +11126,8 @@ export const createDatabaseOauth2TokenAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11127,7 +11144,8 @@ export const createDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2993, __c187, 1) as any as S.Schema<CreateDatasetRequest>,
   output: __S(2996, __c187, 4) as any as S.Schema<CreateDatasetResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11148,7 +11166,8 @@ export const createDatasourceCompatible: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<CreateDatasourceCompatibleRequest>,
   output: __S(3234, __c202, 2) as any as S.Schema<CreateDatasourceCompatibleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11165,7 +11184,8 @@ export const createDatasourceQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3426, __c214, 2) as any as S.Schema<CreateDatasourceQueryRequest>,
   output: __S(3440, __c215, 0) as any as S.Schema<CreateDatasourceQueryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11182,7 +11202,8 @@ export const createExploreFormData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<CreateExploreFormDataRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<CreateExploreFormDataResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11203,7 +11224,8 @@ export const createExplorePermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Schema<CreateExplorePermalinkRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<CreateExplorePermalinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11219,7 +11241,8 @@ export const createLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c248, 0) as any as S.Schema<CreateLogRequest>,
   output: __S(3969, __c248, 1) as any as S.Schema<CreateLogResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11236,7 +11259,8 @@ export const createReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4161, __c260, 1) as any as S.Schema<CreateReportRequest>,
   output: __S(4194, __c262, 2) as any as S.Schema<CreateReportResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11258,7 +11282,8 @@ export const createRowlevelsecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c274, 0) as any as S.Schema<CreateRowlevelsecurityRequest>,
   output: __S(4386, __c274, 2) as any as S.Schema<CreateRowlevelsecurityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11275,7 +11300,8 @@ export const createSavedQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4560, __c285, 0) as any as S.Schema<CreateSavedQueryRequest>,
   output: __S(4561, __c285, 1) as any as S.Schema<CreateSavedQueryResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11291,7 +11317,8 @@ export const createSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c298, 0) as any as S.Schema<CreateSecurityGroupRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSecurityGroupResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11308,7 +11335,8 @@ export const createSecurityGuestToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4965, __c310, 5) as any as S.Schema<CreateSecurityGuestTokenRequest>,
   output: __S(4966, __c310, 6) as any as S.Schema<CreateSecurityGuestTokenResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11325,7 +11353,8 @@ export const createSecurityPasswordRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5136, __c321, 0) as any as S.Schema<CreateSecurityPasswordRecoveryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<CreateSecurityPasswordRecoveryResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11344,7 +11373,8 @@ export const createSecurityPermissionsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c326, 0) as any as S.Schema<CreateSecurityPermissionsResourceRequest>,
   output: __S(5217, __c326, 1) as any as S.Schema<CreateSecurityPermissionsResourceResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11360,7 +11390,8 @@ export const createSecurityResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c328, 0) as any as S.Schema<CreateSecurityResourceRequest>,
   output: __S(5264, __c329, 0) as any as S.Schema<CreateSecurityResourceResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11376,7 +11407,8 @@ export const createSecurityRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5296, __c331, 0) as any as S.Schema<CreateSecurityRoleRequest>,
   output: __S(5264, __c329, 0) as any as S.Schema<CreateSecurityRoleResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11396,7 +11428,8 @@ export const createSecurityRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c332, 0) as any as S.Schema<CreateSecurityRolePermissionsRequest>,
   output: __S(5314, __c332, 2) as any as S.Schema<CreateSecurityRolePermissionsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11412,7 +11445,8 @@ export const createSecurityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5328, __c333, 0) as any as S.Schema<CreateSecurityUserRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSecurityUserResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11429,7 +11463,8 @@ export const createSemanticLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c334, 0) as any as S.Schema<CreateSemanticLayerRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11446,7 +11481,8 @@ export const createSemanticLayerSchemaConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c336, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11463,7 +11499,8 @@ export const createSemanticLayerSchemaRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5392, __c337, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeResponse>,
-  errors: [Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11480,7 +11517,8 @@ export const createSemanticLayerView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c338, 0) as any as S.Schema<CreateSemanticLayerViewRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerViewResponse>,
-  errors: [Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11497,7 +11535,8 @@ export const createSemanticView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5426, __c339, 2) as any as S.Schema<CreateSemanticViewRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticViewResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11514,7 +11553,8 @@ export const createSqllabEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c340, 0) as any as S.Schema<CreateSqllabEstimateRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateSqllabEstimateResponse>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11531,7 +11571,8 @@ export const createSqllabFormatSql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5456, __c341, 0) as any as S.Schema<CreateSqllabFormatSqlRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<CreateSqllabFormatSqlResponse>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11548,7 +11589,8 @@ export const createSqllabPermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5488, __c343, 0) as any as S.Schema<CreateSqllabPermalinkRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<CreateSqllabPermalinkResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11565,7 +11607,8 @@ export const createTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c344, 0) as any as S.Schema<CreateTagRequest>,
   output: __S(5520, __c345, 0) as any as S.Schema<CreateTagResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11582,7 +11625,8 @@ export const createTagFavorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c346, 0) as any as S.Schema<CreateTagFavoriteRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateTagFavoriteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11599,7 +11643,8 @@ export const createTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5552, __c347, 0) as any as S.Schema<CreateThemeRequest>,
   output: __S(5569, __c348, 1) as any as S.Schema<CreateThemeResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11616,7 +11661,8 @@ export const deleteAnnotationLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c352, 0) as any as S.Schema<DeleteAnnotationLayerRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11636,7 +11682,8 @@ export const deleteAnnotationLayerAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5648, __c353, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11660,7 +11707,8 @@ export const deleteAnnotationLayerAnnotationByAnnotationId: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteAnnotationLayerAnnotationByAnnotationIdRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationByAnnotationIdResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11677,7 +11725,8 @@ export const deleteAnnotationLayerByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5680, __c355, 0) as any as S.Schema<DeleteAnnotationLayerByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerByPkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11694,7 +11743,8 @@ export const deleteChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c356, 0) as any as S.Schema<DeleteChartRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteChartResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11715,7 +11765,8 @@ export const deleteChartByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5712, __c357, 0) as any as S.Schema<DeleteChartByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteChartByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11732,7 +11783,8 @@ export const deleteChartFavorites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c358, 0) as any as S.Schema<DeleteChartFavoritesRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<DeleteChartFavoritesResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11749,7 +11801,8 @@ export const deleteCssTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5744, __c359, 0) as any as S.Schema<DeleteCssTemplateRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteCssTemplateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11766,7 +11819,8 @@ export const deleteCssTemplateByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c360, 0) as any as S.Schema<DeleteCssTemplateByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteCssTemplateByPkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11787,7 +11841,8 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5776, __c361, 0) as any as S.Schema<DeleteDashboardRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11808,7 +11863,8 @@ export const deleteDashboardByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c364, 0) as any as S.Schema<DeleteDashboardByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11825,7 +11881,8 @@ export const deleteDashboardEmbedded: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5840, __c365, 0) as any as S.Schema<DeleteDashboardEmbeddedRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardEmbeddedResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11842,7 +11899,8 @@ export const deleteDashboardFavorites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c366, 0) as any as S.Schema<DeleteDashboardFavoritesRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<DeleteDashboardFavoritesResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11863,7 +11921,8 @@ export const deleteDashboardFilterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5872, __c367, 0) as any as S.Schema<DeleteDashboardFilterStateRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardFilterStateResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11884,7 +11943,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c368, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11906,7 +11966,8 @@ export const deleteDatabaseOauth2Token: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5904, __c369, 0) as any as S.Schema<DeleteDatabaseOauth2TokenRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<DeleteDatabaseOauth2TokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11928,7 +11989,8 @@ export const deleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c370, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11949,7 +12011,8 @@ export const deleteDatasetByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5936, __c371, 0) as any as S.Schema<DeleteDatasetByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11970,7 +12033,8 @@ export const deleteDatasetColumn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c372, 0) as any as S.Schema<DeleteDatasetColumnRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetColumnResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11991,7 +12055,8 @@ export const deleteDatasetMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5968, __c373, 0) as any as S.Schema<DeleteDatasetMetricRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetMetricResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12012,7 +12077,8 @@ export const deleteExploreFormData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6000, __c375, 0) as any as S.Schema<DeleteExploreFormDataRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteExploreFormDataResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12029,7 +12095,8 @@ export const deleteReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c376, 0) as any as S.Schema<DeleteReportRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteReportResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12050,7 +12117,8 @@ export const deleteReportByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6032, __c377, 0) as any as S.Schema<DeleteReportByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteReportByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12071,7 +12139,8 @@ export const deleteRowlevelsecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c378, 0) as any as S.Schema<DeleteRowlevelsecurityRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteRowlevelsecurityResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12091,7 +12160,8 @@ export const deleteRowlevelsecurityByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6064, __c379, 0) as any as S.Schema<DeleteRowlevelsecurityByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteRowlevelsecurityByPkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12108,7 +12178,8 @@ export const deleteSavedQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c380, 0) as any as S.Schema<DeleteSavedQueryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSavedQueryResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12125,7 +12196,8 @@ export const deleteSavedQueryByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6096, __c381, 0) as any as S.Schema<DeleteSavedQueryByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSavedQueryByPkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12141,7 +12213,8 @@ export const deleteSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c382, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12160,7 +12233,8 @@ export const deleteSecurityPermissionsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6128, __c383, 0) as any as S.Schema<DeleteSecurityPermissionsResourceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityPermissionsResourceResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12176,7 +12250,8 @@ export const deleteSecurityResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c384, 0) as any as S.Schema<DeleteSecurityResourceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityResourceResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12192,7 +12267,8 @@ export const deleteSecurityRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c386, 0) as any as S.Schema<DeleteSecurityRoleRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityRoleResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12208,7 +12284,8 @@ export const deleteSecurityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6192, __c387, 0) as any as S.Schema<DeleteSecurityUserRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityUserResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12227,7 +12304,8 @@ export const deleteSecurityUserRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c388, 0) as any as S.Schema<DeleteSecurityUserRegistrationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityUserRegistrationResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12243,7 +12321,8 @@ export const deleteSecurityUserSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6224, __c389, 0) as any as S.Schema<DeleteSecurityUserSessionsRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<DeleteSecurityUserSessionsResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12265,7 +12344,8 @@ export const deleteSemanticLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c390, 0) as any as S.Schema<DeleteSemanticLayerRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<DeleteSemanticLayerResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12287,7 +12367,8 @@ export const deleteSemanticView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6256, __c391, 0) as any as S.Schema<DeleteSemanticViewRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteSemanticViewResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12309,7 +12390,8 @@ export const deleteSemanticViewByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c392, 0) as any as S.Schema<DeleteSemanticViewByPkRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<DeleteSemanticViewByPkResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12326,7 +12408,8 @@ export const deleteTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6288, __c393, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12343,7 +12426,8 @@ export const deleteTag2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c394, 0) as any as S.Schema<DeleteTagRequest2>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse2>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12360,7 +12444,8 @@ export const deleteTagByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6320, __c395, 0) as any as S.Schema<DeleteTagByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteTagByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12377,7 +12462,8 @@ export const deleteTagFavorites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6352, __c397, 0) as any as S.Schema<DeleteTagFavoritesRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<DeleteTagFavoritesResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12394,7 +12480,8 @@ export const deleteTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c398, 0) as any as S.Schema<DeleteThemeRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteThemeResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12415,7 +12502,8 @@ export const deleteThemeByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6384, __c399, 0) as any as S.Schema<DeleteThemeByPkRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteThemeByPkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12432,7 +12520,8 @@ export const deleteThemeUnsetSystemDark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c400, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12449,7 +12538,8 @@ export const deleteThemeUnsetSystemDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6416, __c401, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12471,7 +12561,8 @@ export const duplicateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c402, 0) as any as S.Schema<DuplicateDatasetRequest>,
   output: __S(6434, __c402, 2) as any as S.Schema<DuplicateDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12488,7 +12579,8 @@ export const executeReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6448, __c403, 0) as any as S.Schema<ExecuteReportRequest>,
   output: __S(6449, __c403, 1) as any as S.Schema<ExecuteReportResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12505,7 +12597,8 @@ export const executeSqllab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c404, 0) as any as S.Schema<ExecuteSqllabRequest>,
   output: __S(6496, __c406, 0) as any as S.Schema<QueryExecutionResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12522,7 +12615,8 @@ export const exportDashboardXlsx: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6512, __c407, 0) as any as S.Schema<ExportDashboardXlsxRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<ExportDashboardXlsxResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12539,7 +12633,8 @@ export const exportSqllabStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c408, 0) as any as S.Schema<ExportSqllabStreamingRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<ExportSqllabStreamingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12556,7 +12651,8 @@ export const getAnnotationLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetAnnotationLayerRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<GetAnnotationLayerResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12577,7 +12673,8 @@ export const getAnnotationLayerAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetAnnotationLayerAnnotationRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<GetAnnotationLayerAnnotationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12598,7 +12695,8 @@ export const getAnnotationLayerByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetAnnotationLayerByPkRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<GetAnnotationLayerByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12619,7 +12717,8 @@ export const getAnnotationLayerRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetAnnotationLayerRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12636,7 +12735,8 @@ export const getAssetExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetAssetExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetAssetExportResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12653,7 +12753,8 @@ export const getAvailableDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetAvailableDomainsRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<GetAvailableDomainsResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12670,7 +12771,8 @@ export const getChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetChartRequest>,
   output: __S(260, __c16, 4) as any as S.Schema<GetChartResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12687,7 +12789,8 @@ export const getChartCacheScreenshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetChartCacheScreenshotRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<ChartCacheScreenshotResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12704,7 +12807,8 @@ export const getChartExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetChartExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetChartExportResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12721,7 +12825,8 @@ export const getChartRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetChartRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12738,7 +12843,8 @@ export const getChartScreenshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetChartScreenshotRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetChartScreenshotResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12755,7 +12861,8 @@ export const getChartThumbnail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetChartThumbnailRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetChartThumbnailResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12772,7 +12879,8 @@ export const getChartVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetChartVersionRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<GetChartVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12789,7 +12897,8 @@ export const getCssTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetCssTemplateRequest>,
   output: __S(563, __c35, 3) as any as S.Schema<GetCssTemplateResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12810,7 +12919,8 @@ export const getCssTemplateByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetCssTemplateByPkRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<GetCssTemplateByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12827,7 +12937,8 @@ export const getCssTemplateRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetCssTemplateRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12844,7 +12955,8 @@ export const getDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetDashboardRequest>,
   output: __S(627, __c39, 3) as any as S.Schema<GetDashboardResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12861,7 +12973,8 @@ export const getDashboardEmbedded: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetDashboardEmbeddedRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<GetDashboardEmbeddedResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12883,7 +12996,8 @@ export const getDashboardExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetDashboardExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12904,7 +13018,8 @@ export const getDashboardExportAsExample: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetDashboardExportAsExampleRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportAsExampleResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12921,7 +13036,8 @@ export const getDashboardExportXlsxDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetDashboardExportXlsxDownloadRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportXlsxDownloadResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12938,7 +13054,8 @@ export const getDashboardExportXlsxStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetDashboardExportXlsxStatusRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportXlsxStatusResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12959,7 +13076,8 @@ export const getDashboardFilterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetDashboardFilterStateRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<GetDashboardFilterStateResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12980,7 +13098,8 @@ export const getDashboardPermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetDashboardPermalinkRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<GetDashboardPermalinkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12997,7 +13116,8 @@ export const getDashboardRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GetDashboardRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13014,7 +13134,8 @@ export const getDashboardScreenshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetDashboardScreenshotRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardScreenshotResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13031,7 +13152,8 @@ export const getDashboardThumbnail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetDashboardThumbnailRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardThumbnailResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13048,7 +13170,8 @@ export const getDashboardVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GetDashboardVersionRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<GetDashboardVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13065,7 +13188,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(867, __c54, 3) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13082,7 +13206,8 @@ export const getDatabaseByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetDatabaseByPkRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<GetDatabaseByPkResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13099,7 +13224,8 @@ export const getDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<GetDatabaseConnectionRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<DatabaseConnectionSchemaOutput>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13116,7 +13242,8 @@ export const getDatabaseExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetDatabaseExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDatabaseExportResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13133,7 +13260,8 @@ export const getDatabaseOauth2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetDatabaseOauth2Request>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDatabaseOauth2Response>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13150,7 +13278,8 @@ export const getDatabaseRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetDatabaseRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13167,7 +13296,8 @@ export const getDatabaseRelatedObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetDatabaseRelatedObjectsRequest>,
   output: __S(1012, __c63, 4) as any as S.Schema<DatabaseRelatedObjectsResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13188,7 +13318,8 @@ export const getDatabaseSelectStar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetDatabaseSelectStarRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<SelectStarResponseSchema>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13209,7 +13340,8 @@ export const getDatabaseSelectStar2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<GetDatabaseSelectStarRequest2>,
   output: __S(5472, __c342, 0) as any as S.Schema<SelectStarResponseSchema>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13230,7 +13362,8 @@ export const getDatabaseTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetDatabaseTableRequest>,
   output: __S(1095, __c68, 7) as any as S.Schema<TableMetadataResponseSchema>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13251,7 +13384,8 @@ export const getDatabaseTableExtra: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<GetDatabaseTableExtraRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13268,7 +13402,8 @@ export const getDatabaseTableMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<GetDatabaseTableMetadataRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13285,7 +13420,8 @@ export const getDatabaseTableMetadataExtra: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<GetDatabaseTableMetadataExtraRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13302,7 +13438,8 @@ export const getDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(1188, __c74, 4) as any as S.Schema<GetDatasetResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13319,7 +13456,8 @@ export const getDatasetByIdOrUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetDatasetByIdOrUuidRequest>,
   output: __S(1223, __c76, 7) as any as S.Schema<GetDatasetByIdOrUuidResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13336,7 +13474,8 @@ export const getDatasetDistinct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<GetDatasetDistinctRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13357,7 +13496,8 @@ export const getDatasetDrillInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetDatasetDrillInfoRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<GetDatasetDrillInfoResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13374,7 +13514,8 @@ export const getDatasetExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetDatasetExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDatasetExportResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13391,7 +13532,8 @@ export const getDatasetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetDatasetOrCreateRequest>,
   output: __S(1298, __c81, 2) as any as S.Schema<GetDatasetOrCreateResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13408,7 +13550,8 @@ export const getDatasetPurgeImpact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetDatasetPurgeImpactRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<DatasetPurgeImpactSchema>,
-  errors: [Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13425,7 +13568,8 @@ export const getDatasetRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetDatasetRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13442,7 +13586,8 @@ export const getDatasetRelatedObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest>,
   output: __S(1362, __c85, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13459,7 +13604,8 @@ export const getDatasetRelatedObjects2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest2>,
   output: __S(1362, __c85, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13476,7 +13622,8 @@ export const getDatasetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetDatasetVersionRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<GetDatasetVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13493,7 +13640,8 @@ export const getDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetDatasourceRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetDatasourceResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13514,7 +13662,8 @@ export const getDatasourceByDatasourceId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetDatasourceByDatasourceIdRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<GetDatasourceByDatasourceIdResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13531,7 +13680,8 @@ export const getEmbeddedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetEmbeddedDashboardRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<GetEmbeddedDashboardResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13548,7 +13698,8 @@ export const getExplore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetExploreRequest>,
   output: __S(1494, __c93, 6) as any as S.Schema<ExploreContextSchema>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13569,7 +13720,8 @@ export const getExploreFormData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetExploreFormDataRequest>,
   output: __S(1521, __c95, 1) as any as S.Schema<GetExploreFormDataResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13591,7 +13743,8 @@ export const getExplorePermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetExplorePermalinkRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<GetExplorePermalinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13608,7 +13761,8 @@ export const getLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetLogRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<GetLogResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13625,7 +13779,8 @@ export const getLogByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetLogByPkRequest>,
   output: __S(1585, __c99, 1) as any as S.Schema<GetLogByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13642,7 +13797,8 @@ export const getMe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetMeRequest>,
   output: __S(1649, __c103, 1) as any as S.Schema<GetMeResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13659,7 +13815,8 @@ export const getMeRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetMeRolesRequest>,
   output: __S(1649, __c103, 1) as any as S.Schema<GetMeRolesResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13676,7 +13833,8 @@ export const getQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetQueryRequest>,
   output: __S(1684, __c105, 4) as any as S.Schema<GetQueryResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13693,7 +13851,8 @@ export const getQueryByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetQueryByPkRequest>,
   output: __S(1697, __c106, 1) as any as S.Schema<GetQueryByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13710,7 +13869,8 @@ export const getQueryDistinct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetQueryDistinctRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13727,7 +13887,8 @@ export const getQueryRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetQueryRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13744,7 +13905,8 @@ export const getReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetReportRequest>,
   output: __S(1765, __c110, 5) as any as S.Schema<GetReportResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13765,7 +13927,8 @@ export const getReportByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetReportByPkRequest>,
   output: __S(1781, __c111, 5) as any as S.Schema<GetReportByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13782,7 +13945,8 @@ export const getReportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<GetReportConfigurationRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<GetReportConfigurationResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13799,7 +13963,8 @@ export const getReportLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetReportLogRequest>,
   output: __S(1857, __c116, 1) as any as S.Schema<GetReportLogResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13816,7 +13981,8 @@ export const getReportRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetReportRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13833,7 +13999,8 @@ export const getRowlevelsecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<GetRowlevelsecurityRequest>,
   output: __S(1923, __c120, 3) as any as S.Schema<GetRowlevelsecurityResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13854,7 +14021,8 @@ export const getRowlevelsecurityByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<GetRowlevelsecurityByPkRequest>,
   output: __S(1938, __c121, 2) as any as S.Schema<GetRowlevelsecurityByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13875,7 +14043,8 @@ export const getRowlevelsecurityRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<GetRowlevelsecurityRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13892,7 +14061,8 @@ export const getSavedQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<GetSavedQueryRequest>,
   output: __S(1971, __c123, 3) as any as S.Schema<GetSavedQueryResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13913,7 +14083,8 @@ export const getSavedQueryByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetSavedQueryByPkRequest>,
   output: __S(2002, __c125, 2) as any as S.Schema<GetSavedQueryByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13930,7 +14101,8 @@ export const getSavedQueryDistinct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<GetSavedQueryDistinctRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13947,7 +14119,8 @@ export const getSavedQueryExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetSavedQueryExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSavedQueryExportResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13964,7 +14137,8 @@ export const getSavedQueryRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GetSavedQueryRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13981,7 +14155,8 @@ export const getSecurityCsrfToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GetSecurityCsrfTokenRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<GetSecurityCsrfTokenResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14002,7 +14177,8 @@ export const getSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<GetSecurityGroupRequest>,
   output: __S(2113, __c132, 1) as any as S.Schema<GetSecurityGroupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14019,7 +14195,8 @@ export const getSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<GetSecurityGroupsRequest>,
   output: __S(2178, __c136, 2) as any as S.Schema<GetSecurityGroupsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14036,7 +14213,8 @@ export const getSecurityPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<GetSecurityPermissionsRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityPermissionsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14057,7 +14235,8 @@ export const getSecurityPermissionsByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<GetSecurityPermissionsByPkRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityPermissionsByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14078,7 +14257,8 @@ export const getSecurityPermissionsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<GetSecurityPermissionsResourceRequest>,
   output: __S(2257, __c141, 1) as any as S.Schema<GetSecurityPermissionsResourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14098,7 +14278,8 @@ export const getSecurityPermissionsResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetSecurityPermissionsResourcesRequest>,
   output: __S(2290, __c143, 2) as any as S.Schema<GetSecurityPermissionsResourcesResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14119,7 +14300,8 @@ export const getSecurityResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetSecurityResourceRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityResourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14136,7 +14318,8 @@ export const getSecurityResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<GetSecurityResourcesRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityResourcesResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14157,7 +14340,8 @@ export const getSecurityRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<GetSecurityRoleRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityRoleResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14174,7 +14358,8 @@ export const getSecurityRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<GetSecurityRolesRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityRolesResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14191,7 +14376,8 @@ export const getSecuritySubject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<GetSecuritySubjectRequest>,
   output: __S(2403, __c150, 3) as any as S.Schema<GetSecuritySubjectResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14212,7 +14398,8 @@ export const getSecuritySubjectByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetSecuritySubjectByPkRequest>,
   output: __S(2419, __c151, 3) as any as S.Schema<GetSecuritySubjectByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14233,7 +14420,8 @@ export const getSecurityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<GetSecurityUserRequest>,
   output: __S(2449, __c153, 1) as any as S.Schema<GetSecurityUserResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14254,7 +14442,8 @@ export const getSecurityUserRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<GetSecurityUserRegistrationRequest>,
   output: __S(2481, __c155, 1) as any as S.Schema<GetSecurityUserRegistrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14274,7 +14463,8 @@ export const getSecurityUserRegistrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetSecurityUserRegistrationsRequest>,
   output: __S(2499, __c156, 3) as any as S.Schema<GetSecurityUserRegistrationsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14291,7 +14481,8 @@ export const getSecurityUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<GetSecurityUsersRequest>,
   output: __S(2514, __c157, 2) as any as S.Schema<GetSecurityUsersResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14308,7 +14499,8 @@ export const getSemanticLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<GetSemanticLayerRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14325,7 +14517,8 @@ export const getSemanticLayerByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<GetSemanticLayerByUuidRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerByUuidResponse>,
-  errors: [Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14342,7 +14535,8 @@ export const getSemanticLayerConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<GetSemanticLayerConnectionsRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerConnectionsResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14359,7 +14553,8 @@ export const getSemanticLayerTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<GetSemanticLayerTypesRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerTypesResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14380,7 +14575,8 @@ export const getSemanticViewStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetSemanticViewStructureRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticViewStructureResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14397,7 +14593,8 @@ export const getSqllabExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetSqllabExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetSqllabExportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14418,7 +14615,8 @@ export const getSqllabPermalink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GetSqllabPermalinkRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<GetSqllabPermalinkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14435,7 +14633,8 @@ export const getTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetTagRequest>,
   output: __S(2690, __c168, 2) as any as S.Schema<GetTagResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14452,7 +14651,8 @@ export const getTagByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<GetTagByPkRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<GetTagByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14469,7 +14669,8 @@ export const getTagRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<GetTagRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14486,7 +14687,8 @@ export const getTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<GetThemeRequest>,
   output: __S(2755, __c172, 3) as any as S.Schema<GetThemeResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14503,7 +14705,8 @@ export const getThemeByPk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<GetThemeByPkRequest>,
   output: __S(2770, __c173, 2) as any as S.Schema<GetThemeByPkResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14524,7 +14727,8 @@ export const getThemeExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<GetThemeExportRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetThemeExportResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14541,7 +14745,8 @@ export const getThemeRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<GetThemeRelatedRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14558,7 +14763,8 @@ export const getThemeSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<GetThemeSystemRequest>,
   output: __S(2834, __c177, 2) as any as S.Schema<GetThemeSystemResponse>,
-  errors: [Forbidden, UnknownApacheSupersetError],
+  errors: [Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14575,7 +14781,8 @@ export const getUserAvatarPng: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetUserAvatarPngRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<GetUserAvatarPngResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14592,7 +14799,8 @@ export const importAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<ImportAssetRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportAssetResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14609,7 +14817,8 @@ export const importChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<ImportChartRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportChartResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14626,7 +14835,8 @@ export const importDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<ImportDashboardRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportDashboardResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14643,7 +14853,8 @@ export const importDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<ImportDatabaseRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportDatabaseResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14660,7 +14871,8 @@ export const importDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<ImportDatasetRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportDatasetResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14677,7 +14889,8 @@ export const importSavedQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<ImportSavedQueryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportSavedQueryResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14694,7 +14907,8 @@ export const importTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<ImportThemeRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ImportThemeResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14711,7 +14925,8 @@ export const invalidateCachekey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2978, __c186, 2) as any as S.Schema<InvalidateCachekeyRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<InvalidateCachekeyResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14732,7 +14947,8 @@ export const listAdvancedDataTypeConvert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<ListAdvancedDataTypeConvertRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<AdvancedDataTypeSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14749,7 +14965,8 @@ export const listAdvancedDataTypeTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<ListAdvancedDataTypeTypesRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<ListAdvancedDataTypeTypesResponse>,
-  errors: [Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14769,7 +14986,8 @@ export const listAnnotationLayerAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<ListAnnotationLayerAnnotationRequest>,
   output: __S(3060, __c191, 4) as any as S.Schema<ListAnnotationLayerAnnotationResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14786,7 +15004,8 @@ export const listAnnotationLayerInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<ListAnnotationLayerInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListAnnotationLayerInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14803,7 +15022,8 @@ export const listChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<ListChartRequest>,
   output: __S(3109, __c194, 5) as any as S.Schema<ListChartResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14820,7 +15040,8 @@ export const listChartActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<ListChartActivityRequest>,
   output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14837,7 +15058,8 @@ export const listChartData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<ListChartDataRequest>,
   output: __S(408, __c25, 8) as any as S.Schema<ChartDataResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14854,7 +15076,8 @@ export const listChartDeckLayers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<ListChartDeckLayersRequest>,
   output: __S(3171, __c198, 3) as any as S.Schema<ListChartDeckLayersResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14871,7 +15094,8 @@ export const listChartFavoriteStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<ListChartFavoriteStatusRequest>,
   output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14888,7 +15112,8 @@ export const listChartInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<ListChartInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListChartInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14905,7 +15130,8 @@ export const listChartVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3248, __c203, 0) as any as S.Schema<ListChartVersionsRequest>,
   output: __S(3265, __c204, 1) as any as S.Schema<ListChartVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14922,7 +15148,8 @@ export const listCssTemplateInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<ListCssTemplateInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListCssTemplateInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14939,7 +15166,8 @@ export const listDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<ListDashboardRequest>,
   output: __S(3299, __c206, 3) as any as S.Schema<ListDashboardResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14956,7 +15184,8 @@ export const listDashboardActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<ListDashboardActivityRequest>,
   output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14973,7 +15202,8 @@ export const listDashboardCharts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<ListDashboardChartsRequest>,
   output: __S(3331, __c208, 3) as any as S.Schema<ListDashboardChartsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14990,7 +15220,8 @@ export const listDashboardDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<ListDashboardDatasetsRequest>,
   output: __S(3349, __c209, 5) as any as S.Schema<ListDashboardDatasetsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15007,7 +15238,8 @@ export const listDashboardFavoriteStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<ListDashboardFavoriteStatusRequest>,
   output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15024,7 +15256,8 @@ export const listDashboardInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<ListDashboardInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListDashboardInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15041,7 +15274,8 @@ export const listDashboardTabs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<ListDashboardTabsRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ListDashboardTabsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15058,7 +15292,8 @@ export const listDashboardVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<ListDashboardVersionsRequest>,
   output: __S(3265, __c204, 1) as any as S.Schema<ListDashboardVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15075,7 +15310,8 @@ export const listDatabaseAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<ListDatabaseAvailableRequest>,
   output: __S(3460, __c216, 4) as any as S.Schema<ListDatabaseAvailableResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15092,7 +15328,8 @@ export const listDatabaseCatalogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<ListDatabaseCatalogsRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<CatalogsResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15109,7 +15346,8 @@ export const listDatabaseFunctionNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<ListDatabaseFunctionNamesRequest>,
   output: __S(3489, __c218, 1) as any as S.Schema<DatabaseFunctionNamesResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15126,7 +15364,8 @@ export const listDatabaseInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<ListDatabaseInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListDatabaseInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15148,7 +15387,8 @@ export const listDatabaseOauth2Tokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c220, 0) as any as S.Schema<ListDatabaseOauth2TokensRequest>,
   output: __S(3524, __c220, 4) as any as S.Schema<ListDatabaseOauth2TokensResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15165,7 +15405,8 @@ export const listDatabaseSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<ListDatabaseSchemasRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<SchemasResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15182,7 +15423,8 @@ export const listDatabaseSchemasAccessForFileUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<ListDatabaseSchemasAccessForFileUploadRequest>,
   output: __S(3553, __c222, 1) as any as S.Schema<DatabaseSchemaAccessForFileUploadResponse>,
-  errors: [NotFound, UnknownApacheSupersetError],
+  errors: [NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15203,7 +15445,8 @@ export const listDatabaseTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3568, __c223, 0) as any as S.Schema<ListDatabaseTablesRequest>,
   output: __S(3571, __c223, 3) as any as S.Schema<ListDatabaseTablesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15220,7 +15463,8 @@ export const listDatasetActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Schema<ListDatasetActivityRequest>,
   output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15237,7 +15481,8 @@ export const listDatasetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3600, __c225, 0) as any as S.Schema<ListDatasetInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListDatasetInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15254,7 +15499,8 @@ export const listDatasetVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<ListDatasetVersionsRequest>,
   output: __S(3265, __c204, 1) as any as S.Schema<ListDatasetVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15275,7 +15521,8 @@ export const listDatasourceColumnValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<ListDatasourceColumnValuesRequest>,
   output: __S(3650, __c228, 2) as any as S.Schema<ListDatasourceColumnValuesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15292,7 +15539,8 @@ export const listLogRecentActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<ListLogRecentActivityRequest>,
   output: __S(3667, __c229, 3) as any as S.Schema<RecentActivityResponseSchema>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15309,7 +15557,8 @@ export const listMenu: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<ListMenuRequest>,
   output: __S(3683, __c230, 3) as any as S.Schema<ListMenuResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15326,7 +15575,8 @@ export const listQueryUpdatedSince: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3696, __c231, 0) as any as S.Schema<ListQueryUpdatedSinceRequest>,
   output: __S(3698, __c231, 2) as any as S.Schema<ListQueryUpdatedSinceResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15343,7 +15593,8 @@ export const listReportInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c232, 0) as any as S.Schema<ListReportInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListReportInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15360,7 +15611,8 @@ export const listReportLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<ListReportLogRequest>,
   output: __S(3730, __c233, 2) as any as S.Schema<ListReportLogResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15381,7 +15633,8 @@ export const listReportSlackChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<ListReportSlackChannelsRequest>,
   output: __S(3747, __c234, 3) as any as S.Schema<ListReportSlackChannelsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15401,7 +15654,8 @@ export const listRowlevelsecurityInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3760, __c235, 0) as any as S.Schema<ListRowlevelsecurityInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListRowlevelsecurityInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15418,7 +15672,8 @@ export const listSavedQueryInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Schema<ListSavedQueryInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSavedQueryInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15435,7 +15690,8 @@ export const listSecurityGroupInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c238, 0) as any as S.Schema<ListSecurityGroupInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityGroupInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15455,7 +15711,8 @@ export const listSecurityPermissionsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3824, __c239, 0) as any as S.Schema<ListSecurityPermissionsInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityPermissionsInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15475,7 +15732,8 @@ export const listSecurityPermissionsResourceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c240, 0) as any as S.Schema<ListSecurityPermissionsResourceInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityPermissionsResourceInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15495,7 +15753,8 @@ export const listSecurityResourceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Schema<ListSecurityResourceInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityResourceInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15512,7 +15771,8 @@ export const listSecurityRoleInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c242, 0) as any as S.Schema<ListSecurityRoleInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityRoleInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15532,7 +15792,8 @@ export const listSecurityRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3888, __c243, 0) as any as S.Schema<ListSecurityRolePermissionsRequest>,
   output: __S(3891, __c243, 3) as any as S.Schema<ListSecurityRolePermissionsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15549,7 +15810,8 @@ export const listSecurityRoleSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3907, __c244, 3) as any as S.Schema<ListSecurityRoleSearchRequest>,
   output: __S(3910, __c244, 6) as any as S.Schema<RolesResponseSchema>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15566,7 +15828,8 @@ export const listSecuritySubjectInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3920, __c245, 0) as any as S.Schema<ListSecuritySubjectInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecuritySubjectInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15583,7 +15846,8 @@ export const listSecurityUserInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c246, 0) as any as S.Schema<ListSecurityUserInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityUserInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15603,7 +15867,8 @@ export const listSecurityUserRegistrationInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3952, __c247, 0) as any as S.Schema<ListSecurityUserRegistrationInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityUserRegistrationInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15620,7 +15885,8 @@ export const listSqllab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c250, 0) as any as S.Schema<ListSqllabRequest>,
   output: __S(4007, __c250, 7) as any as S.Schema<SQLLabBootstrapSchema>,
-  errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15637,7 +15903,8 @@ export const listSqllabResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4016, __c251, 0) as any as S.Schema<ListSqllabResultsRequest>,
   output: __S(6496, __c406, 0) as any as S.Schema<QueryExecutionResponseSchema>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15654,7 +15921,8 @@ export const listTagFavoriteStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c252, 0) as any as S.Schema<ListTagFavoriteStatusRequest>,
   output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15671,7 +15939,8 @@ export const listTagGetObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4048, __c253, 0) as any as S.Schema<ListTagGetObjectsRequest>,
   output: __S(4053, __c253, 5) as any as S.Schema<ListTagGetObjectsResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15688,7 +15957,8 @@ export const listTagInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c254, 0) as any as S.Schema<ListTagInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListTagInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15705,7 +15975,8 @@ export const listThemeInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4080, __c255, 0) as any as S.Schema<ListThemeInfoRequest>,
   output: __S(3091, __c193, 3) as any as S.Schema<ListThemeInfoResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15722,7 +15993,8 @@ export const loginSecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c256, 0) as any as S.Schema<LoginSecurityRequest>,
   output: __S(4097, __c256, 1) as any as S.Schema<LoginSecurityResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15743,7 +16015,8 @@ export const previewDatasetPartitionMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4112, __c257, 0) as any as S.Schema<PreviewDatasetPartitionMappingRequest>,
   output: __S(4117, __c257, 5) as any as S.Schema<PreviewDatasetPartitionMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15760,7 +16033,8 @@ export const purgeChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c258, 0) as any as S.Schema<PurgeChartRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PurgeChartResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15781,7 +16055,8 @@ export const purgeDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4144, __c259, 0) as any as S.Schema<PurgeDashboardRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PurgeDashboardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15804,14 +16079,8 @@ export const purgeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4208, __c263, 0) as any as S.Schema<PurgeDatasetRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PurgeDatasetResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownApacheSupersetError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15828,7 +16097,8 @@ export const putAnnotationLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c264, 0) as any as S.Schema<PutAnnotationLayerRequest>,
   output: __S(4226, __c264, 2) as any as S.Schema<PutAnnotationLayerResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15845,7 +16115,8 @@ export const putAnnotationLayerAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4240, __c265, 0) as any as S.Schema<PutAnnotationLayerAnnotationRequest>,
   output: __S(4242, __c265, 2) as any as S.Schema<PutAnnotationLayerAnnotationResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15867,7 +16138,8 @@ export const putChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4260, __c266, 4) as any as S.Schema<PutChartRequest>,
   output: __S(4264, __c266, 8) as any as S.Schema<PutChartResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15884,7 +16156,8 @@ export const putChartWarmUpCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4272, __c267, 0) as any as S.Schema<PutChartWarmUpCacheRequest>,
   output: __S(4290, __c268, 2) as any as S.Schema<ChartCacheWarmUpResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15905,7 +16178,8 @@ export const putCssTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4304, __c269, 0) as any as S.Schema<PutCssTemplateRequest>,
   output: __S(4305, __c269, 1) as any as S.Schema<PutCssTemplateResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15927,7 +16201,8 @@ export const putDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4323, __c270, 3) as any as S.Schema<PutDashboardRequest>,
   output: __S(4327, __c270, 7) as any as S.Schema<PutDashboardResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15949,7 +16224,8 @@ export const putDashboardChartCustomizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4336, __c271, 0) as any as S.Schema<PutDashboardChartCustomizationsRequest>,
   output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardChartCustomizationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15971,7 +16247,8 @@ export const putDashboardColors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c272, 0) as any as S.Schema<PutDashboardColorsRequest>,
   output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardColorsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15988,7 +16265,8 @@ export const putDashboardEmbedded: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4368, __c273, 0) as any as S.Schema<PutDashboardEmbeddedRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<PutDashboardEmbeddedResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16010,7 +16288,8 @@ export const putDashboardFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4400, __c275, 0) as any as S.Schema<PutDashboardFiltersRequest>,
   output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardFiltersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16031,7 +16310,8 @@ export const putDashboardFilterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c276, 0) as any as S.Schema<PutDashboardFilterStateRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<PutDashboardFilterStateResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16053,7 +16333,8 @@ export const putDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4432, __c277, 0) as any as S.Schema<PutDatabaseRequest>,
   output: __S(4434, __c277, 2) as any as S.Schema<PutDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16076,14 +16357,8 @@ export const putDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4457, __c278, 9) as any as S.Schema<PutDatasetRequest>,
   output: __S(4460, __c278, 12) as any as S.Schema<PutDatasetResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownApacheSupersetError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16104,7 +16379,8 @@ export const putDatasetRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4464, __c279, 0) as any as S.Schema<PutDatasetRefreshRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PutDatasetRefreshResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16121,7 +16397,8 @@ export const putDatasetWarmUpCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c280, 0) as any as S.Schema<PutDatasetWarmUpCacheRequest>,
   output: __S(4290, __c268, 2) as any as S.Schema<DatasetCacheWarmUpResponseSchema>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16142,7 +16419,8 @@ export const putExploreFormData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4496, __c281, 0) as any as S.Schema<PutExploreFormDataRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<PutExploreFormDataResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16159,7 +16437,8 @@ export const putMe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c282, 0) as any as S.Schema<PutMeRequest>,
   output: __S(1649, __c103, 1) as any as S.Schema<PutMeResponse>,
-  errors: [BadRequest, UnknownApacheSupersetError],
+  errors: [BadRequest],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16181,7 +16460,8 @@ export const putReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4529, __c283, 1) as any as S.Schema<PutReportRequest>,
   output: __S(4532, __c283, 4) as any as S.Schema<PutReportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16202,7 +16482,8 @@ export const putReportConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c284, 0) as any as S.Schema<PutReportConfigurationRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<PutReportConfigurationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16224,7 +16505,8 @@ export const putRowlevelsecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4592, __c287, 0) as any as S.Schema<PutRowlevelsecurityRequest>,
   output: __S(4594, __c287, 2) as any as S.Schema<PutRowlevelsecurityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16245,7 +16527,8 @@ export const putSavedQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c288, 0) as any as S.Schema<PutSavedQueryRequest>,
   output: __S(4609, __c288, 1) as any as S.Schema<PutSavedQueryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16261,7 +16544,8 @@ export const putSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4624, __c289, 0) as any as S.Schema<PutSecurityGroupRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<PutSecurityGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16281,7 +16565,8 @@ export const putSecurityPermissionsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c290, 0) as any as S.Schema<PutSecurityPermissionsResourceRequest>,
   output: __S(4641, __c290, 1) as any as S.Schema<PutSecurityPermissionsResourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16301,7 +16586,8 @@ export const putSecurityResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4656, __c291, 0) as any as S.Schema<PutSecurityResourceRequest>,
   output: __S(4672, __c292, 0) as any as S.Schema<PutSecurityResourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16321,7 +16607,8 @@ export const putSecurityRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4688, __c293, 0) as any as S.Schema<PutSecurityRoleRequest>,
   output: __S(4672, __c292, 0) as any as S.Schema<PutSecurityRoleResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16341,7 +16628,8 @@ export const putSecurityRoleGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c294, 0) as any as S.Schema<PutSecurityRoleGroupsRequest>,
   output: __S(4706, __c294, 2) as any as S.Schema<PutSecurityRoleGroupsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16361,7 +16649,8 @@ export const putSecurityRoleUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4720, __c295, 0) as any as S.Schema<PutSecurityRoleUsersRequest>,
   output: __S(4722, __c295, 2) as any as S.Schema<PutSecurityRoleUsersResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16377,7 +16666,8 @@ export const putSecurityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c296, 0) as any as S.Schema<PutSecurityUserRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<PutSecurityUserResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16399,7 +16689,8 @@ export const putSemanticLayer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4752, __c297, 0) as any as S.Schema<PutSemanticLayerRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<PutSemanticLayerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16421,7 +16712,8 @@ export const putSemanticView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4784, __c299, 0) as any as S.Schema<PutSemanticViewRequest>,
   output: __S(4786, __c299, 2) as any as S.Schema<PutSemanticViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16443,7 +16735,8 @@ export const putTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c300, 0) as any as S.Schema<PutTagRequest>,
   output: __S(5520, __c345, 0) as any as S.Schema<PutTagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16465,7 +16758,8 @@ export const putTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4816, __c301, 0) as any as S.Schema<PutThemeRequest>,
   output: __S(5569, __c348, 1) as any as S.Schema<PutThemeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16487,7 +16781,8 @@ export const putThemeSetSystemDark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c302, 0) as any as S.Schema<PutThemeSetSystemDarkRequest>,
   output: __S(4848, __c303, 0) as any as S.Schema<PutThemeSetSystemDarkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16509,7 +16804,8 @@ export const putThemeSetSystemDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c304, 0) as any as S.Schema<PutThemeSetSystemDefaultRequest>,
   output: __S(4848, __c303, 0) as any as S.Schema<PutThemeSetSystemDefaultResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16526,7 +16822,8 @@ export const refreshSecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4880, __c305, 0) as any as S.Schema<RefreshSecurityRequest>,
   output: __S(4881, __c305, 1) as any as S.Schema<RefreshSecurityResponse>,
-  errors: [UnknownApacheSupersetError],
+  errors: [],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16543,7 +16840,8 @@ export const resetSecurityPasswordRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c306, 0) as any as S.Schema<ResetSecurityPasswordRecoveryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ResetSecurityPasswordRecoveryResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16560,7 +16858,8 @@ export const restoreChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4912, __c307, 0) as any as S.Schema<RestoreChartRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreChartResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16582,7 +16881,8 @@ export const restoreChartVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c308, 0) as any as S.Schema<RestoreChartVersionRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreChartVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16603,7 +16903,8 @@ export const restoreDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4944, __c309, 0) as any as S.Schema<RestoreDashboardRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreDashboardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16626,14 +16927,8 @@ export const restoreDashboardVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4976, __c311, 0) as any as S.Schema<RestoreDashboardVersionRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreDashboardVersionResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    UnknownApacheSupersetError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16654,7 +16949,8 @@ export const restoreDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c312, 0) as any as S.Schema<RestoreDatasetRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreDatasetResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16676,7 +16972,8 @@ export const restoreDatasetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5008, __c313, 0) as any as S.Schema<RestoreDatasetVersionRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestoreDatasetVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16693,7 +16990,8 @@ export const stopQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c314, 0) as any as S.Schema<StopQueryRequest>,
   output: __S(5472, __c342, 0) as any as S.Schema<StopQueryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16710,7 +17008,8 @@ export const subscribeReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5041, __c315, 1) as any as S.Schema<SubscribeReportRequest>,
   output: __S(4194, __c262, 2) as any as S.Schema<SubscribeReportResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16727,7 +17026,8 @@ export const syncDatabasePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c316, 0) as any as S.Schema<SyncDatabasePermissionsRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<SyncDatabasePermissionsResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16744,7 +17044,8 @@ export const testDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5072, __c317, 0) as any as S.Schema<TestDatabaseConnectionRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<TestDatabaseConnectionResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16761,7 +17062,8 @@ export const updateTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c318, 0) as any as S.Schema<UpdateTagRequest>,
   output: __S(5808, __c363, 0) as any as S.Schema<UpdateTagResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16782,7 +17084,8 @@ export const uploadDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5104, __c319, 0) as any as S.Schema<UploadDatabaseRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<UploadDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16799,7 +17102,8 @@ export const uploadDatabaseMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c320, 0) as any as S.Schema<UploadDatabaseMetadataRequest>,
   output: __S(5124, __c320, 4) as any as S.Schema<UploadDatabaseMetadataResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16819,7 +17123,8 @@ export const validateDatabaseParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5153, __c322, 1) as any as S.Schema<ValidateDatabaseParametersRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ValidateDatabaseParametersResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16836,7 +17141,8 @@ export const validateDatabaseSql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5168, __c323, 0) as any as S.Schema<ValidateDatabaseSqlRequest>,
   output: __S(5186, __c324, 2) as any as S.Schema<ValidateDatabaseSqlResponse>,
-  errors: [BadRequest, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16857,7 +17163,8 @@ export const validateDatasourceExpression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5200, __c325, 0) as any as S.Schema<ValidateDatasourceExpressionRequest>,
   output: __S(5186, __c324, 2) as any as S.Schema<ValidateDatasourceExpressionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

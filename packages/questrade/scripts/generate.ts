@@ -64,7 +64,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "QuestradeOpContext",
     commonErrorType: "QuestradeOpError",
-    commonErrorClasses: ["UnknownQuestradeError"],
+    serviceErrors: "QuestradeServiceErrors",
     protocol: "QuestradeProtocol",
     retry: "Retry.Retry",
   },

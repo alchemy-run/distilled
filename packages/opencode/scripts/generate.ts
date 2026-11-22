@@ -66,7 +66,7 @@ const opencodeSpec: SdkSpec = {
   operationDecl: {
     contextType: "OpencodeOpContext",
     commonErrorType: "OpencodeOpError",
-    commonErrorClasses: ["UnknownOpencodeError"],
+    serviceErrors: "OpencodeServiceErrors",
     protocol: "OpencodeProtocol",
     retry: "Retry.Retry",
   },

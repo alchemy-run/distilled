@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownEntireError } from "../errors.ts";
+import { EntireServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { EntireCoreProtocol, type EntireOpError, type EntireOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -234,7 +234,8 @@ export const createBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBindingRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<Binding>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -251,7 +252,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<ServiceAccount>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -268,7 +270,8 @@ export const createServiceAccountSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<CreateServiceAccountSecretRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<CreateServiceAccountSecretOutputBody>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -285,7 +288,8 @@ export const deleteBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<DeleteBindingRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DeleteBindingResponse>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -302,7 +306,8 @@ export const deleteServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DeleteServiceAccountRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DeleteServiceAccountResponse>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,7 +324,8 @@ export const deleteServiceAccountSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DeleteServiceAccountSecretRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DeleteServiceAccountSecretResponse>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +342,8 @@ export const getServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetServiceAccountRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<ServiceAccount>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +360,8 @@ export const grantServiceAccountAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GrantServiceAccountAccessRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<GrantServiceAccountAccessOutputBody>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -372,7 +380,8 @@ export const listBindings: API.PaginatedOperationMethod<
   () => ({
     input: __S(112, __c14, 0) as any as S.Schema<ListBindingsRequest>,
     output: __S(114, __c14, 2) as any as S.Schema<ListBindingsOutputBody>,
-    errors: [UnknownEntireError],
+    errors: [],
+    serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -399,7 +408,8 @@ export const listServiceAccountGrants: API.PaginatedOperationMethod<
   () => ({
     input: __S(120, __c15, 0) as any as S.Schema<ListServiceAccountGrantsRequest>,
     output: __S(123, __c15, 3) as any as S.Schema<ListServiceAccountGrantsOutputBody>,
-    errors: [UnknownEntireError],
+    errors: [],
+    serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -426,7 +436,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(32, __c4, 0) as any as S.Schema<ListServiceAccountsRequest>,
     output: __S(36, __c4, 4) as any as S.Schema<ListServiceAccountsOutputBody>,
-    errors: [UnknownEntireError],
+    errors: [],
+    serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -453,7 +464,8 @@ export const listServiceAccountSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c5, 0) as any as S.Schema<ListServiceAccountSecretsRequest>,
     output: __S(43, __c5, 3) as any as S.Schema<ListServiceAccountSecretsOutputBody>,
-    errors: [UnknownEntireError],
+    errors: [],
+    serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -478,7 +490,8 @@ export const revokeServiceAccountAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<RevokeServiceAccountAccessRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<RevokeServiceAccountAccessResponse>,
-  errors: [UnknownEntireError],
+  errors: [],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

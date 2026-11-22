@@ -1,13 +1,11 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * TursoProtocol -- hand-written.
  *
  * Turso's platform API is plain bearer-REST JSON (`Authorization: Bearer
  * <apiKey>`, no response envelope), so the protocol is a direct
- * `makeRestProtocol` instantiation from `core/protocol-rest`:
+ * `restProtocol` instantiation from `core/protocol-rest`:
  *
  *   request:  credentials resolved per request from the Credentials service,
  *             bearer auth header, base URL from `creds.apiBaseUrl`
@@ -20,33 +18,27 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownTursoError, type DefaultErrors, TursoParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownTursoError, TursoParseError, type TursoServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Turso operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, TursoOpError,
- * TursoOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Turso operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, TursoOpError, TursoOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type TursoOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type TursoOpError = TursoServiceError | ErrorOf<typeof TursoProtocol>;
 
 /** Context (requirements) shared by every generated Turso operation. */
 export type TursoOpContext = Credentials | HttpClient.HttpClient;
 
-export const TursoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const TursoProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request) picks up rotations. Its error channel is erased at the protocol
   // boundary; TursoOpError reintroduces it for callers.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

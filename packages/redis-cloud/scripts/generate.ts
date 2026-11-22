@@ -57,7 +57,7 @@ const redisCloudSpec: SdkSpec = {
   operationDecl: {
     contextType: "RedisCloudOpContext",
     commonErrorType: "RedisCloudOpError",
-    commonErrorClasses: ["UnknownRedisCloudError"],
+    serviceErrors: "RedisCloudServiceErrors",
     protocol: "RedisCloudProtocol",
     retry: "Retry.Retry",
   },

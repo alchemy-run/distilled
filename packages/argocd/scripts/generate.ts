@@ -65,7 +65,7 @@ const argocdSpec: SdkSpec = {
   operationDecl: {
     contextType: "ArgocdOpContext",
     commonErrorType: "ArgocdOpError",
-    commonErrorClasses: ["UnknownArgocdError"],
+    serviceErrors: "ArgocdServiceErrors",
     protocol: "ArgocdProtocol",
     retry: "Retry.Retry",
   },

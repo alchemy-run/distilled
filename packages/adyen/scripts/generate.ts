@@ -57,7 +57,7 @@ const adyenSpec: SdkSpec = {
   operationDecl: {
     contextType: "AdyenOpContext",
     commonErrorType: "AdyenOpError",
-    commonErrorClasses: ["UnknownAdyenError"],
+    serviceErrors: "AdyenServiceErrors",
     protocol: "AdyenProtocol",
     retry: "Retry.Retry",
   },

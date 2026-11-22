@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUnkeyError } from "../errors.ts";
+import { UnkeyServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { UnkeyProtocol, type UnkeyOpError, type UnkeyOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -3038,7 +3038,8 @@ export const analyticsGetGatewayRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<AnalyticsGetGatewayRequestsRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetGatewayRequestsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3059,7 +3060,8 @@ export const analyticsGetRatelimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<AnalyticsGetRatelimitsRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetRatelimitsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3080,7 +3082,8 @@ export const analyticsGetRuntimeLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<AnalyticsGetRuntimeLogsRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetRuntimeLogsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3101,7 +3104,8 @@ export const analyticsGetVerifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<AnalyticsGetVerificationsRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetVerificationsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3118,7 +3122,8 @@ export const apisCreateApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<ApisCreateApiRequest>,
   output: __S(4610, __c144, 2) as any as S.Schema<V2ApisCreateApiResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3135,7 +3140,8 @@ export const apisDeleteApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ApisDeleteApiRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2ApisDeleteApiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3152,7 +3158,8 @@ export const apisGetApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ApisGetApiRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<V2ApisGetApiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3171,7 +3178,8 @@ export const apisListKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(768, __c24, 0) as any as S.Schema<ApisListKeysRequest>,
     output: __S(993, __c31, 1) as any as S.Schema<V2ApisListKeysResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3197,7 +3205,8 @@ export const authorizeDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<AuthorizeDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<AuthorizeDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3214,7 +3223,8 @@ export const cancelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CancelDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<CancelDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3231,7 +3241,8 @@ export const cliExchangeToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CliExchangeTokenRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<V2CliExchangeTokenResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3248,7 +3259,8 @@ export const cliGetDeviceLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<CliGetDeviceLoginRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<V2CliGetDeviceLoginResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3265,7 +3277,8 @@ export const cliListSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<CliListSessionsRequest>,
   output: __S(1188, __c37, 4) as any as S.Schema<V2CliListSessionsResponseBody>,
-  errors: [Forbidden, UnknownUnkeyError],
+  errors: [Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3282,7 +3295,8 @@ export const cliRevokeSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CliRevokeSessionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2CliRevokeSessionResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3299,7 +3313,8 @@ export const cliStartDeviceLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CliStartDeviceLoginRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<V2CliStartDeviceLoginResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3316,7 +3331,8 @@ export const createApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<CreateAppRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<V2AppsCreateAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3333,7 +3349,8 @@ export const createDeploymentV3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1378, __c43, 2) as any as S.Schema<CreateDeploymentV3Request>,
   output: __S(1379, __c43, 3) as any as S.Schema<V3DeploymentsCreateDeploymentResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3350,7 +3367,8 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<V2DomainsCreateDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3367,7 +3385,8 @@ export const createIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateIdentityRequest>,
   output: __S(1474, __c46, 2) as any as S.Schema<V2IdentitiesCreateIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3384,7 +3403,8 @@ export const createKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<CreateKeyRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2KeysCreateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3401,7 +3421,8 @@ export const createPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<CreatePortalRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<V2PortalCreatePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3418,7 +3439,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(1634, __c51, 2) as any as S.Schema<V2ProjectsCreateProjectResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3435,7 +3457,8 @@ export const deleteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteAppRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<DeleteAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3452,7 +3475,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2DomainsDeleteDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3469,7 +3493,8 @@ export const deleteIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteIdentityRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<V2IdentitiesDeleteIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3486,7 +3511,8 @@ export const deleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2KeysDeleteKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3503,7 +3529,8 @@ export const deletePortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeletePortalRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PortalDeletePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3520,7 +3547,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3539,7 +3567,8 @@ export const deploymentsListBuildLogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(1856, __c58, 0) as any as S.Schema<DeploymentsListBuildLogsRequest>,
     output: __S(1859, __c58, 3) as any as S.Schema<V2DeploymentsListBuildLogsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3565,7 +3594,8 @@ export const deploymentsPromoteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<DeploymentsPromoteDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<DeploymentsPromoteDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,7 +3612,8 @@ export const deploymentsRollbackDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeploymentsRollbackDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<DeploymentsRollbackDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3603,7 +3634,8 @@ export const environmentsSetEnvironmentVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1954, __c61, 2) as any as S.Schema<EnvironmentsSetEnvironmentVariablesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2EnvironmentsSetEnvironmentVariablesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3620,7 +3652,8 @@ export const environmentsUpdateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<EnvironmentsUpdateSettingsRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2EnvironmentsUpdateSettingsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3637,7 +3670,8 @@ export const gatewayListPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GatewayListPoliciesRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<V2GatewayListPoliciesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3654,7 +3688,8 @@ export const gatewaySetPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2178, __c68, 2) as any as S.Schema<GatewaySetPoliciesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2GatewaySetPoliciesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3671,7 +3706,8 @@ export const gatewayUpdatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GatewayUpdatePolicyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2GatewayUpdatePolicyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3688,7 +3724,8 @@ export const getApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetAppRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<V2AppsGetAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3705,7 +3742,8 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<V2DeploymentsGetDeploymentResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3722,7 +3760,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<V2DomainsGetDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3739,7 +3778,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<V2EnvironmentsGetEnvironmentResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3756,7 +3796,8 @@ export const getIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetIdentityRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<V2IdentitiesGetIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3773,7 +3814,8 @@ export const getKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetKeyRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<V2KeysGetKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3790,7 +3832,8 @@ export const getPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetPortalRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<V2PortalGetPortalResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3807,7 +3850,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(2720, __c85, 0) as any as S.Schema<V2ProjectsGetProjectResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3824,7 +3868,8 @@ export const githubInstallApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GithubInstallAppRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<V2GithubInstallAppResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3841,7 +3886,8 @@ export const keysAddPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<KeysAddPermissionsRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<V2KeysAddPermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3858,7 +3904,8 @@ export const keysAddRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<KeysAddRolesRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<V2KeysAddRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3875,7 +3922,8 @@ export const keysRemovePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<KeysRemovePermissionsRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<V2KeysRemovePermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3892,7 +3940,8 @@ export const keysRemoveRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<KeysRemoveRolesRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<V2KeysRemoveRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3909,7 +3958,8 @@ export const keysRerollKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<KeysRerollKeyRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3926,7 +3976,8 @@ export const keysSetPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<KeysSetPermissionsRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<V2KeysSetPermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3943,7 +3994,8 @@ export const keysSetRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<KeysSetRolesRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<V2KeysSetRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3960,7 +4012,8 @@ export const keysUpdateCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<KeysUpdateCreditsRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<V2KeysUpdateCreditsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3977,7 +4030,8 @@ export const keysWhoami: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<KeysWhoamiRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<V2KeysWhoamiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3996,7 +4050,8 @@ export const listApps: API.PaginatedOperationMethod<
   () => ({
     input: __S(3392, __c106, 0) as any as S.Schema<ListAppsRequest>,
     output: __S(3394, __c106, 2) as any as S.Schema<V2AppsListAppsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4024,7 +4079,8 @@ export const listDeployments: API.PaginatedOperationMethod<
   () => ({
     input: __S(3456, __c108, 0) as any as S.Schema<ListDeploymentsRequest>,
     output: __S(3458, __c108, 2) as any as S.Schema<V2DeploymentsListDeploymentsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4052,7 +4108,8 @@ export const listDomains: API.PaginatedOperationMethod<
   () => ({
     input: __S(3488, __c109, 0) as any as S.Schema<ListDomainsRequest>,
     output: __S(3490, __c109, 2) as any as S.Schema<V2DomainsListDomainsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4078,7 +4135,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(3522, __c110, 2) as any as S.Schema<V2EnvironmentsListEnvironmentsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4101,7 +4159,8 @@ export const listEnvironmentVariables: API.PaginatedOperationMethod<
       __c111,
       3,
     ) as any as S.Schema<V2EnvironmentsListEnvironmentVariablesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4129,7 +4188,8 @@ export const listIdentities: API.PaginatedOperationMethod<
   () => ({
     input: __S(3584, __c112, 0) as any as S.Schema<ListIdentitiesRequest>,
     output: __S(3586, __c112, 2) as any as S.Schema<V2IdentitiesListIdentitiesResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4157,7 +4217,8 @@ export const listPermissions: API.PaginatedOperationMethod<
   () => ({
     input: __S(3616, __c113, 0) as any as S.Schema<ListPermissionsRequest>,
     output: __S(3617, __c113, 1) as any as S.Schema<V2PermissionsListPermissionsResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4185,7 +4246,8 @@ export const listProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsRequest>,
     output: __S(3650, __c114, 2) as any as S.Schema<V2ProjectsListProjectsResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4211,7 +4273,8 @@ export const liveness: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<LivenessRequest>,
   output: __S(3682, __c115, 2) as any as S.Schema<V2LivenessResponseBody>,
-  errors: [UnknownUnkeyError],
+  errors: [],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4228,7 +4291,8 @@ export const loginCliDecideDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<LoginCliDecideDeviceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2CliDecideDeviceLoginResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4249,7 +4313,8 @@ export const logsGetApiRequestMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3745, __c117, 1) as any as S.Schema<LogsGetApiRequestMetricsRequest>,
   output: __S(3748, __c117, 4) as any as S.Schema<V2LogsGetApiRequestMetricsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4268,7 +4333,8 @@ export const logsListApiRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3842, __c120, 2) as any as S.Schema<LogsListApiRequestsRequest>,
     output: __S(3845, __c120, 5) as any as S.Schema<V2LogsListApiRequestsResponseBody>,
-    errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, UnprocessableEntity],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4294,7 +4360,8 @@ export const migrateKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3874, __c121, 2) as any as S.Schema<MigrateKeysRequest>,
   output: __S(3878, __c121, 6) as any as S.Schema<V2KeysMigrateKeysResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4311,7 +4378,8 @@ export const permissionsCreatePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<PermissionsCreatePermissionRequest>,
   output: __S(3906, __c122, 2) as any as S.Schema<V2PermissionsCreatePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4328,7 +4396,8 @@ export const permissionsCreateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<PermissionsCreateRoleRequest>,
   output: __S(3938, __c123, 2) as any as S.Schema<V2PermissionsCreateRoleResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4345,7 +4414,8 @@ export const permissionsDeletePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<PermissionsDeletePermissionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PermissionsDeletePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4362,7 +4432,8 @@ export const permissionsDeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<PermissionsDeleteRoleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PermissionsDeleteRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4379,7 +4450,8 @@ export const permissionsGetPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<PermissionsGetPermissionRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<V2PermissionsGetPermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4396,7 +4468,8 @@ export const permissionsGetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<PermissionsGetRoleRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<V2PermissionsGetRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4415,7 +4488,8 @@ export const permissionsListRoles: API.PaginatedOperationMethod<
   () => ({
     input: __S(4128, __c129, 0) as any as S.Schema<PermissionsListRolesRequest>,
     output: __S(4129, __c129, 1) as any as S.Schema<V2PermissionsListRolesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4441,7 +4515,8 @@ export const permissionsSetRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<PermissionsSetRolePermissionsRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<V2PermissionsSetRolePermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4463,7 +4538,8 @@ export const permissionsUpdatePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<PermissionsUpdatePermissionRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<V2PermissionsUpdatePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4485,7 +4561,8 @@ export const permissionsUpdateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<PermissionsUpdateRoleRequest>,
   output: __S(4258, __c133, 2) as any as S.Schema<V2PermissionsUpdateRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4502,7 +4579,8 @@ export const portalCreateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<PortalCreateSessionRequest>,
   output: __S(4290, __c134, 2) as any as S.Schema<V2PortalCreateSessionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4519,7 +4597,8 @@ export const portalExchangeCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<PortalExchangeCodeRequest>,
   output: __S(4322, __c135, 2) as any as S.Schema<V2PortalExchangeCodeResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4541,7 +4620,8 @@ export const portalGetVerifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<PortalGetVerificationsRequest>,
   output: __S(4357, __c136, 5) as any as S.Schema<V2PortalGetVerificationsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4560,7 +4640,8 @@ export const portalListKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(4384, __c137, 0) as any as S.Schema<PortalListKeysRequest>,
     output: __S(993, __c31, 1) as any as S.Schema<V2PortalListKeysResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4588,7 +4669,8 @@ export const portalListSessions: API.PaginatedOperationMethod<
   () => ({
     input: __S(4416, __c138, 0) as any as S.Schema<PortalListSessionsRequest>,
     output: __S(4421, __c138, 5) as any as S.Schema<V2PortalListSessionsResponseBody>,
-    errors: [BadRequest, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4614,7 +4696,8 @@ export const portalRerollKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<PortalRerollKeyRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4631,7 +4714,8 @@ export const portalRevokeSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<PortalRevokeSessionRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<V2PortalRevokeSessionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4648,7 +4732,8 @@ export const ratelimitCreateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<RatelimitCreateNamespaceRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<V2RatelimitCreateNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4665,7 +4750,8 @@ export const ratelimitDeleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<RatelimitDeleteNamespaceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RatelimitDeleteNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4682,7 +4768,8 @@ export const ratelimitDeleteOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<RatelimitDeleteOverrideRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RatelimitDeleteOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4699,7 +4786,8 @@ export const ratelimitGetOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<RatelimitGetOverrideRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<V2RatelimitGetOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4716,7 +4804,8 @@ export const ratelimitLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<RatelimitLimitRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<V2RatelimitLimitResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4735,7 +4824,8 @@ export const ratelimitListNamespaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(4800, __c150, 0) as any as S.Schema<RatelimitListNamespacesRequest>,
     output: __S(4802, __c150, 2) as any as S.Schema<V2RatelimitListNamespacesResponseBody>,
-    errors: [BadRequest, UnknownUnkeyError],
+    errors: [BadRequest],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4763,7 +4853,8 @@ export const ratelimitListOverrides: API.PaginatedOperationMethod<
   () => ({
     input: __S(4832, __c151, 0) as any as S.Schema<RatelimitListOverridesRequest>,
     output: __S(4834, __c151, 2) as any as S.Schema<V2RatelimitListOverridesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4789,7 +4880,8 @@ export const ratelimitMultiLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4866, __c152, 2) as any as S.Schema<RatelimitMultiLimitRequest>,
   output: __S(4870, __c152, 6) as any as S.Schema<V2RatelimitMultiLimitResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4806,7 +4898,8 @@ export const ratelimitSetOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<RatelimitSetOverrideRequest>,
   output: __S(4898, __c153, 2) as any as S.Schema<V2RatelimitSetOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4828,7 +4921,8 @@ export const ratelimitUpdateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<RatelimitUpdateNamespaceRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<V2RatelimitUpdateNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4849,7 +4943,8 @@ export const removeEnvironmentVariables: API.OperationMethod<
     __c4,
     0,
   ) as any as S.Schema<V2EnvironmentsRemoveEnvironmentVariablesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4866,7 +4961,8 @@ export const rootKeysCreateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<RootKeysCreateKeyRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2RootKeysCreateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4883,7 +4979,8 @@ export const rootKeysDeleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<RootKeysDeleteKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RootKeysDeleteKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4902,7 +4999,8 @@ export const rootKeysListKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(224, __c7, 0) as any as S.Schema<RootKeysListKeysRequest>,
     output: __S(227, __c7, 3) as any as S.Schema<V2RootKeysListKeysResponseBody>,
-    errors: [BadRequest, UnknownUnkeyError],
+    errors: [BadRequest],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4928,7 +5026,8 @@ export const rootKeysRerollKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<RootKeysRerollKeyRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<V2RootKeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4945,7 +5044,8 @@ export const rootKeysUpdateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<RootKeysUpdateKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RootKeysUpdateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4962,7 +5062,8 @@ export const startDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<StartDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<StartDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4979,7 +5080,8 @@ export const stopDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<StopDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<StopDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4996,7 +5098,8 @@ export const updateApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<UpdateAppRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<V2AppsUpdateAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5013,7 +5116,8 @@ export const updateIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<UpdateIdentityRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<V2IdentitiesUpdateIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5030,7 +5134,8 @@ export const updateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c14, 1) as any as S.Schema<UpdateKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2KeysUpdateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5047,7 +5152,8 @@ export const updatePortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<UpdatePortalRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<V2PortalUpdatePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5064,7 +5170,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(2720, __c85, 0) as any as S.Schema<V2ProjectsUpdateProjectResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5081,7 +5188,8 @@ export const verifyDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<VerifyDomainRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<VerifyDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5098,7 +5206,8 @@ export const verifyKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(611, __c19, 3) as any as S.Schema<VerifyKeyRequest>,
   output: __S(615, __c19, 7) as any as S.Schema<V2KeysVerifyKeyResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5115,7 +5224,8 @@ export const workspaceGetFlags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<WorkspaceGetFlagsRequest>,
   output: __S(643, __c20, 3) as any as S.Schema<V2WorkspaceGetFlagsResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5132,7 +5242,8 @@ export const workspaceGetLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<WorkspaceGetLimitsRequest>,
   output: __S(675, __c21, 3) as any as S.Schema<V2WorkspaceGetLimitsResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5149,7 +5260,8 @@ export const workspaceGetUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<WorkspaceGetUsageRequest>,
   output: __S(719, __c22, 15) as any as S.Schema<V2WorkspaceGetUsageResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5166,7 +5278,8 @@ export const workspaceUpdateFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<WorkspaceUpdateFlagRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2WorkspaceUpdateFlagResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

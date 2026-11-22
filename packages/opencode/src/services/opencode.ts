@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOpencodeError } from "../errors.ts";
+import { OpencodeServiceErrors } from "../errors.ts";
 import { OpencodeProtocol, type OpencodeOpError, type OpencodeOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4468,7 +4468,8 @@ export const activateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<ActivateCredentialRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ActivateCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4485,7 +4486,8 @@ export const addExperimentalIntegrationWellknown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<AddExperimentalIntegrationWellknownRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<AddExperimentalIntegrationWellknownResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4502,7 +4504,8 @@ export const addExperimentalMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<AddExperimentalMcpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<AddExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4519,7 +4522,8 @@ export const cancelIntegrationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<CancelIntegrationCommandRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CancelIntegrationCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4536,7 +4540,8 @@ export const cancelIntegrationOauth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<CancelIntegrationOauthRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CancelIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4553,7 +4558,8 @@ export const cancelSessionForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CancelSessionFormRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CancelSessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4570,7 +4576,8 @@ export const cancelSessionInbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CancelSessionInboxRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CancelSessionInboxResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4587,7 +4594,8 @@ export const checkPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<CheckPluginRequest>,
   output: __S(451, __c28, 3) as any as S.Schema<CheckPluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4604,7 +4612,8 @@ export const clearSessionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ClearSessionRevertRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ClearSessionRevertResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4621,7 +4630,8 @@ export const commitSessionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<CommitSessionRevertRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CommitSessionRevertResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4638,7 +4648,8 @@ export const compactSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<CompactSessionRequest>,
   output: __S(994, __c62, 2) as any as S.Schema<CompactSessionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4655,7 +4666,8 @@ export const completeIntegrationOauth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<CompleteIntegrationOauthRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CompleteIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4672,7 +4684,8 @@ export const configShells: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ConfigShellsRequest>,
   output: __S(1363, __c85, 3) as any as S.Schema<ConfigShellsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4689,7 +4702,8 @@ export const connectExperimentalMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ConnectExperimentalMcpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ConnectExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4710,7 +4724,8 @@ export const connectExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<ConnectExperimentalPersistentPtyRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<ConnectExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4727,7 +4742,8 @@ export const connectIntegrationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ConnectIntegrationCommandRequest>,
   output: __S(1507, __c94, 3) as any as S.Schema<ConnectIntegrationCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4744,7 +4760,8 @@ export const connectIntegrationOauth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ConnectIntegrationOauthRequest>,
   output: __S(1523, __c95, 3) as any as S.Schema<ConnectIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4761,7 +4778,8 @@ export const connectPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ConnectPtyRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<ConnectPtyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4778,7 +4796,8 @@ export const connectServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<ConnectServerRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<PairingSession>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4795,7 +4814,8 @@ export const createCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<CreateCredentialRequest>,
   output: __S(1585, __c99, 1) as any as S.Schema<CreateCredentialResponse>,
-  errors: [BadRequest, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4812,7 +4832,8 @@ export const createExperimentalArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<CreateExperimentalArtifactRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<CreateExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4828,7 +4849,8 @@ export const createExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CreateExperimentalPersistentPtyRequest>,
   output: __S(1744, __c109, 0) as any as S.Schema<CreateExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4845,7 +4867,8 @@ export const createExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1761, __c110, 1) as any as S.Schema<CreateExperimentalScheduleRequest>,
   output: __S(1776, __c111, 0) as any as S.Schema<CreateExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4862,7 +4885,8 @@ export const createPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<CreatePtyRequest>,
   output: __S(1840, __c115, 0) as any as S.Schema<CreatePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4879,7 +4903,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<CreateSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4896,7 +4921,8 @@ export const createSessionForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<CreateSessionFormRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CreateSessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4913,7 +4939,8 @@ export const createSessionPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<CreateSessionPermissionRequest>,
   output: __S(2082, __c130, 2) as any as S.Schema<CreateSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4930,7 +4957,8 @@ export const createShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<CreateShellRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<CreateShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4947,7 +4975,8 @@ export const createWorktree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<CreateWorktreeRequest>,
   output: __S(2000, __c125, 0) as any as S.Schema<WorktreeInfo>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4964,7 +4993,8 @@ export const debugHeapDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<DebugHeapDumpRequest>,
   output: __S(2178, __c136, 2) as any as S.Schema<DebugHeapDumpResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4981,7 +5011,8 @@ export const debugLocationEvict: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<DebugLocationEvictRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<DebugLocationEvictResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4998,7 +5029,8 @@ export const deleteExperimentalArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<DeleteExperimentalArtifactRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<DeleteExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5015,7 +5047,8 @@ export const deleteExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<DeleteExperimentalScheduleRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<DeleteExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5032,7 +5065,8 @@ export const disconnectExperimentalMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<DisconnectExperimentalMcpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<DisconnectExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5053,7 +5087,8 @@ export const experimentalArtifactsProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ExperimentalArtifactsProvidersRequest>,
   output: __S(2259, __c141, 3) as any as S.Schema<ExperimentalArtifactsProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5070,7 +5105,8 @@ export const experimentalArtifactsView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<ExperimentalArtifactsViewRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalArtifactsViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5087,7 +5123,8 @@ export const experimentalFsUnwatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ExperimentalFsUnwatchRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalFsUnwatchResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5104,7 +5141,8 @@ export const experimentalFsWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<ExperimentalFsWriteRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<ExperimentalFsWriteResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5125,7 +5163,8 @@ export const experimentalGenerateDecisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2354, __c147, 2) as any as S.Schema<ExperimentalGenerateDecisionsRequest>,
   output: __S(2357, __c147, 5) as any as S.Schema<GenerateDecisionsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5146,7 +5185,8 @@ export const experimentalGenerateImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2387, __c149, 3) as any as S.Schema<ExperimentalGenerateImageRequest>,
   output: __S(2390, __c149, 6) as any as S.Schema<GenerateImageResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5167,7 +5207,8 @@ export const experimentalGenerateText: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<ExperimentalGenerateTextRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<GenerateTextResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5184,7 +5225,8 @@ export const experimentalMcpClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<ExperimentalMcpClientRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<ExperimentalMcpClientResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5201,7 +5243,8 @@ export const experimentalMcpClientToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<ExperimentalMcpClientTokenRequest>,
   output: __S(2464, __c154, 0) as any as S.Schema<ExperimentalMcpClientTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5218,7 +5261,8 @@ export const experimentalMigrationV1Status: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ExperimentalMigrationV1StatusRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<ExperimentalMigrationV1StatusResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5238,7 +5282,8 @@ export const experimentalPersistentPtyConnectToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ExperimentalPersistentPtyConnectTokenRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<ExperimentalPersistentPtyConnectTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5254,7 +5299,8 @@ export const experimentalPersistentPtyHandoff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ExperimentalPersistentPtyHandoffRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<ExperimentalPersistentPtyHandoffResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5270,7 +5316,8 @@ export const experimentalPersistentPtyShutdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5286,7 +5333,8 @@ export const experimentalPersistentPtySnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ExperimentalPersistentPtySnapshotRequest>,
   output: __S(2594, __c162, 2) as any as S.Schema<ExperimentalPersistentPtySnapshotResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5303,7 +5351,8 @@ export const experimentalSessionLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ExperimentalSessionLogRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalSessionLogResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5320,7 +5369,8 @@ export const experimentalSessionSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ExperimentalSessionSkillRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalSessionSkillResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5337,7 +5387,8 @@ export const experimentalSessionStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<ExperimentalSessionStatsRequest>,
   output: __S(2663, __c166, 7) as any as S.Schema<ExperimentalSessionStatsResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5354,7 +5405,8 @@ export const experimentalUsageLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ExperimentalUsageLimitsRequest>,
   output: __S(2681, __c167, 9) as any as S.Schema<ExperimentalUsageLimitsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5371,7 +5423,8 @@ export const experimentalVoiceModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ExperimentalVoiceModelsRequest>,
   output: __S(2692, __c168, 4) as any as S.Schema<VoiceModelsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5388,7 +5441,8 @@ export const experimentalVoiceSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<ExperimentalVoiceSessionRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<VoiceSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5405,7 +5459,8 @@ export const exportExperimentalSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ExportExperimentalSessionRequest>,
   output: __S(2722, __c170, 2) as any as S.Schema<ExportExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5422,7 +5477,8 @@ export const forkSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ForkSessionRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<ForkSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5439,7 +5495,8 @@ export const fsFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<FsFindRequest>,
   output: __S(2818, __c176, 2) as any as S.Schema<FsFindResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5456,7 +5513,8 @@ export const generateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<GenerateSessionRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<SessionGenerateResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5473,7 +5531,8 @@ export const getAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetAgentRequest>,
   output: __S(2849, __c178, 1) as any as S.Schema<GetAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5490,7 +5549,8 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<GetConfigRequest>,
   output: __S(2914, __c182, 2) as any as S.Schema<GetConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5507,7 +5567,8 @@ export const getExperimentalArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<GetExperimentalArtifactRequest>,
   output: __S(2930, __c183, 2) as any as S.Schema<GetExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5524,7 +5585,8 @@ export const getExperimentalMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<GetExperimentalMediaRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<GetExperimentalMediaResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5540,7 +5602,8 @@ export const getExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<GetExperimentalPersistentPtyRequest>,
   output: __S(1744, __c109, 0) as any as S.Schema<GetExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5557,7 +5620,8 @@ export const getExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<GetExperimentalScheduleRequest>,
   output: __S(1776, __c111, 0) as any as S.Schema<GetExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5574,7 +5638,8 @@ export const getIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2992, __c187, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(2993, __c187, 1) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5591,7 +5656,8 @@ export const getLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<GetLocationRequest>,
   output: __S(3042, __c190, 2) as any as S.Schema<LocationPublicInfo>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5608,7 +5674,8 @@ export const getProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<GetProviderRequest>,
   output: __S(3057, __c191, 1) as any as S.Schema<GetProviderResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5625,7 +5692,8 @@ export const getPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<GetPtyRequest>,
   output: __S(1840, __c115, 0) as any as S.Schema<GetPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5642,7 +5710,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<GetSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5659,7 +5728,8 @@ export const getSessionForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<GetSessionFormRequest>,
   output: __S(3122, __c195, 2) as any as S.Schema<GetSessionFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5676,7 +5746,8 @@ export const getSessionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<GetSessionMessageRequest>,
   output: __S(3137, __c196, 1) as any as S.Schema<GetSessionMessageResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5693,7 +5764,8 @@ export const getSessionPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<GetSessionPermissionRequest>,
   output: __S(3153, __c197, 1) as any as S.Schema<GetSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5710,7 +5782,8 @@ export const getShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<GetShellRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<GetShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5727,7 +5800,8 @@ export const getVcs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<GetVcsRequest>,
   output: __S(3203, __c200, 3) as any as S.Schema<GetVcsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5744,7 +5818,8 @@ export const importExperimentalSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3217, __c201, 1) as any as S.Schema<ImportExperimentalSessionRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<ImportExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5761,7 +5836,8 @@ export const integrationCommandStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3248, __c203, 0) as any as S.Schema<IntegrationCommandStatusRequest>,
   output: __S(3249, __c203, 1) as any as S.Schema<IntegrationCommandStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5778,7 +5854,8 @@ export const integrationConnectExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<IntegrationConnectExternalRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<IntegrationConnectExternalResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,7 +5872,8 @@ export const integrationConnectKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<IntegrationConnectKeyRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<IntegrationConnectKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5812,7 +5890,8 @@ export const integrationOauthStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<IntegrationOauthStatusRequest>,
   output: __S(3297, __c206, 1) as any as S.Schema<IntegrationOauthStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5829,7 +5908,8 @@ export const listAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<ListAgentRequest>,
   output: __S(3314, __c207, 2) as any as S.Schema<ListAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5846,7 +5926,8 @@ export const listCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<ListCommandRequest>,
   output: __S(3331, __c208, 3) as any as S.Schema<ListCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5863,7 +5944,8 @@ export const listCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<ListCredentialRequest>,
   output: __S(3346, __c209, 2) as any as S.Schema<ListCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5880,7 +5962,8 @@ export const listDebugLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<ListDebugLocationRequest>,
   output: __S(3362, __c210, 2) as any as S.Schema<ListDebugLocationResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5897,7 +5980,8 @@ export const listExperimentalArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<ListExperimentalArtifactsRequest>,
   output: __S(3378, __c211, 2) as any as S.Schema<ListExperimentalArtifactsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5914,7 +5998,8 @@ export const listExperimentalJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<ListExperimentalJobRequest>,
   output: __S(3394, __c212, 2) as any as S.Schema<ListExperimentalJobResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5930,7 +6015,8 @@ export const listExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<ListExperimentalPersistentPtyRequest>,
   output: __S(3426, __c214, 2) as any as S.Schema<ListExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5947,7 +6033,8 @@ export const listExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<ListExperimentalScheduleRequest>,
   output: __S(3442, __c215, 2) as any as S.Schema<ListExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5964,7 +6051,8 @@ export const listExperimentalSessionInstructionsEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<ListExperimentalSessionInstructionsEntryRequest>,
   output: __S(3459, __c216, 3) as any as S.Schema<ListExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5981,7 +6069,8 @@ export const listForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<ListFormRequest>,
   output: __S(3473, __c217, 1) as any as S.Schema<ListFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5998,7 +6087,8 @@ export const listFs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<ListFsRequest>,
   output: __S(2818, __c176, 2) as any as S.Schema<ListFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6015,7 +6105,8 @@ export const listIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c220, 0) as any as S.Schema<ListIntegrationRequest>,
   output: __S(3522, __c220, 2) as any as S.Schema<ListIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6032,7 +6123,8 @@ export const listMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<ListMcpRequest>,
   output: __S(3539, __c221, 3) as any as S.Schema<ListMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6049,7 +6141,8 @@ export const listModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<ListModelRequest>,
   output: __S(3554, __c222, 2) as any as S.Schema<ListModelResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6066,7 +6159,8 @@ export const listPermissionRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Schema<ListPermissionRequestRequest>,
   output: __S(3585, __c224, 1) as any as S.Schema<ListPermissionRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6083,7 +6177,8 @@ export const listPermissionSaved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<ListPermissionSavedRequest>,
   output: __S(3618, __c226, 2) as any as S.Schema<ListPermissionSavedResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6100,7 +6195,8 @@ export const listPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListPluginRequest>,
   output: __S(451, __c28, 3) as any as S.Schema<ListPluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6117,7 +6213,8 @@ export const listProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListProjectRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<ListProjectResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6134,7 +6231,8 @@ export const listProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListProviderRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<ListProviderResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6151,7 +6249,8 @@ export const listPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListPtyRequest>,
   output: __S(130, __c8, 2) as any as S.Schema<ListPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6168,7 +6267,8 @@ export const listReference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListReferenceRequest>,
   output: __S(147, __c9, 3) as any as S.Schema<ListReferenceResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6185,7 +6285,8 @@ export const listSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListSessionRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<SessionsResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6202,7 +6303,8 @@ export const listSessionForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListSessionFormRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<ListSessionFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6219,7 +6321,8 @@ export const listSessionInbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListSessionInboxRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<ListSessionInboxResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6236,7 +6339,8 @@ export const listSessionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListSessionMessageRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<SessionMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6253,7 +6357,8 @@ export const listSessionPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListSessionPermissionRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<ListSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6270,7 +6375,8 @@ export const listShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListShellRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<ListShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6287,7 +6393,8 @@ export const listSkill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListSkillRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<ListSkillResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6304,7 +6411,8 @@ export const listVcsBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListVcsBranchRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<ListVcsBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6321,7 +6429,8 @@ export const listWorktree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListWorktreeRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<ListWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6338,7 +6447,8 @@ export const locationReload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<LocationReloadRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<LocationReloadResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6355,7 +6465,8 @@ export const mcpResourceCatalog2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<McpResourceCatalogRequest>,
   output: __S(358, __c22, 6) as any as S.Schema<McpResourceCatalogResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6372,7 +6483,8 @@ export const modelDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ModelDefaultRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<ModelDefaultResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6389,7 +6501,8 @@ export const moveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<MoveSessionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<MoveSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6406,7 +6519,8 @@ export const pauseExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<PauseExperimentalScheduleRequest>,
   output: __S(1776, __c111, 0) as any as S.Schema<PauseExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6423,7 +6537,8 @@ export const pluginGui: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<PluginGuiRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<PluginGuiResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6440,7 +6555,8 @@ export const ptyConnectToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<PtyConnectTokenRequest>,
   output: __S(2464, __c154, 0) as any as S.Schema<PtyConnectTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6457,7 +6573,8 @@ export const putExperimentalSessionInstructionsEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6474,7 +6591,8 @@ export const readExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ReadExperimentalPersistentPtyRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<ReadExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6491,7 +6609,8 @@ export const readFs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ReadFsRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ReadFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6508,7 +6627,8 @@ export const refreshWorktree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<RefreshWorktreeRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RefreshWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6525,7 +6645,8 @@ export const removeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<RemoveCredentialRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6542,7 +6663,8 @@ export const removeExperimentalMcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<RemoveExperimentalMcpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6558,7 +6680,8 @@ export const removeExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<RemoveExperimentalPersistentPtyRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6582,7 +6705,8 @@ export const removeExperimentalSessionInstructionsEntry: API.OperationMethod<
     __c159,
     0,
   ) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6599,7 +6723,8 @@ export const removePermissionSaved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<RemovePermissionSavedRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemovePermissionSavedResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6616,7 +6741,8 @@ export const removePty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<RemovePtyRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemovePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6633,7 +6759,8 @@ export const removeSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<RemoveSessionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6650,7 +6777,8 @@ export const removeShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<RemoveShellRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6667,7 +6795,8 @@ export const removeWorktree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<RemoveWorktreeRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<RemoveWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6684,7 +6813,8 @@ export const replySessionForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ReplySessionFormRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ReplySessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6701,7 +6831,8 @@ export const replySessionPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ReplySessionPermissionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ReplySessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6718,7 +6849,8 @@ export const resumeExperimentalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ResumeExperimentalScheduleRequest>,
   output: __S(1776, __c111, 0) as any as S.Schema<ResumeExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6735,7 +6867,8 @@ export const rpcCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<RpcCallRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<RpcOutput>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,7 +6885,8 @@ export const serverInfo2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ServerInfo2Request>,
   output: __S(771, __c48, 3) as any as S.Schema<ServerInfo>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6769,7 +6903,8 @@ export const serverPair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ServerPairRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<PairingCode>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6786,7 +6921,8 @@ export const sessionActive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<SessionActiveRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<SessionActiveResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6803,7 +6939,8 @@ export const sessionBackground: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<SessionBackgroundRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionBackgroundResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6820,7 +6957,8 @@ export const sessionCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<SessionCommandRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6837,7 +6975,8 @@ export const sessionContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<SessionContextRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<SessionContextResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6854,7 +6993,8 @@ export const sessionDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<SessionDiffRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<SessionDiffResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6871,7 +7011,8 @@ export const sessionEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<SessionEnvironmentRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6888,7 +7029,8 @@ export const sessionInterrupt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<SessionInterruptRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<SessionInterruptResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6905,7 +7047,8 @@ export const sessionPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(950, __c59, 6) as any as S.Schema<SessionPromptRequest>,
   output: __S(951, __c59, 7) as any as S.Schema<SessionPromptResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6922,7 +7065,8 @@ export const sessionRevertStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<SessionRevertStageRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<SessionRevertStageResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6939,7 +7083,8 @@ export const sessionShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<SessionShellRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6956,7 +7101,8 @@ export const sessionSwitchAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<SessionSwitchAgentRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionSwitchAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6973,7 +7119,8 @@ export const sessionSwitchModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<SessionSwitchModelRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionSwitchModelResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6990,7 +7137,8 @@ export const sessionSynthetic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1058, __c66, 2) as any as S.Schema<SessionSyntheticRequest>,
   output: __S(1059, __c66, 3) as any as S.Schema<SessionSyntheticResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7007,7 +7155,8 @@ export const sessionView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<SessionViewRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SessionViewResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7024,7 +7173,8 @@ export const shellOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1089, __c68, 1) as any as S.Schema<ShellOutputRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<ShellOutputResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7041,7 +7191,8 @@ export const subscribeEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<SubscribeEventRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<SubscribeEventResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7058,7 +7209,8 @@ export const updateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<UpdateCredentialRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<UpdateCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7075,7 +7227,8 @@ export const updateExperimentalArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateExperimentalArtifactRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UpdateExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7092,7 +7245,8 @@ export const updateExperimentalConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<UpdateExperimentalConfigRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7109,7 +7263,8 @@ export const updateExperimentalPersistentPty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<UpdateExperimentalPersistentPtyRequest>,
   output: __S(1744, __c109, 0) as any as S.Schema<UpdateExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7126,7 +7281,8 @@ export const updatePermissionSaved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<UpdatePermissionSavedRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<UpdatePermissionSavedResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7143,7 +7299,8 @@ export const updatePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<UpdatePluginRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<UpdatePluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7160,7 +7317,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7177,7 +7335,8 @@ export const updatePty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1249, __c78, 1) as any as S.Schema<UpdatePtyRequest>,
   output: __S(1840, __c115, 0) as any as S.Schema<UpdatePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7194,7 +7353,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<UpdateSessionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<UpdateSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7211,7 +7371,8 @@ export const updateSessionInbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<UpdateSessionInboxRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<UpdateSessionInboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7228,7 +7389,8 @@ export const vcsBase2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<VcsBaseRequest>,
   output: __S(1298, __c81, 2) as any as S.Schema<VcsBaseResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7245,7 +7407,8 @@ export const vcsDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<VcsDiffRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<VcsDiffResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7262,7 +7425,8 @@ export const vcsInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<VcsInitRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<VcsInitResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7279,7 +7443,8 @@ export const vcsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<VcsStatusRequest>,
   output: __S(1347, __c84, 3) as any as S.Schema<VcsStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7296,7 +7461,8 @@ export const waitExperimentalSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<WaitExperimentalSessionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<WaitExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7313,7 +7479,8 @@ export const watchExperimentalFs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<WatchExperimentalFsRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<WatchExperimentalFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7330,7 +7497,8 @@ export const websearchProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<WebsearchProvidersRequest>,
   output: __S(1411, __c88, 3) as any as S.Schema<WebsearchProvidersResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7347,7 +7515,8 @@ export const websearchQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<WebsearchQueryRequest>,
   output: __S(1429, __c89, 5) as any as S.Schema<WebsearchQueryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

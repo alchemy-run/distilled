@@ -93,6 +93,7 @@ const spec: SdkSpec = {
     // (400/402/403/404/409/422); 401/429/5xx ride WhopOpError, dispatched
     // from the status by WhopProtocol.
     commonErrorClasses: [],
+    serviceErrors: "WhopServiceErrors",
     protocol: "WhopProtocol",
     retry: "Retry.Retry",
   },

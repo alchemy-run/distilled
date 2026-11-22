@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -289,7 +289,8 @@ export const archiveTunnel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ArchiveTunnelRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<BetaTunnel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -306,7 +307,8 @@ export const archiveTunnelCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ArchiveTunnelCertificateRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaTunnelCertificate>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -323,7 +325,8 @@ export const createTunnel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<CreateTunnelRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<BetaTunnel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -340,7 +343,8 @@ export const createTunnelCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<CreateTunnelCertificateRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaTunnelCertificate>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -357,7 +361,8 @@ export const getTunnel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetTunnelRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<BetaTunnel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -374,7 +379,8 @@ export const getTunnelCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetTunnelCertificateRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaTunnelCertificate>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -393,7 +399,8 @@ export const listTunnelCertificates: API.PaginatedOperationMethod<
   () => ({
     input: __S(36, __c9, 0) as any as S.Schema<ListTunnelCertificatesRequest>,
     output: __S(38, __c9, 2) as any as S.Schema<BetaListTunnelCertificatesResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -421,7 +428,8 @@ export const listTunnels: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c10, 0) as any as S.Schema<ListTunnelsRequest>,
     output: __S(42, __c10, 2) as any as S.Schema<BetaListTunnelsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -447,7 +455,8 @@ export const revealTunnelToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<RevealTunnelTokenRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<BetaTunnelToken>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -464,7 +473,8 @@ export const rotateTunnelToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<RotateTunnelTokenRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<BetaTunnelToken>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

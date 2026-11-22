@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -542,7 +542,8 @@ export const acknowledgeWork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AcknowledgeWorkRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaSelfHostedWork>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -559,7 +560,8 @@ export const archiveEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ArchiveEnvironmentRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<BetaEnvironment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -576,7 +578,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<BetaEnvironment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -593,7 +596,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<BetaEnvironmentDeleteResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -610,7 +614,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<BetaEnvironment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -627,7 +632,8 @@ export const getEnvironmentStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetEnvironmentStatsRequest>,
   output: __S(61, __c15, 1) as any as S.Schema<BetaSelfHostedWorkQueueStats>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -644,7 +650,8 @@ export const getWork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<GetWorkRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaSelfHostedWork>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -663,7 +670,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
   () => ({
     input: __S(68, __c17, 0) as any as S.Schema<ListEnvironmentsRequest>,
     output: __S(70, __c17, 2) as any as S.Schema<BetaEnvironmentListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -691,7 +699,8 @@ export const listWork: API.PaginatedOperationMethod<
   () => ({
     input: __S(72, __c18, 0) as any as S.Schema<ListWorkRequest>,
     output: __S(74, __c18, 2) as any as S.Schema<BetaSelfHostedWorkListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -717,7 +726,8 @@ export const pollWork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<PollWorkRequest>,
   output: __S(77, __c19, 1) as any as S.Schema<PollWorkResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -734,7 +744,8 @@ export const recordHeartbeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<RecordHeartbeatRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<BetaSelfHostedWorkHeartbeatResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -751,7 +762,8 @@ export const stopWork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<StopWorkRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaSelfHostedWork>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -768,7 +780,8 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<BetaEnvironment>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -785,7 +798,8 @@ export const updateWork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<UpdateWorkRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<BetaSelfHostedWork>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -58,7 +58,7 @@ const netbirdSpec: SdkSpec = {
   operationDecl: {
     contextType: "NetBirdOpContext",
     commonErrorType: "NetBirdOpError",
-    commonErrorClasses: ["UnknownNetBirdError"],
+    serviceErrors: "NetBirdServiceErrors",
     protocol: "NetBirdProtocol",
     retry: "Retry.Retry",
   },
