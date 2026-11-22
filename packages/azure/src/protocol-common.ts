@@ -7,12 +7,14 @@
  * ARM-only program never loads the data-plane code (Storage XML, the
  * Container Registry token exchange).
  */
-import { ConfigError, InternalServerError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Checked } from "@distilled.cloud/core/config";
+import { ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
 import type { DeclaredErrorClass } from "@distilled.cloud/core/protocol";
-import { encodeLabel, matchTypedError } from "@distilled.cloud/core/protocol-http";
+import { matchTypedError } from "@distilled.cloud/core/protocol-http";
 import { declaredStatusClass } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import * as Effect from "effect/Effect";
+import type { Config } from "./credentials-service.ts";
 import { AZURE_ERROR_CODE_MAP, matchAzureErrorMessage, UnknownAzureError } from "./errors.ts";
 import type { HttpTrait } from "./traits.ts";
 
@@ -41,26 +43,20 @@ const declaredClass = (
 
 /**
  * The credentials' subscription, percent-encoded for a `{subscriptionId}`
- * the caller left unfilled. A missing one, or one that can't be a path
- * segment (`.`, `..`, a lone UTF-16 surrogate), is a {@link ConfigError}:
- * the value comes from the credentials, not the call.
+ * the caller left unfilled. A missing one is a {@link ConfigError}: only
+ * this operation knows it needs one. One that can't be a path segment is
+ * refused earlier, when the credentials layer is built (`check` in
+ * ./credentials-service.ts).
  */
 export const configuredSubscriptionId = (
-  subscriptionId: string | undefined,
+  creds: Checked<Config> | undefined,
   uri: string | undefined,
-): string | ConfigError => {
-  if (!subscriptionId) {
-    return new ConfigError({
-      message: `${uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
-    });
-  }
-  const encoded = encodeLabel("subscriptionId", subscriptionId);
-  return encoded instanceof InvalidInput
-    ? new ConfigError({
-        message: `The configured subscriptionId ${JSON.stringify(subscriptionId)} cannot be a URL path segment`,
-      })
-    : encoded;
-};
+): string | ConfigError =>
+  creds?.subscriptionId
+    ? encodeURIComponent(creds.subscriptionId)
+    : new ConfigError({
+        message: `${uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
+      });
 
 // ---------------------------------------------------------------------------
 // Error-body parsing

@@ -14,7 +14,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { ARM_SCOPE, Credentials, type Config } from "../src/credentials.ts";
+import { ARM_SCOPE, check, Credentials } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import * as cosmos from "../src/services/cosmos-nosql.ts";
 import * as eventhubs from "../src/services/eventhubs-messaging.ts";
@@ -34,15 +34,18 @@ interface Canned {
   readonly headers?: Record<string, string>;
 }
 
-const credentials = Layer.succeed(
+const credentials = Layer.effect(
   Credentials,
-  Effect.succeed<Config>({
-    token: (scope) =>
-      Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
-    subscriptionId: "00000000-0000-0000-0000-000000000001",
-    apiBaseUrl: "https://management.azure.com",
-  }),
-);
+  Effect.map(
+    check({
+      token: (scope) =>
+        Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
+      subscriptionId: "00000000-0000-0000-0000-000000000001",
+      apiBaseUrl: "https://management.azure.com",
+    }),
+    Effect.succeed,
+  ),
+).pipe(Layer.orDie);
 
 /** Run one operation against a fake client answering `canned`, in strict response validation. */
 const run = async <A, E>(
