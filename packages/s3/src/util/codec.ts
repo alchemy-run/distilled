@@ -39,12 +39,11 @@ import { formatDateTime } from "./timestamp.ts";
 export class CodecError extends Error {
   /** The ` at [key]` suffixes the failure gained on the way out, innermost first. */
   path = "";
-  constructor(
-    /** What the schema expected, e.g. `string`. */
-    readonly expected: string,
-    actual: unknown,
-  ) {
+  /** What the schema expected, e.g. `string`. */
+  readonly expected: string;
+  constructor(expected: string, actual: unknown) {
     super(`Expected ${expected}, got ${show(actual)}`);
+    this.expected = expected;
   }
   /** The message without the value found, for a type that can hold a secret. */
   get withheld(): string {

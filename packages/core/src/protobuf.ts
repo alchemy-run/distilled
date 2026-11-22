@@ -191,7 +191,9 @@ class Writer {
 class Reader {
   pos = 0;
   readonly view: DataView;
-  constructor(readonly buf: Uint8Array) {
+  readonly buf: Uint8Array;
+  constructor(buf: Uint8Array) {
+    this.buf = buf;
     this.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   }
 
