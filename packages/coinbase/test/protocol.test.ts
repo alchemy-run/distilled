@@ -459,8 +459,11 @@ describe("Error decoding", () => {
     expect(unmapped).toMatchObject({ body: "teapot" });
   });
 
-  test("an isValid/success body with an error status is a success value", async () => {
-    const { result } = run(call(), () => json({ isValid: false, address: "0xabc" }, 400));
-    expect(await result).toEqual({ isValid: false, address: "0xabc" });
+  test("an isValid/success body with an error status is an error", async () => {
+    const invalid = await runError(call(), () => json({ isValid: false, address: "0xabc" }, 400));
+    expect(invalid).toBeInstanceOf(BadRequest);
+
+    const failed = await runError(call(), () => json({ success: false }, 500));
+    expect(failed).toBeInstanceOf(InternalServerError);
   });
 });
