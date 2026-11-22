@@ -4,9 +4,11 @@
  * - the host of the last request each fiber sent, which keys the retry
  *   budget ({@link Budget}), and the bounded server hint its response
  *   carried (`x-amz-retry-after` / `x-distilled-retry-after`);
+ * - whether that request's body could be read only once, so a retry
+ *   would send it empty;
  * - a count of successful responses per host, which refills the budget.
  *
- * `send` (`./send.ts`) writes both for every protocol that sends through it.
+ * `send` (`./send.ts`) writes them for every protocol that sends through it.
  * The module imports nothing heavy: every bundle that sends a request loads
  * it.
  */
@@ -14,6 +16,8 @@ import * as Fiber from "effect/Fiber";
 
 interface LastRequest {
   readonly host: string;
+  /** The body can be read only once: the call must not be sent again. */
+  readonly oneShot: boolean;
   /** Bounded server hint of the response, in milliseconds. */
   hintMs: number | undefined;
 }
@@ -55,10 +59,15 @@ export const boundedHintOf = (
   return distilled === undefined ? amz : Math.max(amz, distilled);
 };
 
-/** Record that the current fiber is sending a request to `url`. */
-export const recordRequest = (url: string): void => {
+/**
+ * Record that the current fiber is sending a request to `url`; `oneShot`
+ * when its body can be read only once.
+ */
+export const recordRequest = (url: string, oneShot = false): void => {
   const fiber = Fiber.getCurrent();
-  if (fiber !== undefined) lastByFiber.set(fiber, { host: hostOf(url), hintMs: undefined });
+  if (fiber !== undefined) {
+    lastByFiber.set(fiber, { host: hostOf(url), oneShot, hintMs: undefined });
+  }
 };
 
 /** Record the response to the current fiber's last request. */
@@ -80,12 +89,16 @@ export const recordResponse = (
  * The current fiber's last request, removed so that a later failure that
  * sent nothing cannot reuse its hint.
  */
-export const takeLastRequest = (): { readonly host: string; readonly hintMs?: number } => {
+export const takeLastRequest = (): {
+  readonly host: string;
+  readonly oneShot: boolean;
+  readonly hintMs?: number;
+} => {
   const fiber = Fiber.getCurrent();
   const last = fiber === undefined ? undefined : lastByFiber.get(fiber);
-  if (last === undefined) return { host: "" };
+  if (last === undefined) return { host: "", oneShot: false };
   lastByFiber.delete(fiber!);
-  return last.hintMs === undefined ? { host: last.host } : last;
+  return last.hintMs === undefined ? { host: last.host, oneShot: last.oneShot } : last;
 };
 
 /** Successful responses from `host` so far in this process. */
