@@ -39,16 +39,14 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Unifi.CredentialsFromEnv,
-  Unifi.UniFiNetworkProtocol,
-  Unifi.UniFiCloudProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
-Each service has its own protocol layer: `UniFiNetworkProtocol`, `UniFiProtectProtocol`,
+Each service has its own protocol: `UniFiNetworkProtocol`, `UniFiProtectProtocol`,
 `UniFiInnerSpaceProtocol` and `UniFiCloudProtocol` (Site Manager, Mobility, Carrier Fabric).
-Provide the ones you call.
+Every operation names the one it uses, so a program provides only an `HttpClient` and credentials.
 
 List operations (`get…Page`, `listDevices`, …) take `offset`/`limit`, `pageSize`/`nextToken`
 or `limit`/`cursor` as the API does, and `.pages()` / `.items()` stream every page

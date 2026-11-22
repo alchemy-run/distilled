@@ -58,7 +58,6 @@ const program = Effect.gen(function* () {
 const WhatsAppLive = Layer.mergeAll(
   FetchHttpClient.layer,
   WhatsApp.CredentialsFromEnv,
-  WhatsApp.WhatsAppProtocol,
 );
 
 program.pipe(Effect.provide(WhatsAppLive), Effect.runPromise);

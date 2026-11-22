@@ -425,7 +425,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Pkg.CredentialsFromEnv,
-  Pkg.PkgProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -438,7 +437,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 The quick-start program must compile against the generated names:
 
-- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv)`: every operation names its own protocol, so a program provides only an `HttpClient` and credentials
 - at least one real call (`Vms.createVm` from a service subpath, or
   `Pkg.getX` for a single-service package; not `Pkg.Services.…` and not
   only `list*`)
@@ -483,7 +482,7 @@ Body, in order:
    tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
    the distilled-submodules stack on merge to main.
 3. **The same complete example as the README** — `Layer.mergeAll`,
-   `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
+   `CredentialsFromEnv`, a real call, `Effect.runPromise`.
    A PR whose only snippet is `listX({})` is incomplete; paste the README
    quick start.
 4. `Checks: pnpm specs:check` green, `tsrs -b packages/<pkg> --noCheck false`

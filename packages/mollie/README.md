@@ -63,7 +63,7 @@ const program = Effect.gen(function* () {
   return yield* Mollie.getPayment({ paymentId: payment.id });
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Mollie.CredentialsFromEnv, Mollie.MollieProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Mollie.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```

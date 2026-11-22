@@ -49,7 +49,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Modal.CredentialsFromEnv,
-  Modal.ModalProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

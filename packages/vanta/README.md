@@ -24,7 +24,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Vanta.CredentialsFromEnv,
-  Vanta.VantaProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

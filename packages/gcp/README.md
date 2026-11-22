@@ -16,7 +16,7 @@ npm install @distilled.cloud/gcp effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Storage from "@distilled.cloud/gcp/storage_v1";
-import { CredentialsFromEnv, GcpProtocol } from "@distilled.cloud/gcp";
+import { CredentialsFromEnv } from "@distilled.cloud/gcp";
 
 const program = Effect.gen(function* () {
   const result = yield* Storage.listBuckets({ project: "acme" });
@@ -26,7 +26,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   CredentialsFromEnv,
-  GcpProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -53,10 +52,10 @@ service account key:
 ```ts
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
-import { fromApplicationDefault, GcpProtocol } from "@distilled.cloud/gcp";
+import { fromApplicationDefault } from "@distilled.cloud/gcp";
 import * as Storage from "@distilled.cloud/gcp/storage_v1";
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, fromApplicationDefault(), GcpProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, fromApplicationDefault());
 
 Storage.listBuckets({ project: "acme" }).pipe(Effect.provide(Live), Effect.runPromise);
 ```
@@ -95,7 +94,7 @@ access token is cached and exchanged again five minutes before it expires.
 import { Effect, Layer, Redacted } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { getVercelOidcToken } from "@vercel/oidc";
-import { fromWorkloadIdentity, GcpProtocol } from "@distilled.cloud/gcp";
+import { fromWorkloadIdentity } from "@distilled.cloud/gcp";
 
 const Credentials = fromWorkloadIdentity({
   audience:
@@ -105,7 +104,7 @@ const Credentials = fromWorkloadIdentity({
   subjectToken: Effect.promise(() => getVercelOidcToken()).pipe(Effect.map(Redacted.make)),
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials, GcpProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials);
 ```
 
 - `audience` is the pool provider's resource name, prefixed with

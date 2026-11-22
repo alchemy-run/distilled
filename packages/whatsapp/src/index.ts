@@ -18,7 +18,7 @@
  *
  * program.pipe(
  *   Effect.provide(
- *     Layer.mergeAll(FetchHttpClient.layer, WhatsApp.CredentialsFromEnv, WhatsApp.WhatsAppProtocol),
+ *     Layer.mergeAll(FetchHttpClient.layer, WhatsApp.CredentialsFromEnv),
  *   ),
  *   Effect.runPromise,
  * );
