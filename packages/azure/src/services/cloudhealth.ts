@@ -351,9 +351,7 @@ export interface ResourceGraphQuerySpecification {
 /** Base model for discovery rule specifications */
 export type DiscoveryRuleSpecification =
   | ApplicationInsightsTopologySpecification
-  | ResourceGraphQuerySpecification
-  | string
-  | string;
+  | ResourceGraphQuerySpecification;
 /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
 export type DiscoveryRulePropertiesInputAddResourceHealthSignal = "Enabled" | "Disabled";
 /** Discovery rule properties */
@@ -1575,14 +1573,7 @@ export interface ResourceMetricSignalDefinitionProperties {
 export type SignalDefinitionProperties =
   | LogAnalyticsQuerySignalDefinitionProperties
   | PrometheusMetricsSignalDefinitionProperties
-  | ResourceMetricSignalDefinitionProperties
-  | string
-  | string
-  | MetricAggregationType
-  | string
-  | string
-  | string
-  | string;
+  | ResourceMetricSignalDefinitionProperties;
 export interface GetSignalDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1989,15 +1980,7 @@ export interface ResourceMetricSignalDefinitionPropertiesInput {
 export type SignalDefinitionPropertiesInput =
   | LogAnalyticsQuerySignalDefinitionPropertiesInput
   | PrometheusMetricsSignalDefinitionPropertiesInput
-  | ResourceMetricSignalDefinitionPropertiesInput
-  | string
-  | string
-  | MetricAggregationType
-  | (string & {})
-  | string
-  | string
-  | string
-  | string;
+  | ResourceMetricSignalDefinitionPropertiesInput;
 export interface SignalDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3823,18 +3806,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ResourceMetricSignalDefinitionProperties" });
     case 3:
-      return S.Union([
-        __S(992, __c31, 0),
-        __S(993, __c31, 1),
-        __S(994, __c31, 2),
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-      ]);
+      return S.Union([__S(992, __c31, 0), __S(993, __c31, 1), __S(994, __c31, 2)]);
   }
 }
 function __c32(j: number): any {
@@ -4208,18 +4180,7 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "ResourceMetricSignalDefinitionPropertiesInput" });
     case 3:
-      return S.Union([
-        __S(1408, __c44, 0),
-        __S(1409, __c44, 1),
-        __S(1410, __c44, 2),
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-      ]);
+      return S.Union([__S(1408, __c44, 0), __S(1409, __c44, 1), __S(1410, __c44, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4453,7 +4414,7 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "ResourceGraphQuerySpecification" });
     case 2:
-      return S.Union([__S(1696, __c53, 0), __S(1697, __c53, 1), S.String, S.String]);
+      return S.Union([__S(1696, __c53, 0), __S(1697, __c53, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({

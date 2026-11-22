@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -306,13 +306,7 @@ export type ToolDefinition =
   | ConnectedAgentToolDefinition
   | FileSearchToolDefinition
   | FunctionToolDefinition
-  | OpenApiToolDefinition
-  | unknown
-  | unknown
-  | unknown
-  | unknown
-  | unknown
-  | unknown;
+  | OpenApiToolDefinition;
 /** The overridden enabled tools used for this agent thread run. */
 export type ThreadRunToolsList = Array<ToolDefinition>;
 /** The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run. */
@@ -684,12 +678,83 @@ export interface MessageImageFileContent {
 }
 /** The object type. */
 export type MessageTextContentType = "text";
+/** The object type. */
+export type MessageTextFileCitationAnnotationType = "file_citation";
+/** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
+export interface MessageTextFileCitationDetails {
+  /** The ID of the file associated with this citation. */
+  file_id: string;
+  /** The specific quote cited in the associated file. */
+  quote: string;
+}
+/** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
+export interface MessageTextFileCitationAnnotation {
+  /** The object type. */
+  type: MessageTextFileCitationAnnotationType;
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** A citation within the message that points to a specific quote from a specific file. Generated when the agent uses the "file_search" tool to search files. */
+  file_citation: MessageTextFileCitationDetails;
+  /** The first text index associated with this text annotation. */
+  start_index?: number | undefined;
+  /** The last text index associated with this text annotation. */
+  end_index?: number | undefined;
+}
+/** The object type. */
+export type MessageTextFilePathAnnotationType = "file_path";
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageTextFilePathDetails {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
+}
+/** A citation within the message that points to a file located at a specific path. */
+export interface MessageTextFilePathAnnotation {
+  /** The object type. */
+  type: MessageTextFilePathAnnotationType;
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** A URL for the file that's generated when the agent used the code_interpreter tool to generate a file. */
+  file_path: MessageTextFilePathDetails;
+  /** The first text index associated with this text annotation. */
+  start_index?: number | undefined;
+  /** The last text index associated with this text annotation. */
+  end_index?: number | undefined;
+}
+/** The object type. */
+export type MessageTextUrlCitationAnnotationType = "url_citation";
+/** A representation of a URL citation, as used in text thread message content. */
+export interface MessageTextUrlCitationDetails {
+  /** The URL associated with this citation. */
+  url: string;
+  /** The title of the URL. */
+  title?: string | undefined;
+}
+/** A citation within the message that points to a specific URL associated with the message. Generated when the agent uses tools such as 'bing_grounding' to search the Internet. */
+export interface MessageTextUrlCitationAnnotation {
+  /** The object type. */
+  type: MessageTextUrlCitationAnnotationType;
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** The details of the URL citation. */
+  url_citation: MessageTextUrlCitationDetails;
+  /** The first text index associated with this text annotation. */
+  start_index?: number | undefined;
+  /** The last text index associated with this text annotation. */
+  end_index?: number | undefined;
+}
+/** An abstract representation of an annotation to text thread message content. */
+export type MessageTextAnnotation =
+  | MessageTextFileCitationAnnotation
+  | MessageTextFilePathAnnotation
+  | MessageTextUrlCitationAnnotation;
+/** A list of annotations associated with this text. */
+export type MessageTextDetailsAnnotationsList = Array<MessageTextAnnotation>;
 /** The text and associated annotations for a single item of agent thread message content. */
 export interface MessageTextDetails {
   /** The text data. */
   value: string;
   /** A list of annotations associated with this text. */
-  annotations?: unknown | undefined;
+  annotations: MessageTextDetailsAnnotationsList;
 }
 /** A representation of a textual item of thread message content. */
 export interface MessageTextContent {
@@ -699,11 +764,7 @@ export interface MessageTextContent {
   text: MessageTextDetails;
 }
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent =
-  | MessageImageFileContent
-  | MessageTextContent
-  | MessageTextDetails
-  | unknown;
+export type MessageContent = MessageImageFileContent | MessageTextContent;
 /** The list of content items associated with the agent thread message. */
 export type ThreadMessageContentList = Array<MessageContent>;
 /** A list of files attached to the message, and the tools they were added to. */
@@ -922,8 +983,7 @@ export interface VectorStoreStaticChunkingStrategyRequest {
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreAutoChunkingStrategyRequest
-  | VectorStoreStaticChunkingStrategyRequest
-  | unknown;
+  | VectorStoreStaticChunkingStrategyRequest;
 export interface CreateVectorStoreFileBatchVectorStoreFileBatchRequest {
   /** Project endpoint in the form of: https://<aiservices-id>.services.ai.azure.com/api/projects/<project-name> */
   endpoint: string;
@@ -980,8 +1040,7 @@ export interface VectorStoreStaticChunkingStrategyResponse {
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyResponse =
   | VectorStoreAutoChunkingStrategyResponse
-  | VectorStoreStaticChunkingStrategyResponse
-  | unknown;
+  | VectorStoreStaticChunkingStrategyResponse;
 /** Description of a file attached to a vector store. */
 export interface VectorStoreFile {
   /** The identifier, which can be referenced in API endpoints. */
@@ -1419,11 +1478,7 @@ export interface RunStepToolCallDetails {
   tool_calls: RunStepToolCallDetailsToolCallsList;
 }
 /** An abstract representation of the details for a run step. */
-export type RunStepDetails =
-  | RunStepMessageCreationDetails
-  | RunStepToolCallDetails
-  | unknown
-  | unknown;
+export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
 /** Possible error code values attributable to a failed run step. */
 export type RunStepErrorCode = "server_error" | "rate_limit_exceeded";
 /** The error information associated with a failed run step. */
@@ -1869,8 +1924,7 @@ export const CancelRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1891,8 +1945,7 @@ export const CancelVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod
     0,
   ) as any as S.Schema<CancelVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1909,8 +1962,7 @@ export const CreateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<CreateAgentRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1926,9 +1978,8 @@ export const CreateMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateMessageMessageRequest>,
-  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1945,8 +1996,7 @@ export const CreateRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreateRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1963,8 +2013,7 @@ export const CreateThreadAndRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1921, __c60, 1) as any as S.Schema<CreateThreadAndRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1981,8 +2030,7 @@ export const CreateThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CreateThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2003,8 +2051,7 @@ export const CreateVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod
     0,
   ) as any as S.Schema<CreateVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2021,8 +2068,7 @@ export const CreateVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateVectorStoreFileVectorStoreFileRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<VectorStoreFile>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2039,8 +2085,7 @@ export const CreateVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<CreateVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2057,8 +2102,7 @@ export const DeleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteAgentRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<AgentDeletionStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2075,8 +2119,7 @@ export const DeleteFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteFileFileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<FileDeletionStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2093,8 +2136,7 @@ export const DeleteThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteThreadThreadRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<ThreadDeletionStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2111,8 +2153,7 @@ export const DeleteVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteVectorStoreFileVectorStoreFileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<VectorStoreFileDeletionStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2129,8 +2170,7 @@ export const DeleteVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteVectorStoreVectorStoreRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<VectorStoreDeletionStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2143,8 +2183,7 @@ export const GetAgent: API.OperationMethod<GetAgentRequest, Agent, GetAgentError
   /*@__PURE__*/ API.make(() => ({
     input: __S(672, __c21, 0) as any as S.Schema<GetAgentRequest>,
     output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-    errors: [],
-    serviceErrors: AzureServiceErrors,
+    errors: [UnknownAzureError],
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2161,8 +2200,7 @@ export const GetFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetFileFileRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<FileInfo>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,8 +2217,7 @@ export const GetFileFileContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetFileFileContentRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetFileFileContentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,9 +2233,8 @@ export const GetMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetMessageMessageRequest>,
-  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2215,8 +2251,7 @@ export const GetRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2233,8 +2268,7 @@ export const GetRunStepRunStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetRunStepRunStepRequest>,
   output: __S(1013, __c31, 21) as any as S.Schema<RunStep>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2251,8 +2285,7 @@ export const GetThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2269,8 +2302,7 @@ export const GetVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2287,8 +2319,7 @@ export const GetVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetVectorStoreFileVectorStoreFileRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<VectorStoreFile>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2305,8 +2336,7 @@ export const GetVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2323,8 +2353,7 @@ export const ListAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListAgentsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ListAgentsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2341,8 +2370,7 @@ export const ListFileFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListFileFilesRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<FileListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2359,8 +2387,7 @@ export const ListMessageMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListMessageMessagesRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<ListMessageMessagesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2377,8 +2404,7 @@ export const ListRunRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListRunRunsRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<ListRunRunsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2395,8 +2421,7 @@ export const ListRunStepRunSteps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListRunStepRunStepsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ListRunStepRunStepsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2413,8 +2438,7 @@ export const ListThreadThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ListThreadThreadsRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<ListThreadThreadsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2439,8 +2463,7 @@ export const ListVectorStoreFileBatchVectorStoreFileBatchFiles: API.OperationMet
     __c47,
     1,
   ) as any as S.Schema<ListVectorStoreFileBatchVectorStoreFileBatchFilesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2457,8 +2480,7 @@ export const ListVectorStoreFileVectorStoreFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListVectorStoreFileVectorStoreFilesRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<ListVectorStoreFileVectorStoreFilesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2475,8 +2497,7 @@ export const ListVectorStoreVectorStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListVectorStoreVectorStoresRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<ListVectorStoreVectorStoresResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,8 +2514,7 @@ export const ModifyVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ModifyVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2511,8 +2531,7 @@ export const SubmitRunToolOutputsToRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1634, __c51, 2) as any as S.Schema<SubmitRunToolOutputsToRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2529,8 +2548,7 @@ export const UpdateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<UpdateAgentRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2546,9 +2564,8 @@ export const UpdateMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateMessageMessageRequest>,
-  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2565,8 +2582,7 @@ export const UpdateRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<UpdateRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2583,8 +2599,7 @@ export const UpdateThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<UpdateThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2601,8 +2616,7 @@ export const UploadFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<UploadFileFileRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<FileInfo>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2818,12 +2832,6 @@ function __c4(j: number): any {
         __S(140, __c4, 12),
         __S(141, __c4, 13),
         __S(149, __c4, 21),
-        S.Unknown,
-        S.Unknown,
-        S.Unknown,
-        S.Unknown,
-        S.Unknown,
-        S.Unknown,
       ]);
     case 23:
       return S.Array(__S(150, __c4, 22));
@@ -3549,7 +3557,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "RunStepToolCallDetails" });
     case 20:
-      return S.Union([__S(993, __c31, 1), __S(1011, __c31, 19), S.Unknown, S.Unknown]);
+      return S.Union([__S(993, __c31, 1), __S(1011, __c31, 19)]);
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -3748,7 +3756,7 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListMessageMessagesRequest" });
     case 1:
-      return S.Array(__S(1381, __c43, 5));
+      return S.Array(__S(1388, __c43, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3880,22 +3888,70 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.String,
-          annotations: S.optional(S.Unknown),
+          file_id: S.String,
+          quote: S.String,
         }),
-      ).annotate({ identifier: "MessageTextDetails" });
+      ).annotate({ identifier: "MessageTextFileCitationDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          text: __S(1377, __c43, 1),
+          text: S.String,
+          file_citation: __S(1377, __c43, 1),
+          start_index: S.optional(S.Number),
+          end_index: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MessageTextFileCitationAnnotation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          text: S.String,
+          file_path: __S(1344, __c42, 0),
+          start_index: S.optional(S.Number),
+          end_index: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MessageTextFilePathAnnotation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MessageTextUrlCitationDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          text: S.String,
+          url_citation: __S(1380, __c43, 4),
+          start_index: S.optional(S.Number),
+          end_index: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MessageTextUrlCitationAnnotation" });
+    case 6:
+      return S.Union([__S(1378, __c43, 2), __S(1379, __c43, 3), __S(1381, __c43, 5)]);
+    case 7:
+      return S.Array(__S(1382, __c43, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          annotations: __S(1383, __c43, 7),
+        }),
+      ).annotate({ identifier: "MessageTextDetails" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          text: __S(1384, __c43, 8),
         }),
       ).annotate({ identifier: "MessageTextContent" });
-    case 3:
-      return S.Union([__S(1376, __c43, 0), __S(1378, __c43, 2), __S(1377, __c43, 1), S.Unknown]);
-    case 4:
-      return S.Array(__S(1379, __c43, 3));
-    case 5:
+    case 10:
+      return S.Union([__S(1376, __c43, 0), __S(1385, __c43, 9)]);
+    case 11:
+      return S.Array(__S(1386, __c43, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -3907,7 +3963,7 @@ function __c43(j: number): any {
           completed_at: S.NullOr(S.Number),
           incomplete_at: S.NullOr(S.Number),
           role: S.String,
-          content: __S(1380, __c43, 4),
+          content: __S(1387, __c43, 11),
           assistant_id: S.NullOr(S.String),
           run_id: S.NullOr(S.String),
           attachments: S.NullOr(__S(1410, __c44, 2)),
@@ -4429,7 +4485,7 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "VectorStoreStaticChunkingStrategyRequest" });
     case 2:
-      return S.Union([__S(256, __c8, 0), __S(2049, __c64, 1), S.Unknown]);
+      return S.Union([__S(256, __c8, 0), __S(2049, __c64, 1)]);
   }
 }
 function __c65(j: number): any {

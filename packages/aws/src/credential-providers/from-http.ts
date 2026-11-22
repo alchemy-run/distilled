@@ -50,6 +50,17 @@ const checkUrl = (url: URL): CredentialSourceError | undefined => {
   });
 };
 
+/**
+ * `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` names a path on the ECS host. A
+ * value that resolves to another host (`@host`, `//host`, `.suffix`, a full
+ * URL) is refused.
+ */
+export const isEcsHostUrl = (url: URL): boolean =>
+  url.protocol === "http:" && url.host === CMDS_IP && url.username === "" && url.password === "";
+
+export const notEcsHostMessage = (relative: string): string =>
+  `${ENV_CMDS_RELATIVE_URI} ${JSON.stringify(relative)} does not name a path on ${CMDS_IP}`;
+
 const validateToken = (token: string) =>
   token.includes("\r\n")
     ? Effect.fail(
@@ -116,6 +127,9 @@ Set ${ENV_CMDS_FULL_URI} or ${ENV_CMDS_RELATIVE_URI}.`,
           cause,
         }),
       );
+    }
+    if (relative && !isEcsHostUrl(url)) {
+      return Effect.fail(new CredentialSourceError({ message: notEcsHostMessage(relative) }));
     }
     const rejected = checkUrl(url);
     if (rejected) return Effect.fail(rejected);

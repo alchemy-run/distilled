@@ -64,6 +64,7 @@ import { Credentials, armScopeFor } from "./credentials-service.ts";
 import type { AzureDataPlaneProtocol } from "./data-plane-protocol.ts";
 import { AzureParseError, type AzureServiceError } from "./errors.ts";
 import {
+  configuredSubscriptionId,
   failResponse,
   nextLinkOf,
   parseArmError,
@@ -163,14 +164,9 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     //     the URL already carries one.
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
-      if (!creds.subscriptionId) {
-        return yield* Effect.fail(
-          new ConfigError({
-            message: `${http?.uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
-          }),
-        );
-      }
-      url = url.split("{subscriptionId}").join(encodeURIComponent(creds.subscriptionId));
+      const subscriptionId = configuredSubscriptionId(creds.subscriptionId, http?.uri);
+      if (subscriptionId instanceof ConfigError) return yield* Effect.fail(subscriptionId);
+      url = url.split("{subscriptionId}").join(subscriptionId);
     }
     for (const [key, value] of Object.entries(http?.query ?? {})) {
       url = withQuery(
