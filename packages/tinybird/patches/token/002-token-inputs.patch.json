@@ -1,0 +1,51 @@
+{
+  "description": "Token inputs that can hold a token value (https://www.tinybird.co/docs/api-reference/token-api): the `:token` route label (`/v0/tokens/:token` takes the token's name, id or value), and refresh's `auth_token`. `scope` repeats (`-d \"name=test&scope=DATASOURCES:APPEND:t&scope=DATASOURCES:READ:t\"`), so it is a list; core sends one `scope=` pair per element. Live: PUT /v0/tokens/<name>?description=probe without `scope` answered 200 with `scopes: []`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensTokenRefreshRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#GetV0TokensTokenRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PutV0TokensTokenRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#DeleteV0TokensTokenRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensTokenRefreshRequest/members/auth_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#ScopeList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensRequest/members/scope/target",
+      "value": "com.tinybird.token#ScopeList"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PutV0TokensTokenRequest/members/scope/target",
+      "value": "com.tinybird.token#ScopeList"
+    }
+  ]
+}

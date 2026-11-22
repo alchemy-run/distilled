@@ -222,7 +222,7 @@ export interface AssumeImpersonationRoleResponse {
 export type IdempotencyClientToken = string;
 export type MailboxExportJobId = string;
 export interface CancelMailboxExportJobRequest {
-  ClientToken: string;
+  ClientToken?: string | undefined;
   JobId: string;
   OrganizationId: string;
 }
@@ -1236,7 +1236,7 @@ export interface ResetPasswordRequest {
 }
 export interface ResetPasswordResponse {}
 export interface StartMailboxExportJobRequest {
-  ClientToken: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   EntityId: string;
   Description?: string | undefined;
@@ -4425,7 +4425,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           OrganizationId: S.String,
           EntityId: S.String,
           Description: S.optional(S.String),
@@ -4660,7 +4660,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           JobId: S.String,
           OrganizationId: S.String,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),

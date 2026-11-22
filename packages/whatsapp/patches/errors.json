@@ -1,0 +1,446 @@
+{
+  "description": "The spec declares no error responses for 38 operations (messages, media, templates, Flows, groups, block users, commerce settings, calls, credit lines, business portfolio). Every one of them answers the Graph API error object on failure: a bogus node id (`1`) returned HTTP 400 with `{ error: { code: 100, type: \"GraphMethodException\" } }` on all 38 (live sweep, 2026-11-18, v23.0), so each gets BadRequest. On POST /{Phone-Number-ID}/messages a template name that does not exist returned HTTP 404 with code 132001 (`Template name does not exist in the translation`), and sending from a test number to a recipient outside its allowed list returned HTTP 400 with code 131030 (`Recipient phone number not in allowed list`), both live on 2026-11-18; sendMessage gets NotFound and the two coded classes TemplateNotFound and RecipientNotAllowed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#RecipientNotAllowed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The recipient is not in the test number's allowed list (Graph error 131030). Add it in the App Dashboard's API Setup before sending from a test number.",
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "code": 131030
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#TemplateNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "No approved template with this name exists in the requested language (Graph error 132001).",
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "code": 132001
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetBusinessPortfolioSpecificFields/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetBlockedUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#BlockUserS/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UnblockUserS/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ManageCalls/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetActiveGroups/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UploadImage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#SendMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#RecipientNotAllowed"
+        },
+        {
+          "target": "com.meta.whatsapp#TemplateNotFound"
+        },
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        },
+        {
+          "target": "com.meta.whatsapp#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetCommerceSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#SetOrUpdateCommerceSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateGroupInviteLink/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeleteGroupInviteLink/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetJoinRequests/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ApproveJoinRequests/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#RejectJoinRequests/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#AddGroupParticipants/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#RemoveGroupParticipants/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetGroupInfo/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UpdateGroupSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeleteGroup/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#RetrieveMediaUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeleteMedia/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetCreditLines/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ListFlows/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateFlow/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#MigrateFlows/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetFlow/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UpdateFlowMetadata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeleteFlow/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ListAssetsGetFlowJsonUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UpdateFlowJson/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PublishFlow/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeprecateFlow/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByIdDefaultFields/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#EditTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFields/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButton/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#DeleteTemplateByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.meta.whatsapp#BadRequest"
+        }
+      ]
+    }
+  ]
+}

@@ -669,7 +669,9 @@ function __c2(j: number): any {
           permissions: __S(26, __c3, 2),
           resource_id: S.String,
           resource_type: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
       ).annotate({ identifier: "CreateApiKeyRequest" });
   }
@@ -843,7 +845,9 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys/{id}/rotate", code: 200 })),
       ).annotate({ identifier: "RotateApiKeyRequest" });
   }

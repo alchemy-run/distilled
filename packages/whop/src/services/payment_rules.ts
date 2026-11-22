@@ -609,7 +609,9 @@ function __c2(j: number): any {
           id: S.String.pipe(T.Label()),
           action: S.String,
           conditions: __S(42, __c5, 2),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_rules/{id}/replace", code: 200 })),
       ).annotate({ identifier: "ReplacePaymentRuleRequest" });
   }
@@ -632,7 +634,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_rules/{id}/activate", code: 200 })),
       ).annotate({ identifier: "ActivatePaymentRuleRequest" });
   }
@@ -682,7 +686,9 @@ function __c6(j: number): any {
           conditions: __S(42, __c5, 2),
           metadata: S.optional(__S(56, __c7, 0)),
           name: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_rules", code: 200 })),
       ).annotate({ identifier: "CreatePaymentRuleRequest" });
   }
@@ -699,7 +705,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payment_rules/{id}/deactivate", code: 200 })),
       ).annotate({ identifier: "DeactivatePaymentRuleRequest" });
   }

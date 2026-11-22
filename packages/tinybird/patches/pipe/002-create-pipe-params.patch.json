@@ -1,0 +1,50 @@
+{
+  "description": "POST /v0/pipes documents its parameters only in examples (https://www.tinybird.co/docs/api-reference/pipe-api): `?name=pipename&sql=select%20*%20from%20events` creates a pipe with one node, and `?name=pipename&from=src_pipe` copies another pipe; the description is the pipe's Markdown description as on PUT /v0/pipes/(.+). The full-JSON form (`nodes: [...]`) is reachable through extra input keys.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#PostV0PipesRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "name",
+              "smithy.api#documentation": "Name of the new Pipe."
+            }
+          },
+          "sql": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "sql",
+              "smithy.api#documentation": "SQL of the Pipe's first node."
+            }
+          },
+          "from": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "from",
+              "smithy.api#documentation": "Name or ID of a Pipe to copy."
+            }
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "description",
+              "smithy.api#documentation": "Markdown description for the Pipe."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#PostV0Pipes/input/target",
+      "value": "com.tinybird.pipe#PostV0PipesRequest"
+    }
+  ]
+}

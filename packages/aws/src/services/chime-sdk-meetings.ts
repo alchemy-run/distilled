@@ -316,7 +316,7 @@ export interface Tag {
 export type TagList = Tag[];
 export type MediaPlacementNetworkType = "Ipv4Only" | "DualStack" | (string & {});
 export interface CreateMeetingRequest {
-  ClientRequestToken: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
   MediaRegion: string;
   MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
@@ -354,7 +354,7 @@ export interface CreateMeetingResponse {
 }
 export type CreateMeetingWithAttendeesRequestItemList = CreateAttendeeRequestItem[];
 export interface CreateMeetingWithAttendeesRequest {
-  ClientRequestToken: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
   MediaRegion: string;
   MeetingHostId?: string | redacted.Redacted<string> | undefined;
   ExternalMeetingId: string | redacted.Redacted<string>;
@@ -1440,7 +1440,7 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
           MediaRegion: S.String,
           MeetingHostId: S.optional(SensitiveString),
           ExternalMeetingId: SensitiveString,
@@ -1547,7 +1547,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
           MediaRegion: S.String,
           MeetingHostId: S.optional(SensitiveString),
           ExternalMeetingId: SensitiveString,

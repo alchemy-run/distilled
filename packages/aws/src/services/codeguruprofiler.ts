@@ -215,7 +215,7 @@ export type TagsMap = { [key: string]: string | undefined };
 export interface CreateProfilingGroupRequest {
   profilingGroupName: string;
   computePlatform?: string | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   agentOrchestrationConfig?: AgentOrchestrationConfig | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -2013,7 +2013,7 @@ function __c30(j: number): any {
         S.Struct({
           profilingGroupName: S.String,
           computePlatform: S.optional(S.String),
-          clientToken: S.String.pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
           agentOrchestrationConfig: S.optional(__S(496, __c31, 0)),
           tags: S.optional(__S(464, __c29, 0)),
         }).pipe(

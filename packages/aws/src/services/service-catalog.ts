@@ -242,7 +242,7 @@ export interface CopyProductInput {
   TargetProductName?: string | undefined;
   SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[] | undefined;
   CopyOptions?: CopyOption[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CopyProductOutput {
   CopyProductToken?: string | undefined;
@@ -257,7 +257,7 @@ export interface CreateConstraintInput {
   Parameters: string;
   Type: string;
   Description?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type AccountId = string;
 export interface ConstraintDetail {
@@ -290,7 +290,7 @@ export interface CreatePortfolioInput {
   Description?: string | undefined;
   ProviderName: string;
   Tags?: Tag[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type ResourceARN = string;
 export type CreationTime = Date;
@@ -391,7 +391,7 @@ export interface CreateProductInput {
   ProductType: ProductType;
   Tags?: Tag[] | undefined;
   ProvisioningArtifactParameters?: ProvisioningArtifactProperties | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   SourceConnection?: SourceConnection | undefined;
 }
 export type ProductViewDistributor = string;
@@ -475,7 +475,7 @@ export interface CreateProvisionedProductPlanInput {
   ProvisionedProductName: string;
   ProvisioningArtifactId: string;
   ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export interface CreateProvisionedProductPlanOutput {
@@ -489,7 +489,7 @@ export interface CreateProvisioningArtifactInput {
   AcceptLanguage?: string | undefined;
   ProductId: string;
   Parameters: ProvisioningArtifactProperties;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
@@ -515,7 +515,7 @@ export interface CreateServiceActionInput {
   Definition: { [key: string]: string | undefined };
   Description?: string | undefined;
   AcceptLanguage?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ServiceActionSummary {
   Id?: string | undefined;
@@ -1077,7 +1077,7 @@ export interface EnableAWSOrganizationsAccessOutput {}
 export interface ExecuteProvisionedProductPlanInput {
   AcceptLanguage?: string | undefined;
   PlanId: string;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ExecuteProvisionedProductPlanOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1086,7 +1086,7 @@ export type ExecutionParameterMap = { [key: string]: string[] | undefined };
 export interface ExecuteProvisionedProductServiceActionInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
-  ExecuteToken: string;
+  ExecuteToken?: string | undefined;
   AcceptLanguage?: string | undefined;
   Parameters?: { [key: string]: string[] | undefined } | undefined;
 }
@@ -1118,7 +1118,7 @@ export interface ImportAsProvisionedProductInput {
   ProvisioningArtifactId: string;
   ProvisionedProductName: string;
   PhysicalId: string;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface ImportAsProvisionedProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1394,7 +1394,7 @@ export interface NotifyProvisionProductEngineWorkflowResultInput {
   FailureReason?: string | undefined;
   ResourceIdentifier?: EngineWorkflowResourceIdentifier | undefined;
   Outputs?: RecordOutput[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyProvisionProductEngineWorkflowResultOutput {}
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
@@ -1402,7 +1402,7 @@ export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
   RecordId: string;
   Status: EngineWorkflowStatus;
   FailureReason?: string | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultOutput {}
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
@@ -1411,7 +1411,7 @@ export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
   Status: EngineWorkflowStatus;
   FailureReason?: string | undefined;
   Outputs?: RecordOutput[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultOutput {}
 export interface ProvisioningParameter {
@@ -1444,7 +1444,7 @@ export interface ProvisionProductInput {
   ProvisioningPreferences?: ProvisioningPreferences | undefined;
   Tags?: Tag[] | undefined;
   NotificationArns?: string[] | undefined;
-  ProvisionToken: string;
+  ProvisionToken?: string | undefined;
 }
 export interface ProvisionProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1569,7 +1569,7 @@ export type RetainPhysicalResources = boolean;
 export interface TerminateProvisionedProductInput {
   ProvisionedProductName?: string | undefined;
   ProvisionedProductId?: string | undefined;
-  TerminateToken: string;
+  TerminateToken?: string | undefined;
   IgnoreErrors?: boolean | undefined;
   AcceptLanguage?: string | undefined;
   RetainPhysicalResources?: boolean | undefined;
@@ -1655,7 +1655,7 @@ export interface UpdateProvisionedProductInput {
   ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
   ProvisioningPreferences?: UpdateProvisioningPreferences | undefined;
   Tags?: Tag[] | undefined;
-  UpdateToken: string;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateProvisionedProductOutput {
   RecordDetail?: RecordDetail | undefined;
@@ -1667,7 +1667,7 @@ export interface UpdateProvisionedProductPropertiesInput {
   AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
   ProvisionedProductProperties: { [key: string]: string | undefined };
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface UpdateProvisionedProductPropertiesOutput {
   ProvisionedProductId?: string | undefined;
@@ -4537,7 +4537,7 @@ function __c8(j: number): any {
           TargetProductName: S.optional(S.String),
           SourceProvisioningArtifactIdentifiers: S.optional(__S(128, __c8, 0)),
           CopyOptions: S.optional(__S(160, __c10, 0)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CopyProductInput" });
     case 2:
@@ -4569,7 +4569,7 @@ function __c11(j: number): any {
           Parameters: S.String,
           Type: S.String,
           Description: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateConstraintInput" });
   }
@@ -4611,7 +4611,7 @@ function __c14(j: number): any {
           Description: S.optional(S.String),
           ProviderName: S.String,
           Tags: S.optional(__S(241, __c15, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePortfolioInput" });
   }
@@ -4699,7 +4699,7 @@ function __c21(j: number): any {
           ProductType: S.String,
           Tags: S.optional(__S(241, __c15, 1)),
           ProvisioningArtifactParameters: S.optional(__S(352, __c22, 0)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           SourceConnection: S.optional(__S(432, __c27, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProductInput" });
@@ -4837,7 +4837,7 @@ function __c28(j: number): any {
           ProvisionedProductName: S.String,
           ProvisioningArtifactId: S.String,
           ProvisioningParameters: S.optional(__S(481, __c30, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(241, __c15, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProvisionedProductPlanInput" });
@@ -4881,7 +4881,7 @@ function __c31(j: number): any {
           AcceptLanguage: S.optional(S.String),
           ProductId: S.String,
           Parameters: __S(352, __c22, 0),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProvisioningArtifactInput" });
   }
@@ -4908,7 +4908,7 @@ function __c33(j: number): any {
           Definition: __S(144, __c9, 0),
           Description: S.optional(S.String),
           AcceptLanguage: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServiceActionInput" });
   }
@@ -5738,7 +5738,7 @@ function __c80(j: number): any {
         S.Struct({
           AcceptLanguage: S.optional(S.String),
           PlanId: S.String,
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ExecuteProvisionedProductPlanInput" });
   }
@@ -5760,7 +5760,7 @@ function __c82(j: number): any {
         S.Struct({
           ProvisionedProductId: S.String,
           ServiceActionId: S.String,
-          ExecuteToken: S.String.pipe(T.IdempotencyToken()),
+          ExecuteToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           AcceptLanguage: S.optional(S.String),
           Parameters: S.optional(__S(1312, __c82, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5810,7 +5810,7 @@ function __c85(j: number): any {
           ProvisioningArtifactId: S.String,
           ProvisionedProductName: S.String,
           PhysicalId: S.String,
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportAsProvisionedProductInput" });
   }
@@ -6263,7 +6263,7 @@ function __c107(j: number): any {
           FailureReason: S.optional(S.String),
           ResourceIdentifier: S.optional(__S(1712, __c107, 0)),
           Outputs: S.optional(__S(1105, __c69, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyProvisionProductEngineWorkflowResultInput" });
   }
@@ -6277,7 +6277,7 @@ function __c108(j: number): any {
           RecordId: S.String,
           Status: S.String,
           FailureReason: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyTerminateProvisionedProductEngineWorkflowResultInput" });
   }
@@ -6292,7 +6292,7 @@ function __c109(j: number): any {
           Status: S.String,
           FailureReason: S.optional(S.String),
           Outputs: S.optional(__S(1105, __c69, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "NotifyUpdateProvisionedProductEngineWorkflowResultInput" });
   }
@@ -6325,7 +6325,7 @@ function __c110(j: number): any {
           ProvisioningPreferences: S.optional(__S(1760, __c110, 0)),
           Tags: S.optional(__S(241, __c15, 1)),
           NotificationArns: S.optional(__S(464, __c29, 0)),
-          ProvisionToken: S.String.pipe(T.IdempotencyToken()),
+          ProvisionToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ProvisionProductInput" });
   }
@@ -6486,7 +6486,7 @@ function __c117(j: number): any {
         S.Struct({
           ProvisionedProductName: S.optional(S.String),
           ProvisionedProductId: S.optional(S.String),
-          TerminateToken: S.String.pipe(T.IdempotencyToken()),
+          TerminateToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           IgnoreErrors: S.optional(S.Boolean),
           AcceptLanguage: S.optional(S.String),
           RetainPhysicalResources: S.optional(S.Boolean),
@@ -6617,7 +6617,7 @@ function __c124(j: number): any {
           ProvisioningParameters: S.optional(__S(481, __c30, 1)),
           ProvisioningPreferences: S.optional(__S(1984, __c124, 0)),
           Tags: S.optional(__S(241, __c15, 1)),
-          UpdateToken: S.String.pipe(T.IdempotencyToken()),
+          UpdateToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateProvisionedProductInput" });
   }
@@ -6630,7 +6630,7 @@ function __c125(j: number): any {
           AcceptLanguage: S.optional(S.String),
           ProvisionedProductId: S.String,
           ProvisionedProductProperties: __S(144, __c9, 0),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateProvisionedProductPropertiesInput" });
     case 1:

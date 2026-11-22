@@ -1653,7 +1653,9 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           partial_amount: S.optional(S.NullOr(S.Number)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/refund", code: 200 })),
       ).annotate({ identifier: "RefundPaymentRequest" });
   }
@@ -1664,7 +1666,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           payment_id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments/{payment_id}/resume", code: 200 })),
       ).annotate({ identifier: "ResumePaymentRequest" });
   }
@@ -1675,7 +1679,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/retry", code: 200 })),
       ).annotate({ identifier: "RetryPaymentRequest" });
   }
@@ -1697,7 +1703,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/void", code: 200 })),
       ).annotate({ identifier: "VoidPaymentRequest" });
   }
@@ -1708,7 +1716,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/capture", code: 200 })),
       ).annotate({ identifier: "CapturePaymentRequest" });
   }
@@ -1833,7 +1843,9 @@ function __c8(j: number): any {
           return_url: S.optional(S.NullOr(S.String)),
           shipping_address: S.optional(S.NullOr(__S(133, __c8, 5))),
           statement_descriptor: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payments", code: 200 })),
       ).annotate({ identifier: "CreatePaymentRequest" });
   }

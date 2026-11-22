@@ -260,7 +260,7 @@ export type AcmCertificateArn = string;
 export interface AssociateCertificateRequest {
   gatewayId: string;
   acmCertificateArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export type CertificateAssociationStatus =
   | "PENDING_ASSOCIATION"
@@ -278,7 +278,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateInboundExternalLinkRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   attributes?: LinkAttributes | undefined;
   logSettings: LinkLogSettings;
@@ -329,7 +329,7 @@ export interface RuleCondition {
   queryStringExists?: string | undefined;
 }
 export interface CreateLinkRoutingRuleRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   linkId: string;
   priority: number;
@@ -352,7 +352,7 @@ export interface CreateLinkRoutingRuleResponse {
 }
 export type URL = string;
 export interface CreateOutboundExternalLinkRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   attributes?: LinkAttributes | undefined;
   publicEndpoint: string;
@@ -373,7 +373,7 @@ export interface CreateRequesterGatewayRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  clientToken: string;
+  clientToken?: string | undefined;
   description?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -451,7 +451,7 @@ export interface CreateResponderGatewayRequest {
   listenerConfig?: ListenerConfig | undefined;
   trustStoreConfiguration?: TrustStoreConfiguration | undefined;
   managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   description?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   gatewayType?: GatewayType | undefined;
@@ -783,7 +783,7 @@ export interface UpdateLinkResponse {
   status: LinkStatus;
 }
 export interface UpdateLinkModuleFlowRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   linkId: string;
   modules: ModuleConfiguration[];
@@ -806,7 +806,7 @@ export interface UpdateLinkRoutingRuleResponse {
   updatedAt: Date;
 }
 export interface UpdateRequesterGatewayRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   description?: string | undefined;
 }
@@ -821,7 +821,7 @@ export interface UpdateResponderGatewayRequest {
   listenerConfig?: ListenerConfig | undefined;
   trustStoreConfiguration?: TrustStoreConfiguration | undefined;
   managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   gatewayId: string;
   description?: string | undefined;
   clientRoutingPolicy?: ClientRoutingPolicy | undefined;
@@ -2163,7 +2163,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
           priority: S.Number,
@@ -2217,7 +2217,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           attributes: S.optional(__S(722, __c45, 2)),
           publicEndpoint: S.String,
@@ -2255,7 +2255,7 @@ function __c5(j: number): any {
           vpcId: S.String,
           subnetIds: __S(656, __c41, 0),
           securityGroupIds: __S(656, __c41, 0),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           tags: S.optional(__S(800, __c50, 0)),
         }).pipe(
@@ -2289,7 +2289,7 @@ function __c6(j: number): any {
           listenerConfig: S.optional(__S(112, __c7, 0)),
           trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
           managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           tags: S.optional(__S(800, __c50, 0)),
           gatewayType: S.optional(S.String),
@@ -3083,7 +3083,7 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
           modules: __S(684, __c42, 12),
@@ -3139,7 +3139,7 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           description: S.optional(S.String),
         }).pipe(
@@ -3166,7 +3166,7 @@ function __c39(j: number): any {
           listenerConfig: S.optional(__S(112, __c7, 0)),
           trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
           managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           description: S.optional(S.String),
           clientRoutingPolicy: S.optional(S.String),
@@ -3359,7 +3359,7 @@ function __c47(j: number): any {
         S.Struct({
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           acmCertificateArn: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/certificate" }),
@@ -3386,7 +3386,7 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           attributes: S.optional(__S(722, __c45, 2)),
           logSettings: __S(738, __c46, 2),

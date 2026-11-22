@@ -163,7 +163,7 @@ export type QuantumTaskArn = string;
 export type String64 = string;
 export interface CancelQuantumTaskRequest {
   quantumTaskArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export interface CancelQuantumTaskResponse {
   quantumTaskArn: string;
@@ -230,7 +230,7 @@ export interface Association {
 }
 export type Associations = Association[];
 export interface CreateJobRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   algorithmSpecification: AlgorithmSpecification;
   inputDataConfig?: InputFileConfig[] | undefined;
   outputDataConfig: JobOutputDataConfig;
@@ -253,7 +253,7 @@ export type JobToken = string;
 export type ExperimentalCapabilitiesEnablementType = string;
 export type ExperimentalCapabilities = { enabled: string };
 export interface CreateQuantumTaskRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   deviceArn: string;
   deviceParameters?: string | undefined;
   shots: number;
@@ -273,7 +273,7 @@ export interface TimePeriod {
   endAt: Date;
 }
 export interface CreateSpendingLimitRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   deviceArn: string;
   spendingLimit: string;
   timePeriod?: TimePeriod | undefined;
@@ -514,7 +514,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateSpendingLimitRequest {
   spendingLimitArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   spendingLimit?: string | undefined;
   timePeriod?: TimePeriod | undefined;
 }
@@ -1107,7 +1107,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
@@ -1130,7 +1130,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           algorithmSpecification: __S(66, __c4, 2),
           inputDataConfig: S.optional(__S(70, __c4, 6)),
           outputDataConfig: __S(71, __c4, 7),
@@ -1233,7 +1233,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           deviceArn: S.String,
           deviceParameters: S.optional(S.String),
           shots: S.Number,
@@ -1265,7 +1265,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           deviceArn: S.String,
           spendingLimit: S.String,
           timePeriod: S.optional(__S(128, __c8, 0)),
@@ -1675,7 +1675,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           spendingLimit: S.optional(S.String),
           timePeriod: S.optional(__S(128, __c8, 0)),
         }).pipe(

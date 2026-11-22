@@ -1638,7 +1638,9 @@ function __c15(j: number): any {
           requested_scopes: __S(544, __c17, 0),
           response_type: S.optional(S.String),
           state: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/users/me/oauth_grants", code: 200 })),
       ).annotate({ identifier: "CreateOauthGrantRequest" });
   }
@@ -1675,7 +1677,9 @@ function __c18(j: number): any {
           client_data_json: S.String,
           credential_id: S.String,
           nickname: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/users/me/passkeys", code: 200 })),
       ).annotate({ identifier: "CreatePasskeyRequest" });
   }
@@ -1701,7 +1705,9 @@ function __c20(j: number): any {
         S.Struct({
           challenge_type: S.String,
           passkey_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/users/me/passkeys/challenge", code: 200 })),
       ).annotate({ identifier: "CreatePasskeyChallengeRequest" });
     case 1:

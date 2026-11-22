@@ -315,7 +315,9 @@ function __c3(j: number): any {
           reference_media: S.optional(__S(16, __c4, 0)),
           resolution: S.optional(S.String),
           type: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/media/generate", code: 200 })),
       ).annotate({ identifier: "GenerateMediaAssetRequest" });
   }

@@ -18,6 +18,7 @@ import type * as Stream from "effect/Stream";
 export {
   Body,
   Header,
+  IdempotencyToken,
   Query,
   DeepQuery,
   Label,

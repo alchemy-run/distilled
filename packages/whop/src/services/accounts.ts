@@ -3321,7 +3321,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/retry_ads_payment", code: 200 })),
       ).annotate({ identifier: "RetryAccountAdsPaymentRequest" });
     case 1:
@@ -3339,7 +3341,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/suspend", code: 200 })),
       ).annotate({ identifier: "SuspendAccountRequest" });
   }
@@ -3353,7 +3357,9 @@ function __c5(j: number): any {
           as_partner: S.optional(S.Boolean),
           identifier: S.String,
           message: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/transfer_ownership", code: 200 })),
       ).annotate({ identifier: "TransferAccountOwnershipRequest" });
     case 1:
@@ -3615,7 +3621,9 @@ function __c9(j: number): any {
           send_customer_emails: S.optional(S.Boolean),
           title: S.optional(S.String),
           website: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts", code: 200 })),
       ).annotate({ identifier: "CreateAccountRequest" });
   }
@@ -4225,7 +4233,9 @@ function __c18(j: number): any {
           industry_type: S.String,
           share_structure: S.optional(__S(579, __c18, 3)),
           use_registered_agent: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/form_company", code: 200 })),
       ).annotate({ identifier: "FormCompanyRequest" });
     case 5:

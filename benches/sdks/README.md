@@ -108,14 +108,18 @@ same measurement, cut down to finish within the other CI jobs:
   `bundle` SDKs are only bundled from `src/`; `runtime` SDKs are also built
   (`tsrs -b`, `bundle-lib.ts`, `strip-lib-docs.ts` for just those packages)
   and probed. A changed SDK whose `src/` is over `runtimeMaxSrcMB` is only
-  bundled: its `bundle-lib.ts` build alone exceeds the budget.
+  bundled: its `bundle-lib.ts` build alone exceeds the budget. The panel's
+  large SDKs (`aws`, `cloudflare`, `gcp`) are probed like whole-SDK memory
+  below: only when their inputs differ from main's run; otherwise main's
+  numbers are copied.
 - **Cut:** no strict variants, no imports or typecheck suites, no official
   SDKs, latency sampled for 400 ms (`--budget`). Each runtime probe runs 3
   times (`--repeats`): timings keep the fastest run, heap the median.
 - **Whole-SDK memory:** every service module of `aws`, `cloudflare` and `gcp`
   (`ci.json` `providers`) imported in one process, as Alchemy does. An SDK is
-  built and measured only when its package, `core`, `scripts/` or the lockfile
-  differ from main's run (`--reuse`); otherwise main's number is copied. A PR
+  built and measured only when its package, a workspace package it depends on
+  (`core`; `s3` for `aws` and `cloudflare`), `scripts/` or the lockfile differ
+  from main's run (`--reuse`); otherwise main's number is copied. A PR
   that changes `core` rebuilds all three, about 3 minutes.
 - **Main's numbers:** each push to main runs `ci.ts run --wide` (every SDK)
   and caches it with a rolling history of main's runs (the line charts) as

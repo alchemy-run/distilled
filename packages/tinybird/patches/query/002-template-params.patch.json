@@ -1,0 +1,10 @@
+{
+  "description": "POST /v0/sql takes caller-named template parameters beside `q` in its JSON body (https://www.tinybird.co/docs/api-reference/query-api: `{\"q\":\"% SELECT * FROM <pipe> where column_name = {{String(column_name)}}\", \"column_name\": \"column_name_value\"}`). The request is an open object so those keys typecheck; they travel as JSON body keys. Live: querySqlWithBody({ q: \"% SELECT {{Int32(n, 0)}} * 2 AS doubled FORMAT JSON\", n: 21 }) answered data [{doubled: 42}].",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.query#PostV0SqlRequest/traits/com.distilled.openapi#additionalProperties",
+      "value": {}
+    }
+  ]
+}

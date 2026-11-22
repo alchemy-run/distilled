@@ -1066,7 +1066,7 @@ export interface UpdateFirewallRuleInput {
   blockOverrideDomain?: string | undefined;
   blockOverrideTtl?: number | undefined;
   blockResponse?: FirewallBlockResponse | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   confidenceThreshold?: ConfidenceThreshold | undefined;
   description?: string | undefined;
   dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
@@ -4128,7 +4128,7 @@ function __c52(j: number): any {
           blockOverrideDomain: S.optional(S.String),
           blockOverrideTtl: S.optional(S.Number),
           blockResponse: S.optional(S.String),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           confidenceThreshold: S.optional(S.String),
           description: S.optional(S.String),
           dnsAdvancedProtection: S.optional(S.String),
