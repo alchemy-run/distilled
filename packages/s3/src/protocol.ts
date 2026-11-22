@@ -78,7 +78,7 @@ import {
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
-import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
+import { bodyStream, isOneShotBody, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -556,13 +556,17 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   });
 };
 
-/** The signed (or, given `presign`, presigned) HTTP request for `input`, on the calling fiber. */
+/**
+ * The signed (or, given `presign`, presigned) HTTP request for `input`, on
+ * the calling fiber. `f` also learns whether the body is the caller's own
+ * stream, which can be sent only once.
+ */
 const encodeWith = <A>(
   prepared: Prepared,
   plan: Plan,
   fiber: Fiber,
   input: unknown,
-  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
+  f: (request: HttpClientRequest.HttpClientRequest, oneShot: boolean) => Effect.Effect<A, any, any>,
   presign?: PresignSettings,
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
@@ -573,10 +577,12 @@ const encodeWith = <A>(
   const sendSigned = (request: Request) =>
     withAwsContext(context, callRegion, (credentials, region, custom) => {
       Telemetry.annotate(context, "cloud.region", region);
+      const oneShot = isOneShotBody(request.body);
+      const fWith = (r: HttpClientRequest.HttpClientRequest) => f(r, oneShot);
       if (!traceDebug) {
         return thenSend(
           toHttpRequest(prepared, input, request, credentials, region, custom, fiber, presign),
-          f,
+          fWith,
         );
       }
       // BRAINSTORM: endpoint rules + SigV4 as one debug span.
@@ -599,7 +605,7 @@ const encodeWith = <A>(
           }),
           { "aws.signing.name": prepared.sigv4?.name },
         ),
-        f,
+        fWith,
       );
     });
   // Serialize the input (protocol serializer + annotation middleware)
@@ -688,8 +694,8 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const context = fiber.context as Context.Context<any>;
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
-      return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(Send.send(context, client, request), (response) =>
+      return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request, oneShot) =>
+        Effect.flatMap(Send.send(context, client, request, oneShot), (response) =>
           Telemetry.phase(
             context,
             "aws.deserialize",

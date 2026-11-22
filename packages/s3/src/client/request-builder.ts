@@ -53,7 +53,7 @@ export const makeRequestBuilder = (
     };
   }
 
-  // Buffers streaming bodies without Content-Length to compute the length
+  // Buffers Blob bodies without Content-Length to compute the length
   const applyStreamingBody = makeStreamingBodyMiddleware(inputSchema);
   return Effect.fnUntraced(function* (input: unknown) {
     let request = yield* serializeEffect(serialize)(input);

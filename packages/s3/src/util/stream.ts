@@ -69,6 +69,20 @@ export function isEffectStream(u: unknown): u is Stream.Stream<unknown, unknown,
   );
 }
 
+/** Web streams made from a `Blob`: each try makes a new one, so a retry can send it again. */
+const blobStreams = /*@__PURE__*/ new WeakSet<object>();
+
+/**
+ * Whether `body` is the caller's own stream, which can be read only once:
+ * after it starts to go out, a retry would send it empty.
+ */
+export const isOneShotBody = (body: unknown): boolean =>
+  isStreamBody(body) && !blobStreams.has(body);
+
+/** Whether `body` is a web stream made from a `Blob`. */
+export const isBlobStream = (body: unknown): boolean =>
+  typeof body === "object" && body !== null && blobStreams.has(body);
+
 /**
  * Convert various streaming input types to a format suitable for fetch.
  * Handles strings, Uint8Array, ArrayBuffer, Blob, ReadableStream, and Effect Stream.
@@ -80,7 +94,9 @@ export function convertStreamingInput(
   if (value instanceof Uint8Array) return value;
   if (value instanceof ArrayBuffer) return new Uint8Array(value);
   if (typeof globalThis.Blob !== "undefined" && value instanceof globalThis.Blob) {
-    return value.stream();
+    const stream = value.stream();
+    blobStreams.add(stream);
+    return stream;
   }
   // A web stream or an Effect stream: sent as is.
   return value as StreamBody;

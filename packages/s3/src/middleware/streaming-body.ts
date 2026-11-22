@@ -1,12 +1,14 @@
 /**
  * Streaming Body Middleware
  *
- * Handles streaming bodies that don't have Content-Length by buffering
- * the stream and computing the Content-Length.
+ * A `Blob` body without Content-Length is read into bytes, so it goes out
+ * with its length on every HttpClient (`FetchHttpClient` drops the
+ * Content-Length of a stream body, and S3 PutObject refuses chunked
+ * uploads).
  *
- * Note: While HTTP supports Transfer-Encoding: chunked, many AWS services
- * (including S3 PutObject) don't support it. Buffering ensures compatibility
- * with all services.
+ * The caller's own stream is never buffered: with a Content-Length member
+ * set it goes out with that length, and without one the HttpClient sends it
+ * as it sends any stream of unknown length.
  *
  * @see https://smithy.io/2.0/spec/streaming.html#requireslength-trait
  */
@@ -23,7 +25,7 @@ import {
   isInputEventStream,
   isStreamingType,
 } from "../traits.ts";
-import { bodyStream, isStreamBody, type StreamBody } from "../util/stream.ts";
+import { bodyStream, isBlobStream, type StreamBody } from "../util/stream.ts";
 
 /**
  * Info about the streaming payload in a schema.
@@ -53,8 +55,8 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
     Effect.gen(function* () {
       const body = request.body;
 
-      // No body or not a streaming body - pass through
-      if (!isStreamBody(body)) {
+      // Only a Blob is buffered; the caller's own stream goes out as is.
+      if (!isBlobStream(body)) {
         return request;
       }
 
@@ -84,12 +86,8 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
         return request;
       }
 
-      // Content-Length not provided - buffer and compute it
-      // Note: While HTTP supports Transfer-Encoding: chunked, many AWS services
-      // don't support it (e.g., S3 PutObject, aws-query protocol).
-      // The only reliable approach is to buffer and provide Content-Length.
-      // For very large streams, users should use multipart upload instead.
-      const bufferedBody = yield* bufferStream(body);
+      // Content-Length not provided - buffer the Blob and compute it
+      const bufferedBody = yield* bufferStream(body as StreamBody);
       return {
         ...request,
         body: bufferedBody,
