@@ -451,6 +451,8 @@ interface OperationInputTraits {
   };
   staticContextParams?: Record<string, { value: unknown }>;
   requestCompression?: { encodings: string[] };
+  /** The operation's input is `smithy.api#Unit` (rpcv2Cbor sends no body). */
+  unitInput?: boolean;
 }
 
 /**
@@ -513,7 +515,7 @@ function collectOperationInputTraits(model: SmithyModel): {
       // GetIndex returned AccessDeniedException because it was posted to
       // "/" instead of "/GetIndex").
       if (shape.input.target === "smithy.api#Unit") {
-        inputTraits.set(`${shapeId.split("#")[1]}Request`, traits);
+        inputTraits.set(`${shapeId.split("#")[1]}Request`, { ...traits, unitInput: true });
         continue;
       }
       const inputName = formatName(shape.input.target);
@@ -581,7 +583,17 @@ const PROTOCOL_ANNOTATIONS = {
   "aws.protocols#awsJson1_1": "T.AwsProtocolsAwsJson1_1()",
   "aws.protocols#awsQuery": "T.AwsProtocolsAwsQuery()",
   "aws.protocols#ec2Query": "T.AwsProtocolsEc2Query()",
+  "smithy.protocols#rpcv2Cbor": "T.SmithyProtocolsRpcv2Cbor()",
 } as const;
+
+/**
+ * The service's wire protocol, if the runtime implements one. Other
+ * `aws.protocols#` traits (`awsQueryCompatible`, ...) are not wire protocols.
+ */
+export const supportedProtocol = (serviceTraits: Record<string, unknown> | undefined) =>
+  Object.keys(serviceTraits ?? {}).find(
+    (key): key is keyof typeof PROTOCOL_ANNOTATIONS => key in PROTOCOL_ANNOTATIONS,
+  );
 
 /** Event-stream (streaming union) shape ids used as operation INPUT members. */
 function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
@@ -933,11 +945,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   const serviceEntry = Object.entries(shapes).find(([, s]) => s.type === "service");
   if (!serviceEntry) throw new Error("service shape not found");
   const [serviceShapeId, serviceShape] = serviceEntry as [string, any];
-  // A protocol the runtime implements; any other `aws.protocols#` trait
-  // (`awsQueryCompatible`, ...) is not a wire protocol.
-  const protocol = Object.keys(serviceShape.traits ?? {}).find(
-    (key): key is keyof typeof PROTOCOL_ANNOTATIONS => key in PROTOCOL_ANNOTATIONS,
-  );
+  const protocol = supportedProtocol(serviceShape.traits);
   if (protocol == null) {
     throw new Error(
       `${serviceShapeId}: no supported protocol in ${JSON.stringify(
@@ -971,6 +979,21 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     protocol === "aws.protocols#awsJson1_1";
   const isQueryProtocol =
     protocol === "aws.protocols#awsQuery" || protocol === "aws.protocols#ec2Query";
+  // rpcv2Cbor writes every timestamp as CBOR tag 1 (epoch seconds) and
+  // ignores `timestampFormat` and the HTTP binding traits.
+  const isCborProtocol = protocol === "smithy.protocols#rpcv2Cbor";
+  if (isCborProtocol) {
+    // The rpcv2Cbor runtime reads whole CBOR bodies; it has no event streams
+    // or streaming blobs yet.
+    const streaming = Object.entries(shapes).find(
+      ([, s]) => s.traits?.["smithy.api#streaming"] != null,
+    );
+    if (streaming) {
+      throw new Error(
+        `${serviceShapeId}: rpcv2Cbor streaming shape ${streaming[0]} is not supported yet`,
+      );
+    }
+  }
   // `@jsonName` renames a member on the wire only in restJson1; awsJson
   // ignores it (https://smithy.io/2.0/aws/protocols/aws-json-1_1-protocol.html).
   const honorsJsonName = protocol === "aws.protocols#restJson1";
@@ -1108,10 +1131,13 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
   /** Timestamp schema for the smithy.api#Timestamp prelude shape. */
   const preludeTimestampExpr = (): string =>
-    isJsonProtocol ? `S.Date.pipe(T.TimestampFormat("epoch-seconds"))` : "T.DateFromString";
+    isJsonProtocol || isCborProtocol
+      ? `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`
+      : "T.DateFromString";
 
   /** Timestamp schema for a named timestamp shape (honors its format trait). */
   const namedTimestampExpr = (traits: SmithyTraits): string => {
+    if (isCborProtocol) return `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`;
     const format = traits?.["smithy.api#timestampFormat"] as string | undefined;
     if (format) {
       if (format === "date-time") {
@@ -1353,7 +1379,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
     const hasHttpHeader = traits["smithy.api#httpHeader"] != null;
     const hasHttpPayload = traits["smithy.api#httpPayload"] != null;
-    const explicitFormat = traits["smithy.api#timestampFormat"] as string | undefined;
+    const explicitFormat = isCborProtocol
+      ? undefined
+      : (traits["smithy.api#timestampFormat"] as string | undefined);
 
     const memberTargetShape = shapes[member.target];
     const isBlob = memberTargetShape?.type === "blob";
@@ -1402,11 +1430,13 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       schema.includes("DateFromString") ||
       schema.includes("TimestampFormat") ||
       member.target === "smithy.api#Timestamp";
-    const bindingFormat = hasHttpHeader
-      ? "http-date"
-      : traits["smithy.api#httpLabel"] != null || traits["smithy.api#httpQuery"] != null
-        ? "date-time"
-        : undefined;
+    const bindingFormat = isCborProtocol
+      ? undefined
+      : hasHttpHeader
+        ? "http-date"
+        : traits["smithy.api#httpLabel"] != null || traits["smithy.api#httpQuery"] != null
+          ? "date-time"
+          : undefined;
     const timestampExpr = (format: string) =>
       format === "date-time"
         ? `T.DateFromString.pipe(T.TimestampFormat("date-time"))`
@@ -1964,6 +1994,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
                 `T.StaticContextParams(${JSON.stringify(opTraits.staticContextParams)})`,
               );
             }
+            if (opTraits.unitInput && isCborProtocol) classAnnotations.push("T.UnitInput()");
           }
           if (isOperationOutput && opOutputTraits?.s3UnwrappedXmlOutput) {
             classAnnotations.push("T.S3UnwrappedXmlOutput()");
@@ -2336,7 +2367,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       // (`x-amzn-query-mode`), so it can answer with query error codes.
       const queryCompatible =
         serviceShape.traits?.["aws.protocols#awsQueryCompatible"] != null &&
-        (protocol === "aws.protocols#awsJson1_0" || protocol === "aws.protocols#awsJson1_1");
+        (protocol === "aws.protocols#awsJson1_0" ||
+          protocol === "aws.protocols#awsJson1_1" ||
+          protocol === "smithy.protocols#rpcv2Cbor");
       serviceConstants.push(
         `const proto = ${
           queryCompatible

@@ -35,8 +35,8 @@ if [ ! -x "$smithy" ]; then
   (cd "$dir" && unzip -q "$zip")
 fi
 
-# The CLI resolves smithy-aws-protocol-tests and the trait packages it
-# depends on from Maven Central, then flattens mixins: the generator reads
+# The CLI resolves the two protocol test packages and the trait packages they
+# depend on from Maven Central, then flattens mixins: the generator reads
 # flattened models, like the ones AWS publishes.
 "$smithy" build --quiet -c "$here/smithy-build.json" --projection flat --output "$build/out"
 cp "$build/out/flat/model/model.json" "$here/model.json"
