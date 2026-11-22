@@ -599,6 +599,12 @@
       "path": "./packages/spacetimedb/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/sproutboat/tsconfig.json"
+    },
+    {
+      "path": "./packages/sproutboat/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/digitalocean/tsconfig.json"
     },
     {

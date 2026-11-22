@@ -850,10 +850,6 @@ export interface AnalyzeTextRequest {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   showStats?: boolean | undefined;
   body: AnalyzeTextTask;
-  /** The input documents to analyze. */
-  analysisInput: MultiLanguageAnalysisInput;
-  /** Task parameters for `kind` (e.g. `{ modelVersion, opinionMining }` for SentimentAnalysis, `{ piiCategories, domain }` for PiiEntityRecognition). */
-  parameters?: unknown | undefined;
 }
 /** The kind of task result. */
 export type EntitiesTaskResultKind = "EntityRecognitionResults";
@@ -1853,8 +1849,7 @@ export type AnalyzeTextTaskResult =
   | KeyPhraseTaskResult
   | LanguageDetectionTaskResult
   | PiiTaskResult
-  | SentimentTaskResult
-  | unknown;
+  | SentimentTaskResult;
 export type AnalyzeTextResponse = AnalyzeTextTaskResult;
 export interface AnalyzeTextCancelJobRequest {
   /** Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com). */
@@ -2426,8 +2421,7 @@ export type AnalyzeTextLROResult =
   | HealthcareLROResult
   | KeyPhraseExtractionLROResult
   | PiiEntityRecognitionLROResult
-  | SentimentLROResult
-  | unknown;
+  | SentimentLROResult;
 /** Enumerable of Analyze text job results. */
 export type TasksItemsList = Array<AnalyzeTextLROResult>;
 /** Container for the tasks status for the LRO job. */
@@ -2704,8 +2698,7 @@ export type AnalyzeTextLROTask =
   | HealthcareLROTask
   | KeyPhraseLROTask
   | PiiLROTask
-  | SentimentAnalysisLROTask
-  | unknown;
+  | SentimentAnalysisLROTask;
 /** List of tasks to be performed as part of the LRO. */
 export type AnalyzeTextSubmitJobRequestTasksList = Array<AnalyzeTextLROTask>;
 export interface AnalyzeTextSubmitJobRequest {
@@ -2874,8 +2867,6 @@ function __c0(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           showStats: S.optional(S.Boolean.pipe(T.Query())),
           body: __S(9, __c0, 9).pipe(T.HttpBody()),
-          analysisInput: __S(130, __c4, 2),
-          parameters: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2968,7 +2959,6 @@ function __c0(j: number): any {
         __S(18, __c0, 18),
         __S(19, __c0, 19),
         __S(20, __c0, 20),
-        S.Unknown,
       ]);
     case 22:
       return S.suspend(() => __S(21, __c0, 21).pipe(T.RawResponseRoot())).annotate({
@@ -3934,7 +3924,6 @@ function __c8(j: number): any {
         __S(268, __c8, 12),
         __S(269, __c8, 13),
         __S(270, __c8, 14),
-        S.Unknown,
       ]);
     case 16:
       return S.Array(__S(271, __c8, 15));
@@ -4107,7 +4096,6 @@ function __c9(j: number): any {
         __S(300, __c9, 12),
         __S(301, __c9, 13),
         __S(302, __c9, 14),
-        S.Unknown,
       ]);
     case 16:
       return S.Array(__S(303, __c9, 15));

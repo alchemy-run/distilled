@@ -447,7 +447,7 @@ export interface ListDenyAssignmentForResourceRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type of the resource. */
   resourceType: string;
   /** The name of the resource to get deny assignments for. */
@@ -500,7 +500,7 @@ export interface ListPermissionsForResourceRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type of the resource. */
   resourceType: string;
   /** The name of the resource to get the permissions for. */
@@ -1364,7 +1364,7 @@ function __c5(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
@@ -1463,7 +1463,7 @@ function __c10(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           nextLink: S.optional(S.String),

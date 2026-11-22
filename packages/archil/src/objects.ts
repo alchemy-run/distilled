@@ -147,12 +147,11 @@ const namesNothing = (member: string, value: string) =>
 
 /**
  * The bucket path segment, `<disk>` or `<disk>.<branch>`, each part
- * percent-encoded, or the {@link InvalidInput} of an empty disk or a part
- * core's `encodeLabel` refuses.
+ * percent-encoded, or the {@link InvalidInput} of a part core's
+ * `encodeLabel` refuses (`""`, `.`, `..`).
  */
 const encodeBucket = (ref: DiskRef): string | InvalidInput => {
   const disk = encodeLabel("disk", ref.disk);
-  if (disk === "") return namesNothing("disk", ref.disk);
   if (disk instanceof InvalidInput || !ref.branch) return disk;
   const branch = encodeLabel("branch", ref.branch);
   return branch instanceof InvalidInput ? branch : `${disk}.${branch}`;

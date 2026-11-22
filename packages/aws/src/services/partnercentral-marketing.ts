@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1013,14 +1014,13 @@ export const batchCreateCampaignAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(218, __c27, 2) as any as S.Schema<BatchCreateCampaignAssetRequest>,
   output: __S(223, __c27, 7) as any as S.Schema<BatchCreateCampaignAssetResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateCampaignAsset",
@@ -1053,15 +1053,13 @@ export const createCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<CreateCampaignRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<CreateCampaignResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
@@ -1092,12 +1090,13 @@ export const createSocialConnectionAuthorizationUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<CreateSocialConnectionAuthorizationUrlRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<CreateSocialConnectionAuthorizationUrlResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSocialConnectionAuthorizationUrl",
@@ -1151,14 +1150,13 @@ export const deactivateCampaignAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeactivateCampaignAssetRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DeactivateCampaignAssetResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateCampaignAsset",
@@ -1196,14 +1194,13 @@ export const deleteCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteCampaignRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteCampaignResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
@@ -1230,14 +1227,13 @@ export const deleteCampaignAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteCampaignAssetRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteCampaignAssetResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignAsset",
@@ -1264,12 +1260,13 @@ export const deleteSocialConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteSocialConnectionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteSocialConnectionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSocialConnection",
@@ -1295,13 +1292,13 @@ export const getCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetCampaignRequest>,
   output: __S(45, __c5, 5) as any as S.Schema<GetCampaignResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
@@ -1327,13 +1324,13 @@ export const getCampaignAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetCampaignAssetRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<GetCampaignAssetResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignAsset",
@@ -1369,13 +1366,13 @@ export const getCampaignAssetActivationTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetCampaignAssetActivationTaskRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<GetCampaignAssetActivationTaskResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignAssetActivationTask",
@@ -1408,13 +1405,13 @@ export const getCampaignAssetExportTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetCampaignAssetExportTaskRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<GetCampaignAssetExportTaskResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignAssetExportTask",
@@ -1441,13 +1438,13 @@ export const getCampaignTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetCampaignTemplateRequest>,
   output: __S(119, __c14, 7) as any as S.Schema<GetCampaignTemplateResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignTemplate",
@@ -1474,13 +1471,13 @@ export const listCampaignAssets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListCampaignAssetsRequest>,
   output: __S(123, __c15, 3) as any as S.Schema<ListCampaignAssetsResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCampaignAssets",
@@ -1512,12 +1509,13 @@ export const listCampaigns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(129, __c16, 1) as any as S.Schema<ListCampaignsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<ListCampaignsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCampaigns",
@@ -1549,12 +1547,13 @@ export const listSocialConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListSocialConnectionsRequest>,
   output: __S(139, __c17, 3) as any as S.Schema<ListSocialConnectionsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSocialConnections",
@@ -1586,13 +1585,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1620,12 +1619,13 @@ export const searchCampaignTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<SearchCampaignTemplatesRequest>,
   output: __S(155, __c19, 3) as any as S.Schema<SearchCampaignTemplatesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchCampaignTemplates",
@@ -1693,14 +1693,13 @@ export const startCampaignAssetActivationTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<StartCampaignAssetActivationTaskRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<StartCampaignAssetActivationTaskResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaignAssetActivationTask",
@@ -1737,13 +1736,13 @@ export const startCampaignAssetExportTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<StartCampaignAssetExportTaskRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<StartCampaignAssetExportTaskResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaignAssetExportTask",
@@ -1774,15 +1773,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1811,14 +1808,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1857,14 +1853,13 @@ export const updateCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<UpdateCampaignRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<UpdateCampaignResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
@@ -1894,14 +1889,13 @@ export const updateCampaignAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(202, __c25, 2) as any as S.Schema<UpdateCampaignAssetRequest>,
   output: __S(203, __c25, 3) as any as S.Schema<UpdateCampaignAssetResponse>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignAsset",

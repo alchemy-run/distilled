@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * 1Password credentials -- hand-written. One credentials service per API,
  * because each authenticates differently:
@@ -22,7 +23,6 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as Semaphore from "effect/Semaphore";
 
 // ---------------------------------------------------------------------------
 // Connect -- access token for a self-hosted Connect server
@@ -309,41 +309,33 @@ const cachedAccessToken = (
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
 ): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, ConfigError>) => {
   // Concurrent calls on a cold or stale cache share one exchange.
-  const lock = Semaphore.makeUnsafe(1);
-  let cached: UsersConfig | undefined;
-  let refreshAt = 0;
-  const fresh = () => cached !== undefined && Date.now() < refreshAt;
-
-  return (client) =>
-    Effect.suspend(() =>
-      fresh()
-        ? Effect.succeed(cached!)
-        : Semaphore.withPermit(
-            lock,
-            Effect.suspend(() =>
-              fresh()
-                ? Effect.succeed(cached!)
-                : Effect.gen(function* () {
-                    const config = yield* load;
-                    const token = yield* exchange(config).pipe(
-                      Effect.provideService(HttpClient.HttpClient, client),
-                    );
-                    const next: UsersConfig = {
-                      accessToken: token.accessToken,
-                      apiBaseUrl: config.apiBaseUrl,
-                    };
-                    cached = next;
-                    refreshAt =
-                      Date.now() +
-                      Math.max(
-                        token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-                        TOKEN_REFRESH_WINDOW_MS,
-                      );
-                    return next;
-                  }),
-            ),
+  const cached = refreshing(
+    Effect.gen(function* () {
+      const config = yield* load;
+      const token = yield* exchange(config);
+      return {
+        config: {
+          accessToken: token.accessToken,
+          apiBaseUrl: config.apiBaseUrl,
+        } satisfies UsersConfig,
+        refreshAt:
+          Date.now() +
+          Math.max(
+            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+            TOKEN_REFRESH_WINDOW_MS,
           ),
-    );
+      };
+    }),
+    (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `1Password token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
+  ).pipe(Effect.map((token) => token.config));
+
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
 /** A layer whose token cache exchanges through the `HttpClient` it is built with. */

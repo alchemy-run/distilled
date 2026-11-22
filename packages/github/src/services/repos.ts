@@ -4261,7 +4261,7 @@ export interface GetContentRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** path parameter */
-  path: string;
+  path?: string | undefined;
   /** The name of the commit/branch/tag. Default: the repository's default branch. */
   ref?: string | undefined;
 }
@@ -16716,7 +16716,7 @@ function __c269(j: number): any {
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Label())),
           ref: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/contents/{path}", code: 200 })),
       ).annotate({ identifier: "GetContentRequest" });

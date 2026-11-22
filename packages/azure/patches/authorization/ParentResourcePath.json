@@ -1,0 +1,13 @@
+{
+  "description": "The spec marks the `parentResourcePath` path label required, but a resource with no parent has an empty one: the spec itself says \"Use empty string if there is none\" on PolicyAssignments_ListForResource, and azure-cli sends '' for it (`parent_resource_path if parent_resource_path else ''` in command_modules/resource/custom.py, used by resources get/delete/update and the lock commands). Mark it optional on every operation of this model that has it, so `parentResourcePath: \"\"` keeps working.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.authorization#DenyAssignmentsListForResourceRequest/members/parentResourcePath/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.authorization#PermissionsListForResourceRequest/members/parentResourcePath/traits/smithy.api#required"
+    }
+  ]
+}
