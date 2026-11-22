@@ -1,0 +1,25 @@
+{
+  "description": "The Proxmox schema marks these path parameters optional, but the API server needs the path segment. PVE::RESTHandler::find_handler splits the path with `grep { length($_) > 0 } split('\\/+', $path)` (\"skip empty fragments\"), so an empty segment is dropped and the request routes to the parent path: DELETE /cluster/firewall/groups/g/ is routed as DELETE /cluster/firewall/groups/g. Mark every path label of this model required. Source: https://git.proxmox.com/?p=pve-common.git;a=blob;f=src/PVE/RESTHandler.pm (find_handler).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_ceph#PostNodesByNodeCephMdsByNameRequest/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_ceph#PostNodesByNodeCephMgrByIdRequest/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_ceph#PostNodesByNodeCephMonByMonidRequest/members/monid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_ceph#PostNodesByNodeCephFsByNameRequest/members/name/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}
