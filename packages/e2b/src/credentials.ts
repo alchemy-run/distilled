@@ -17,8 +17,15 @@
  *     files. Authenticated with the volume's own token, returned by
  *     `volumes.getVolume`. Provide it per call with {@link volumeConnection};
  *     no team key is sent.
+ *
+ * A layer here reads and checks what it is given when it is built: an
+ * environment without a key, or a sandbox whose host label is not a DNS
+ * label ({@link check}), is a `ConfigError` at setup, and no call fails for
+ * it. An envd or volume call without its connection fails on the call: only
+ * that call knows it needs one.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
+import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
@@ -49,9 +56,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "E2BCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("E2BCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("E2B_API_KEY").pipe(EffectConfig.option),
@@ -67,36 +72,38 @@ const optional = <A>(
   option: { readonly _tag: "Some"; readonly value: A } | { readonly _tag: "None" },
 ) => (option._tag === "Some" ? option.value : undefined);
 
+const fromEnvironment: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ envConfig.pipe(
+  /*@__PURE__*/ Effect.mapError(
+    () => new ConfigError({ message: "invalid E2B environment configuration" }),
+  ),
+  /*@__PURE__*/ Effect.flatMap((env) => {
+    const apiKey = optional(env.apiKey);
+    const accessToken = optional(env.accessToken);
+    if (apiKey === undefined && accessToken === undefined) {
+      return Effect.fail(
+        new ConfigError({
+          message: "E2B_API_KEY (or E2B_ACCESS_TOKEN) environment variable is required",
+        }),
+      );
+    }
+    return Effect.succeed<Config>({
+      apiKey,
+      accessToken,
+      teamId: optional(env.teamId),
+      domain: env.domain,
+      apiBaseUrl: optional(env.apiBaseUrl) ?? apiBaseUrlFor(env.domain),
+    });
+  }),
+);
+
 /**
  * Reads `E2B_API_KEY`, `E2B_ACCESS_TOKEN`, `E2B_TEAM_ID`, `E2B_DOMAIN` and
- * `E2B_API_URL`. Fails with `ConfigError` when neither the API key nor the
- * access token is set.
+ * `E2B_API_URL`, once: when the layer is built. Fails with `ConfigError`
+ * there when neither the API key nor the access token is set.
  */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "invalid E2B environment configuration" }),
-    ),
-    /*@__PURE__*/ Effect.flatMap((env) => {
-      const apiKey = optional(env.apiKey);
-      const accessToken = optional(env.accessToken);
-      if (apiKey === undefined && accessToken === undefined) {
-        return Effect.fail(
-          new ConfigError({
-            message: "E2B_API_KEY (or E2B_ACCESS_TOKEN) environment variable is required",
-          }),
-        );
-      }
-      return Effect.succeed<Config>({
-        apiKey,
-        accessToken,
-        teamId: optional(env.teamId),
-        domain: env.domain,
-        apiBaseUrl: optional(env.apiBaseUrl) ?? apiBaseUrlFor(env.domain),
-      });
-    }),
-  ),
+  /*@__PURE__*/ Effect.map(fromEnvironment, (config) => Effect.succeed(config)),
 );
 
 /** Convenience layer from a redacted API key (and optional access token). */
@@ -136,21 +143,45 @@ export interface SandboxConnectionConfig {
 }
 
 /**
- * The sandbox the envd services (`envd`, `process`, `filesystem`) address.
- * Provide it around the calls for one sandbox.
+ * The sandbox the envd services (`envd`, `process`, `filesystem`) address: a
+ * {@link SandboxConnectionConfig} that passed {@link check}. Provide it
+ * around the calls for one sandbox.
  */
 export class SandboxConnection
-  extends /*@__PURE__*/ Context.Service<SandboxConnection, SandboxConnectionConfig>()(
+  extends /*@__PURE__*/ Context.Service<SandboxConnection, Checked<SandboxConnectionConfig>>()(
     "E2BSandboxConnection",
   ) {}
 
-/** Addresses the envd services below it to one sandbox. */
-export const sandboxConnection = (
-  config: SandboxConnectionConfig,
-): Layer.Layer<SandboxConnection> => Layer.succeed(SandboxConnection, config);
-
 /** Domains that serve every sandbox at `https://sandbox.<domain>` (routed by header). */
 const SHARED_SANDBOX_HOST_DOMAINS: ReadonlySet<string> = /*@__PURE__*/ new Set([DEFAULT_DOMAIN]);
+
+/**
+ * Check a sandbox connection: fails with `ConfigError` when the sandbox is
+ * addressed by host name (`<port>-<id>.<domain>`) and that label is not one
+ * DNS label. For a {@link SandboxConnection} layer of your own.
+ */
+export const check = (
+  config: SandboxConnectionConfig,
+): Effect.Effect<Checked<SandboxConnectionConfig>, ConfigError> => {
+  const invalid = SHARED_SANDBOX_HOST_DOMAINS.has(config.domain ?? DEFAULT_DOMAIN)
+    ? undefined
+    : invalidHostLabelConfig(
+        "E2B sandbox host label (<port>-<sandboxId>)",
+        `${config.port ?? ENVD_PORT}-${config.sandboxId}`,
+      );
+  // The one place that says a SandboxConnectionConfig is checked.
+  return invalid === undefined
+    ? Effect.succeed(config as Checked<SandboxConnectionConfig>)
+    : Effect.fail(invalid);
+};
+
+/**
+ * Addresses the envd services below it to one sandbox. The sandbox is
+ * checked once, when the layer is built ({@link check}).
+ */
+export const sandboxConnection = (
+  config: SandboxConnectionConfig,
+): Layer.Layer<SandboxConnection, ConfigError> => Layer.effect(SandboxConnection, check(config));
 
 /** envd's root for a sandbox: the shared host on E2B Cloud, else `<port>-<id>.<domain>`. */
 export const envdBaseUrlFor = (config: SandboxConnectionConfig): string => {
@@ -163,29 +194,22 @@ export const envdBaseUrlFor = (config: SandboxConnectionConfig): string => {
 
 /**
  * The {@link SandboxConnection} on the calling fiber, for the envd calls.
- * Fails with `ConfigError` when none is provided, or when the sandbox is
- * addressed by host name (`<port>-<id>.<domain>`) and that label is not one
- * DNS label.
+ * Fails with `ConfigError` when none is provided: only an envd call knows it
+ * needs one. Its host label was checked when the layer was built.
  */
-export const resolveSandboxConnection: Effect.Effect<SandboxConnectionConfig, ConfigError> =
-  /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) => {
-    if (option._tag === "None") {
-      return Effect.fail(
+export const resolveSandboxConnection: Effect.Effect<
+  Checked<SandboxConnectionConfig>,
+  ConfigError
+> = /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
+  option._tag === "Some"
+    ? Effect.succeed(option.value)
+    : Effect.fail(
         new ConfigError({
           message:
             "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
         }),
-      );
-    }
-    const sandbox = option.value;
-    const invalid = SHARED_SANDBOX_HOST_DOMAINS.has(sandbox.domain ?? DEFAULT_DOMAIN)
-      ? undefined
-      : invalidHostLabelConfig(
-          "E2B sandbox host label (<port>-<sandboxId>)",
-          `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`,
-        );
-    return invalid === undefined ? Effect.succeed(sandbox) : Effect.fail(invalid);
-  });
+      ),
+);
 
 // =============================================================================
 // Volume content: one volume
