@@ -21,7 +21,7 @@ The first protobuf run builds `conformance_test_runner` from the submodule with 
 
 `protobuf-testee.ts` answers the protobuf runner over stdin and stdout with `decodeMessage` and `encodeMessage`. Its descriptors are what the proto converter (`dev/src/codegen/proto.ts`) builds from the suite's own `.proto` files. Proto2, editions and text format are skipped: the converter reads proto3, and SDKs only speak binary and JSON.
 
-`grpc-client.ts` is the client under test. Each request becomes an `API.make` or `API.makeStreaming` operation over `makeGrpcProtocol`, sent with the `node:http2` transport. It reports statuses by gRPC code through the protocol's `statusError` option. `grpc-client.yaml` lists what the client supports: gRPC over HTTP/2 cleartext, the proto codec, no compression, and unary and server-streaming calls.
+`grpc-client.ts` is the client under test. Each request becomes an `API.make` or `API.makeStreaming` operation over `grpcProtocol`, sent with the `node:http2` transport. It reports statuses by gRPC code through the protocol's `statusError` option. `grpc-client.yaml` lists what the client supports: gRPC over HTTP/2 cleartext, the proto codec, no compression, and unary and server-streaming calls.
 
 ## Expected failures
 

@@ -2,7 +2,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
-  type RestProtocolOptions,
+  type RestErrorInfo,
+  type RestParseErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -71,9 +72,9 @@ const deploymentBaseUrl = (
 };
 
 const shared = {
-  unknownError: (info) => new UnknownConvexError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ConvexParseError({ body, cause }),
-} satisfies Pick<RestProtocolOptions<Config>, "unknownError" | "parseError">;
+  unknownError: (info: RestErrorInfo) => new UnknownConvexError(unknownErrorProps(info)),
+  parseError: ({ body, cause }: RestParseErrorInfo) => new ConvexParseError({ body, cause }),
+};
 
 /** The Management API, for the `convex` service. */
 export const ConvexProtocol = /*@__PURE__*/ restProtocol({

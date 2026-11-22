@@ -3,7 +3,7 @@
  *
  * API-compatible port of the distilled v0 axiom credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  */
 import * as EffectConfig from "@distilled.cloud/core/config";

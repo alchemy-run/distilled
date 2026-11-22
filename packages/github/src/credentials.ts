@@ -2,7 +2,7 @@
  * GitHub credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, userAgent }` per
- * request; the protocol layer formats the `Authorization: Bearer <token>`
+ * request; the protocol formats the `Authorization: Bearer <token>`
  * header from it.
  *
  * The token may be a personal access token (classic or fine-grained), a

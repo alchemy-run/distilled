@@ -4,7 +4,6 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
@@ -43,12 +42,10 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
  *
- * `restProtocol(options)` builds a typed core protocol (core/protocol), and
- * `makeRestProtocol(options)` a {@link API.Protocol} layer, the older form:
+ * `restProtocol(options)` builds a core protocol (core/protocol):
  *
  *   request:  credentials resolved from the CALLING fiber's context on every
- *             request (the layer itself is memoized per process -- see
- *             `core/api`), auth headers + base URL from the provider's
+ *             request, auth headers + base URL from the provider's
  *             options, request built by `buildRequest` from
  *             `core/protocol-http` (deep-unwrapping any `Redacted` input
  *             values first)
@@ -58,10 +55,11 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             the provider's `classifyError`, then per-op matcher
- *             classes (`matchTypedError`), then the status
- *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
- *             for unmapped 5xx, then the provider's `unknownError` fallback
+ *             the provider's `classifyError`, then a class the operation
+ *             or its service declares (by its matchers, `matchTypedError`,
+ *             or by status for one of core's status classes), then an
+ *             `InternalServerError` for any other 5xx, then the provider's
+ *             `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
  *             headers on retryable statuses.
  *
@@ -187,27 +185,24 @@ export type RestProtocolError =
   | InternalServerError;
 
 /**
- * Options of {@link restProtocol} and {@link makeRestProtocol}. The type
- * parameters after `Credentials` are what each option fails with or reads;
- * `restProtocol` infers them from the options, and they are the errors its
- * protocol declares. The defaults are for `makeRestProtocol<Credentials>`,
- * which types none of them.
+ * Options of {@link restProtocol}. The type parameters after `Credentials`
+ * are what each option fails with or reads; `restProtocol` infers them from
+ * the options, and they are the errors its protocol declares.
  */
 export interface RestProtocolOptions<
   Credentials,
-  CredentialsError = any,
-  CredentialsRequirements = any,
-  RouteError = never,
-  ClassifiedError = unknown,
-  UnknownError = unknown,
-  ParseError = unknown,
+  CredentialsError,
+  CredentialsRequirements,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
 > {
   /**
-   * Resolve credentials ON THE CALLING FIBER -- evaluated per request, never
-   * at layer build time, so context-provided credentials and token refreshes
-   * are picked up. Either an effect, or -- for the distilled
-   * credentials-service convention -- the `Credentials` service key whose
-   * value is that effect (read from the calling fiber's context; an
+   * Resolve credentials ON THE CALLING FIBER -- evaluated per request, so
+   * context-provided credentials and token refreshes are picked up. Either
+   * an effect, or -- for the distilled credentials-service convention --
+   * the `Credentials` service key whose value is that effect (read from the calling fiber's context; an
    * already-resolved `Effect.succeed` value costs no extra fiber step). What
    * it fails with (declared on the credentials) reaches every operation
    * through the protocol, and what it reads is the protocol's requirement.
@@ -223,9 +218,8 @@ export interface RestProtocolOptions<
    * (`T.Http({ server })`) for APIs that serve some operations from another
    * host; map it to a base URL from the credentials. To refuse a route (e.g.
    * a required scope missing from the credentials), return `Effect.fail` of
-   * the error the call fails with. A THROWN error
-   * fails the call with `SdkError` under `restProtocol`, and with the thrown
-   * value, untyped, under `makeRestProtocol`.
+   * the error the call fails with. A THROWN error fails the call with
+   * `SdkError`.
    */
   readonly baseUrl: (
     credentials: Credentials,
@@ -247,18 +241,8 @@ export interface RestProtocolOptions<
    */
   readonly errorFieldsAt?: string;
   /**
-   * `makeRestProtocol` only: HTTP status -> error class constructed as
-   * `new Cls({ message, retryAfter })`. Default: core `HTTP_STATUS_MAP`.
-   * Consulted after per-op typed error matching; unmapped 5xx fall back to
-   * `InternalServerError`, everything else to {@link unknownError}.
-   *
-   * `restProtocol` has no status map of its own: the classes come from the
-   * operation and its service, which declare them.
-   */
-  readonly statusMap?: Readonly<Record<number, new (args: any) => unknown>>;
-  /**
-   * The provider's own reading of a failure, consulted before per-op typed
-   * matching and the status map: return the error to fail with, or
+   * The provider's own reading of a failure, consulted before the classes
+   * the operation and its service declare: return the error to fail with, or
    * `undefined` to decode the failure as usual. For rules a status alone
    * can't express, e.g. a 403 that is a rate limit because of its headers.
    */
@@ -266,8 +250,8 @@ export interface RestProtocolOptions<
   /**
    * Fallback error for failures nothing else matched: the SDK's
    * `Unknown<Sdk>Error`, built from {@link unknownErrorProps}. Only non-5xx
-   * statuses reach it (unmapped 5xx are `InternalServerError`), so the class
-   * carries no retryable category.
+   * statuses reach it (an undeclared 5xx is `InternalServerError`), so the
+   * class carries no retryable category.
    */
   readonly unknownError: (info: RestErrorInfo) => UnknownError;
   /**
@@ -452,39 +436,31 @@ type Decoded<Failure> =
   | { readonly ok: false; readonly error: Failure };
 
 /**
- * The methods {@link restMethods} builds. With `StatusError` a
- * {@link DeclaredError}, they are a `Protocol<ProtocolError, Requirements>`.
+ * The class core has for `status`, when the operation or its service
+ * declares it: a list of declared errors can hold core's status classes
+ * (`Unauthorized`, `TooManyRequests`, ...), which are matched by status.
+ * For a protocol that reads failed responses itself.
  */
-export interface RestMethods<StatusError, ProtocolError, Requirements> {
-  readonly encode: Protocol<ProtocolError, Requirements>["encode"];
-  readonly decode: (
-    args: DecodeArgs,
-  ) => Effect.Effect<unknown, DeclaredError | StatusError | ProtocolError, Requirements>;
-  readonly call: (
-    operation: Operation,
-    input: unknown,
-  ) => Effect.Effect<unknown, DeclaredError | StatusError | ProtocolError, Requirements>;
-  readonly stream: (
-    operation: Operation,
-    input: unknown,
-  ) => Stream.Stream<unknown, DeclaredError | StatusError | ProtocolError, Requirements>;
-}
+export const declaredStatusClass = (
+  status: number,
+  declared: ReadonlyArray<DeclaredErrorClass>,
+): DeclaredErrorClass | undefined => {
+  const core: unknown = (HTTP_STATUS_MAP as Readonly<Record<number, unknown>>)[status];
+  return core === undefined ? undefined : declared.find((cls) => cls === core);
+};
 
 /**
- * The methods of both forms. They differ in two places: `statusClass` is
- * where the class for a status comes from, and `refuse` is what a `baseUrl`
- * that throws fails the call with.
+ * The methods of {@link restProtocol}, for either form of `credentials`.
+ * For the protocols core builds on them (core/protocol-grpc).
  */
-const restMethods = <
+export const restProtocolMethods = <
   Credentials,
-  CredentialsError,
-  CredentialsRequirements,
-  RouteError,
-  ClassifiedError,
-  UnknownError,
-  ParseError,
-  StatusError,
-  Thrown,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
 >(
   options: RestProtocolOptions<
     Credentials,
@@ -495,28 +471,15 @@ const restMethods = <
     UnknownError,
     ParseError
   >,
-  statusClass: (
-    status: number,
-    declared: ReadonlyArray<DeclaredErrorClass>,
-  ) => (new (args: any) => StatusError) | undefined,
-  refuse: (thrown: unknown) => Effect.Effect<never, Thrown>,
-): RestMethods<
-  StatusError,
-  | CredentialsError
-  | RouteError
-  | ClassifiedError
-  | UnknownError
-  | ParseError
-  | RestProtocolError
-  | Thrown,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
   CredentialsRequirements
 > => {
   /** What a request that can't be built fails with. */
-  type RequestError = RouteError | Thrown | InvalidInput | SdkError;
+  type RequestError = RouteError | InvalidInput | SdkError;
   /** Everything a call fails with. */
   type Failure =
     | DeclaredError
-    | StatusError
     | ClassifiedError
     | UnknownError
     | ParseError
@@ -555,8 +518,8 @@ const restMethods = <
         method: http?.method ?? "",
         server: http?.server,
       });
-    } catch (thrown) {
-      return refuse(thrown);
+    } catch (cause) {
+      return Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` }));
     }
     // A baseUrl that refuses the route (missing scope in the credentials)
     // returns the failure.
@@ -627,9 +590,10 @@ const restMethods = <
       );
       if (typed !== undefined) return { ok: false, error: typed };
 
-      // 2. Status-mapped class (retryAfter only stamps on retryable
-      //    statuses -- parseRetryAfterForStatus gates on that).
-      const StatusErrorClass = statusClass(status, errorClasses);
+      // 2. Core's class for the status, when declared (retryAfter only
+      //    stamps on retryable statuses -- parseRetryAfterForStatus gates
+      //    on that).
+      const StatusErrorClass = declaredStatusClass(status, errorClasses);
       if (StatusErrorClass) {
         return {
           ok: false,
@@ -641,7 +605,7 @@ const restMethods = <
         };
       }
 
-      // 3. Unmapped 5xx (e.g. proxy-specific statuses) -> retryable server
+      // 3. Any other 5xx (e.g. proxy-specific statuses) -> retryable server
       //    error rather than the unknown fallback.
       if (status >= 500) {
         return {
@@ -853,71 +817,6 @@ const restMethods = <
 };
 
 /**
- * The class core has for `status`, when the operation or its service
- * declares it: a list of declared errors can hold core's status classes
- * (`Unauthorized`, `TooManyRequests`, ...), which are matched by status.
- * For a protocol that reads failed responses itself.
- */
-export const declaredStatusClass = (
-  status: number,
-  declared: ReadonlyArray<DeclaredErrorClass>,
-): DeclaredErrorClass | undefined => {
-  const core: unknown = (HTTP_STATUS_MAP as Readonly<Record<number, unknown>>)[status];
-  return core === undefined ? undefined : declared.find((cls) => cls === core);
-};
-
-/**
- * The methods of {@link restProtocol}: a status's class comes from the
- * classes the operation and its service declare, and a `baseUrl` that
- * throws fails the call with `SdkError`. For the protocols core builds on
- * them (core/protocol-grpc).
- */
-export const restProtocolMethods = <
-  Credentials,
-  CredentialsError = never,
-  CredentialsRequirements = never,
-  RouteError = never,
-  ClassifiedError = never,
-  UnknownError = never,
-  ParseError = never,
->(
-  options: Omit<
-    RestProtocolOptions<
-      Credentials,
-      CredentialsError,
-      CredentialsRequirements,
-      RouteError,
-      ClassifiedError,
-      UnknownError,
-      ParseError
-    >,
-    "statusMap"
-  >,
-): RestMethods<
-  DeclaredError,
-  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
-  CredentialsRequirements
-> =>
-  restMethods(options, declaredStatusClass, (cause) =>
-    Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` })),
-  );
-
-/**
- * The methods of {@link makeRestProtocol}: a status's class comes from the
- * status map, and a `baseUrl` that throws fails the call with what it
- * threw. They state none of their errors.
- */
-export const restLayerMethods = <C>(options: RestProtocolOptions<C>) => {
-  const statusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
-    options.statusMap ?? HTTP_STATUS_MAP;
-  return restMethods(
-    options,
-    (status) => statusMap[status],
-    (thrown) => Effect.fail(thrown),
-  );
-};
-
-/**
  * {@link restProtocol}'s options for one form of `credentials`. The service
  * key and the effect are separate signatures: a key is also an effect (of
  * the service), so one signature for both could not tell which it is given.
@@ -939,14 +838,14 @@ type TypedRestOptions<
     UnknownError,
     ParseError
   >,
-  "statusMap" | "credentials"
+  "credentials"
 > & {
   /** See {@link RestProtocolOptions.credentials}. */
   readonly credentials: CredentialsSource;
 };
 
 /**
- * The typed protocol for a simple REST JSON API (core/protocol). Assign the
+ * The protocol for a simple REST JSON API (core/protocol). Assign the
  * result to a module-level const in the provider's `protocol.ts`:
  *
  *   export const NeonProtocol = restProtocol({ ... });
@@ -1009,17 +908,14 @@ export function restProtocol<
   UnknownError,
   ParseError,
 >(
-  options: Omit<
-    RestProtocolOptions<
-      Credentials,
-      CredentialsError,
-      CredentialsRequirements,
-      RouteError,
-      ClassifiedError,
-      UnknownError,
-      ParseError
-    >,
-    "statusMap"
+  options: RestProtocolOptions<
+    Credentials,
+    CredentialsError,
+    CredentialsRequirements,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
   >,
 ): Protocol<
   CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
@@ -1027,18 +923,3 @@ export function restProtocol<
 > {
   return restProtocolMethods(options);
 }
-
-/**
- * The older form of {@link restProtocol}: a `Layer<Protocol>`, whose type
- * states none of its errors, so the SDK writes `<Sdk>OpError` on each
- * operation by hand. It builds a status's class from its own status map.
- * Assign the result to a module-level const in the provider's `protocol.ts`
- * -- `API.make` memoizes protocol layers by value identity.
- */
-export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> =>
-  Layer.succeed(
-    API.Protocol,
-    // The layer's service says its methods fail with nothing and need
-    // nothing.
-    restLayerMethods(options) as unknown as API.ProtocolShape,
-  );

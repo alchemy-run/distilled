@@ -35,7 +35,7 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  *   2. status 406 is remapped to 404/NotFound before per-op matcher and
  *      status-map evaluation (snippets return 406 for not-found).
  *
- * Everything else mirrors `makeRestProtocol`:
+ * Everything else mirrors `restProtocol`:
  *
  *   request:  credentials resolved from the calling fiber per request ->
  *             `Authorization: Bearer <accessToken>` + API base URL (default

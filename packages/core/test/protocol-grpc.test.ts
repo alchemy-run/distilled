@@ -11,6 +11,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
+import { API_ERRORS } from "../src/errors.ts";
 import * as NodeHttp2 from "../src/grpc-transport-node-http2.ts";
 import {
   decodeMessage,
@@ -19,7 +20,7 @@ import {
   unframe,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
-import { Deadline, makeGrpcProtocol } from "../src/protocol-grpc.ts";
+import { Deadline, grpcProtocol } from "../src/protocol-grpc.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -270,7 +271,7 @@ class PreconditionFailed extends T.applyErrorMatchers(
   [{ code: 9 }],
 ) {}
 
-const Protocol = makeGrpcProtocol({
+const Protocol = grpcProtocol({
   descriptors,
   credentials: Effect.gen(function* () {
     return yield* Endpoint;
@@ -281,7 +282,7 @@ const Protocol = makeGrpcProtocol({
   parseError: (info) => new TestParseError({ info }),
 });
 
-const WebProtocol = makeGrpcProtocol({
+const WebProtocol = grpcProtocol({
   descriptors,
   credentials: Effect.gen(function* () {
     return yield* Endpoint;
@@ -320,6 +321,7 @@ const say: API.OperationMethod<EchoRequest, EchoReply, any, Endpoint> = API.make
   input: EchoInput("/test.Echo/Say"),
   output: Reply,
   errors: [ThingNotFound, PreconditionFailed] as const,
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
 })) as any;
 
@@ -332,6 +334,7 @@ const count: API.StreamingOperationMethod<
   input: EchoInput("/test.Echo/Count"),
   output: S.Struct({ items: S.Array(Reply) }),
   errors: [] as const,
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
 })) as any;
 
@@ -339,6 +342,7 @@ const webSay: API.OperationMethod<EchoRequest, EchoReply, any, Endpoint> = API.m
   input: EchoInput("/test.Echo/Say"),
   output: Reply,
   errors: [ThingNotFound, PreconditionFailed] as const,
+  serviceErrors: API_ERRORS,
   protocol: WebProtocol,
 })) as any;
 
@@ -351,6 +355,7 @@ const webCount: API.StreamingOperationMethod<
   input: EchoInput("/test.Echo/Count"),
   output: S.Struct({ items: S.Array(Reply) }),
   errors: [PreconditionFailed] as const,
+  serviceErrors: API_ERRORS,
   protocol: WebProtocol,
 })) as any;
 

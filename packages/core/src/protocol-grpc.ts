@@ -3,11 +3,10 @@
  *
  * Proto SDKs are generated as REST-shaped operations: each RPC is
  * `POST /<package>.<Service>/<Method>` with a proto3 JSON body. Servers that
- * accept JSON (Connect, grpc-gateway) use {@link makeRestProtocol} directly.
+ * accept JSON (Connect, grpc-gateway) use {@link restProtocol} directly.
  * Servers that only speak gRPC use this protocol, which builds the request
  * with the REST protocol and speaks gRPC on the wire. `grpcProtocol(options)`
- * builds a typed core protocol (core/protocol), and
- * `makeGrpcProtocol(options)` a protocol layer, the older form:
+ * builds a core protocol (core/protocol):
  *
  * - **Request**: the proto3 JSON body is transcoded to one protobuf message
  *   ({@link encodeMessage}) in one gRPC frame, sent as `application/grpc`.
@@ -50,9 +49,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
-import * as API from "./api.ts";
 import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
 import {
   decodeMessage,
@@ -63,9 +60,7 @@ import {
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import {
-  restLayerMethods,
   restProtocolMethods,
-  type RestMethods,
   type RestParseErrorInfo,
   type RestProtocolError,
   type RestProtocolOptions,
@@ -146,19 +141,19 @@ export const Deadline = /*@__PURE__*/ Context.Reference<Duration.Input | undefin
 export type GrpcProtocolError = RestProtocolError;
 
 /**
- * Options of {@link grpcProtocol} and {@link makeGrpcProtocol}: the REST
- * protocol's (see {@link RestProtocolOptions} for the type parameters) and
- * gRPC's own. `StatusError` is what `statusError` returns.
+ * Options of {@link grpcProtocol}: the REST protocol's (see
+ * {@link RestProtocolOptions} for the type parameters) and gRPC's own.
+ * `StatusError` is what `statusError` returns.
  */
 export interface GrpcProtocolOptions<
   Credentials,
-  CredentialsError = any,
-  CredentialsRequirements = any,
-  RouteError = never,
-  ClassifiedError = unknown,
-  UnknownError = unknown,
-  ParseError = unknown,
-  StatusError = unknown,
+  CredentialsError,
+  CredentialsRequirements,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
+  StatusError,
 > extends RestProtocolOptions<
   Credentials,
   CredentialsError,
@@ -331,24 +326,18 @@ interface GrpcOptions<ParseError, StatusError> {
 }
 
 /**
- * The methods of both forms, over the REST methods `rest` of the same form
- * (see {@link RestMethods}). See the module documentation for the wire
- * behavior.
+ * The gRPC methods over the REST protocol `rest`. See the module
+ * documentation for the wire behavior.
  */
-const grpcMethods = <HttpStatusError, RestError, Requirements, ParseError, StatusError>(
-  rest: RestMethods<HttpStatusError, RestError, Requirements>,
+const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
+  rest: Protocol<RestError, Requirements>,
   options: GrpcOptions<ParseError, StatusError>,
-): RestMethods<
-  HttpStatusError,
-  RestError | ParseError | StatusError | GrpcProtocolError,
-  Requirements
-> => {
+): Protocol<RestError | ParseError | StatusError | GrpcProtocolError, Requirements> => {
   /** What building the request fails with. */
   type EncodeError = RestError | InvalidInput | SdkError;
   /** Everything a call fails with. */
   type Failure =
     | DeclaredError
-    | HttpStatusError
     | RestError
     | ParseError
     | StatusError
@@ -734,12 +723,11 @@ const grpcMethods = <HttpStatusError, RestError, Requirements, ParseError, Statu
 };
 
 /**
- * The typed gRPC protocol (core/protocol), over the options of
+ * The gRPC protocol (core/protocol), over the options of
  * {@link restProtocol}. Assign the result to a module-level const in the
- * provider's `protocol.ts`, typed with the errors the SDK's protocol
- * declares:
+ * provider's `protocol.ts`:
  *
- *   export const ModalProtocol: Protocol<ModalProtocolError, Credentials> = grpcProtocol({ ... });
+ *   export const ModalProtocol = grpcProtocol({ ... });
  *
  * A non-zero status becomes a class the operation or its service declares,
  * as a failed REST response does (see {@link restProtocol}). The protocol
@@ -755,18 +743,15 @@ export const grpcProtocol = <
   ParseError = never,
   StatusError = never,
 >(
-  options: Omit<
-    GrpcProtocolOptions<
-      Credentials,
-      CredentialsError,
-      CredentialsRequirements,
-      RouteError,
-      ClassifiedError,
-      UnknownError,
-      ParseError,
-      StatusError
-    >,
-    "statusMap"
+  options: GrpcProtocolOptions<
+    Credentials,
+    CredentialsError,
+    CredentialsRequirements,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError,
+    StatusError
   >,
 ): Protocol<
   | CredentialsError
@@ -778,16 +763,3 @@ export const grpcProtocol = <
   | GrpcProtocolError,
   CredentialsRequirements
 > => grpcMethods(restProtocolMethods(options), options);
-
-/**
- * The older form of {@link grpcProtocol}: a `Layer<Protocol>`, whose type
- * states none of its errors. A gRPC protocol over the given REST protocol
- * options; it builds a status's class from the REST status map.
- */
-export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Layer<API.Protocol> =>
-  Layer.succeed(
-    API.Protocol,
-    // The layer's service says its methods fail with nothing and need
-    // nothing.
-    grpcMethods(restLayerMethods(options), options) as unknown as API.ProtocolShape,
-  );

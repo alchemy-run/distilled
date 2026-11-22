@@ -2,7 +2,8 @@ import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
-  type RestProtocolOptions,
+  type RestErrorInfo,
+  type RestParseErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -25,7 +26,7 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { ExaParseError, UnknownExaError, type ExaServiceError } from "./errors.ts";
 
 /**
@@ -56,9 +57,9 @@ const shared = {
   // Resolved on the calling fiber per request, so a rotated key is picked up.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   errorEnvelope,
-  unknownError: (info) => new UnknownExaError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ExaParseError({ body, cause }),
-} satisfies Omit<RestProtocolOptions<Config>, "baseUrl" | "headers">;
+  unknownError: (info: RestErrorInfo) => new UnknownExaError(unknownErrorProps(info)),
+  parseError: ({ body, cause }: RestParseErrorInfo) => new ExaParseError({ body, cause }),
+};
 
 /** The public API: search, contents, answer, monitors, agent runs, batches, Websets. */
 export const ExaProtocol = /*@__PURE__*/ restProtocol({

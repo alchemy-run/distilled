@@ -4,7 +4,7 @@
  * API-compatible port of the distilled repo's cloudflare credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
  * credentials (apiToken / apiKey+email / OAuth with refresh) on every
- * request, so rotating or refreshing tokens Just Works. The protocol layer
+ * request, so rotating or refreshing tokens Just Works. The protocol
  * resolves it per request and formats the auth headers via
  * {@link formatHeaders}.
  */

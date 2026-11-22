@@ -2,7 +2,7 @@
  * OpenCode credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). `opencode serve` defaults to an unauthenticated
  * local HTTP server; set `OPENCODE_SERVER_PASSWORD` to protect it with HTTP
  * basic auth (username defaults to `opencode`).

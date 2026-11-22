@@ -9,7 +9,7 @@ import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
  * `server.api.mailchimp.com` host is a placeholder, not an origin.
  *
  * Following the core convention the `Credentials` service holds an *effect*
- * resolving the current config, which the protocol layer runs per request on
+ * resolving the current config, which the protocol runs per request on
  * the calling fiber.
  */
 import * as EffectConfig from "effect/Config";

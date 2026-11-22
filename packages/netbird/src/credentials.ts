@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * NetBird credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request; the protocol layer formats the
+ * credentials on every request; the protocol formats the
  * `Authorization: Token <apiToken>` header from it. The token is a personal
  * access token, normally of a service user (Team > Service Users).
  *

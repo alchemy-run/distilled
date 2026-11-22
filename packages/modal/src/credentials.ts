@@ -2,7 +2,7 @@
  * Modal credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ tokenId, tokenSecret, apiBaseUrl }`
- * per request; the protocol layer sends them as `x-modal-token-id` /
+ * per request; the protocol sends them as `x-modal-token-id` /
  * `x-modal-token-secret` (the same headers the official JS/Go clients use).
  */
 import { isThrottling, isTransientError, retryableKey } from "@distilled.cloud/core/category";

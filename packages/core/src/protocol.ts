@@ -98,7 +98,10 @@ export interface Protocol<ProtocolError, Requirements = never> {
   ) => Effect.Effect<unknown, DeclaredError | ProtocolError, Requirements>;
   /**
    * Server streaming (see `API.makeStreaming`): each response message as it
-   * arrives. A protocol that can't stream leaves it out.
+   * arrives, decoded as one element of the output's `items`. Ending the
+   * stream early cancels the call. A protocol that can't stream leaves it
+   * out; one that streams only some operations fails the others with
+   * `API.cannotStream`.
    */
   readonly stream?: (
     operation: Operation,

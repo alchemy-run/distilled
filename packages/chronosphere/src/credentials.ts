@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Chronosphere credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  *
  * Chronosphere authenticates Config API requests with an API token
