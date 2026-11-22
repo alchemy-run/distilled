@@ -3,6 +3,7 @@
  * Functions and App Engine, the attached service account's access token
  * and the project id come from `http://metadata.google.internal`.
  */
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -15,6 +16,7 @@ import {
   type ProviderOverrides,
   type TokenSource,
 } from "../credentials-service.ts";
+import { GCPCredentialsError } from "../errors.ts";
 import { oauthToken, requestJson, requestText } from "./oauth.ts";
 
 export interface MetadataServerConfig extends ProviderOverrides {
@@ -56,7 +58,13 @@ export const isOnGcp = (
 export const metadataServerSource = (config: MetadataServerConfig = {}): TokenSource =>
   Effect.gen(function* () {
     const step = "Fetching an access token from the metadata server";
-    const account = encodeURIComponent(config.serviceAccount ?? "default");
+    const serviceAccount = config.serviceAccount ?? "default";
+    const account = encodeLabel("serviceAccount", serviceAccount);
+    if (account instanceof InvalidInput) {
+      return yield* new GCPCredentialsError({
+        message: `The service account ${JSON.stringify(serviceAccount)} cannot be a URL path segment.`,
+      });
+    }
     const scopes = config.scopes?.length
       ? `?scopes=${encodeURIComponent(config.scopes.join(","))}`
       : "";
