@@ -614,6 +614,8 @@ interface MemberPlan {
   readonly preserve: string | undefined;
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
+  /** The schema marks the member optional (`S.optional`). */
+  readonly optional: boolean;
   readonly stringEncoded: boolean;
   /** A list query member sent as one comma-separated parameter. */
   readonly commaDelimited: boolean;
@@ -680,6 +682,7 @@ const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
       type: prop.type,
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
+      optional: prop.type.context?.isOptional === true,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
       commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
@@ -713,8 +716,8 @@ export const makeRequest = (
 
 /**
  * The input cannot be sent: a path label whose value would address another
- * resource (`.` or `..`, which the URL parser resolves to the parent path).
- * Raised before anything is sent.
+ * resource (`.` or `..`, which the URL parser resolves to the parent path,
+ * or `""`, which addresses the parent path). Raised before anything is sent.
  */
 export class InvalidInput
   extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
@@ -729,6 +732,13 @@ export class InvalidInput
  * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
  * `/`, so each of its segments counts.
  *
+ * Also refuses an empty value, unless the label is `optional`. It leaves the
+ * segment empty, and a server that ignores a trailing slash (Smithy routing
+ * does) reads `/things/` as the collection `/things`: Kubernetes runs a
+ * delete of the Secret `""` as a delete of every Secret in the namespace.
+ * A label the schema marks optional is one the API documents as possibly
+ * empty (Azure Key Vault's `{secret-version}`), so it may be `""`.
+ *
  * Also refuses a value with a lone UTF-16 surrogate (`"\ud800"`):
  * `encodeURIComponent` throws `URIError` on it, and no encoding keeps the
  * name as written.
@@ -737,6 +747,7 @@ export const invalidLabel = (
   member: string,
   value: unknown,
   greedy?: boolean,
+  optional?: boolean,
 ): InvalidInput | undefined => {
   const text = String(value);
   if (!text.isWellFormed()) {
@@ -745,7 +756,8 @@ export const invalidLabel = (
       message: `Input member ${member} cannot be ${JSON.stringify(text)}: it has a lone UTF-16 surrogate, which a URL cannot carry`,
     });
   }
-  return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
+  return (text === "" && !optional) ||
+    (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
     ? new InvalidInput({
         member,
         message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
@@ -763,8 +775,9 @@ export const encodeLabel = (
   member: string,
   value: unknown,
   greedy?: boolean,
+  optional?: boolean,
 ): string | InvalidInput =>
-  invalidLabel(member, value, greedy) ??
+  invalidLabel(member, value, greedy, optional) ??
   (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
 
 /**
@@ -781,7 +794,7 @@ export const encodeLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
- * or has a lone UTF-16 surrogate.
+ * is `""` and the schema marks it required, or has a lone UTF-16 surrogate.
  * Fails with {@link SdkError} when the input schema is missing the `Http()`
  * trait (a codegen bug the generator refuses).
  */
@@ -827,7 +840,7 @@ const requestOrInvalid = ({
     if (value === undefined) continue;
     switch (m.bind) {
       case "label": {
-        const encoded = encodeLabel(m.key, value, m.greedy);
+        const encoded = encodeLabel(m.key, value, m.greedy, m.optional);
         if (encoded instanceof InvalidInput) return encoded;
         const preserve = m.preserve;
         const label =
