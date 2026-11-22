@@ -20,6 +20,7 @@ import {
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), and Sprites REST. The
  * GraphQL API is a Query SDK (`./GraphQL`, src/graphql-transport.ts).
@@ -40,9 +41,7 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
  * `Authorization: Bearer` on sprite ops. There is no `SPRITES_TOKEN`.
  */
 import * as Context from "effect/Context";
-import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -421,46 +420,50 @@ const mintOnce = (fly: Config) =>
     return Redacted.make(token);
   });
 
+/** One Sprites bearer cache per Fly token, with the latest config that used it. */
+interface SpritesTokenCache {
+  fly: Config;
+  readonly token: Effect.Effect<
+    Redacted.Redacted<string>,
+    Effect.Error<ReturnType<typeof mintOnce>>,
+    HttpClient.HttpClient
+  >;
+}
+
 // Keyed by the Fly token itself: `Redacted` hashes and compares by value.
-const mintedTokens = /*@__PURE__*/ MutableHashMap.empty<
+const spritesTokens = /*@__PURE__*/ MutableHashMap.empty<
   Redacted.Redacted<string>,
-  Redacted.Redacted<string>
->();
-const mintInFlight = /*@__PURE__*/ MutableHashMap.empty<
-  Redacted.Redacted<string>,
-  Deferred.Deferred<Redacted.Redacted<string>, Effect.Error<ReturnType<typeof mintOnce>>>
+  SpritesTokenCache
 >();
 
-/** Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. */
+/**
+ * Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. The
+ * bearer does not expire; concurrent calls share one mint (core
+ * `refreshing`, AGENTS.md rule 16), and a failed mint is tried again.
+ */
 const mintSpritesToken = (fly: Config) =>
-  Effect.uninterruptibleMask((restore) =>
-    Effect.suspend(() => {
-      const key = fly.apiKey;
-      const hit = MutableHashMap.get(mintedTokens, key);
-      if (Option.isSome(hit)) return Effect.succeed(hit.value);
-      const pending = MutableHashMap.get(mintInFlight, key);
-      if (Option.isSome(pending)) {
-        return restore(Deferred.await(pending.value));
-      }
-      const result = Deferred.makeUnsafe<
-        Redacted.Redacted<string>,
-        Effect.Error<ReturnType<typeof mintOnce>>
-      >();
-      MutableHashMap.set(mintInFlight, key, result);
-      return restore(mintOnce(fly)).pipe(
-        Effect.onExit((exit) =>
-          Effect.gen(function* () {
-            if (Exit.isSuccess(exit)) {
-              MutableHashMap.set(mintedTokens, key, exit.value);
-            }
-            // Release all waiters, including on defects and owner interruption.
-            MutableHashMap.remove(mintInFlight, key);
-            yield* Deferred.done(result, exit);
-          }),
-        ),
-      );
-    }),
-  );
+  Effect.suspend(() => {
+    const hit = MutableHashMap.get(spritesTokens, fly.apiKey);
+    if (Option.isSome(hit)) {
+      hit.value.fly = fly;
+      return hit.value.token;
+    }
+    const cache: SpritesTokenCache = {
+      fly,
+      token: refreshing(
+        Effect.suspend(() => mintOnce(cache.fly)),
+        () => Number.POSITIVE_INFINITY,
+        {
+          onTimeout: (timeoutMs) =>
+            new FlyConfigError({
+              message: `Sprites token mint timed out after ${timeoutMs / 1000} s`,
+            }),
+        },
+      ),
+    };
+    MutableHashMap.set(spritesTokens, fly.apiKey, cache);
+    return cache.token;
+  });
 
 const encodeSpritesRequest = ({
   input,
