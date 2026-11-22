@@ -1277,11 +1277,11 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          originObjectId: S.optional(S.String),
-          publishStatus: S.optional(S.String),
-          properties: S.optional(__S(116, __c29, 0)),
-          source: __S(117, __c29, 1),
-          description: S.optional(S.String),
+          originObjectId: S.optional(S.String.pipe(T.Body("OriginObjectId"))),
+          publishStatus: S.optional(S.String.pipe(T.Body("PublishStatus"))),
+          properties: S.optional(__S(116, __c29, 0).pipe(T.Body("Properties"))),
+          source: __S(117, __c29, 1).pipe(T.Body("Source")),
+          description: S.optional(S.String.pipe(T.Body("Description"))),
         }),
       ).annotate({ identifier: "DatabasePropertiesInput" });
     case 1:
@@ -1520,13 +1520,13 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          originObjectId: S.optional(S.String),
-          objectId: S.optional(S.String),
-          objectVersion: S.optional(S.Number),
-          publishStatus: S.optional(S.String),
-          properties: S.optional(__S(116, __c29, 0)),
-          source: __S(117, __c29, 1),
-          description: S.optional(S.String),
+          originObjectId: S.optional(S.String.pipe(T.Body("OriginObjectId"))),
+          objectId: S.optional(S.String.pipe(T.Body("ObjectId"))),
+          objectVersion: S.optional(S.Number.pipe(T.Body("ObjectVersion"))),
+          publishStatus: S.optional(S.String.pipe(T.Body("PublishStatus"))),
+          properties: S.optional(__S(116, __c29, 0).pipe(T.Body("Properties"))),
+          source: __S(117, __c29, 1).pipe(T.Body("Source")),
+          description: S.optional(S.String.pipe(T.Body("Description"))),
         }),
       ).annotate({ identifier: "DatabaseProperties" });
     case 2:
@@ -1547,9 +1547,9 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          provider: S.optional(S.String),
-          location: S.String,
-          properties: S.optional(__S(116, __c29, 0)),
+          provider: S.optional(S.String.pipe(T.Body("Provider"))),
+          location: S.String.pipe(T.Body("Location")),
+          properties: S.optional(__S(116, __c29, 0).pipe(T.Body("Properties"))),
         }),
       ).annotate({ identifier: "DataSource" });
   }
