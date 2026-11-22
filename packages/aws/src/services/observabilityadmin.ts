@@ -3,6 +3,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -10,6 +11,7 @@ import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -171,7 +173,7 @@ export class ValidationException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       Errors: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1730, __c54, 2)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(2306, __c72, 2)).annotate({
           identifier: "ValidationErrors",
         }),
       ),
@@ -194,12 +196,17 @@ export type MetricsFilterString = string;
 export interface SourceMetricsConfiguration {
   MetricsSelectionCriteria?: string | undefined;
 }
+export type ProfilesFilterString = string;
+export interface SourceProfilesConfiguration {
+  ProfilesSelectionCriteria?: string | undefined;
+}
 export interface SourceContextGraphConfiguration {}
 export interface CentralizationRuleSource {
   Regions: string[];
   Scope?: string | undefined;
   SourceLogsConfiguration?: SourceLogsConfiguration | undefined;
   SourceMetricsConfiguration?: SourceMetricsConfiguration | undefined;
+  SourceProfilesConfiguration?: SourceProfilesConfiguration | undefined;
   SourceContextGraphConfiguration?: SourceContextGraphConfiguration | undefined;
 }
 export type AccountIdentifier = string;
@@ -244,11 +251,18 @@ export interface MetricsBackupConfiguration {
 export interface DestinationMetricsConfiguration {
   BackupConfiguration?: MetricsBackupConfiguration | undefined;
 }
+export interface ProfilesBackupConfiguration {
+  Region: string;
+}
+export interface DestinationProfilesConfiguration {
+  BackupConfiguration?: ProfilesBackupConfiguration | undefined;
+}
 export interface CentralizationRuleDestination {
   Region: string;
   Account?: string | undefined;
   DestinationLogsConfiguration?: DestinationLogsConfiguration | undefined;
   DestinationMetricsConfiguration?: DestinationMetricsConfiguration | undefined;
+  DestinationProfilesConfiguration?: DestinationProfilesConfiguration | undefined;
 }
 export interface CentralizationRule {
   Source: CentralizationRuleSource;
@@ -264,6 +278,35 @@ export interface CreateCentralizationRuleForOrganizationInput {
 }
 export interface CreateCentralizationRuleForOrganizationOutput {
   RuleArn?: string | undefined;
+}
+export type AzureTenantIdentifier = string;
+export type AzureClientIdentifier = string;
+export interface AzureConnectorConfiguration {
+  TenantIdentifier: string;
+  ClientIdentifier: string;
+}
+export type ConnectorConfiguration = { Azure: AzureConnectorConfiguration };
+export type RoleArn = string;
+export type ConnectorName = string;
+export type ClientToken = string | redacted.Redacted<string>;
+export interface CreateConnectorInput {
+  ConnectorConfiguration: ConnectorConfiguration;
+  RoleArn: string;
+  Name: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+}
+export type ConnectorProvider = "AZURE" | (string & {});
+export interface Connector {
+  Arn: string;
+  Provider: ConnectorProvider;
+  ConnectorConfiguration: ConnectorConfiguration;
+  RoleArn: string;
+  Name?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+}
+export interface CreateConnectorOutput {
+  Connector: Connector;
 }
 export interface CreateDatasetIntegrationInput {
   RoleArn: string;
@@ -485,6 +528,11 @@ export interface DeleteCentralizationRuleForOrganizationInput {
   RuleIdentifier: string;
 }
 export interface DeleteCentralizationRuleForOrganizationResponse {}
+export type ConnectorIdentifier = string;
+export interface DeleteConnectorInput {
+  ConnectorIdentifier: string;
+}
+export interface DeleteConnectorOutput {}
 export interface DeleteDatasetIntegrationInput {
   Arn: string;
 }
@@ -534,6 +582,118 @@ export interface GetCentralizationRuleForOrganizationOutput {
   TagPropagationFailureReason?: TagPropagationFailureReason | undefined;
   ContextGraphStatus?: ContextGraphStatus | undefined;
   CentralizationRule?: CentralizationRule | undefined;
+}
+export interface GetConnectorInput {
+  ConnectorIdentifier: string;
+}
+export interface GetConnectorOutput {
+  Connector: Connector;
+}
+export interface GetConnectorTelemetryManifestInput {
+  ConnectorIdentifier: string;
+}
+export type AzureTelemetryType = "ResourceLogs" | "Metrics" | "FlowLogs" | (string & {});
+export type AzureTelemetryTypeList = AzureTelemetryType[];
+export interface AllSubscriptions {}
+export type AzureSubscriptionId = string;
+export type AzureSubscriptionIdList = string[];
+export type AzureSubscriptionScope =
+  | { All: AllSubscriptions; Ids?: undefined }
+  | { All?: undefined; Ids: string[] };
+export type AzureRegion = string;
+export type AzureRegionList = string[];
+export type AzureResourceType = string;
+export type AzureResourceTypeList = string[];
+export type TagFilterKey = string;
+export type TagFilterValue = string;
+export type TagFilterValues = string[];
+export interface TagFilter {
+  Key: string;
+  Values: string[];
+}
+export type TagFilterList = TagFilter[];
+export type ManifestAzureResourceId = string;
+export type AzureResourceIdList = string[];
+export interface AzureResourceIdScope {
+  Region: string;
+  ResourceIds: string[];
+}
+export type AzureResourceIdScopeList = AzureResourceIdScope[];
+export interface AzureScope {
+  Subscriptions?: AzureSubscriptionScope | undefined;
+  Regions?: string[] | undefined;
+  ResourceTypes?: string[] | undefined;
+  TagFilters?: TagFilter[] | undefined;
+  Resources?: AzureResourceIdScope[] | undefined;
+}
+export interface AzureScopeItem {
+  TelemetryTypes: AzureTelemetryType[];
+  Scope: AzureScope;
+}
+export type AzureSources = AzureScopeItem[];
+export type TelemetryManifestSource = { Azure: AzureScopeItem[] };
+export type AzureEventHubTier = "Standard" | "Premium" | (string & {});
+export type AzureEventHubPartitionCount = number;
+export interface AzureEventHubConfiguration {
+  Tier: AzureEventHubTier;
+  PartitionCount: number;
+}
+export type AzureEventHubConfigurationList = AzureEventHubConfiguration[];
+export type AzureStorageAccountId = string;
+export type AzureStorageAccountIdList = string[];
+export interface AzureFlowLogStorageAccountScope {
+  Region: string;
+  StorageAccountIds: string[];
+}
+export type AzureFlowLogStorageAccountScopeList = AzureFlowLogStorageAccountScope[];
+export interface AzureCustomerManagedFlowLogs {
+  StorageAccounts: AzureFlowLogStorageAccountScope[];
+}
+export type AzureFlowLogRetentionDays = number;
+export interface AzureAwsManagedFlowLogs {
+  RetentionDays: number;
+}
+export type AzureFlowLogsInfrastructure =
+  | { CustomerManaged: AzureCustomerManagedFlowLogs; AwsManaged?: undefined }
+  | { CustomerManaged?: undefined; AwsManaged: AzureAwsManagedFlowLogs };
+export interface AzureInfrastructure {
+  SubscriptionId?: string | undefined;
+  EventHubs?: AzureEventHubConfiguration[] | undefined;
+  FlowLogs?: AzureFlowLogsInfrastructure | undefined;
+}
+export type TelemetryManifestInfrastructure = { Azure: AzureInfrastructure };
+export interface TelemetryManifest {
+  Source: TelemetryManifestSource;
+  Infrastructure?: TelemetryManifestInfrastructure | undefined;
+}
+export interface GetConnectorTelemetryManifestOutput {
+  Manifest: TelemetryManifest;
+  Version: number;
+  LastUpdateTimeStamp?: number | undefined;
+}
+export type SetupFormat = "BICEP" | (string & {});
+export interface GetConnectorTelemetrySetupInput {
+  ConnectorIdentifier: string;
+  Format?: SetupFormat | undefined;
+}
+export type SetupArtifactFileName = string;
+export type SetupArtifactContent = string;
+export type SetupArtifactContentType = string;
+export interface SetupArtifact {
+  FileName: string;
+  Content: string;
+  Format: SetupFormat;
+  ContentType?: string | undefined;
+}
+export type SetupArtifactList = SetupArtifact[];
+export type Permission = string;
+export type PermissionList = string[];
+export interface GetConnectorTelemetrySetupOutput {
+  Artifacts: SetupArtifact[];
+  RequiredPermissionsToApply?: string[] | undefined;
+  Format: SetupFormat;
+  Provider?: ConnectorProvider | undefined;
+  ManifestVersion?: number | undefined;
 }
 export interface GetDatasetIntegrationInput {
   Arn: string;
@@ -609,6 +769,28 @@ export interface TelemetryPipelineStatusReason {
   Description?: string | undefined;
 }
 export type TagMapOutput = { [key: string]: string | undefined };
+export interface SourceProgress {
+  Active?: number | undefined;
+  Total?: number | undefined;
+}
+export interface Source {
+  Type?: string | undefined;
+}
+export type Sources = Source[];
+export interface DataSource {
+  Name?: string | undefined;
+  Type?: string | undefined;
+}
+export type DataSources = DataSource[];
+export type Processors = string[];
+export type Sinks = string[];
+export interface ConfigurationSummary {
+  Sources?: Source[] | undefined;
+  DataSources?: DataSource[] | undefined;
+  Processors?: string[] | undefined;
+  ProcessorCount?: number | undefined;
+  Sinks?: string[] | undefined;
+}
 export interface TelemetryPipeline {
   CreatedTimeStamp?: number | undefined;
   LastUpdateTimeStamp?: number | undefined;
@@ -618,6 +800,9 @@ export interface TelemetryPipeline {
   Status?: TelemetryPipelineStatus | undefined;
   StatusReason?: TelemetryPipelineStatusReason | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
+  LastRefreshTimeStamp?: number | undefined;
+  SourceProgress?: SourceProgress | undefined;
+  ConfigurationSummary?: ConfigurationSummary | undefined;
 }
 export interface GetTelemetryPipelineOutput {
   Pipeline?: TelemetryPipeline | undefined;
@@ -649,6 +834,34 @@ export interface GetTelemetryRuleForOrganizationOutput {
   IsReplicated?: boolean | undefined;
   RegionStatuses?: RegionStatus[] | undefined;
 }
+export type ThirdPartyTelemetryEnrichmentIdentifier = string;
+export interface GetThirdPartyTelemetryEnrichmentInput {
+  TelemetryEnrichmentIdentifier: string;
+}
+export type ThirdPartyTelemetryEnrichmentArn = string;
+export type ThirdPartyTelemetryEnrichmentName = string;
+export type ThirdPartyTelemetryEnrichmentStatus =
+  | "Initializing"
+  | "Running"
+  | "Stopped"
+  | "Impaired"
+  | (string & {});
+export type StatusReason = string;
+export type AwsConfigConnectorArn = string;
+export type ServiceLinkedRecorderArn = string;
+export interface AzureTelemetrySourceConfigurationOutput {
+  AwsConfigConnectorArn?: string | undefined;
+  ServiceLinkedRecorderArn?: string | undefined;
+}
+export type TelemetrySourceConfigurationOutput = { Azure: AzureTelemetrySourceConfigurationOutput };
+export interface GetThirdPartyTelemetryEnrichmentOutput {
+  Arn?: string | undefined;
+  Name: string;
+  Status: ThirdPartyTelemetryEnrichmentStatus;
+  StatusReason?: string | undefined;
+  TelemetrySourceConfiguration: TelemetrySourceConfigurationOutput;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
 export type ListCentralizationRulesForOrganizationMaxResults = number;
 export type NextToken = string;
 export interface ListCentralizationRulesForOrganizationInput {
@@ -677,6 +890,23 @@ export interface ListCentralizationRulesForOrganizationOutput {
   CentralizationRuleSummaries?: CentralizationRuleSummary[] | undefined;
   NextToken?: string | undefined;
 }
+export type ListConnectorsMaxResults = number;
+export type ConnectorNextToken = string | redacted.Redacted<string>;
+export interface ListConnectorsInput {
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+}
+export interface ConnectorSummary {
+  Arn: string;
+  Provider: ConnectorProvider;
+  Name?: string | undefined;
+  CreatedTimeStamp?: number | undefined;
+}
+export type ConnectorSummaries = ConnectorSummary[];
+export interface ListConnectorsOutput {
+  ConnectorSummaries: ConnectorSummary[];
+  NextToken?: string | redacted.Redacted<string> | undefined;
+}
 export type ListDatasetIntegrationsMaxResults = number;
 export interface ListDatasetIntegrationsInput {
   MaxResults?: number | undefined;
@@ -692,6 +922,180 @@ export type DatasetIntegrationSummaries = DatasetIntegrationSummary[];
 export interface ListDatasetIntegrationsOutput {
   DatasetIntegrationSummaries: DatasetIntegrationSummary[];
   NextToken?: string | undefined;
+}
+export type AzureManagementGroupId = string;
+export interface AzureManagementGroupsQuery {
+  ParentManagementGroupId?: string | undefined;
+}
+export interface AzureSubscriptionsQuery {
+  ManagementGroupId?: string | undefined;
+}
+export interface AzureQueryScope {
+  ManagementGroupId?: string | undefined;
+  SubscriptionIds?: string[] | undefined;
+}
+export interface AzureResourceTypesQuery {
+  Scope?: AzureQueryScope | undefined;
+}
+export interface AzureRegionsQuery {
+  Scope?: AzureQueryScope | undefined;
+}
+export interface AzureResourceIdsQuery {
+  Scope?: AzureQueryScope | undefined;
+  ResourceType?: string | undefined;
+  Region?: string | undefined;
+  TagFilters?: TagFilter[] | undefined;
+}
+export type AzureEventHubNamespaceName = string;
+export interface AzureEventHubsQuery {
+  Scope?: AzureQueryScope | undefined;
+  NamespaceName?: string | undefined;
+  Region?: string | undefined;
+}
+export type AzureConnectorQuery =
+  | {
+      ManagementGroups: AzureManagementGroupsQuery;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions: AzureSubscriptionsQuery;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes: AzureResourceTypesQuery;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions: AzureRegionsQuery;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds: AzureResourceIdsQuery;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs: AzureEventHubsQuery;
+    };
+export type ConnectorQuery = { Azure: AzureConnectorQuery };
+export type ListResourcesByConnectorMaxResults = number;
+export interface ListResourcesByConnectorInput {
+  ConnectorIdentifier: string;
+  Selector: ConnectorQuery;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+}
+export interface AzureManagementGroupSummary {
+  Id: string;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+}
+export type AzureManagementGroupSummaries = AzureManagementGroupSummary[];
+export interface AzureSubscriptionSummary {
+  SubscriptionId: string;
+  DisplayName?: string | undefined;
+  State?: string | undefined;
+  ManagementGroupId?: string | undefined;
+}
+export type AzureSubscriptionSummaries = AzureSubscriptionSummary[];
+export type AzureResourceId = string;
+export type AzureResourceTagKey = string;
+export type AzureResourceTagValue = string;
+export type AzureResourceTags = { [key: string]: string | undefined };
+export interface AzureResourceIdentifierSummary {
+  ResourceId: string;
+  ResourceType?: string | undefined;
+  Region?: string | undefined;
+  SubscriptionId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export type AzureResourceIdentifierSummaries = AzureResourceIdentifierSummary[];
+export interface AzureEventHubSummary {
+  ResourceId: string;
+  EventHubName: string;
+  NamespaceName: string;
+  FullyQualifiedNamespace: string;
+  Region?: string | undefined;
+  SubscriptionId?: string | undefined;
+}
+export type AzureEventHubSummaries = AzureEventHubSummary[];
+export type AzureConnectorQueryResults =
+  | {
+      ManagementGroups: AzureManagementGroupSummary[];
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions: AzureSubscriptionSummary[];
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes: string[];
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions: string[];
+      ResourceIds?: undefined;
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds: AzureResourceIdentifierSummary[];
+      EventHubs?: undefined;
+    }
+  | {
+      ManagementGroups?: undefined;
+      Subscriptions?: undefined;
+      ResourceTypes?: undefined;
+      Regions?: undefined;
+      ResourceIds?: undefined;
+      EventHubs: AzureEventHubSummary[];
+    };
+export type ConnectorQueryResults = { Azure: AzureConnectorQueryResults };
+export interface ListResourcesByConnectorOutput {
+  Results: ConnectorQueryResults;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceIdentifierPrefix = string;
 export type ResourceTypes = ResourceType[];
@@ -761,24 +1165,6 @@ export interface ListTelemetryPipelinesInput {
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
 }
-export interface Source {
-  Type?: string | undefined;
-}
-export type Sources = Source[];
-export interface DataSource {
-  Name?: string | undefined;
-  Type?: string | undefined;
-}
-export type DataSources = DataSource[];
-export type Processors = string[];
-export type Sinks = string[];
-export interface ConfigurationSummary {
-  Sources?: Source[] | undefined;
-  DataSources?: DataSource[] | undefined;
-  Processors?: string[] | undefined;
-  ProcessorCount?: number | undefined;
-  Sinks?: string[] | undefined;
-}
 export interface TelemetryPipelineSummary {
   CreatedTimeStamp?: number | undefined;
   LastUpdateTimeStamp?: number | undefined;
@@ -827,6 +1213,33 @@ export interface ListTelemetryRulesForOrganizationOutput {
   TelemetryRuleSummaries?: TelemetryRuleSummary[] | undefined;
   NextToken?: string | undefined;
 }
+export type ThirdPartyTelemetrySource = "Azure" | (string & {});
+export type ListThirdPartyTelemetryEnrichmentsMaxResults = number;
+export interface ListThirdPartyTelemetryEnrichmentsInput {
+  Status?: ThirdPartyTelemetryEnrichmentStatus | undefined;
+  TelemetrySource?: ThirdPartyTelemetrySource | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export interface ThirdPartyTelemetryEnrichmentSummary {
+  Name?: string | undefined;
+  TelemetrySource?: ThirdPartyTelemetrySource | undefined;
+  Status?: ThirdPartyTelemetryEnrichmentStatus | undefined;
+}
+export type ThirdPartyTelemetryEnrichmentSummaries = ThirdPartyTelemetryEnrichmentSummary[];
+export interface ListThirdPartyTelemetryEnrichmentsOutput {
+  TelemetryEnrichments?: ThirdPartyTelemetryEnrichmentSummary[] | undefined;
+  NextToken?: string | undefined;
+}
+export interface PutConnectorTelemetryManifestInput {
+  ConnectorIdentifier: string;
+  Manifest: TelemetryManifest;
+  ExpectedVersion?: number | undefined;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+}
+export interface PutConnectorTelemetryManifestOutput {
+  Version: number;
+}
 export interface StartTelemetryEnrichmentRequest {}
 export interface StartTelemetryEnrichmentOutput {
   Status?: TelemetryEnrichmentStatus | undefined;
@@ -842,6 +1255,27 @@ export interface StartTelemetryEvaluationForOrganizationInput {
   AllRegions?: boolean | undefined;
 }
 export interface StartTelemetryEvaluationForOrganizationResponse {}
+export interface StartTelemetryPipelineRefreshInput {
+  PipelineIdentifier: string;
+}
+export interface StartTelemetryPipelineRefreshOutput {}
+export interface AzureTelemetrySourceConfigurationInput {
+  AwsConfigConnectorArn: string;
+}
+export type TelemetrySourceConfigurationInput = { Azure: AzureTelemetrySourceConfigurationInput };
+export interface StartThirdPartyTelemetryEnrichmentInput {
+  Name: string;
+  TelemetrySourceConfiguration: TelemetrySourceConfigurationInput;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface StartThirdPartyTelemetryEnrichmentOutput {
+  Arn: string;
+  Name: string;
+  Status: ThirdPartyTelemetryEnrichmentStatus;
+  StatusReason?: string | undefined;
+  TelemetrySourceConfiguration: TelemetrySourceConfigurationOutput;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
 export interface StopTelemetryEnrichmentRequest {}
 export interface StopTelemetryEnrichmentOutput {
   Status?: TelemetryEnrichmentStatus | undefined;
@@ -850,6 +1284,15 @@ export interface StopTelemetryEvaluationRequest {}
 export interface StopTelemetryEvaluationResponse {}
 export interface StopTelemetryEvaluationForOrganizationRequest {}
 export interface StopTelemetryEvaluationForOrganizationResponse {}
+export interface StopThirdPartyTelemetryEnrichmentInput {
+  TelemetryEnrichmentIdentifier: string;
+}
+export interface StopThirdPartyTelemetryEnrichmentOutput {
+  Name: string;
+  TelemetrySource: ThirdPartyTelemetrySource;
+  Status: ThirdPartyTelemetryEnrichmentStatus;
+  StatusReason?: string | undefined;
+}
 export interface TagResourceInput {
   ResourceARN: string;
   Tags: { [key: string]: string | undefined };
@@ -950,8 +1393,8 @@ export const createCentralizationRuleForOrganization: API.OperationMethod<
   CreateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreateCentralizationRuleForOrganizationInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<CreateCentralizationRuleForOrganizationOutput>,
+  input: __S(2336, __c73, 0) as any as S.Schema<CreateCentralizationRuleForOrganizationInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CreateCentralizationRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -966,6 +1409,41 @@ export const createCentralizationRuleForOrganization: API.OperationMethod<
   operationName: "CreateCentralizationRuleForOrganization",
   telemetry: TELEMETRY,
   span: "CreateCentralizationRuleForOrganization",
+}));
+
+export type CreateConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a connector to a third-party cloud provider. With a connector, you can discover resources in the provider and collect their telemetry. Currently, Microsoft Azure is the only supported provider.
+ */
+export const createConnector: API.OperationMethod<
+  CreateConnectorInput & RegionInput,
+  CreateConnectorOutput,
+  CreateConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2496, __c78, 0) as any as S.Schema<CreateConnectorInput>,
+  output: __S(2531, __c79, 3) as any as S.Schema<CreateConnectorOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateDatasetIntegrationError =
@@ -988,8 +1466,8 @@ export const createDatasetIntegration: API.OperationMethod<
   CreateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CreateDatasetIntegrationInput>,
-  output: __S(1952, __c61, 0) as any as S.Schema<CreateDatasetIntegrationOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateDatasetIntegrationInput>,
+  output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetIntegrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1022,8 +1500,8 @@ export const createS3TableIntegration: API.OperationMethod<
   CreateS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateS3TableIntegrationInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<CreateS3TableIntegrationOutput>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateS3TableIntegrationInput>,
+  output: __S(96, __c3, 0) as any as S.Schema<CreateS3TableIntegrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1057,8 +1535,8 @@ export const createTelemetryPipeline: API.OperationMethod<
   CreateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateTelemetryPipelineInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<CreateTelemetryPipelineOutput>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateTelemetryPipelineInput>,
+  output: __S(96, __c3, 0) as any as S.Schema<CreateTelemetryPipelineOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1092,8 +1570,8 @@ export const createTelemetryRule: API.OperationMethod<
   CreateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateTelemetryRuleInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<CreateTelemetryRuleOutput>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateTelemetryRuleInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CreateTelemetryRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1127,8 +1605,8 @@ export const createTelemetryRuleForOrganization: API.OperationMethod<
   CreateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateTelemetryRuleForOrganizationInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<CreateTelemetryRuleForOrganizationOutput>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateTelemetryRuleForOrganizationInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CreateTelemetryRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1161,8 +1639,8 @@ export const deleteCentralizationRuleForOrganization: API.OperationMethod<
   DeleteCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteCentralizationRuleForOrganizationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteCentralizationRuleForOrganizationResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteCentralizationRuleForOrganizationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteCentralizationRuleForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1176,6 +1654,41 @@ export const deleteCentralizationRuleForOrganization: API.OperationMethod<
   operationName: "DeleteCentralizationRuleForOrganization",
   telemetry: TELEMETRY,
   span: "DeleteCentralizationRuleForOrganization",
+}));
+
+export type DeleteConnectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a connector and its telemetry manifest.
+ */
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorInput & RegionInput,
+  DeleteConnectorOutput,
+  DeleteConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteConnectorInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteConnectorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidStateException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteDatasetIntegrationError =
@@ -1194,8 +1707,8 @@ export const deleteDatasetIntegration: API.OperationMethod<
   DeleteDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteDatasetIntegrationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteDatasetIntegrationResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteDatasetIntegrationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteDatasetIntegrationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1228,8 +1741,8 @@ export const deleteS3TableIntegration: API.OperationMethod<
   DeleteS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteS3TableIntegrationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteS3TableIntegrationResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteS3TableIntegrationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteS3TableIntegrationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1263,8 +1776,8 @@ export const deleteTelemetryPipeline: API.OperationMethod<
   DeleteTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteTelemetryPipelineInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteTelemetryPipelineOutput>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteTelemetryPipelineInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteTelemetryPipelineOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1297,8 +1810,8 @@ export const deleteTelemetryRule: API.OperationMethod<
   DeleteTelemetryRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteTelemetryRuleInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteTelemetryRuleResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteTelemetryRuleInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteTelemetryRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1330,8 +1843,8 @@ export const deleteTelemetryRuleForOrganization: API.OperationMethod<
   DeleteTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteTelemetryRuleForOrganizationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeleteTelemetryRuleForOrganizationResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteTelemetryRuleForOrganizationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteTelemetryRuleForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1363,8 +1876,8 @@ export const getCentralizationRuleForOrganization: API.OperationMethod<
   GetCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetCentralizationRuleForOrganizationInput>,
-  output: __S(481, __c15, 1) as any as S.Schema<GetCentralizationRuleForOrganizationOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetCentralizationRuleForOrganizationInput>,
+  output: __S(577, __c18, 1) as any as S.Schema<GetCentralizationRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1378,6 +1891,105 @@ export const getCentralizationRuleForOrganization: API.OperationMethod<
   operationName: "GetCentralizationRuleForOrganization",
   telemetry: TELEMETRY,
   span: "GetCentralizationRuleForOrganization",
+}));
+
+export type GetConnectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the details of a connector.
+ */
+export const getConnector: API.OperationMethod<
+  GetConnectorInput & RegionInput,
+  GetConnectorOutput,
+  GetConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<GetConnectorInput>,
+  output: __S(2531, __c79, 3) as any as S.Schema<GetConnectorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
+}));
+
+export type GetConnectorTelemetryManifestError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the telemetry manifest of a connector and its current version. If the connector has no telemetry manifest, this operation returns a `ResourceNotFoundException`.
+ */
+export const getConnectorTelemetryManifest: API.OperationMethod<
+  GetConnectorTelemetryManifestInput & RegionInput,
+  GetConnectorTelemetryManifestOutput,
+  GetConnectorTelemetryManifestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c20, 0) as any as S.Schema<GetConnectorTelemetryManifestInput>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetConnectorTelemetryManifestOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetConnectorTelemetryManifest",
+  telemetry: TELEMETRY,
+  span: "GetConnectorTelemetryManifest",
+}));
+
+export type GetConnectorTelemetrySetupError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Generates the artifacts that you use to create the infrastructure in your cloud provider that delivers the telemetry declared in the connector's telemetry manifest. This operation doesn't change any resources in your cloud provider or in Amazon Web Services.
+ */
+export const getConnectorTelemetrySetup: API.OperationMethod<
+  GetConnectorTelemetrySetupInput & RegionInput,
+  GetConnectorTelemetrySetupOutput,
+  GetConnectorTelemetrySetupError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(736, __c23, 0) as any as S.Schema<GetConnectorTelemetrySetupInput>,
+  output: __S(739, __c23, 3) as any as S.Schema<GetConnectorTelemetrySetupOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetConnectorTelemetrySetup",
+  telemetry: TELEMETRY,
+  span: "GetConnectorTelemetrySetup",
 }));
 
 export type GetDatasetIntegrationError =
@@ -1396,8 +2008,8 @@ export const getDatasetIntegration: API.OperationMethod<
   GetDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetDatasetIntegrationInput>,
-  output: __S(513, __c16, 1) as any as S.Schema<GetDatasetIntegrationOutput>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetDatasetIntegrationInput>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetDatasetIntegrationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1429,8 +2041,8 @@ export const getS3TableIntegration: API.OperationMethod<
   GetS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetS3TableIntegrationInput>,
-  output: __S(545, __c17, 1) as any as S.Schema<GetS3TableIntegrationOutput>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetS3TableIntegrationInput>,
+  output: __S(801, __c25, 1) as any as S.Schema<GetS3TableIntegrationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1461,8 +2073,8 @@ export const getTelemetryEnrichmentStatus: API.OperationMethod<
   GetTelemetryEnrichmentStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetTelemetryEnrichmentStatusRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<GetTelemetryEnrichmentStatusOutput>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetTelemetryEnrichmentStatusRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<GetTelemetryEnrichmentStatusOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1491,8 +2103,8 @@ export const getTelemetryEvaluationStatus: API.OperationMethod<
   GetTelemetryEvaluationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetTelemetryEvaluationStatusRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<GetTelemetryEvaluationStatusOutput>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetTelemetryEvaluationStatusRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<GetTelemetryEvaluationStatusOutput>,
   errors: [AccessDeniedException, InternalServerException, TooManyRequestsException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1517,8 +2129,8 @@ export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
   GetTelemetryEvaluationStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetTelemetryEvaluationStatusForOrganizationRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<GetTelemetryEvaluationStatusForOrganizationOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetTelemetryEvaluationStatusForOrganizationRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<GetTelemetryEvaluationStatusForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1549,8 +2161,8 @@ export const getTelemetryPipeline: API.OperationMethod<
   GetTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetTelemetryPipelineInput>,
-  output: __S(771, __c24, 3) as any as S.Schema<GetTelemetryPipelineOutput>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetTelemetryPipelineInput>,
+  output: __S(1028, __c32, 4) as any as S.Schema<GetTelemetryPipelineOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1582,8 +2194,8 @@ export const getTelemetryRule: API.OperationMethod<
   GetTelemetryRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetTelemetryRuleInput>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetTelemetryRuleOutput>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetTelemetryRuleInput>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GetTelemetryRuleOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1615,8 +2227,8 @@ export const getTelemetryRuleForOrganization: API.OperationMethod<
   GetTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetTelemetryRuleForOrganizationInput>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetTelemetryRuleForOrganizationOutput>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetTelemetryRuleForOrganizationInput>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GetTelemetryRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1630,6 +2242,39 @@ export const getTelemetryRuleForOrganization: API.OperationMethod<
   operationName: "GetTelemetryRuleForOrganization",
   telemetry: TELEMETRY,
   span: "GetTelemetryRuleForOrganization",
+}));
+
+export type GetThirdPartyTelemetryEnrichmentError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the details of a third-party telemetry enrichment, including its status and source configuration.
+ */
+export const getThirdPartyTelemetryEnrichment: API.OperationMethod<
+  GetThirdPartyTelemetryEnrichmentInput & RegionInput,
+  GetThirdPartyTelemetryEnrichmentOutput,
+  GetThirdPartyTelemetryEnrichmentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1184, __c37, 0) as any as S.Schema<GetThirdPartyTelemetryEnrichmentInput>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetThirdPartyTelemetryEnrichmentOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetThirdPartyTelemetryEnrichment",
+  telemetry: TELEMETRY,
+  span: "GetThirdPartyTelemetryEnrichment",
 }));
 
 export type ListCentralizationRulesForOrganizationError =
@@ -1648,8 +2293,8 @@ export const listCentralizationRulesForOrganization: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   CentralizationRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListCentralizationRulesForOrganizationInput>,
-  output: __S(899, __c28, 3) as any as S.Schema<ListCentralizationRulesForOrganizationOutput>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListCentralizationRulesForOrganizationInput>,
+  output: __S(1251, __c39, 3) as any as S.Schema<ListCentralizationRulesForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1670,6 +2315,44 @@ export const listCentralizationRulesForOrganization: API.PaginatedOperationMetho
   span: "ListCentralizationRulesForOrganization",
 })) as any;
 
+export type ListConnectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the connectors in the account and Region. This operation returns results in pages. To get the next page, pass the returned `NextToken` in the next call. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listConnectors: API.PaginatedOperationMethod<
+  ListConnectorsInput & RegionInput,
+  ListConnectorsOutput,
+  ListConnectorsError,
+  Credentials | HttpClient.HttpClient,
+  ConnectorSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1280, __c40, 0) as any as S.Schema<ListConnectorsInput>,
+  output: __S(1283, __c40, 3) as any as S.Schema<ListConnectorsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListConnectors",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
+})) as any;
+
 export type ListDatasetIntegrationsError =
   | AccessDeniedException
   | InternalServerException
@@ -1686,8 +2369,8 @@ export const listDatasetIntegrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DatasetIntegrationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListDatasetIntegrationsInput>,
-  output: __S(931, __c29, 3) as any as S.Schema<ListDatasetIntegrationsOutput>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListDatasetIntegrationsInput>,
+  output: __S(1315, __c41, 3) as any as S.Schema<ListDatasetIntegrationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1708,6 +2391,39 @@ export const listDatasetIntegrations: API.PaginatedOperationMethod<
   span: "ListDatasetIntegrations",
 })) as any;
 
+export type ListResourcesByConnectorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists resources in your cloud provider that the connector can access, such as management groups, subscriptions, resource types, Regions, resources, and Event Hubs. Use the results to build a telemetry manifest. This operation returns results in pages. To get the next page, pass the returned `NextToken` in the next call. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listResourcesByConnector: API.OperationMethod<
+  ListResourcesByConnectorInput & RegionInput,
+  ListResourcesByConnectorOutput,
+  ListResourcesByConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1352, __c42, 8) as any as S.Schema<ListResourcesByConnectorInput>,
+  output: __S(1363, __c42, 19) as any as S.Schema<ListResourcesByConnectorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListResourcesByConnector",
+  telemetry: TELEMETRY,
+  span: "ListResourcesByConnector",
+}));
+
 export type ListResourceTelemetryError =
   | AccessDeniedException
   | InternalServerException
@@ -1724,8 +2440,8 @@ export const listResourceTelemetry: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TelemetryConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListResourceTelemetryInput>,
-  output: __S(995, __c31, 3) as any as S.Schema<ListResourceTelemetryOutput>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListResourceTelemetryInput>,
+  output: __S(1411, __c44, 3) as any as S.Schema<ListResourceTelemetryOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1762,8 +2478,8 @@ export const listResourceTelemetryForOrganization: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TelemetryConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListResourceTelemetryForOrganizationInput>,
-  output: __S(995, __c31, 3) as any as S.Schema<ListResourceTelemetryForOrganizationOutput>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListResourceTelemetryForOrganizationInput>,
+  output: __S(1411, __c44, 3) as any as S.Schema<ListResourceTelemetryForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1800,8 +2516,8 @@ export const listS3TableIntegrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IntegrationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListS3TableIntegrationsInput>,
-  output: __S(1059, __c33, 3) as any as S.Schema<ListS3TableIntegrationsOutput>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListS3TableIntegrationsInput>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ListS3TableIntegrationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1830,7 +2546,7 @@ export type ListTagsForResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
+ * Lists all tags attached to the specified resource. Supports telemetry rule resources, telemetry pipeline resources, and third-party telemetry enrichment resources.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput & RegionInput,
@@ -1838,8 +2554,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(1089, __c34, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(1505, __c47, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1871,8 +2587,8 @@ export const listTelemetryPipelines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TelemetryPipelineSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListTelemetryPipelinesInput>,
-  output: __S(1128, __c35, 8) as any as S.Schema<ListTelemetryPipelinesOutput>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListTelemetryPipelinesInput>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListTelemetryPipelinesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1909,8 +2625,8 @@ export const listTelemetryRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TelemetryRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListTelemetryRulesInput>,
-  output: __S(1186, __c37, 2) as any as S.Schema<ListTelemetryRulesOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListTelemetryRulesInput>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListTelemetryRulesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1947,8 +2663,8 @@ export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TelemetryRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListTelemetryRulesForOrganizationInput>,
-  output: __S(1186, __c37, 2) as any as S.Schema<ListTelemetryRulesForOrganizationOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListTelemetryRulesForOrganizationInput>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListTelemetryRulesForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1969,6 +2685,79 @@ export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
   span: "ListTelemetryRulesForOrganization",
 })) as any;
 
+export type ListThirdPartyTelemetryEnrichmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a summary of each third-party telemetry enrichment in your account and Region. To get the full configuration of an enrichment, use `GetThirdPartyTelemetryEnrichment`. The results are paginated. To get the next page of results, use `NextToken`.
+ */
+export const listThirdPartyTelemetryEnrichments: API.PaginatedOperationMethod<
+  ListThirdPartyTelemetryEnrichmentsInput & RegionInput,
+  ListThirdPartyTelemetryEnrichmentsOutput,
+  ListThirdPartyTelemetryEnrichmentsError,
+  Credentials | HttpClient.HttpClient,
+  ThirdPartyTelemetryEnrichmentSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1664, __c52, 0) as any as S.Schema<ListThirdPartyTelemetryEnrichmentsInput>,
+  output: __S(1667, __c52, 3) as any as S.Schema<ListThirdPartyTelemetryEnrichmentsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListThirdPartyTelemetryEnrichments",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TelemetryEnrichments",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListThirdPartyTelemetryEnrichments",
+})) as any;
+
+export type PutConnectorTelemetryManifestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates or replaces the telemetry manifest of a connector. The telemetry manifest declares which resources in your cloud provider to collect telemetry from and which telemetry types to collect. To avoid overwriting changes made by another caller, specify `ExpectedVersion`.
+ */
+export const putConnectorTelemetryManifest: API.OperationMethod<
+  PutConnectorTelemetryManifestInput & RegionInput,
+  PutConnectorTelemetryManifestOutput,
+  PutConnectorTelemetryManifestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c53, 0) as any as S.Schema<PutConnectorTelemetryManifestInput>,
+  output: __S(1697, __c53, 1) as any as S.Schema<PutConnectorTelemetryManifestOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutConnectorTelemetryManifest",
+  telemetry: TELEMETRY,
+  span: "PutConnectorTelemetryManifest",
+}));
+
 export type StartTelemetryEnrichmentError =
   | AccessDeniedException
   | ConflictException
@@ -1984,8 +2773,8 @@ export const startTelemetryEnrichment: API.OperationMethod<
   StartTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<StartTelemetryEnrichmentRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<StartTelemetryEnrichmentOutput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<StartTelemetryEnrichmentRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<StartTelemetryEnrichmentOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2015,8 +2804,8 @@ export const startTelemetryEvaluation: API.OperationMethod<
   StartTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<StartTelemetryEvaluationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<StartTelemetryEvaluationResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<StartTelemetryEvaluationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StartTelemetryEvaluationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2046,8 +2835,8 @@ export const startTelemetryEvaluationForOrganization: API.OperationMethod<
   StartTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<StartTelemetryEvaluationForOrganizationInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<StartTelemetryEvaluationForOrganizationResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<StartTelemetryEvaluationForOrganizationInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StartTelemetryEvaluationForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2060,6 +2849,82 @@ export const startTelemetryEvaluationForOrganization: API.OperationMethod<
   operationName: "StartTelemetryEvaluationForOrganization",
   telemetry: TELEMETRY,
   span: "StartTelemetryEvaluationForOrganization",
+}));
+
+export type StartTelemetryPipelineRefreshError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a refresh of an external-cloud telemetry pipeline. The refresh re-reads the connector's telemetry manifest and re-discovers the sources in scope.
+ *
+ * The pipeline must be in the `ACTIVE` or `UPDATE_FAILED` state, with no refresh already running. You can use `GetTelemetryPipeline` to track the refresh.
+ */
+export const startTelemetryPipelineRefresh: API.OperationMethod<
+  StartTelemetryPipelineRefreshInput & RegionInput,
+  StartTelemetryPipelineRefreshOutput,
+  StartTelemetryPipelineRefreshError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<StartTelemetryPipelineRefreshInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StartTelemetryPipelineRefreshOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartTelemetryPipelineRefresh",
+  telemetry: TELEMETRY,
+  span: "StartTelemetryPipelineRefresh",
+}));
+
+export type StartThirdPartyTelemetryEnrichmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a third-party telemetry enrichment. An enrichment adds resource metadata, such as tags, from a third-party telemetry source to the telemetry that CloudWatch receives from the resources of that source.
+ *
+ * You specify an Amazon Web Services Config connector for your third-party environment, such as a Microsoft Azure tenant. You can use each connector for only one enrichment.
+ *
+ * To use this operation, you must have the `config:PutThirdPartyServiceLinkedConfigurationRecorder` permission. If the Amazon Web Services Config service-linked role does not exist in your account, you must also have the `iam:CreateServiceLinkedRole` permission.
+ */
+export const startThirdPartyTelemetryEnrichment: API.OperationMethod<
+  StartThirdPartyTelemetryEnrichmentInput & RegionInput,
+  StartThirdPartyTelemetryEnrichmentOutput,
+  StartThirdPartyTelemetryEnrichmentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1858, __c58, 2) as any as S.Schema<StartThirdPartyTelemetryEnrichmentInput>,
+  output: __S(1859, __c58, 3) as any as S.Schema<StartThirdPartyTelemetryEnrichmentOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartThirdPartyTelemetryEnrichment",
+  telemetry: TELEMETRY,
+  span: "StartThirdPartyTelemetryEnrichment",
 }));
 
 export type StopTelemetryEnrichmentError =
@@ -2077,8 +2942,8 @@ export const stopTelemetryEnrichment: API.OperationMethod<
   StopTelemetryEnrichmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<StopTelemetryEnrichmentRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<StopTelemetryEnrichmentOutput>,
+  input: __S(1888, __c59, 0) as any as S.Schema<StopTelemetryEnrichmentRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<StopTelemetryEnrichmentOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2108,8 +2973,8 @@ export const stopTelemetryEvaluation: API.OperationMethod<
   StopTelemetryEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<StopTelemetryEvaluationRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<StopTelemetryEvaluationResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<StopTelemetryEvaluationRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StopTelemetryEvaluationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2139,8 +3004,8 @@ export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
   StopTelemetryEvaluationForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<StopTelemetryEvaluationForOrganizationRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<StopTelemetryEvaluationForOrganizationResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<StopTelemetryEvaluationForOrganizationRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StopTelemetryEvaluationForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2155,6 +3020,43 @@ export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
   span: "StopTelemetryEvaluationForOrganization",
 }));
 
+export type StopThirdPartyTelemetryEnrichmentError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Stops a third-party telemetry enrichment. CloudWatch stops adding resource metadata from the third-party telemetry source to your telemetry.
+ *
+ * To use this operation, you must have the `config:DeleteServiceLinkedConfigurationRecorder` permission.
+ */
+export const stopThirdPartyTelemetryEnrichment: API.OperationMethod<
+  StopThirdPartyTelemetryEnrichmentInput & RegionInput,
+  StopThirdPartyTelemetryEnrichmentOutput,
+  StopThirdPartyTelemetryEnrichmentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1984, __c62, 0) as any as S.Schema<StopThirdPartyTelemetryEnrichmentInput>,
+  output: __S(1985, __c62, 1) as any as S.Schema<StopThirdPartyTelemetryEnrichmentOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StopThirdPartyTelemetryEnrichment",
+  telemetry: TELEMETRY,
+  span: "StopThirdPartyTelemetryEnrichment",
+}));
+
 export type TagResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -2164,7 +3066,7 @@ export type TagResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ * Adds or updates tags for a resource. Supports telemetry rule resources, telemetry pipeline resources, and third-party telemetry enrichment resources.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput & RegionInput,
@@ -2172,8 +3074,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2205,8 +3107,8 @@ export const testTelemetryPipeline: API.OperationMethod<
   TestTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1474, __c46, 2) as any as S.Schema<TestTelemetryPipelineInput>,
-  output: __S(1478, __c46, 6) as any as S.Schema<TestTelemetryPipelineOutput>,
+  input: __S(2050, __c64, 2) as any as S.Schema<TestTelemetryPipelineInput>,
+  output: __S(2054, __c64, 6) as any as S.Schema<TestTelemetryPipelineOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2229,7 +3131,7 @@ export type UntagResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
+ * Removes tags from a resource. Supports telemetry rule resources, telemetry pipeline resources, and third-party telemetry enrichment resources.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput & RegionInput,
@@ -2237,8 +3139,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2271,8 +3173,8 @@ export const updateCentralizationRuleForOrganization: API.OperationMethod<
   UpdateCentralizationRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<UpdateCentralizationRuleForOrganizationInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<UpdateCentralizationRuleForOrganizationOutput>,
+  input: __S(2112, __c66, 0) as any as S.Schema<UpdateCentralizationRuleForOrganizationInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<UpdateCentralizationRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2305,8 +3207,8 @@ export const updateDatasetIntegration: API.OperationMethod<
   UpdateDatasetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateDatasetIntegrationInput>,
-  output: __S(1952, __c61, 0) as any as S.Schema<UpdateDatasetIntegrationOutput>,
+  input: __S(2144, __c67, 0) as any as S.Schema<UpdateDatasetIntegrationInput>,
+  output: __S(32, __c1, 0) as any as S.Schema<UpdateDatasetIntegrationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2386,8 +3288,8 @@ export const updateTelemetryPipeline: API.OperationMethod<
   UpdateTelemetryPipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateTelemetryPipelineInput>,
-  output: __S(1856, __c58, 0) as any as S.Schema<UpdateTelemetryPipelineOutput>,
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateTelemetryPipelineInput>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdateTelemetryPipelineOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2421,8 +3323,8 @@ export const updateTelemetryRule: API.OperationMethod<
   UpdateTelemetryRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UpdateTelemetryRuleInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<UpdateTelemetryRuleOutput>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateTelemetryRuleInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<UpdateTelemetryRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2457,8 +3359,8 @@ export const updateTelemetryRuleForOrganization: API.OperationMethod<
   UpdateTelemetryRuleForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UpdateTelemetryRuleForOrganizationInput>,
-  output: __S(1824, __c57, 0) as any as S.Schema<UpdateTelemetryRuleForOrganizationOutput>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateTelemetryRuleForOrganizationInput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<UpdateTelemetryRuleForOrganizationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2490,8 +3392,8 @@ export const validateTelemetryPipelineConfiguration: API.OperationMethod<
   ValidateTelemetryPipelineConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ValidateTelemetryPipelineConfigurationInput>,
-  output: __S(1697, __c53, 1) as any as S.Schema<ValidateTelemetryPipelineConfigurationOutput>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ValidateTelemetryPipelineConfigurationInput>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ValidateTelemetryPipelineConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2511,10 +3413,40 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ RoleArn: S.String, Tags: S.optional(__S(2304, __c72, 0)) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateDatasetIntegration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDatasetIntegrationInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
-          Encryption: __S(64, __c2, 0),
+          Arn: S.String,
           RoleArn: S.String,
-          Tags: S.optional(__S(1728, __c54, 0)),
+          CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "CreateDatasetIntegrationOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Encryption: __S(128, __c4, 0),
+          RoleArn: S.String,
+          Tags: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateS3TableIntegration" }),
@@ -2528,7 +3460,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateS3TableIntegrationInput" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Arn: S.optional(S.String) })).annotate({
@@ -2536,7 +3468,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2544,14 +3476,14 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Encryption" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Configuration: __S(128, __c4, 0),
-          Tags: S.optional(__S(1728, __c54, 0)),
+          Configuration: __S(192, __c6, 0),
+          Tags: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateTelemetryPipeline" }),
@@ -2565,7 +3497,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateTelemetryPipelineInput" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Body: S.String })).annotate({
@@ -2573,14 +3505,14 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleName: S.String,
-          Rule: __S(245, __c7, 21),
-          Tags: S.optional(__S(1728, __c54, 0)),
+          Rule: __S(309, __c9, 21),
+          Tags: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateTelemetryRule" }),
@@ -2594,13 +3526,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateTelemetryRuleInput" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2614,24 +3546,24 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Field: S.String,
-          Equals: S.optional(__S(1792, __c56, 0)),
-          StartsWith: S.optional(__S(1792, __c56, 0)),
-          EndsWith: S.optional(__S(1792, __c56, 0)),
-          NotEquals: S.optional(__S(1792, __c56, 0)),
-          NotStartsWith: S.optional(__S(1792, __c56, 0)),
-          NotEndsWith: S.optional(__S(1792, __c56, 0)),
+          Equals: S.optional(__S(2368, __c74, 0)),
+          StartsWith: S.optional(__S(2368, __c74, 0)),
+          EndsWith: S.optional(__S(2368, __c74, 0)),
+          NotEquals: S.optional(__S(2368, __c74, 0)),
+          NotStartsWith: S.optional(__S(2368, __c74, 0)),
+          NotEndsWith: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "AdvancedFieldSelector" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), FieldSelectors: __S(226, __c7, 2) }),
+        S.Struct({ Name: S.optional(S.String), FieldSelectors: __S(290, __c9, 2) }),
       ).annotate({ identifier: "AdvancedEventSelector" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(291, __c9, 3));
     case 5:
-      return S.suspend(() => S.Struct({ AdvancedEventSelectors: __S(228, __c7, 4) })).annotate({
+      return S.suspend(() => S.Struct({ AdvancedEventSelectors: __S(292, __c9, 4) })).annotate({
         identifier: "CloudtrailParameters",
       });
     case 6:
@@ -2645,14 +3577,14 @@ function __c7(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          SingleHeader: S.optional(__S(231, __c7, 7)),
+          SingleHeader: S.optional(__S(295, __c9, 7)),
           UriPath: S.optional(S.String),
           QueryString: S.optional(S.String),
           Method: S.optional(S.String),
         }),
       ).annotate({ identifier: "FieldToMatch" });
     case 9:
-      return S.Array(__S(232, __c7, 8));
+      return S.Array(__S(296, __c9, 8));
     case 10:
       return S.suspend(() => S.Struct({ Action: S.optional(S.String) })).annotate({
         identifier: "ActionCondition",
@@ -2664,39 +3596,39 @@ function __c7(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          ActionCondition: S.optional(__S(234, __c7, 10)),
-          LabelNameCondition: S.optional(__S(235, __c7, 11)),
+          ActionCondition: S.optional(__S(298, __c9, 10)),
+          LabelNameCondition: S.optional(__S(299, __c9, 11)),
         }),
       ).annotate({ identifier: "Condition" });
     case 13:
-      return S.Array(__S(236, __c7, 12));
+      return S.Array(__S(300, __c9, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           Behavior: S.optional(S.String),
           Requirement: S.optional(S.String),
-          Conditions: S.optional(__S(237, __c7, 13)),
+          Conditions: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "Filter" });
     case 15:
-      return S.Array(__S(238, __c7, 14));
+      return S.Array(__S(302, __c9, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(239, __c7, 15)),
+          Filters: S.optional(__S(303, __c9, 15)),
           DefaultBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoggingFilter" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          RedactedFields: S.optional(__S(233, __c7, 9)),
-          LoggingFilter: S.optional(__S(240, __c7, 16)),
+          RedactedFields: S.optional(__S(297, __c9, 9)),
+          LoggingFilter: S.optional(__S(304, __c9, 16)),
           LogType: S.optional(S.String),
         }),
       ).annotate({ identifier: "WAFLoggingParameters" });
     case 18:
-      return S.suspend(() => S.Struct({ LogTypes: S.optional(__S(192, __c6, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ LogTypes: S.optional(__S(256, __c8, 0)) })).annotate({
         identifier: "LogDeliveryParameters",
       });
     case 19:
@@ -2709,12 +3641,12 @@ function __c7(j: number): any {
           DestinationType: S.optional(S.String),
           DestinationPattern: S.optional(S.String),
           RetentionInDays: S.optional(S.Number),
-          VPCFlowLogParameters: S.optional(__S(224, __c7, 0)),
-          CloudtrailParameters: S.optional(__S(229, __c7, 5)),
-          ELBLoadBalancerLoggingParameters: S.optional(__S(230, __c7, 6)),
-          WAFLoggingParameters: S.optional(__S(241, __c7, 17)),
-          LogDeliveryParameters: S.optional(__S(242, __c7, 18)),
-          MskMonitoringParameters: S.optional(__S(243, __c7, 19)),
+          VPCFlowLogParameters: S.optional(__S(288, __c9, 0)),
+          CloudtrailParameters: S.optional(__S(293, __c9, 5)),
+          ELBLoadBalancerLoggingParameters: S.optional(__S(294, __c9, 6)),
+          WAFLoggingParameters: S.optional(__S(305, __c9, 17)),
+          LogDeliveryParameters: S.optional(__S(306, __c9, 18)),
+          MskMonitoringParameters: S.optional(__S(307, __c9, 19)),
           KmsKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "TelemetryDestinationConfiguration" });
@@ -2723,25 +3655,25 @@ function __c7(j: number): any {
         S.Struct({
           ResourceType: S.optional(S.String),
           TelemetryType: S.String,
-          TelemetrySourceTypes: S.optional(__S(192, __c6, 0)),
-          DestinationConfiguration: S.optional(__S(244, __c7, 20)),
+          TelemetrySourceTypes: S.optional(__S(256, __c8, 0)),
+          DestinationConfiguration: S.optional(__S(308, __c9, 20)),
           Scope: S.optional(S.String),
           SelectionCriteria: S.optional(S.String),
           AllowFieldUpdates: S.optional(S.Boolean),
-          Regions: S.optional(__S(1792, __c56, 0)),
+          Regions: S.optional(__S(2368, __c74, 0)),
           AllRegions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TelemetryRule" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleName: S.String,
-          Rule: __S(245, __c7, 21),
-          Tags: S.optional(__S(1728, __c54, 0)),
+          Rule: __S(309, __c9, 21),
+          Tags: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateTelemetryRuleForOrganization" }),
@@ -2755,7 +3687,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateTelemetryRuleForOrganizationInput" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2772,7 +3704,17 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteCentralizationRuleForOrganizationInput" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorIdentifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/DeleteConnector" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteConnectorInput" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2789,7 +3731,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteDatasetIntegrationInput" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2806,7 +3748,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteS3TableIntegrationInput" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2823,7 +3765,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryPipelineInput" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2840,7 +3782,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryRuleInput" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2857,7 +3799,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryRuleForOrganizationInput" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2886,12 +3828,167 @@ function __c15(j: number): any {
           TagPropagationStatus: S.optional(S.String),
           TagPropagationFailureReason: S.optional(S.String),
           ContextGraphStatus: S.optional(S.String),
-          CentralizationRule: S.optional(__S(1899, __c59, 11)),
+          CentralizationRule: S.optional(__S(2476, __c77, 12)),
         }),
       ).annotate({ identifier: "GetCentralizationRuleForOrganizationOutput" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorIdentifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/GetConnector" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetConnectorInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorIdentifier: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetConnectorTelemetryManifest" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetConnectorTelemetryManifestInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Manifest: __S(720, __c22, 16),
+          Version: S.Number,
+          LastUpdateTimeStamp: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetConnectorTelemetryManifestOutput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(2368, __c74, 0) })).annotate({
+        identifier: "TagFilter",
+      });
+    case 1:
+      return S.Array(__S(672, __c21, 0));
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ All: __S(2432, __c76, 0) }),
+        /*@__PURE__*/ S.Struct({ Ids: __S(2368, __c74, 0) }),
+      ]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Region: S.String, ResourceIds: __S(2368, __c74, 0) }),
+      ).annotate({ identifier: "AzureResourceIdScope" });
+    case 2:
+      return S.Array(__S(705, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Subscriptions: S.optional(__S(704, __c22, 0)),
+          Regions: S.optional(__S(2368, __c74, 0)),
+          ResourceTypes: S.optional(__S(2368, __c74, 0)),
+          TagFilters: S.optional(__S(673, __c21, 1)),
+          Resources: S.optional(__S(706, __c22, 2)),
+        }),
+      ).annotate({ identifier: "AzureScope" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ TelemetryTypes: __S(256, __c8, 0), Scope: __S(707, __c22, 3) }),
+      ).annotate({ identifier: "AzureScopeItem" });
+    case 5:
+      return S.Array(__S(708, __c22, 4));
+    case 6:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(709, __c22, 5) })]);
+    case 7:
+      return S.suspend(() => S.Struct({ Tier: S.String, PartitionCount: S.Number })).annotate({
+        identifier: "AzureEventHubConfiguration",
+      });
+    case 8:
+      return S.Array(__S(711, __c22, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ Region: S.String, StorageAccountIds: __S(2368, __c74, 0) }),
+      ).annotate({ identifier: "AzureFlowLogStorageAccountScope" });
+    case 10:
+      return S.Array(__S(713, __c22, 9));
+    case 11:
+      return S.suspend(() => S.Struct({ StorageAccounts: __S(714, __c22, 10) })).annotate({
+        identifier: "AzureCustomerManagedFlowLogs",
+      });
+    case 12:
+      return S.suspend(() => S.Struct({ RetentionDays: S.Number })).annotate({
+        identifier: "AzureAwsManagedFlowLogs",
+      });
+    case 13:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ CustomerManaged: __S(715, __c22, 11) }),
+        /*@__PURE__*/ S.Struct({ AwsManaged: __S(716, __c22, 12) }),
+      ]);
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          SubscriptionId: S.optional(S.String),
+          EventHubs: S.optional(__S(712, __c22, 8)),
+          FlowLogs: S.optional(__S(717, __c22, 13)),
+        }),
+      ).annotate({ identifier: "AzureInfrastructure" });
+    case 15:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(718, __c22, 14) })]);
+    case 16:
+      return S.suspend(() =>
+        S.Struct({ Source: __S(710, __c22, 6), Infrastructure: S.optional(__S(719, __c22, 15)) }),
+      ).annotate({ identifier: "TelemetryManifest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorIdentifier: S.String, Format: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetConnectorTelemetrySetup" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetConnectorTelemetrySetupInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileName: S.String,
+          Content: S.String,
+          Format: S.String,
+          ContentType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetupArtifact" });
+    case 2:
+      return S.Array(__S(737, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Artifacts: __S(738, __c23, 2),
+          RequiredPermissionsToApply: S.optional(__S(2368, __c74, 0)),
+          Format: S.String,
+          Provider: S.optional(S.String),
+          ManifestVersion: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetConnectorTelemetrySetupOutput" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2917,7 +4014,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetDatasetIntegrationOutput" });
   }
 }
-function __c17(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2938,14 +4035,14 @@ function __c17(j: number): any {
           Arn: S.optional(S.String),
           RoleArn: S.optional(S.String),
           Status: S.optional(S.String),
-          Encryption: S.optional(__S(64, __c2, 0)),
+          Encryption: S.optional(__S(128, __c4, 0)),
           DestinationTableBucketArn: S.optional(S.String),
           CreatedTimeStamp: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetS3TableIntegrationOutput" });
   }
 }
-function __c18(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2962,7 +4059,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetTelemetryEnrichmentStatusRequest" });
   }
 }
-function __c19(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2973,7 +4070,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetTelemetryEnrichmentStatusOutput" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2990,7 +4087,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetTelemetryEvaluationStatusRequest" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2998,12 +4095,12 @@ function __c21(j: number): any {
           Status: S.optional(S.String),
           FailureReason: S.optional(S.String),
           HomeRegion: S.optional(S.String),
-          RegionStatuses: S.optional(__S(705, __c22, 1)),
+          RegionStatuses: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "GetTelemetryEvaluationStatusOutput" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3015,10 +4112,10 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "RegionStatus" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(960, __c30, 0));
   }
 }
-function __c23(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3035,7 +4132,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetTelemetryEvaluationStatusForOrganizationRequest" });
   }
 }
-function __c24(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3056,24 +4153,57 @@ function __c24(j: number): any {
       });
     case 2:
       return S.suspend(() =>
+        S.Struct({ Active: S.optional(S.Number), Total: S.optional(S.Number) }),
+      ).annotate({ identifier: "SourceProgress" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
           CreatedTimeStamp: S.optional(S.Number),
           LastUpdateTimeStamp: S.optional(S.Number),
           Arn: S.optional(S.String),
           Name: S.optional(S.String),
-          Configuration: S.optional(__S(128, __c4, 0)),
+          Configuration: S.optional(__S(192, __c6, 0)),
           Status: S.optional(S.String),
-          StatusReason: S.optional(__S(769, __c24, 1)),
-          Tags: S.optional(__S(1728, __c54, 0)),
+          StatusReason: S.optional(__S(1025, __c32, 1)),
+          Tags: S.optional(__S(2304, __c72, 0)),
+          LastRefreshTimeStamp: S.optional(S.Number),
+          SourceProgress: S.optional(__S(1026, __c32, 2)),
+          ConfigurationSummary: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "TelemetryPipeline" });
-    case 3:
-      return S.suspend(() => S.Struct({ Pipeline: S.optional(__S(770, __c24, 2)) })).annotate({
+    case 4:
+      return S.suspend(() => S.Struct({ Pipeline: S.optional(__S(1027, __c32, 3)) })).annotate({
         identifier: "GetTelemetryPipelineOutput",
       });
   }
 }
-function __c25(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Type: S.optional(S.String) })).annotate({
+        identifier: "Source",
+      });
+    case 1:
+      return S.Array(__S(1056, __c33, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
+      ).annotate({ identifier: "DataSource" });
+    case 3:
+      return S.Array(__S(1058, __c33, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Sources: S.optional(__S(1057, __c33, 1)),
+          DataSources: S.optional(__S(1059, __c33, 3)),
+          Processors: S.optional(__S(2368, __c74, 0)),
+          ProcessorCount: S.optional(S.Number),
+          Sinks: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "ConfigurationSummary" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3083,7 +4213,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetTelemetryRuleInput" });
   }
 }
-function __c26(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3092,15 +4222,15 @@ function __c26(j: number): any {
           RuleArn: S.optional(S.String),
           CreatedTimeStamp: S.optional(S.Number),
           LastUpdateTimeStamp: S.optional(S.Number),
-          TelemetryRule: S.optional(__S(245, __c7, 21)),
+          TelemetryRule: S.optional(__S(309, __c9, 21)),
           HomeRegion: S.optional(S.String),
           IsReplicated: S.optional(S.Boolean),
-          RegionStatuses: S.optional(__S(705, __c22, 1)),
+          RegionStatuses: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "GetTelemetryRuleOutput" });
   }
 }
-function __c27(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3117,7 +4247,48 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetTelemetryRuleForOrganizationInput" });
   }
 }
-function __c28(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TelemetryEnrichmentIdentifier: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetThirdPartyTelemetryEnrichment" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetThirdPartyTelemetryEnrichmentInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          Name: S.String,
+          Status: S.String,
+          StatusReason: S.optional(S.String),
+          TelemetrySourceConfiguration: __S(1217, __c38, 1),
+          Tags: S.optional(__S(2304, __c72, 0)),
+        }),
+      ).annotate({ identifier: "GetThirdPartyTelemetryEnrichmentOutput" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AwsConfigConnectorArn: S.optional(S.String),
+          ServiceLinkedRecorderArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureTelemetrySourceConfigurationOutput" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1216, __c38, 0) })]);
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3156,17 +4327,45 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "CentralizationRuleSummary" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CentralizationRuleSummaries: S.optional(__S(898, __c28, 2)),
+          CentralizationRuleSummaries: S.optional(__S(1250, __c39, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCentralizationRulesForOrganizationOutput" });
   }
 }
-function __c29(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(SensitiveString) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ListConnectors" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListConnectorsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.String,
+          Provider: S.String,
+          Name: S.optional(S.String),
+          CreatedTimeStamp: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ConnectorSummary" });
+    case 2:
+      return S.Array(__S(1281, __c40, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConnectorSummaries: __S(1282, __c40, 2),
+          NextToken: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ListConnectorsOutput" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3191,25 +4390,151 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "DatasetIntegrationSummary" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DatasetIntegrationSummaries: __S(930, __c29, 2),
+          DatasetIntegrationSummaries: __S(1314, __c41, 2),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatasetIntegrationsOutput" });
   }
 }
-function __c30(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ParentManagementGroupId: S.optional(S.String) })).annotate({
+        identifier: "AzureManagementGroupsQuery",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ ManagementGroupId: S.optional(S.String) })).annotate({
+        identifier: "AzureSubscriptionsQuery",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ManagementGroupId: S.optional(S.String),
+          SubscriptionIds: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "AzureQueryScope" });
+    case 3:
+      return S.suspend(() => S.Struct({ Scope: S.optional(__S(1346, __c42, 2)) })).annotate({
+        identifier: "AzureResourceTypesQuery",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.optional(__S(1346, __c42, 2)),
+          ResourceType: S.optional(S.String),
+          Region: S.optional(S.String),
+          TagFilters: S.optional(__S(673, __c21, 1)),
+        }),
+      ).annotate({ identifier: "AzureResourceIdsQuery" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.optional(__S(1346, __c42, 2)),
+          NamespaceName: S.optional(S.String),
+          Region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureEventHubsQuery" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ ManagementGroups: __S(1344, __c42, 0) }),
+        /*@__PURE__*/ S.Struct({ Subscriptions: __S(1345, __c42, 1) }),
+        /*@__PURE__*/ S.Struct({ ResourceTypes: __S(1347, __c42, 3) }),
+        /*@__PURE__*/ S.Struct({ Regions: __S(1347, __c42, 3) }),
+        /*@__PURE__*/ S.Struct({ ResourceIds: __S(1348, __c42, 4) }),
+        /*@__PURE__*/ S.Struct({ EventHubs: __S(1349, __c42, 5) }),
+      ]);
+    case 7:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1350, __c42, 6) })]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ConnectorIdentifier: S.String,
+          Selector: __S(1351, __c42, 7),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListResourcesByConnector" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListResourcesByConnectorInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String, Name: S.optional(S.String), DisplayName: S.optional(S.String) }),
+      ).annotate({ identifier: "AzureManagementGroupSummary" });
+    case 10:
+      return S.Array(__S(1353, __c42, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          SubscriptionId: S.String,
+          DisplayName: S.optional(S.String),
+          State: S.optional(S.String),
+          ManagementGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureSubscriptionSummary" });
+    case 12:
+      return S.Array(__S(1355, __c42, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceId: S.String,
+          ResourceType: S.optional(S.String),
+          Region: S.optional(S.String),
+          SubscriptionId: S.optional(S.String),
+          Tags: S.optional(__S(2304, __c72, 0)),
+        }),
+      ).annotate({ identifier: "AzureResourceIdentifierSummary" });
+    case 14:
+      return S.Array(__S(1357, __c42, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceId: S.String,
+          EventHubName: S.String,
+          NamespaceName: S.String,
+          FullyQualifiedNamespace: S.String,
+          Region: S.optional(S.String),
+          SubscriptionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureEventHubSummary" });
+    case 16:
+      return S.Array(__S(1359, __c42, 15));
+    case 17:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ ManagementGroups: __S(1354, __c42, 10) }),
+        /*@__PURE__*/ S.Struct({ Subscriptions: __S(1356, __c42, 12) }),
+        /*@__PURE__*/ S.Struct({ ResourceTypes: __S(2368, __c74, 0) }),
+        /*@__PURE__*/ S.Struct({ Regions: __S(2368, __c74, 0) }),
+        /*@__PURE__*/ S.Struct({ ResourceIds: __S(1358, __c42, 14) }),
+        /*@__PURE__*/ S.Struct({ EventHubs: __S(1360, __c42, 16) }),
+      ]);
+    case 18:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1361, __c42, 17) })]);
+    case 19:
+      return S.suspend(() =>
+        S.Struct({ Results: __S(1362, __c42, 18), NextToken: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "ListResourcesByConnectorOutput" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceIdentifierPrefix: S.optional(S.String),
-          ResourceTypes: S.optional(__S(192, __c6, 0)),
-          TelemetryConfigurationState: S.optional(__S(992, __c31, 0)),
-          ResourceTags: S.optional(__S(1728, __c54, 0)),
+          ResourceTypes: S.optional(__S(256, __c8, 0)),
+          TelemetryConfigurationState: S.optional(__S(1408, __c44, 0)),
+          ResourceTags: S.optional(__S(2304, __c72, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -3225,7 +4550,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListResourceTelemetryInput" });
   }
 }
-function __c31(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
@@ -3233,35 +4558,35 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccountIdentifier: S.optional(S.String),
-          TelemetryConfigurationState: S.optional(__S(992, __c31, 0)),
+          TelemetryConfigurationState: S.optional(__S(1408, __c44, 0)),
           ResourceType: S.optional(S.String),
           ResourceIdentifier: S.optional(S.String),
-          ResourceTags: S.optional(__S(1728, __c54, 0)),
+          ResourceTags: S.optional(__S(2304, __c72, 0)),
           LastUpdateTimeStamp: S.optional(S.Number),
           TelemetrySourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "TelemetryConfiguration" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TelemetryConfigurations: S.optional(__S(994, __c31, 2)),
+          TelemetryConfigurations: S.optional(__S(1410, __c44, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceTelemetryOutput" });
   }
 }
-function __c32(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AccountIdentifiers: S.optional(__S(1792, __c56, 0)),
+          AccountIdentifiers: S.optional(__S(2368, __c74, 0)),
           ResourceIdentifierPrefix: S.optional(S.String),
-          ResourceTypes: S.optional(__S(192, __c6, 0)),
-          TelemetryConfigurationState: S.optional(__S(992, __c31, 0)),
-          ResourceTags: S.optional(__S(1728, __c54, 0)),
+          ResourceTypes: S.optional(__S(256, __c8, 0)),
+          TelemetryConfigurationState: S.optional(__S(1408, __c44, 0)),
+          ResourceTags: S.optional(__S(2304, __c72, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -3277,7 +4602,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListResourceTelemetryForOrganizationInput" });
   }
 }
-function __c33(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3297,17 +4622,17 @@ function __c33(j: number): any {
         S.Struct({ Arn: S.optional(S.String), Status: S.optional(S.String) }),
       ).annotate({ identifier: "IntegrationSummary" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          IntegrationSummaries: S.optional(__S(1058, __c33, 2)),
+          IntegrationSummaries: S.optional(__S(1474, __c46, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListS3TableIntegrationsOutput" });
   }
 }
-function __c34(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3323,12 +4648,12 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: __S(1728, __c54, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: __S(2304, __c72, 0) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c35(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3344,28 +4669,6 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListTelemetryPipelinesInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Type: S.optional(S.String) })).annotate({
-        identifier: "Source",
-      });
-    case 2:
-      return S.Array(__S(1121, __c35, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
-      ).annotate({ identifier: "DataSource" });
-    case 4:
-      return S.Array(__S(1123, __c35, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          Sources: S.optional(__S(1122, __c35, 2)),
-          DataSources: S.optional(__S(1124, __c35, 4)),
-          Processors: S.optional(__S(1792, __c56, 0)),
-          ProcessorCount: S.optional(S.Number),
-          Sinks: S.optional(__S(1792, __c56, 0)),
-        }),
-      ).annotate({ identifier: "ConfigurationSummary" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           CreatedTimeStamp: S.optional(S.Number),
@@ -3373,22 +4676,22 @@ function __c35(j: number): any {
           Arn: S.optional(S.String),
           Name: S.optional(S.String),
           Status: S.optional(S.String),
-          Tags: S.optional(__S(1728, __c54, 0)),
-          ConfigurationSummary: S.optional(__S(1125, __c35, 5)),
+          Tags: S.optional(__S(2304, __c72, 0)),
+          ConfigurationSummary: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "TelemetryPipelineSummary" });
-    case 7:
-      return S.Array(__S(1126, __c35, 6));
-    case 8:
+    case 2:
+      return S.Array(__S(1537, __c48, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          PipelineSummaries: S.optional(__S(1127, __c35, 7)),
+          PipelineSummaries: S.optional(__S(1538, __c48, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTelemetryPipelinesOutput" });
   }
 }
-function __c36(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3409,7 +4712,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListTelemetryRulesInput" });
   }
 }
-function __c37(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3420,28 +4723,28 @@ function __c37(j: number): any {
           LastUpdateTimeStamp: S.optional(S.Number),
           ResourceType: S.optional(S.String),
           TelemetryType: S.optional(S.String),
-          TelemetrySourceTypes: S.optional(__S(192, __c6, 0)),
+          TelemetrySourceTypes: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "TelemetryRuleSummary" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TelemetryRuleSummaries: S.optional(__S(1185, __c37, 1)),
+          TelemetryRuleSummaries: S.optional(__S(1601, __c50, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTelemetryRulesOutput" });
   }
 }
-function __c38(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleNamePrefix: S.optional(S.String),
-          SourceAccountIds: S.optional(__S(1792, __c56, 0)),
-          SourceOrganizationUnitIds: S.optional(__S(1792, __c56, 0)),
+          SourceAccountIds: S.optional(__S(2368, __c74, 0)),
+          SourceOrganizationUnitIds: S.optional(__S(2368, __c74, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -3457,7 +4760,72 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListTelemetryRulesForOrganizationInput" });
   }
 }
-function __c39(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          TelemetrySource: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListThirdPartyTelemetryEnrichments" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListThirdPartyTelemetryEnrichmentsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          TelemetrySource: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ThirdPartyTelemetryEnrichmentSummary" });
+    case 2:
+      return S.Array(__S(1665, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TelemetryEnrichments: S.optional(__S(1666, __c52, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListThirdPartyTelemetryEnrichmentsOutput" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConnectorIdentifier: S.String,
+          Manifest: __S(720, __c22, 16),
+          ExpectedVersion: S.optional(S.Number),
+          ClientToken: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/PutConnectorTelemetryManifest" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutConnectorTelemetryManifestInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Version: S.Number })).annotate({
+        identifier: "PutConnectorTelemetryManifestOutput",
+      });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3474,12 +4842,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "StartTelemetryEnrichmentRequest" });
   }
 }
-function __c40(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Regions: S.optional(__S(1792, __c56, 0)),
+          Regions: S.optional(__S(2368, __c74, 0)),
           AllRegions: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -3494,12 +4862,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "StartTelemetryEvaluationInput" });
   }
 }
-function __c41(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Regions: S.optional(__S(1792, __c56, 0)),
+          Regions: S.optional(__S(2368, __c74, 0)),
           AllRegions: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -3514,7 +4882,62 @@ function __c41(j: number): any {
       ).annotate({ identifier: "StartTelemetryEvaluationForOrganizationInput" });
   }
 }
-function __c42(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PipelineIdentifier: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/StartTelemetryPipelineRefresh" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartTelemetryPipelineRefreshInput" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ AwsConfigConnectorArn: S.String })).annotate({
+        identifier: "AzureTelemetrySourceConfigurationInput",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1856, __c58, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          TelemetrySourceConfiguration: __S(1857, __c58, 1),
+          Tags: S.optional(__S(2304, __c72, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/StartThirdPartyTelemetryEnrichment" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartThirdPartyTelemetryEnrichmentInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.String,
+          Name: S.String,
+          Status: S.String,
+          StatusReason: S.optional(S.String),
+          TelemetrySourceConfiguration: __S(1217, __c38, 1),
+          Tags: S.optional(__S(2304, __c72, 0)),
+        }),
+      ).annotate({ identifier: "StartThirdPartyTelemetryEnrichmentOutput" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3535,7 +4958,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3552,7 +4975,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "StopTelemetryEvaluationRequest" });
   }
 }
-function __c44(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3569,29 +4992,55 @@ function __c44(j: number): any {
       ).annotate({ identifier: "StopTelemetryEvaluationForOrganizationRequest" });
   }
 }
-function __c45(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.String, Tags: __S(1728, __c54, 0) }).pipe(
+        S.Struct({ TelemetryEnrichmentIdentifier: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/StopThirdPartyTelemetryEnrichment" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopThirdPartyTelemetryEnrichmentInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          TelemetrySource: S.String,
+          Status: S.String,
+          StatusReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StopThirdPartyTelemetryEnrichmentOutput" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(2304, __c72, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c46(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Data: S.optional(S.String), Type: S.optional(S.String) }),
       ).annotate({ identifier: "Record" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Records: __S(1473, __c46, 1),
-          Configuration: __S(128, __c4, 0),
+          Records: __S(2049, __c64, 1),
+          Configuration: __S(192, __c6, 0),
           SignalType: S.optional(S.String),
         }).pipe(
           T.all(
@@ -3611,33 +5060,33 @@ function __c46(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Record: S.optional(__S(1472, __c46, 0)),
-          Error: S.optional(__S(1475, __c46, 3)),
+          Record: S.optional(__S(2048, __c64, 0)),
+          Error: S.optional(__S(2051, __c64, 3)),
         }),
       ).annotate({ identifier: "PipelineOutput" });
     case 5:
-      return S.Array(__S(1476, __c46, 4));
+      return S.Array(__S(2052, __c64, 4));
     case 6:
-      return S.suspend(() => S.Struct({ Results: S.optional(__S(1477, __c46, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ Results: S.optional(__S(2053, __c64, 5)) })).annotate({
         identifier: "TestTelemetryPipelineOutput",
       });
   }
 }
-function __c47(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.String, TagKeys: __S(1792, __c56, 0) }).pipe(
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(2368, __c74, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c48(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RuleIdentifier: S.String, Rule: __S(1899, __c59, 11) }).pipe(
+        S.Struct({ RuleIdentifier: S.String, Rule: __S(2476, __c77, 12) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateCentralizationRuleForOrganization" }),
             svc,
@@ -3650,7 +5099,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateCentralizationRuleForOrganizationInput" });
   }
 }
-function __c49(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3667,11 +5116,11 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateDatasetIntegrationInput" });
   }
 }
-function __c50(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PipelineIdentifier: S.String, Configuration: __S(128, __c4, 0) }).pipe(
+        S.Struct({ PipelineIdentifier: S.String, Configuration: __S(192, __c6, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTelemetryPipeline" }),
             svc,
@@ -3684,11 +5133,11 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateTelemetryPipelineInput" });
   }
 }
-function __c51(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RuleIdentifier: S.String, Rule: __S(245, __c7, 21) }).pipe(
+        S.Struct({ RuleIdentifier: S.String, Rule: __S(309, __c9, 21) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTelemetryRule" }),
             svc,
@@ -3701,11 +5150,11 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateTelemetryRuleInput" });
   }
 }
-function __c52(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RuleIdentifier: S.String, Rule: __S(245, __c7, 21) }).pipe(
+        S.Struct({ RuleIdentifier: S.String, Rule: __S(309, __c9, 21) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTelemetryRuleForOrganization" }),
             svc,
@@ -3718,11 +5167,11 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateTelemetryRuleForOrganizationInput" });
   }
 }
-function __c53(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Configuration: __S(128, __c4, 0) }).pipe(
+        S.Struct({ Configuration: __S(192, __c6, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ValidateTelemetryPipelineConfiguration" }),
             svc,
@@ -3734,12 +5183,12 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ValidateTelemetryPipelineConfigurationInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(1730, __c54, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(2306, __c72, 2)) })).annotate({
         identifier: "ValidateTelemetryPipelineConfigurationOutput",
       });
   }
 }
-function __c54(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
@@ -3748,21 +5197,21 @@ function __c54(j: number): any {
         S.Struct({
           Message: S.optional(S.String),
           Reason: S.optional(S.String),
-          FieldMap: S.optional(__S(1728, __c54, 0)),
+          FieldMap: S.optional(__S(2304, __c72, 0)),
         }),
       ).annotate({ identifier: "ValidationError" });
     case 2:
-      return S.Array(__S(1729, __c54, 1));
+      return S.Array(__S(2305, __c72, 1));
   }
 }
-function __c55(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleName: S.String,
-          Rule: __S(1899, __c59, 11),
-          Tags: S.optional(__S(1728, __c54, 0)),
+          Rule: __S(2476, __c77, 12),
+          Tags: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateCentralizationRuleForOrganization" }),
@@ -3776,13 +5225,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateCentralizationRuleForOrganizationInput" });
   }
 }
-function __c56(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c57(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RuleArn: S.optional(S.String) })).annotate({
@@ -3790,7 +5239,7 @@ function __c57(j: number): any {
       });
   }
 }
-function __c58(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3798,7 +5247,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3814,15 +5263,20 @@ function __c59(j: number): any {
       );
     case 2:
       return S.suspend(() =>
+        S.Struct({ ProfilesSelectionCriteria: S.optional(S.String) }),
+      ).annotate({ identifier: "SourceProfilesConfiguration" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
-          Regions: __S(1792, __c56, 0),
+          Regions: __S(2368, __c74, 0),
           Scope: S.optional(S.String),
-          SourceLogsConfiguration: S.optional(__S(1888, __c59, 0)),
-          SourceMetricsConfiguration: S.optional(__S(1889, __c59, 1)),
-          SourceContextGraphConfiguration: S.optional(__S(1856, __c58, 0)),
+          SourceLogsConfiguration: S.optional(__S(2464, __c77, 0)),
+          SourceMetricsConfiguration: S.optional(__S(2465, __c77, 1)),
+          SourceProfilesConfiguration: S.optional(__S(2466, __c77, 2)),
+          SourceContextGraphConfiguration: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "CentralizationRuleSource" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           EncryptionStrategy: S.String,
@@ -3831,82 +5285,94 @@ function __c59(j: number): any {
           EncryptionScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsEncryptionConfiguration" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({ Region: S.String, KmsKeyArn: S.optional(S.String) }),
       ).annotate({ identifier: "LogsBackupConfiguration" });
-    case 5:
+    case 6:
       return S.suspend(() => S.Struct({ LogGroupNamePattern: S.String })).annotate({
         identifier: "LogGroupNameConfiguration",
       });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           DestinationRoleArn: S.String,
           TagConflictResolutionStrategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagPropagationConfiguration" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          LogsEncryptionConfiguration: S.optional(__S(1891, __c59, 3)),
-          BackupConfiguration: S.optional(__S(1892, __c59, 4)),
-          LogGroupNameConfiguration: S.optional(__S(1893, __c59, 5)),
-          TagPropagationConfiguration: S.optional(__S(1894, __c59, 6)),
+          LogsEncryptionConfiguration: S.optional(__S(2468, __c77, 4)),
+          BackupConfiguration: S.optional(__S(2469, __c77, 5)),
+          LogGroupNameConfiguration: S.optional(__S(2470, __c77, 6)),
+          TagPropagationConfiguration: S.optional(__S(2471, __c77, 7)),
           LogGroupDeletionProtection: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationLogsConfiguration" });
-    case 8:
+    case 9:
       return S.suspend(() => S.Struct({ Region: S.String })).annotate({
         identifier: "MetricsBackupConfiguration",
       });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({ BackupConfiguration: S.optional(__S(1896, __c59, 8)) }),
-      ).annotate({ identifier: "DestinationMetricsConfiguration" });
     case 10:
+      return S.suspend(() =>
+        S.Struct({ BackupConfiguration: S.optional(__S(2473, __c77, 9)) }),
+      ).annotate({ identifier: "DestinationMetricsConfiguration" });
+    case 11:
       return S.suspend(() =>
         S.Struct({
           Region: S.String,
           Account: S.optional(S.String),
-          DestinationLogsConfiguration: S.optional(__S(1895, __c59, 7)),
-          DestinationMetricsConfiguration: S.optional(__S(1897, __c59, 9)),
+          DestinationLogsConfiguration: S.optional(__S(2472, __c77, 8)),
+          DestinationMetricsConfiguration: S.optional(__S(2474, __c77, 10)),
+          DestinationProfilesConfiguration: S.optional(__S(2474, __c77, 10)),
         }),
       ).annotate({ identifier: "CentralizationRuleDestination" });
-    case 11:
+    case 12:
       return S.suspend(() =>
-        S.Struct({ Source: __S(1890, __c59, 2), Destination: __S(1898, __c59, 10) }),
+        S.Struct({ Source: __S(2467, __c77, 3), Destination: __S(2475, __c77, 11) }),
       ).annotate({ identifier: "CentralizationRule" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ RoleArn: S.String, Tags: S.optional(__S(1728, __c54, 0)) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/CreateDatasetIntegration" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateDatasetIntegrationInput" });
-  }
-}
-function __c61(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Arn: S.String,
+          ConnectorConfiguration: __S(2529, __c79, 1),
           RoleArn: S.String,
-          CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Name: S.String,
+          Tags: S.optional(__S(2304, __c72, 0)),
+          ClientToken: S.optional(SensitiveString),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/CreateConnector" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateConnectorInput" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TenantIdentifier: S.String, ClientIdentifier: S.String }),
+      ).annotate({ identifier: "AzureConnectorConfiguration" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(2528, __c79, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.String,
+          Provider: S.String,
+          ConnectorConfiguration: __S(2529, __c79, 1),
+          RoleArn: S.String,
+          Name: S.optional(S.String),
+          CreatedTimeStamp: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CreateDatasetIntegrationOutput" });
+      ).annotate({ identifier: "Connector" });
+    case 3:
+      return S.suspend(() => S.Struct({ Connector: __S(2530, __c79, 2) })).annotate({
+        identifier: "CreateConnectorOutput",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

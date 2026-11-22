@@ -1516,9 +1516,15 @@ export interface DescribeConformancePackComplianceResponse {
   NextToken?: string | undefined;
 }
 export type ConformancePackNamesList = string[];
+export type ConformancePackType = "CUSTOM" | "MANAGED" | (string & {});
+export type ConformancePackTypeList = ConformancePackType[];
+export interface DescribeConformancePacksFilters {
+  Types?: ConformancePackType[] | undefined;
+}
 export type PageSizeLimit = number;
 export interface DescribeConformancePacksRequest {
   ConformancePackNames?: string[] | undefined;
+  Filters?: DescribeConformancePacksFilters | undefined;
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -1539,6 +1545,16 @@ export interface TemplateSSMDocumentDetails {
   DocumentName: string;
   DocumentVersion?: string | undefined;
 }
+export type ConformancePackSourceIdentifier = string;
+export interface ConformancePackSource {
+  SourceIdentifier: string;
+}
+export type TagKey = string;
+export type TagValue = string;
+export interface ConformancePackScope {
+  TagKey: string;
+  TagValue?: string | undefined;
+}
 export interface ConformancePackDetail {
   ConformancePackName: string;
   ConformancePackArn: string;
@@ -1549,6 +1565,9 @@ export interface ConformancePackDetail {
   LastUpdateRequestedTime?: Date | undefined;
   CreatedBy?: string | undefined;
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
+  Type?: ConformancePackType | undefined;
+  Source?: ConformancePackSource | undefined;
+  Scope?: ConformancePackScope | undefined;
 }
 export type ConformancePackDetailList = ConformancePackDetail[];
 export interface DescribeConformancePacksResponse {
@@ -1557,6 +1576,7 @@ export interface DescribeConformancePacksResponse {
 }
 export interface DescribeConformancePackStatusRequest {
   ConformancePackNames?: string[] | undefined;
+  Filters?: DescribeConformancePacksFilters | undefined;
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -1564,6 +1584,9 @@ export type ConformancePackState =
   | "CREATE_IN_PROGRESS"
   | "CREATE_COMPLETE"
   | "CREATE_FAILED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED"
   | "DELETE_IN_PROGRESS"
   | "DELETE_FAILED"
   | (string & {});
@@ -1574,10 +1597,11 @@ export interface ConformancePackStatusDetail {
   ConformancePackId: string;
   ConformancePackArn: string;
   ConformancePackState: ConformancePackState;
-  StackArn: string;
+  StackArn?: string | undefined;
   ConformancePackStatusReason?: string | undefined;
   LastUpdateRequestedTime: Date;
   LastUpdateCompletedTime?: Date | undefined;
+  Type?: ConformancePackType | undefined;
 }
 export type ConformancePackStatusDetailsList = ConformancePackStatusDetail[];
 export interface DescribeConformancePackStatusResponse {
@@ -2522,8 +2546,6 @@ export interface ListTagsForResourceRequest {
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
-export type TagKey = string;
-export type TagValue = string;
 export interface Tag {
   Key?: string | undefined;
   Value?: string | undefined;
@@ -2573,6 +2595,8 @@ export interface PutConformancePackRequest {
   ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
   Tags?: Tag[] | undefined;
+  Source?: ConformancePackSource | undefined;
+  Scope?: ConformancePackScope | undefined;
 }
 export interface PutConformancePackResponse {
   ConformancePackArn?: string | undefined;
@@ -3990,8 +4014,8 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConformancePackStatusDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<DescribeConformancePackStatusRequest>,
-  output: __S(1019, __c127, 3) as any as S.Schema<DescribeConformancePackStatusResponse>,
+  input: __S(1024, __c128, 0) as any as S.Schema<DescribeConformancePackStatusRequest>,
+  output: __S(1027, __c128, 3) as any as S.Schema<DescribeConformancePackStatusResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4022,8 +4046,8 @@ export const describeDeliveryChannels: API.OperationMethod<
   DescribeDeliveryChannelsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<DescribeDeliveryChannelsRequest>,
-  output: __S(1026, __c128, 2) as any as S.Schema<DescribeDeliveryChannelsResponse>,
+  input: __S(1032, __c129, 0) as any as S.Schema<DescribeDeliveryChannelsRequest>,
+  output: __S(1034, __c129, 2) as any as S.Schema<DescribeDeliveryChannelsResponse>,
   errors: [NoSuchDeliveryChannelException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4049,8 +4073,8 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
   DescribeDeliveryChannelStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<DescribeDeliveryChannelStatusRequest>,
-  output: __S(1045, __c130, 5) as any as S.Schema<DescribeDeliveryChannelStatusResponse>,
+  input: __S(1048, __c131, 0) as any as S.Schema<DescribeDeliveryChannelStatusRequest>,
+  output: __S(1053, __c131, 5) as any as S.Schema<DescribeDeliveryChannelStatusResponse>,
   errors: [NoSuchDeliveryChannelException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4094,8 +4118,8 @@ export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrganizationConfigRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<DescribeOrganizationConfigRulesRequest>,
-  output: __S(1052, __c131, 4) as any as S.Schema<DescribeOrganizationConfigRulesResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<DescribeOrganizationConfigRulesRequest>,
+  output: __S(1060, __c132, 4) as any as S.Schema<DescribeOrganizationConfigRulesResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
@@ -4139,8 +4163,8 @@ export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   OrganizationConfigRuleStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>,
-  output: __S(1067, __c133, 3) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>,
+  input: __S(1072, __c134, 0) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>,
+  output: __S(1075, __c134, 3) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
@@ -4195,8 +4219,8 @@ export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrganizationConformancePack
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<DescribeOrganizationConformancePacksRequest>,
-  output: __S(1075, __c134, 3) as any as S.Schema<DescribeOrganizationConformancePacksResponse>,
+  input: __S(1080, __c135, 0) as any as S.Schema<DescribeOrganizationConformancePacksRequest>,
+  output: __S(1083, __c135, 3) as any as S.Schema<DescribeOrganizationConformancePacksResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
@@ -4241,13 +4265,13 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
   OrganizationConformancePackStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1080,
-    __c135,
+    1088,
+    __c136,
     0,
   ) as any as S.Schema<DescribeOrganizationConformancePackStatusesRequest>,
   output: __S(
-    1083,
-    __c135,
+    1091,
+    __c136,
     3,
   ) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>,
   errors: [
@@ -4285,8 +4309,8 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PendingAggregationRequest
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<DescribePendingAggregationRequestsRequest>,
-  output: __S(1091, __c136, 3) as any as S.Schema<DescribePendingAggregationRequestsResponse>,
+  input: __S(1096, __c137, 0) as any as S.Schema<DescribePendingAggregationRequestsRequest>,
+  output: __S(1099, __c137, 3) as any as S.Schema<DescribePendingAggregationRequestsResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4312,8 +4336,8 @@ export const describeRemediationConfigurations: API.OperationMethod<
   DescribeRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<DescribeRemediationConfigurationsRequest>,
-  output: __S(1097, __c137, 1) as any as S.Schema<DescribeRemediationConfigurationsResponse>,
+  input: __S(1104, __c138, 0) as any as S.Schema<DescribeRemediationConfigurationsRequest>,
+  output: __S(1105, __c138, 1) as any as S.Schema<DescribeRemediationConfigurationsResponse>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5718,7 +5742,9 @@ export type PutConformancePackError =
  * This API creates a service-linked role `AWSServiceRoleForConfigConforms` in your account.
  * The service-linked role is created only when the role does not exist in your account.
  *
- * You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or `TemplateSSMDocumentDetails`.
+ * For custom conformance packs, you must specify only one of `TemplateS3Uri`, `TemplateBody`, `TemplateSSMDocumentDetails`.
+ *
+ * For managed conformance packs, you must specify `Source`. Do not specify `TemplateS3Uri`, `TemplateBody`, `TemplateSSMDocumentDetails`, `DeliveryS3Bucket`, or `DeliveryS3KeyPrefix`.
  *
  * **Tags are added at creation and cannot be updated with this operation**
  *
@@ -7805,9 +7831,11 @@ function __c48(j: number): any {
           TemplateBody: S.optional(S.String),
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           TemplateSSMDocumentDetails: S.optional(__S(1000, __c125, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
+          Source: S.optional(__S(1001, __c125, 1)),
+          Scope: S.optional(__S(1002, __c125, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutConformancePackRequest" });
     case 1:
@@ -7835,7 +7863,7 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannel: __S(1033, __c129, 1) }).pipe(
+        S.Struct({ DeliveryChannel: __S(1041, __c130, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutDeliveryChannelRequest" });
@@ -7905,8 +7933,8 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationConfigRuleName: S.String,
-          OrganizationManagedRuleMetadata: S.optional(__S(1056, __c132, 0)),
-          OrganizationCustomRuleMetadata: S.optional(__S(1057, __c132, 1)),
+          OrganizationManagedRuleMetadata: S.optional(__S(1064, __c133, 0)),
+          OrganizationCustomRuleMetadata: S.optional(__S(1065, __c133, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           OrganizationCustomPolicyRuleMetadata: S.optional(__S(432, __c54, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
@@ -7928,7 +7956,7 @@ function __c55(j: number): any {
           TemplateBody: S.optional(S.String),
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -7943,7 +7971,7 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RemediationConfigurations: __S(1111, __c138, 7) }).pipe(
+        S.Struct({ RemediationConfigurations: __S(1119, __c139, 7) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutRemediationConfigurationsRequest" });
@@ -7951,7 +7979,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FailureMessage: S.optional(S.String),
-          FailedItems: S.optional(__S(1111, __c138, 7)),
+          FailedItems: S.optional(__S(1119, __c139, 7)),
         }),
       ).annotate({ identifier: "FailedRemediationBatch" });
     case 2:
@@ -9138,6 +9166,7 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ConformancePackNames: S.optional(__S(608, __c76, 0)),
+          Filters: S.optional(__S(1008, __c126, 0)),
           Limit: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9150,10 +9179,13 @@ function __c124(j: number): any {
           ConformancePackId: S.String,
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           LastUpdateRequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreatedBy: S.optional(S.String),
           TemplateSSMDocumentDetails: S.optional(__S(1000, __c125, 0)),
+          Type: S.optional(S.String),
+          Source: S.optional(__S(1001, __c125, 1)),
+          Scope: S.optional(__S(1002, __c125, 2)),
         }),
       ).annotate({ identifier: "ConformancePackDetail" });
     case 2:
@@ -9173,24 +9205,41 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({ DocumentName: S.String, DocumentVersion: S.optional(S.String) }),
       ).annotate({ identifier: "TemplateSSMDocumentDetails" });
+    case 1:
+      return S.suspend(() => S.Struct({ SourceIdentifier: S.String })).annotate({
+        identifier: "ConformancePackSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ TagKey: S.String, TagValue: S.optional(S.String) }),
+      ).annotate({ identifier: "ConformancePackScope" });
   }
 }
 function __c126(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ ParameterName: S.String, ParameterValue: S.String }),
-      ).annotate({ identifier: "ConformancePackInputParameter" });
-    case 1:
-      return S.Array(__S(1008, __c126, 0));
+      return S.suspend(() => S.Struct({ Types: S.optional(__S(600, __c75, 0)) })).annotate({
+        identifier: "DescribeConformancePacksFilters",
+      });
   }
 }
 function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ ParameterName: S.String, ParameterValue: S.String }),
+      ).annotate({ identifier: "ConformancePackInputParameter" });
+    case 1:
+      return S.Array(__S(1016, __c127, 0));
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           ConformancePackNames: S.optional(__S(608, __c76, 0)),
+          Filters: S.optional(__S(1008, __c126, 0)),
           Limit: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9202,24 +9251,25 @@ function __c127(j: number): any {
           ConformancePackId: S.String,
           ConformancePackArn: S.String,
           ConformancePackState: S.String,
-          StackArn: S.String,
+          StackArn: S.optional(S.String),
           ConformancePackStatusReason: S.optional(S.String),
           LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           LastUpdateCompletedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConformancePackStatusDetail" });
     case 2:
-      return S.Array(__S(1017, __c127, 1));
+      return S.Array(__S(1025, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ConformancePackStatusDetails: S.optional(__S(1018, __c127, 2)),
+          ConformancePackStatusDetails: S.optional(__S(1026, __c128, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeConformancePackStatusResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9228,14 +9278,14 @@ function __c128(j: number): any {
         ),
       ).annotate({ identifier: "DescribeDeliveryChannelsRequest" });
     case 1:
-      return S.Array(__S(1033, __c129, 1));
+      return S.Array(__S(1041, __c130, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannels: S.optional(__S(1025, __c128, 1)) }).pipe(ns),
+        S.Struct({ DeliveryChannels: S.optional(__S(1033, __c129, 1)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryChannelsResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ deliveryFrequency: S.optional(S.String) })).annotate({
@@ -9249,12 +9299,12 @@ function __c129(j: number): any {
           s3KeyPrefix: S.optional(S.String),
           s3KmsKeyArn: S.optional(S.String),
           snsTopicARN: S.optional(S.String),
-          configSnapshotDeliveryProperties: S.optional(__S(1032, __c129, 0)),
+          configSnapshotDeliveryProperties: S.optional(__S(1040, __c130, 0)),
         }),
       ).annotate({ identifier: "DeliveryChannel" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9286,20 +9336,20 @@ function __c130(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          configSnapshotDeliveryInfo: S.optional(__S(1041, __c130, 1)),
-          configHistoryDeliveryInfo: S.optional(__S(1041, __c130, 1)),
-          configStreamDeliveryInfo: S.optional(__S(1042, __c130, 2)),
+          configSnapshotDeliveryInfo: S.optional(__S(1049, __c131, 1)),
+          configHistoryDeliveryInfo: S.optional(__S(1049, __c131, 1)),
+          configStreamDeliveryInfo: S.optional(__S(1050, __c131, 2)),
         }),
       ).annotate({ identifier: "DeliveryChannelStatus" });
     case 4:
-      return S.Array(__S(1043, __c130, 3));
+      return S.Array(__S(1051, __c131, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannelsStatus: S.optional(__S(1044, __c130, 4)) }).pipe(ns),
+        S.Struct({ DeliveryChannelsStatus: S.optional(__S(1052, __c131, 4)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryChannelStatusResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9329,25 +9379,25 @@ function __c131(j: number): any {
         S.Struct({
           OrganizationConfigRuleName: S.String,
           OrganizationConfigRuleArn: S.String,
-          OrganizationManagedRuleMetadata: S.optional(__S(1056, __c132, 0)),
-          OrganizationCustomRuleMetadata: S.optional(__S(1057, __c132, 1)),
+          OrganizationManagedRuleMetadata: S.optional(__S(1064, __c133, 0)),
+          OrganizationCustomRuleMetadata: S.optional(__S(1065, __c133, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          OrganizationCustomPolicyRuleMetadata: S.optional(__S(1049, __c131, 1)),
+          OrganizationCustomPolicyRuleMetadata: S.optional(__S(1057, __c132, 1)),
         }),
       ).annotate({ identifier: "OrganizationConfigRule" });
     case 3:
-      return S.Array(__S(1050, __c131, 2));
+      return S.Array(__S(1058, __c132, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConfigRules: S.optional(__S(1051, __c131, 3)),
+          OrganizationConfigRules: S.optional(__S(1059, __c132, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConfigRulesResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9378,7 +9428,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "OrganizationCustomRuleMetadata" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9399,17 +9449,17 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationConfigRuleStatus" });
     case 2:
-      return S.Array(__S(1065, __c133, 1));
+      return S.Array(__S(1073, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConfigRuleStatuses: S.optional(__S(1066, __c133, 2)),
+          OrganizationConfigRuleStatuses: S.optional(__S(1074, __c134, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConfigRuleStatusesResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9426,23 +9476,23 @@ function __c134(j: number): any {
           OrganizationConformancePackArn: S.String,
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "OrganizationConformancePack" });
     case 2:
-      return S.Array(__S(1073, __c134, 1));
+      return S.Array(__S(1081, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConformancePacks: S.optional(__S(1074, __c134, 2)),
+          OrganizationConformancePacks: S.optional(__S(1082, __c135, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConformancePacksResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9463,17 +9513,17 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationConformancePackStatus" });
     case 2:
-      return S.Array(__S(1081, __c135, 1));
+      return S.Array(__S(1089, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConformancePackStatuses: S.optional(__S(1082, __c135, 2)),
+          OrganizationConformancePackStatuses: S.optional(__S(1090, __c136, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConformancePackStatusesResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9489,17 +9539,17 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "PendingAggregationRequest" });
     case 2:
-      return S.Array(__S(1089, __c136, 1));
+      return S.Array(__S(1097, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PendingAggregationRequests: S.optional(__S(1090, __c136, 2)),
+          PendingAggregationRequests: S.optional(__S(1098, __c137, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePendingAggregationRequestsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9509,11 +9559,11 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DescribeRemediationConfigurationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RemediationConfigurations: S.optional(__S(1111, __c138, 7)) }).pipe(ns),
+        S.Struct({ RemediationConfigurations: S.optional(__S(1119, __c139, 7)) }).pipe(ns),
       ).annotate({ identifier: "DescribeRemediationConfigurationsResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Value: S.String })).annotate({
@@ -9526,12 +9576,12 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ResourceValue: S.optional(__S(1104, __c138, 0)),
-          StaticValue: S.optional(__S(1105, __c138, 1)),
+          ResourceValue: S.optional(__S(1112, __c139, 0)),
+          StaticValue: S.optional(__S(1113, __c139, 1)),
         }),
       ).annotate({ identifier: "RemediationParameterValue" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ __S(1106, __c138, 2).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1114, __c139, 2).pipe(S.optional));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9540,7 +9590,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "SsmControls" });
     case 5:
-      return S.suspend(() => S.Struct({ SsmControls: S.optional(__S(1108, __c138, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ SsmControls: S.optional(__S(1116, __c139, 4)) })).annotate({
         identifier: "ExecutionControls",
       });
     case 6:
@@ -9550,10 +9600,10 @@ function __c138(j: number): any {
           TargetType: S.String,
           TargetId: S.String,
           TargetVersion: S.optional(S.String),
-          Parameters: S.optional(__S(1107, __c138, 3)),
+          Parameters: S.optional(__S(1115, __c139, 3)),
           ResourceType: S.optional(S.String),
           Automatic: S.optional(S.Boolean),
-          ExecutionControls: S.optional(__S(1109, __c138, 5)),
+          ExecutionControls: S.optional(__S(1117, __c139, 5)),
           MaximumAutomaticAttempts: S.optional(S.Number),
           RetryAttemptSeconds: S.optional(S.Number),
           Arn: S.optional(S.String),
@@ -9561,7 +9611,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "RemediationConfiguration" });
     case 7:
-      return S.Array(__S(1110, __c138, 6));
+      return S.Array(__S(1118, __c139, 6));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

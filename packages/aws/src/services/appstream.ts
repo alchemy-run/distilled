@@ -467,8 +467,9 @@ export interface CreateAppBlockBuilderStreamingURLRequest {
   AppBlockBuilderName?: string | undefined;
   Validity?: number | undefined;
 }
+export type StreamingUrl = string | redacted.Redacted<string>;
 export interface CreateAppBlockBuilderStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type PlatformType =
@@ -841,7 +842,7 @@ export interface CreateImageBuilderStreamingURLRequest {
   Validity?: number | undefined;
 }
 export interface CreateImageBuilderStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type WorkspaceImageId = string;
@@ -969,6 +970,7 @@ export type Action =
   | "DOMAIN_PASSWORD_SIGNIN"
   | "DOMAIN_SMART_CARD_SIGNIN"
   | "AUTO_TIME_ZONE_REDIRECTION"
+  | "SMART_CARD_REDIRECTION"
   | (string & {});
 export interface UserSetting {
   Action?: Action | undefined;
@@ -996,6 +998,12 @@ export interface UrlRedirectionConfig {
 }
 export interface ContentRedirection {
   HostToClient?: UrlRedirectionConfig | undefined;
+}
+export type ProcessImageName = string;
+export type ProcessCompatibilityList = string[];
+export interface WebAuthnRedirection {
+  Enabled?: boolean | undefined;
+  ProcessCompatibilityList?: string[] | undefined;
 }
 export type KmsKeyArn = string;
 export interface AgentAccessConfig {
@@ -1026,6 +1034,7 @@ export interface CreateStackRequest {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfig | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -1056,6 +1065,7 @@ export interface Stack {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfig | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -1069,6 +1079,7 @@ export interface CreateStackResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -1087,7 +1098,7 @@ export interface CreateStreamingURLRequest {
   SessionContext?: string | undefined;
 }
 export interface CreateStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type ThemeFooterLinkDisplayName = string;
@@ -1536,6 +1547,7 @@ export interface DescribeStacksResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -1991,6 +2003,7 @@ export type StackAttribute =
   | "ACCESS_ENDPOINTS"
   | "STREAMING_EXPERIENCE_SETTINGS"
   | "CONTENT_REDIRECTION"
+  | "WEB_AUTHN_REDIRECTION"
   | "AGENT_ACCESS_CONFIG"
   | "STORAGE_CONNECTOR_AUTHENTICATION"
   | "AGENT_ACCESS_CONFIG_KMS_KEY_ARN"
@@ -2021,6 +2034,7 @@ export interface UpdateStackRequest {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfigForUpdate | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -2034,6 +2048,7 @@ export interface UpdateStackResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -4855,7 +4870,8 @@ function __c3(j: number): any {
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackRequest" });
@@ -5221,7 +5237,7 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamingURL: S.optional(S.String),
+          StreamingURL: S.optional(SensitiveString),
           Expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "CreateAppBlockBuilderStreamingURLResult" });
@@ -5761,7 +5777,8 @@ function __c61(j: number): any {
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackRequest" });
@@ -5774,7 +5791,7 @@ function __c62(j: number): any {
         S.Struct({ Enabled: S.optional(S.Boolean), SettingsGroup: S.optional(S.String) }),
       ).annotate({ identifier: "ApplicationSettings" });
     case 1:
-      return S.suspend(() => S.Struct({ Stack: S.optional(__S(1017, __c63, 9)) })).annotate({
+      return S.suspend(() => S.Struct({ Stack: S.optional(__S(1018, __c63, 10)) })).annotate({
         identifier: "CreateStackResult",
       });
   }
@@ -5821,6 +5838,13 @@ function __c63(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          Enabled: S.optional(S.Boolean),
+          ProcessCompatibilityList: S.optional(__S(208, __c13, 0)),
+        }),
+      ).annotate({ identifier: "WebAuthnRedirection" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           Settings: S.optional(__S(817, __c51, 1)),
           S3BucketArn: S.optional(S.String),
           ScreenshotsUploadEnabled: S.optional(S.Boolean),
@@ -5831,7 +5855,7 @@ function __c63(j: number): any {
           UserControlMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentAccessConfig" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
@@ -5839,7 +5863,7 @@ function __c63(j: number): any {
           S3BucketName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationSettingsResponse" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           Arn: S.optional(S.String),
@@ -5852,12 +5876,13 @@ function __c63(j: number): any {
           FeedbackURL: S.optional(S.String),
           StackErrors: S.optional(__S(769, __c48, 1)),
           UserSettings: S.optional(__S(1011, __c63, 3)),
-          ApplicationSettings: S.optional(__S(1016, __c63, 8)),
+          ApplicationSettings: S.optional(__S(1017, __c63, 9)),
           AccessEndpoints: S.optional(__S(433, __c27, 1)),
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
@@ -6438,7 +6463,7 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "DescribeStacksRequest" });
     case 1:
-      return S.Array(__S(1017, __c63, 9));
+      return S.Array(__S(1018, __c63, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({ Stacks: S.optional(__S(1553, __c97, 1)), NextToken: S.optional(S.String) }),

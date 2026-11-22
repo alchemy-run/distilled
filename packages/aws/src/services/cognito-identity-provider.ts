@@ -124,6 +124,12 @@ export class AliasExistsException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class CachedCIMDURLDoesNotExistException
+  extends /*@__PURE__*/ S.TaggedError<CachedCIMDURLDoesNotExistException>()(
+    "CachedCIMDURLDoesNotExistException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
+  ).pipe(C.withBadRequestError) {}
 export class CodeDeliveryFailureException
   extends /*@__PURE__*/ S.TaggedError<CodeDeliveryFailureException>()(
     "CodeDeliveryFailureException",
@@ -989,6 +995,40 @@ export interface AssociateSoftwareTokenResponse {
   SecretCode?: string | redacted.Redacted<string> | undefined;
   Session?: string | redacted.Redacted<string> | undefined;
 }
+export type RestoreIdType = string;
+export interface CancelPointInTimeRecoveryRequest {
+  UserPoolId: string;
+  RestoreId: string;
+}
+export type RestoreStatusType =
+  | "PREVIEW_GENERATING"
+  | "PREVIEW_GENERATED"
+  | "PREVIEW_CANCELLED"
+  | "PREVIEW_GENERATION_FAILED"
+  | "PREVIEW_EXPIRED"
+  | "RESTORING"
+  | "RESTORE_COMPLETED"
+  | "TEMPORARY_INTERNAL_ERROR_SEE_SUPPORT_CASE"
+  | "AWS_ABORTED"
+  | (string & {});
+export type LongType = number;
+export interface RestorePreviewType {
+  Entity?: string | undefined;
+  CreateCount?: number | undefined;
+  UpdateCount?: number | undefined;
+  DeleteCount?: number | undefined;
+}
+export type RestorePreviewListType = RestorePreviewType[];
+export interface RestorationType {
+  RestoreId?: string | undefined;
+  RestoreStatus?: RestoreStatusType | undefined;
+  RestoreTimestamp?: Date | undefined;
+  TriggerTimestamp?: Date | undefined;
+  RestorePreview?: RestorePreviewType[] | undefined;
+}
+export interface CancelPointInTimeRecoveryResponse {
+  Restoration?: RestorationType | undefined;
+}
 export interface ChangePasswordRequest {
   PreviousPassword?: string | redacted.Redacted<string> | undefined;
   ProposedPassword: string | redacted.Redacted<string>;
@@ -1045,6 +1085,31 @@ export interface ConfirmSignUpRequest {
 }
 export interface ConfirmSignUpResponse {
   Session?: string | redacted.Redacted<string> | undefined;
+}
+export type CIMDPolicyNameType = string;
+export type CacheDurationType = number;
+export type URLPatternType = string;
+export type URLPatternListType = string[];
+export interface CreateCIMDPolicyRequest {
+  UserPoolId: string;
+  ClientId: string | redacted.Redacted<string>;
+  PolicyName: string;
+  CacheDuration?: number | undefined;
+  URLPatterns: string[];
+}
+export type CIMDPolicyIdType = string;
+export interface CIMDPolicyType {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  PolicyName: string;
+  CacheDuration?: number | undefined;
+  URLPatterns?: string[] | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
+}
+export interface CreateCIMDPolicyResponse {
+  CIMDPolicy: CIMDPolicyType;
 }
 export interface CreateGroupRequest {
   GroupName: string;
@@ -1225,7 +1290,6 @@ export type UserImportJobStatusType =
   | "Failed"
   | "Succeeded"
   | (string & {});
-export type LongType = number;
 export type CompletionMessageType = string;
 export interface UserImportJobType {
   JobName?: string | undefined;
@@ -1529,6 +1593,8 @@ export type ExplicitAuthFlowsType =
   | "ALLOW_USER_SRP_AUTH"
   | "ALLOW_REFRESH_TOKEN_AUTH"
   | "ALLOW_USER_AUTH"
+  | "ALLOW_TOKEN_EXCHANGE_DELEGATION"
+  | "ALLOW_TOKEN_EXCHANGE_IMPERSONATION"
   | (string & {});
 export type ExplicitAuthFlowsListType = ExplicitAuthFlowsType[];
 export type SupportedIdentityProvidersListType = string[];
@@ -1576,13 +1642,16 @@ export interface CreateUserPoolClientRequest {
   EnablePropagateAdditionalUserContextData?: boolean | undefined;
   AuthSessionValidity?: number | undefined;
   RefreshTokenRotation?: RefreshTokenRotationType | undefined;
+  PublishSecretsInAWSSecretsManager?: boolean | undefined;
 }
+export type ClientSecretArnType = string;
 export type ClientTypeType = "REGULAR" | "DCR" | (string & {});
 export interface UserPoolClientType {
   UserPoolId?: string | undefined;
   ClientName?: string | undefined;
   ClientId?: string | redacted.Redacted<string> | undefined;
   ClientSecret?: string | redacted.Redacted<string> | undefined;
+  ClientSecretArn?: string | undefined;
   LastModifiedDate?: Date | undefined;
   CreationDate?: Date | undefined;
   RefreshTokenValidity?: number | undefined;
@@ -1653,6 +1722,11 @@ export interface UserPoolReplicaType {
 export interface CreateUserPoolReplicaResponse {
   UserPoolReplica?: UserPoolReplicaType | undefined;
 }
+export interface DeleteCIMDPolicyRequest {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+}
+export interface DeleteCIMDPolicyResponse {}
 export interface DeleteGroupRequest {
   GroupName: string;
   UserPoolId: string;
@@ -1719,6 +1793,13 @@ export interface DeleteWebAuthnCredentialRequest {
   CredentialId: string;
 }
 export interface DeleteWebAuthnCredentialResponse {}
+export interface DescribeCIMDPolicyRequest {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+}
+export interface DescribeCIMDPolicyResponse {
+  CIMDPolicy: CIMDPolicyType;
+}
 export interface DescribeIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
@@ -1741,6 +1822,13 @@ export interface DescribeManagedLoginBrandingByClientRequest {
 }
 export interface DescribeManagedLoginBrandingByClientResponse {
   ManagedLoginBranding?: ManagedLoginBrandingType | undefined;
+}
+export interface DescribePointInTimeRecoveryRequest {
+  UserPoolId: string;
+  RestoreId: string;
+}
+export interface DescribePointInTimeRecoveryResponse {
+  Restoration?: RestorationType | undefined;
 }
 export interface DescribeResourceServerRequest {
   UserPoolId: string;
@@ -1920,6 +2008,34 @@ export type ListOfStringTypes = string[];
 export interface GetCSVHeaderResponse {
   UserPoolId?: string | undefined;
   CSVHeader?: string[] | undefined;
+}
+export type GetDerivedTokenTokenModelType = string | redacted.Redacted<string>;
+export type TokenTypeIdentifierType = "ACCESS_TOKEN" | "ID_TOKEN" | "SAML2" | (string & {});
+export type AudienceType = string;
+export type AudienceListType = string[];
+export type ResourceListType = string[];
+export type IssuedTokenTypeIdentifierType = "ACCESS_TOKEN" | "ID_TOKEN" | (string & {});
+export interface GetDerivedTokenRequest {
+  ClientId: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  SubjectToken: string | redacted.Redacted<string>;
+  SubjectTokenType: TokenTypeIdentifierType;
+  SubjectTokenProviderName?: string | undefined;
+  ActorToken?: string | redacted.Redacted<string> | undefined;
+  ActorTokenType?: TokenTypeIdentifierType | undefined;
+  ActorTokenProviderName?: string | undefined;
+  Scopes?: string[] | undefined;
+  Audiences?: string[] | undefined;
+  Resources?: string[] | undefined;
+  RequestedTokenType?: IssuedTokenTypeIdentifierType | undefined;
+}
+export type OAuthTokenTypeType = "Bearer" | "N_A" | (string & {});
+export interface GetDerivedTokenResponse {
+  IssuedToken: string | redacted.Redacted<string>;
+  IssuedTokenType: IssuedTokenTypeIdentifierType;
+  TokenType: OAuthTokenTypeType;
+  ExpiresIn?: number | undefined;
+  Scopes?: string[] | undefined;
 }
 export interface GetDeviceRequest {
   DeviceKey: string;
@@ -2131,6 +2247,50 @@ export interface InitiateAuthResponse {
   AuthenticationResult?: AuthenticationResultType | undefined;
   AvailableChallenges?: ChallengeNameType[] | undefined;
 }
+export interface InitiatePointInTimeRecoveryRequest {
+  UserPoolId: string;
+  RestoreTimestamp: Date;
+}
+export interface InitiatePointInTimeRecoveryResponse {
+  Restoration?: RestorationType | undefined;
+}
+export type PaginationKeyType = string;
+export type PoolQueryLimitType = number;
+export interface ListCIMDPoliciesRequest {
+  UserPoolId: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+}
+export interface CIMDPolicySummaryType {
+  CIMDPolicyId: string;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  PolicyName: string;
+  CacheDuration?: number | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
+}
+export type CIMDPolicySummaryListType = CIMDPolicySummaryType[];
+export interface ListCIMDPoliciesResponse {
+  NextToken?: string | undefined;
+  CIMDPolicies: CIMDPolicySummaryType[];
+}
+export interface ListClientMetadataURLsRequest {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+}
+export type MetadataURLType = string;
+export interface ClientMetadataURLType {
+  URL: string;
+  CachedDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+}
+export type ClientMetadataURLListType = ClientMetadataURLType[];
+export interface ListClientMetadataURLsResponse {
+  NextToken?: string | undefined;
+  ClientMetadataURLs: ClientMetadataURLType[];
+}
 export interface ListDevicesRequest {
   AccessToken: string | redacted.Redacted<string>;
   Limit?: number | undefined;
@@ -2150,7 +2310,6 @@ export interface ListGroupsResponse {
   NextToken?: string | undefined;
 }
 export type ListProvidersLimitType = number;
-export type PaginationKeyType = string;
 export interface ListIdentityProvidersRequest {
   UserPoolId: string;
   MaxResults?: number | undefined;
@@ -2165,6 +2324,21 @@ export interface ProviderDescription {
 export type ProvidersListType = ProviderDescription[];
 export interface ListIdentityProvidersResponse {
   Providers: ProviderDescription[];
+  NextToken?: string | undefined;
+}
+export interface ListPointInTimeRecoveriesRequest {
+  UserPoolId: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+}
+export interface RestorationDescriptionType {
+  RestoreId?: string | undefined;
+  RestoreStatus?: RestoreStatusType | undefined;
+  RestoreTimestamp?: Date | undefined;
+}
+export type RestorationListType = RestorationDescriptionType[];
+export interface ListPointInTimeRecoveriesResponse {
+  Restorations?: RestorationDescriptionType[] | undefined;
   NextToken?: string | undefined;
 }
 export type ListResourceServersLimitType = number;
@@ -2202,7 +2376,6 @@ export interface ListTermsResponse {
   Terms: TermsDescriptionType[];
   NextToken?: string | undefined;
 }
-export type PoolQueryLimitType = number;
 export interface ListUserImportJobsRequest {
   UserPoolId: string;
   MaxResults: number;
@@ -2454,6 +2627,13 @@ export interface SignUpResponse {
   UserSub: string;
   Session?: string | redacted.Redacted<string> | undefined;
 }
+export interface StartPointInTimeRecoveryRequest {
+  UserPoolId: string;
+  RestoreId: string;
+}
+export interface StartPointInTimeRecoveryResponse {
+  Restoration?: RestorationType | undefined;
+}
 export interface StartUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
@@ -2493,6 +2673,25 @@ export interface UpdateAuthEventFeedbackRequest {
   FeedbackValue: FeedbackValueType;
 }
 export interface UpdateAuthEventFeedbackResponse {}
+export interface UpdateCIMDPolicyRequest {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+  ClientId: string | redacted.Redacted<string>;
+  PolicyName?: string | undefined;
+  CacheDuration?: number | undefined;
+  URLPatterns: string[];
+}
+export interface UpdateCIMDPolicyResponse {
+  CIMDPolicy: CIMDPolicyType;
+}
+export type CIMDCacheActionType = "REFRESH" | "INVALIDATE" | (string & {});
+export interface UpdateClientMetadataURLStateRequest {
+  UserPoolId: string;
+  CIMDPolicyId: string;
+  URL: string;
+  Action: CIMDCacheActionType;
+}
+export interface UpdateClientMetadataURLStateResponse {}
 export interface UpdateDeviceStatusRequest {
   AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
@@ -2618,6 +2817,7 @@ export interface UpdateUserPoolClientRequest {
   EnablePropagateAdditionalUserContextData?: boolean | undefined;
   AuthSessionValidity?: number | undefined;
   RefreshTokenRotation?: RefreshTokenRotationType | undefined;
+  PublishSecretsInAWSSecretsManager?: boolean | undefined;
 }
 export interface UpdateUserPoolClientResponse {
   UserPoolClient?: UserPoolClientType | undefined;
@@ -2693,8 +2893,8 @@ export const addCustomAttributes: API.OperationMethod<
   AddCustomAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<AddCustomAttributesRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AddCustomAttributesResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<AddCustomAttributesRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AddCustomAttributesResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -2729,8 +2929,8 @@ export const addUserPoolClientSecret: API.OperationMethod<
   AddUserPoolClientSecretError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<AddUserPoolClientSecretRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<AddUserPoolClientSecretResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<AddUserPoolClientSecretRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<AddUserPoolClientSecretResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2777,8 +2977,8 @@ export const adminAddUserToGroup: API.OperationMethod<
   AdminAddUserToGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<AdminAddUserToGroupRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminAddUserToGroupResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<AdminAddUserToGroupRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminAddUserToGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -2837,8 +3037,8 @@ export const adminConfirmSignUp: API.OperationMethod<
   AdminConfirmSignUpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<AdminConfirmSignUpRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminConfirmSignUpResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<AdminConfirmSignUpRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminConfirmSignUpResponse>,
   errors: [
     InternalErrorException,
     InvalidLambdaResponseException,
@@ -2934,8 +3134,8 @@ export const adminCreateUser: API.OperationMethod<
   AdminCreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<AdminCreateUserRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<AdminCreateUserResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<AdminCreateUserRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<AdminCreateUserResponse>,
   errors: [
     CodeDeliveryFailureException,
     InternalErrorException,
@@ -2997,8 +3197,8 @@ export const adminDeleteSoftwareToken: API.OperationMethod<
   AdminDeleteSoftwareTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<AdminDeleteSoftwareTokenRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminDeleteSoftwareTokenResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<AdminDeleteSoftwareTokenRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminDeleteSoftwareTokenResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3045,8 +3245,8 @@ export const adminDeleteUser: API.OperationMethod<
   AdminDeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<AdminDeleteUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminDeleteUserResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<AdminDeleteUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminDeleteUserResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3094,8 +3294,8 @@ export const adminDeleteUserAttributes: API.OperationMethod<
   AdminDeleteUserAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<AdminDeleteUserAttributesRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminDeleteUserAttributesResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<AdminDeleteUserAttributesRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminDeleteUserAttributesResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3168,8 +3368,8 @@ export const adminDisableProviderForUser: API.OperationMethod<
   AdminDisableProviderForUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<AdminDisableProviderForUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminDisableProviderForUserResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<AdminDisableProviderForUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminDisableProviderForUserResponse>,
   errors: [
     AliasExistsException,
     InternalErrorException,
@@ -3218,8 +3418,8 @@ export const adminDisableUser: API.OperationMethod<
   AdminDisableUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<AdminDisableUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminDisableUserResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<AdminDisableUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminDisableUserResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3266,8 +3466,8 @@ export const adminEnableUser: API.OperationMethod<
   AdminEnableUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<AdminEnableUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminEnableUserResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<AdminEnableUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminEnableUserResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3316,8 +3516,8 @@ export const adminForgetDevice: API.OperationMethod<
   AdminForgetDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<AdminForgetDeviceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminForgetDeviceResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<AdminForgetDeviceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminForgetDeviceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3365,8 +3565,8 @@ export const adminGetDevice: API.OperationMethod<
   AdminGetDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<AdminGetDeviceRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<AdminGetDeviceResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<AdminGetDeviceRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<AdminGetDeviceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3416,8 +3616,8 @@ export const adminGetUser: API.OperationMethod<
   AdminGetUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<AdminGetUserRequest>,
-  output: __S(4737, __c148, 1) as any as S.Schema<AdminGetUserResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<AdminGetUserRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<AdminGetUserResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3469,8 +3669,8 @@ export const adminGetUserAuthFactors: API.OperationMethod<
   AdminGetUserAuthFactorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<AdminGetUserAuthFactorsRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<AdminGetUserAuthFactorsResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<AdminGetUserAuthFactorsRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<AdminGetUserAuthFactorsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3549,8 +3749,8 @@ export const adminInitiateAuth: API.OperationMethod<
   AdminInitiateAuthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<AdminInitiateAuthRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<AdminInitiateAuthResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<AdminInitiateAuthRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<AdminInitiateAuthResponse>,
   errors: [
     FeatureUnavailableInTierException,
     InternalErrorException,
@@ -3624,8 +3824,8 @@ export const adminLinkProviderForUser: API.OperationMethod<
   AdminLinkProviderForUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<AdminLinkProviderForUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminLinkProviderForUserResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<AdminLinkProviderForUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminLinkProviderForUserResponse>,
   errors: [
     AliasExistsException,
     InternalErrorException,
@@ -3676,8 +3876,8 @@ export const adminListDevices: API.OperationMethod<
   AdminListDevicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<AdminListDevicesRequest>,
-  output: __S(5057, __c158, 1) as any as S.Schema<AdminListDevicesResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<AdminListDevicesRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<AdminListDevicesResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3726,8 +3926,8 @@ export const adminListGroupsForUser: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GroupType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<AdminListGroupsForUserRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<AdminListGroupsForUserResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<AdminListGroupsForUserRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<AdminListGroupsForUserResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3782,8 +3982,8 @@ export const adminListUserAuthEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AuthEventType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<AdminListUserAuthEventsRequest>,
-  output: __S(5192, __c162, 8) as any as S.Schema<AdminListUserAuthEventsResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<AdminListUserAuthEventsRequest>,
+  output: __S(5736, __c179, 8) as any as S.Schema<AdminListUserAuthEventsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3830,8 +4030,8 @@ export const adminListUserSessions: API.OperationMethod<
   AdminListUserSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<AdminListUserSessionsRequest>,
-  output: __S(5251, __c164, 3) as any as S.Schema<AdminListUserSessionsResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<AdminListUserSessionsRequest>,
+  output: __S(5795, __c181, 3) as any as S.Schema<AdminListUserSessionsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3879,8 +4079,8 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
   AdminRemoveUserFromGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<AdminRemoveUserFromGroupRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminRemoveUserFromGroupResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<AdminRemoveUserFromGroupRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminRemoveUserFromGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -3958,8 +4158,8 @@ export const adminResetUserPassword: API.OperationMethod<
   AdminResetUserPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<AdminResetUserPasswordRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminResetUserPasswordResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<AdminResetUserPasswordRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminResetUserPasswordResponse>,
   errors: [
     InternalErrorException,
     InvalidEmailRoleAccessPolicyException,
@@ -4052,8 +4252,8 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
   AdminRespondToAuthChallengeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<AdminRespondToAuthChallengeRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<AdminRespondToAuthChallengeResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<AdminRespondToAuthChallengeRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<AdminRespondToAuthChallengeResponse>,
   errors: [
     AliasExistsException,
     CodeMismatchException,
@@ -4108,8 +4308,8 @@ export const adminRevokeUserSession: API.OperationMethod<
   AdminRevokeUserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<AdminRevokeUserSessionRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminRevokeUserSessionResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<AdminRevokeUserSessionRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminRevokeUserSessionResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4160,8 +4360,8 @@ export const adminSetUserMFAPreference: API.OperationMethod<
   AdminSetUserMFAPreferenceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<AdminSetUserMFAPreferenceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminSetUserMFAPreferenceResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<AdminSetUserMFAPreferenceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminSetUserMFAPreferenceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4238,8 +4438,8 @@ export const adminSetUserPassword: API.OperationMethod<
   AdminSetUserPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<AdminSetUserPasswordRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminSetUserPasswordResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<AdminSetUserPasswordRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminSetUserPasswordResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4288,8 +4488,8 @@ export const adminSetUserSettings: API.OperationMethod<
   AdminSetUserSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<AdminSetUserSettingsRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminSetUserSettingsResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<AdminSetUserSettingsRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminSetUserSettingsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4345,8 +4545,8 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
   AdminUpdateAuthEventFeedbackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<AdminUpdateAuthEventFeedbackRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<AdminUpdateAuthEventFeedbackRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4399,8 +4599,8 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
   AdminUpdateDeviceStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<AdminUpdateDeviceStatusRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminUpdateDeviceStatusResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<AdminUpdateDeviceStatusRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminUpdateDeviceStatusResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4480,8 +4680,8 @@ export const adminUpdateUserAttributes: API.OperationMethod<
   AdminUpdateUserAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<AdminUpdateUserAttributesRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminUpdateUserAttributesResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<AdminUpdateUserAttributesRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminUpdateUserAttributesResponse>,
   errors: [
     AliasExistsException,
     InternalErrorException,
@@ -4557,8 +4757,8 @@ export const adminUserGlobalSignOut: API.OperationMethod<
   AdminUserGlobalSignOutError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<AdminUserGlobalSignOutRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<AdminUserGlobalSignOutResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<AdminUserGlobalSignOutRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<AdminUserGlobalSignOutResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -4606,8 +4806,8 @@ export const associateSoftwareToken: API.OperationMethod<
   AssociateSoftwareTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<AssociateSoftwareTokenRequest>,
-  output: __S(5697, __c178, 1) as any as S.Schema<AssociateSoftwareTokenResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<AssociateSoftwareTokenRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<AssociateSoftwareTokenResponse>,
   errors: [
     ConcurrentModificationException,
     ForbiddenException,
@@ -4624,6 +4824,62 @@ export const associateSoftwareToken: API.OperationMethod<
   operationName: "AssociateSoftwareToken",
   telemetry: TELEMETRY,
   span: "AssociateSoftwareToken",
+}));
+
+export type CancelPointInTimeRecoveryError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Cancels a point-in-time recovery of a user pool before Amazon Cognito applies any changes.
+ * You can cancel a recovery when its status is `PREVIEW_GENERATING` or
+ * `PREVIEW_GENERATED`. When you cancel a recovery, Amazon Cognito discards the
+ * recovery preview, resumes write operations in the user pool, and sets the status of
+ * the recovery to `PREVIEW_CANCELLED`. Your user pool data doesn't
+ * change.
+ *
+ * You can't cancel a recovery after you start it with a request.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const cancelPointInTimeRecovery: API.OperationMethod<
+  CancelPointInTimeRecoveryRequest & RegionInput,
+  CancelPointInTimeRecoveryResponse,
+  CancelPointInTimeRecoveryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6272, __c196, 0) as any as S.Schema<CancelPointInTimeRecoveryRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<CancelPointInTimeRecoveryResponse>,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelPointInTimeRecovery",
+  telemetry: TELEMETRY,
+  span: "CancelPointInTimeRecovery",
 }));
 
 export type ChangePasswordError =
@@ -4657,8 +4913,8 @@ export const changePassword: API.OperationMethod<
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<ChangePasswordRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<ChangePasswordResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ChangePasswordRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<ChangePasswordResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -4710,8 +4966,8 @@ export const completeWebAuthnRegistration: API.OperationMethod<
   CompleteWebAuthnRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<CompleteWebAuthnRegistrationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<CompleteWebAuthnRegistrationResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<CompleteWebAuthnRegistrationRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<CompleteWebAuthnRegistrationResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -4772,8 +5028,8 @@ export const confirmDevice: API.OperationMethod<
   ConfirmDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5793, __c181, 1) as any as S.Schema<ConfirmDeviceRequest>,
-  output: __S(5794, __c181, 2) as any as S.Schema<ConfirmDeviceResponse>,
+  input: __S(6401, __c200, 1) as any as S.Schema<ConfirmDeviceRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<ConfirmDeviceResponse>,
   errors: [
     DeviceKeyExistsException,
     ForbiddenException,
@@ -4834,8 +5090,8 @@ export const confirmForgotPassword: API.OperationMethod<
   ConfirmForgotPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<ConfirmForgotPasswordRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<ConfirmForgotPasswordResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ConfirmForgotPasswordRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<ConfirmForgotPasswordResponse>,
   errors: [
     CodeMismatchException,
     ExpiredCodeException,
@@ -4905,8 +5161,8 @@ export const confirmSignUp: API.OperationMethod<
   ConfirmSignUpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<ConfirmSignUpRequest>,
-  output: __S(5889, __c184, 1) as any as S.Schema<ConfirmSignUpResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ConfirmSignUpRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<ConfirmSignUpResponse>,
   errors: [
     AliasExistsException,
     CodeMismatchException,
@@ -4931,6 +5187,61 @@ export const confirmSignUp: API.OperationMethod<
   operationName: "ConfirmSignUp",
   telemetry: TELEMETRY,
   span: "ConfirmSignUp",
+}));
+
+export type CreateCIMDPolicyError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Creates a Client ID Metadata Document (CIMD) policy for an app client. A CIMD policy
+ * lets OAuth clients identify themselves to your user pool with an HTTPS URL as their
+ * client ID. Amazon Cognito retrieves the client metadata document from that URL and
+ * accepts the client only when the URL matches one of the URL patterns in the
+ * policy.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const createCIMDPolicy: API.OperationMethod<
+  CreateCIMDPolicyRequest & RegionInput,
+  CreateCIMDPolicyResponse,
+  CreateCIMDPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6528, __c204, 0) as any as S.Schema<CreateCIMDPolicyRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<CreateCIMDPolicyResponse>,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateCIMDPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateCIMDPolicy",
 }));
 
 export type CreateGroupError =
@@ -4963,8 +5274,8 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<CreateGroupResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<CreateGroupResponse>,
   errors: [
     GroupExistsException,
     InternalErrorException,
@@ -5013,8 +5324,8 @@ export const createIdentityProvider: API.OperationMethod<
   CreateIdentityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<CreateIdentityProviderRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<CreateIdentityProviderResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateIdentityProviderRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<CreateIdentityProviderResponse>,
   errors: [
     DuplicateProviderException,
     InternalErrorException,
@@ -5077,8 +5388,8 @@ export const createManagedLoginBranding: API.OperationMethod<
   CreateManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<CreateManagedLoginBrandingRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<CreateManagedLoginBrandingResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateManagedLoginBrandingRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<CreateManagedLoginBrandingResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5128,8 +5439,8 @@ export const createResourceServer: API.OperationMethod<
   CreateResourceServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateResourceServerRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<CreateResourceServerResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateResourceServerRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<CreateResourceServerResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -5190,8 +5501,8 @@ export const createTerms: API.OperationMethod<
   CreateTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateTermsRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<CreateTermsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateTermsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<CreateTermsResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5241,8 +5552,8 @@ export const createUserImportJob: API.OperationMethod<
   CreateUserImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateUserImportJobRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<CreateUserImportJobResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateUserImportJobRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CreateUserImportJobResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -5313,8 +5624,8 @@ export const createUserPool: API.OperationMethod<
   CreateUserPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateUserPoolRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<CreateUserPoolResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateUserPoolRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<CreateUserPoolResponse>,
   errors: [
     FeatureUnavailableInTierException,
     InternalErrorException,
@@ -5374,8 +5685,8 @@ export const createUserPoolClient: API.OperationMethod<
   CreateUserPoolClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateUserPoolClientRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<CreateUserPoolClientResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateUserPoolClientRequest>,
+  output: __S(644, __c20, 4) as any as S.Schema<CreateUserPoolClientResponse>,
   errors: [
     FeatureUnavailableInTierException,
     InternalErrorException,
@@ -5436,8 +5747,8 @@ export const createUserPoolDomain: API.OperationMethod<
   CreateUserPoolDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateUserPoolDomainRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<CreateUserPoolDomainResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateUserPoolDomainRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUserPoolDomainResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -5488,8 +5799,8 @@ export const createUserPoolReplica: API.OperationMethod<
   CreateUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateUserPoolReplicaRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<CreateUserPoolReplicaResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateUserPoolReplicaRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<CreateUserPoolReplicaResponse>,
   errors: [
     FeatureUnavailableInTierException,
     InternalErrorException,
@@ -5507,6 +5818,53 @@ export const createUserPoolReplica: API.OperationMethod<
   operationName: "CreateUserPoolReplica",
   telemetry: TELEMETRY,
   span: "CreateUserPoolReplica",
+}));
+
+export type DeleteCIMDPolicyError =
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Deletes a Client ID Metadata Document (CIMD) policy.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const deleteCIMDPolicy: API.OperationMethod<
+  DeleteCIMDPolicyRequest & RegionInput,
+  DeleteCIMDPolicyResponse,
+  DeleteCIMDPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteCIMDPolicyRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteCIMDPolicyResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteCIMDPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteCIMDPolicy",
 }));
 
 export type DeleteGroupError =
@@ -5540,8 +5898,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -5588,8 +5946,8 @@ export const deleteIdentityProvider: API.OperationMethod<
   DeleteIdentityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5638,8 +5996,8 @@ export const deleteManagedLoginBranding: API.OperationMethod<
   DeleteManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteManagedLoginBrandingRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteManagedLoginBrandingResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteManagedLoginBrandingRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteManagedLoginBrandingResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5688,8 +6046,8 @@ export const deleteResourceServer: API.OperationMethod<
   DeleteResourceServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteResourceServerRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteResourceServerResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteResourceServerRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteResourceServerResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -5734,8 +6092,8 @@ export const deleteTerms: API.OperationMethod<
   DeleteTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteTermsRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteTermsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteTermsRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteTermsResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5782,8 +6140,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -5834,8 +6192,8 @@ export const deleteUserAttributes: API.OperationMethod<
   DeleteUserAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteUserAttributesRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserAttributesResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteUserAttributesRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserAttributesResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -5884,8 +6242,8 @@ export const deleteUserPool: API.OperationMethod<
   DeleteUserPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteUserPoolRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserPoolResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteUserPoolRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserPoolResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -5922,8 +6280,8 @@ export const deleteUserPoolClient: API.OperationMethod<
   DeleteUserPoolClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteUserPoolClientRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserPoolClientResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteUserPoolClientRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserPoolClientResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -5957,8 +6315,8 @@ export const deleteUserPoolClientSecret: API.OperationMethod<
   DeleteUserPoolClientSecretError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteUserPoolClientSecretRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserPoolClientSecretResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteUserPoolClientSecretRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserPoolClientSecretResponse>,
   errors: [
     InternalServerException,
     InvalidParameterException,
@@ -5993,8 +6351,8 @@ export const deleteUserPoolDomain: API.OperationMethod<
   DeleteUserPoolDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteUserPoolDomainRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteUserPoolDomainResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteUserPoolDomainRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteUserPoolDomainResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -6039,8 +6397,8 @@ export const deleteUserPoolReplica: API.OperationMethod<
   DeleteUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteUserPoolReplicaRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<DeleteUserPoolReplicaResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteUserPoolReplicaRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<DeleteUserPoolReplicaResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6085,8 +6443,8 @@ export const deleteWebAuthnCredential: API.OperationMethod<
   DeleteWebAuthnCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteWebAuthnCredentialRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteWebAuthnCredentialResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteWebAuthnCredentialRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<DeleteWebAuthnCredentialResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -6106,6 +6464,49 @@ export const deleteWebAuthnCredential: API.OperationMethod<
   span: "DeleteWebAuthnCredential",
 }));
 
+export type DescribeCIMDPolicyError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Returns the configuration of a Client ID Metadata Document (CIMD) policy.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const describeCIMDPolicy: API.OperationMethod<
+  DescribeCIMDPolicyRequest & RegionInput,
+  DescribeCIMDPolicyResponse,
+  DescribeCIMDPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1312, __c41, 0) as any as S.Schema<DescribeCIMDPolicyRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<DescribeCIMDPolicyResponse>,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeCIMDPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeCIMDPolicy",
+}));
+
 export type DescribeIdentityProviderError =
   | InternalErrorException
   | InvalidParameterException
@@ -6123,8 +6524,8 @@ export const describeIdentityProvider: API.OperationMethod<
   DescribeIdentityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DescribeIdentityProviderRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<DescribeIdentityProviderResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DescribeIdentityProviderRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<DescribeIdentityProviderResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6158,8 +6559,8 @@ export const describeManagedLoginBranding: API.OperationMethod<
   DescribeManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DescribeManagedLoginBrandingRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<DescribeManagedLoginBrandingResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DescribeManagedLoginBrandingRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<DescribeManagedLoginBrandingResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6194,8 +6595,8 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
   DescribeManagedLoginBrandingByClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DescribeManagedLoginBrandingByClientRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<DescribeManagedLoginBrandingByClientResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DescribeManagedLoginBrandingByClientRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<DescribeManagedLoginBrandingByClientResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6210,6 +6611,57 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
   operationName: "DescribeManagedLoginBrandingByClient",
   telemetry: TELEMETRY,
   span: "DescribeManagedLoginBrandingByClient",
+}));
+
+export type DescribePointInTimeRecoveryError =
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Returns details about a point-in-time recovery of a user pool, including its status
+ * and the point in time that it restores the user pool to. After Amazon Cognito generates the
+ * recovery preview, the response also includes the number of entities that the recovery
+ * creates, updates, and deletes. Review the preview before you apply the recovery with a
+ * request or discard it with a request.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const describePointInTimeRecovery: API.OperationMethod<
+  DescribePointInTimeRecoveryRequest & RegionInput,
+  DescribePointInTimeRecoveryResponse,
+  DescribePointInTimeRecoveryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c45, 0) as any as S.Schema<DescribePointInTimeRecoveryRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<DescribePointInTimeRecoveryResponse>,
+  errors: [
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribePointInTimeRecovery",
+  telemetry: TELEMETRY,
+  span: "DescribePointInTimeRecovery",
 }));
 
 export type DescribeResourceServerError =
@@ -6229,8 +6681,8 @@ export const describeResourceServer: API.OperationMethod<
   DescribeResourceServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DescribeResourceServerRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<DescribeResourceServerResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DescribeResourceServerRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<DescribeResourceServerResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6268,8 +6720,8 @@ export const describeRiskConfiguration: API.OperationMethod<
   DescribeRiskConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DescribeRiskConfigurationRequest>,
-  output: __S(1257, __c39, 9) as any as S.Schema<DescribeRiskConfigurationResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DescribeRiskConfigurationRequest>,
+  output: __S(1545, __c48, 9) as any as S.Schema<DescribeRiskConfigurationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6314,8 +6766,8 @@ export const describeTerms: API.OperationMethod<
   DescribeTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DescribeTermsRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<DescribeTermsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DescribeTermsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<DescribeTermsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6366,8 +6818,8 @@ export const describeTermsByClient: API.OperationMethod<
   DescribeTermsByClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DescribeTermsByClientRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<DescribeTermsByClientResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeTermsByClientRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<DescribeTermsByClientResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6401,8 +6853,8 @@ export const describeUserImportJob: API.OperationMethod<
   DescribeUserImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DescribeUserImportJobRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DescribeUserImportJobResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DescribeUserImportJobRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<DescribeUserImportJobResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6449,8 +6901,8 @@ export const describeUserPool: API.OperationMethod<
   DescribeUserPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DescribeUserPoolRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<DescribeUserPoolResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DescribeUserPoolRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<DescribeUserPoolResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6497,8 +6949,8 @@ export const describeUserPoolClient: API.OperationMethod<
   DescribeUserPoolClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DescribeUserPoolClientRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<DescribeUserPoolClientResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DescribeUserPoolClientRequest>,
+  output: __S(644, __c20, 4) as any as S.Schema<DescribeUserPoolClientResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6547,8 +6999,8 @@ export const describeUserPoolDomain: API.OperationMethod<
   DescribeUserPoolDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DescribeUserPoolDomainRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<DescribeUserPoolDomainResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DescribeUserPoolDomainRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<DescribeUserPoolDomainResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6594,8 +7046,8 @@ export const forgetDevice: API.OperationMethod<
   ForgetDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ForgetDeviceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<ForgetDeviceResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ForgetDeviceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<ForgetDeviceResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -6677,8 +7129,8 @@ export const forgotPassword: API.OperationMethod<
   ForgotPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ForgotPasswordRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<ForgotPasswordResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ForgotPasswordRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<ForgotPasswordResponse>,
   errors: [
     CodeDeliveryFailureException,
     ForbiddenException,
@@ -6736,8 +7188,8 @@ export const getClientToken: API.OperationMethod<
   GetClientTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetClientTokenRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<GetClientTokenResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetClientTokenRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<GetClientTokenResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -6787,8 +7239,8 @@ export const getCSVHeader: API.OperationMethod<
   GetCSVHeaderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetCSVHeaderRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<GetCSVHeaderResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetCSVHeaderRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<GetCSVHeaderResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6803,6 +7255,73 @@ export const getCSVHeader: API.OperationMethod<
   operationName: "GetCSVHeader",
   telemetry: TELEMETRY,
   span: "GetCSVHeader",
+}));
+
+export type GetDerivedTokenError =
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | CommonErrors;
+/**
+ * Exchanges an existing token for a new token that is scoped and audience-bound for a
+ * specific downstream service, following the OAuth 2.0 Token Exchange grant type. For
+ * more information about the OAuth 2.0 Token Exchange grant type, see
+ * RFC 8693 - OAuth 2.0 Token
+ * Exchange on the IETF website. Present a `SubjectToken`, the
+ * credential that you already hold, to receive a new token appropriate for calling a
+ * specific resource server or audience.
+ *
+ * If you also present an `ActorToken` that identifies an intermediary
+ * service, the issued token carries an `act` claim that identifies the
+ * intermediary, and downstream services can distinguish a user acting directly from an
+ * intermediary acting on the user's behalf. If you don't present an
+ * `ActorToken`, the issued token appears as if the user acted
+ * directly.
+ *
+ * To use this operation, you must have IAM credentials, or you must present the
+ * requesting app client's `ClientId` and, if the client has a secret,
+ * `ClientSecret`, in the request.
+ *
+ * The requesting app client must have `ALLOW_TOKEN_EXCHANGE_IMPERSONATION`
+ * or `ALLOW_TOKEN_EXCHANGE_DELEGATION` in its `ExplicitAuthFlows`
+ * (depending on whether you include an `ActorToken`), or the request
+ * fails.
+ */
+export const getDerivedToken: API.OperationMethod<
+  GetDerivedTokenRequest & RegionInput,
+  GetDerivedTokenResponse,
+  GetDerivedTokenError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<GetDerivedTokenRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<GetDerivedTokenResponse>,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDerivedToken",
+  telemetry: TELEMETRY,
+  span: "GetDerivedToken",
 }));
 
 export type GetDeviceError =
@@ -6835,8 +7354,8 @@ export const getDevice: API.OperationMethod<
   GetDeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetDeviceRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<GetDeviceResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetDeviceRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<GetDeviceResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -6888,8 +7407,8 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<GetGroupResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<GetGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6924,8 +7443,8 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
   GetIdentityProviderByIdentifierError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetIdentityProviderByIdentifierRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<GetIdentityProviderByIdentifierResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetIdentityProviderByIdentifierRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<GetIdentityProviderByIdentifierResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -6968,8 +7487,8 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
   GetLogDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetLogDeliveryConfigurationRequest>,
-  output: __S(1798, __c56, 6) as any as S.Schema<GetLogDeliveryConfigurationResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetLogDeliveryConfigurationRequest>,
+  output: __S(2118, __c66, 6) as any as S.Schema<GetLogDeliveryConfigurationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7011,8 +7530,8 @@ export const getProvisionedLimit: API.OperationMethod<
   GetProvisionedLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetProvisionedLimitRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<GetProvisionedLimitResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetProvisionedLimitRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<GetProvisionedLimitResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7060,8 +7579,8 @@ export const getSigningCertificate: API.OperationMethod<
   GetSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetSigningCertificateRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<GetSigningCertificateResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetSigningCertificateRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetSigningCertificateResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7103,8 +7622,8 @@ export const getTokensFromRefreshToken: API.OperationMethod<
   GetTokensFromRefreshTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetTokensFromRefreshTokenRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<GetTokensFromRefreshTokenResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetTokensFromRefreshTokenRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<GetTokensFromRefreshTokenResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -7148,8 +7667,8 @@ export const getUICustomization: API.OperationMethod<
   GetUICustomizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetUICustomizationRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<GetUICustomizationResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetUICustomizationRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<GetUICustomizationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7194,8 +7713,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<GetUserResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<GetUserResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -7270,8 +7789,8 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
   GetUserAttributeVerificationCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetUserAttributeVerificationCodeRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<GetUserAttributeVerificationCodeResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetUserAttributeVerificationCodeRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GetUserAttributeVerificationCodeResponse>,
   errors: [
     CodeDeliveryFailureException,
     ForbiddenException,
@@ -7334,8 +7853,8 @@ export const getUserAuthFactors: API.OperationMethod<
   GetUserAuthFactorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetUserAuthFactorsRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<GetUserAuthFactorsResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetUserAuthFactorsRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<GetUserAuthFactorsResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -7376,8 +7895,8 @@ export const getUserPoolClientSessionConfiguration: API.OperationMethod<
   GetUserPoolClientSessionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetUserPoolClientSessionConfigurationRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<GetUserPoolClientSessionConfigurationResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetUserPoolClientSessionConfigurationRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<GetUserPoolClientSessionConfigurationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7432,8 +7951,8 @@ export const getUserPoolMfaConfig: API.OperationMethod<
   GetUserPoolMfaConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetUserPoolMfaConfigRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<GetUserPoolMfaConfigResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetUserPoolMfaConfigRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<GetUserPoolMfaConfigResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7470,8 +7989,8 @@ export const getUserPoolSessionConfiguration: API.OperationMethod<
   GetUserPoolSessionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetUserPoolSessionConfigurationRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<GetUserPoolSessionConfigurationResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetUserPoolSessionConfigurationRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<GetUserPoolSessionConfigurationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7538,8 +8057,8 @@ export const globalSignOut: API.OperationMethod<
   GlobalSignOutError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GlobalSignOutRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<GlobalSignOutResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GlobalSignOutRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<GlobalSignOutResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -7615,8 +8134,8 @@ export const initiateAuth: API.OperationMethod<
   InitiateAuthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<InitiateAuthRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<InitiateAuthResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<InitiateAuthRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<InitiateAuthResponse>,
   errors: [
     FeatureUnavailableInTierException,
     ForbiddenException,
@@ -7645,6 +8164,241 @@ export const initiateAuth: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "InitiateAuth",
 }));
+
+export type InitiatePointInTimeRecoveryError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Initiates a point-in-time recovery of a user pool to a time in the past that you
+ * specify. This operation is the first step of a recovery and doesn't change your
+ * user pool data. Amazon Cognito pauses write operations in the user pool and
+ * generates a recovery preview, which might not be available immediately. The preview shows the number of entities that the recovery creates, updates,
+ * and deletes. To check the status of the recovery and review the preview, make a request. When the status is
+ * `PREVIEW_GENERATED`, apply the recovery with a request or discard it with a request. The time that it takes to
+ * generate the recovery preview doesn't depend on the size of your user
+ * pool.
+ *
+ * Point-in-time recovery is a disaster recovery feature. Use it to recover from
+ * accidental or unauthorized changes that affect your user data, for example the
+ * deletion or corruption of many users. Don't use point-in-time recovery to
+ * remove users that were created recently or to revert changes to individual users.
+ * To delete or update individual users, use operations like and .
+ *
+ * While a recovery is in progress, Amazon Cognito blocks operations that write to the user pool,
+ * for example user sign-up, user creation, and attribute updates. Sign-in and read
+ * operations continue to work, with the following exceptions:
+ *
+ * - Users who must set a new password, set up MFA, or respond to a TOTP MFA
+ * challenge can't complete sign-in. Sign-in with the
+ * `NEW_PASSWORD_REQUIRED`, `MFA_SETUP`, and
+ * `SOFTWARE_TOKEN_MFA` challenges fails until the recovery
+ * ends.
+ *
+ * - Federated users can sign in only if they have previously signed in to the user
+ * pool and their attributes from the external identity provider haven't
+ * changed.
+ *
+ * - You can't create or start user import jobs. Start your import jobs
+ * after the recovery ends.
+ *
+ * If you don't start or cancel the recovery within 24 hours after you initiate it,
+ * the recovery preview expires. Amazon Cognito then resumes write operations and doesn't
+ * change your user pool data. The 24-hour period includes the time that
+ * Amazon Cognito takes to generate the recovery preview.
+ *
+ * A point-in-time recovery restores user data, including user profiles and attributes,
+ * group memberships, passwords, MFA settings, and passkeys. It doesn't restore user
+ * pool configuration, for example app clients, the attribute schema, encryption
+ * settings, or multi-Region replication settings. Users who changed their password after
+ * the recovery point keep their current password.
+ *
+ * The following requirements and limits apply to point-in-time recovery:
+ *
+ * - Your user pool must be on the Essentials or Plus feature plan. With the Essentials feature
+ * plan, you can recover your user pool to a point in time up to 1 day in the
+ * past. With the Plus feature plan, you can recover up to 14 days in the past.
+ * Your user pool must have been on the required feature plan at the recovery
+ * point. For example, to recover to a point in time 14 days ago, your user pool
+ * must have been on the Plus feature plan for the past 14 days.
+ *
+ * - The recovery point must be at least 15 minutes in the past and can't be
+ * earlier than the creation time of the user pool.
+ *
+ * - A user pool can have only one active recovery at a time.
+ *
+ * - An Amazon Web Services account can have up to five active recoveries at a time
+ * across all of its user pools. An organization in Amazon Web Services Organizations can have up
+ * to ten active recoveries at a time across all of its accounts.
+ *
+ * - You can complete one recovery of a user pool in a 24-hour period.
+ *
+ * - You can create up to three recovery previews of a user pool, ten recovery
+ * previews in an Amazon Web Services account, and 15 recovery previews in an
+ * organization in Amazon Web Services Organizations in a 24-hour period. You can create up to
+ * ten recovery previews of a user pool in a 30-day period.
+ *
+ * - You can't initiate a recovery while a user import job is in progress in
+ * your user pool. Wait for the import job to complete, or stop it with a request, and then initiate the
+ * recovery.
+ *
+ * - In a user pool with multi-Region replication, you can initiate a recovery only
+ * in the primary Amazon Web Services Region, and only after replication is complete.
+ *
+ * - If your user pool uses a customer managed key in KMS for encryption, the key
+ * must remain enabled and accessible to Amazon Cognito for the duration of the
+ * recovery.
+ *
+ * - Some user pools don't support point-in-time recovery, for example some
+ * older user pools and user pools that contain user data with characters or
+ * formats that point-in-time recovery doesn't support. If your user pool
+ * doesn't support it, Amazon Cognito returns an error when you initiate a
+ * recovery. To get help with this limitation, contact Amazon Web Services Support.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const initiatePointInTimeRecovery: API.OperationMethod<
+  InitiatePointInTimeRecoveryRequest & RegionInput,
+  InitiatePointInTimeRecoveryResponse,
+  InitiatePointInTimeRecoveryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2688, __c84, 0) as any as S.Schema<InitiatePointInTimeRecoveryRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<InitiatePointInTimeRecoveryResponse>,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "InitiatePointInTimeRecovery",
+  telemetry: TELEMETRY,
+  span: "InitiatePointInTimeRecovery",
+}));
+
+export type ListCIMDPoliciesError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists the Client ID Metadata Document (CIMD) policies in a user pool.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listCIMDPolicies: API.PaginatedOperationMethod<
+  ListCIMDPoliciesRequest & RegionInput,
+  ListCIMDPoliciesResponse,
+  ListCIMDPoliciesError,
+  Credentials | HttpClient.HttpClient,
+  CIMDPolicySummaryType
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2720, __c85, 0) as any as S.Schema<ListCIMDPoliciesRequest>,
+  output: __S(2723, __c85, 3) as any as S.Schema<ListCIMDPoliciesResponse>,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListCIMDPolicies",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CIMDPolicies",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListCIMDPolicies",
+})) as any;
+
+export type ListClientMetadataURLsError =
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists the client ID metadata document URLs that Amazon Cognito has received for a
+ * Client ID Metadata Document (CIMD) policy, with the cache state of each URL.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listClientMetadataURLs: API.PaginatedOperationMethod<
+  ListClientMetadataURLsRequest & RegionInput,
+  ListClientMetadataURLsResponse,
+  ListClientMetadataURLsError,
+  Credentials | HttpClient.HttpClient,
+  ClientMetadataURLType
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2752, __c86, 0) as any as S.Schema<ListClientMetadataURLsRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<ListClientMetadataURLsResponse>,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListClientMetadataURLs",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClientMetadataURLs",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListClientMetadataURLs",
+})) as any;
 
 export type ListDevicesError =
   | ForbiddenException
@@ -7676,8 +8430,8 @@ export const listDevices: API.OperationMethod<
   ListDevicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(5057, __c158, 1) as any as S.Schema<ListDevicesResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<ListDevicesResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -7727,8 +8481,8 @@ export const listGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GroupType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<ListGroupsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<ListGroupsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7779,8 +8533,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProviderDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListIdentityProvidersRequest>,
-  output: __S(2435, __c76, 3) as any as S.Schema<ListIdentityProvidersResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListIdentityProvidersRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<ListIdentityProvidersResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7801,6 +8555,55 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
   telemetry: TELEMETRY,
   span: "ListIdentityProviders",
 })) as any;
+
+export type ListPointInTimeRecoveriesError =
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists the point-in-time recoveries of a user pool, including the active recovery
+ * and past recoveries. The response lists the most recent recoveries first and doesn't
+ * include recovery previews. To get the recovery preview of a recovery, make a request.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const listPointInTimeRecoveries: API.OperationMethod<
+  ListPointInTimeRecoveriesRequest & RegionInput,
+  ListPointInTimeRecoveriesResponse,
+  ListPointInTimeRecoveriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2880, __c90, 0) as any as S.Schema<ListPointInTimeRecoveriesRequest>,
+  output: __S(2883, __c90, 3) as any as S.Schema<ListPointInTimeRecoveriesResponse>,
+  errors: [
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListPointInTimeRecoveries",
+  telemetry: TELEMETRY,
+  span: "ListPointInTimeRecoveries",
+}));
 
 export type ListResourceServersError =
   | InternalErrorException
@@ -7831,8 +8634,8 @@ export const listResourceServers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourceServerType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListResourceServersRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<ListResourceServersResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListResourceServersRequest>,
+  output: __S(2914, __c91, 2) as any as S.Schema<ListResourceServersResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7874,8 +8677,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7919,8 +8722,8 @@ export const listTerms: API.OperationMethod<
   ListTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListTermsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ListTermsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListTermsRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<ListTermsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -7966,8 +8769,8 @@ export const listUserImportJobs: API.OperationMethod<
   ListUserImportJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListUserImportJobsRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<ListUserImportJobsResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListUserImportJobsRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ListUserImportJobsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8013,8 +8816,8 @@ export const listUserPoolClients: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserPoolClientDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListUserPoolClientsRequest>,
-  output: __S(2595, __c81, 3) as any as S.Schema<ListUserPoolClientsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListUserPoolClientsRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<ListUserPoolClientsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8053,8 +8856,8 @@ export const listUserPoolClientSecrets: API.OperationMethod<
   ListUserPoolClientSecretsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListUserPoolClientSecretsRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<ListUserPoolClientSecretsResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListUserPoolClientSecretsRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ListUserPoolClientSecretsResponse>,
   errors: [
     InternalServerException,
     InvalidParameterException,
@@ -8099,8 +8902,8 @@ export const listUserPoolReplicas: API.OperationMethod<
   ListUserPoolReplicasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListUserPoolReplicasRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<ListUserPoolReplicasResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListUserPoolReplicasRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ListUserPoolReplicasResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8143,8 +8946,8 @@ export const listUserPools: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserPoolDescriptionType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListUserPoolsRequest>,
-  output: __S(2691, __c84, 3) as any as S.Schema<ListUserPoolsResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListUserPoolsRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListUserPoolsResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8198,8 +9001,8 @@ export const listUsers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<ListUsersResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<ListUsersResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8248,8 +9051,8 @@ export const listUserSessions: API.OperationMethod<
   ListUserSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListUserSessionsRequest>,
-  output: __S(5251, __c164, 3) as any as S.Schema<ListUserSessionsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListUserSessionsRequest>,
+  output: __S(5795, __c181, 3) as any as S.Schema<ListUserSessionsResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -8299,8 +9102,8 @@ export const listUsersInGroup: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListUsersInGroupRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<ListUsersInGroupResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListUsersInGroupRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<ListUsersInGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8350,8 +9153,8 @@ export const listWebAuthnCredentials: API.OperationMethod<
   ListWebAuthnCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListWebAuthnCredentialsRequest>,
-  output: __S(2851, __c89, 3) as any as S.Schema<ListWebAuthnCredentialsResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListWebAuthnCredentialsRequest>,
+  output: __S(3299, __c103, 3) as any as S.Schema<ListWebAuthnCredentialsResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -8423,8 +9226,8 @@ export const resendConfirmationCode: API.OperationMethod<
   ResendConfirmationCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ResendConfirmationCodeRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<ResendConfirmationCodeResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ResendConfirmationCodeRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<ResendConfirmationCodeResponse>,
   errors: [
     CodeDeliveryFailureException,
     ForbiddenException,
@@ -8515,8 +9318,8 @@ export const respondToAuthChallenge: API.OperationMethod<
   RespondToAuthChallengeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<RespondToAuthChallengeRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<RespondToAuthChallengeResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<RespondToAuthChallengeRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<RespondToAuthChallengeResponse>,
   errors: [
     AliasExistsException,
     CodeMismatchException,
@@ -8577,8 +9380,8 @@ export const revokeToken: API.OperationMethod<
   RevokeTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<RevokeTokenRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<RevokeTokenResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<RevokeTokenRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<RevokeTokenResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -8621,8 +9424,8 @@ export const revokeUserSession: API.OperationMethod<
   RevokeUserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<RevokeUserSessionRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<RevokeUserSessionResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<RevokeUserSessionRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<RevokeUserSessionResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -8663,8 +9466,8 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
   SetLogDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<SetLogDeliveryConfigurationRequest>,
-  output: __S(1798, __c56, 6) as any as S.Schema<SetLogDeliveryConfigurationResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<SetLogDeliveryConfigurationRequest>,
+  output: __S(2118, __c66, 6) as any as S.Schema<SetLogDeliveryConfigurationResponse>,
   errors: [
     FeatureUnavailableInTierException,
     InternalErrorException,
@@ -8725,8 +9528,8 @@ export const setRiskConfiguration: API.OperationMethod<
   SetRiskConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<SetRiskConfigurationRequest>,
-  output: __S(1257, __c39, 9) as any as S.Schema<SetRiskConfigurationResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<SetRiskConfigurationRequest>,
+  output: __S(1545, __c48, 9) as any as S.Schema<SetRiskConfigurationResponse>,
   errors: [
     CodeDeliveryFailureException,
     InternalErrorException,
@@ -8779,8 +9582,8 @@ export const setUICustomization: API.OperationMethod<
   SetUICustomizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<SetUICustomizationRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<SetUICustomizationResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<SetUICustomizationRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<SetUICustomizationResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -8832,8 +9635,8 @@ export const setUserMFAPreference: API.OperationMethod<
   SetUserMFAPreferenceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<SetUserMFAPreferenceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<SetUserMFAPreferenceResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<SetUserMFAPreferenceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<SetUserMFAPreferenceResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -8877,8 +9680,8 @@ export const setUserPoolClientSessionConfiguration: API.OperationMethod<
   SetUserPoolClientSessionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<SetUserPoolClientSessionConfigurationRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<SetUserPoolClientSessionConfigurationResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<SetUserPoolClientSessionConfigurationRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<SetUserPoolClientSessionConfigurationResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -8936,8 +9739,8 @@ export const setUserPoolMfaConfig: API.OperationMethod<
   SetUserPoolMfaConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<SetUserPoolMfaConfigRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<SetUserPoolMfaConfigResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<SetUserPoolMfaConfigRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<SetUserPoolMfaConfigResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -8981,8 +9784,8 @@ export const setUserPoolSessionConfiguration: API.OperationMethod<
   SetUserPoolSessionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<SetUserPoolSessionConfigurationRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<SetUserPoolSessionConfigurationResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<SetUserPoolSessionConfigurationRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<SetUserPoolSessionConfigurationResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -9030,8 +9833,8 @@ export const setUserSettings: API.OperationMethod<
   SetUserSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<SetUserSettingsRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<SetUserSettingsResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<SetUserSettingsRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<SetUserSettingsResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -9108,8 +9911,8 @@ export const signUp: API.OperationMethod<
   SignUpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<SignUpRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<SignUpResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<SignUpRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<SignUpResponse>,
   errors: [
     CodeDeliveryFailureException,
     ForbiddenException,
@@ -9137,6 +9940,65 @@ export const signUp: API.OperationMethod<
   span: "SignUp",
 }));
 
+export type StartPointInTimeRecoveryError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Applies a point-in-time recovery to a user pool. Before you start a recovery, review
+ * the recovery preview in the response to a request. You can start a recovery when
+ * its status is `PREVIEW_GENERATED`.
+ *
+ * When you start a recovery, Amazon Cognito sets its status to `RESTORING` and
+ * restores user data in the user pool to its state at the recovery point. Write
+ * operations in the user pool remain paused until the recovery is complete. Sign-in and
+ * read operations continue to work. When the status of the recovery changes to
+ * `RESTORE_COMPLETED`, Amazon Cognito resumes write operations.
+ *
+ * You can't cancel a recovery after you start it.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const startPointInTimeRecovery: API.OperationMethod<
+  StartPointInTimeRecoveryRequest & RegionInput,
+  StartPointInTimeRecoveryResponse,
+  StartPointInTimeRecoveryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3744, __c117, 0) as any as S.Schema<StartPointInTimeRecoveryRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<StartPointInTimeRecoveryResponse>,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartPointInTimeRecovery",
+  telemetry: TELEMETRY,
+  span: "StartPointInTimeRecovery",
+}));
+
 export type StartUserImportJobError =
   | InternalErrorException
   | InvalidParameterException
@@ -9157,8 +10019,8 @@ export const startUserImportJob: API.OperationMethod<
   StartUserImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<StartUserImportJobRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<StartUserImportJobResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<StartUserImportJobRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<StartUserImportJobResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9202,8 +10064,8 @@ export const startWebAuthnRegistration: API.OperationMethod<
   StartWebAuthnRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<StartWebAuthnRegistrationRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<StartWebAuthnRegistrationResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<StartWebAuthnRegistrationRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<StartWebAuthnRegistrationResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -9244,8 +10106,8 @@ export const stopUserImportJob: API.OperationMethod<
   StopUserImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<StopUserImportJobRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<StopUserImportJobResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<StopUserImportJobRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<StopUserImportJobResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9296,8 +10158,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9331,8 +10193,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9386,8 +10248,8 @@ export const updateAuthEventFeedback: API.OperationMethod<
   UpdateAuthEventFeedbackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateAuthEventFeedbackRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<UpdateAuthEventFeedbackResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<UpdateAuthEventFeedbackRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<UpdateAuthEventFeedbackResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9404,6 +10266,108 @@ export const updateAuthEventFeedback: API.OperationMethod<
   operationName: "UpdateAuthEventFeedback",
   telemetry: TELEMETRY,
   span: "UpdateAuthEventFeedback",
+}));
+
+export type UpdateCIMDPolicyError =
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Updates the configuration of a Client ID Metadata Document (CIMD) policy.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const updateCIMDPolicy: API.OperationMethod<
+  UpdateCIMDPolicyRequest & RegionInput,
+  UpdateCIMDPolicyResponse,
+  UpdateCIMDPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3968, __c124, 0) as any as S.Schema<UpdateCIMDPolicyRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<UpdateCIMDPolicyResponse>,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateCIMDPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateCIMDPolicy",
+}));
+
+export type UpdateClientMetadataURLStateError =
+  | CachedCIMDURLDoesNotExistException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | OperationNotEnabledException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Changes the cache state of a client metadata document URL for a client ID metadata
+ * document (CIMD) policy. Refresh a URL to make Amazon Cognito retrieve the client
+ * metadata document again, or invalidate it to remove the cached document.
+ *
+ * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
+ * this operation, you must use IAM credentials to authorize requests, and you must
+ * grant yourself the corresponding IAM permission in a policy.
+ *
+ * **Learn more**
+ *
+ * - Signing Amazon Web Services API Requests
+ *
+ * - Using the Amazon Cognito user pools API and user pool endpoints
+ */
+export const updateClientMetadataURLState: API.OperationMethod<
+  UpdateClientMetadataURLStateRequest & RegionInput,
+  UpdateClientMetadataURLStateResponse,
+  UpdateClientMetadataURLStateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4000, __c125, 0) as any as S.Schema<UpdateClientMetadataURLStateRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<UpdateClientMetadataURLStateResponse>,
+  errors: [
+    CachedCIMDURLDoesNotExistException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    OperationNotEnabledException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateClientMetadataURLState",
+  telemetry: TELEMETRY,
+  span: "UpdateClientMetadataURLState",
 }));
 
 export type UpdateDeviceStatusError =
@@ -9440,8 +10404,8 @@ export const updateDeviceStatus: API.OperationMethod<
   UpdateDeviceStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateDeviceStatusRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<UpdateDeviceStatusResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<UpdateDeviceStatusRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<UpdateDeviceStatusResponse>,
   errors: [
     ForbiddenException,
     InternalErrorException,
@@ -9491,8 +10455,8 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<UpdateGroupResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<UpdateGroupResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9540,8 +10504,8 @@ export const updateIdentityProvider: API.OperationMethod<
   UpdateIdentityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateIdentityProviderRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<UpdateIdentityProviderResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<UpdateIdentityProviderRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<UpdateIdentityProviderResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -9597,8 +10561,8 @@ export const updateManagedLoginBranding: API.OperationMethod<
   UpdateManagedLoginBrandingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateManagedLoginBrandingRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<UpdateManagedLoginBrandingResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<UpdateManagedLoginBrandingRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<UpdateManagedLoginBrandingResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -9648,8 +10612,8 @@ export const updateProvisionedLimit: API.OperationMethod<
   UpdateProvisionedLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdateProvisionedLimitRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<UpdateProvisionedLimitResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<UpdateProvisionedLimitRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<UpdateProvisionedLimitResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9697,8 +10661,8 @@ export const updateResourceServer: API.OperationMethod<
   UpdateResourceServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdateResourceServerRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<UpdateResourceServerResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<UpdateResourceServerRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<UpdateResourceServerResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -9757,8 +10721,8 @@ export const updateTerms: API.OperationMethod<
   UpdateTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdateTermsRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<UpdateTermsResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<UpdateTermsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<UpdateTermsResponse>,
   errors: [
     ConcurrentModificationException,
     InternalErrorException,
@@ -9836,8 +10800,8 @@ export const updateUserAttributes: API.OperationMethod<
   UpdateUserAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateUserAttributesRequest>,
-  output: __S(3714, __c116, 2) as any as S.Schema<UpdateUserAttributesResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<UpdateUserAttributesRequest>,
+  output: __S(4258, __c133, 2) as any as S.Schema<UpdateUserAttributesResponse>,
   errors: [
     AliasExistsException,
     CodeDeliveryFailureException,
@@ -9929,8 +10893,8 @@ export const updateUserPool: API.OperationMethod<
   UpdateUserPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateUserPoolRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<UpdateUserPoolResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<UpdateUserPoolRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<UpdateUserPoolResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -9995,8 +10959,8 @@ export const updateUserPoolClient: API.OperationMethod<
   UpdateUserPoolClientError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<UpdateUserPoolClientRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<UpdateUserPoolClientResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<UpdateUserPoolClientRequest>,
+  output: __S(644, __c20, 4) as any as S.Schema<UpdateUserPoolClientResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -10067,8 +11031,8 @@ export const updateUserPoolDomain: API.OperationMethod<
   UpdateUserPoolDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<UpdateUserPoolDomainRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<UpdateUserPoolDomainResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<UpdateUserPoolDomainRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UpdateUserPoolDomainResponse>,
   errors: [
     ConcurrentModificationException,
     FeatureUnavailableInTierException,
@@ -10116,8 +11080,8 @@ export const updateUserPoolReplica: API.OperationMethod<
   UpdateUserPoolReplicaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<UpdateUserPoolReplicaRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UpdateUserPoolReplicaResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<UpdateUserPoolReplicaRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<UpdateUserPoolReplicaResponse>,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -10167,8 +11131,8 @@ export const verifySoftwareToken: API.OperationMethod<
   VerifySoftwareTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<VerifySoftwareTokenRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<VerifySoftwareTokenResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<VerifySoftwareTokenRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<VerifySoftwareTokenResponse>,
   errors: [
     CodeMismatchException,
     EnableSoftwareTokenMFAException,
@@ -10231,8 +11195,8 @@ export const verifyUserAttribute: API.OperationMethod<
   VerifyUserAttributeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<VerifyUserAttributeRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<VerifyUserAttributeResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<VerifyUserAttributeRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<VerifyUserAttributeResponse>,
   errors: [
     AliasExistsException,
     CodeMismatchException,
@@ -10263,43 +11227,149 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          GroupName: S.String,
           UserPoolId: S.String,
-          Identifier: S.String,
-          Name: S.String,
-          Scopes: S.optional(__S(33, __c1, 1)),
+          Description: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+          Precedence: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateResourceServerRequest" });
+      ).annotate({ identifier: "CreateGroupRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Group: S.optional(__S(5664, __c177, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateGroupResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          ProviderName: S.String,
+          ProviderType: S.String,
+          ProviderDetails: __S(4704, __c147, 0),
+          AttributeMapping: S.optional(__S(4704, __c147, 0)),
+          IdpIdentifiers: S.optional(__S(4992, __c156, 0)),
+          AcrMapping: S.optional(__S(4704, __c147, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIdentityProviderRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.optional(S.String),
+          ProviderName: S.optional(S.String),
+          ProviderType: S.optional(S.String),
+          ProviderDetails: S.optional(__S(4704, __c147, 0)),
+          AttributeMapping: S.optional(__S(4704, __c147, 0)),
+          IdpIdentifiers: S.optional(__S(4992, __c156, 0)),
+          AcrMapping: S.optional(__S(4704, __c147, 0)),
+          LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "IdentityProviderType" });
+    case 1:
+      return S.suspend(() => S.Struct({ IdentityProvider: __S(96, __c3, 0) }).pipe(ns)).annotate({
+        identifier: "CreateIdentityProviderResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          ClientId: SensitiveString,
+          UseCognitoProvidedValues: S.optional(S.Boolean),
+          Settings: S.optional(S.Any),
+          Assets: S.optional(__S(161, __c5, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateManagedLoginBrandingRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Category: S.String,
+          ColorMode: S.String,
+          Extension: S.String,
+          Bytes: S.optional(T.Blob),
+          ResourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssetType" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ManagedLoginBrandingId: S.optional(S.String),
+          UserPoolId: S.optional(S.String),
+          UseCognitoProvidedValues: S.optional(S.Boolean),
+          Settings: S.optional(S.Any),
+          Assets: S.optional(__S(161, __c5, 1)),
+          CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ManagedLoginBrandingType" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ManagedLoginBranding: S.optional(__S(162, __c5, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateManagedLoginBrandingResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          Identifier: S.String,
+          Name: S.String,
+          Scopes: S.optional(__S(225, __c7, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateResourceServerRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ ScopeName: S.String, ScopeDescription: S.String }),
       ).annotate({ identifier: "ResourceServerScopeType" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.optional(S.String),
           Identifier: S.optional(S.String),
           Name: S.optional(S.String),
-          Scopes: S.optional(__S(33, __c1, 1)),
+          Scopes: S.optional(__S(225, __c7, 1)),
           ManagedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceServerType" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ResourceServer: __S(34, __c1, 2) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ ResourceServer: __S(226, __c7, 2) }).pipe(ns)).annotate({
         identifier: "CreateResourceServerResponse",
       });
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10309,12 +11379,12 @@ function __c3(j: number): any {
           TermsName: S.String,
           TermsSource: S.String,
           Enforcement: S.String,
-          Links: S.optional(__S(4160, __c130, 0)),
+          Links: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateTermsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10325,18 +11395,18 @@ function __c4(j: number): any {
           TermsName: S.String,
           TermsSource: S.String,
           Enforcement: S.String,
-          Links: __S(4160, __c130, 0),
+          Links: __S(4704, __c147, 0),
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           LastModifiedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "TermsType" });
     case 1:
-      return S.suspend(() => S.Struct({ Terms: S.optional(__S(128, __c4, 0)) }).pipe(ns)).annotate({
-        identifier: "CreateTermsResponse",
-      });
+      return S.suspend(() => S.Struct({ Terms: S.optional(__S(320, __c10, 0)) }).pipe(ns)).annotate(
+        { identifier: "CreateTermsResponse" },
+      );
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10349,7 +11419,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateUserImportJobRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10372,52 +11442,52 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UserImportJobType" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserImportJob: S.optional(__S(192, __c6, 0)) }).pipe(ns),
+        S.Struct({ UserImportJob: S.optional(__S(384, __c12, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreateUserImportJobResponse" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PoolName: S.String,
-          Policies: S.optional(__S(386, __c12, 2)),
+          Policies: S.optional(__S(578, __c18, 2)),
           DeletionProtection: S.optional(S.String),
-          LambdaConfig: S.optional(__S(353, __c11, 1)),
-          AutoVerifiedAttributes: S.optional(__S(4320, __c135, 0)),
-          AliasAttributes: S.optional(__S(4320, __c135, 0)),
-          UsernameAttributes: S.optional(__S(4320, __c135, 0)),
+          LambdaConfig: S.optional(__S(545, __c17, 1)),
+          AutoVerifiedAttributes: S.optional(__S(4864, __c152, 0)),
+          AliasAttributes: S.optional(__S(4864, __c152, 0)),
+          UsernameAttributes: S.optional(__S(4864, __c152, 0)),
           SmsVerificationMessage: S.optional(S.String),
           EmailVerificationMessage: S.optional(S.String),
           EmailVerificationSubject: S.optional(S.String),
-          VerificationMessageTemplate: S.optional(__S(387, __c12, 3)),
+          VerificationMessageTemplate: S.optional(__S(579, __c18, 3)),
           SmsAuthenticationMessage: S.optional(S.String),
           MfaConfiguration: S.optional(S.String),
-          UserAttributeUpdateSettings: S.optional(__S(388, __c12, 4)),
-          DeviceConfiguration: S.optional(__S(389, __c12, 5)),
-          EmailConfiguration: S.optional(__S(390, __c12, 6)),
-          SmsConfiguration: S.optional(__S(321, __c10, 1)),
-          UserPoolTags: S.optional(__S(4160, __c130, 0)),
-          AdminCreateUserConfig: S.optional(__S(392, __c12, 8)),
-          Schema: S.optional(__S(3971, __c124, 3)),
-          UserPoolAddOns: S.optional(__S(394, __c12, 10)),
-          DcrConfiguration: S.optional(__S(395, __c12, 11)),
-          UsernameConfiguration: S.optional(__S(288, __c9, 0)),
-          AccountRecoverySetting: S.optional(__S(398, __c12, 14)),
+          UserAttributeUpdateSettings: S.optional(__S(580, __c18, 4)),
+          DeviceConfiguration: S.optional(__S(581, __c18, 5)),
+          EmailConfiguration: S.optional(__S(582, __c18, 6)),
+          SmsConfiguration: S.optional(__S(513, __c16, 1)),
+          UserPoolTags: S.optional(__S(4704, __c147, 0)),
+          AdminCreateUserConfig: S.optional(__S(584, __c18, 8)),
+          Schema: S.optional(__S(4515, __c141, 3)),
+          UserPoolAddOns: S.optional(__S(586, __c18, 10)),
+          DcrConfiguration: S.optional(__S(587, __c18, 11)),
+          UsernameConfiguration: S.optional(__S(480, __c15, 0)),
+          AccountRecoverySetting: S.optional(__S(590, __c18, 14)),
           UserPoolTier: S.optional(S.String),
-          KeyConfiguration: S.optional(__S(399, __c12, 15)),
-          IssuerConfiguration: S.optional(__S(400, __c12, 16)),
-          AcrConfiguration: S.optional(__S(402, __c12, 18)),
+          KeyConfiguration: S.optional(__S(591, __c18, 15)),
+          IssuerConfiguration: S.optional(__S(592, __c18, 16)),
+          AcrConfiguration: S.optional(__S(594, __c18, 18)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserPoolRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ CaseSensitive: S.Boolean })).annotate({
@@ -10428,51 +11498,51 @@ function __c9(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
-          Policies: S.optional(__S(386, __c12, 2)),
+          Policies: S.optional(__S(578, __c18, 2)),
           DeletionProtection: S.optional(S.String),
-          LambdaConfig: S.optional(__S(353, __c11, 1)),
+          LambdaConfig: S.optional(__S(545, __c17, 1)),
           Status: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          SchemaAttributes: S.optional(__S(3971, __c124, 3)),
-          AutoVerifiedAttributes: S.optional(__S(4320, __c135, 0)),
-          AliasAttributes: S.optional(__S(4320, __c135, 0)),
-          UsernameAttributes: S.optional(__S(4320, __c135, 0)),
+          SchemaAttributes: S.optional(__S(4515, __c141, 3)),
+          AutoVerifiedAttributes: S.optional(__S(4864, __c152, 0)),
+          AliasAttributes: S.optional(__S(4864, __c152, 0)),
+          UsernameAttributes: S.optional(__S(4864, __c152, 0)),
           SmsVerificationMessage: S.optional(S.String),
           EmailVerificationMessage: S.optional(S.String),
           EmailVerificationSubject: S.optional(S.String),
-          VerificationMessageTemplate: S.optional(__S(387, __c12, 3)),
+          VerificationMessageTemplate: S.optional(__S(579, __c18, 3)),
           SmsAuthenticationMessage: S.optional(S.String),
-          UserAttributeUpdateSettings: S.optional(__S(388, __c12, 4)),
+          UserAttributeUpdateSettings: S.optional(__S(580, __c18, 4)),
           MfaConfiguration: S.optional(S.String),
-          DeviceConfiguration: S.optional(__S(389, __c12, 5)),
+          DeviceConfiguration: S.optional(__S(581, __c18, 5)),
           EstimatedNumberOfUsers: S.optional(S.Number),
-          EmailConfiguration: S.optional(__S(390, __c12, 6)),
-          SmsConfiguration: S.optional(__S(321, __c10, 1)),
-          UserPoolTags: S.optional(__S(4160, __c130, 0)),
+          EmailConfiguration: S.optional(__S(582, __c18, 6)),
+          SmsConfiguration: S.optional(__S(513, __c16, 1)),
+          UserPoolTags: S.optional(__S(4704, __c147, 0)),
           SmsConfigurationFailure: S.optional(S.String),
           EmailConfigurationFailure: S.optional(S.String),
           Domain: S.optional(S.String),
           CustomDomain: S.optional(S.String),
-          AdminCreateUserConfig: S.optional(__S(392, __c12, 8)),
-          UserPoolAddOns: S.optional(__S(394, __c12, 10)),
-          DcrConfiguration: S.optional(__S(395, __c12, 11)),
-          UsernameConfiguration: S.optional(__S(288, __c9, 0)),
+          AdminCreateUserConfig: S.optional(__S(584, __c18, 8)),
+          UserPoolAddOns: S.optional(__S(586, __c18, 10)),
+          DcrConfiguration: S.optional(__S(587, __c18, 11)),
+          UsernameConfiguration: S.optional(__S(480, __c15, 0)),
           Arn: S.optional(S.String),
-          AccountRecoverySetting: S.optional(__S(398, __c12, 14)),
+          AccountRecoverySetting: S.optional(__S(590, __c18, 14)),
           UserPoolTier: S.optional(S.String),
-          KeyConfiguration: S.optional(__S(399, __c12, 15)),
-          IssuerConfiguration: S.optional(__S(400, __c12, 16)),
-          AcrConfiguration: S.optional(__S(402, __c12, 18)),
+          KeyConfiguration: S.optional(__S(591, __c18, 15)),
+          IssuerConfiguration: S.optional(__S(592, __c18, 16)),
+          AcrConfiguration: S.optional(__S(594, __c18, 18)),
         }),
       ).annotate({ identifier: "UserPoolType" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ UserPool: S.optional(__S(289, __c9, 1)) }).pipe(ns),
+        S.Struct({ UserPool: S.optional(__S(481, __c15, 1)) }).pipe(ns),
       ).annotate({ identifier: "CreateUserPoolResponse" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10492,12 +11562,12 @@ function __c10(j: number): any {
           SnsCallerArn: S.optional(S.String),
           ExternalId: S.optional(S.String),
           SnsRegion: S.optional(S.String),
-          EumsSms: S.optional(__S(320, __c10, 0)),
+          EumsSms: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "SmsConfigurationType" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ LambdaVersion: S.String, LambdaArn: S.String })).annotate({
@@ -10516,16 +11586,16 @@ function __c11(j: number): any {
           VerifyAuthChallengeResponse: S.optional(S.String),
           PreTokenGeneration: S.optional(S.String),
           UserMigration: S.optional(S.String),
-          PreTokenGenerationConfig: S.optional(__S(352, __c11, 0)),
-          CustomSMSSender: S.optional(__S(352, __c11, 0)),
-          CustomEmailSender: S.optional(__S(352, __c11, 0)),
+          PreTokenGenerationConfig: S.optional(__S(544, __c17, 0)),
+          CustomSMSSender: S.optional(__S(544, __c17, 0)),
+          CustomEmailSender: S.optional(__S(544, __c17, 0)),
           KMSKeyID: S.optional(S.String),
-          InboundFederation: S.optional(__S(352, __c11, 0)),
+          InboundFederation: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "LambdaConfigType" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10541,13 +11611,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PasswordPolicyType" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ AllowedFirstAuthFactors: S.optional(__S(4320, __c135, 0)) }),
+        S.Struct({ AllowedFirstAuthFactors: S.optional(__S(4864, __c152, 0)) }),
       ).annotate({ identifier: "SignInPolicyType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          PasswordPolicy: S.optional(__S(384, __c12, 0)),
-          SignInPolicy: S.optional(__S(385, __c12, 1)),
+          PasswordPolicy: S.optional(__S(576, __c18, 0)),
+          SignInPolicy: S.optional(__S(577, __c18, 1)),
         }),
       ).annotate({ identifier: "UserPoolPolicyType" });
     case 3:
@@ -10563,7 +11633,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "VerificationMessageTemplateType" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ AttributesRequireVerificationBeforeUpdate: S.optional(__S(4320, __c135, 0)) }),
+        S.Struct({ AttributesRequireVerificationBeforeUpdate: S.optional(__S(4864, __c152, 0)) }),
       ).annotate({ identifier: "UserAttributeUpdateSettingsType" });
     case 5:
       return S.suspend(() =>
@@ -10595,7 +11665,7 @@ function __c12(j: number): any {
         S.Struct({
           AllowAdminCreateUserOnly: S.optional(S.Boolean),
           UnusedAccountValidityDays: S.optional(S.Number),
-          InviteMessageTemplate: S.optional(__S(391, __c12, 7)),
+          InviteMessageTemplate: S.optional(__S(583, __c18, 7)),
         }),
       ).annotate({ identifier: "AdminCreateUserConfigType" });
     case 9:
@@ -10606,7 +11676,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdvancedSecurityMode: S.String,
-          AdvancedSecurityAdditionalFlows: S.optional(__S(393, __c12, 9)),
+          AdvancedSecurityAdditionalFlows: S.optional(__S(585, __c18, 9)),
         }),
       ).annotate({ identifier: "UserPoolAddOnsType" });
     case 11:
@@ -10614,9 +11684,9 @@ function __c12(j: number): any {
         S.Struct({
           EnableStatus: S.optional(S.String),
           OpenDcrEnabled: S.optional(S.Boolean),
-          AuthenticatedGrantTypes: S.optional(__S(4320, __c135, 0)),
-          OpenDcrGrantTypes: S.optional(__S(4320, __c135, 0)),
-          AllowedScopes: S.optional(__S(4448, __c139, 0)),
+          AuthenticatedGrantTypes: S.optional(__S(4864, __c152, 0)),
+          OpenDcrGrantTypes: S.optional(__S(4864, __c152, 0)),
+          AllowedScopes: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "DcrConfigurationType" });
     case 12:
@@ -10624,10 +11694,10 @@ function __c12(j: number): any {
         identifier: "RecoveryOptionType",
       });
     case 13:
-      return S.Array(__S(396, __c12, 12));
+      return S.Array(__S(588, __c18, 12));
     case 14:
       return S.suspend(() =>
-        S.Struct({ RecoveryMechanisms: S.optional(__S(397, __c12, 13)) }),
+        S.Struct({ RecoveryMechanisms: S.optional(__S(589, __c18, 13)) }),
       ).annotate({ identifier: "AccountRecoverySettingType" });
     case 15:
       return S.suspend(() =>
@@ -10642,10 +11712,10 @@ function __c12(j: number): any {
         identifier: "AcrLevelConfigType",
       });
     case 18:
-      return S.Record(S.String, /*@__PURE__*/ __S(401, __c12, 17).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(593, __c18, 17).pipe(S.optional));
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10657,28 +11727,29 @@ function __c13(j: number): any {
           RefreshTokenValidity: S.optional(S.Number),
           AccessTokenValidity: S.optional(S.Number),
           IdTokenValidity: S.optional(S.Number),
-          TokenValidityUnits: S.optional(__S(448, __c14, 0)),
-          ReadAttributes: S.optional(__S(4448, __c139, 0)),
-          WriteAttributes: S.optional(__S(4448, __c139, 0)),
-          ExplicitAuthFlows: S.optional(__S(4320, __c135, 0)),
-          SupportedIdentityProviders: S.optional(__S(4448, __c139, 0)),
-          CallbackURLs: S.optional(__S(4448, __c139, 0)),
-          LogoutURLs: S.optional(__S(4448, __c139, 0)),
+          TokenValidityUnits: S.optional(__S(640, __c20, 0)),
+          ReadAttributes: S.optional(__S(4992, __c156, 0)),
+          WriteAttributes: S.optional(__S(4992, __c156, 0)),
+          ExplicitAuthFlows: S.optional(__S(4864, __c152, 0)),
+          SupportedIdentityProviders: S.optional(__S(4992, __c156, 0)),
+          CallbackURLs: S.optional(__S(4992, __c156, 0)),
+          LogoutURLs: S.optional(__S(4992, __c156, 0)),
           DefaultRedirectURI: S.optional(S.String),
-          AllowedOAuthFlows: S.optional(__S(4320, __c135, 0)),
-          AllowedOAuthScopes: S.optional(__S(4448, __c139, 0)),
+          AllowedOAuthFlows: S.optional(__S(4864, __c152, 0)),
+          AllowedOAuthScopes: S.optional(__S(4992, __c156, 0)),
           AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
-          AnalyticsConfiguration: S.optional(__S(449, __c14, 1)),
+          AnalyticsConfiguration: S.optional(__S(641, __c20, 1)),
           PreventUserExistenceErrors: S.optional(S.String),
           EnableTokenRevocation: S.optional(S.Boolean),
           EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
           AuthSessionValidity: S.optional(S.Number),
-          RefreshTokenRotation: S.optional(__S(450, __c14, 2)),
+          RefreshTokenRotation: S.optional(__S(642, __c20, 2)),
+          PublishSecretsInAWSSecretsManager: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserPoolClientRequest" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10709,38 +11780,39 @@ function __c14(j: number): any {
           ClientName: S.optional(S.String),
           ClientId: S.optional(SensitiveString),
           ClientSecret: S.optional(SensitiveString),
+          ClientSecretArn: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RefreshTokenValidity: S.optional(S.Number),
           AccessTokenValidity: S.optional(S.Number),
           IdTokenValidity: S.optional(S.Number),
-          TokenValidityUnits: S.optional(__S(448, __c14, 0)),
-          ReadAttributes: S.optional(__S(4448, __c139, 0)),
-          WriteAttributes: S.optional(__S(4448, __c139, 0)),
-          ExplicitAuthFlows: S.optional(__S(4320, __c135, 0)),
-          SupportedIdentityProviders: S.optional(__S(4448, __c139, 0)),
-          CallbackURLs: S.optional(__S(4448, __c139, 0)),
-          LogoutURLs: S.optional(__S(4448, __c139, 0)),
+          TokenValidityUnits: S.optional(__S(640, __c20, 0)),
+          ReadAttributes: S.optional(__S(4992, __c156, 0)),
+          WriteAttributes: S.optional(__S(4992, __c156, 0)),
+          ExplicitAuthFlows: S.optional(__S(4864, __c152, 0)),
+          SupportedIdentityProviders: S.optional(__S(4992, __c156, 0)),
+          CallbackURLs: S.optional(__S(4992, __c156, 0)),
+          LogoutURLs: S.optional(__S(4992, __c156, 0)),
           DefaultRedirectURI: S.optional(S.String),
-          AllowedOAuthFlows: S.optional(__S(4320, __c135, 0)),
-          AllowedOAuthScopes: S.optional(__S(4448, __c139, 0)),
+          AllowedOAuthFlows: S.optional(__S(4864, __c152, 0)),
+          AllowedOAuthScopes: S.optional(__S(4992, __c156, 0)),
           AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
-          AnalyticsConfiguration: S.optional(__S(449, __c14, 1)),
+          AnalyticsConfiguration: S.optional(__S(641, __c20, 1)),
           PreventUserExistenceErrors: S.optional(S.String),
           EnableTokenRevocation: S.optional(S.Boolean),
           EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
           AuthSessionValidity: S.optional(S.Number),
-          RefreshTokenRotation: S.optional(__S(450, __c14, 2)),
+          RefreshTokenRotation: S.optional(__S(642, __c20, 2)),
           ClientType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserPoolClientType" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ UserPoolClient: S.optional(__S(451, __c14, 3)) }).pipe(ns),
+        S.Struct({ UserPoolClient: S.optional(__S(643, __c20, 3)) }).pipe(ns),
       ).annotate({ identifier: "CreateUserPoolClientResponse" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10748,13 +11820,13 @@ function __c15(j: number): any {
           Domain: S.String,
           UserPoolId: S.String,
           ManagedLoginVersion: S.optional(S.Number),
-          CustomDomainConfig: S.optional(__S(512, __c16, 0)),
-          Routing: S.optional(__S(514, __c16, 2)),
+          CustomDomainConfig: S.optional(__S(704, __c22, 0)),
+          Routing: S.optional(__S(706, __c22, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserPoolDomainRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10765,36 +11837,36 @@ function __c16(j: number): any {
         S.Struct({ SecondaryRegion: S.String, PrimaryRoute53HealthCheckId: S.String }),
       ).annotate({ identifier: "FailoverType" });
     case 2:
-      return S.suspend(() => S.Struct({ Failover: S.optional(__S(513, __c16, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Failover: S.optional(__S(705, __c22, 1)) })).annotate({
         identifier: "RoutingType",
       });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ManagedLoginVersion: S.optional(S.Number),
           CloudFrontDomain: S.optional(S.String),
-          Routing: S.optional(__S(514, __c16, 2)),
+          Routing: S.optional(__S(706, __c22, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "CreateUserPoolDomainResponse" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           RegionName: S.String,
-          UserPoolTags: S.optional(__S(4160, __c130, 0)),
+          UserPoolTags: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserPoolReplicaRequest" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10807,15 +11879,25 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UserPoolReplicaType" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserPoolReplica: S.optional(__S(608, __c19, 0)) }).pipe(ns),
+        S.Struct({ UserPoolReplica: S.optional(__S(800, __c25, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreateUserPoolReplicaResponse" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserPoolId: S.String, CIMDPolicyId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCIMDPolicyRequest" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10825,7 +11907,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10835,7 +11917,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteIdentityProviderRequest" });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10845,7 +11927,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteManagedLoginBrandingRequest" });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10855,7 +11937,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteResourceServerRequest" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10865,7 +11947,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteTermsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10875,17 +11957,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c27(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserAttributeNames: __S(4448, __c139, 0), AccessToken: SensitiveString }).pipe(
+        S.Struct({ UserAttributeNames: __S(4992, __c156, 0), AccessToken: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteUserAttributesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10895,7 +11977,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteUserPoolRequest" });
   }
 }
-function __c29(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10905,7 +11987,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteUserPoolClientRequest" });
   }
 }
-function __c30(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10917,7 +11999,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteUserPoolClientSecretRequest" });
   }
 }
-function __c31(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10927,7 +12009,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteUserPoolDomainRequest" });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10937,7 +12019,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteUserPoolReplicaRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10947,7 +12029,17 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteWebAuthnCredentialRequest" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserPoolId: S.String, CIMDPolicyId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeCIMDPolicyRequest" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10957,7 +12049,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DescribeIdentityProviderRequest" });
   }
 }
-function __c35(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10969,7 +12061,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DescribeManagedLoginBrandingRequest" });
   }
 }
-function __c36(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10981,7 +12073,17 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DescribeManagedLoginBrandingByClientRequest" });
   }
 }
-function __c37(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserPoolId: S.String, RestoreId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribePointInTimeRecoveryRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10991,7 +12093,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DescribeResourceServerRequest" });
   }
 }
-function __c38(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11001,7 +12103,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DescribeRiskConfigurationRequest" });
   }
 }
-function __c39(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ EventAction: S.String })).annotate({
@@ -11009,7 +12111,7 @@ function __c39(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ EventFilter: S.optional(__S(4320, __c135, 0)), Actions: __S(1248, __c39, 0) }),
+        S.Struct({ EventFilter: S.optional(__S(4864, __c152, 0)), Actions: __S(1536, __c48, 0) }),
       ).annotate({ identifier: "CompromisedCredentialsRiskConfigurationType" });
     case 2:
       return S.suspend(() =>
@@ -11025,9 +12127,9 @@ function __c39(j: number): any {
           From: S.optional(S.String),
           ReplyTo: S.optional(S.String),
           SourceArn: S.String,
-          BlockEmail: S.optional(__S(1250, __c39, 2)),
-          NoActionEmail: S.optional(__S(1250, __c39, 2)),
-          MfaEmail: S.optional(__S(1250, __c39, 2)),
+          BlockEmail: S.optional(__S(1538, __c48, 2)),
+          NoActionEmail: S.optional(__S(1538, __c48, 2)),
+          MfaEmail: S.optional(__S(1538, __c48, 2)),
         }),
       ).annotate({ identifier: "NotifyConfigurationType" });
     case 4:
@@ -11037,23 +12139,23 @@ function __c39(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          LowAction: S.optional(__S(1252, __c39, 4)),
-          MediumAction: S.optional(__S(1252, __c39, 4)),
-          HighAction: S.optional(__S(1252, __c39, 4)),
+          LowAction: S.optional(__S(1540, __c48, 4)),
+          MediumAction: S.optional(__S(1540, __c48, 4)),
+          HighAction: S.optional(__S(1540, __c48, 4)),
         }),
       ).annotate({ identifier: "AccountTakeoverActionsType" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          NotifyConfiguration: S.optional(__S(1251, __c39, 3)),
-          Actions: __S(1253, __c39, 5),
+          NotifyConfiguration: S.optional(__S(1539, __c48, 3)),
+          Actions: __S(1541, __c48, 5),
         }),
       ).annotate({ identifier: "AccountTakeoverRiskConfigurationType" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          BlockedIPRangeList: S.optional(__S(4448, __c139, 0)),
-          SkippedIPRangeList: S.optional(__S(4448, __c139, 0)),
+          BlockedIPRangeList: S.optional(__S(4992, __c156, 0)),
+          SkippedIPRangeList: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "RiskExceptionConfigurationType" });
     case 8:
@@ -11061,19 +12163,19 @@ function __c39(j: number): any {
         S.Struct({
           UserPoolId: S.optional(S.String),
           ClientId: S.optional(SensitiveString),
-          CompromisedCredentialsRiskConfiguration: S.optional(__S(1249, __c39, 1)),
-          AccountTakeoverRiskConfiguration: S.optional(__S(1254, __c39, 6)),
-          RiskExceptionConfiguration: S.optional(__S(1255, __c39, 7)),
+          CompromisedCredentialsRiskConfiguration: S.optional(__S(1537, __c48, 1)),
+          AccountTakeoverRiskConfiguration: S.optional(__S(1542, __c48, 6)),
+          RiskExceptionConfiguration: S.optional(__S(1543, __c48, 7)),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "RiskConfigurationType" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ RiskConfiguration: __S(1256, __c39, 8) }).pipe(ns),
+        S.Struct({ RiskConfiguration: __S(1544, __c48, 8) }).pipe(ns),
       ).annotate({ identifier: "DescribeRiskConfigurationResponse" });
   }
 }
-function __c40(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11083,7 +12185,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DescribeTermsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11093,7 +12195,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DescribeTermsByClientRequest" });
   }
 }
-function __c42(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11103,7 +12205,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DescribeUserImportJobRequest" });
   }
 }
-function __c43(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11113,7 +12215,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DescribeUserPoolRequest" });
   }
 }
-function __c44(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11123,7 +12225,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DescribeUserPoolClientRequest" });
   }
 }
-function __c45(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11141,18 +12243,18 @@ function __c45(j: number): any {
           CloudFrontDistribution: S.optional(S.String),
           Version: S.optional(S.String),
           Status: S.optional(S.String),
-          CustomDomainConfig: S.optional(__S(512, __c16, 0)),
+          CustomDomainConfig: S.optional(__S(704, __c22, 0)),
           ManagedLoginVersion: S.optional(S.Number),
-          Routing: S.optional(__S(514, __c16, 2)),
+          Routing: S.optional(__S(706, __c22, 2)),
         }),
       ).annotate({ identifier: "DomainDescriptionType" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ DomainDescription: S.optional(__S(1441, __c45, 1)) }).pipe(ns),
+        S.Struct({ DomainDescription: S.optional(__S(1729, __c54, 1)) }).pipe(ns),
       ).annotate({ identifier: "DescribeUserPoolDomainResponse" });
   }
 }
-function __c46(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11162,30 +12264,30 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ForgetDeviceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClientId: SensitiveString,
           SecretHash: S.optional(SensitiveString),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
           Username: SensitiveString,
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ForgotPasswordRequest" });
   }
 }
-function __c48(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CodeDeliveryDetails: S.optional(__S(1568, __c49, 0)) }).pipe(ns),
+        S.Struct({ CodeDeliveryDetails: S.optional(__S(1856, __c58, 0)) }).pipe(ns),
       ).annotate({ identifier: "ForgotPasswordResponse" });
   }
 }
-function __c49(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11197,15 +12299,15 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CodeDeliveryDetailsType" });
   }
 }
-function __c50(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClientId: SensitiveString,
           Secret: SensitiveString,
-          Scopes: S.optional(__S(4448, __c139, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          Scopes: S.optional(__S(4992, __c156, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetClientTokenRequest" });
     case 1:
@@ -11218,11 +12320,11 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ClientAuthenticationResultType" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ClientAuthenticationResult: S.optional(__S(1601, __c50, 1)) }).pipe(ns),
+        S.Struct({ ClientAuthenticationResult: S.optional(__S(1889, __c59, 1)) }).pipe(ns),
       ).annotate({ identifier: "GetClientTokenResponse" });
   }
 }
-function __c51(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11234,12 +12336,43 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.optional(S.String),
-          CSVHeader: S.optional(__S(4448, __c139, 0)),
+          CSVHeader: S.optional(__S(4992, __c156, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetCSVHeaderResponse" });
   }
 }
-function __c52(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientId: SensitiveString,
+          ClientSecret: S.optional(SensitiveString),
+          SubjectToken: SensitiveString,
+          SubjectTokenType: S.String,
+          SubjectTokenProviderName: S.optional(S.String),
+          ActorToken: S.optional(SensitiveString),
+          ActorTokenType: S.optional(S.String),
+          ActorTokenProviderName: S.optional(S.String),
+          Scopes: S.optional(__S(4992, __c156, 0)),
+          Audiences: S.optional(__S(4992, __c156, 0)),
+          Resources: S.optional(__S(4992, __c156, 0)),
+          RequestedTokenType: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetDerivedTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IssuedToken: SensitiveString,
+          IssuedTokenType: S.String,
+          TokenType: S.String,
+          ExpiresIn: S.optional(S.Number),
+          Scopes: S.optional(__S(4992, __c156, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDerivedTokenResponse" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11249,7 +12382,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetDeviceRequest" });
   }
 }
-function __c53(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11259,7 +12392,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c54(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11269,7 +12402,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderByIdentifierRequest" });
   }
 }
-function __c55(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11279,7 +12412,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetLogDeliveryConfigurationRequest" });
   }
 }
-function __c56(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ LogGroupArn: S.optional(S.String) })).annotate({
@@ -11298,54 +12431,54 @@ function __c56(j: number): any {
         S.Struct({
           LogLevel: S.String,
           EventSource: S.String,
-          CloudWatchLogsConfiguration: S.optional(__S(1792, __c56, 0)),
-          S3Configuration: S.optional(__S(1793, __c56, 1)),
-          FirehoseConfiguration: S.optional(__S(1794, __c56, 2)),
+          CloudWatchLogsConfiguration: S.optional(__S(2112, __c66, 0)),
+          S3Configuration: S.optional(__S(2113, __c66, 1)),
+          FirehoseConfiguration: S.optional(__S(2114, __c66, 2)),
         }),
       ).annotate({ identifier: "LogConfigurationType" });
     case 4:
-      return S.Array(__S(1795, __c56, 3));
+      return S.Array(__S(2115, __c66, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ UserPoolId: S.String, LogConfigurations: __S(1796, __c56, 4) }),
+        S.Struct({ UserPoolId: S.String, LogConfigurations: __S(2116, __c66, 4) }),
       ).annotate({ identifier: "LogDeliveryConfigurationType" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ LogDeliveryConfiguration: S.optional(__S(1797, __c56, 5)) }).pipe(ns),
+        S.Struct({ LogDeliveryConfiguration: S.optional(__S(2117, __c66, 5)) }).pipe(ns),
       ).annotate({ identifier: "GetLogDeliveryConfigurationResponse" });
   }
 }
-function __c57(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LimitDefinition: __S(1856, __c58, 0) }).pipe(
+        S.Struct({ LimitDefinition: __S(2176, __c68, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetProvisionedLimitRequest" });
   }
 }
-function __c58(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LimitClass: S.String, Attributes: __S(4160, __c130, 0) }),
+        S.Struct({ LimitClass: S.String, Attributes: __S(4704, __c147, 0) }),
       ).annotate({ identifier: "LimitDefinitionType" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          LimitDefinition: __S(1856, __c58, 0),
+          LimitDefinition: __S(2176, __c68, 0),
           ProvisionedLimitValue: S.Number,
           FreeLimitValue: S.Number,
         }),
       ).annotate({ identifier: "LimitType" });
     case 2:
-      return S.suspend(() => S.Struct({ Limit: __S(1857, __c58, 1) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Limit: __S(2177, __c68, 1) }).pipe(ns)).annotate({
         identifier: "GetProvisionedLimitResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11359,7 +12492,7 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11368,16 +12501,16 @@ function __c60(j: number): any {
           ClientId: SensitiveString,
           ClientSecret: S.optional(SensitiveString),
           DeviceKey: S.optional(S.String),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTokensFromRefreshTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ AuthenticationResult: S.optional(__S(4897, __c153, 1)) }).pipe(ns),
+        S.Struct({ AuthenticationResult: S.optional(__S(5441, __c170, 1)) }).pipe(ns),
       ).annotate({ identifier: "GetTokensFromRefreshTokenResponse" });
   }
 }
-function __c61(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11387,7 +12520,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetUICustomizationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11402,12 +12535,12 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "UICustomizationType" });
     case 1:
-      return S.suspend(() => S.Struct({ UICustomization: __S(1984, __c62, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ UICustomization: __S(2304, __c72, 0) }).pipe(ns)).annotate({
         identifier: "GetUICustomizationResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11419,27 +12552,27 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Username: SensitiveString,
-          UserAttributes: __S(4257, __c133, 1),
-          MFAOptions: S.optional(__S(4289, __c134, 1)),
+          UserAttributes: __S(4801, __c150, 1),
+          MFAOptions: S.optional(__S(4833, __c151, 1)),
           PreferredMfaSetting: S.optional(S.String),
-          UserMFASettingList: S.optional(__S(4448, __c139, 0)),
+          UserMFASettingList: S.optional(__S(4992, __c156, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c64(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AccessToken: SensitiveString,
           AttributeName: S.String,
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetUserAttributeVerificationCodeRequest" });
   }
 }
-function __c65(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11449,7 +12582,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetUserAuthFactorsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11459,7 +12592,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetUserPoolClientSessionConfigurationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ MaxValidityMinutes: S.Number })).annotate({
@@ -11470,12 +12603,12 @@ function __c67(j: number): any {
         S.Struct({
           UserPoolId: S.optional(S.String),
           ClientId: S.optional(SensitiveString),
-          SSOSession: S.optional(__S(2144, __c67, 0)),
+          SSOSession: S.optional(__S(2464, __c77, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetUserPoolClientSessionConfigurationResponse" });
   }
 }
-function __c68(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11485,13 +12618,13 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetUserPoolMfaConfigRequest" });
   }
 }
-function __c69(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SmsAuthenticationMessage: S.optional(S.String),
-          SmsConfiguration: S.optional(__S(321, __c10, 1)),
+          SmsConfiguration: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "SmsMfaConfigType" });
     case 1:
@@ -11509,16 +12642,16 @@ function __c69(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SmsMfaConfiguration: S.optional(__S(2208, __c69, 0)),
-          SoftwareTokenMfaConfiguration: S.optional(__S(5440, __c170, 0)),
-          EmailMfaConfiguration: S.optional(__S(2209, __c69, 1)),
+          SmsMfaConfiguration: S.optional(__S(2528, __c79, 0)),
+          SoftwareTokenMfaConfiguration: S.optional(__S(5984, __c187, 0)),
+          EmailMfaConfiguration: S.optional(__S(2529, __c79, 1)),
           MfaConfiguration: S.optional(S.String),
-          WebAuthnConfiguration: S.optional(__S(2210, __c69, 2)),
+          WebAuthnConfiguration: S.optional(__S(2530, __c79, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "GetUserPoolMfaConfigResponse" });
   }
 }
-function __c70(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11528,7 +12661,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetUserPoolSessionConfigurationRequest" });
   }
 }
-function __c71(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ MaxPerUser: S.Number })).annotate({
@@ -11539,12 +12672,12 @@ function __c71(j: number): any {
         S.Struct({
           UserPoolId: S.optional(S.String),
           UserSessionTracking: S.optional(S.String),
-          TokenSession: S.optional(__S(2272, __c71, 0)),
+          TokenSession: S.optional(__S(2592, __c81, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetUserPoolSessionConfigurationResponse" });
   }
 }
-function __c72(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11554,23 +12687,92 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GlobalSignOutRequest" });
   }
 }
-function __c73(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AuthFlow: S.String,
-          AuthParameters: S.optional(__S(4160, __c130, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AuthParameters: S.optional(__S(4704, __c147, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
           ClientId: SensitiveString,
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
           Session: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "InitiateAuthRequest" });
   }
 }
-function __c74(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          RestoreTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "InitiatePointInTimeRecoveryRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListCIMDPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CIMDPolicyId: S.String,
+          ClientId: S.optional(SensitiveString),
+          PolicyName: S.String,
+          CacheDuration: S.optional(S.Number),
+          CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CIMDPolicySummaryType" });
+    case 2:
+      return S.Array(__S(2721, __c85, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), CIMDPolicies: __S(2722, __c85, 2) }).pipe(ns),
+      ).annotate({ identifier: "ListCIMDPoliciesResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          CIMDPolicyId: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListClientMetadataURLsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          URL: S.String,
+          CachedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ClientMetadataURLType" });
+    case 2:
+      return S.Array(__S(2753, __c86, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), ClientMetadataURLs: __S(2754, __c86, 2) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListClientMetadataURLsResponse" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11582,7 +12784,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ListDevicesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11594,7 +12796,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListGroupsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11614,14 +12816,43 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "ProviderDescription" });
     case 2:
-      return S.Array(__S(2433, __c76, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Providers: __S(2434, __c76, 2), NextToken: S.optional(S.String) }).pipe(ns),
+        S.Struct({ Providers: __S(2850, __c89, 2), NextToken: S.optional(S.String) }).pipe(ns),
       ).annotate({ identifier: "ListIdentityProvidersResponse" });
   }
 }
-function __c77(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListPointInTimeRecoveriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RestoreId: S.optional(S.String),
+          RestoreStatus: S.optional(S.String),
+          RestoreTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "RestorationDescriptionType" });
+    case 2:
+      return S.Array(__S(2881, __c90, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Restorations: S.optional(__S(2882, __c90, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListPointInTimeRecoveriesResponse" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11632,16 +12863,16 @@ function __c77(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListResourceServersRequest" });
     case 1:
-      return S.Array(__S(34, __c1, 2));
+      return S.Array(__S(226, __c7, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ ResourceServers: __S(2465, __c77, 1), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ ResourceServers: __S(2913, __c91, 1), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListResourceServersResponse" });
   }
 }
-function __c78(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11651,11 +12882,11 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Tags: S.optional(__S(4160, __c130, 0)) }).pipe(ns),
+        S.Struct({ Tags: S.optional(__S(4704, __c147, 0)) }).pipe(ns),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c79(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11676,14 +12907,14 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "TermsDescriptionType" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2977, __c93, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Terms: __S(2530, __c79, 2), NextToken: S.optional(S.String) }).pipe(ns),
+        S.Struct({ Terms: __S(2978, __c93, 2), NextToken: S.optional(S.String) }).pipe(ns),
       ).annotate({ identifier: "ListTermsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11694,17 +12925,17 @@ function __c80(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListUserImportJobsRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UserImportJobs: S.optional(__S(2561, __c80, 1)),
+          UserImportJobs: S.optional(__S(3009, __c94, 1)),
           PaginationToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserImportJobsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11724,17 +12955,17 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "UserPoolClientDescription" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(3041, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserPoolClients: S.optional(__S(2594, __c81, 2)),
+          UserPoolClients: S.optional(__S(3042, __c95, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserPoolClientsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11745,17 +12976,17 @@ function __c82(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListUserPoolClientSecretsRequest" });
     case 1:
-      return S.Array(__S(4064, __c127, 0));
+      return S.Array(__S(4608, __c144, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ClientSecrets: S.optional(__S(2625, __c82, 1)),
+          ClientSecrets: S.optional(__S(3073, __c96, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserPoolClientSecretsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11764,17 +12995,17 @@ function __c83(j: number): any {
         ),
       ).annotate({ identifier: "ListUserPoolReplicasRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UserPoolReplicas: S.optional(__S(2657, __c83, 1)),
+          UserPoolReplicas: S.optional(__S(3105, __c97, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserPoolReplicasResponse" });
   }
 }
-function __c84(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11787,31 +13018,31 @@ function __c84(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
-          LambdaConfig: S.optional(__S(353, __c11, 1)),
+          LambdaConfig: S.optional(__S(545, __c17, 1)),
           Status: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ReplicaRegions: S.optional(__S(4448, __c139, 0)),
+          ReplicaRegions: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "UserPoolDescriptionType" });
     case 2:
-      return S.Array(__S(2689, __c84, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserPools: S.optional(__S(2690, __c84, 2)),
+          UserPools: S.optional(__S(3138, __c98, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserPoolsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
-          AttributesToGet: S.optional(__S(4448, __c139, 0)),
+          AttributesToGet: S.optional(__S(4992, __c156, 0)),
           Limit: S.optional(S.Number),
           PaginationToken: S.optional(S.String),
           Filter: S.optional(S.String),
@@ -11820,19 +13051,19 @@ function __c85(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Users: S.optional(__S(2752, __c86, 0)),
+          Users: S.optional(__S(3200, __c100, 0)),
           PaginationToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c86(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4224, __c132, 0));
+      return S.Array(__S(4768, __c149, 0));
   }
 }
-function __c87(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11842,7 +13073,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListUserSessionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11855,13 +13086,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListUsersInGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Users: S.optional(__S(2752, __c86, 0)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Users: S.optional(__S(3200, __c100, 0)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListUsersInGroupResponse" });
   }
 }
-function __c89(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11878,34 +13109,34 @@ function __c89(j: number): any {
           FriendlyCredentialName: S.String,
           RelyingPartyId: S.String,
           AuthenticatorAttachment: S.optional(S.String),
-          AuthenticatorTransports: __S(4448, __c139, 0),
+          AuthenticatorTransports: __S(4992, __c156, 0),
           CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "WebAuthnCredentialDescription" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Credentials: __S(2850, __c89, 2), NextToken: S.optional(S.String) }).pipe(ns),
+        S.Struct({ Credentials: __S(3298, __c103, 2), NextToken: S.optional(S.String) }).pipe(ns),
       ).annotate({ identifier: "ListWebAuthnCredentialsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClientId: SensitiveString,
           SecretHash: S.optional(SensitiveString),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
           Username: SensitiveString,
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ResendConfirmationCodeRequest" });
   }
 }
-function __c91(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11913,15 +13144,15 @@ function __c91(j: number): any {
           ClientId: SensitiveString,
           ChallengeName: S.String,
           Session: S.optional(SensitiveString),
-          ChallengeResponses: S.optional(__S(4160, __c130, 0)),
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ChallengeResponses: S.optional(__S(4704, __c147, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RespondToAuthChallengeRequest" });
   }
 }
-function __c92(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11934,7 +13165,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "RevokeTokenRequest" });
   }
 }
-function __c93(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11946,31 +13177,31 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RevokeUserSessionRequest" });
   }
 }
-function __c94(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserPoolId: S.String, LogConfigurations: __S(1796, __c56, 4) }).pipe(
+        S.Struct({ UserPoolId: S.String, LogConfigurations: __S(2116, __c66, 4) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SetLogDeliveryConfigurationRequest" });
   }
 }
-function __c95(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           ClientId: S.optional(SensitiveString),
-          CompromisedCredentialsRiskConfiguration: S.optional(__S(1249, __c39, 1)),
-          AccountTakeoverRiskConfiguration: S.optional(__S(1254, __c39, 6)),
-          RiskExceptionConfiguration: S.optional(__S(1255, __c39, 7)),
+          CompromisedCredentialsRiskConfiguration: S.optional(__S(1537, __c48, 1)),
+          AccountTakeoverRiskConfiguration: S.optional(__S(1542, __c48, 6)),
+          RiskExceptionConfiguration: S.optional(__S(1543, __c48, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SetRiskConfigurationRequest" });
   }
 }
-function __c96(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11983,70 +13214,70 @@ function __c96(j: number): any {
       ).annotate({ identifier: "SetUICustomizationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SMSMfaSettings: S.optional(__S(5472, __c171, 0)),
-          SoftwareTokenMfaSettings: S.optional(__S(5472, __c171, 0)),
-          EmailMfaSettings: S.optional(__S(5472, __c171, 0)),
-          WebAuthnMfaSettings: S.optional(__S(5440, __c170, 0)),
+          SMSMfaSettings: S.optional(__S(6016, __c188, 0)),
+          SoftwareTokenMfaSettings: S.optional(__S(6016, __c188, 0)),
+          EmailMfaSettings: S.optional(__S(6016, __c188, 0)),
+          WebAuthnMfaSettings: S.optional(__S(5984, __c187, 0)),
           AccessToken: SensitiveString,
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SetUserMFAPreferenceRequest" });
   }
 }
-function __c98(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           ClientId: SensitiveString,
-          SSOSession: __S(2144, __c67, 0),
+          SSOSession: __S(2464, __c77, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SetUserPoolClientSessionConfigurationRequest" });
   }
 }
-function __c99(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
-          SmsMfaConfiguration: S.optional(__S(2208, __c69, 0)),
-          SoftwareTokenMfaConfiguration: S.optional(__S(5440, __c170, 0)),
-          EmailMfaConfiguration: S.optional(__S(2209, __c69, 1)),
+          SmsMfaConfiguration: S.optional(__S(2528, __c79, 0)),
+          SoftwareTokenMfaConfiguration: S.optional(__S(5984, __c187, 0)),
+          EmailMfaConfiguration: S.optional(__S(2529, __c79, 1)),
           MfaConfiguration: S.optional(S.String),
-          WebAuthnConfiguration: S.optional(__S(2210, __c69, 2)),
+          WebAuthnConfiguration: S.optional(__S(2530, __c79, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SetUserPoolMfaConfigRequest" });
   }
 }
-function __c100(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           UserSessionTracking: S.String,
-          TokenSession: __S(2272, __c71, 0),
+          TokenSession: __S(2592, __c81, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SetUserPoolSessionConfigurationRequest" });
   }
 }
-function __c101(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ AccessToken: SensitiveString, MFAOptions: __S(4289, __c134, 1) }).pipe(
+        S.Struct({ AccessToken: SensitiveString, MFAOptions: __S(4833, __c151, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SetUserSettingsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12055,25 +13286,35 @@ function __c102(j: number): any {
           SecretHash: S.optional(SensitiveString),
           Username: SensitiveString,
           Password: S.optional(SensitiveString),
-          UserAttributes: S.optional(__S(4257, __c133, 1)),
-          ValidationData: S.optional(__S(4257, __c133, 1)),
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          UserAttributes: S.optional(__S(4801, __c150, 1)),
+          ValidationData: S.optional(__S(4801, __c150, 1)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SignUpRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           UserConfirmed: S.Boolean,
-          CodeDeliveryDetails: S.optional(__S(1568, __c49, 0)),
+          CodeDeliveryDetails: S.optional(__S(1856, __c58, 0)),
           UserSub: S.String,
           Session: S.optional(SensitiveString),
         }).pipe(ns),
       ).annotate({ identifier: "SignUpResponse" });
   }
 }
-function __c103(j: number): any {
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserPoolId: S.String, RestoreId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartPointInTimeRecoveryRequest" });
+  }
+}
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12083,7 +13324,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "StartUserImportJobRequest" });
   }
 }
-function __c104(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12097,7 +13338,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12107,27 +13348,27 @@ function __c105(j: number): any {
       ).annotate({ identifier: "StopUserImportJobRequest" });
   }
 }
-function __c106(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, Tags: __S(4160, __c130, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, Tags: __S(4704, __c147, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c107(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, TagKeys: __S(4448, __c139, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(4992, __c156, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c108(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12141,7 +13382,35 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateAuthEventFeedbackRequest" });
   }
 }
-function __c109(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          CIMDPolicyId: S.String,
+          ClientId: SensitiveString,
+          PolicyName: S.optional(S.String),
+          CacheDuration: S.optional(S.Number),
+          URLPatterns: __S(4992, __c156, 0),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCIMDPolicyRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserPoolId: S.String,
+          CIMDPolicyId: S.String,
+          URL: S.String,
+          Action: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateClientMetadataURLStateRequest" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12153,7 +13422,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateDeviceStatusRequest" });
   }
 }
-function __c110(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12167,22 +13436,22 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c111(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           ProviderName: S.String,
-          ProviderDetails: S.optional(__S(4160, __c130, 0)),
-          AttributeMapping: S.optional(__S(4160, __c130, 0)),
-          IdpIdentifiers: S.optional(__S(4448, __c139, 0)),
-          AcrMapping: S.optional(__S(4160, __c130, 0)),
+          ProviderDetails: S.optional(__S(4704, __c147, 0)),
+          AttributeMapping: S.optional(__S(4704, __c147, 0)),
+          IdpIdentifiers: S.optional(__S(4992, __c156, 0)),
+          AcrMapping: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateIdentityProviderRequest" });
   }
 }
-function __c112(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12191,22 +13460,22 @@ function __c112(j: number): any {
           ManagedLoginBrandingId: S.optional(S.String),
           UseCognitoProvidedValues: S.optional(S.Boolean),
           Settings: S.optional(S.Any),
-          Assets: S.optional(__S(6081, __c190, 1)),
+          Assets: S.optional(__S(161, __c5, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateManagedLoginBrandingRequest" });
   }
 }
-function __c113(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LimitDefinition: __S(1856, __c58, 0), RequestedLimitValue: S.Number }).pipe(
+        S.Struct({ LimitDefinition: __S(2176, __c68, 0), RequestedLimitValue: S.Number }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateProvisionedLimitRequest" });
   }
 }
-function __c114(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12214,12 +13483,12 @@ function __c114(j: number): any {
           UserPoolId: S.String,
           Identifier: S.String,
           Name: S.String,
-          Scopes: S.optional(__S(33, __c1, 1)),
+          Scopes: S.optional(__S(225, __c7, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateResourceServerRequest" });
   }
 }
-function __c115(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12229,64 +13498,64 @@ function __c115(j: number): any {
           TermsName: S.optional(S.String),
           TermsSource: S.optional(S.String),
           Enforcement: S.optional(S.String),
-          Links: S.optional(__S(4160, __c130, 0)),
+          Links: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateTermsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          UserAttributes: __S(4257, __c133, 1),
+          UserAttributes: __S(4801, __c150, 1),
           AccessToken: SensitiveString,
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUserAttributesRequest" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ CodeDeliveryDetailsList: S.optional(__S(3713, __c116, 1)) }).pipe(ns),
+        S.Struct({ CodeDeliveryDetailsList: S.optional(__S(4257, __c133, 1)) }).pipe(ns),
       ).annotate({ identifier: "UpdateUserAttributesResponse" });
   }
 }
-function __c117(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
-          Policies: S.optional(__S(386, __c12, 2)),
+          Policies: S.optional(__S(578, __c18, 2)),
           DeletionProtection: S.optional(S.String),
-          LambdaConfig: S.optional(__S(353, __c11, 1)),
-          AutoVerifiedAttributes: S.optional(__S(4320, __c135, 0)),
+          LambdaConfig: S.optional(__S(545, __c17, 1)),
+          AutoVerifiedAttributes: S.optional(__S(4864, __c152, 0)),
           SmsVerificationMessage: S.optional(S.String),
           EmailVerificationMessage: S.optional(S.String),
           EmailVerificationSubject: S.optional(S.String),
-          VerificationMessageTemplate: S.optional(__S(387, __c12, 3)),
+          VerificationMessageTemplate: S.optional(__S(579, __c18, 3)),
           SmsAuthenticationMessage: S.optional(S.String),
-          UserAttributeUpdateSettings: S.optional(__S(388, __c12, 4)),
+          UserAttributeUpdateSettings: S.optional(__S(580, __c18, 4)),
           MfaConfiguration: S.optional(S.String),
-          DeviceConfiguration: S.optional(__S(389, __c12, 5)),
-          EmailConfiguration: S.optional(__S(390, __c12, 6)),
-          SmsConfiguration: S.optional(__S(321, __c10, 1)),
-          UserPoolTags: S.optional(__S(4160, __c130, 0)),
-          AdminCreateUserConfig: S.optional(__S(392, __c12, 8)),
-          UserPoolAddOns: S.optional(__S(394, __c12, 10)),
-          DcrConfiguration: S.optional(__S(395, __c12, 11)),
-          AccountRecoverySetting: S.optional(__S(398, __c12, 14)),
+          DeviceConfiguration: S.optional(__S(581, __c18, 5)),
+          EmailConfiguration: S.optional(__S(582, __c18, 6)),
+          SmsConfiguration: S.optional(__S(513, __c16, 1)),
+          UserPoolTags: S.optional(__S(4704, __c147, 0)),
+          AdminCreateUserConfig: S.optional(__S(584, __c18, 8)),
+          UserPoolAddOns: S.optional(__S(586, __c18, 10)),
+          DcrConfiguration: S.optional(__S(587, __c18, 11)),
+          AccountRecoverySetting: S.optional(__S(590, __c18, 14)),
           PoolName: S.optional(S.String),
           UserPoolTier: S.optional(S.String),
-          KeyConfiguration: S.optional(__S(399, __c12, 15)),
-          IssuerConfiguration: S.optional(__S(400, __c12, 16)),
-          AcrConfiguration: S.optional(__S(402, __c12, 18)),
+          KeyConfiguration: S.optional(__S(591, __c18, 15)),
+          IssuerConfiguration: S.optional(__S(592, __c18, 16)),
+          AcrConfiguration: S.optional(__S(594, __c18, 18)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUserPoolRequest" });
   }
 }
-function __c118(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12297,28 +13566,29 @@ function __c118(j: number): any {
           RefreshTokenValidity: S.optional(S.Number),
           AccessTokenValidity: S.optional(S.Number),
           IdTokenValidity: S.optional(S.Number),
-          TokenValidityUnits: S.optional(__S(448, __c14, 0)),
-          ReadAttributes: S.optional(__S(4448, __c139, 0)),
-          WriteAttributes: S.optional(__S(4448, __c139, 0)),
-          ExplicitAuthFlows: S.optional(__S(4320, __c135, 0)),
-          SupportedIdentityProviders: S.optional(__S(4448, __c139, 0)),
-          CallbackURLs: S.optional(__S(4448, __c139, 0)),
-          LogoutURLs: S.optional(__S(4448, __c139, 0)),
+          TokenValidityUnits: S.optional(__S(640, __c20, 0)),
+          ReadAttributes: S.optional(__S(4992, __c156, 0)),
+          WriteAttributes: S.optional(__S(4992, __c156, 0)),
+          ExplicitAuthFlows: S.optional(__S(4864, __c152, 0)),
+          SupportedIdentityProviders: S.optional(__S(4992, __c156, 0)),
+          CallbackURLs: S.optional(__S(4992, __c156, 0)),
+          LogoutURLs: S.optional(__S(4992, __c156, 0)),
           DefaultRedirectURI: S.optional(S.String),
-          AllowedOAuthFlows: S.optional(__S(4320, __c135, 0)),
-          AllowedOAuthScopes: S.optional(__S(4448, __c139, 0)),
+          AllowedOAuthFlows: S.optional(__S(4864, __c152, 0)),
+          AllowedOAuthScopes: S.optional(__S(4992, __c156, 0)),
           AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
-          AnalyticsConfiguration: S.optional(__S(449, __c14, 1)),
+          AnalyticsConfiguration: S.optional(__S(641, __c20, 1)),
           PreventUserExistenceErrors: S.optional(S.String),
           EnableTokenRevocation: S.optional(S.Boolean),
           EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
           AuthSessionValidity: S.optional(S.Number),
-          RefreshTokenRotation: S.optional(__S(450, __c14, 2)),
+          RefreshTokenRotation: S.optional(__S(642, __c20, 2)),
+          PublishSecretsInAWSSecretsManager: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUserPoolClientRequest" });
   }
 }
-function __c119(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12326,13 +13596,13 @@ function __c119(j: number): any {
           Domain: S.String,
           UserPoolId: S.String,
           ManagedLoginVersion: S.optional(S.Number),
-          CustomDomainConfig: S.optional(__S(512, __c16, 0)),
-          Routing: S.optional(__S(514, __c16, 2)),
+          CustomDomainConfig: S.optional(__S(704, __c22, 0)),
+          Routing: S.optional(__S(706, __c22, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUserPoolDomainRequest" });
   }
 }
-function __c120(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12342,7 +13612,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "UpdateUserPoolReplicaRequest" });
   }
 }
-function __c121(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12359,7 +13629,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "VerifySoftwareTokenResponse" });
   }
 }
-function __c122(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12369,17 +13639,17 @@ function __c122(j: number): any {
       ).annotate({ identifier: "VerifyUserAttributeRequest" });
   }
 }
-function __c123(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserPoolId: S.String, CustomAttributes: __S(3971, __c124, 3) }).pipe(
+        S.Struct({ UserPoolId: S.String, CustomAttributes: __S(4515, __c141, 3) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "AddCustomAttributesRequest" });
   }
 }
-function __c124(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12397,15 +13667,15 @@ function __c124(j: number): any {
           DeveloperOnlyAttribute: S.optional(S.Boolean),
           Mutable: S.optional(S.Boolean),
           Required: S.optional(S.Boolean),
-          NumberAttributeConstraints: S.optional(__S(3968, __c124, 0)),
-          StringAttributeConstraints: S.optional(__S(3969, __c124, 1)),
+          NumberAttributeConstraints: S.optional(__S(4512, __c141, 0)),
+          StringAttributeConstraints: S.optional(__S(4513, __c141, 1)),
         }),
       ).annotate({ identifier: "SchemaAttributeType" });
     case 3:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(4514, __c141, 2));
   }
 }
-function __c125(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
@@ -12413,7 +13683,7 @@ function __c125(j: number): any {
       });
   }
 }
-function __c126(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12425,11 +13695,11 @@ function __c126(j: number): any {
       ).annotate({ identifier: "AddUserPoolClientSecretRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ClientSecretDescriptor: S.optional(__S(4064, __c127, 0)) }).pipe(ns),
+        S.Struct({ ClientSecretDescriptor: S.optional(__S(4608, __c144, 0)) }).pipe(ns),
       ).annotate({ identifier: "AddUserPoolClientSecretResponse" });
   }
 }
-function __c127(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12441,7 +13711,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ClientSecretDescriptorType" });
   }
 }
-function __c128(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12451,89 +13721,89 @@ function __c128(j: number): any {
       ).annotate({ identifier: "AdminAddUserToGroupRequest" });
   }
 }
-function __c129(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminConfirmSignUpRequest" });
   }
 }
-function __c130(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c131(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          UserAttributes: S.optional(__S(4257, __c133, 1)),
-          ValidationData: S.optional(__S(4257, __c133, 1)),
+          UserAttributes: S.optional(__S(4801, __c150, 1)),
+          ValidationData: S.optional(__S(4801, __c150, 1)),
           TemporaryPassword: S.optional(SensitiveString),
           ForceAliasCreation: S.optional(S.Boolean),
           MessageAction: S.optional(S.String),
-          DesiredDeliveryMediums: S.optional(__S(4320, __c135, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          DesiredDeliveryMediums: S.optional(__S(4864, __c152, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminCreateUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ User: S.optional(__S(4224, __c132, 0)) }).pipe(ns),
+        S.Struct({ User: S.optional(__S(4768, __c149, 0)) }).pipe(ns),
       ).annotate({ identifier: "AdminCreateUserResponse" });
   }
 }
-function __c132(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Username: S.optional(SensitiveString),
-          Attributes: S.optional(__S(4257, __c133, 1)),
+          Attributes: S.optional(__S(4801, __c150, 1)),
           UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UserLastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Enabled: S.optional(S.Boolean),
           UserStatus: S.optional(S.String),
-          MFAOptions: S.optional(__S(4289, __c134, 1)),
+          MFAOptions: S.optional(__S(4833, __c151, 1)),
         }),
       ).annotate({ identifier: "UserType" });
   }
 }
-function __c133(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.String, Value: S.optional(SensitiveString) }),
       ).annotate({ identifier: "AttributeType" });
     case 1:
-      return S.Array(__S(4256, __c133, 0));
+      return S.Array(__S(4800, __c150, 0));
   }
 }
-function __c134(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ DeliveryMedium: S.optional(S.String), AttributeName: S.optional(S.String) }),
       ).annotate({ identifier: "MFAOptionType" });
     case 1:
-      return S.Array(__S(4288, __c134, 0));
+      return S.Array(__S(4832, __c151, 0));
   }
 }
-function __c135(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c136(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12543,7 +13813,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "AdminDeleteSoftwareTokenRequest" });
   }
 }
-function __c137(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12553,35 +13823,35 @@ function __c137(j: number): any {
       ).annotate({ identifier: "AdminDeleteUserRequest" });
   }
 }
-function __c138(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          UserAttributeNames: __S(4448, __c139, 0),
+          UserAttributeNames: __S(4992, __c156, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminDeleteUserAttributesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c140(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserPoolId: S.String, User: __S(4512, __c141, 0) }).pipe(
+        S.Struct({ UserPoolId: S.String, User: __S(5056, __c158, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "AdminDisableProviderForUserRequest" });
   }
 }
-function __c141(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12593,7 +13863,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "ProviderUserIdentifierType" });
   }
 }
-function __c142(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12603,7 +13873,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "AdminDisableUserRequest" });
   }
 }
-function __c143(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12613,7 +13883,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "AdminEnableUserRequest" });
   }
 }
-function __c144(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12623,7 +13893,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "AdminForgetDeviceRequest" });
   }
 }
-function __c145(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12633,21 +13903,21 @@ function __c145(j: number): any {
       ).annotate({ identifier: "AdminGetDeviceRequest" });
   }
 }
-function __c146(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Device: __S(4704, __c147, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Device: __S(5248, __c164, 0) }).pipe(ns)).annotate({
         identifier: "AdminGetDeviceResponse",
       });
   }
 }
-function __c147(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DeviceKey: S.optional(S.String),
-          DeviceAttributes: S.optional(__S(4257, __c133, 1)),
+          DeviceAttributes: S.optional(__S(4801, __c150, 1)),
           DeviceCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DeviceLastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DeviceLastAuthenticatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -12655,7 +13925,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeviceType" });
   }
 }
-function __c148(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12667,19 +13937,19 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Username: SensitiveString,
-          UserAttributes: S.optional(__S(4257, __c133, 1)),
+          UserAttributes: S.optional(__S(4801, __c150, 1)),
           UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UserLastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Enabled: S.optional(S.Boolean),
           UserStatus: S.optional(S.String),
-          MFAOptions: S.optional(__S(4289, __c134, 1)),
+          MFAOptions: S.optional(__S(4833, __c151, 1)),
           PreferredMfaSetting: S.optional(S.String),
-          UserMFASettingList: S.optional(__S(4448, __c139, 0)),
+          UserMFASettingList: S.optional(__S(4992, __c156, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "AdminGetUserResponse" });
   }
 }
-function __c149(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12689,20 +13959,20 @@ function __c149(j: number): any {
       ).annotate({ identifier: "AdminGetUserAuthFactorsRequest" });
   }
 }
-function __c150(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Username: SensitiveString,
           PreferredMfaSetting: S.optional(S.String),
-          UserMFASettingList: S.optional(__S(4448, __c139, 0)),
-          ConfiguredUserAuthFactors: S.optional(__S(4320, __c135, 0)),
+          UserMFASettingList: S.optional(__S(4992, __c156, 0)),
+          ConfiguredUserAuthFactors: S.optional(__S(4864, __c152, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "AdminGetUserAuthFactorsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12710,36 +13980,36 @@ function __c151(j: number): any {
           UserPoolId: S.String,
           ClientId: SensitiveString,
           AuthFlow: S.String,
-          AuthParameters: S.optional(__S(4160, __c130, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          ContextData: S.optional(__S(4866, __c152, 2)),
+          AuthParameters: S.optional(__S(4704, __c147, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          ContextData: S.optional(__S(5410, __c169, 2)),
           Session: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminInitiateAuthRequest" });
   }
 }
-function __c152(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ headerName: S.optional(S.String), headerValue: S.optional(S.String) }),
       ).annotate({ identifier: "HttpHeader" });
     case 1:
-      return S.Array(__S(4864, __c152, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           IpAddress: S.String,
           ServerName: S.String,
           ServerPath: S.String,
-          HttpHeaders: __S(4865, __c152, 1),
+          HttpHeaders: __S(5409, __c169, 1),
           EncodedData: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextDataType" });
   }
 }
-function __c153(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12753,26 +14023,26 @@ function __c153(j: number): any {
           TokenType: S.optional(S.String),
           RefreshToken: S.optional(SensitiveString),
           IdToken: S.optional(SensitiveString),
-          NewDeviceMetadata: S.optional(__S(4896, __c153, 0)),
+          NewDeviceMetadata: S.optional(__S(5440, __c170, 0)),
         }),
       ).annotate({ identifier: "AuthenticationResultType" });
   }
 }
-function __c154(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ChallengeName: S.optional(S.String),
           Session: S.optional(SensitiveString),
-          ChallengeParameters: S.optional(__S(4160, __c130, 0)),
-          AuthenticationResult: S.optional(__S(4897, __c153, 1)),
-          AvailableChallenges: S.optional(__S(4320, __c135, 0)),
+          ChallengeParameters: S.optional(__S(4704, __c147, 0)),
+          AuthenticationResult: S.optional(__S(5441, __c170, 1)),
+          AvailableChallenges: S.optional(__S(4864, __c152, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "AdminInitiateAuthResponse" });
   }
 }
-function __c155(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ AnalyticsEndpointId: S.optional(S.String) })).annotate({
@@ -12780,19 +14050,19 @@ function __c155(j: number): any {
       });
   }
 }
-function __c156(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
-          DestinationUser: __S(4512, __c141, 0),
-          SourceUser: __S(4512, __c141, 0),
+          DestinationUser: __S(5056, __c158, 0),
+          SourceUser: __S(5056, __c158, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminLinkProviderForUserRequest" });
   }
 }
-function __c157(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12805,20 +14075,20 @@ function __c157(j: number): any {
       ).annotate({ identifier: "AdminListDevicesRequest" });
   }
 }
-function __c158(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Devices: S.optional(__S(5056, __c158, 0)),
+          Devices: S.optional(__S(5600, __c175, 0)),
           PaginationToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "AdminListDevicesResponse" });
   }
 }
-function __c159(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12831,20 +14101,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "AdminListGroupsForUserRequest" });
   }
 }
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(5152, __c161, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Groups: S.optional(__S(5120, __c160, 0)),
-          NextToken: S.optional(S.String),
-        }).pipe(ns),
-      ).annotate({ identifier: "AdminListGroupsForUserResponse" });
-  }
-}
-function __c161(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12860,7 +14117,20 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GroupType" });
   }
 }
-function __c162(j: number): any {
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(5664, __c177, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Groups: S.optional(__S(5696, __c178, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "AdminListGroupsForUserResponse" });
+  }
+}
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12884,7 +14154,7 @@ function __c162(j: number): any {
         S.Struct({ ChallengeName: S.optional(S.String), ChallengeResponse: S.optional(S.String) }),
       ).annotate({ identifier: "ChallengeResponseType" });
     case 3:
-      return S.Array(__S(5186, __c162, 2));
+      return S.Array(__S(5730, __c179, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -12910,24 +14180,24 @@ function __c162(j: number): any {
           EventType: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EventResponse: S.optional(S.String),
-          EventRisk: S.optional(__S(5185, __c162, 1)),
-          ChallengeResponses: S.optional(__S(5187, __c162, 3)),
-          EventContextData: S.optional(__S(5188, __c162, 4)),
-          EventFeedback: S.optional(__S(5189, __c162, 5)),
+          EventRisk: S.optional(__S(5729, __c179, 1)),
+          ChallengeResponses: S.optional(__S(5731, __c179, 3)),
+          EventContextData: S.optional(__S(5732, __c179, 4)),
+          EventFeedback: S.optional(__S(5733, __c179, 5)),
         }),
       ).annotate({ identifier: "AuthEventType" });
     case 7:
-      return S.Array(__S(5190, __c162, 6));
+      return S.Array(__S(5734, __c179, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          AuthEvents: S.optional(__S(5191, __c162, 7)),
+          AuthEvents: S.optional(__S(5735, __c179, 7)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "AdminListUserAuthEventsResponse" });
   }
 }
-function __c163(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12939,7 +14209,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "AdminListUserSessionsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12955,23 +14225,23 @@ function __c164(j: number): any {
           LastActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DeviceType: S.optional(S.String),
           LastIPAddress: S.optional(SensitiveString),
-          LastLocation: S.optional(__S(5248, __c164, 0)),
+          LastLocation: S.optional(__S(5792, __c181, 0)),
           OriginSessionId: S.optional(S.String),
           IsCurrentSession: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SessionDescriptionType" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5793, __c181, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Sessions: S.optional(__S(5250, __c164, 2)),
+          Sessions: S.optional(__S(5794, __c181, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "AdminListUserSessionsResponse" });
   }
 }
-function __c165(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12981,19 +14251,19 @@ function __c165(j: number): any {
       ).annotate({ identifier: "AdminRemoveUserFromGroupRequest" });
   }
 }
-function __c166(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminResetUserPasswordRequest" });
   }
 }
-function __c167(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13001,16 +14271,16 @@ function __c167(j: number): any {
           UserPoolId: S.String,
           ClientId: SensitiveString,
           ChallengeName: S.String,
-          ChallengeResponses: S.optional(__S(4160, __c130, 0)),
+          ChallengeResponses: S.optional(__S(4704, __c147, 0)),
           Session: S.optional(SensitiveString),
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          ContextData: S.optional(__S(4866, __c152, 2)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          ContextData: S.optional(__S(5410, __c169, 2)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminRespondToAuthChallengeRequest" });
   }
 }
-function __c168(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13023,22 +14293,22 @@ function __c168(j: number): any {
       ).annotate({ identifier: "AdminRevokeUserSessionRequest" });
   }
 }
-function __c169(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SMSMfaSettings: S.optional(__S(5472, __c171, 0)),
-          SoftwareTokenMfaSettings: S.optional(__S(5472, __c171, 0)),
-          EmailMfaSettings: S.optional(__S(5472, __c171, 0)),
-          WebAuthnMfaSettings: S.optional(__S(5440, __c170, 0)),
+          SMSMfaSettings: S.optional(__S(6016, __c188, 0)),
+          SoftwareTokenMfaSettings: S.optional(__S(6016, __c188, 0)),
+          EmailMfaSettings: S.optional(__S(6016, __c188, 0)),
+          WebAuthnMfaSettings: S.optional(__S(5984, __c187, 0)),
           Username: SensitiveString,
           UserPoolId: S.String,
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminSetUserMFAPreferenceRequest" });
   }
 }
-function __c170(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
@@ -13046,7 +14316,7 @@ function __c170(j: number): any {
       });
   }
 }
-function __c171(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13054,7 +14324,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "SMSMfaSettingsType" });
   }
 }
-function __c172(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13067,19 +14337,19 @@ function __c172(j: number): any {
       ).annotate({ identifier: "AdminSetUserPasswordRequest" });
   }
 }
-function __c173(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          MFAOptions: __S(4289, __c134, 1),
+          MFAOptions: __S(4833, __c151, 1),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminSetUserSettingsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13092,7 +14362,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "AdminUpdateAuthEventFeedbackRequest" });
   }
 }
-function __c175(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13105,20 +14375,20 @@ function __c175(j: number): any {
       ).annotate({ identifier: "AdminUpdateDeviceStatusRequest" });
   }
 }
-function __c176(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           Username: SensitiveString,
-          UserAttributes: __S(4257, __c133, 1),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          UserAttributes: __S(4801, __c150, 1),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AdminUpdateUserAttributesRequest" });
   }
 }
-function __c177(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13128,7 +14398,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "AdminUserGlobalSignOutRequest" });
   }
 }
-function __c178(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13146,7 +14416,46 @@ function __c178(j: number): any {
       ).annotate({ identifier: "AssociateSoftwareTokenResponse" });
   }
 }
-function __c179(j: number): any {
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserPoolId: S.String, RestoreId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelPointInTimeRecoveryRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Entity: S.optional(S.String),
+          CreateCount: S.optional(S.Number),
+          UpdateCount: S.optional(S.Number),
+          DeleteCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RestorePreviewType" });
+    case 1:
+      return S.Array(__S(6304, __c197, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RestoreId: S.optional(S.String),
+          RestoreStatus: S.optional(S.String),
+          RestoreTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TriggerTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RestorePreview: S.optional(__S(6305, __c197, 1)),
+        }),
+      ).annotate({ identifier: "RestorationType" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Restoration: S.optional(__S(6306, __c197, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CancelPointInTimeRecoveryResponse" });
+  }
+}
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13158,7 +14467,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ChangePasswordRequest" });
   }
 }
-function __c180(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13168,7 +14477,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "CompleteWebAuthnRegistrationRequest" });
   }
 }
-function __c181(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13179,7 +14488,7 @@ function __c181(j: number): any {
         S.Struct({
           AccessToken: SensitiveString,
           DeviceKey: S.String,
-          DeviceSecretVerifierConfig: S.optional(__S(5792, __c181, 0)),
+          DeviceSecretVerifierConfig: S.optional(__S(6400, __c200, 0)),
           DeviceName: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ConfirmDeviceRequest" });
@@ -13189,7 +14498,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ConfirmDeviceResponse" });
   }
 }
-function __c182(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13199,14 +14508,14 @@ function __c182(j: number): any {
           Username: SensitiveString,
           ConfirmationCode: S.String,
           Password: SensitiveString,
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ConfirmForgotPasswordRequest" });
   }
 }
-function __c183(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13214,7 +14523,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UserContextDataType" });
   }
 }
-function __c184(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13224,9 +14533,9 @@ function __c184(j: number): any {
           Username: SensitiveString,
           ConfirmationCode: S.String,
           ForceAliasCreation: S.optional(S.Boolean),
-          AnalyticsMetadata: S.optional(__S(4960, __c155, 0)),
-          UserContextData: S.optional(__S(5856, __c183, 0)),
-          ClientMetadata: S.optional(__S(4160, __c130, 0)),
+          AnalyticsMetadata: S.optional(__S(5504, __c172, 0)),
+          UserContextData: S.optional(__S(6464, __c202, 0)),
+          ClientMetadata: S.optional(__S(4704, __c147, 0)),
           Session: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ConfirmSignUpRequest" });
@@ -13236,110 +14545,39 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GroupName: S.String,
-          UserPoolId: S.String,
-          Description: S.optional(S.String),
-          RoleArn: S.optional(S.String),
-          Precedence: S.optional(S.Number),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateGroupRequest" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Group: S.optional(__S(5152, __c161, 0)) }).pipe(ns),
-      ).annotate({ identifier: "CreateGroupResponse" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          UserPoolId: S.String,
-          ProviderName: S.String,
-          ProviderType: S.String,
-          ProviderDetails: __S(4160, __c130, 0),
-          AttributeMapping: S.optional(__S(4160, __c130, 0)),
-          IdpIdentifiers: S.optional(__S(4448, __c139, 0)),
-          AcrMapping: S.optional(__S(4160, __c130, 0)),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateIdentityProviderRequest" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          UserPoolId: S.optional(S.String),
-          ProviderName: S.optional(S.String),
-          ProviderType: S.optional(S.String),
-          ProviderDetails: S.optional(__S(4160, __c130, 0)),
-          AttributeMapping: S.optional(__S(4160, __c130, 0)),
-          IdpIdentifiers: S.optional(__S(4448, __c139, 0)),
-          AcrMapping: S.optional(__S(4160, __c130, 0)),
-          LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "IdentityProviderType" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ IdentityProvider: __S(6016, __c188, 0) }).pipe(ns),
-      ).annotate({ identifier: "CreateIdentityProviderResponse" });
-  }
-}
-function __c189(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           UserPoolId: S.String,
           ClientId: SensitiveString,
-          UseCognitoProvidedValues: S.optional(S.Boolean),
-          Settings: S.optional(S.Any),
-          Assets: S.optional(__S(6081, __c190, 1)),
+          PolicyName: S.String,
+          CacheDuration: S.optional(S.Number),
+          URLPatterns: __S(4992, __c156, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateManagedLoginBrandingRequest" });
+      ).annotate({ identifier: "CreateCIMDPolicyRequest" });
   }
 }
-function __c190(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Category: S.String,
-          ColorMode: S.String,
-          Extension: S.String,
-          Bytes: S.optional(T.Blob),
-          ResourceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AssetType" });
-    case 1:
-      return S.Array(__S(6080, __c190, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ManagedLoginBrandingId: S.optional(S.String),
-          UserPoolId: S.optional(S.String),
-          UseCognitoProvidedValues: S.optional(S.Boolean),
-          Settings: S.optional(S.Any),
-          Assets: S.optional(__S(6081, __c190, 1)),
+          UserPoolId: S.String,
+          CIMDPolicyId: S.String,
+          ClientId: S.optional(SensitiveString),
+          PolicyName: S.String,
+          CacheDuration: S.optional(S.Number),
+          URLPatterns: S.optional(__S(4992, __c156, 0)),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
-      ).annotate({ identifier: "ManagedLoginBrandingType" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ ManagedLoginBranding: S.optional(__S(6082, __c190, 2)) }).pipe(ns),
-      ).annotate({ identifier: "CreateManagedLoginBrandingResponse" });
+      ).annotate({ identifier: "CIMDPolicyType" });
+    case 1:
+      return S.suspend(() => S.Struct({ CIMDPolicy: __S(6560, __c205, 0) }).pipe(ns)).annotate({
+        identifier: "CreateCIMDPolicyResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

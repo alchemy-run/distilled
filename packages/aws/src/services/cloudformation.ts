@@ -727,6 +727,7 @@ export type ManagedExecutionNullable = boolean;
 export interface ManagedExecution {
   Active?: boolean | undefined;
 }
+export type StackSetOutputBucket = string;
 export interface CreateStackSetInput {
   StackSetName?: string | undefined;
   Description?: string | undefined;
@@ -743,6 +744,9 @@ export interface CreateStackSetInput {
   CallAs?: CallAs | undefined;
   ClientRequestToken?: string | undefined;
   ManagedExecution?: ManagedExecution | undefined;
+  ExecutionRoleTemplateBody?: string | undefined;
+  ExecutionRoleTemplateUrl?: string | undefined;
+  StackSetOutputBucket?: string | undefined;
 }
 export type StackSetId = string;
 export interface CreateStackSetOutput {
@@ -1648,6 +1652,7 @@ export interface StackSetDriftDetectionDetails {
   InProgressStackInstancesCount?: number | undefined;
   FailedStackInstancesCount?: number | undefined;
 }
+export type StackSetOutputBucketPath = string;
 export interface StackSet {
   StackSetName?: string | undefined;
   StackSetId?: string | undefined;
@@ -1666,6 +1671,7 @@ export interface StackSet {
   OrganizationalUnitIds?: string[] | undefined;
   ManagedExecution?: ManagedExecution | undefined;
   Regions?: string[] | undefined;
+  StackSetOutputBucketPath?: string | undefined;
 }
 export interface DescribeStackSetOutput {
   StackSet?: (StackSet & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] }) | undefined;
@@ -1691,9 +1697,75 @@ export type StackSetOperationStatus =
   | (string & {});
 export type RetainStacksNullable = boolean;
 export type StackSetOperationStatusReason = string;
+export type StageStatus =
+  | "PENDING"
+  | "NOT_APPLICABLE"
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "PARTIAL_SUCCESS"
+  | "FAILED"
+  | (string & {});
+export type SucceededAccountsCount = number;
+export type FailedAccountsCount = number;
+export type CompletedAccountsCount = number;
+export type PendingAccountsCount = number;
+export type StagePercentageCompleted = number;
+export interface RoleProvisioning {
+  Status?: StageStatus | undefined;
+  SucceededAccountsCount?: number | undefined;
+  FailedAccountsCount?: number | undefined;
+  CompletedAccountsCount?: number | undefined;
+  PendingAccountsCount?: number | undefined;
+  PercentageCompleted?: number | undefined;
+}
+export type SucceededStackInstancesCount = number;
+export type StackInstancesDeploymentFailedStackInstancesCount = number;
+export type CompletedStackInstancesCount = number;
+export type PendingStackInstancesCount = number;
+export type CancelledStackInstancesCount = number;
+export type SkippedStackInstancesCount = number;
+export interface StackInstancesDeployment {
+  Status?: StageStatus | undefined;
+  SucceededStackInstancesCount?: number | undefined;
+  FailedStackInstancesCount?: number | undefined;
+  CompletedStackInstancesCount?: number | undefined;
+  PendingStackInstancesCount?: number | undefined;
+  CancelledStackInstancesCount?: number | undefined;
+  SkippedStackInstancesCount?: number | undefined;
+  PercentageCompleted?: number | undefined;
+}
+export interface Stages {
+  RoleProvisioning?: RoleProvisioning | undefined;
+  StackInstancesDeployment?: StackInstancesDeployment | undefined;
+}
+export type TotalAccountsCount = number;
+export type StackSetOperationTotalStackInstancesCount = number;
 export interface StackSetOperationStatusDetails {
+  Stages?: Stages | undefined;
+  TotalAccountsCount?: number | undefined;
+  TotalStackInstancesCount?: number | undefined;
   FailedStackInstancesCount?: number | undefined;
 }
+export type RegionalTotalStackInstancesCount = number;
+export interface RegionalStackInstancesDeployment {
+  Status?: StageStatus | undefined;
+  SucceededStackInstancesCount?: number | undefined;
+  FailedStackInstancesCount?: number | undefined;
+  CompletedStackInstancesCount?: number | undefined;
+  PendingStackInstancesCount?: number | undefined;
+  CancelledStackInstancesCount?: number | undefined;
+  SkippedStackInstancesCount?: number | undefined;
+  TotalStackInstancesCount?: number | undefined;
+  PercentageCompleted?: number | undefined;
+}
+export interface RegionalStages {
+  RegionalStackInstancesDeployment?: RegionalStackInstancesDeployment | undefined;
+}
+export interface RegionalStatusDetail {
+  Stages?: RegionalStages | undefined;
+}
+export type RegionalStatusDetails = { [key: string]: RegionalStatusDetail | undefined };
 export interface StackSetOperation {
   OperationId?: string | undefined;
   StackSetId?: string | undefined;
@@ -1709,6 +1781,7 @@ export interface StackSetOperation {
   StackSetDriftDetectionDetails?: StackSetDriftDetectionDetails | undefined;
   StatusReason?: string | undefined;
   StatusDetails?: StackSetOperationStatusDetails | undefined;
+  RegionalStatusDetails?: { [key: string]: RegionalStatusDetail | undefined } | undefined;
 }
 export interface DescribeStackSetOperationOutput {
   StackSetOperation?: StackSetOperation | undefined;
@@ -2734,6 +2807,7 @@ export interface UpdateStackInstancesInput {
 export interface UpdateStackInstancesOutput {
   OperationId?: string | undefined;
 }
+export type UseAdminExecutionRoleNullable = boolean;
 export interface UpdateStackSetInput {
   StackSetName?: string | undefined;
   Description?: string | undefined;
@@ -2754,6 +2828,10 @@ export interface UpdateStackSetInput {
   Regions?: string[] | undefined;
   CallAs?: CallAs | undefined;
   ManagedExecution?: ManagedExecution | undefined;
+  ExecutionRoleTemplateBody?: string | undefined;
+  ExecutionRoleTemplateUrl?: string | undefined;
+  UseAdminExecutionRole?: boolean | undefined;
+  StackSetOutputBucket?: string | undefined;
 }
 export interface UpdateStackSetOutput {
   OperationId?: string | undefined;
@@ -2914,7 +2992,7 @@ export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonEr
  * information for troubleshooting a failed update rollback, see Update rollback failed.
  *
  * `ForceRollback` and `ResourcesToSkip` are mutually exclusive.
- * For details, see ContinueUpdateRollbackInput$ForceRollback.
+ * For details, see the `ForceRollback` parameter.
  */
 export const continueUpdateRollback: API.OperationMethod<
   ContinueUpdateRollbackInput & RegionInput,
@@ -3888,6 +3966,8 @@ export type DescribeStackSetOperationError =
 /**
  * Returns the description of the specified StackSet operation.
  *
+ * Reports role provisioning and stack instances deployment progress in `StatusDetails.Stages`. A breakdown for each Amazon Web Services Region is available in `RegionalStatusDetails`.
+ *
  * This API provides *strongly consistent* reads meaning it will always
  * return the most up-to-date data.
  */
@@ -3898,7 +3978,7 @@ export const describeStackSetOperation: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<DescribeStackSetOperationInput>,
-  output: __S(1362, __c85, 2) as any as S.Schema<DescribeStackSetOperationOutput>,
+  output: __S(1366, __c85, 6) as any as S.Schema<DescribeStackSetOperationOutput>,
   errors: [OperationNotFoundException, StackSetNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4829,6 +4909,8 @@ export const listStackSetOperationResults: API.PaginatedOperationMethod<
 export type ListStackSetOperationsError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns summary information about operations performed on a StackSet.
+ *
+ * Reports role provisioning and stack instances deployment progress in `StatusDetails.Stages`. The breakdown for each Amazon Web Services Region is available only from DescribeStackSetOperation.
  *
  * This API provides *eventually consistent* reads meaning it may take
  * some time but will eventually return the most up-to-date data.
@@ -6083,6 +6165,10 @@ function __c20(j: number): any {
           Regions: S.optional(__S(688, __c43, 0)),
           CallAs: S.optional(S.String),
           ManagedExecution: S.optional(__S(802, __c50, 2)),
+          ExecutionRoleTemplateBody: S.optional(S.String),
+          ExecutionRoleTemplateUrl: S.optional(S.String),
+          UseAdminExecutionRole: S.optional(S.Boolean),
+          StackSetOutputBucket: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackSetInput" });
     case 1:
@@ -6595,6 +6681,9 @@ function __c49(j: number): any {
           CallAs: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ManagedExecution: S.optional(__S(802, __c50, 2)),
+          ExecutionRoleTemplateBody: S.optional(S.String),
+          ExecutionRoleTemplateUrl: S.optional(S.String),
+          StackSetOutputBucket: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackSetInput" });
     case 1:
@@ -7529,6 +7618,7 @@ function __c83(j: number): any {
           OrganizationalUnitIds: S.optional(__S(704, __c44, 0)),
           ManagedExecution: S.optional(__S(802, __c50, 2)),
           Regions: S.optional(__S(688, __c43, 0)),
+          StackSetOutputBucketPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "StackSet" });
     case 2:
@@ -7569,6 +7659,30 @@ function __c85(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          Status: S.optional(S.String),
+          SucceededStackInstancesCount: S.optional(S.Number),
+          FailedStackInstancesCount: S.optional(S.Number),
+          CompletedStackInstancesCount: S.optional(S.Number),
+          PendingStackInstancesCount: S.optional(S.Number),
+          CancelledStackInstancesCount: S.optional(S.Number),
+          SkippedStackInstancesCount: S.optional(S.Number),
+          TotalStackInstancesCount: S.optional(S.Number),
+          PercentageCompleted: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RegionalStackInstancesDeployment" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ RegionalStackInstancesDeployment: S.optional(__S(1361, __c85, 1)) }),
+      ).annotate({ identifier: "RegionalStages" });
+    case 3:
+      return S.suspend(() => S.Struct({ Stages: S.optional(__S(1362, __c85, 2)) })).annotate({
+        identifier: "RegionalStatusDetail",
+      });
+    case 4:
+      return S.Record(S.String, /*@__PURE__*/ __S(1363, __c85, 3).pipe(S.optional));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           OperationId: S.optional(S.String),
           StackSetId: S.optional(S.String),
           Action: S.optional(S.String),
@@ -7582,12 +7696,13 @@ function __c85(j: number): any {
           DeploymentTargets: S.optional(__S(721, __c45, 1)),
           StackSetDriftDetectionDetails: S.optional(__S(1344, __c84, 0)),
           StatusReason: S.optional(S.String),
-          StatusDetails: S.optional(__S(1376, __c86, 0)),
+          StatusDetails: S.optional(__S(1379, __c86, 3)),
+          RegionalStatusDetails: S.optional(__S(1364, __c85, 4)),
         }),
       ).annotate({ identifier: "StackSetOperation" });
-    case 2:
+    case 6:
       return S.suspend(() =>
-        S.Struct({ StackSetOperation: S.optional(__S(1361, __c85, 1)) }).pipe(ns),
+        S.Struct({ StackSetOperation: S.optional(__S(1365, __c85, 5)) }).pipe(ns),
       ).annotate({ identifier: "DescribeStackSetOperationOutput" });
   }
 }
@@ -7595,7 +7710,43 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ FailedStackInstancesCount: S.optional(S.Number) }),
+        S.Struct({
+          Status: S.optional(S.String),
+          SucceededAccountsCount: S.optional(S.Number),
+          FailedAccountsCount: S.optional(S.Number),
+          CompletedAccountsCount: S.optional(S.Number),
+          PendingAccountsCount: S.optional(S.Number),
+          PercentageCompleted: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RoleProvisioning" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          SucceededStackInstancesCount: S.optional(S.Number),
+          FailedStackInstancesCount: S.optional(S.Number),
+          CompletedStackInstancesCount: S.optional(S.Number),
+          PendingStackInstancesCount: S.optional(S.Number),
+          CancelledStackInstancesCount: S.optional(S.Number),
+          SkippedStackInstancesCount: S.optional(S.Number),
+          PercentageCompleted: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StackInstancesDeployment" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RoleProvisioning: S.optional(__S(1376, __c86, 0)),
+          StackInstancesDeployment: S.optional(__S(1377, __c86, 1)),
+        }),
+      ).annotate({ identifier: "Stages" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Stages: S.optional(__S(1378, __c86, 2)),
+          TotalAccountsCount: S.optional(S.Number),
+          TotalStackInstancesCount: S.optional(S.Number),
+          FailedStackInstancesCount: S.optional(S.Number),
+        }),
       ).annotate({ identifier: "StackSetOperationStatusDetails" });
   }
 }
@@ -8576,7 +8727,7 @@ function __c120(j: number): any {
           CreationTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           EndTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           StatusReason: S.optional(S.String),
-          StatusDetails: S.optional(__S(1376, __c86, 0)),
+          StatusDetails: S.optional(__S(1379, __c86, 3)),
           OperationPreferences: S.optional(__S(736, __c46, 0)),
         }),
       ).annotate({ identifier: "StackSetOperationSummary" });

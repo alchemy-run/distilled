@@ -462,6 +462,7 @@ export interface PutRumEventsRequest {
   UserDetails: UserDetails;
   RumEvents: RumEvent[];
   Alias?: string | undefined;
+  SessionMetadata?: string | undefined;
 }
 export interface PutRumEventsResponse {}
 export interface PutRumMetricsDestinationRequest {
@@ -1764,6 +1765,7 @@ function __c21(j: number): any {
           UserDetails: __S(169, __c21, 1),
           RumEvents: __S(171, __c21, 3),
           Alias: S.optional(S.String),
+          SessionMetadata: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),

@@ -278,7 +278,7 @@ export type StatusReasonCode =
 export interface StandardsStatusReason {
   StatusReasonCode?: StatusReasonCode | undefined;
 }
-export type StandardsProvider = "AWS" | "Azure" | (string & {});
+export type StandardsProvider = "AWS" | "Azure" | "GCP" | (string & {});
 export interface StandardsSubscription {
   StandardsSubscriptionArn?: string | undefined;
   StandardsArn?: string | undefined;
@@ -633,7 +633,7 @@ export interface ParameterConfiguration {
 }
 export type Parameters = { [key: string]: ParameterConfiguration | undefined };
 export type AlphaNumericNonEmptyString = string;
-export type SecurityControlsProvider = "AWS" | "Azure" | (string & {});
+export type SecurityControlsProvider = "AWS" | "Azure" | "GCP" | (string & {});
 export interface SecurityControl {
   SecurityControlId?: string | undefined;
   SecurityControlArn?: string | undefined;
@@ -862,7 +862,7 @@ export type Partition =
   | "aws-us-iso-b"
   | "AzureCloud"
   | (string & {});
-export type CloudProviderName = "Azure" | "AWS" | (string & {});
+export type CloudProviderName = "Azure" | "AWS" | "GCP" | (string & {});
 export interface ResourceOwnerAccount {
   Id?: string | undefined;
 }
@@ -4737,6 +4737,7 @@ export interface CodeRepositoryDetails {
   CodeSecurityIntegrationArn?: string | undefined;
 }
 export type AzureResourceDetails = unknown;
+export type GcpResourceDetails = unknown;
 export interface ResourceDetails {
   AwsAutoScalingAutoScalingGroup?: AwsAutoScalingAutoScalingGroupDetails | undefined;
   AwsCodeBuildProject?: AwsCodeBuildProjectDetails | undefined;
@@ -4839,6 +4840,7 @@ export interface ResourceDetails {
   AwsEc2ClientVpnEndpoint?: AwsEc2ClientVpnEndpointDetails | undefined;
   CodeRepository?: CodeRepositoryDetails | undefined;
   AzureResource?: any | undefined;
+  GcpResource?: any | undefined;
 }
 export interface Resource {
   Type?: string | undefined;
@@ -5738,7 +5740,20 @@ export interface AzureProviderConfiguration {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderConfiguration = { Azure: AzureProviderConfiguration };
+export type GcpScopeType = "PROJECT" | "ORGANIZATION" | (string & {});
+export interface GcpScopeConfiguration {
+  ScopeType?: GcpScopeType | undefined;
+  ScopeValues?: string[] | undefined;
+}
+export type GcpRegionList = string[];
+export interface GcpProviderConfiguration {
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderConfiguration =
+  | { Azure: AzureProviderConfiguration; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpProviderConfiguration };
 export interface CreateConnectorRequest {
   Name?: string | undefined;
   Description?: string | undefined;
@@ -5772,9 +5787,30 @@ export interface ServiceNowProviderConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowProviderConfiguration; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureProviderConfiguration };
+  | {
+      JiraCloud: JiraCloudProviderConfiguration;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow: ServiceNowProviderConfiguration;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure: AzureProviderConfiguration;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP: GcpProviderConfiguration;
+    };
 export interface CreateConnectorV2Request {
   Name?: string | undefined;
   Description?: string | undefined;
@@ -6346,7 +6382,14 @@ export interface AzureDetail {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderDetail = { Azure: AzureDetail };
+export interface GcpDetail {
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderDetail =
+  | { Azure: AzureDetail; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpDetail };
 export interface GetConnectorResponse {
   ConnectorArn?: string | undefined;
   ConnectorId: string;
@@ -6386,9 +6429,10 @@ export interface ServiceNowDetail {
   AuthStatus?: ConnectorAuthStatus | undefined;
 }
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure?: undefined; GCP: GcpDetail };
 export interface GetConnectorV2Response {
   ConnectorArn?: string | undefined;
   ConnectorId: string;
@@ -7290,6 +7334,8 @@ export type CriticalitySourceType =
   | "AutomationRule"
   | "ResourceName"
   | "TagInference"
+  | "CloudWatchTelemetryInference"
+  | "InstalledSoftwareAndPackageInference"
   | (string & {});
 export interface CriticalitySource {
   Source?: CriticalitySourceType | undefined;
@@ -7710,7 +7756,7 @@ export interface ListConfigurationPolicyAssociationsResponse {
   ConfigurationPolicyAssociationSummaries?: ConfigurationPolicyAssociationSummary[] | undefined;
   NextToken?: string | undefined;
 }
-export type CspmConnectorProviderName = "AZURE" | (string & {});
+export type CspmConnectorProviderName = "AZURE" | "GCP" | (string & {});
 export interface ListConnectorsRequest {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
@@ -7738,7 +7784,7 @@ export interface ListConnectorsResponse {
   NextToken?: string | undefined;
   Connectors: CspmConnectorSummary[];
 }
-export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | "AZURE" | (string & {});
+export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | "AZURE" | "GCP" | (string & {});
 export interface ListConnectorsV2Request {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
@@ -8096,7 +8142,13 @@ export interface AzureUpdateConfiguration {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderUpdateConfiguration = { Azure: AzureUpdateConfiguration };
+export interface GcpUpdateConfiguration {
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderUpdateConfiguration =
+  | { Azure: AzureUpdateConfiguration; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpUpdateConfiguration };
 export interface UpdateConnectorRequest {
   ConnectorId: string;
   Description?: string | undefined;
@@ -8113,9 +8165,30 @@ export interface ServiceNowUpdateConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowUpdateConfiguration; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureUpdateConfiguration };
+  | {
+      JiraCloud: JiraCloudUpdateConfiguration;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow: ServiceNowUpdateConfiguration;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure: AzureUpdateConfiguration;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP: GcpUpdateConfiguration;
+    };
 export interface UpdateConnectorV2Request {
   ConnectorId: string;
   Description?: string | undefined;
@@ -12711,7 +12784,7 @@ export const updateConnector: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c33, 1) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<UpdateConnectorResponse>,
+  output: __S(1090, __c34, 2) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12747,7 +12820,7 @@ export const updateConnectorV2: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1122, __c35, 2) as any as S.Schema<UpdateConnectorV2Request>,
-  output: __S(1089, __c34, 1) as any as S.Schema<UpdateConnectorV2Response>,
+  output: __S(1090, __c34, 2) as any as S.Schema<UpdateConnectorV2Response>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14015,7 +14088,10 @@ function __c32(j: number): any {
 function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(1089, __c34, 1) }),
+      ]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -14046,6 +14122,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AzureUpdateConfiguration" });
     case 1:
       return S.suspend(() =>
+        S.Struct({
+          ScopeConfiguration: S.optional(__S(3872, __c121, 0)),
+          GCPRegions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GcpUpdateConfiguration" });
+    case 2:
+      return S.suspend(() =>
         S.Struct({ ConnectorStatus: S.optional(S.String), EnablementStatus: S.optional(S.String) }),
       ).annotate({ identifier: "UpdateConnectorResponse" });
   }
@@ -14061,6 +14144,7 @@ function __c35(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(3968, __c124, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(1120, __c35, 0) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(1089, __c34, 1) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -19762,6 +19846,7 @@ function __c94(j: number): any {
           AwsEc2ClientVpnEndpoint: S.optional(__S(3017, __c94, 9)),
           CodeRepository: S.optional(__S(3018, __c94, 10)),
           AzureResource: S.optional(S.Any),
+          GcpResource: S.optional(S.Any),
         }),
       ).annotate({ identifier: "ResourceDetails" });
     case 12:
@@ -20810,6 +20895,14 @@ function __c120(j: number): any {
           AzureRegions: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "AzureProviderConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AWSConfigConnectorArn: S.optional(S.String),
+          ScopeConfiguration: S.optional(__S(3872, __c121, 0)),
+          GCPRegions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GcpProviderConfiguration" });
   }
 }
 function __c121(j: number): any {
@@ -20823,7 +20916,10 @@ function __c121(j: number): any {
 function __c122(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
+      ]);
   }
 }
 function __c123(j: number): any {
@@ -20837,6 +20933,7 @@ function __c123(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(3968, __c124, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -21993,6 +22090,7 @@ function __c179(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(5728, __c179, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(5729, __c179, 1) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
       ]);
   }
 }

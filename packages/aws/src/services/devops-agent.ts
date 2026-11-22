@@ -97,7 +97,12 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      reason: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "ConflictExceptionReason" }),
+      ),
+    },
     /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ContentSizeExceededException
@@ -149,7 +154,7 @@ export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     fieldList: /*@__PURE__*/ S.optional(
-      /*@__PURE__*/ S.suspend(() => __S(2881, __c90, 1)).annotate({
+      /*@__PURE__*/ S.suspend(() => __S(2977, __c93, 1)).annotate({
         identifier: "ValidationExceptionFieldList",
       }),
     ),
@@ -167,6 +172,40 @@ export interface SourceAwsConfiguration {
   agentElevatedRoleArn?: string | undefined;
   agentElevatedRoleArnStatus?: ValidationStatus | undefined;
 }
+export type OrgUnitId = string;
+export type AwsAccountId = string;
+export type AccountIdList = string[];
+export interface SourceAwsOrgUnit {
+  organizationalUnitId: string;
+  accountIds?: string[] | undefined;
+}
+export type OrgSourceAccountReasonCode =
+  | "accountSuspended"
+  | "accountNotInScope"
+  | "managementAccountNotSupported"
+  | "stackInstanceInoperable"
+  | "accessDenied"
+  | "deploymentFailed"
+  | "secondaryAccountLimitExceeded"
+  | (string & {});
+export type OrgSourceIssueMessage = string | redacted.Redacted<string>;
+export interface OrgSourceIssue {
+  reasonCode: OrgSourceAccountReasonCode;
+  accountCount: number;
+  accountIds: string[];
+  message?: string | redacted.Redacted<string> | undefined;
+}
+export type OrgSourceIssueList = OrgSourceIssue[];
+export interface OrgSourceDeploymentState {
+  deployedAccountCount?: number | undefined;
+  issues?: OrgSourceIssue[] | undefined;
+  lastEvaluatedAt?: Date | undefined;
+}
+export interface SourceAwsOrgConfiguration {
+  accountType: SourceAccountType;
+  organizationalUnit: SourceAwsOrgUnit;
+  deploymentState?: OrgSourceDeploymentState | undefined;
+}
 export type MonitorAccountType = "monitor" | (string & {});
 export interface AWSConfiguration {
   assumableRoleArn: string;
@@ -174,6 +213,7 @@ export interface AWSConfiguration {
   accountType: MonitorAccountType;
   agentElevatedRoleArn?: string | undefined;
   agentElevatedRoleArnStatus?: ValidationStatus | undefined;
+  serviceManagementRoleArn?: string | undefined;
 }
 export type GithubRepoOwnerType = "organization" | "user" | (string & {});
 export type AssociationId = string;
@@ -301,6 +341,7 @@ export interface ReleaseManagementConfiguration {
 export type ServiceConfiguration =
   | {
       sourceAws: SourceAwsConfiguration;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -324,6 +365,31 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg: SourceAwsOrgConfiguration;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
+    }
+  | {
+      sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws: AWSConfiguration;
       github?: undefined;
       slack?: undefined;
@@ -347,6 +413,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github: GitHubConfiguration;
       slack?: undefined;
@@ -370,6 +437,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack: SlackConfiguration;
@@ -393,6 +461,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -416,6 +485,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -439,6 +509,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -462,6 +533,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -485,6 +557,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -508,6 +581,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -531,6 +605,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -554,6 +629,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -577,6 +653,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -600,6 +677,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -623,6 +701,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -646,6 +725,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -669,6 +749,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -692,6 +773,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -715,6 +797,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -738,6 +821,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -761,6 +845,7 @@ export type ServiceConfiguration =
     }
   | {
       sourceAws?: undefined;
+      sourceAwsOrg?: undefined;
       aws?: undefined;
       github?: undefined;
       slack?: undefined;
@@ -785,6 +870,8 @@ export type ServiceConfiguration =
 export type CapabilityType =
   | "RELEASE_READINESS_REVIEW"
   | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"
+  | "CODE_CHANGE_RISK_ANALYSIS"
+  | "CODE_CHANGE_RISK_ANALYSIS_AUTOMATED_TESTING"
   | (string & {});
 export type TriggerEvent = "PULL_REQUEST_READY_FOR_REVIEW" | "PULL_REQUEST_DRAFT" | (string & {});
 export type TriggerEventList = TriggerEvent[];
@@ -844,6 +931,7 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export type AgentSpacePreferenceKey = "elevatedActionsEnabled" | (string & {});
 export type AgentSpacePreferences = { [key in AgentSpacePreferenceKey]?: boolean | undefined };
+export type AwsSourceMode = "standalone" | "organization" | (string & {});
 export interface CreateAgentSpaceInput {
   name: string;
   description?: string | redacted.Redacted<string> | undefined;
@@ -852,6 +940,7 @@ export interface CreateAgentSpaceInput {
   clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   preferences?: { [key: string]: boolean | undefined } | undefined;
+  awsSourceMode?: AwsSourceMode | undefined;
 }
 export interface AgentSpace {
   name: string;
@@ -862,6 +951,7 @@ export interface AgentSpace {
   kmsKeyArn?: string | undefined;
   agentSpaceId: string;
   preferences?: { [key: string]: boolean | undefined } | undefined;
+  awsSourceMode?: AwsSourceMode | undefined;
 }
 export interface CreateAgentSpaceOutput {
   agentSpace: AgentSpace;
@@ -942,6 +1032,7 @@ export type TaskType =
   | "EVALUATION"
   | "RELEASE_READINESS_REVIEW"
   | "RELEASE_TESTING"
+  | "CODE_CHANGE_RISK_ANALYSIS"
   | (string & {});
 export type BacklogTaskTitle = string;
 export type BacklogTaskDescription = string;
@@ -1289,6 +1380,18 @@ export interface GetBacklogTaskRequest {
 }
 export interface GetBacklogTaskResponse {
   task: Task;
+}
+export interface GetChatRequest {
+  agentSpaceId: string;
+  executionId: string;
+}
+export type ChatArchiveStatus = "ACTIVE" | "ARCHIVED" | (string & {});
+export interface GetChatResponse {
+  executionId: string;
+  summary?: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+  archiveStatus: ChatArchiveStatus;
 }
 export interface GetOperatorAppInput {
   agentSpaceId: string;
@@ -1852,12 +1955,14 @@ export interface ListChatsRequest {
   userId?: string | undefined;
   maxResults?: number | undefined;
   nextToken?: string | undefined;
+  archiveStatus?: ChatArchiveStatus | undefined;
 }
 export interface ChatExecution {
   executionId: string;
   createdAt: Date;
   updatedAt?: Date | undefined;
   summary?: string | undefined;
+  archiveStatus?: ChatArchiveStatus | undefined;
 }
 export type ChatExecutionList = ChatExecution[];
 export interface ListChatsResponse {
@@ -2777,6 +2882,7 @@ export interface UpdateAgentSpaceInput {
   description?: string | redacted.Redacted<string> | undefined;
   locale?: string | undefined;
   preferences?: { [key: string]: boolean | undefined } | undefined;
+  awsSourceMode?: AwsSourceMode | undefined;
 }
 export interface UpdateAgentSpaceOutput {
   agentSpace: AgentSpace;
@@ -2851,6 +2957,19 @@ export interface UpdateBacklogTaskRequest {
 export interface UpdateBacklogTaskResponse {
   task: Task;
 }
+export interface UpdateChatRequest {
+  agentSpaceId: string;
+  executionId: string;
+  summary?: string | undefined;
+  archiveStatus?: ChatArchiveStatus | undefined;
+  clientToken?: string | undefined;
+}
+export interface UpdateChatResponse {
+  executionId: string;
+  summary?: string | undefined;
+  updatedAt: Date;
+  archiveStatus: ChatArchiveStatus;
+}
 export interface GoalScheduleInput {
   state: SchedulerState;
 }
@@ -2910,6 +3029,7 @@ export interface ValidateAwsAssociationsInput {
   agentSpaceId: string;
 }
 export interface ValidateAwsAssociationsOutput {}
+export type ConflictExceptionReason = "CHAT_ARCHIVED" | (string & {});
 export interface ValidationExceptionField {
   path: string;
   message: string;
@@ -2936,7 +3056,7 @@ export const associateService: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AssociateServiceInput>,
-  output: __S(161, __c5, 1) as any as S.Schema<AssociateServiceOutput>,
+  output: __S(193, __c6, 1) as any as S.Schema<AssociateServiceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -2976,8 +3096,8 @@ export const createAgentSpace: API.OperationMethod<
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateAgentSpaceInput>,
-  output: __S(256, __c8, 0) as any as S.Schema<CreateAgentSpaceOutput>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateAgentSpaceInput>,
+  output: __S(288, __c9, 0) as any as S.Schema<CreateAgentSpaceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3017,8 +3137,8 @@ export const createAsset: API.OperationMethod<
   CreateAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateAssetRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<CreateAssetResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateAssetRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CreateAssetResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3058,8 +3178,8 @@ export const createAssetFile: API.OperationMethod<
   CreateAssetFileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateAssetFileRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<CreateAssetFileResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateAssetFileRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<CreateAssetFileResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3099,8 +3219,8 @@ export const createBacklogTask: API.OperationMethod<
   CreateBacklogTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateBacklogTaskRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<CreateBacklogTaskResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateBacklogTaskRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<CreateBacklogTaskResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3140,8 +3260,8 @@ export const createChat: API.OperationMethod<
   CreateChatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateChatRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<CreateChatResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateChatRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<CreateChatResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3181,8 +3301,8 @@ export const createPrivateConnection: API.OperationMethod<
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(707, __c22, 3) as any as S.Schema<CreatePrivateConnectionInput>,
-  output: __S(736, __c23, 0) as any as S.Schema<CreatePrivateConnectionOutput>,
+  input: __S(739, __c23, 3) as any as S.Schema<CreatePrivateConnectionInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<CreatePrivateConnectionOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3222,8 +3342,8 @@ export const createTrigger: API.OperationMethod<
   CreateTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CreateTriggerRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<CreateTriggerResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateTriggerRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<CreateTriggerResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3263,7 +3383,7 @@ export const deleteAgentSpace: API.OperationMethod<
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteAgentSpaceInput>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteAgentSpaceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAgentSpaceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3304,7 +3424,7 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteAssetRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteAssetRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAssetResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3345,7 +3465,7 @@ export const deleteAssetFile: API.OperationMethod<
   DeleteAssetFileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteAssetFileRequest>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteAssetFileRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAssetFileResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3386,8 +3506,8 @@ export const deletePrivateConnection: API.OperationMethod<
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeletePrivateConnectionInput>,
-  output: __S(961, __c30, 1) as any as S.Schema<DeletePrivateConnectionOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeletePrivateConnectionInput>,
+  output: __S(993, __c31, 1) as any as S.Schema<DeletePrivateConnectionOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3427,7 +3547,7 @@ export const deleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteTriggerRequest>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteTriggerRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteTriggerResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3468,7 +3588,7 @@ export const deregisterService: API.OperationMethod<
   DeregisterServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeregisterServiceInput>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeregisterServiceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DeregisterServiceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3509,8 +3629,8 @@ export const describePrivateConnection: API.OperationMethod<
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DescribePrivateConnectionInput>,
-  output: __S(736, __c23, 0) as any as S.Schema<DescribePrivateConnectionOutput>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DescribePrivateConnectionInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DescribePrivateConnectionOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3551,7 +3671,7 @@ export const disableOperatorApp: API.OperationMethod<
   DisableOperatorAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DisableOperatorAppInput>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DisableOperatorAppInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisableOperatorAppResponse>,
   errors: [IdentityCenterServiceException, ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3592,7 +3712,7 @@ export const disassociateService: API.OperationMethod<
   DisassociateServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DisassociateServiceInput>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DisassociateServiceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisassociateServiceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -3634,8 +3754,8 @@ export const enableOperatorApp: API.OperationMethod<
   EnableOperatorAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<EnableOperatorAppInput>,
-  output: __S(1153, __c36, 1) as any as S.Schema<EnableOperatorAppOutput>,
+  input: __S(1184, __c37, 0) as any as S.Schema<EnableOperatorAppInput>,
+  output: __S(1185, __c37, 1) as any as S.Schema<EnableOperatorAppOutput>,
   errors: [IdentityCenterServiceException, ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3675,8 +3795,8 @@ export const getAccountUsage: API.OperationMethod<
   GetAccountUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetAccountUsageInput>,
-  output: __S(1250, __c39, 2) as any as S.Schema<GetAccountUsageOutput>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetAccountUsageInput>,
+  output: __S(1282, __c40, 2) as any as S.Schema<GetAccountUsageOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3716,8 +3836,8 @@ export const getAgentSpace: API.OperationMethod<
   GetAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetAgentSpaceInput>,
-  output: __S(256, __c8, 0) as any as S.Schema<GetAgentSpaceOutput>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetAgentSpaceInput>,
+  output: __S(288, __c9, 0) as any as S.Schema<GetAgentSpaceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3757,8 +3877,8 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetAssetRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<GetAssetResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetAssetRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetAssetResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3798,8 +3918,8 @@ export const getAssetContent: API.OperationMethod<
   GetAssetContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetAssetContentRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<GetAssetContentResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetAssetContentRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<GetAssetContentResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3839,8 +3959,8 @@ export const getAssetFile: API.OperationMethod<
   GetAssetFileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetAssetFileRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<GetAssetFileResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetAssetFileRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<GetAssetFileResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3880,8 +4000,8 @@ export const getAssociation: API.OperationMethod<
   GetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetAssociationInput>,
-  output: __S(1409, __c44, 1) as any as S.Schema<GetAssociationOutput>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetAssociationInput>,
+  output: __S(1441, __c45, 1) as any as S.Schema<GetAssociationOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3921,8 +4041,8 @@ export const getBacklogTask: API.OperationMethod<
   GetBacklogTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetBacklogTaskRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<GetBacklogTaskResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetBacklogTaskRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<GetBacklogTaskResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -3940,6 +4060,47 @@ export const getBacklogTask: API.OperationMethod<
   endpointHostPrefix: "dp.",
   telemetry: TELEMETRY,
   span: "GetBacklogTask",
+}));
+
+export type GetChatError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | CommonErrors;
+/**
+ * Retrieves the details of a chat execution, including its execution ID, summary, timestamps, and archive status.
+ */
+export const getChat: API.OperationMethod<
+  GetChatRequest & RegionInput,
+  GetChatResponse,
+  GetChatError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1504, __c47, 0) as any as S.Schema<GetChatRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<GetChatResponse>,
+  errors: [ValidationException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InternalServerException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetChat",
+  endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetChat",
 }));
 
 export type GetOperatorAppError =
@@ -3962,8 +4123,8 @@ export const getOperatorApp: API.OperationMethod<
   GetOperatorAppError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetOperatorAppInput>,
-  output: __S(1473, __c46, 1) as any as S.Schema<GetOperatorAppOutput>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetOperatorAppInput>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetOperatorAppOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4003,8 +4164,8 @@ export const getRecommendation: API.OperationMethod<
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetRecommendationRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<GetRecommendationResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetRecommendationRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<GetRecommendationResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4044,8 +4205,8 @@ export const getService: API.OperationMethod<
   GetServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetServiceInput>,
-  output: __S(1601, __c50, 1) as any as S.Schema<GetServiceOutput>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetServiceInput>,
+  output: __S(1665, __c52, 1) as any as S.Schema<GetServiceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4085,8 +4246,8 @@ export const getTrigger: API.OperationMethod<
   GetTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetTriggerRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetTriggerRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4127,8 +4288,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentSpace
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListAgentSpacesInput>,
-  output: __S(1730, __c54, 2) as any as S.Schema<ListAgentSpacesOutput>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListAgentSpacesInput>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListAgentSpacesOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4175,8 +4336,8 @@ export const listAssetFiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetFileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListAssetFilesRequest>,
-  output: __S(1763, __c55, 3) as any as S.Schema<ListAssetFilesResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListAssetFilesRequest>,
+  output: __S(1827, __c57, 3) as any as S.Schema<ListAssetFilesResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4223,8 +4384,8 @@ export const listAssets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Asset
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListAssetsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListAssetsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListAssetsRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListAssetsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4271,8 +4432,8 @@ export const listAssetTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetTypeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListAssetTypesRequest>,
-  output: __S(1827, __c57, 3) as any as S.Schema<ListAssetTypesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListAssetTypesRequest>,
+  output: __S(1891, __c59, 3) as any as S.Schema<ListAssetTypesResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4319,8 +4480,8 @@ export const listAssetVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetVersionMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListAssetVersionsRequest>,
-  output: __S(1859, __c58, 3) as any as S.Schema<ListAssetVersionsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListAssetVersionsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListAssetVersionsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4367,8 +4528,8 @@ export const listAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Association
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListAssociationsInput>,
-  output: __S(1890, __c59, 2) as any as S.Schema<ListAssociationsOutput>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListAssociationsInput>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListAssociationsOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4415,8 +4576,8 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Task
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1921, __c60, 1) as any as S.Schema<ListBacklogTasksRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<ListBacklogTasksResponse>,
+  input: __S(1985, __c62, 1) as any as S.Schema<ListBacklogTasksRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ListBacklogTasksResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4443,11 +4604,11 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListChatsError =
+  | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
-  | AccessDeniedException
   | ConflictException
   | ContentSizeExceededException
   | InvalidParameterException
@@ -4462,8 +4623,8 @@ export const listChats: API.OperationMethod<
   ListChatsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListChatsRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<ListChatsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListChatsRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<ListChatsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4504,8 +4665,8 @@ export const listExecutions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Execution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListExecutionsRequest>,
-  output: __S(1987, __c62, 3) as any as S.Schema<ListExecutionsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListExecutionsRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<ListExecutionsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4552,8 +4713,8 @@ export const listGoals: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Goal
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListGoalsRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<ListGoalsResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListGoalsRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ListGoalsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4600,8 +4761,8 @@ export const listJournalRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JournalRecord
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListJournalRecordsRequest>,
-  output: __S(2084, __c65, 4) as any as S.Schema<ListJournalRecordsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListJournalRecordsRequest>,
+  output: __S(2148, __c67, 4) as any as S.Schema<ListJournalRecordsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4647,8 +4808,8 @@ export const listPendingMessages: API.OperationMethod<
   ListPendingMessagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListPendingMessagesRequest>,
-  output: __S(2120, __c66, 8) as any as S.Schema<ListPendingMessagesResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListPendingMessagesRequest>,
+  output: __S(2184, __c68, 8) as any as S.Schema<ListPendingMessagesResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4688,8 +4849,8 @@ export const listPrivateConnections: API.OperationMethod<
   ListPrivateConnectionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListPrivateConnectionsInput>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListPrivateConnectionsInput>,
+  output: __S(2210, __c69, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4729,8 +4890,8 @@ export const listRecommendations: API.OperationMethod<
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListRecommendationsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ListRecommendationsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListRecommendationsRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<ListRecommendationsResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4771,8 +4932,8 @@ export const listServices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegisteredService
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListServicesInput>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListServicesOutput>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListServicesInput>,
+  output: __S(2306, __c72, 2) as any as S.Schema<ListServicesOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4818,8 +4979,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4860,8 +5021,8 @@ export const listTriggers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Trigger
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListTriggersRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<ListTriggersResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListTriggersRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<ListTriggersResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4907,8 +5068,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListWebhooksInput>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ListWebhooksOutput>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListWebhooksInput>,
+  output: __S(2403, __c75, 3) as any as S.Schema<ListWebhooksOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4948,8 +5109,8 @@ export const registerService: API.OperationMethod<
   RegisterServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2395, __c74, 27) as any as S.Schema<RegisterServiceInput>,
-  output: __S(2398, __c74, 30) as any as S.Schema<RegisterServiceOutput>,
+  input: __S(2459, __c76, 27) as any as S.Schema<RegisterServiceInput>,
+  output: __S(2462, __c76, 30) as any as S.Schema<RegisterServiceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -4971,12 +5132,12 @@ export const registerService: API.OperationMethod<
 
 export type SendMessageError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
-  | ConflictException
   | ContentSizeExceededException
   | InvalidParameterException
   | CommonErrors;
@@ -4989,8 +5150,8 @@ export const sendMessage: API.OperationMethod<
   SendMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2402, __c75, 2) as any as S.Schema<SendMessageRequest>,
-  output: __S(2415, __c75, 15) as any as S.Schema<SendMessageResponse>,
+  input: __S(2466, __c77, 2) as any as S.Schema<SendMessageRequest>,
+  output: __S(2479, __c77, 15) as any as S.Schema<SendMessageResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5030,7 +5191,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -5071,7 +5232,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -5112,8 +5273,8 @@ export const updateAgentSpace: API.OperationMethod<
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateAgentSpaceInput>,
-  output: __S(2497, __c78, 1) as any as S.Schema<UpdateAgentSpaceOutput>,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateAgentSpaceInput>,
+  output: __S(2561, __c80, 1) as any as S.Schema<UpdateAgentSpaceOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5153,8 +5314,8 @@ export const updateApprovalAction: API.OperationMethod<
   UpdateApprovalActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2529, __c79, 1) as any as S.Schema<UpdateApprovalActionRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<UpdateApprovalActionResponse>,
+  input: __S(2593, __c81, 1) as any as S.Schema<UpdateApprovalActionRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<UpdateApprovalActionResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5194,8 +5355,8 @@ export const updateAsset: API.OperationMethod<
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<UpdateAssetRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<UpdateAssetResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateAssetRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<UpdateAssetResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5235,8 +5396,8 @@ export const updateAssetFile: API.OperationMethod<
   UpdateAssetFileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateAssetFileRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<UpdateAssetFileResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateAssetFileRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<UpdateAssetFileResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5276,8 +5437,8 @@ export const updateAssociation: API.OperationMethod<
   UpdateAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateAssociationInput>,
-  output: __S(161, __c5, 1) as any as S.Schema<UpdateAssociationOutput>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdateAssociationInput>,
+  output: __S(193, __c6, 1) as any as S.Schema<UpdateAssociationOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5317,8 +5478,8 @@ export const updateBacklogTask: API.OperationMethod<
   UpdateBacklogTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateBacklogTaskRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UpdateBacklogTaskResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<UpdateBacklogTaskRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<UpdateBacklogTaskResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5336,6 +5497,49 @@ export const updateBacklogTask: API.OperationMethod<
   endpointHostPrefix: "dp.",
   telemetry: TELEMETRY,
   span: "UpdateBacklogTask",
+}));
+
+export type UpdateChatError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | CommonErrors;
+/**
+ * Updates a chat execution. You can use this operation to change the chat execution's summary or to archive or unarchive it.
+ *
+ * Archiving a chat execution hides it from the default chat list. Unarchiving a chat execution restores it to the default chat list.
+ */
+export const updateChat: API.OperationMethod<
+  UpdateChatRequest & RegionInput,
+  UpdateChatResponse,
+  UpdateChatError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateChatRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateChatResponse>,
+  errors: [ValidationException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InternalServerException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateChat",
+  endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateChat",
 }));
 
 export type UpdateGoalError =
@@ -5358,8 +5562,8 @@ export const updateGoal: API.OperationMethod<
   UpdateGoalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2689, __c84, 1) as any as S.Schema<UpdateGoalRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<UpdateGoalResponse>,
+  input: __S(2785, __c87, 1) as any as S.Schema<UpdateGoalRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<UpdateGoalResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5399,8 +5603,8 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
   UpdateOperatorAppIdpConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<UpdateOperatorAppIdpConfigInput>,
-  output: __S(2721, __c85, 1) as any as S.Schema<UpdateOperatorAppIdpConfigOutput>,
+  input: __S(2816, __c88, 0) as any as S.Schema<UpdateOperatorAppIdpConfigInput>,
+  output: __S(2817, __c88, 1) as any as S.Schema<UpdateOperatorAppIdpConfigOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5440,8 +5644,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<UpdatePrivateConnectionCertificateInput>,
-  output: __S(2176, __c68, 0) as any as S.Schema<UpdatePrivateConnectionCertificateOutput>,
+  input: __S(2848, __c89, 0) as any as S.Schema<UpdatePrivateConnectionCertificateInput>,
+  output: __S(2240, __c70, 0) as any as S.Schema<UpdatePrivateConnectionCertificateOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5481,8 +5685,8 @@ export const updateRecommendation: API.OperationMethod<
   UpdateRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<UpdateRecommendationRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<UpdateRecommendationResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<UpdateRecommendationRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<UpdateRecommendationResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5522,8 +5726,8 @@ export const updateTrigger: API.OperationMethod<
   UpdateTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<UpdateTriggerRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<UpdateTriggerResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateTriggerRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<UpdateTriggerResponse>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -5563,7 +5767,7 @@ export const validateAwsAssociations: API.OperationMethod<
   ValidateAwsAssociationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ValidateAwsAssociationsInput>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ValidateAwsAssociationsInput>,
   output: __S(64, __c2, 0) as any as S.Schema<ValidateAwsAssociationsOutput>,
   errors: [ValidationException],
   serviceErrors: awsServiceErrorsWith(
@@ -5592,8 +5796,8 @@ function __c0(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           serviceId: S.String,
-          configuration: __S(153, __c4, 25),
-          capabilities: S.optional(__S(158, __c4, 30)),
+          configuration: __S(158, __c4, 30),
+          capabilities: S.optional(__S(163, __c5, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/agentspaces/{agentSpaceId}/associations" }),
@@ -5640,15 +5844,47 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SourceAwsConfiguration" });
     case 1:
       return S.suspend(() =>
+        S.Struct({ organizationalUnitId: S.String, accountIds: S.optional(__S(32, __c1, 0)) }),
+      ).annotate({ identifier: "SourceAwsOrgUnit" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          reasonCode: S.String,
+          accountCount: S.Number,
+          accountIds: __S(32, __c1, 0),
+          message: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "OrgSourceIssue" });
+    case 3:
+      return S.Array(__S(130, __c4, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          deployedAccountCount: S.optional(S.Number),
+          issues: S.optional(__S(131, __c4, 3)),
+          lastEvaluatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "OrgSourceDeploymentState" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          accountType: S.String,
+          organizationalUnit: __S(129, __c4, 1),
+          deploymentState: S.optional(__S(132, __c4, 4)),
+        }),
+      ).annotate({ identifier: "SourceAwsOrgConfiguration" });
+    case 6:
+      return S.suspend(() =>
         S.Struct({
           assumableRoleArn: S.String,
           accountId: S.String,
           accountType: S.String,
           agentElevatedRoleArn: S.optional(S.String),
           agentElevatedRoleArnStatus: S.optional(S.String),
+          serviceManagementRoleArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "AWSConfiguration" });
-    case 2:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           repoName: S.String,
@@ -5660,57 +5896,57 @@ function __c4(j: number): any {
           releaseManagementAssociationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubConfiguration" });
-    case 3:
+    case 8:
       return S.suspend(() =>
         S.Struct({ channelName: S.optional(S.String), channelId: S.String }),
       ).annotate({ identifier: "SlackChannel" });
-    case 4:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          opsOncallTarget: __S(131, __c4, 3),
-          opsSRETarget: S.optional(__S(131, __c4, 3)),
+          opsOncallTarget: __S(136, __c4, 8),
+          opsSRETarget: S.optional(__S(136, __c4, 8)),
         }),
       ).annotate({ identifier: "SlackTransmissionTarget" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({ roleArn: S.String, enabled: S.optional(S.Boolean) }),
       ).annotate({ identifier: "SlackBidirectionalConfiguration" });
-    case 6:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           workspaceId: S.String,
           workspaceName: S.String,
-          transmissionTarget: __S(132, __c4, 4),
-          bidirectional: S.optional(__S(133, __c4, 5)),
+          transmissionTarget: __S(137, __c4, 9),
+          bidirectional: S.optional(__S(138, __c4, 10)),
         }),
       ).annotate({ identifier: "SlackConfiguration" });
-    case 7:
+    case 12:
       return S.suspend(() =>
         S.Struct({ envId: S.String, resources: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "DynatraceConfiguration" });
-    case 8:
+    case 13:
       return S.suspend(() =>
         S.Struct({ instanceId: S.optional(S.String), authScopes: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "ServiceNowConfiguration" });
-    case 9:
+    case 14:
       return S.suspend(() => S.Struct({ accountId: S.String, endpoint: S.String })).annotate({
         identifier: "MCPServerNewRelicConfiguration",
       });
-    case 10:
+    case 15:
       return S.suspend(() =>
         S.Struct({ name: S.String, toolClassification: S.optional(S.String) }),
       ).annotate({ identifier: "MCPToolDetail" });
-    case 11:
-      return S.Array(__S(138, __c4, 10));
-    case 12:
+    case 16:
+      return S.Array(__S(143, __c4, 15));
+    case 17:
       return S.suspend(() =>
-        S.Struct({ enabledElevatedTools: S.optional(__S(139, __c4, 11)) }),
+        S.Struct({ enabledElevatedTools: S.optional(__S(144, __c4, 16)) }),
       ).annotate({ identifier: "MCPServerDatadogConfiguration" });
-    case 13:
+    case 18:
       return S.suspend(() =>
-        S.Struct({ tools: __S(32, __c1, 0), toolDetails: S.optional(__S(139, __c4, 11)) }),
+        S.Struct({ tools: __S(32, __c1, 0), toolDetails: S.optional(__S(144, __c4, 16)) }),
       ).annotate({ identifier: "MCPServerConfiguration" });
-    case 14:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String,
@@ -5720,104 +5956,109 @@ function __c4(j: number): any {
           releaseManagementAssociationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitLabConfiguration" });
-    case 15:
+    case 20:
       return S.suspend(() => S.Struct({ subscriptionId: S.String })).annotate({
         identifier: "AzureConfiguration",
       });
-    case 16:
+    case 21:
       return S.suspend(() =>
         S.Struct({ organizationName: S.String, projectId: S.String, projectName: S.String }),
       ).annotate({ identifier: "AzureDevOpsConfiguration" });
-    case 17:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
           organizationId: S.optional(S.String),
           tools: S.optional(__S(32, __c1, 0)),
-          enabledElevatedTools: S.optional(__S(139, __c4, 11)),
+          enabledElevatedTools: S.optional(__S(144, __c4, 16)),
         }),
       ).annotate({ identifier: "MCPServerGrafanaConfiguration" });
-    case 18:
+    case 23:
       return S.suspend(() =>
         S.Struct({ services: __S(32, __c1, 0), customerEmail: SensitiveString }),
       ).annotate({ identifier: "PagerDutyConfiguration" });
-    case 19:
+    case 24:
       return S.suspend(() => S.Struct({ channelName: S.String, channelId: S.String })).annotate({
         identifier: "MSTeamsChannel",
       });
-    case 20:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          opsOncallTarget: S.optional(__S(147, __c4, 19)),
-          opsSRETarget: S.optional(__S(147, __c4, 19)),
+          opsOncallTarget: S.optional(__S(152, __c4, 24)),
+          opsSRETarget: S.optional(__S(152, __c4, 24)),
         }),
       ).annotate({ identifier: "MSTeamsTransmissionTarget" });
-    case 21:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           teamId: S.String,
           teamName: S.String,
-          transmissionTarget: __S(148, __c4, 20),
-          bidirectional: S.optional(__S(133, __c4, 5)),
+          transmissionTarget: __S(153, __c4, 25),
+          bidirectional: S.optional(__S(138, __c4, 10)),
         }),
       ).annotate({ identifier: "MSTeamsConfiguration" });
-    case 22:
+    case 27:
       return S.suspend(() =>
         S.Struct({ privateConnectionName: S.String, runtimeRoleArn: S.String }),
       ).annotate({ identifier: "PrivateNetworkAccess" });
-    case 23:
-      return S.Union([/*@__PURE__*/ S.Struct({ privateAccess: __S(150, __c4, 22) })]);
-    case 24:
+    case 28:
+      return S.Union([/*@__PURE__*/ S.Struct({ privateAccess: __S(155, __c4, 27) })]);
+    case 29:
       return S.suspend(() =>
-        S.Struct({ name: S.String, networkAccess: __S(151, __c4, 23) }),
+        S.Struct({ name: S.String, networkAccess: __S(156, __c4, 28) }),
       ).annotate({ identifier: "ReleaseManagementConfiguration" });
-    case 25:
+    case 30:
       return S.Union([
         /*@__PURE__*/ S.Struct({ sourceAws: __S(128, __c4, 0) }),
-        /*@__PURE__*/ S.Struct({ aws: __S(129, __c4, 1) }),
-        /*@__PURE__*/ S.Struct({ github: __S(130, __c4, 2) }),
-        /*@__PURE__*/ S.Struct({ slack: __S(134, __c4, 6) }),
-        /*@__PURE__*/ S.Struct({ dynatrace: __S(135, __c4, 7) }),
-        /*@__PURE__*/ S.Struct({ servicenow: __S(136, __c4, 8) }),
-        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(137, __c4, 9) }),
-        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(140, __c4, 12) }),
-        /*@__PURE__*/ S.Struct({ mcpserver: __S(141, __c4, 13) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(142, __c4, 14) }),
+        /*@__PURE__*/ S.Struct({ sourceAwsOrg: __S(133, __c4, 5) }),
+        /*@__PURE__*/ S.Struct({ aws: __S(134, __c4, 6) }),
+        /*@__PURE__*/ S.Struct({ github: __S(135, __c4, 7) }),
+        /*@__PURE__*/ S.Struct({ slack: __S(139, __c4, 11) }),
+        /*@__PURE__*/ S.Struct({ dynatrace: __S(140, __c4, 12) }),
+        /*@__PURE__*/ S.Struct({ servicenow: __S(141, __c4, 13) }),
+        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(142, __c4, 14) }),
+        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(145, __c4, 17) }),
+        /*@__PURE__*/ S.Struct({ mcpserver: __S(146, __c4, 18) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(147, __c4, 19) }),
         /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(64, __c2, 0) }),
         /*@__PURE__*/ S.Struct({ eventChannel: __S(64, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ azure: __S(143, __c4, 15) }),
-        /*@__PURE__*/ S.Struct({ azuredevops: __S(144, __c4, 16) }),
-        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(145, __c4, 17) }),
-        /*@__PURE__*/ S.Struct({ pagerduty: __S(146, __c4, 18) }),
-        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(141, __c4, 13) }),
+        /*@__PURE__*/ S.Struct({ azure: __S(148, __c4, 20) }),
+        /*@__PURE__*/ S.Struct({ azuredevops: __S(149, __c4, 21) }),
+        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(150, __c4, 22) }),
+        /*@__PURE__*/ S.Struct({ pagerduty: __S(151, __c4, 23) }),
+        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(146, __c4, 18) }),
         /*@__PURE__*/ S.Struct({ remoteagent: __S(64, __c2, 0) }),
         /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(64, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ msteams: __S(149, __c4, 21) }),
-        /*@__PURE__*/ S.Struct({ releaseManagement: __S(152, __c4, 24) }),
+        /*@__PURE__*/ S.Struct({ msteams: __S(154, __c4, 26) }),
+        /*@__PURE__*/ S.Struct({ releaseManagement: __S(157, __c4, 29) }),
       ]);
-    case 26:
+    case 31:
       return S.suspend(() => S.Struct({ patterns: __S(32, __c1, 0) })).annotate({
         identifier: "PatternFilter",
       });
-    case 27:
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           events: S.optional(__S(96, __c3, 0)),
-          targetBranches: S.optional(__S(154, __c4, 26)),
+          targetBranches: S.optional(__S(159, __c4, 31)),
         }),
       ).annotate({ identifier: "TriggerFilterGroup" });
-    case 28:
-      return S.Array(__S(155, __c4, 27));
-    case 29:
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          triggerFilterGroups: S.optional(__S(156, __c4, 28)),
+          triggerFilterGroups: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "CapabilityConfiguration" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ __S(157, __c4, 29).pipe(S.optional));
-    case 31:
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ __S(162, __c5, 2).pipe(S.optional));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String,
@@ -5826,13 +6067,13 @@ function __c4(j: number): any {
           status: S.optional(S.String),
           associationId: S.String,
           serviceId: S.String,
-          configuration: __S(153, __c4, 25),
-          capabilities: S.optional(__S(158, __c4, 30)),
+          configuration: __S(158, __c4, 30),
+          capabilities: S.optional(__S(163, __c5, 3)),
         }),
       ).annotate({ identifier: "Association" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5846,11 +6087,11 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GenericWebhook" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ association: __S(159, __c4, 31), webhook: S.optional(__S(160, __c5, 0)) }),
+        S.Struct({ association: __S(164, __c5, 4), webhook: S.optional(__S(192, __c6, 0)) }),
       ).annotate({ identifier: "AssociateServiceOutput" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5860,29 +6101,30 @@ function __c6(j: number): any {
           locale: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(224, __c7, 0)),
-          preferences: S.optional(__S(288, __c9, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
+          preferences: S.optional(__S(320, __c10, 0)),
+          awsSourceMode: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/v1/agentspaces" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateAgentSpaceInput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpace: __S(289, __c9, 1), tags: S.optional(__S(224, __c7, 0)) }),
+        S.Struct({ agentSpace: __S(321, __c10, 1), tags: S.optional(__S(256, __c8, 0)) }),
       ).annotate({ identifier: "CreateAgentSpaceOutput" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Boolean.pipe(S.optional));
@@ -5896,12 +6138,13 @@ function __c9(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           kmsKeyArn: S.optional(S.String),
           agentSpaceId: S.String,
-          preferences: S.optional(__S(288, __c9, 0)),
+          preferences: S.optional(__S(320, __c10, 0)),
+          awsSourceMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentSpace" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5909,7 +6152,7 @@ function __c10(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetType: S.String,
           metadata: S.optional(S.Any),
-          content: __S(482, __c15, 2),
+          content: __S(514, __c16, 2),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -5924,7 +6167,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateAssetRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -5933,7 +6176,7 @@ function __c11(j: number): any {
       ]);
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5948,15 +6191,15 @@ function __c12(j: number): any {
       ).annotate({ identifier: "Asset" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ asset: __S(384, __c12, 0) })).annotate({
+      return S.suspend(() => S.Struct({ asset: __S(416, __c13, 0) })).annotate({
         identifier: "CreateAssetResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ zipFile: T.Blob })).annotate({
@@ -5964,11 +6207,11 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ path: S.String, body: __S(352, __c11, 0), metadata: S.optional(S.Any) }),
+        S.Struct({ path: S.String, body: __S(384, __c12, 0), metadata: S.optional(S.Any) }),
       ).annotate({ identifier: "AssetFileContent" });
     case 1:
       return S.suspend(() => S.Struct({ url: S.String })).annotate({
@@ -5976,13 +6219,13 @@ function __c15(j: number): any {
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ file: __S(480, __c15, 0) }),
-        /*@__PURE__*/ S.Struct({ zip: __S(448, __c14, 0) }),
-        /*@__PURE__*/ S.Struct({ sourceUrl: __S(481, __c15, 1) }),
+        /*@__PURE__*/ S.Struct({ file: __S(512, __c16, 0) }),
+        /*@__PURE__*/ S.Struct({ zip: __S(480, __c15, 0) }),
+        /*@__PURE__*/ S.Struct({ sourceUrl: __S(513, __c16, 1) }),
       ]);
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5990,7 +6233,7 @@ function __c16(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetId: S.String.pipe(T.HttpLabel("assetId")),
           path: S.String.pipe(T.HttpLabel("path")),
-          content: __S(352, __c11, 0),
+          content: __S(384, __c12, 0),
           metadata: S.optional(S.Any),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -6009,13 +6252,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateAssetFileRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
-          content: __S(352, __c11, 0),
+          content: __S(384, __c12, 0),
           metadata: S.optional(S.Any),
           version: S.Number,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -6023,18 +6266,18 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "AssetFile" });
     case 1:
-      return S.suspend(() => S.Struct({ file: __S(544, __c17, 0) })).annotate({
+      return S.suspend(() => S.Struct({ file: __S(576, __c18, 0) })).annotate({
         identifier: "CreateAssetFileResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
-          reference: S.optional(__S(608, __c19, 0)),
+          reference: S.optional(__S(640, __c20, 0)),
           taskType: S.String,
           title: S.String,
           description: S.optional(S.String),
@@ -6053,7 +6296,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateBacklogTaskRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6073,7 +6316,7 @@ function __c19(j: number): any {
           executionId: S.optional(S.String),
           title: S.String,
           description: S.optional(S.String),
-          reference: S.optional(__S(608, __c19, 0)),
+          reference: S.optional(__S(640, __c20, 0)),
           taskType: S.String,
           priority: S.String,
           status: S.String,
@@ -6089,15 +6332,15 @@ function __c19(j: number): any {
       ).annotate({ identifier: "Task" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ task: __S(609, __c19, 1) })).annotate({
+      return S.suspend(() => S.Struct({ task: __S(641, __c20, 1) })).annotate({
         identifier: "CreateBacklogTaskResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6125,7 +6368,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateChatResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6147,15 +6390,15 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SelfManagedInput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ serviceManaged: __S(704, __c22, 0) }),
-        /*@__PURE__*/ S.Struct({ selfManaged: __S(705, __c22, 1) }),
+        /*@__PURE__*/ S.Struct({ serviceManaged: __S(736, __c23, 0) }),
+        /*@__PURE__*/ S.Struct({ selfManaged: __S(737, __c23, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          mode: __S(706, __c22, 2),
-          tags: S.optional(__S(224, __c7, 0)),
+          mode: __S(738, __c23, 2),
+          tags: S.optional(__S(256, __c8, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/private-connections" }),
@@ -6169,7 +6412,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreatePrivateConnectionInput" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6184,19 +6427,19 @@ function __c23(j: number): any {
           certificateExpiryTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           dnsResolution: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          tags: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "CreatePrivateConnectionOutput" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           type: S.String,
-          condition: __S(807, __c25, 7),
+          condition: __S(839, __c26, 7),
           action: S.Any,
           status: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -6213,7 +6456,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateTriggerRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ expression: S.String })).annotate({
@@ -6230,31 +6473,31 @@ function __c25(j: number): any {
     case 3:
       return S.Union([
         /*@__PURE__*/ S.Struct({ daily: __S(64, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ weekly: __S(801, __c25, 1) }),
-        /*@__PURE__*/ S.Struct({ monthly: __S(802, __c25, 2) }),
+        /*@__PURE__*/ S.Struct({ weekly: __S(833, __c26, 1) }),
+        /*@__PURE__*/ S.Struct({ monthly: __S(834, __c26, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
-        S.Struct({ startAfter: S.String, startBefore: S.String, recurrence: __S(803, __c25, 3) }),
+        S.Struct({ startAfter: S.String, startBefore: S.String, recurrence: __S(835, __c26, 3) }),
       ).annotate({ identifier: "TimeRangeSchedule" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cron: __S(800, __c25, 0) }),
-        /*@__PURE__*/ S.Struct({ timeRange: __S(804, __c25, 4) }),
+        /*@__PURE__*/ S.Struct({ cron: __S(832, __c26, 0) }),
+        /*@__PURE__*/ S.Struct({ timeRange: __S(836, __c26, 4) }),
       ]);
     case 6:
       return S.suspend(() =>
-        S.Struct({ expression: S.optional(S.String), spec: S.optional(__S(805, __c25, 5)) }),
+        S.Struct({ expression: S.optional(S.String), spec: S.optional(__S(837, __c26, 5)) }),
       ).annotate({ identifier: "ScheduleCondition" });
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ schedule: __S(806, __c25, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ schedule: __S(838, __c26, 6) })]);
     case 8:
       return S.suspend(() =>
         S.Struct({
           triggerId: S.String,
           agentSpaceId: S.String,
           type: S.String,
-          condition: __S(807, __c25, 7),
+          condition: __S(839, __c26, 7),
           action: S.Any,
           status: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -6263,15 +6506,15 @@ function __c25(j: number): any {
       ).annotate({ identifier: "Trigger" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ trigger: __S(808, __c25, 8) })).annotate({
+      return S.suspend(() => S.Struct({ trigger: __S(840, __c26, 8) })).annotate({
         identifier: "CreateTriggerResponse",
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6288,7 +6531,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteAgentSpaceInput" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6308,7 +6551,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteAssetRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6332,7 +6575,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteAssetFileRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6353,7 +6596,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6376,7 +6619,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteTriggerRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6393,7 +6636,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeregisterServiceInput" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6410,7 +6653,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DescribePrivateConnectionInput" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6430,7 +6673,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DisableOperatorAppInput" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6453,7 +6696,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DisassociateServiceInput" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6482,14 +6725,14 @@ function __c36(j: number): any {
         S.Struct({
           agentSpaceId: S.String,
           operatorAppUrl: S.optional(S.String),
-          iam: S.optional(__S(1184, __c37, 0)),
-          idc: S.optional(__S(1185, __c37, 1)),
-          idp: S.optional(__S(1216, __c38, 0)),
+          iam: S.optional(__S(1216, __c38, 0)),
+          idc: S.optional(__S(1217, __c38, 1)),
+          idp: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "EnableOperatorAppOutput" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6511,7 +6754,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "IdcAuthConfiguration" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6526,7 +6769,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "IdpAuthConfiguration" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6541,18 +6784,18 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          monthlyAccountInvestigationHours: S.optional(__S(1249, __c39, 1)),
-          monthlyAccountEvaluationHours: S.optional(__S(1249, __c39, 1)),
-          monthlyAccountSystemLearningHours: S.optional(__S(1249, __c39, 1)),
-          monthlyAccountOnDemandHours: S.optional(__S(1249, __c39, 1)),
-          monthlyAccountGraderHours: S.optional(__S(1249, __c39, 1)),
+          monthlyAccountInvestigationHours: S.optional(__S(1281, __c40, 1)),
+          monthlyAccountEvaluationHours: S.optional(__S(1281, __c40, 1)),
+          monthlyAccountSystemLearningHours: S.optional(__S(1281, __c40, 1)),
+          monthlyAccountOnDemandHours: S.optional(__S(1281, __c40, 1)),
+          monthlyAccountGraderHours: S.optional(__S(1281, __c40, 1)),
           usagePeriodStartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           usagePeriodEndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "GetAccountUsageOutput" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6572,7 +6815,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetAgentSpaceInput" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6593,7 +6836,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetAssetRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6616,12 +6859,12 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "GetAssetContentRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ content: __S(448, __c14, 0), version: S.Number })).annotate(
+      return S.suspend(() => S.Struct({ content: __S(480, __c15, 0), version: S.Number })).annotate(
         { identifier: "GetAssetContentResponse" },
       );
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6646,7 +6889,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetAssetFileRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6668,12 +6911,12 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "GetAssociationInput" });
     case 1:
-      return S.suspend(() => S.Struct({ association: __S(159, __c4, 31) })).annotate({
+      return S.suspend(() => S.Struct({ association: __S(164, __c5, 4) })).annotate({
         identifier: "GetAssociationOutput",
       });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6693,7 +6936,40 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetBacklogTaskRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
+          executionId: S.String.pipe(T.HttpLabel("executionId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/agents/agent-space/{agentSpaceId}/chat/get/{executionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetChatRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          executionId: S.String,
+          summary: S.optional(S.String),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          archiveStatus: S.String,
+        }),
+      ).annotate({ identifier: "GetChatResponse" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6712,14 +6988,14 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operatorAppUrl: S.optional(S.String),
-          iam: S.optional(__S(1184, __c37, 0)),
-          idc: S.optional(__S(1185, __c37, 1)),
-          idp: S.optional(__S(1216, __c38, 0)),
+          iam: S.optional(__S(1216, __c38, 0)),
+          idc: S.optional(__S(1217, __c38, 1)),
+          idp: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "GetOperatorAppOutput" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6743,7 +7019,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetRecommendationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ summary: S.String, spec: S.optional(S.String) })).annotate({
@@ -6757,7 +7033,7 @@ function __c48(j: number): any {
           taskId: S.String,
           goalId: S.optional(S.String),
           title: S.String,
-          content: __S(1536, __c48, 0),
+          content: __S(1600, __c50, 0),
           status: S.String,
           priority: S.String,
           goalVersion: S.optional(S.Number),
@@ -6771,15 +7047,15 @@ function __c48(j: number): any {
       ).annotate({ identifier: "Recommendation" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ recommendation: __S(1537, __c48, 1) })).annotate({
+      return S.suspend(() => S.Struct({ recommendation: __S(1601, __c50, 1) })).annotate({
         identifier: "GetRecommendationResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6796,11 +7072,11 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetServiceInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ service: __S(1646, __c51, 14), tags: S.optional(__S(224, __c7, 0)) }),
+        S.Struct({ service: __S(1710, __c53, 14), tags: S.optional(__S(256, __c8, 0)) }),
       ).annotate({ identifier: "GetServiceOutput" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Any);
@@ -6861,7 +7137,7 @@ function __c51(j: number): any {
           service: S.String,
           roleArn: S.String,
           mcpRoleArn: S.optional(S.String),
-          customHeaders: S.optional(__S(1665, __c52, 1)),
+          customHeaders: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "RegisteredMCPServerSigV4Details" });
     case 11:
@@ -6887,21 +7163,21 @@ function __c51(j: number): any {
       ).annotate({ identifier: "RegisteredRemoteAgentSigV4Details" });
     case 13:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ github: __S(1633, __c51, 1) }),
-        /*@__PURE__*/ S.Struct({ slack: __S(1634, __c51, 2) }),
-        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(1635, __c51, 3) }),
-        /*@__PURE__*/ S.Struct({ mcpserver: __S(1635, __c51, 3) }),
-        /*@__PURE__*/ S.Struct({ servicenow: __S(1636, __c51, 4) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(1637, __c51, 5) }),
-        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(1635, __c51, 3) }),
-        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(1638, __c51, 6) }),
-        /*@__PURE__*/ S.Struct({ azuredevops: __S(1639, __c51, 7) }),
-        /*@__PURE__*/ S.Struct({ azureidentity: __S(1664, __c52, 0) }),
-        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(1640, __c51, 8) }),
-        /*@__PURE__*/ S.Struct({ pagerduty: __S(1641, __c51, 9) }),
-        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(1642, __c51, 10) }),
-        /*@__PURE__*/ S.Struct({ remoteagent: __S(1643, __c51, 11) }),
-        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(1644, __c51, 12) }),
+        /*@__PURE__*/ S.Struct({ github: __S(1697, __c53, 1) }),
+        /*@__PURE__*/ S.Struct({ slack: __S(1698, __c53, 2) }),
+        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(1699, __c53, 3) }),
+        /*@__PURE__*/ S.Struct({ mcpserver: __S(1699, __c53, 3) }),
+        /*@__PURE__*/ S.Struct({ servicenow: __S(1700, __c53, 4) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(1701, __c53, 5) }),
+        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(1699, __c53, 3) }),
+        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(1702, __c53, 6) }),
+        /*@__PURE__*/ S.Struct({ azuredevops: __S(1703, __c53, 7) }),
+        /*@__PURE__*/ S.Struct({ azureidentity: __S(1728, __c54, 0) }),
+        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(1704, __c53, 8) }),
+        /*@__PURE__*/ S.Struct({ pagerduty: __S(1705, __c53, 9) }),
+        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(1706, __c53, 10) }),
+        /*@__PURE__*/ S.Struct({ remoteagent: __S(1707, __c53, 11) }),
+        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(1708, __c53, 12) }),
       ]);
     case 14:
       return S.suspend(() =>
@@ -6909,8 +7185,8 @@ function __c51(j: number): any {
           serviceId: S.String,
           serviceType: S.String,
           name: S.optional(S.String),
-          accessibleResources: S.optional(__S(1632, __c51, 0)),
-          additionalServiceDetails: S.optional(__S(1645, __c51, 13)),
+          accessibleResources: S.optional(__S(1696, __c53, 0)),
+          additionalServiceDetails: S.optional(__S(1709, __c53, 13)),
           kmsKeyArn: S.optional(S.String),
           privateConnectionName: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -6919,7 +7195,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "RegisteredService" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6934,7 +7210,7 @@ function __c52(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6957,7 +7233,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetTriggerRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6977,14 +7253,14 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentSpacesInput" });
     case 1:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(321, __c10, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), agentSpaces: __S(1729, __c54, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), agentSpaces: __S(1793, __c56, 1) }),
       ).annotate({ identifier: "ListAgentSpacesOutput" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7019,14 +7295,14 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "AssetFileSummary" });
     case 2:
-      return S.Array(__S(1761, __c55, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1762, __c55, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1826, __c57, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetFilesResponse" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7053,14 +7329,14 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListAssetsRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(1793, __c56, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1857, __c58, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7076,14 +7352,14 @@ function __c57(j: number): any {
         identifier: "AssetTypeSummary",
       });
     case 2:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1826, __c57, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1890, __c59, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetTypesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7115,14 +7391,14 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AssetVersionMetadata" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1858, __c58, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1922, __c60, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetVersionsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7143,14 +7419,14 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListAssociationsInput" });
     case 1:
-      return S.Array(__S(159, __c4, 31));
+      return S.Array(__S(164, __c5, 4));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), associations: __S(1889, __c59, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), associations: __S(1953, __c61, 1) }),
       ).annotate({ identifier: "ListAssociationsOutput" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7167,7 +7443,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
-          filter: S.optional(__S(1920, __c60, 0)),
+          filter: S.optional(__S(1984, __c62, 0)),
           limit: S.optional(S.Number),
           nextToken: S.optional(S.String),
           sortField: S.optional(S.String),
@@ -7184,14 +7460,14 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListBacklogTasksRequest" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ tasks: __S(1922, __c60, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ tasks: __S(1986, __c62, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBacklogTasksResponse" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7200,6 +7476,7 @@ function __c61(j: number): any {
           userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          archiveStatus: S.optional(S.String).pipe(T.HttpQuery("archiveStatus")),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/agents/agent-space/{agentSpaceId}/chat/list" }),
@@ -7218,17 +7495,18 @@ function __c61(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           summary: S.optional(S.String),
+          archiveStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChatExecution" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(2017, __c63, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ executions: __S(1954, __c61, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ executions: __S(2018, __c63, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListChatsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7263,14 +7541,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "Execution" });
     case 2:
-      return S.Array(__S(1985, __c62, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ executions: __S(1986, __c62, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ executions: __S(2050, __c64, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListExecutionsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7292,14 +7570,14 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListGoalsRequest" });
     case 1:
-      return S.Array(__S(2050, __c64, 2));
+      return S.Array(__S(2114, __c66, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ goals: __S(2017, __c63, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ goals: __S(2081, __c65, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGoalsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ description: S.String, objectives: S.String })).annotate({
@@ -7315,7 +7593,7 @@ function __c64(j: number): any {
           agentSpaceArn: S.String,
           goalId: S.String,
           title: S.String,
-          content: __S(2048, __c64, 0),
+          content: __S(2112, __c66, 0),
           status: S.String,
           goalType: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -7324,12 +7602,12 @@ function __c64(j: number): any {
           lastTaskId: S.optional(S.String),
           lastSuccessfulTaskId: S.optional(S.String),
           version: S.Number,
-          evaluationSchedule: S.optional(__S(2049, __c64, 1)),
+          evaluationSchedule: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "Goal" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7364,18 +7642,18 @@ function __c65(j: number): any {
           content: S.Any,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           recordType: S.String,
-          userReference: S.optional(__S(2081, __c65, 1)),
+          userReference: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "JournalRecord" });
     case 3:
-      return S.Array(__S(2082, __c65, 2));
+      return S.Array(__S(2146, __c67, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ records: __S(2083, __c65, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ records: __S(2147, __c67, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListJournalRecordsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7399,37 +7677,37 @@ function __c66(j: number): any {
         /*@__PURE__*/ S.Struct({ toolResult: S.Any }),
       ]);
     case 2:
-      return S.Array(__S(2113, __c66, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: S.String }),
         /*@__PURE__*/ S.Struct({ toolUse: S.Any }),
       ]);
     case 4:
-      return S.Array(__S(2115, __c66, 3));
+      return S.Array(__S(2179, __c68, 3));
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ userMessage: __S(2114, __c66, 2) }),
-        /*@__PURE__*/ S.Struct({ assistantMessage: __S(2116, __c66, 4) }),
+        /*@__PURE__*/ S.Struct({ userMessage: __S(2178, __c68, 2) }),
+        /*@__PURE__*/ S.Struct({ assistantMessage: __S(2180, __c68, 4) }),
       ]);
     case 6:
       return S.suspend(() =>
-        S.Struct({ messageId: S.String, message: __S(2117, __c66, 5) }),
+        S.Struct({ messageId: S.String, message: __S(2181, __c68, 5) }),
       ).annotate({ identifier: "PendingMessage" });
     case 7:
-      return S.Array(__S(2118, __c66, 6));
+      return S.Array(__S(2182, __c68, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String,
           executionId: S.String,
-          messages: __S(2119, __c66, 7),
+          messages: __S(2183, __c68, 7),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ListPendingMessagesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7445,14 +7723,14 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateConnectionsInput" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2240, __c70, 0));
     case 2:
-      return S.suspend(() => S.Struct({ privateConnections: __S(2145, __c67, 1) })).annotate({
+      return S.suspend(() => S.Struct({ privateConnections: __S(2209, __c69, 1) })).annotate({
         identifier: "ListPrivateConnectionsOutput",
       });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7471,7 +7749,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PrivateConnectionSummary" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7498,14 +7776,14 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListRecommendationsRequest" });
     case 1:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ recommendations: __S(2209, __c69, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ recommendations: __S(2273, __c71, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRecommendationsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7518,14 +7796,14 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListServicesInput" });
     case 1:
-      return S.Array(__S(1646, __c51, 14));
+      return S.Array(__S(1710, __c53, 14));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), services: __S(2241, __c70, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), services: __S(2305, __c72, 1) }),
       ).annotate({ identifier: "ListServicesOutput" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7541,12 +7819,12 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: __S(224, __c7, 0) })).annotate({
+      return S.suspend(() => S.Struct({ tags: __S(256, __c8, 0) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7567,14 +7845,14 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListTriggersRequest" });
     case 1:
-      return S.Array(__S(808, __c25, 8));
+      return S.Array(__S(840, __c26, 8));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2305, __c72, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2369, __c74, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTriggersResponse" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7600,47 +7878,47 @@ function __c73(j: number): any {
         S.Struct({ webhookUrl: S.String, webhookType: S.optional(S.String), webhookId: S.String }),
       ).annotate({ identifier: "Webhook" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 3:
-      return S.suspend(() => S.Struct({ webhooks: __S(2338, __c73, 2) })).annotate({
+      return S.suspend(() => S.Struct({ webhooks: __S(2402, __c75, 2) })).annotate({
         identifier: "ListWebhooksOutput",
       });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientName: S.optional(S.String),
           clientId: SensitiveString,
-          exchangeParameters: S.optional(__S(1665, __c52, 1)),
+          exchangeParameters: S.optional(__S(1729, __c54, 1)),
           clientSecret: SensitiveString,
         }),
       ).annotate({ identifier: "DynatraceOAuthClientCredentialsConfig" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2368, __c74, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2432, __c76, 0) })]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ accountUrn: S.String, authorizationConfig: S.optional(__S(2369, __c74, 1)) }),
+        S.Struct({ accountUrn: S.String, authorizationConfig: S.optional(__S(2433, __c76, 1)) }),
       ).annotate({ identifier: "DynatraceServiceDetails" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ instanceUrl: S.String, authorizationConfig: S.optional(__S(2369, __c74, 1)) }),
+        S.Struct({ instanceUrl: S.String, authorizationConfig: S.optional(__S(2433, __c76, 1)) }),
       ).annotate({ identifier: "ServiceNowServiceDetails" });
     case 4:
       return S.suspend(() => S.Struct({ returnToEndpoint: S.String })).annotate({
         identifier: "MCPServerAuthorizationDiscoveryConfig",
       });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ authorizationDiscovery: __S(2372, __c74, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ authorizationDiscovery: __S(2436, __c76, 4) })]);
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2373, __c74, 5),
+          authorizationConfig: __S(2437, __c76, 5),
         }),
       ).annotate({ identifier: "DatadogServiceDetails" });
     case 7:
@@ -7648,7 +7926,7 @@ function __c74(j: number): any {
         S.Struct({
           clientName: S.optional(S.String),
           clientId: SensitiveString,
-          exchangeParameters: S.optional(__S(1665, __c52, 1)),
+          exchangeParameters: S.optional(__S(1729, __c54, 1)),
           clientSecret: SensitiveString,
           exchangeUrl: S.String,
           scopes: S.optional(__S(32, __c1, 0)),
@@ -7659,7 +7937,7 @@ function __c74(j: number): any {
         S.Struct({
           clientName: S.optional(S.String),
           clientId: SensitiveString,
-          exchangeParameters: S.optional(__S(1665, __c52, 1)),
+          exchangeParameters: S.optional(__S(1729, __c54, 1)),
           returnToEndpoint: S.String,
           authorizationUrl: S.String,
           exchangeUrl: S.String,
@@ -7681,17 +7959,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "MCPServerBearerTokenConfig" });
     case 11:
-      return S.suspend(() => S.Struct({ headers: __S(1665, __c52, 1) })).annotate({
+      return S.suspend(() => S.Struct({ headers: __S(1729, __c54, 1) })).annotate({
         identifier: "MCPServerCustomHeadersConfig",
       });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2375, __c74, 7) }),
-        /*@__PURE__*/ S.Struct({ oAuth3LO: __S(2376, __c74, 8) }),
-        /*@__PURE__*/ S.Struct({ apiKey: __S(2377, __c74, 9) }),
-        /*@__PURE__*/ S.Struct({ bearerToken: __S(2378, __c74, 10) }),
-        /*@__PURE__*/ S.Struct({ customHeaders: __S(2379, __c74, 11) }),
-        /*@__PURE__*/ S.Struct({ authorizationDiscovery: __S(2372, __c74, 4) }),
+        /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2439, __c76, 7) }),
+        /*@__PURE__*/ S.Struct({ oAuth3LO: __S(2440, __c76, 8) }),
+        /*@__PURE__*/ S.Struct({ apiKey: __S(2441, __c76, 9) }),
+        /*@__PURE__*/ S.Struct({ bearerToken: __S(2442, __c76, 10) }),
+        /*@__PURE__*/ S.Struct({ customHeaders: __S(2443, __c76, 11) }),
+        /*@__PURE__*/ S.Struct({ authorizationDiscovery: __S(2436, __c76, 4) }),
       ]);
     case 13:
       return S.suspend(() =>
@@ -7699,7 +7977,7 @@ function __c74(j: number): any {
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2380, __c74, 12),
+          authorizationConfig: __S(2444, __c76, 12),
         }),
       ).annotate({ identifier: "MCPServerDetails" });
     case 14:
@@ -7723,9 +8001,9 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "NewRelicApiKeyConfig" });
     case 16:
-      return S.Union([/*@__PURE__*/ S.Struct({ apiKey: __S(2383, __c74, 15) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ apiKey: __S(2447, __c76, 15) })]);
     case 17:
-      return S.suspend(() => S.Struct({ authorizationConfig: __S(2384, __c74, 16) })).annotate({
+      return S.suspend(() => S.Struct({ authorizationConfig: __S(2448, __c76, 16) })).annotate({
         identifier: "NewRelicServiceDetails",
       });
     case 18:
@@ -7734,7 +8012,7 @@ function __c74(j: number): any {
       });
     case 19:
       return S.suspend(() =>
-        S.Struct({ scopes: __S(32, __c1, 0), authorizationConfig: __S(2369, __c74, 1) }),
+        S.Struct({ scopes: __S(32, __c1, 0), authorizationConfig: __S(2433, __c76, 1) }),
       ).annotate({ identifier: "PagerDutyDetails" });
     case 20:
       return S.suspend(() =>
@@ -7743,7 +8021,7 @@ function __c74(j: number): any {
           service: S.String,
           roleArn: S.optional(S.String),
           mcpRoleArn: S.optional(S.String),
-          customHeaders: S.optional(__S(1665, __c52, 1)),
+          customHeaders: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "MCPServerSigV4AuthorizationConfig" });
     case 21:
@@ -7752,14 +8030,14 @@ function __c74(j: number): any {
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2388, __c74, 20),
+          authorizationConfig: __S(2452, __c76, 20),
         }),
       ).annotate({ identifier: "MCPServerSigV4ServiceDetails" });
     case 22:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ apiKey: __S(2377, __c74, 9) }),
-        /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2375, __c74, 7) }),
-        /*@__PURE__*/ S.Struct({ bearerToken: __S(2378, __c74, 10) }),
+        /*@__PURE__*/ S.Struct({ apiKey: __S(2441, __c76, 9) }),
+        /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2439, __c76, 7) }),
+        /*@__PURE__*/ S.Struct({ bearerToken: __S(2442, __c76, 10) }),
       ]);
     case 23:
       return S.suspend(() =>
@@ -7767,7 +8045,7 @@ function __c74(j: number): any {
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2390, __c74, 22),
+          authorizationConfig: __S(2454, __c76, 22),
         }),
       ).annotate({ identifier: "RemoteAgentServiceDetails" });
     case 24:
@@ -7780,37 +8058,37 @@ function __c74(j: number): any {
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2392, __c74, 24),
+          authorizationConfig: __S(2456, __c76, 24),
         }),
       ).annotate({ identifier: "RemoteAgentSigV4ServiceDetails" });
     case 26:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ dynatrace: __S(2370, __c74, 2) }),
-        /*@__PURE__*/ S.Struct({ servicenow: __S(2371, __c74, 3) }),
-        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(2374, __c74, 6) }),
-        /*@__PURE__*/ S.Struct({ mcpserver: __S(2381, __c74, 13) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(2382, __c74, 14) }),
-        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(2381, __c74, 13) }),
-        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(2385, __c74, 17) }),
-        /*@__PURE__*/ S.Struct({ eventChannel: __S(2386, __c74, 18) }),
-        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(2381, __c74, 13) }),
-        /*@__PURE__*/ S.Struct({ pagerduty: __S(2387, __c74, 19) }),
-        /*@__PURE__*/ S.Struct({ azureidentity: __S(1664, __c52, 0) }),
-        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(2389, __c74, 21) }),
-        /*@__PURE__*/ S.Struct({ remoteagent: __S(2391, __c74, 23) }),
-        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(2393, __c74, 25) }),
+        /*@__PURE__*/ S.Struct({ dynatrace: __S(2434, __c76, 2) }),
+        /*@__PURE__*/ S.Struct({ servicenow: __S(2435, __c76, 3) }),
+        /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(2438, __c76, 6) }),
+        /*@__PURE__*/ S.Struct({ mcpserver: __S(2445, __c76, 13) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(2446, __c76, 14) }),
+        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(2445, __c76, 13) }),
+        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(2449, __c76, 17) }),
+        /*@__PURE__*/ S.Struct({ eventChannel: __S(2450, __c76, 18) }),
+        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(2445, __c76, 13) }),
+        /*@__PURE__*/ S.Struct({ pagerduty: __S(2451, __c76, 19) }),
+        /*@__PURE__*/ S.Struct({ azureidentity: __S(1728, __c54, 0) }),
+        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(2453, __c76, 21) }),
+        /*@__PURE__*/ S.Struct({ remoteagent: __S(2455, __c76, 23) }),
+        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(2457, __c76, 25) }),
       ]);
     case 27:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.HttpLabel("service")),
-          serviceDetails: __S(2394, __c74, 26),
+          serviceDetails: __S(2458, __c76, 26),
           kmsKeyArn: S.optional(S.String),
           privateConnectionName: S.optional(S.String),
           targetUrlPrivateConnectionName: S.optional(S.String),
           exchangeUrlPrivateConnectionName: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/register/{service}" }),
@@ -7827,19 +8105,19 @@ function __c74(j: number): any {
         identifier: "OAuthAdditionalStepDetails",
       });
     case 29:
-      return S.Union([/*@__PURE__*/ S.Struct({ oauth: __S(2396, __c74, 28) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth: __S(2460, __c76, 28) })]);
     case 30:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.optional(S.String),
-          additionalStep: S.optional(__S(2397, __c74, 29)),
+          additionalStep: S.optional(__S(2461, __c76, 29)),
           kmsKeyArn: S.optional(S.String),
-          tags: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "RegisterServiceOutput" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7857,7 +8135,7 @@ function __c75(j: number): any {
           currentPage: S.optional(S.String),
           lastMessage: S.optional(S.String),
           userActionResponse: S.optional(S.String),
-          approvalAction: S.optional(__S(2400, __c75, 0)),
+          approvalAction: S.optional(__S(2464, __c77, 0)),
         }),
       ).annotate({ identifier: "SendMessageContext" });
     case 2:
@@ -7866,7 +8144,7 @@ function __c75(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           executionId: S.String,
           content: S.String,
-          context: S.optional(__S(2401, __c75, 1)),
+          context: S.optional(__S(2465, __c77, 1)),
           userId: S.optional(S.String),
           assetIds: S.optional(__S(32, __c1, 0)),
           modelTier: S.optional(S.String),
@@ -7897,7 +8175,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           responseId: S.optional(S.String),
-          usage: S.optional(__S(2404, __c75, 4)),
+          usage: S.optional(__S(2468, __c77, 4)),
           sequenceNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SendMessageResponseCompletedEvent" });
@@ -7934,14 +8212,14 @@ function __c75(j: number): any {
       });
     case 11:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ textDelta: __S(2409, __c75, 9) }),
-        /*@__PURE__*/ S.Struct({ jsonDelta: __S(2410, __c75, 10) }),
+        /*@__PURE__*/ S.Struct({ textDelta: __S(2473, __c77, 9) }),
+        /*@__PURE__*/ S.Struct({ jsonDelta: __S(2474, __c77, 10) }),
       ]);
     case 12:
       return S.suspend(() =>
         S.Struct({
           index: S.optional(S.Number),
-          delta: S.optional(__S(2411, __c75, 11)),
+          delta: S.optional(__S(2475, __c77, 11)),
           sequenceNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SendMessageContentBlockDeltaEvent" });
@@ -7958,30 +8236,30 @@ function __c75(j: number): any {
     case 14:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ responseCreated: __S(2403, __c75, 3) }),
-          /*@__PURE__*/ S.Struct({ responseInProgress: __S(2403, __c75, 3) }),
-          /*@__PURE__*/ S.Struct({ responseCompleted: __S(2405, __c75, 5) }),
-          /*@__PURE__*/ S.Struct({ responseFailed: __S(2406, __c75, 6) }),
-          /*@__PURE__*/ S.Struct({ summary: __S(2407, __c75, 7) }),
+          /*@__PURE__*/ S.Struct({ responseCreated: __S(2467, __c77, 3) }),
+          /*@__PURE__*/ S.Struct({ responseInProgress: __S(2467, __c77, 3) }),
+          /*@__PURE__*/ S.Struct({ responseCompleted: __S(2469, __c77, 5) }),
+          /*@__PURE__*/ S.Struct({ responseFailed: __S(2470, __c77, 6) }),
+          /*@__PURE__*/ S.Struct({ summary: __S(2471, __c77, 7) }),
           /*@__PURE__*/ S.Struct({ heartbeat: __S(64, __c2, 0) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2408, __c75, 8) }),
-          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2412, __c75, 12) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2413, __c75, 13) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2472, __c77, 8) }),
+          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2476, __c77, 12) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2477, __c77, 13) }),
         ]),
       );
     case 15:
       return S.suspend(() =>
-        S.Struct({ events: __S(2414, __c75, 14).pipe(T.HttpPayload()) }),
+        S.Struct({ events: __S(2478, __c77, 14).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "SendMessageResponse" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(224, __c7, 0),
+          tags: __S(256, __c8, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -7995,7 +8273,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8015,7 +8293,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8024,7 +8302,8 @@ function __c78(j: number): any {
           name: S.optional(S.String),
           description: S.optional(SensitiveString),
           locale: S.optional(S.String),
-          preferences: S.optional(__S(288, __c9, 0)),
+          preferences: S.optional(__S(320, __c10, 0)),
+          awsSourceMode: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/v1/agentspaces/{agentSpaceId}" }),
@@ -8037,16 +8316,16 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "UpdateAgentSpaceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ agentSpace: __S(289, __c9, 1) })).annotate({
+      return S.suspend(() => S.Struct({ agentSpace: __S(321, __c10, 1) })).annotate({
         identifier: "UpdateAgentSpaceOutput",
       });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ tool: S.String, argumentPins: __S(224, __c7, 0) }),
+        S.Struct({ tool: S.String, argumentPins: __S(256, __c8, 0) }),
       ).annotate({ identifier: "ApprovalPattern" });
     case 1:
       return S.suspend(() =>
@@ -8054,7 +8333,7 @@ function __c79(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           approvalId: S.String.pipe(T.HttpLabel("approvalId")),
           action: S.String,
-          finalPattern: S.optional(__S(2528, __c79, 0)),
+          finalPattern: S.optional(__S(2592, __c81, 0)),
           reason: S.optional(S.String),
           ttlSeconds: S.optional(S.Number),
           singleUse: S.optional(S.Boolean),
@@ -8082,7 +8361,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateApprovalActionResponse" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8090,7 +8369,7 @@ function __c80(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetId: S.String.pipe(T.HttpLabel("assetId")),
           metadata: S.optional(S.Any),
-          content: S.optional(__S(482, __c15, 2)),
+          content: S.optional(__S(514, __c16, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -8105,7 +8384,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateAssetRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8113,7 +8392,7 @@ function __c81(j: number): any {
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetId: S.String.pipe(T.HttpLabel("assetId")),
           path: S.String.pipe(T.HttpLabel("path")),
-          content: S.optional(__S(352, __c11, 0)),
+          content: S.optional(__S(384, __c12, 0)),
           metadata: S.optional(S.Any),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -8132,15 +8411,15 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateAssetFileRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           associationId: S.String.pipe(T.HttpLabel("associationId")),
-          configuration: __S(153, __c4, 25),
-          capabilities: S.optional(__S(158, __c4, 30)),
+          configuration: __S(158, __c4, 30),
+          capabilities: S.optional(__S(163, __c5, 3)),
         }).pipe(
           T.all(
             T.Http({
@@ -8157,7 +8436,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateAssociationInput" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8179,7 +8458,42 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateBacklogTaskRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
+          executionId: S.String.pipe(T.HttpLabel("executionId")),
+          summary: S.optional(S.String),
+          archiveStatus: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/agents/agent-space/{agentSpaceId}/chat/{executionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateChatRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          executionId: S.String,
+          summary: S.optional(S.String),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          archiveStatus: S.String,
+        }),
+      ).annotate({ identifier: "UpdateChatResponse" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ state: S.String })).annotate({
@@ -8190,7 +8504,7 @@ function __c84(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           goalId: S.String.pipe(T.HttpLabel("goalId")),
-          evaluationSchedule: S.optional(__S(2688, __c84, 0)),
+          evaluationSchedule: S.optional(__S(2784, __c87, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -8204,12 +8518,12 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "UpdateGoalRequest" });
     case 2:
-      return S.suspend(() => S.Struct({ goal: __S(2050, __c64, 2) })).annotate({
+      return S.suspend(() => S.Struct({ goal: __S(2114, __c66, 2) })).annotate({
         identifier: "UpdateGoalResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8229,11 +8543,11 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdateOperatorAppIdpConfigInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String, idp: __S(1216, __c38, 0) }),
+        S.Struct({ agentSpaceId: S.String, idp: __S(1248, __c39, 0) }),
       ).annotate({ identifier: "UpdateOperatorAppIdpConfigOutput" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8250,7 +8564,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdatePrivateConnectionCertificateInput" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8276,7 +8590,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "UpdateRecommendationRequest" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8301,7 +8615,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UpdateTriggerRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8318,14 +8632,14 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ValidateAwsAssociationsInput" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ path: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2976, __c93, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

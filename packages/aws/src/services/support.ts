@@ -23,7 +23,7 @@ const ver = /*@__PURE__*/ T.ServiceVersion("2013-04-15");
 const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
 const rules = /*@__PURE__*/ T.EndpointResolver(
   (p, _) => {
-    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
     const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
       type: "endpoint" as const,
       endpoint: { url: u as string, properties: p, headers: h },
@@ -32,8 +32,9 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
       type: "error" as const,
       message: m as string,
     });
-    const _p0 = () => ({
-      authSchemes: [{ name: "sigv4", signingName: "support", signingRegion: "us-gov-west-1" }],
+    const _p0 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "cn-north-1" }] });
+    const _p1 = (_0: unknown) => ({
+      authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
     });
     if (Endpoint != null) {
       if (UseFIPS === true) {
@@ -49,78 +50,32 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
         const PartitionResult = _.partition(Region);
         if (PartitionResult != null && PartitionResult !== false) {
           if (
-            _.getAttr(PartitionResult, "name") === "aws" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e(
-              "https://support.us-east-1.amazonaws.com",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "support", signingRegion: "us-east-1" },
-                ],
-              },
-              {},
-            );
-          }
-          if (
             _.getAttr(PartitionResult, "name") === "aws-cn" &&
             UseFIPS === false &&
             UseDualStack === false
           ) {
-            return e(
-              "https://support.cn-north-1.amazonaws.com.cn",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "support", signingRegion: "cn-north-1" },
-                ],
-              },
-              {},
-            );
+            return e("https://support.cn-north-1.amazonaws.com.cn", _p0(), {});
           }
           if (
-            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e("https://support.us-gov-west-1.amazonaws.com", _p0(), {});
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
             UseFIPS === true &&
             UseDualStack === false
           ) {
-            return e("https://support.us-gov-west-1.amazonaws.com", _p0(), {});
+            return e("https://support-fips.cn-north-1.amazonaws.com.cn", _p0(), {});
           }
           if (
-            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
             UseFIPS === false &&
-            UseDualStack === false
+            UseDualStack === true
           ) {
-            return e(
-              "https://support.us-iso-east-1.c2s.ic.gov",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "support", signingRegion: "us-iso-east-1" },
-                ],
-              },
-              {},
-            );
+            return e("https://support.cn-north-1.api.amazonwebservices.com.cn", _p0(), {});
           }
           if (
-            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-            UseFIPS === false &&
-            UseDualStack === false
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === true
           ) {
-            return e(
-              "https://support.us-isob-east-1.sc2s.sgov.gov",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "support", signingRegion: "us-isob-east-1" },
-                ],
-              },
-              {},
-            );
+            return e("https://support-fips.cn-north-1.api.amazonwebservices.com.cn", _p0(), {});
           }
           if (UseFIPS === true && UseDualStack === true) {
             if (
@@ -128,34 +83,46 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
               true === _.getAttr(PartitionResult, "supportsDualStack")
             ) {
               return e(
-                `https://support-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://support-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
               );
             }
             return err(
               "FIPS and DualStack are enabled, but this partition does not support one or both",
             );
           }
-          if (UseFIPS === true) {
+          if (UseFIPS === true && UseDualStack === false) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-              return e(`https://support-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+              return e(
+                `https://support-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
+              );
             }
             return err("FIPS is enabled but this partition does not support FIPS");
           }
-          if (UseDualStack === true) {
+          if (UseFIPS === false && UseDualStack === true) {
             if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
               return e(
-                `https://support.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://support.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
               );
             }
             return err("DualStack is enabled but this partition does not support DualStack");
           }
-          return e(`https://support.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+          return e(
+            `https://support.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            _p1(PartitionResult),
+            {},
+          );
         }
       }
     }
     return err("Invalid Configuration: Missing Region");
   },
-  '{"url":"https://support.us-east-1.{D}","properties":{"authSchemes":[{"name":"sigv4","signingName":"support","signingRegion":"us-east-1"}]},"headers":{}}',
+  '{"url":"https://support.us-east-1.{D}","properties":{"authSchemes":[{"name":"sigv4","signingRegion":"us-east-1"}]},"headers":{}}',
   [
     "us-gov-west-1",
     "us-gov-east-1",
