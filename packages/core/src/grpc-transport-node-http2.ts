@@ -116,7 +116,9 @@ const bodyOf = (request: HttpClientRequest.HttpClientRequest): Uint8Array | unde
 /**
  * Body bytes received and not yet taken by the reader, past which the HTTP/2
  * stream stops reading (so flow control holds the server back), and at or
- * below which it reads again.
+ * below which it reads again. grpc-js pauses and resumes the same way, and
+ * 1 MiB is grpc-java's default flow-control window. Node's own 64 KiB buffer
+ * halves the speed of a reader that takes the body in bursts.
  */
 const HIGH_WATER = 1024 * 1024;
 const LOW_WATER = HIGH_WATER / 4;
