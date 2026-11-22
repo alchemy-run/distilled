@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMicrosoftGraphError } from "../errors.ts";
+import { MicrosoftGraphServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   MicrosoftGraphProtocol,
@@ -6430,7 +6430,8 @@ export const archive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ArchiveRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ArchiveResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6447,7 +6448,8 @@ export const assign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<AssignRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AssignResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6464,7 +6466,8 @@ export const assignNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<AssignNumberRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AssignNumberResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6483,7 +6486,8 @@ export const childFoldersDelta: API.PaginatedOperationMethod<
   () => ({
     input: __S(5632, __c176, 0) as any as S.Schema<ChildFoldersDeltaRequest>,
     output: __S(5728, __c179, 0) as any as S.Schema<ChildFoldersDeltaResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6509,7 +6513,8 @@ export const createAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<CreateAttachmentsRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<CreateAttachmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6526,7 +6531,8 @@ export const createChildFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<CreateChildFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<CreateChildFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6543,7 +6549,8 @@ export const createConfigurationMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<CreateConfigurationMonitorsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<CreateConfigurationMonitorsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6560,7 +6567,8 @@ export const createFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<CreateFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<CreateFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6577,7 +6585,8 @@ export const createHealthOverviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<CreateHealthOverviewsRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<CreateHealthOverviewsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6594,7 +6603,8 @@ export const createHealthOverviewsIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<CreateHealthOverviewsIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<CreateHealthOverviewsIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6611,7 +6621,8 @@ export const createImportSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateImportSessionRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<MailboxItemImportSession>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6628,7 +6639,8 @@ export const createIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<CreateIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<CreateIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6645,7 +6657,8 @@ export const createMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateMailboxesRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<CreateMailboxesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6662,7 +6675,8 @@ export const createMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateMessagesRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<CreateMessagesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6679,7 +6693,8 @@ export const createMessageTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateMessageTracesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CreateMessageTracesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6696,7 +6711,8 @@ export const createNumberAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<CreateNumberAssignmentsRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<CreateNumberAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6713,7 +6729,8 @@ export const createOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateOperationsRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<CreateOperationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6730,7 +6747,8 @@ export const createProfileCardProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CreateProfileCardPropertiesRequest>,
   output: __S(3268, __c102, 4) as any as S.Schema<CreateProfileCardPropertiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6747,7 +6765,8 @@ export const createProfilePropertySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<CreateProfilePropertySettingsRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<CreateProfilePropertySettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6764,7 +6783,8 @@ export const createProfileSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<CreateProfileSourcesRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<CreateProfileSourcesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6781,7 +6801,8 @@ export const createSharedCookies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<CreateSharedCookiesRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<CreateSharedCookiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6798,7 +6819,8 @@ export const createSiteLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<CreateSiteListsRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<CreateSiteListsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6815,7 +6837,8 @@ export const createSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<CreateSitesRequest>,
   output: __S(5250, __c164, 2) as any as S.Schema<CreateSitesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6832,7 +6855,8 @@ export const createUserAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<CreateUserAssignmentsRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<CreateUserAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6849,7 +6873,8 @@ export const createUserConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<CreateUserConfigurationsRequest>,
   output: __S(5445, __c170, 5) as any as S.Schema<CreateUserConfigurationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6866,7 +6891,8 @@ export const deleteAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteAttachmentsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteAttachmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6883,7 +6909,8 @@ export const deleteAttachmentsContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteAttachmentsContentRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteAttachmentsContentResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6900,7 +6927,8 @@ export const deleteBySourceId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteBySourceIdRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteBySourceIdResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6917,7 +6945,8 @@ export const deleteChildFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteChildFoldersRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteChildFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6934,7 +6963,8 @@ export const deleteChildFoldersItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteChildFoldersItemsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteChildFoldersItemsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6951,7 +6981,8 @@ export const deleteConfigurationMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteConfigurationMonitorsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteConfigurationMonitorsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6968,7 +6999,8 @@ export const deleteConfigurationSnapshotJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteConfigurationSnapshotJobsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteConfigurationSnapshotJobsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6985,7 +7017,8 @@ export const deleteEdge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteEdgeRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteEdgeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7002,7 +7035,8 @@ export const deleteExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteExchangeRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteExchangeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7019,7 +7053,8 @@ export const deleteFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<DeleteFoldersRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7036,7 +7071,8 @@ export const deleteHealthOverviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteHealthOverviewsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteHealthOverviewsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7053,7 +7089,8 @@ export const deleteHealthOverviewsIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteHealthOverviewsIssuesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteHealthOverviewsIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7070,7 +7107,8 @@ export const deleteInstallationOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteInstallationOptionsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteInstallationOptionsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7087,7 +7125,8 @@ export const deleteInternetExplorerMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteInternetExplorerModeRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteInternetExplorerModeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7104,7 +7143,8 @@ export const deleteIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteIssuesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7121,7 +7161,8 @@ export const deleteItemInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<DeleteItemInsightsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteItemInsightsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7138,7 +7179,8 @@ export const deleteItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteItemsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteItemsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7155,7 +7197,8 @@ export const deleteMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteMailboxesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteMailboxesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7172,7 +7215,8 @@ export const deleteMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteMessagesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteMessagesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7189,7 +7233,8 @@ export const deleteMessagesAttachmentsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteMessagesAttachmentsArchiveRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteMessagesAttachmentsArchiveResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7206,7 +7251,8 @@ export const deleteMessageTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteMessageTracesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteMessageTracesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7223,7 +7269,8 @@ export const deleteMicrosoft365Apps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteMicrosoft365AppsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteMicrosoft365AppsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7240,7 +7287,8 @@ export const deleteNumberAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteNumberAssignmentsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteNumberAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7257,7 +7305,8 @@ export const deleteOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteOperationsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteOperationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7274,7 +7323,8 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7291,7 +7341,8 @@ export const deleteProfileCardProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<DeleteProfileCardPropertiesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteProfileCardPropertiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7308,7 +7359,8 @@ export const deleteProfilePropertySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<DeleteProfilePropertySettingsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteProfilePropertySettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7325,7 +7377,8 @@ export const deleteProfileSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteProfileSourcesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteProfileSourcesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7342,7 +7395,8 @@ export const deleteReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<DeleteReportSettingsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteReportSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7359,7 +7413,8 @@ export const deleteServiceAnnouncement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<DeleteServiceAnnouncementRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteServiceAnnouncementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7376,7 +7431,8 @@ export const deleteSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<DeleteSettingsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7393,7 +7449,8 @@ export const deleteSharedCookies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<DeleteSharedCookiesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSharedCookiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7410,7 +7467,8 @@ export const deleteSharepoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<DeleteSharepointRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSharepointResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7427,7 +7485,8 @@ export const deleteSiteLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<DeleteSiteListsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSiteListsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7444,7 +7503,8 @@ export const deleteSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<DeleteSitesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSitesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7461,7 +7521,8 @@ export const deleteTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<DeleteTeamsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteTeamsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7478,7 +7539,8 @@ export const deleteTelephoneNumberManagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<DeleteTelephoneNumberManagementRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteTelephoneNumberManagementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7495,7 +7557,8 @@ export const deleteTracing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteTracingRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteTracingResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7512,7 +7575,8 @@ export const deleteUserAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteUserAssignmentsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteUserAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7529,7 +7593,8 @@ export const deleteUserConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<DeleteUserConfigurationsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteUserConfigurationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7548,7 +7613,8 @@ export const delta: API.PaginatedOperationMethod<
   () => ({
     input: __S(7168, __c224, 0) as any as S.Schema<DeltaRequest>,
     output: __S(5728, __c179, 0) as any as S.Schema<DeltaResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7576,7 +7642,8 @@ export const exportItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(7200, __c225, 0) as any as S.Schema<ExportItemsRequest>,
     output: __S(7204, __c225, 4) as any as S.Schema<ExportItemsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7601,7 +7668,8 @@ export const favorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<FavoriteRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<FavoriteResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7618,7 +7686,8 @@ export const getAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetAdminRequest>,
   output: __S(6912, __c216, 0) as any as S.Schema<Admin2>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7635,7 +7704,8 @@ export const getAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetAttachmentsRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<GetAttachmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7652,7 +7722,8 @@ export const getAttachmentsContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<GetAttachmentsContentRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetAttachmentsContentResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7669,7 +7740,8 @@ export const getAttachmentsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetAttachmentsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetAttachmentsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7686,7 +7758,8 @@ export const getBaseline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetBaselineRequest>,
   output: __S(6948, __c217, 4) as any as S.Schema<GetBaselineResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7703,7 +7776,8 @@ export const getBySourceId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetBySourceIdRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<GetBySourceIdResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7720,7 +7794,8 @@ export const getChildFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetChildFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<GetChildFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7737,7 +7812,8 @@ export const getChildFoldersCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetChildFoldersCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetChildFoldersCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7754,7 +7830,8 @@ export const getChildFoldersItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetChildFoldersItemsRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<GetChildFoldersItemsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7771,7 +7848,8 @@ export const getChildFoldersItemsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetChildFoldersItemsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetChildFoldersItemsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7788,7 +7866,8 @@ export const getConfigurationDrifts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetConfigurationDriftsRequest>,
   output: __S(7682, __c240, 2) as any as S.Schema<GetConfigurationDriftsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7805,7 +7884,8 @@ export const getConfigurationDriftsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetConfigurationDriftsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetConfigurationDriftsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7822,7 +7902,8 @@ export const getConfigurationMonitoringResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetConfigurationMonitoringResultsRequest>,
   output: __S(7842, __c245, 2) as any as S.Schema<GetConfigurationMonitoringResultsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7839,7 +7920,8 @@ export const getConfigurationMonitoringResultsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetConfigurationMonitoringResultsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetConfigurationMonitoringResultsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7856,7 +7938,8 @@ export const getConfigurationMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetConfigurationMonitorsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<GetConfigurationMonitorsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7873,7 +7956,8 @@ export const getConfigurationMonitorsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<GetConfigurationMonitorsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetConfigurationMonitorsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7890,7 +7974,8 @@ export const getConfigurationSnapshotJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetConfigurationSnapshotJobsRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<GetConfigurationSnapshotJobsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7907,7 +7992,8 @@ export const getConfigurationSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetConfigurationSnapshotsRequest>,
   output: __S(6948, __c217, 4) as any as S.Schema<GetConfigurationSnapshotsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7924,7 +8010,8 @@ export const getCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7943,7 +8030,8 @@ export const getDetailsByRecipient: API.PaginatedOperationMethod<
   () => ({
     input: __S(8096, __c253, 0) as any as S.Schema<GetDetailsByRecipientRequest>,
     output: __S(8099, __c253, 3) as any as S.Schema<GetDetailsByRecipientResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7969,7 +8057,8 @@ export const getEdge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetEdgeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetEdgeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7986,7 +8075,8 @@ export const getExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetExchangeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetExchangeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8003,7 +8093,8 @@ export const getFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<GetFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8020,7 +8111,8 @@ export const getFoldersCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetFoldersCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetFoldersCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8037,7 +8129,8 @@ export const getHealthOverviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetHealthOverviewsRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<GetHealthOverviewsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8054,7 +8147,8 @@ export const getHealthOverviewsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetHealthOverviewsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetHealthOverviewsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8071,7 +8165,8 @@ export const getHealthOverviewsIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<GetHealthOverviewsIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<GetHealthOverviewsIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8088,7 +8183,8 @@ export const getHealthOverviewsIssuesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetHealthOverviewsIssuesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetHealthOverviewsIssuesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8105,7 +8201,8 @@ export const getInstallationOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetInstallationOptionsRequest>,
   output: __S(8546, __c267, 2) as any as S.Schema<GetInstallationOptionsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8122,7 +8219,8 @@ export const getInternetExplorerMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetInternetExplorerModeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetInternetExplorerModeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8139,7 +8237,8 @@ export const getIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<GetIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8156,7 +8255,8 @@ export const getIssuesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<GetIssuesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetIssuesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8173,7 +8273,8 @@ export const getItemInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetItemInsightsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<GetItemInsightsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8190,7 +8291,8 @@ export const getItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetItemsRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<GetItemsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8207,7 +8309,8 @@ export const getItemsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetItemsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetItemsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8224,7 +8327,8 @@ export const getMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetMailboxesRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<GetMailboxesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8241,7 +8345,8 @@ export const getMailboxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetMailboxSettingsRequest>,
   output: __S(454, __c14, 6) as any as S.Schema<MailboxSettings>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8258,7 +8363,8 @@ export const getMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetMessagesRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<GetMessagesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8275,7 +8381,8 @@ export const getMessagesAttachmentsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetMessagesAttachmentsArchiveRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetMessagesAttachmentsArchiveResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8292,7 +8399,8 @@ export const getMessagesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetMessagesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetMessagesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8309,7 +8417,8 @@ export const getMessageTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetMessageTracesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetMessageTracesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8326,7 +8435,8 @@ export const getMessageTracesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetMessageTracesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetMessageTracesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8343,7 +8453,8 @@ export const getMicrosoft365Apps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetMicrosoft365AppsRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetMicrosoft365AppsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8360,7 +8471,8 @@ export const getNumberAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetNumberAssignmentsRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<GetNumberAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8377,7 +8489,8 @@ export const getNumberAssignmentsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetNumberAssignmentsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetNumberAssignmentsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8394,7 +8507,8 @@ export const getOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetOperationsRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<GetOperationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8411,7 +8525,8 @@ export const getOperationsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetOperationsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetOperationsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8428,7 +8543,8 @@ export const getPeople: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetPeopleRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetPeopleResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8445,7 +8561,8 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetPolicyResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8464,7 +8581,8 @@ export const getPolicyId: API.PaginatedOperationMethod<
   () => ({
     input: __S(896, __c28, 0) as any as S.Schema<GetPolicyIdRequest>,
     output: __S(899, __c28, 3) as any as S.Schema<GetPolicyIdResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8490,7 +8608,8 @@ export const getProfileCardProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetProfileCardPropertiesRequest>,
   output: __S(3268, __c102, 4) as any as S.Schema<GetProfileCardPropertiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8507,7 +8626,8 @@ export const getProfileCardPropertiesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetProfileCardPropertiesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetProfileCardPropertiesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8524,7 +8644,8 @@ export const getProfilePropertySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetProfilePropertySettingsRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<GetProfilePropertySettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8541,7 +8662,8 @@ export const getProfilePropertySettingsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetProfilePropertySettingsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetProfilePropertySettingsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8558,7 +8680,8 @@ export const getProfileSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetProfileSourcesRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<GetProfileSourcesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8575,7 +8698,8 @@ export const getProfileSourcesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetProfileSourcesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetProfileSourcesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8592,7 +8716,8 @@ export const getPronouns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetPronounsRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<GetPronounsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8609,7 +8734,8 @@ export const getReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetReportSettingsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetReportSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8626,7 +8752,8 @@ export const getServiceAnnouncement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetServiceAnnouncementRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetServiceAnnouncementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8643,7 +8770,8 @@ export const getServiceProvisioningErrorsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetServiceProvisioningErrorsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetServiceProvisioningErrorsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8660,7 +8788,8 @@ export const getSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetSettingsRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8677,7 +8806,8 @@ export const getSharedCookies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetSharedCookiesRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<GetSharedCookiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8694,7 +8824,8 @@ export const getSharedCookiesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetSharedCookiesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetSharedCookiesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8711,7 +8842,8 @@ export const getSharepoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetSharepointRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetSharepointResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8728,7 +8860,8 @@ export const getSiteLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetSiteListsRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<GetSiteListsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8745,7 +8878,8 @@ export const getSiteListsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetSiteListsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetSiteListsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8762,7 +8896,8 @@ export const getSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetSitesRequest>,
   output: __S(5250, __c164, 2) as any as S.Schema<GetSitesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8779,7 +8914,8 @@ export const getSitesCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetSitesCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetSitesCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8796,7 +8932,8 @@ export const getTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetTeamsRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetTeamsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8813,7 +8950,8 @@ export const getTelephoneNumberManagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetTelephoneNumberManagementRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetTelephoneNumberManagementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8830,7 +8968,8 @@ export const getTracing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetTracingRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetTracingResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8847,7 +8986,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1842, __c57, 18) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8864,7 +9004,8 @@ export const getUserAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetUserAssignmentsRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<GetUserAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8881,7 +9022,8 @@ export const getUserAssignmentsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetUserAssignmentsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetUserAssignmentsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8898,7 +9040,8 @@ export const getUserConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetUserConfigurationsRequest>,
   output: __S(5445, __c170, 5) as any as S.Schema<GetUserConfigurationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8915,7 +9058,8 @@ export const getUserConfigurationsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetUserConfigurationsCountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetUserConfigurationsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8932,7 +9076,8 @@ export const incidentReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<IncidentReportRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<IncidentReportResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8951,7 +9096,8 @@ export const itemsDelta: API.PaginatedOperationMethod<
   () => ({
     input: __S(2112, __c66, 0) as any as S.Schema<ItemsDeltaRequest>,
     output: __S(2176, __c68, 0) as any as S.Schema<ItemsDeltaResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8979,7 +9125,8 @@ export const listAttachments: API.PaginatedOperationMethod<
   () => ({
     input: __S(2208, __c69, 0) as any as S.Schema<ListAttachmentsRequest>,
     output: __S(2210, __c69, 2) as any as S.Schema<ListAttachmentsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9007,7 +9154,8 @@ export const listChildFolders: API.PaginatedOperationMethod<
   () => ({
     input: __S(2240, __c70, 0) as any as S.Schema<ListChildFoldersRequest>,
     output: __S(2272, __c71, 0) as any as S.Schema<ListChildFoldersResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9035,7 +9183,8 @@ export const listChildFoldersItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(2304, __c72, 0) as any as S.Schema<ListChildFoldersItemsRequest>,
     output: __S(2336, __c73, 0) as any as S.Schema<ListChildFoldersItemsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9063,7 +9212,8 @@ export const listConfigurationDrifts: API.PaginatedOperationMethod<
   () => ({
     input: __S(2368, __c74, 0) as any as S.Schema<ListConfigurationDriftsRequest>,
     output: __S(2370, __c74, 2) as any as S.Schema<ListConfigurationDriftsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9091,7 +9241,8 @@ export const listConfigurationMonitoringResults: API.PaginatedOperationMethod<
   () => ({
     input: __S(2464, __c77, 0) as any as S.Schema<ListConfigurationMonitoringResultsRequest>,
     output: __S(2466, __c77, 2) as any as S.Schema<ListConfigurationMonitoringResultsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9119,7 +9270,8 @@ export const listConfigurationMonitors: API.PaginatedOperationMethod<
   () => ({
     input: __S(2496, __c78, 0) as any as S.Schema<ListConfigurationMonitorsRequest>,
     output: __S(2498, __c78, 2) as any as S.Schema<ListConfigurationMonitorsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9147,7 +9299,8 @@ export const listConfigurationSnapshotJobs: API.PaginatedOperationMethod<
   () => ({
     input: __S(2528, __c79, 0) as any as S.Schema<ListConfigurationSnapshotJobsRequest>,
     output: __S(2530, __c79, 2) as any as S.Schema<ListConfigurationSnapshotJobsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9175,7 +9328,8 @@ export const listConfigurationSnapshots: API.PaginatedOperationMethod<
   () => ({
     input: __S(2560, __c80, 0) as any as S.Schema<ListConfigurationSnapshotsRequest>,
     output: __S(2562, __c80, 2) as any as S.Schema<ListConfigurationSnapshotsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9203,7 +9357,8 @@ export const listFolders: API.PaginatedOperationMethod<
   () => ({
     input: __S(2592, __c81, 0) as any as S.Schema<ListFoldersRequest>,
     output: __S(2272, __c71, 0) as any as S.Schema<ListFoldersResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9231,7 +9386,8 @@ export const listHealthOverviews: API.PaginatedOperationMethod<
   () => ({
     input: __S(2624, __c82, 0) as any as S.Schema<ListHealthOverviewsRequest>,
     output: __S(2626, __c82, 2) as any as S.Schema<ListHealthOverviewsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9259,7 +9415,8 @@ export const listHealthOverviewsIssues: API.PaginatedOperationMethod<
   () => ({
     input: __S(2656, __c83, 0) as any as S.Schema<ListHealthOverviewsIssuesRequest>,
     output: __S(2689, __c84, 1) as any as S.Schema<ListHealthOverviewsIssuesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9287,7 +9444,8 @@ export const listIssues: API.PaginatedOperationMethod<
   () => ({
     input: __S(2720, __c85, 0) as any as S.Schema<ListIssuesRequest>,
     output: __S(2689, __c84, 1) as any as S.Schema<ListIssuesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9315,7 +9473,8 @@ export const listItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(2752, __c86, 0) as any as S.Schema<ListItemsRequest>,
     output: __S(2336, __c73, 0) as any as S.Schema<ListItemsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9343,7 +9502,8 @@ export const listMailboxes: API.PaginatedOperationMethod<
   () => ({
     input: __S(2784, __c87, 0) as any as S.Schema<ListMailboxesRequest>,
     output: __S(2786, __c87, 2) as any as S.Schema<ListMailboxesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9371,7 +9531,8 @@ export const listMessages: API.PaginatedOperationMethod<
   () => ({
     input: __S(2880, __c90, 0) as any as S.Schema<ListMessagesRequest>,
     output: __S(2882, __c90, 2) as any as S.Schema<ListMessagesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9399,7 +9560,8 @@ export const listMessageTraces: API.PaginatedOperationMethod<
   () => ({
     input: __S(2912, __c91, 0) as any as S.Schema<ListMessageTracesRequest>,
     output: __S(2914, __c91, 2) as any as S.Schema<ListMessageTracesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9427,7 +9589,8 @@ export const listNumberAssignments: API.PaginatedOperationMethod<
   () => ({
     input: __S(2944, __c92, 0) as any as S.Schema<ListNumberAssignmentsRequest>,
     output: __S(2946, __c92, 2) as any as S.Schema<ListNumberAssignmentsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9455,7 +9618,8 @@ export const listOperations: API.PaginatedOperationMethod<
   () => ({
     input: __S(2976, __c93, 0) as any as S.Schema<ListOperationsRequest>,
     output: __S(2978, __c93, 2) as any as S.Schema<ListOperationsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9483,7 +9647,8 @@ export const listProfileCardProperties: API.PaginatedOperationMethod<
   () => ({
     input: __S(3008, __c94, 0) as any as S.Schema<ListProfileCardPropertiesRequest>,
     output: __S(3010, __c94, 2) as any as S.Schema<ListProfileCardPropertiesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9511,7 +9676,8 @@ export const listProfilePropertySettings: API.PaginatedOperationMethod<
   () => ({
     input: __S(3040, __c95, 0) as any as S.Schema<ListProfilePropertySettingsRequest>,
     output: __S(3042, __c95, 2) as any as S.Schema<ListProfilePropertySettingsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9539,7 +9705,8 @@ export const listProfileSources: API.PaginatedOperationMethod<
   () => ({
     input: __S(3072, __c96, 0) as any as S.Schema<ListProfileSourcesRequest>,
     output: __S(3074, __c96, 2) as any as S.Schema<ListProfileSourcesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9567,7 +9734,8 @@ export const listServiceProvisioningErrors: API.PaginatedOperationMethod<
   () => ({
     input: __S(3104, __c97, 0) as any as S.Schema<ListServiceProvisioningErrorsRequest>,
     output: __S(3105, __c97, 1) as any as S.Schema<ListServiceProvisioningErrorsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9595,7 +9763,8 @@ export const listSharedCookies: API.PaginatedOperationMethod<
   () => ({
     input: __S(3136, __c98, 0) as any as S.Schema<ListSharedCookiesRequest>,
     output: __S(3137, __c98, 1) as any as S.Schema<ListSharedCookiesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9623,7 +9792,8 @@ export const listSiteLists: API.PaginatedOperationMethod<
   () => ({
     input: __S(3200, __c100, 0) as any as S.Schema<ListSiteListsRequest>,
     output: __S(3202, __c100, 2) as any as S.Schema<ListSiteListsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9651,7 +9821,8 @@ export const listSites: API.PaginatedOperationMethod<
   () => ({
     input: __S(3296, __c103, 0) as any as S.Schema<ListSitesRequest>,
     output: __S(3297, __c103, 1) as any as S.Schema<ListSitesResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9679,7 +9850,8 @@ export const listUserAssignments: API.PaginatedOperationMethod<
   () => ({
     input: __S(3360, __c105, 0) as any as S.Schema<ListUserAssignmentsRequest>,
     output: __S(3361, __c105, 1) as any as S.Schema<ListUserAssignmentsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9707,7 +9879,8 @@ export const listUserConfigurations: API.PaginatedOperationMethod<
   () => ({
     input: __S(3392, __c106, 0) as any as S.Schema<ListUserConfigurationsRequest>,
     output: __S(3394, __c106, 2) as any as S.Schema<ListUserConfigurationsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9735,7 +9908,8 @@ export const mailboxFolderItemsDelta: API.PaginatedOperationMethod<
   () => ({
     input: __S(3424, __c107, 0) as any as S.Schema<MailboxFolderItemsDeltaRequest>,
     output: __S(2176, __c68, 0) as any as S.Schema<MailboxFolderItemsDeltaResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9761,7 +9935,8 @@ export const markUnread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<MarkUnreadRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<MarkUnreadResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9778,7 +9953,8 @@ export const publish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<PublishRequest>,
   output: __S(3489, __c109, 1) as any as S.Schema<PublishResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9795,7 +9971,8 @@ export const readMark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<ReadMarkRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ReadMarkResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9812,7 +9989,8 @@ export const serviceHealthIssueIncidentReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<ServiceHealthIssueIncidentReportRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ServiceHealthIssueIncidentReportResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9829,7 +10007,8 @@ export const unarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<UnarchiveRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UnarchiveResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9846,7 +10025,8 @@ export const unassign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<UnassignRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UnassignResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9863,7 +10043,8 @@ export const unassignNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<UnassignNumberRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UnassignNumberResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9880,7 +10061,8 @@ export const unfavorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<UnfavoriteRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UnfavoriteResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9897,7 +10079,8 @@ export const updateAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<UpdateAdminRequest>,
   output: __S(6912, __c216, 0) as any as S.Schema<Admin2>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9914,7 +10097,8 @@ export const updateAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<UpdateAttachmentsRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<UpdateAttachmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9931,7 +10115,8 @@ export const updateAttachmentsContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<UpdateAttachmentsContentRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<UpdateAttachmentsContentResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9948,7 +10133,8 @@ export const updateBySourceId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<UpdateBySourceIdRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<UpdateBySourceIdResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9965,7 +10151,8 @@ export const updateChildFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<UpdateChildFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<UpdateChildFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9982,7 +10169,8 @@ export const updateConfigurationMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<UpdateConfigurationMonitorsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<UpdateConfigurationMonitorsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9999,7 +10187,8 @@ export const updateEdge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<UpdateEdgeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateEdgeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10016,7 +10205,8 @@ export const updateExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<UpdateExchangeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateExchangeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10033,7 +10223,8 @@ export const updateFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<UpdateFoldersRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<UpdateFoldersResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10050,7 +10241,8 @@ export const updateHealthOverviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<UpdateHealthOverviewsRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<UpdateHealthOverviewsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10067,7 +10259,8 @@ export const updateHealthOverviewsIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<UpdateHealthOverviewsIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<UpdateHealthOverviewsIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10084,7 +10277,8 @@ export const updateInstallationOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<UpdateInstallationOptionsRequest>,
   output: __S(8546, __c267, 2) as any as S.Schema<UpdateInstallationOptionsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10101,7 +10295,8 @@ export const updateInternetExplorerMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<UpdateInternetExplorerModeRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateInternetExplorerModeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10118,7 +10313,8 @@ export const updateIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<UpdateIssuesRequest>,
   output: __S(8290, __c259, 2) as any as S.Schema<UpdateIssuesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10135,7 +10331,8 @@ export const updateItemInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<UpdateItemInsightsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<UpdateItemInsightsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10152,7 +10349,8 @@ export const updateMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<UpdateMailboxesRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<UpdateMailboxesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10169,7 +10367,8 @@ export const updateMailboxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<UpdateMailboxSettingsRequest>,
   output: __S(454, __c14, 6) as any as S.Schema<MailboxSettings>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10186,7 +10385,8 @@ export const updateMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<UpdateMessagesRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<UpdateMessagesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10203,7 +10403,8 @@ export const updateMessagesAttachmentsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<UpdateMessagesAttachmentsArchiveRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpdateMessagesAttachmentsArchiveResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10220,7 +10421,8 @@ export const updateMessageTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<UpdateMessageTracesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateMessageTracesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10237,7 +10439,8 @@ export const updateMicrosoft365Apps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<UpdateMicrosoft365AppsRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateMicrosoft365AppsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10254,7 +10457,8 @@ export const updateNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<UpdateNumberRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpdateNumberResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10271,7 +10475,8 @@ export const updateNumberAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateNumberAssignmentsRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<UpdateNumberAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10288,7 +10493,8 @@ export const updateOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<UpdateOperationsRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<UpdateOperationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10305,7 +10511,8 @@ export const updatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdatePolicyResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10322,7 +10529,8 @@ export const updateProfileCardProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<UpdateProfileCardPropertiesRequest>,
   output: __S(3268, __c102, 4) as any as S.Schema<UpdateProfileCardPropertiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10339,7 +10547,8 @@ export const updateProfilePropertySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<UpdateProfilePropertySettingsRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<UpdateProfilePropertySettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10356,7 +10565,8 @@ export const updateProfileSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<UpdateProfileSourcesRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<UpdateProfileSourcesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10373,7 +10583,8 @@ export const updatePronouns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<UpdatePronounsRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<UpdatePronounsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10390,7 +10601,8 @@ export const updateReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<UpdateReportSettingsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<UpdateReportSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10407,7 +10619,8 @@ export const updateServiceAnnouncement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<UpdateServiceAnnouncementRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateServiceAnnouncementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10424,7 +10637,8 @@ export const updateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<UpdateSettingsRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<UpdateSettingsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10441,7 +10655,8 @@ export const updateSharedCookies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<UpdateSharedCookiesRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<UpdateSharedCookiesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10458,7 +10673,8 @@ export const updateSharepoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<UpdateSharepointRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateSharepointResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10475,7 +10691,8 @@ export const updateSiteLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<UpdateSiteListsRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<UpdateSiteListsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10492,7 +10709,8 @@ export const updateSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<UpdateSitesRequest>,
   output: __S(5250, __c164, 2) as any as S.Schema<UpdateSitesResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10509,7 +10727,8 @@ export const updateTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<UpdateTeamsRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateTeamsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10526,7 +10745,8 @@ export const updateTelephoneNumberManagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<UpdateTelephoneNumberManagementRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateTelephoneNumberManagementResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10543,7 +10763,8 @@ export const updateTracing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<UpdateTracingRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<UpdateTracingResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10560,7 +10781,8 @@ export const updateUserAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<UpdateUserAssignmentsRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<UpdateUserAssignmentsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10577,7 +10799,8 @@ export const updateUserConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<UpdateUserConfigurationsRequest>,
   output: __S(5445, __c170, 5) as any as S.Schema<UpdateUserConfigurationsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
