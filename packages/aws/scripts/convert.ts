@@ -96,7 +96,7 @@ for (const service of services) {
   if (file === undefined) continue;
 
   const model = JSON.parse(fs.readFileSync(path.join(base, version, file), "utf8"));
-  // A service with no protocol the runtime implements (an rpcv2Cbor-only
+  // A service with no protocol the runtime implements (an rpcv2Json-only
   // one, say) has no SDK yet.
   if (supportedProtocol(serviceOf(model)?.traits) === undefined) {
     skipped.push(service);

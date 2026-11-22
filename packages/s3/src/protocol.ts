@@ -12,7 +12,7 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  * layer supplies everything AWS-specific per request:
  *
  *   encode:  idempotency-token fill -> wire-family serializer (awsJson 1.0/1.1,
- *            awsQuery, ec2Query, restJson1, restXml -- discovered from the
+ *            awsQuery, ec2Query, restJson1, restXml, rpcv2Cbor -- discovered from the
  *            input schema's protocol trait) -> annotation middleware
  *            (checksums, streaming bodies) -> endpoint resolution (custom
  *            Endpoint service, compiled Smithy endpoint rules, or the
@@ -69,12 +69,15 @@ import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
+  getAnnotationUnwrap,
   getAwsApiService,
   getAwsAuthSigv2,
   getAwsAuthSigv4,
   getProtocol,
   hasHttpPayload,
   isStreamingType,
+  type ProtocolAnnotationValue,
+  protocolSymbol,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
@@ -164,9 +167,11 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
     sigv2: getAwsAuthSigv2(inputAst),
     serviceSdkId,
     resolveEndpoint: makeEndpointResolver(op),
-    textBody: getPropertySignatures(op.output.ast).every(
-      (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
-    ),
+    textBody:
+      getAnnotationUnwrap<ProtocolAnnotationValue>(inputAst, protocolSymbol)?.binaryBody !== true &&
+      getPropertySignatures(op.output.ast).every(
+        (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
+      ),
     regionInput: !getPropertySignatures(inputAst).some((prop) => prop.name === "region"),
   };
   preparedOps.set(config, prepared);
