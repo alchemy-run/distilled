@@ -161,6 +161,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "turso" },
   { package: "twitch" },
   { package: "typesense" },
+  { package: "unifi" },
   { package: "unkey" },
   { package: "vanta" },
   { package: "vercel" },

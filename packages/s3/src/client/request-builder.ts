@@ -3,7 +3,7 @@
  *
  * This layer:
  * 1. Uses the Protocol to serialize the input into a Request
- * 2. Applies middleware (e.g., checksum computation, streaming body handling)
+ * 2. Applies middleware (e.g., checksum computation)
  * 3. Adds common headers
  *
  * Core fills missing idempotency tokens before the input gets here, once
@@ -16,10 +16,6 @@ import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type { ParseError } from "../errors.ts";
-import {
-  getStreamingPayloadInfo,
-  makeStreamingBodyMiddleware,
-} from "../middleware/streaming-body.ts";
 import { getMiddleware } from "../traits.ts";
 import type { Operation } from "./operation.ts";
 import { serializeEffect, type ProtocolHandler } from "./protocol.ts";
@@ -28,9 +24,9 @@ import type { Request } from "./request.ts";
 /**
  * Create a request builder for a given operation and its (loaded) protocol
  * handler: serializes, applies middleware
- * (checksums, streaming bodies) and adds the common headers.
+ * (checksums) and adds the common headers.
  *
- * Operations without middleware or a streaming payload build the request
+ * Operations without middleware build the request
  * synchronously: the builder returns it directly, returns a failed effect
  * for a path label that would address another resource, and throws the
  * `ParseError` of an input that does not match the schema. Other
@@ -44,7 +40,7 @@ export const makeRequestBuilder = (
   const inputSchema = operation.input;
   const middleware = getMiddleware(inputSchema.ast);
   const serialize = (input: unknown) => protocol.serialize(input);
-  if (!middleware.length && !getStreamingPayloadInfo(inputSchema.ast).hasStreamingPayload) {
+  if (!middleware.length) {
     return (input) => {
       const request = serialize(input);
       return request instanceof InvalidInput
@@ -55,15 +51,13 @@ export const makeRequestBuilder = (
     };
   }
 
-  // Buffers streaming bodies without Content-Length to compute the length
-  const applyStreamingBody = makeStreamingBodyMiddleware(inputSchema);
   return Effect.fnUntraced(function* (input: unknown) {
     let request = yield* serializeEffect(serialize)(input);
     // Apply annotation-based middleware (e.g., checksum)
     for (const mw of middleware) {
       request = yield* mw(inputSchema, request);
     }
-    return withUserAgent(yield* applyStreamingBody(request));
+    return withUserAgent(request);
   });
 };
 
