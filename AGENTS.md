@@ -138,9 +138,10 @@ uninitialised, and every `packages/*/specs/spec-mirror-*/` directory is empty.
 
 ## You probably do not need the specs
 
-CI never checks out a submodule and never runs the generator. The generated
-SDKs are committed, so `pnpm install && pnpm typecheck` is a complete,
-working checkout for anything that is not a codegen change.
+CI fetches only the turso and npm mirrors: the Lint job regenerates those two
+SDKs and fails if the committed code differs. The generated SDKs are
+committed, so `pnpm install && pnpm typecheck` is a complete, working
+checkout for anything that is not a codegen change.
 
 Fetch specs only when you are going to regenerate:
 

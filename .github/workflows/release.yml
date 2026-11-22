@@ -19,9 +19,10 @@ concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
+# Each job grants itself what it needs. Only `publish` holds the npm OIDC
+# identity, and it installs with --ignore-scripts and no dependency cache.
 permissions:
-  contents: write
-  id-token: write
+  contents: read
 
 env:
   ALCHEMY_REPO: alchemy-run/distilled
@@ -35,10 +36,14 @@ jobs:
       contents: read
     uses: ./.github/workflows/compat-tests.yml
 
+  # Runs `pnpm install` with lifecycle scripts, so it gets no `id-token`.
+  # The release commit and tag are pushed with the bot token from checkout.
   build:
     name: Build and pack
     needs: compat
     runs-on: blacksmith-8vcpu-ubuntu-2404
+    permissions:
+      contents: read
     outputs:
       sha: ${{ steps.commit.outputs.sha }}
       version: ${{ steps.release.outputs.version }}
@@ -117,6 +122,11 @@ jobs:
     name: Publish
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      # The GitHub release.
+      contents: write
+      # npm trusted publishing.
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -124,10 +134,12 @@ jobs:
           ref: ${{ needs.build.outputs.sha }}
           fetch-depth: 0
 
+      # No dependency cache: other workflows write it, and this job runs the
+      # installed packages while it holds the publish identity.
       - name: Setup pnpm and Node.js
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
-          cache: true
+          cache: false
           install: false
 
       # Release scripts import changelogithub and effect, but publishing does
