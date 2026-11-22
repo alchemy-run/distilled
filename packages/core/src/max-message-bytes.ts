@@ -42,8 +42,8 @@ export interface MaxMessageBytesInput {
  * `context`, else `fallback`. A value that is not a positive whole number
  * is returned as an error message.
  */
-export const resolve = (
-  context: Context.Context<any>,
+export const resolve = <R>(
+  context: Context.Context<R>,
   input: unknown,
   fallback: number = DEFAULT_MAX_MESSAGE_BYTES,
 ): number | { readonly invalid: string } => {
