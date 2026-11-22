@@ -103,9 +103,22 @@ export interface TranslatorDetectRequest {
   xClientTraceId?: string | undefined;
   body: TranslatorDetectRequestBodyList;
 }
-export type DetectResultItem = DictionaryLookupTextInput;
+export interface DetectAlternative {
+  language?: string | undefined;
+  score?: number | undefined;
+  isTranslationSupported?: boolean | undefined;
+  isTransliterationSupported?: boolean | undefined;
+}
+export type DetectAlternativesList = Array<DetectAlternative>;
+export interface DetectResultItem {
+  language?: string | undefined;
+  score?: number | undefined;
+  isTranslationSupported?: boolean | undefined;
+  isTransliterationSupported?: boolean | undefined;
+  alternatives?: DetectAlternativesList | undefined;
+}
 /** Example of a successful detect request */
-export type DetectResult = Array<DictionaryLookupTextInput>;
+export type DetectResult = Array<DetectResultItem>;
 export type TranslatorDetectResponse = DetectResult;
 /** Text needed for a dictionary example request */
 export interface DictionaryExampleTextInput {
@@ -161,9 +174,9 @@ export interface LanguagesResultTranslationLanguageCode {
   nativeName?: string | undefined;
   dir?: string | undefined;
 }
-export interface LanguagesResultTranslation {
-  languageCode?: LanguagesResultTranslationLanguageCode | undefined;
-}
+export type LanguagesResultTranslationMap = {
+  [key: string]: LanguagesResultTranslationLanguageCode | undefined;
+};
 export interface LanguagesResultTransliterationLanguageCodeScriptsItemToScriptsItem {
   code?: string | undefined;
   name?: string | undefined;
@@ -186,9 +199,9 @@ export interface LanguagesResultTransliterationLanguageCode {
   nativeName?: string | undefined;
   scripts?: LanguagesResultTransliterationLanguageCodeScriptsList | undefined;
 }
-export interface LanguagesResultTransliteration {
-  languageCode?: LanguagesResultTransliterationLanguageCode | undefined;
-}
+export type LanguagesResultTransliterationMap = {
+  [key: string]: LanguagesResultTransliterationLanguageCode | undefined;
+};
 export interface LanguagesResultDictionaryLanguageCodeTranslationsItem {
   name?: string | undefined;
   nativeName?: string | undefined;
@@ -203,14 +216,14 @@ export interface LanguagesResultDictionaryLanguageCode {
   dir?: string | undefined;
   translations?: LanguagesResultDictionaryLanguageCodeTranslationsList | undefined;
 }
-export interface LanguagesResultDictionary {
-  languageCode?: LanguagesResultDictionaryLanguageCode | undefined;
-}
+export type LanguagesResultDictionaryMap = {
+  [key: string]: LanguagesResultDictionaryLanguageCode | undefined;
+};
 /** Example of a successful languages request */
 export interface LanguagesResult {
-  translation?: LanguagesResultTranslation | undefined;
-  transliteration?: LanguagesResultTransliteration | undefined;
-  dictionary?: LanguagesResultDictionary | undefined;
+  translation?: LanguagesResultTranslationMap | undefined;
+  transliteration?: LanguagesResultTransliterationMap | undefined;
+  dictionary?: LanguagesResultDictionaryMap | undefined;
 }
 export type TranslatorTranslateRequestToList = Array<string>;
 export type TranslatorTranslateRequestTextType = "plain" | "html";
@@ -259,15 +272,8 @@ export interface TranslateResultAllItemTranslationsItemTransliteration {
 export interface TranslateResultAllItemTranslationsItemAlignment {
   proj?: string | undefined;
 }
-export interface TranslateResultAllItemTranslationsItemSentLenSrcSentLenItem {
-  integer?: number | undefined;
-}
-export type TranslateResultAllItemTranslationsItemSentLenSrcSentLenList =
-  Array<TranslateResultAllItemTranslationsItemSentLenSrcSentLenItem>;
-export type TranslateResultAllItemTranslationsItemSentLenTransSentLenItem =
-  TranslateResultAllItemTranslationsItemSentLenSrcSentLenItem;
-export type TranslateResultAllItemTranslationsItemSentLenTransSentLenList =
-  Array<TranslateResultAllItemTranslationsItemSentLenSrcSentLenItem>;
+export type TranslateResultAllItemTranslationsItemSentLenSrcSentLenList = Array<number>;
+export type TranslateResultAllItemTranslationsItemSentLenTransSentLenList = Array<number>;
 export interface TranslateResultAllItemTranslationsItemSentLen {
   srcSentLen?: TranslateResultAllItemTranslationsItemSentLenSrcSentLenList | undefined;
   transSentLen?: TranslateResultAllItemTranslationsItemSentLenTransSentLenList | undefined;
@@ -333,7 +339,7 @@ export const TranslatorBreakSentence: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<TranslatorBreakSentenceRequest>,
-  output: __S(36, __c2, 4) as any as S.Schema<TranslatorBreakSentenceResponse>,
+  output: __S(35, __c2, 3) as any as S.Schema<TranslatorBreakSentenceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -349,8 +355,8 @@ export const TranslatorDetect: API.OperationMethod<
   TranslatorDetectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<TranslatorDetectRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<TranslatorDetectResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<TranslatorDetectRequest>,
+  output: __S(69, __c4, 5) as any as S.Schema<TranslatorDetectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -366,8 +372,8 @@ export const TranslatorDictionaryExamples: API.OperationMethod<
   TranslatorDictionaryExamplesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c4, 2) as any as S.Schema<TranslatorDictionaryExamplesRequest>,
-  output: __S(71, __c4, 7) as any as S.Schema<TranslatorDictionaryExamplesResponse>,
+  input: __S(82, __c5, 2) as any as S.Schema<TranslatorDictionaryExamplesRequest>,
+  output: __S(87, __c5, 7) as any as S.Schema<TranslatorDictionaryExamplesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -383,8 +389,8 @@ export const TranslatorLanguages: API.OperationMethod<
   TranslatorLanguagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<TranslatorLanguagesRequest>,
-  output: __S(94, __c5, 14) as any as S.Schema<LanguagesResult>,
+  input: __S(97, __c6, 1) as any as S.Schema<TranslatorLanguagesRequest>,
+  output: __S(110, __c6, 14) as any as S.Schema<LanguagesResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -400,8 +406,8 @@ export const TranslatorTranslate: API.OperationMethod<
   TranslatorTranslateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<TranslatorTranslateRequest>,
-  output: __S(107, __c6, 11) as any as S.Schema<TranslatorTranslateResponse>,
+  input: __S(113, __c7, 1) as any as S.Schema<TranslatorTranslateRequest>,
+  output: __S(121, __c7, 9) as any as S.Schema<TranslatorTranslateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -417,8 +423,8 @@ export const TranslatorTransliterate: API.OperationMethod<
   TranslatorTransliterateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<TranslatorTransliterateRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<TranslatorTransliterateResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<TranslatorTransliterateRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<TranslatorTransliterateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -522,22 +528,26 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "TranslatorBreakSentenceRequest" });
     case 1:
-      return S.Array(S.Number);
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          sentLen: S.optional(__S(33, __c2, 1)),
+          sentLen: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "BreakSentenceResultItem" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.Array(__S(34, __c2, 2));
-    case 4:
-      return S.suspend(() => __S(35, __c2, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(34, __c2, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "TranslatorBreakSentenceResponse",
       });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -557,12 +567,35 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "TranslatorDetectRequest" });
     case 1:
-      return S.suspend(() => __S(17, __c1, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() =>
+        S.Struct({
+          language: S.optional(S.String),
+          score: S.optional(S.Number),
+          isTranslationSupported: S.optional(S.Boolean),
+          isTransliterationSupported: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DetectAlternative" });
+    case 2:
+      return S.Array(__S(65, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          language: S.optional(S.String),
+          score: S.optional(S.Number),
+          isTranslationSupported: S.optional(S.Boolean),
+          isTransliterationSupported: S.optional(S.Boolean),
+          alternatives: S.optional(__S(66, __c4, 2)),
+        }),
+      ).annotate({ identifier: "DetectResultItem" });
+    case 4:
+      return S.Array(__S(67, __c4, 3));
+    case 5:
+      return S.suspend(() => __S(68, __c4, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "TranslatorDetectResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -572,7 +605,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DictionaryExampleTextInput" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -580,7 +613,7 @@ function __c4(j: number): any {
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
           xClientTraceId: S.optional(S.String.pipe(T.Header("X-ClientTraceId"))),
-          body: __S(65, __c4, 1).pipe(T.HttpBody()),
+          body: __S(81, __c5, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -604,24 +637,24 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DictionaryExampleResultItemExamplesItem" });
     case 4:
-      return S.Array(__S(67, __c4, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           normalizedSource: S.optional(S.String),
           normalizedTarget: S.optional(S.String),
-          examples: S.optional(__S(68, __c4, 4)),
+          examples: S.optional(__S(84, __c5, 4)),
         }),
       ).annotate({ identifier: "DictionaryExampleResultItem" });
     case 6:
-      return S.Array(__S(69, __c4, 5));
+      return S.Array(__S(85, __c5, 5));
     case 7:
-      return S.suspend(() => __S(70, __c4, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(86, __c5, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "TranslatorDictionaryExamplesResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -629,7 +662,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          scope: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          scope: S.optional(__S(96, __c6, 0).pipe(T.Query())),
           acceptLanguage: S.optional(S.String.pipe(T.Header("Accept-Language"))),
           xClientTraceId: S.optional(S.String.pipe(T.Header("X-ClientTraceId"))),
         }).pipe(
@@ -652,11 +685,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LanguagesResultTranslationLanguageCode" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          languageCode: S.optional(__S(82, __c5, 2)),
-        }),
-      ).annotate({ identifier: "LanguagesResultTranslation" });
+      return S.Record(S.String, __S(98, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -669,7 +698,7 @@ function __c5(j: number): any {
         identifier: "LanguagesResultTransliterationLanguageCodeScriptsItemToScriptsItem",
       });
     case 5:
-      return S.Array(__S(84, __c5, 4));
+      return S.Array(__S(100, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -677,25 +706,21 @@ function __c5(j: number): any {
           name: S.optional(S.String),
           nativeName: S.optional(S.String),
           dir: S.optional(S.String),
-          toScripts: S.optional(__S(85, __c5, 5)),
+          toScripts: S.optional(__S(101, __c6, 5)),
         }),
       ).annotate({ identifier: "LanguagesResultTransliterationLanguageCodeScriptsItem" });
     case 7:
-      return S.Array(__S(86, __c5, 6));
+      return S.Array(__S(102, __c6, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           nativeName: S.optional(S.String),
-          scripts: S.optional(__S(87, __c5, 7)),
+          scripts: S.optional(__S(103, __c6, 7)),
         }),
       ).annotate({ identifier: "LanguagesResultTransliterationLanguageCode" });
     case 9:
-      return S.suspend(() =>
-        S.Struct({
-          languageCode: S.optional(__S(88, __c5, 8)),
-        }),
-      ).annotate({ identifier: "LanguagesResultTransliteration" });
+      return S.Record(S.String, __S(104, __c6, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -706,33 +731,29 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LanguagesResultDictionaryLanguageCodeTranslationsItem" });
     case 11:
-      return S.Array(__S(90, __c5, 10));
+      return S.Array(__S(106, __c6, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           nativeName: S.optional(S.String),
           dir: S.optional(S.String),
-          translations: S.optional(__S(91, __c5, 11)),
+          translations: S.optional(__S(107, __c6, 11)),
         }),
       ).annotate({ identifier: "LanguagesResultDictionaryLanguageCode" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          languageCode: S.optional(__S(92, __c5, 12)),
-        }),
-      ).annotate({ identifier: "LanguagesResultDictionary" });
+      return S.Record(S.String, __S(108, __c6, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          translation: S.optional(__S(83, __c5, 3)),
-          transliteration: S.optional(__S(89, __c5, 9)),
-          dictionary: S.optional(__S(93, __c5, 13)),
+          translation: S.optional(__S(99, __c6, 3)),
+          transliteration: S.optional(__S(105, __c6, 9)),
+          dictionary: S.optional(__S(109, __c6, 13)),
         }),
       ).annotate({ identifier: "LanguagesResult" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -741,7 +762,7 @@ function __c6(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           from: S.optional(S.String.pipe(T.Query())),
-          to: __S(96, __c6, 0).pipe(T.Query()),
+          to: __S(112, __c7, 0).pipe(T.Query()),
           textType: S.optional(S.String.pipe(T.Query())),
           category: S.optional(S.String.pipe(T.Query())),
           profanityAction: S.optional(S.String.pipe(T.Query())),
@@ -750,7 +771,7 @@ function __c6(j: number): any {
           includeSentenceLength: S.optional(S.Boolean.pipe(T.Query())),
           suggestedFrom: S.optional(S.String.pipe(T.Query())),
           fromScript: S.optional(S.String.pipe(T.Query())),
-          toScript: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          toScript: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           xClientTraceId: S.optional(S.String.pipe(T.Header("X-ClientTraceId"))),
           body: __S(17, __c1, 1).pipe(T.HttpBody()),
         }).pipe(
@@ -780,46 +801,38 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          integer: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TranslateResultAllItemTranslationsItemSentLenSrcSentLenItem" });
-    case 5:
-      return S.Array(__S(100, __c6, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          srcSentLen: S.optional(__S(101, __c6, 5)),
-          transSentLen: S.optional(__S(101, __c6, 5)),
+          srcSentLen: S.optional(__S(48, __c3, 0)),
+          transSentLen: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "TranslateResultAllItemTranslationsItemSentLen" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          transliteration: S.optional(__S(112, __c7, 0)),
+          transliteration: S.optional(__S(128, __c8, 0)),
           to: S.optional(S.String),
-          alignment: S.optional(__S(99, __c6, 3)),
-          sentLen: S.optional(__S(102, __c6, 6)),
+          alignment: S.optional(__S(115, __c7, 3)),
+          sentLen: S.optional(__S(116, __c7, 4)),
         }),
       ).annotate({ identifier: "TranslateResultAllItemTranslationsItem" });
-    case 8:
-      return S.Array(__S(103, __c6, 7));
-    case 9:
+    case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          detectedLanguage: S.optional(__S(98, __c6, 2)),
-          translations: S.optional(__S(104, __c6, 8)),
+          detectedLanguage: S.optional(__S(114, __c7, 2)),
+          translations: S.optional(__S(118, __c7, 6)),
         }),
       ).annotate({ identifier: "TranslateResultAllItem" });
-    case 10:
-      return S.Array(__S(105, __c6, 9));
-    case 11:
-      return S.suspend(() => __S(106, __c6, 10).pipe(T.RawResponseRoot())).annotate({
+    case 8:
+      return S.Array(__S(119, __c7, 7));
+    case 9:
+      return S.suspend(() => __S(120, __c7, 8).pipe(T.RawResponseRoot())).annotate({
         identifier: "TranslatorTranslateResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -830,7 +843,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TranslateResultAllItemTranslationsItemTransliteration" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -853,9 +866,9 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "TranslatorTransliterateRequest" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
-      return S.suspend(() => __S(129, __c8, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(145, __c9, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "TranslatorTransliterateResponse",
       });
   }

@@ -87,6 +87,8 @@ export interface CreateLedgerEntryRequest {
 export interface LedgerWriteResult {
   /** The collection identifier of the ledger entry. */
   collectionId: string;
+  /** Transaction ID of the write (`x-ms-ccf-transaction-id`); poll GetTransactionStatus until it is `Committed`. */
+  transactionId?: string | undefined;
 }
 /** Represents an assignable role. */
 export type ConfidentialLedgerUserRoleName = "Administrator" | "Contributor" | "Reader";
@@ -698,7 +700,7 @@ export const CreateLedgerEntry: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateLedgerEntryRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<LedgerWriteResult>,
+  output: __S(1, __c0, 1) as any as S.Schema<LedgerWriteResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -714,8 +716,8 @@ export const CreateOrUpdateLedgerUser: API.OperationMethod<
   CreateOrUpdateLedgerUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateOrUpdateLedgerUserRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<LedgerUserMultipleRoles>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateOrUpdateLedgerUserRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<LedgerUserMultipleRoles>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -731,8 +733,8 @@ export const CreateOrUpdateUser: API.OperationMethod<
   CreateOrUpdateUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateOrUpdateUserRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<LedgerUser>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateOrUpdateUserRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<LedgerUser>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -748,8 +750,8 @@ export const CreateUserDefinedEndpoint: API.OperationMethod<
   CreateUserDefinedEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreateUserDefinedEndpointRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CreateUserDefinedEndpointResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateUserDefinedEndpointRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<CreateUserDefinedEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -765,8 +767,8 @@ export const CreateUserDefinedFunction: API.OperationMethod<
   CreateUserDefinedFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CreateUserDefinedFunctionRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<UserDefinedFunction>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateUserDefinedFunctionRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<UserDefinedFunction>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -782,8 +784,8 @@ export const CreateUserDefinedRole: API.OperationMethod<
   CreateUserDefinedRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateUserDefinedRoleRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserDefinedRoles>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateUserDefinedRoleRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UserDefinedRoles>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -799,8 +801,8 @@ export const DeleteLedgerUser: API.OperationMethod<
   DeleteLedgerUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteLedgerUserRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteLedgerUserResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<DeleteLedgerUserRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteLedgerUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -816,8 +818,8 @@ export const DeleteUser: API.OperationMethod<
   DeleteUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -833,8 +835,8 @@ export const DeleteUserDefinedFunction: API.OperationMethod<
   DeleteUserDefinedFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteUserDefinedFunctionRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteUserDefinedFunctionResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<DeleteUserDefinedFunctionRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteUserDefinedFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -850,8 +852,8 @@ export const DeleteUserDefinedRole: API.OperationMethod<
   DeleteUserDefinedRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DeleteUserDefinedRoleRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteUserDefinedRoleResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<DeleteUserDefinedRoleRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteUserDefinedRoleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -867,8 +869,8 @@ export const ExecuteUserDefinedFunction: API.OperationMethod<
   ExecuteUserDefinedFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ExecuteUserDefinedFunctionRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<UserDefinedFunctionExecutionResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ExecuteUserDefinedFunctionRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<UserDefinedFunctionExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -884,8 +886,8 @@ export const GetConstitution: API.OperationMethod<
   GetConstitutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetConstitutionRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<Constitution>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetConstitutionRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<Constitution>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -901,8 +903,8 @@ export const GetCurrentLedgerEntry: API.OperationMethod<
   GetCurrentLedgerEntryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetCurrentLedgerEntryRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<LedgerEntry>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetCurrentLedgerEntryRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<LedgerEntry>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -918,8 +920,8 @@ export const GetEnclaveQuotes: API.OperationMethod<
   GetEnclaveQuotesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetEnclaveQuotesRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<ConfidentialLedgerEnclaves>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetEnclaveQuotesRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<ConfidentialLedgerEnclaves>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -935,8 +937,8 @@ export const GetLedgerEntry: API.OperationMethod<
   GetLedgerEntryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetLedgerEntryRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<LedgerQueryResult>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetLedgerEntryRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<LedgerQueryResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -952,8 +954,8 @@ export const GetLedgerUser: API.OperationMethod<
   GetLedgerUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetLedgerUserRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<LedgerUserMultipleRoles>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetLedgerUserRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<LedgerUserMultipleRoles>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -969,8 +971,8 @@ export const GetReceipt: API.OperationMethod<
   GetReceiptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetReceiptRequest>,
-  output: __S(233, __c14, 9) as any as S.Schema<TransactionReceipt>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetReceiptRequest>,
+  output: __S(217, __c13, 9) as any as S.Schema<TransactionReceipt>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -986,7 +988,7 @@ export const GetRuntimeOptions: API.OperationMethod<
   GetRuntimeOptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetRuntimeOptionsRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetRuntimeOptionsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<JsRuntimeOptions>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -1003,8 +1005,8 @@ export const GetTransactionStatus: API.OperationMethod<
   GetTransactionStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetTransactionStatusRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<TransactionStatus>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetTransactionStatusRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<TransactionStatus>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1020,8 +1022,8 @@ export const GetUser: API.OperationMethod<
   GetUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<LedgerUser>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<LedgerUser>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1037,8 +1039,8 @@ export const GetUserDefinedEndpoint: API.OperationMethod<
   GetUserDefinedEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetUserDefinedEndpointRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<Bundle>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetUserDefinedEndpointRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<Bundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1054,8 +1056,8 @@ export const GetUserDefinedEndpointsModule: API.OperationMethod<
   GetUserDefinedEndpointsModuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetUserDefinedEndpointsModuleRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<ModuleDef>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetUserDefinedEndpointsModuleRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<ModuleDef>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1071,8 +1073,8 @@ export const GetUserDefinedFunction: API.OperationMethod<
   GetUserDefinedFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetUserDefinedFunctionRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<UserDefinedFunction>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetUserDefinedFunctionRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<UserDefinedFunction>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1088,8 +1090,8 @@ export const GetUserDefinedRole: API.OperationMethod<
   GetUserDefinedRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetUserDefinedRoleRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<UserDefinedRole>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetUserDefinedRoleRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<UserDefinedRole>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1106,8 +1108,8 @@ export const ListCollections: API.PaginatedOperationMethod<
   AzureOpContext,
   Collection
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListCollectionsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<PagedCollections>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListCollectionsRequest>,
+  output: __S(371, __c23, 3) as any as S.Schema<PagedCollections>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1130,8 +1132,8 @@ export const ListConsortiumMembers: API.PaginatedOperationMethod<
   AzureOpContext,
   ConsortiumMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListConsortiumMembersRequest>,
-  output: __S(403, __c25, 3) as any as S.Schema<Consortium>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListConsortiumMembersRequest>,
+  output: __S(387, __c24, 3) as any as S.Schema<Consortium>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1154,8 +1156,8 @@ export const ListLedgerEntries: API.PaginatedOperationMethod<
   AzureOpContext,
   LedgerEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListLedgerEntriesRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<PagedLedgerEntries>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListLedgerEntriesRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<PagedLedgerEntries>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1178,8 +1180,8 @@ export const ListLedgerUsers: API.PaginatedOperationMethod<
   AzureOpContext,
   LedgerUserMultipleRoles
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListLedgerUsersRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<PagedLedgerUsers>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListLedgerUsersRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<PagedLedgerUsers>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1202,8 +1204,8 @@ export const ListTags: API.PaginatedOperationMethod<
   AzureOpContext,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<PagedTags>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<PagedTags>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1226,8 +1228,8 @@ export const ListUserDefinedFunctions: API.PaginatedOperationMethod<
   AzureOpContext,
   UserDefinedFunction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListUserDefinedFunctionsRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<PagedUserDefinedFunctions>,
+  input: __S(448, __c28, 0) as any as S.Schema<ListUserDefinedFunctionsRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<PagedUserDefinedFunctions>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1250,8 +1252,8 @@ export const ListUsers: API.PaginatedOperationMethod<
   AzureOpContext,
   LedgerUser
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<PagedUsers>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<PagedUsers>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1273,7 +1275,7 @@ export const UpdateRuntimeOptions: API.OperationMethod<
   UpdateRuntimeOptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateRuntimeOptionsRequest>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateRuntimeOptionsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<JsRuntimeOptions>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -1290,8 +1292,8 @@ export const UpdateUserDefinedRole: API.OperationMethod<
   UpdateUserDefinedRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UpdateUserDefinedRoleRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserDefinedRoles>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateUserDefinedRoleRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UserDefinedRoles>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1322,6 +1324,13 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateLedgerEntryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          transactionId: S.optional(S.String.pipe(T.Header("x-ms-ccf-transaction-id"))),
+        }),
+      ).annotate({ identifier: "LedgerWriteResult" });
   }
 }
 function __c1(j: number): any {
@@ -1344,7 +1353,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          arguments: S.optional(__S(64, __c4, 0)),
+          arguments: S.optional(__S(48, __c3, 0)),
           exportedFunctionName: S.optional(S.String),
           runtimeOptions: S.optional(__S(16, __c1, 0)),
         }),
@@ -1363,27 +1372,17 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          collectionId: S.String,
-        }),
-      ).annotate({ identifier: "LedgerWriteResult" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
       return S.Array(S.String);
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ledgerEndpoint: S.String.pipe(T.HostLabel()),
           userId: S.String.pipe(T.Label()),
-          assignedRoles: __S(96, __c6, 0),
+          assignedRoles: __S(80, __c5, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1392,32 +1391,33 @@ function __c5(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "CreateOrUpdateLedgerUserRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assignedRoles: __S(96, __c6, 0),
+          assignedRoles: __S(80, __c5, 0),
           userId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LedgerUserMultipleRoles" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ledgerEndpoint: S.String.pipe(T.HostLabel()),
           functionId: S.String.pipe(T.Label()),
-          arguments: S.optional(__S(64, __c4, 0)),
+          arguments: S.optional(__S(48, __c3, 0)),
           exportedFunctionName: S.optional(S.String),
           runtimeOptions: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -1446,14 +1446,14 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(113, __c7, 1)),
-          result: S.optional(__S(114, __c7, 2)),
+          error: S.optional(__S(97, __c6, 1)),
+          result: S.optional(__S(98, __c6, 2)),
           status: S.String,
         }),
       ).annotate({ identifier: "UserDefinedFunctionExecutionResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1479,7 +1479,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "Constitution" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1499,7 +1499,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetCurrentLedgerEntryRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1513,7 +1513,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "LedgerEntry" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1540,17 +1540,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "EnclaveQuote" });
     case 2:
-      return S.Record(S.String, __S(177, __c11, 1));
+      return S.Record(S.String, __S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           currentNodeId: S.String,
-          enclaveQuotes: __S(178, __c11, 2),
+          enclaveQuotes: __S(162, __c10, 2),
         }),
       ).annotate({ identifier: "ConfidentialLedgerEnclaves" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1573,12 +1573,12 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          entry: S.optional(__S(160, __c10, 0)),
+          entry: S.optional(__S(144, __c9, 0)),
         }),
       ).annotate({ identifier: "LedgerQueryResult" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1598,7 +1598,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetLedgerUserRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1635,13 +1635,13 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(225, __c14, 1)),
+          digest: S.optional(__S(209, __c13, 1)),
           kind: S.String,
-          ledgerEntry: S.optional(__S(226, __c14, 2)),
+          ledgerEntry: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "ApplicationClaim" });
     case 4:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(211, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1658,32 +1658,32 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "ReceiptElement" });
     case 7:
-      return S.Array(__S(230, __c14, 6));
+      return S.Array(__S(214, __c13, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           cert: S.optional(S.String),
           leaf: S.optional(S.String),
-          leafComponents: S.optional(__S(229, __c14, 5)),
+          leafComponents: S.optional(__S(213, __c13, 5)),
           nodeId: S.String,
-          proof: __S(231, __c14, 7),
+          proof: __S(215, __c13, 7),
           root: S.optional(S.String),
-          serviceEndorsements: S.optional(__S(64, __c4, 0)),
+          serviceEndorsements: S.optional(__S(48, __c3, 0)),
           signature: S.String,
         }),
       ).annotate({ identifier: "ReceiptContents" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          applicationClaims: S.optional(__S(228, __c14, 4)),
-          receipt: S.optional(__S(232, __c14, 8)),
+          applicationClaims: S.optional(__S(212, __c13, 4)),
+          receipt: S.optional(__S(216, __c13, 8)),
           state: S.String,
           transactionId: S.String,
         }),
       ).annotate({ identifier: "TransactionReceipt" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,7 +1702,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetRuntimeOptionsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1729,7 +1729,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "TransactionStatus" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1749,7 +1749,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1765,12 +1765,13 @@ function __c18(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "CreateOrUpdateUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1781,7 +1782,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "LedgerUser" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1801,13 +1802,13 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(502, __c31, 6),
-          modules: __S(503, __c31, 7),
+          metadata: __S(486, __c30, 6),
+          modules: __S(487, __c30, 7),
         }),
       ).annotate({ identifier: "Bundle" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1827,7 +1828,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetUserDefinedEndpointsModuleRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1847,7 +1848,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetUserDefinedFunctionRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1868,12 +1869,12 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          role: __S(641, __c40, 1),
+          role: __S(625, __c39, 1),
         }),
       ).annotate({ identifier: "UserDefinedRole" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1893,17 +1894,23 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListCollectionsRequest" });
     case 1:
-      return S.Array(__S(48, __c3, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          collections: __S(385, __c24, 1),
+          collectionId: S.String,
+        }),
+      ).annotate({ identifier: "Collection" });
+    case 2:
+      return S.Array(__S(369, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          collections: __S(370, __c23, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PagedCollections" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1930,17 +1937,17 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ConsortiumMember" });
     case 2:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(402, __c25, 2),
+          members: __S(386, __c24, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Consortium" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1964,18 +1971,18 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListLedgerEntriesRequest" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
           nextLink: S.optional(S.String),
-          entries: __S(417, __c26, 1),
+          entries: __S(401, __c25, 1),
         }),
       ).annotate({ identifier: "PagedLedgerEntries" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1995,17 +2002,17 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListLedgerUsersRequest" });
     case 1:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(81, __c5, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ledgerUsers: __S(433, __c27, 1),
+          ledgerUsers: __S(417, __c26, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PagedLedgerUsers" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2028,13 +2035,13 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(64, __c4, 0),
+          tags: __S(48, __c3, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PagedTags" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2054,24 +2061,24 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListUserDefinedFunctionsRequest" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functions: __S(465, __c29, 1),
+          functions: __S(449, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PagedUserDefinedFunctions" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ledgerEndpoint: S.String.pipe(T.HostLabel()),
-          metadata: __S(502, __c31, 6),
-          modules: __S(503, __c31, 7),
+          metadata: __S(486, __c30, 6),
+          modules: __S(487, __c30, 7),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2085,12 +2092,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateUserDefinedEndpointRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(480, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2100,13 +2107,13 @@ function __c31(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          authn_policies: __S(497, __c31, 1),
+          authn_policies: __S(481, __c30, 1),
           forwarding_required: S.String,
-          interpreter_reuse: S.optional(__S(498, __c31, 2)),
+          interpreter_reuse: S.optional(__S(482, __c30, 2)),
           js_function: S.optional(S.String),
           js_module: S.optional(S.String),
           mode: S.optional(S.String),
-          openapi: S.optional(__S(496, __c31, 0)),
+          openapi: S.optional(__S(480, __c30, 0)),
           openapi_hidden: S.optional(S.Boolean),
           redirection_strategy: S.optional(S.String),
         }),
@@ -2114,25 +2121,25 @@ function __c31(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          get: S.optional(__S(499, __c31, 3)),
-          put: S.optional(__S(499, __c31, 3)),
-          patch: S.optional(__S(499, __c31, 3)),
-          delete: S.optional(__S(499, __c31, 3)),
+          get: S.optional(__S(483, __c30, 3)),
+          put: S.optional(__S(483, __c30, 3)),
+          patch: S.optional(__S(483, __c30, 3)),
+          delete: S.optional(__S(483, __c30, 3)),
         }),
       ).annotate({ identifier: "MethodToEndpointProperties" });
     case 5:
-      return S.Record(S.String, __S(500, __c31, 4));
+      return S.Record(S.String, __S(484, __c30, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(501, __c31, 5),
+          endpoints: __S(485, __c30, 5),
         }),
       ).annotate({ identifier: "Metadata" });
     case 7:
-      return S.Array(__S(512, __c32, 0));
+      return S.Array(__S(496, __c31, 0));
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2143,7 +2150,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ModuleDef" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2151,7 +2158,7 @@ function __c33(j: number): any {
       });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2171,17 +2178,17 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ledgerUsers: __S(545, __c34, 1),
+          ledgerUsers: __S(529, __c33, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PagedUsers" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2201,18 +2208,19 @@ function __c35(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateRuntimeOptionsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ledgerEndpoint: S.String.pipe(T.HostLabel()),
-          roles: __S(641, __c40, 1),
+          roles: __S(625, __c39, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2221,12 +2229,13 @@ function __c36(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateUserDefinedRoleRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2247,7 +2256,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateUserDefinedFunctionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2258,13 +2267,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UserDefinedFunction" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ledgerEndpoint: S.String.pipe(T.HostLabel()),
-          roles: __S(641, __c40, 1),
+          roles: __S(625, __c39, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2278,30 +2287,30 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateUserDefinedRoleRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           roleName: S.optional(S.String),
-          roleActions: S.optional(__S(64, __c4, 0)),
+          roleActions: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "Role" });
     case 1:
-      return S.Array(__S(640, __c40, 0));
+      return S.Array(__S(624, __c39, 0));
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(641, __c40, 1),
+          roles: __S(625, __c39, 1),
         }),
       ).annotate({ identifier: "UserDefinedRoles" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2321,7 +2330,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteLedgerUserRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2341,7 +2350,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2361,7 +2370,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteUserDefinedFunctionRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

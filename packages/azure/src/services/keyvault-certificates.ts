@@ -196,7 +196,37 @@ export interface CreateCertificateRequest {
   /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
   preserveCertOrder?: boolean | undefined;
 }
-export interface CreateCertificateResponse {}
+export interface Error {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The key vault server error. */
+  innererror?: Error | undefined;
+}
+/** A certificate operation is returned in case of asynchronous requests. */
+export interface CertificateOperation {
+  /** The certificate id. */
+  id?: string | undefined;
+  /** Parameters for the issuer of the X509 component of a certificate. */
+  issuer?: IssuerParameters | undefined;
+  /** The certificate signing request (CSR) that is being used in the certificate operation. */
+  csr?: string | undefined;
+  /** Indicates if cancellation was requested on the certificate operation. */
+  cancellation_requested?: boolean | undefined;
+  /** Status of the certificate operation. */
+  status?: string | undefined;
+  /** The status details of the certificate operation. */
+  status_details?: string | undefined;
+  /** Error encountered, if any, during the certificate operation. */
+  error?: Error | null | undefined;
+  /** Location which contains the result of the certificate operation. */
+  target?: string | undefined;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean | undefined;
+  /** Identifier for the certificate operation. */
+  request_id?: string | undefined;
+}
 export interface DeleteCertificateRequest {
   vaultBaseUrl: string;
   /** The name of the certificate. */
@@ -360,43 +390,12 @@ export interface DeleteCertificateOperationRequest {
   /** The name of the certificate. */
   certificateName: string;
 }
-export interface Error {
-  /** The error code. */
-  code?: string | undefined;
-  /** The error message. */
-  message?: string | undefined;
-  /** The key vault server error. */
-  innererror?: Error | undefined;
-}
-/** A certificate operation is returned in case of asynchronous requests. */
-export interface CertificateOperation {
-  /** The certificate id. */
-  id?: string | undefined;
-  /** Parameters for the issuer of the X509 component of a certificate. */
-  issuer?: IssuerParameters | undefined;
-  /** The certificate signing request (CSR) that is being used in the certificate operation. */
-  csr?: string | undefined;
-  /** Indicates if cancellation was requested on the certificate operation. */
-  cancellation_requested?: boolean | undefined;
-  /** Status of the certificate operation. */
-  status?: string | undefined;
-  /** The status details of the certificate operation. */
-  status_details?: string | undefined;
-  /** Error encountered, if any, during the certificate operation. */
-  error?: Error | null | undefined;
-  /** Location which contains the result of the certificate operation. */
-  target?: string | undefined;
-  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
-  preserveCertOrder?: boolean | undefined;
-  /** Identifier for the certificate operation. */
-  request_id?: string | undefined;
-}
 export interface GetCertificateRequest {
   vaultBaseUrl: string;
   /** The name of the certificate in the given vault. */
   certificateName: string;
   /** The version of the certificate. This URI fragment is optional. If not specified, the latest version of the certificate is returned. */
-  certificateVersion: string;
+  certificateVersion?: string | undefined;
 }
 /** Application specific metadata in the form of key-value pairs. */
 export type CertificateBundleTagsMap = { [key: string]: string | undefined };
@@ -698,12 +697,12 @@ export type CreateCertificateError = AzureOpError;
 /** Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission. */
 export const CreateCertificate: API.OperationMethod<
   CreateCertificateRequest,
-  CreateCertificateResponse,
+  CertificateOperation,
   CreateCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreateCertificateRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateCertificateResponse>,
+  output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -771,7 +770,7 @@ export const DeleteCertificateOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteCertificateOperationRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<CertificateOperation>,
+  output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -787,8 +786,8 @@ export const GetCertificate: API.OperationMethod<
   GetCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetCertificateRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -804,7 +803,7 @@ export const GetCertificateContacts: API.OperationMethod<
   GetCertificateContactsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetCertificateContactsRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetCertificateContactsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<Contacts>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -821,7 +820,7 @@ export const GetCertificateIssuer: API.OperationMethod<
   GetCertificateIssuerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetCertificateIssuerRequest>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetCertificateIssuerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<IssuerBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -839,8 +838,8 @@ export const GetCertificateIssuers: API.PaginatedOperationMethod<
   AzureOpContext,
   CertificateIssuerItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetCertificateIssuersRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<CertificateIssuerListResult>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetCertificateIssuersRequest>,
+  output: __S(643, __c40, 3) as any as S.Schema<CertificateIssuerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -863,7 +862,7 @@ export const GetCertificateOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetCertificateOperationRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<CertificateOperation>,
+  output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -986,7 +985,7 @@ export const ImportCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ImportCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1003,7 +1002,7 @@ export const MergeCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<MergeCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1020,7 +1019,7 @@ export const PurgeDeletedCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<PurgeDeletedCertificateRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<PurgeDeletedCertificateResponse>,
+  output: __S(273, __c17, 1) as any as S.Schema<PurgeDeletedCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1037,7 +1036,7 @@ export const RecoverDeletedCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<RecoverDeletedCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1054,7 +1053,7 @@ export const RestoreCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<RestoreCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1105,7 +1104,7 @@ export const UpdateCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateCertificateRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CertificateBundle>,
+  output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1139,7 +1138,7 @@ export const UpdateCertificateOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<UpdateCertificateOperationRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<CertificateOperation>,
+  output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1201,13 +1200,13 @@ function __c1(j: number): any {
           certificateName: S.String.pipe(T.Label()),
           policy: S.optional(__S(48, __c3, 0)),
           attributes: S.optional(__S(32, __c2, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           preserveCertOrder: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/certificates/{certificateName}/create",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1234,24 +1233,18 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key_props: S.optional(__S(96, __c6, 0)),
-          secret_props: S.optional(__S(97, __c6, 1)),
-          x509_props: S.optional(__S(101, __c6, 5)),
-          lifetime_actions: S.optional(__S(105, __c6, 9)),
-          issuer: S.optional(__S(80, __c5, 0)),
+          key_props: S.optional(__S(80, __c5, 0)),
+          secret_props: S.optional(__S(81, __c5, 1)),
+          x509_props: S.optional(__S(85, __c5, 5)),
+          lifetime_actions: S.optional(__S(89, __c5, 9)),
+          issuer: S.optional(__S(64, __c4, 0)),
           attributes: S.optional(__S(32, __c2, 0)),
-          platformManaged: S.optional(__S(107, __c6, 11)),
+          platformManaged: S.optional(__S(91, __c5, 11)),
         }),
       ).annotate({ identifier: "CertificatePolicyInput" });
   }
 }
 function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateCertificateResponse" });
-  }
-}
-function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1263,7 +1256,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "IssuerParameters" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1286,11 +1279,11 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(98, __c6, 2)),
-          dns_names: S.optional(__S(98, __c6, 2)),
-          upns: S.optional(__S(98, __c6, 2)),
-          uris: S.optional(__S(98, __c6, 2)),
-          ipAddresses: S.optional(__S(98, __c6, 2)),
+          emails: S.optional(__S(82, __c5, 2)),
+          dns_names: S.optional(__S(82, __c5, 2)),
+          upns: S.optional(__S(82, __c5, 2)),
+          uris: S.optional(__S(82, __c5, 2)),
+          ipAddresses: S.optional(__S(82, __c5, 2)),
         }),
       ).annotate({ identifier: "SubjectAlternativeNames" });
     case 4:
@@ -1299,9 +1292,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subject: S.optional(S.String),
-          ekus: S.optional(__S(98, __c6, 2)),
-          sans: S.optional(__S(99, __c6, 3)),
-          key_usage: S.optional(__S(100, __c6, 4)),
+          ekus: S.optional(__S(82, __c5, 2)),
+          sans: S.optional(__S(83, __c5, 3)),
+          key_usage: S.optional(__S(84, __c5, 4)),
           validity_months: S.optional(S.Number),
         }),
       ).annotate({ identifier: "X509CertificateProperties" });
@@ -1321,27 +1314,54 @@ function __c6(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          trigger: S.optional(__S(102, __c6, 6)),
-          action: S.optional(__S(103, __c6, 7)),
+          trigger: S.optional(__S(86, __c5, 6)),
+          action: S.optional(__S(87, __c5, 7)),
         }),
       ).annotate({ identifier: "LifetimeAction" });
     case 9:
-      return S.Array(__S(104, __c6, 8));
+      return S.Array(__S(88, __c5, 8));
     case 10:
       return S.Record(S.String, S.Unknown);
     case 11:
       return S.suspend(() =>
         S.Struct({
           certificateUsage: S.String,
-          metadata: S.optional(__S(106, __c6, 10)),
+          metadata: S.optional(__S(90, __c5, 10)),
         }),
       ).annotate({ identifier: "PlatformManaged" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          innererror: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "Error" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          issuer: S.optional(__S(64, __c4, 0)),
+          csr: S.optional(S.String),
+          cancellation_requested: S.optional(S.Boolean),
+          status: S.optional(S.String),
+          status_details: S.optional(S.String),
+          error: S.optional(S.NullOr(__S(112, __c7, 0))),
+          target: S.optional(S.String),
+          preserveCertOrder: S.optional(S.Boolean),
+          request_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CertificateOperation" });
   }
 }
 function __c8(j: number): any {
@@ -1417,7 +1437,7 @@ function __c11(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           attributes: S.optional(__S(336, __c21, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           x5t: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateItem" });
@@ -1504,7 +1524,7 @@ function __c14(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           attributes: S.optional(__S(336, __c21, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           x5t: S.optional(S.String),
           recoveryId: S.optional(S.String),
           scheduledPurgeDate: S.optional(S.Number),
@@ -1533,7 +1553,7 @@ function __c15(j: number): any {
           pwd: S.optional(S.String),
           policy: S.optional(__S(48, __c3, 0)),
           attributes: S.optional(__S(32, __c2, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           preserveCertOrder: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1556,9 +1576,9 @@ function __c16(j: number): any {
         S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
           certificateName: S.String.pipe(T.Label()),
-          x5c: __S(98, __c6, 2),
+          x5c: __S(82, __c5, 2),
           attributes: S.optional(__S(32, __c2, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1592,6 +1612,10 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PurgeDeletedCertificateRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "PurgeDeletedCertificateResponse",
+      });
   }
 }
 function __c18(j: number): any {
@@ -1649,7 +1673,7 @@ function __c20(j: number): any {
           cer: S.optional(S.String),
           contentType: S.optional(S.String),
           attributes: S.optional(__S(336, __c21, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           preserveCertOrder: S.optional(S.Boolean),
           recoveryId: S.optional(S.String),
           scheduledPurgeDate: S.optional(S.Number),
@@ -1680,13 +1704,13 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          key_props: S.optional(__S(96, __c6, 0)),
-          secret_props: S.optional(__S(97, __c6, 1)),
-          x509_props: S.optional(__S(101, __c6, 5)),
-          lifetime_actions: S.optional(__S(105, __c6, 9)),
-          issuer: S.optional(__S(80, __c5, 0)),
+          key_props: S.optional(__S(80, __c5, 0)),
+          secret_props: S.optional(__S(81, __c5, 1)),
+          x509_props: S.optional(__S(85, __c5, 5)),
+          lifetime_actions: S.optional(__S(89, __c5, 9)),
+          issuer: S.optional(__S(64, __c4, 0)),
           attributes: S.optional(__S(336, __c21, 0)),
-          platformManaged: S.optional(__S(107, __c6, 11)),
+          platformManaged: S.optional(__S(91, __c5, 11)),
         }),
       ).annotate({ identifier: "CertificatePolicy" });
   }
@@ -1778,7 +1802,7 @@ function __c27(j: number): any {
           certificateVersion: S.String.pipe(T.Label()),
           policy: S.optional(__S(48, __c3, 0)),
           attributes: S.optional(__S(32, __c2, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1847,13 +1871,13 @@ function __c30(j: number): any {
         S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
           certificateName: S.String.pipe(T.Label()),
-          key_props: S.optional(__S(96, __c6, 0)),
-          secret_props: S.optional(__S(97, __c6, 1)),
-          x509_props: S.optional(__S(101, __c6, 5)),
-          lifetime_actions: S.optional(__S(105, __c6, 9)),
-          issuer: S.optional(__S(80, __c5, 0)),
+          key_props: S.optional(__S(80, __c5, 0)),
+          secret_props: S.optional(__S(81, __c5, 1)),
+          x509_props: S.optional(__S(85, __c5, 5)),
+          lifetime_actions: S.optional(__S(89, __c5, 9)),
+          issuer: S.optional(__S(64, __c4, 0)),
           attributes: S.optional(__S(32, __c2, 0)),
-          platformManaged: S.optional(__S(107, __c6, 11)),
+          platformManaged: S.optional(__S(91, __c5, 11)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2003,36 +2027,9 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          innererror: S.optional(__S(576, __c36, 0)),
-        }),
-      ).annotate({ identifier: "Error" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          issuer: S.optional(__S(80, __c5, 0)),
-          csr: S.optional(S.String),
-          cancellation_requested: S.optional(S.Boolean),
-          status: S.optional(S.String),
-          status_details: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(576, __c36, 0))),
-          target: S.optional(S.String),
-          preserveCertOrder: S.optional(S.Boolean),
-          request_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CertificateOperation" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
           certificateName: S.String.pipe(T.Label()),
-          certificateVersion: S.String.pipe(T.Label()),
+          certificateVersion: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2047,7 +2044,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetCertificateRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2060,13 +2057,13 @@ function __c38(j: number): any {
           cer: S.optional(S.String),
           contentType: S.optional(S.String),
           attributes: S.optional(__S(336, __c21, 0)),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           preserveCertOrder: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CertificateBundle" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2086,7 +2083,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetCertificateContactsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2107,7 +2104,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetCertificateIssuerRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2136,11 +2133,11 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "CertificateIssuerItem" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(658, __c41, 2),
+          value: __S(642, __c40, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateIssuerListResult" });

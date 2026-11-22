@@ -167,6 +167,12 @@ export interface SendEmailResponse {
   operationLocation?: string | undefined;
   /** This header will only be present when the operation status is a non-terminal status. It indicates the minimum amount of time in seconds to wait before polling for operation status again. */
   retryAfter?: number | undefined;
+  /** The unique id of the send operation; pass it to EmailGetSendResult. */
+  id?: string | undefined;
+  /** Status of the send operation. */
+  status?: EmailSendResultStatus | undefined;
+  /** The error detail. */
+  error?: EmailSendResultError | undefined;
 }
 export type EmailGetSendResultError = AzureOpError;
 /** Gets the status of the email send operation. */
@@ -177,7 +183,7 @@ export const EmailGetSendResult: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<EmailGetSendResultRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<EmailSendResult>,
+  output: __S(1, __c0, 1) as any as S.Schema<EmailSendResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -193,8 +199,8 @@ export const SendEmail: API.OperationMethod<
   SendEmailError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23, __c1, 7) as any as S.Schema<SendEmailRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<SendEmailResponse>,
+  input: __S(39, __c2, 7) as any as S.Schema<SendEmailRequest>,
+  output: __S(40, __c2, 8) as any as S.Schema<SendEmailResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -222,50 +228,54 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "EmailGetSendResultRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          info: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ErrorAdditionalInfo" });
-    case 3:
-      return S.Array(__S(2, __c0, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(1, __c0, 1)),
-          additionalInfo: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "ErrorDetail" });
-    case 5:
-      return S.Array(__S(4, __c0, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(5, __c0, 5)),
-          additionalInfo: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "EmailSendResultError" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           status: S.String,
-          error: S.optional(__S(6, __c0, 6)),
+          error: S.optional(__S(21, __c1, 5)),
           retryAfter: S.optional(S.Number.pipe(T.Header("retry-after"))),
         }),
       ).annotate({ identifier: "EmailSendResult" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(19, __c1, 3)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          info: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorAdditionalInfo" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(16, __c1, 0)),
+          additionalInfo: S.optional(__S(18, __c1, 2)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 4:
+      return S.Array(__S(19, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(20, __c1, 4)),
+          additionalInfo: S.optional(__S(18, __c1, 2)),
+        }),
+      ).annotate({ identifier: "EmailSendResultError" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -285,13 +295,13 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "EmailAddress" });
     case 3:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(34, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          to: __S(19, __c1, 3),
-          cc: S.optional(__S(19, __c1, 3)),
-          bcc: S.optional(__S(19, __c1, 3)),
+          to: __S(35, __c2, 3),
+          cc: S.optional(__S(35, __c2, 3)),
+          bcc: S.optional(__S(35, __c2, 3)),
         }),
       ).annotate({ identifier: "EmailRecipients" });
     case 5:
@@ -304,19 +314,19 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "EmailAttachment" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(37, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           operationId: S.optional(S.String.pipe(T.Header("Operation-Id"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
-          headers: S.optional(__S(16, __c1, 0)),
+          headers: S.optional(__S(32, __c2, 0)),
           senderAddress: S.String,
-          content: __S(17, __c1, 1),
-          recipients: __S(20, __c1, 4),
-          attachments: S.optional(__S(22, __c1, 6)),
-          replyTo: S.optional(__S(19, __c1, 3)),
+          content: __S(33, __c2, 1),
+          recipients: __S(36, __c2, 4),
+          attachments: S.optional(__S(38, __c2, 6)),
+          replyTo: S.optional(__S(35, __c2, 3)),
           userEngagementTrackingDisabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -334,6 +344,9 @@ function __c1(j: number): any {
         S.Struct({
           operationLocation: S.optional(S.String.pipe(T.Header("Operation-Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("retry-after"))),
+          id: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(21, __c1, 5)),
         }),
       ).annotate({ identifier: "SendEmailResponse" });
   }

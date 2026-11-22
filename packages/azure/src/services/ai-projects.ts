@@ -258,7 +258,9 @@ export type BaseCredentials =
   | CustomCredential
   | EntraIDCredentials
   | NoAuthenticationCredentials
-  | SASCredentials;
+  | SASCredentials
+  | string
+  | string;
 /** Metadata of the connection */
 export type ConnectionMetadataMap = { [key: string]: string | undefined };
 /** Response from the list and get connections operations */
@@ -1438,6 +1440,8 @@ function __c19(j: number): any {
         __S(153, __c19, 1),
         __S(153, __c19, 1),
         __S(154, __c19, 2),
+        S.String,
+        S.String,
       ]);
     case 4:
       return S.suspend(() =>

@@ -177,11 +177,12 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            jsonContentType: "application/cloudevents-batch+json; charset=utf-8",
           }),
         ),
       ).annotate({ identifier: "PublishCloudEventEventsRequest" });
@@ -207,7 +208,7 @@ function __c2(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
@@ -241,7 +242,7 @@ function __c3(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],

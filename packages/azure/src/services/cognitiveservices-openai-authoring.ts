@@ -585,6 +585,8 @@ export interface StartUploadFileRequest {
   filename: string;
   bytes: number;
   mime_type: string;
+  /** The intended purpose of the uploaded file. */
+  purpose: Purpose | (string & {});
 }
 export interface StartUploadFileResponse {
   object?: TypeDiscriminator | undefined;
@@ -604,6 +606,10 @@ export interface StartUploadFileResponse {
 export interface UploadFileRequest {
   /** Supported Cognitive Services endpoints (protocol and hostname, for example: https://aoairesource.openai.azure.com. Replace "aoairesource" with your Azure OpenAI account name). */
   endpoint: string;
+  /** The intended purpose of the uploaded file: "fine-tune" for fine-tuning, "batch" for batch requests. */
+  purpose: Purpose | (string & {});
+  /** The file to upload: a File (its name is the uploaded filename, e.g. training.jsonl) or a Blob. */
+  file: unknown;
 }
 /** A file is a document usable for training and validation. It can also be a service generated document with result details. */
 export interface UploadFileResponse {
@@ -628,6 +634,8 @@ export interface UploadFilePartRequest {
   endpoint: string;
   /** The identifier of the upload. */
   uploadId: string;
+  /** The chunk of bytes for this part (a Blob or File). */
+  data: unknown;
 }
 export interface UploadPartResource {
   object?: TypeDiscriminator | undefined;
@@ -1578,6 +1586,7 @@ function __c21(j: number): any {
           filename: S.String,
           bytes: S.Number,
           mime_type: S.String,
+          purpose: S.String,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1612,6 +1621,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
+          purpose: S.String,
+          file: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1620,6 +1631,7 @@ function __c22(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            contentType: "multipart",
           }),
         ),
       ).annotate({ identifier: "UploadFileRequest" });
@@ -1632,6 +1644,7 @@ function __c23(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           uploadId: S.String.pipe(T.Label()),
+          data: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1640,6 +1653,7 @@ function __c23(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            contentType: "multipart",
           }),
         ),
       ).annotate({ identifier: "UploadFilePartRequest" });

@@ -181,7 +181,10 @@ export interface GetRenderMapStateTileRequest {
   /** Indicates the account intended for use with the Microsoft Entra ID security model. This unique ID for the Azure Maps account can be obtained from the [Azure Maps management plane Account API](/rest/api/maps-management/accounts). For more information on using Microsoft Entra ID security in Azure Maps, see [Manage authentication in Azure Maps](/azure/azure-maps/how-to-manage-authentication). */
   xMsClientId?: string | undefined;
 }
-export type GetRenderMapStateTileResponse = string;
+export interface GetRenderMapStateTileResponse {
+  /** The state tile bytes (vector `pbf`). */
+  body: Uint8Array;
+}
 export type GetRenderMapStaticImageRequestTilesetId =
   | "microsoft.base.road"
   | "microsoft.base.darkgrey"
@@ -239,7 +242,10 @@ export interface GetRenderMapStaticImageRequest {
   /** Indicates the account intended for use with the Microsoft Entra ID security model. This unique ID for the Azure Maps account can be obtained from the [Azure Maps management plane Account API](/rest/api/maps-management/accounts). For more information on using Microsoft Entra ID security in Azure Maps, see [Manage authentication in Azure Maps](/azure/azure-maps/how-to-manage-authentication). */
   xMsClientId?: string | undefined;
 }
-export type GetRenderMapStaticImageResponse = unknown;
+export interface GetRenderMapStaticImageResponse {
+  /** The image bytes (PNG). */
+  body: Uint8Array;
+}
 export type GetRenderMapTileRequestTilesetId =
   | "microsoft.base"
   | "microsoft.base.labels"
@@ -306,7 +312,10 @@ export interface GetRenderMapTileRequest {
   /** Indicates the account intended for use with the Microsoft Entra ID security model. This unique ID for the Azure Maps account can be obtained from the [Azure Maps management plane Account API](/rest/api/maps-management/accounts). For more information on using Microsoft Entra ID security in Azure Maps, see [Manage authentication in Azure Maps](/azure/azure-maps/how-to-manage-authentication). */
   xMsClientId?: string | undefined;
 }
-export type GetRenderMapTileResponse = string;
+export interface GetRenderMapTileResponse {
+  /** The tile bytes, in the format the tileset serves (PNG, JPEG, or vector `pbf`). */
+  body: Uint8Array;
+}
 export type GetRenderMapTilesetRequestTilesetId =
   | "microsoft.base"
   | "microsoft.base.labels"
@@ -492,7 +501,7 @@ export const GetRenderMapStaticImage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetRenderMapStaticImageRequest>,
-  output: __S(41, __c10, 1) as any as S.Schema<GetRenderMapStaticImageResponse>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetRenderMapStaticImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -742,9 +751,11 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetRenderMapStateTileResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.HttpBody()),
+        }),
+      ).annotate({ identifier: "GetRenderMapStateTileResponse" });
   }
 }
 function __c10(j: number): any {
@@ -778,10 +789,6 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetRenderMapStaticImageRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetRenderMapStaticImageResponse",
-      });
   }
 }
 function __c11(j: number): any {

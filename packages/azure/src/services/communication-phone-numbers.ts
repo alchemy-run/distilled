@@ -1211,6 +1211,7 @@ function __c6(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersCreateOrUpdateReservationRequest" });
@@ -1430,6 +1431,7 @@ function __c15(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdatePhoneNumberCapabilitiesRequest" });

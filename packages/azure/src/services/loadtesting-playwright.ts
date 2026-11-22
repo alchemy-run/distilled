@@ -196,8 +196,6 @@ export interface RunSummary {
 }
 /** Model of a test run used for tracking purposes. */
 export interface TestRun {
-  /** The test run ID in GUID format. */
-  id: string;
   /** The test run display name. */
   displayName: string;
   /** The test run creator's ID. */
@@ -210,6 +208,8 @@ export interface TestRun {
   ciConfig?: CiConfig | undefined;
   /** The test run summary. */
   summary: RunSummary;
+  /** The test run ID in GUID format. */
+  runId: string;
 }
 /** The TestRun items on this page */
 export type PagedTestRunValueList = Array<TestRun>;
@@ -606,13 +606,13 @@ function __c8(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
           displayName: S.String,
           creatorId: S.String,
           creatorName: S.optional(S.String),
           config: S.optional(__S(65, __c8, 1)),
           ciConfig: S.optional(__S(66, __c8, 2)),
           summary: __S(68, __c8, 4),
+          runId: S.String,
         }),
       ).annotate({ identifier: "TestRun" });
   }
@@ -638,6 +638,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://playwright.microsoft.com/.default",
           }),
         ),

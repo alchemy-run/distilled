@@ -127,6 +127,8 @@ export interface GetRouteRouteOperationsStatusRequest {
   endpoint?: string | undefined;
   /** System generated unique identifier for the asynchronous operation after it has been submitted. */
   id: string;
+  /** Indicates the account intended for use with the Microsoft Entra ID security model: the Azure Maps account's unique ID. */
+  xMsClientId?: string | undefined;
 }
 /** Current status of the async operation. */
 export type StatusEnum = "NotStarted" | "Running" | "Completed" | "Failed";
@@ -1426,6 +1428,7 @@ function __c4(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           id: S.String.pipe(T.Label()),
+          xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
           T.Http({
             method: "GET",

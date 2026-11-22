@@ -37,7 +37,24 @@ export interface GetSchemaByIdRequest {
   /** Schema ID that uniquely identifies a schema in the registry namespace. */
   id: string;
 }
-export type GetSchemaByIdResponse = unknown;
+export interface GetSchemaByIdResponse {
+  /** The schema text, UTF-8 encoded. */
+  body: Uint8Array;
+  /** Format of the schema: `application/json; serialization=Avro`, `application/json; serialization=Json`, `text/plain; charset=utf-8` (custom), or `text/vnd.ms.protobuf`. */
+  contentType?: string | undefined;
+  /** URL location of schema, identified by schema group, schema name, and version. */
+  location?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaId?: string | undefined;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string | undefined;
+  /** References a specific schema group in the registry namespace. */
+  schemaGroupName?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaName?: string | undefined;
+  /** Version of the returned schema. */
+  schemaVersion?: number | undefined;
+}
 export interface GetSchemaByVersionRequest {
   /** The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'. */
   fullyQualifiedNamespace: string;
@@ -48,7 +65,24 @@ export interface GetSchemaByVersionRequest {
   /** Version number of specific schema. */
   schemaVersion: number;
 }
-export type GetSchemaByVersionResponse = unknown;
+export interface GetSchemaByVersionResponse {
+  /** The schema text, UTF-8 encoded. */
+  body: Uint8Array;
+  /** Format of the schema: `application/json; serialization=Avro`, `application/json; serialization=Json`, `text/plain; charset=utf-8` (custom), or `text/vnd.ms.protobuf`. */
+  contentType?: string | undefined;
+  /** URL location of schema, identified by schema group, schema name, and version. */
+  location?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaId?: string | undefined;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string | undefined;
+  /** References a specific schema group in the registry namespace. */
+  schemaGroupName?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaName?: string | undefined;
+  /** Version of the returned schema. */
+  schemaVersion?: number | undefined;
+}
 export interface GetSchemaPropertiesByContentRequest {
   /** The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'. */
   fullyQualifiedNamespace: string;
@@ -57,10 +91,22 @@ export interface GetSchemaPropertiesByContentRequest {
   /** Name of schema. */
   schemaName: string;
   body: string;
+  /** Format of the schema: `application/json; serialization=Avro`, `application/json; serialization=Json`, `text/plain; charset=utf-8` (custom), or `text/vnd.ms.protobuf`. */
+  contentType: string;
 }
 export interface GetSchemaPropertiesByContentResponse {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaId?: string | undefined;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string | undefined;
+  /** References a specific schema group in the registry namespace. */
+  schemaGroupName?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaName?: string | undefined;
+  /** Version of the returned schema. */
+  schemaVersion?: number | undefined;
 }
 export interface ListSchemaGroupsRequest {
   /** The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'. */
@@ -104,10 +150,22 @@ export interface RegisterSchemaRequest {
   /** Name of schema. */
   schemaName: string;
   body: string;
+  /** Format of the schema: `application/json; serialization=Avro`, `application/json; serialization=Json`, `text/plain; charset=utf-8` (custom), or `text/vnd.ms.protobuf`. */
+  contentType: string;
 }
 export interface RegisterSchemaResponse {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaId?: string | undefined;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string | undefined;
+  /** References a specific schema group in the registry namespace. */
+  schemaGroupName?: string | undefined;
+  /** References a specific schema in the registry namespace. */
+  schemaName?: string | undefined;
+  /** Version of the returned schema. */
+  schemaVersion?: number | undefined;
 }
 export type GetSchemaByIdError = AzureOpError;
 /** Get a registered schema by its unique ID reference. Gets a registered schema by its unique ID. Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
@@ -240,6 +298,10 @@ function __c0(j: number): any {
             code: 200,
             host: "https://{fullyQualifiedNamespace}",
             apiVersion: "2023-07-01",
+            headers: {
+              Accept:
+                "application/json; serialization=Avro, application/json; serialization=Json, text/plain; charset=utf-8, text/vnd.ms.protobuf, application/json",
+            },
             audience: "https://eventhubs.azure.net/.default",
           }),
         ),
@@ -249,9 +311,18 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetSchemaByIdResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.HttpBody()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          schemaId: S.optional(S.String.pipe(T.Header("Schema-Id"))),
+          schemaIdLocation: S.optional(S.String.pipe(T.Header("Schema-Id-Location"))),
+          schemaGroupName: S.optional(S.String.pipe(T.Header("Schema-Group-Name"))),
+          schemaName: S.optional(S.String.pipe(T.Header("Schema-Name"))),
+          schemaVersion: S.optional(S.Number.pipe(T.Header("Schema-Version"))),
+        }),
+      ).annotate({ identifier: "GetSchemaByIdResponse" });
   }
 }
 function __c2(j: number): any {
@@ -270,6 +341,10 @@ function __c2(j: number): any {
             code: 200,
             host: "https://{fullyQualifiedNamespace}",
             apiVersion: "2023-07-01",
+            headers: {
+              Accept:
+                "application/json; serialization=Avro, application/json; serialization=Json, text/plain; charset=utf-8, text/vnd.ms.protobuf, application/json",
+            },
             audience: "https://eventhubs.azure.net/.default",
           }),
         ),
@@ -285,13 +360,15 @@ function __c3(j: number): any {
           groupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.String.pipe(T.Header("Content-Type")),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/$schemaGroups/{groupName}/schemas/{schemaName}:get-id",
-            code: 200,
+            code: 204,
             host: "https://{fullyQualifiedNamespace}",
             apiVersion: "2023-07-01",
+            bodyMediaType: "text/plain; charset=utf-8",
             audience: "https://eventhubs.azure.net/.default",
           }),
         ),
@@ -304,6 +381,11 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String.pipe(T.Header("Location"))),
+          schemaId: S.optional(S.String.pipe(T.Header("Schema-Id"))),
+          schemaIdLocation: S.optional(S.String.pipe(T.Header("Schema-Id-Location"))),
+          schemaGroupName: S.optional(S.String.pipe(T.Header("Schema-Group-Name"))),
+          schemaName: S.optional(S.String.pipe(T.Header("Schema-Name"))),
+          schemaVersion: S.optional(S.Number.pipe(T.Header("Schema-Version"))),
         }),
       ).annotate({ identifier: "GetSchemaPropertiesByContentResponse" });
   }
@@ -379,13 +461,15 @@ function __c7(j: number): any {
           groupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.String.pipe(T.Header("Content-Type")),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/$schemaGroups/{groupName}/schemas/{schemaName}",
-            code: 200,
+            code: 204,
             host: "https://{fullyQualifiedNamespace}",
             apiVersion: "2023-07-01",
+            bodyMediaType: "text/plain; charset=utf-8",
             audience: "https://eventhubs.azure.net/.default",
           }),
         ),

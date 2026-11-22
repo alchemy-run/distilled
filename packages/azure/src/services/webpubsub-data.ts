@@ -303,7 +303,10 @@ export interface SendToAllRequest {
   filter?: string | undefined;
   /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number | undefined;
+  /** The message payload, sent as-is under `contentType`. */
   body: string;
+  /** Media type of `body`: `text/plain` (the default, clients receive `dataType: "text"`), `application/json` (`dataType: "json"`), or `application/octet-stream` (`dataType: "binary"`). */
+  contentType?: string | undefined;
 }
 export interface SendToAllResponse {}
 export interface SendToConnectionRequest {
@@ -315,7 +318,10 @@ export interface SendToConnectionRequest {
   connectionId: string;
   /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number | undefined;
+  /** The message payload, sent as-is under `contentType`. */
   body: string;
+  /** Media type of `body`: `text/plain` (the default, clients receive `dataType: "text"`), `application/json` (`dataType: "json"`), or `application/octet-stream` (`dataType: "binary"`). */
+  contentType?: string | undefined;
 }
 export interface SendToConnectionResponse {}
 export type SendToGroupRequestExcludedList = Array<string>;
@@ -332,7 +338,10 @@ export interface SendToGroupRequest {
   filter?: string | undefined;
   /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number | undefined;
+  /** The message payload, sent as-is under `contentType`. */
   body: string;
+  /** Media type of `body`: `text/plain` (the default, clients receive `dataType: "text"`), `application/json` (`dataType: "json"`), or `application/octet-stream` (`dataType: "binary"`). */
+  contentType?: string | undefined;
 }
 export interface SendToGroupResponse {}
 export interface SendToUserRequest {
@@ -346,7 +355,10 @@ export interface SendToUserRequest {
   filter?: string | undefined;
   /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
   messageTtlSeconds?: number | undefined;
+  /** The message payload, sent as-is under `contentType`. */
   body: string;
+  /** Media type of `body`: `text/plain` (the default, clients receive `dataType: "text"`), `application/json` (`dataType: "json"`), or `application/octet-stream` (`dataType: "binary"`). */
+  contentType?: string | undefined;
 }
 export interface SendToUserResponse {}
 export interface UserExistsRequest {
@@ -1131,6 +1143,7 @@ function __c15(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           messageTtlSeconds: S.optional(S.Number.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1139,6 +1152,7 @@ function __c15(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-12-01",
+            bodyMediaType: "text/plain",
             audience: "https://webpubsub.azure.com/.default",
           }),
         ),
@@ -1155,6 +1169,7 @@ function __c16(j: number): any {
           connectionId: S.String.pipe(T.Label()),
           messageTtlSeconds: S.optional(S.Number.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1163,6 +1178,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-12-01",
+            bodyMediaType: "text/plain",
             audience: "https://webpubsub.azure.com/.default",
           }),
         ),
@@ -1181,6 +1197,7 @@ function __c17(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           messageTtlSeconds: S.optional(S.Number.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1189,6 +1206,7 @@ function __c17(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-12-01",
+            bodyMediaType: "text/plain",
             audience: "https://webpubsub.azure.com/.default",
           }),
         ),
@@ -1206,6 +1224,7 @@ function __c18(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           messageTtlSeconds: S.optional(S.Number.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1214,6 +1233,7 @@ function __c18(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-12-01",
+            bodyMediaType: "text/plain",
             audience: "https://webpubsub.azure.com/.default",
           }),
         ),

@@ -1,0 +1,50 @@
+{
+  "description": "Create Permission takes its security descriptor as a JSON body ({ permission, format }), but the conversion flattened the body into loose request members, so the Storage protocol sent an empty body and Azure Files answered 400 InvalidHeaderValue. Carry the body in one httpPayload member, `sharePermission`, of a new SharePermission structure.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_file#SharePermission",
+      "value": {
+        "type": "structure",
+        "members": {
+          "permission": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The permission in the Security Descriptor Definition Language (SDDL), or base64 binary when `format` is `Binary`.",
+              "smithy.api#required": {}
+            }
+          },
+          "format": {
+            "target": "com.azure.storage_file#ShareCreatePermissionRequestFormat",
+            "traits": {
+              "smithy.api#documentation": "Encoding of `permission`: `Sddl` (the default) or `Binary`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A share-level permission (security descriptor)."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_file#ShareCreatePermissionRequest/members/permission"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_file#ShareCreatePermissionRequest/members/format"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_file#ShareCreatePermissionRequest/members/sharePermission",
+      "value": {
+        "target": "com.azure.storage_file#SharePermission",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The security descriptor to store."
+        }
+      }
+    }
+  ]
+}

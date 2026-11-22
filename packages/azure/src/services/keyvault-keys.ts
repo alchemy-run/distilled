@@ -343,14 +343,14 @@ export interface GetKeyRequest {
   /** The name of the key to get. */
   keyName: string;
   /** Adding the version parameter retrieves a specific version of a key. This URI fragment is optional. If not specified, the latest version of the key is returned. */
-  keyVersion: string;
+  keyVersion?: string | undefined;
 }
 export interface GetKeyAttestationRequest {
   vaultBaseUrl: string;
   /** The name of the key to retrieve attestation for. */
   keyName: string;
   /** Adding the version parameter retrieves attestation blob for specific version of a key. This URI fragment is optional. If not specified, the latest version of the key attestation blob is returned. */
-  keyVersion: string;
+  keyVersion?: string | undefined;
 }
 export interface GetKeyRotationPolicyRequest {
   vaultBaseUrl: string;
@@ -1938,7 +1938,7 @@ function __c34(j: number): any {
         S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
           keyName: S.String.pipe(T.Label()),
-          keyVersion: S.String.pipe(T.Label()),
+          keyVersion: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1960,7 +1960,7 @@ function __c35(j: number): any {
         S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
           keyName: S.String.pipe(T.Label()),
-          keyVersion: S.String.pipe(T.Label()),
+          keyVersion: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",

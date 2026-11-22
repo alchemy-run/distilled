@@ -196,7 +196,13 @@ export type RouterRule =
   | ExpressionRouterRule
   | FunctionRouterRule
   | StaticRouterRule
-  | WebhookRouterRule;
+  | WebhookRouterRule
+  | unknown
+  | string
+  | string
+  | string
+  | string
+  | string;
 /** Describes supported operations on label values. */
 export type LabelOperator =
   | "equal"
@@ -504,7 +510,11 @@ export interface WaitTimeExceptionTrigger {
   thresholdSeconds: number;
 }
 /** Abstract base class for defining a trigger for exception rules. */
-export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
+export type ExceptionTrigger =
+  | QueueLengthExceptionTrigger
+  | WaitTimeExceptionTrigger
+  | number
+  | number;
 /** The type discriminator describing a sub-type of ExceptionAction. */
 export type CancelExceptionActionKind = "cancel";
 /** An action that marks a job as cancelled. */
@@ -554,7 +564,12 @@ export interface ReclassifyExceptionAction {
 export type ExceptionAction =
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
-  | ReclassifyExceptionAction;
+  | ReclassifyExceptionAction
+  | string
+  | string
+  | string
+  | string
+  | number;
 /** A collection of actions to perform once the exception is triggered. */
 export type ExceptionRuleActionsList = Array<ExceptionAction>;
 /** A rule that defines actions to execute upon a specific trigger. */
@@ -1216,7 +1231,13 @@ export type RouterRuleCreateOrUpdate =
   | ExpressionRouterRuleCreateOrUpdate
   | FunctionRouterRuleCreateOrUpdate
   | StaticRouterRuleCreateOrUpdate
-  | WebhookRouterRuleCreateOrUpdate;
+  | WebhookRouterRuleCreateOrUpdate
+  | unknown
+  | string
+  | string
+  | string
+  | string
+  | string;
 /** The type discriminator describing a sub-type of WorkerSelectorAttachment. */
 export type ConditionalWorkerSelectorAttachmentInputKind = "conditional";
 /** Describes a condition that must be met against a set of labels for worker selection. */
@@ -2556,7 +2577,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "WaitTimeExceptionTrigger" });
     case 2:
-      return S.Union([__S(256, __c8, 0), __S(257, __c8, 1)]);
+      return S.Union([__S(256, __c8, 0), __S(257, __c8, 1), S.Number, S.Number]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2586,7 +2607,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ReclassifyExceptionAction" });
     case 6:
-      return S.Union([__S(259, __c8, 3), __S(260, __c8, 4), __S(261, __c8, 5)]);
+      return S.Union([
+        __S(259, __c8, 3),
+        __S(260, __c8, 4),
+        __S(261, __c8, 5),
+        S.String,
+        S.String,
+        S.String,
+        S.String,
+        S.Number,
+      ]);
     case 7:
       return S.Array(__S(262, __c8, 6));
     case 8:
@@ -3351,6 +3381,7 @@ function __c31(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3384,6 +3415,12 @@ function __c32(j: number): any {
         __S(1025, __c32, 1),
         __S(1539, __c48, 3),
         __S(1541, __c48, 5),
+        S.Unknown,
+        S.String,
+        S.String,
+        S.String,
+        S.String,
+        S.String,
       ]);
   }
 }
@@ -3436,6 +3473,7 @@ function __c34(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3485,6 +3523,7 @@ function __c35(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3543,6 +3582,7 @@ function __c38(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3586,6 +3626,7 @@ function __c39(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3615,6 +3656,7 @@ function __c40(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-11-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://communication.azure.com/.default",
           }),
         ),
@@ -3813,6 +3855,12 @@ function __c48(j: number): any {
         __S(1538, __c48, 2),
         __S(1539, __c48, 3),
         __S(1541, __c48, 5),
+        S.Unknown,
+        S.String,
+        S.String,
+        S.String,
+        S.String,
+        S.String,
       ]);
   }
 }
