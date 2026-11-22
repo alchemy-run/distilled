@@ -2,14 +2,14 @@
 
 Effect-native UniFi SDK, generated from the OpenAPI specs Ubiquiti publishes at [developer.ui.com](https://developer.ui.com): one service per API.
 
-| Service      | Import                                       | Reached                              | Credentials          |
-| ------------ | -------------------------------------------- | ------------------------------------ | -------------------- |
-| Network      | `@distilled.cloud/unifi` (package root)      | on the console, local or via connector | `ConsoleCredentials` |
-| Protect      | `@distilled.cloud/unifi/protect`             | on the console, local or via connector | `ConsoleCredentials` |
-| InnerSpace   | `@distilled.cloud/unifi/innerspace`          | on the console, local or via connector | `ConsoleCredentials` |
-| Site Manager | `@distilled.cloud/unifi/site_manager`        | `api.ui.com` only                    | `CloudCredentials`   |
-| Mobility     | `@distilled.cloud/unifi/mobility`            | `api.ui.com` only                    | `CloudCredentials`   |
-| Carrier Fabric | `@distilled.cloud/unifi/carrier_fabric`    | `api.ui.com` only                    | `CloudCredentials`   |
+| Service        | Import                                  | Reached                                | Layers it needs   |
+| -------------- | --------------------------------------- | -------------------------------------- | ----------------- |
+| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, `Console` |
+| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, `Console` |
+| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, `Console` |
+| Site Manager   | `@distilled.cloud/unifi/site_manager`   | `api.ui.com` only                      | `ApiKey`          |
+| Mobility       | `@distilled.cloud/unifi/mobility`       | `api.ui.com` only                      | `ApiKey`          |
+| Carrier Fabric | `@distilled.cloud/unifi/carrier_fabric` | `api.ui.com` only                      | `ApiKey`          |
 
 ## Installation
 
@@ -60,10 +60,12 @@ const allClients = yield* Unifi.getConnectedClientOverviewPage
   .pipe(Stream.runCollect);
 ```
 
-## Local console or cloud: two ways to reach an app
+## Local or remote: the `Console` layer
 
-Network, Protect and InnerSpace run **on the console**. Site Manager, Mobility and Carrier
-Fabric exist **only in the cloud**. The two kinds take different credentials.
+A call is built from layers in a chain: `ApiKey` (who you are), `Console` (where the console
+is, for Network, Protect and InnerSpace only) and the service's protocol. Network, Protect and
+InnerSpace run **on the console**; Site Manager, Mobility and Carrier Fabric exist **only in
+the cloud** and need no `Console`.
 
 | | Console-hosted (Network, Protect, InnerSpace) | Cloud-only (Site Manager, Mobility, Carrier Fabric) |
 | --- | --- | --- |
@@ -77,28 +79,33 @@ must finish within 25 seconds, the response is capped at 10 MB, and the console 
 firmware 5.0.3 or later. A console on the local network presents a self-signed certificate;
 trust it in your runtime's TLS settings, or use the connector.
 
-### Credentials
-
-Environment layers (`CredentialsFromEnv` provides both; a service is only resolved when called):
-
-- `ConsoleCredentialsFromEnv`: `UNIFI_API_KEY`, and the console by `UNIFI_CONSOLE_HOST`
-  (local, a host or origin) or else `UNIFI_CONSOLE_ID` (cloud connector, on
-  `UNIFI_CLOUD_API_BASE_URL` when set).
-- `CloudCredentialsFromEnv`: `UNIFI_CLOUD_API_KEY`, and optionally `UNIFI_CLOUD_API_BASE_URL`.
-
-In code, wrap the key in `Redacted`:
+### Choosing local or remote
 
 ```ts
 import * as Redacted from "effect/Redacted";
 
-Unifi.fromConsoleApiKey({
-  apiKey: Redacted.make(key),
-  location: Unifi.localConsole("192.168.0.1"), // or Unifi.cloudConsole(consoleId)
-});
-Unifi.fromCloudApiKey({ apiKey: Redacted.make(cloudKey) });
+const key = Unifi.apiKey(Redacted.make(process.env.KEY!));
+
+// A console on the local network, with a key created in the console.
+const local = Layer.mergeAll(key, Unifi.localConsole("192.168.0.1"));
+
+// The same console through the cloud connector, with a Site Manager key.
+const remote = Layer.mergeAll(key, Unifi.remoteConsole("<consoleId>"));
+
+program.pipe(Effect.provide(local)); // or remote
 ```
 
-A console's ID is `id` in Site Manager's `listHosts`.
+Swap the `Console` layer to move between local and remote, or between consoles. A console's ID
+is `id` in Site Manager's `listHosts`. Ubiquiti issues the two kinds of key in different
+places (the console's Integrations settings for local, unifi.ui.com for the connector and the
+cloud-only APIs), so provide the `ApiKey` that matches the way in.
+
+From the environment, `Unifi.CredentialsFromEnv` provides both layers (a layer is only
+resolved by the calls that need it):
+
+- `ApiKeyFromEnv`: `UNIFI_API_KEY`.
+- `ConsoleFromEnv`: `UNIFI_CONSOLE_HOST` (local, a host or origin) or else `UNIFI_CONSOLE_ID`
+  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
 
 ## Not covered
 

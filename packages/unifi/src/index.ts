@@ -8,13 +8,13 @@
  * is hand-written.
  *
  * Console-hosted apps run on the console, locally or behind the cloud
- * connector, and take {@link ConsoleCredentials}:
+ * connector, and take an {@link ApiKey} and a {@link Console}:
  *
  *   - Network (the package root, `Unifi.getSiteOverviewPage`)
  *   - `@distilled.cloud/unifi/protect`
  *   - `@distilled.cloud/unifi/innerspace`
  *
- * Cloud-only APIs are served by `api.ui.com` and take {@link CloudCredentials}:
+ * Cloud-only APIs are served by `api.ui.com` and take an {@link ApiKey} only:
  *
  *   - `@distilled.cloud/unifi/site_manager`
  *   - `@distilled.cloud/unifi/mobility`

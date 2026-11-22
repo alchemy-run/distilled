@@ -2,26 +2,26 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * UniFi credentials -- hand-written.
  *
- * UniFi has two kinds of API, and they are reached differently:
+ * A call is described by two independent layers:
  *
- *   - Console-hosted apps (Network, Protect, InnerSpace) run on the console
- *     itself. They are reached directly on the local network
- *     (`https://<console>/proxy/<app>/integration`) or relayed through the
- *     cloud connector on `api.ui.com`
- *     (`/v1/connector/consoles/<consoleId>/proxy/<app>/integration`). Locally
- *     the key is created in the application under Settings > Control Plane >
- *     Integrations; through the connector it is a Site Manager key
- *     (unifi.ui.com/settings/api-keys), which also needs console firmware
- *     >= 5.0.3. {@link ConsoleCredentials} holds the key and where the
- *     console is.
- *   - Cloud-only APIs (Site Manager, Mobility, Carrier Fabric) are served by
- *     `api.ui.com` alone with a Site Manager key. {@link CloudCredentials}
- *     holds the key.
+ *   - {@link ApiKey}: who you are. Every UniFi API takes a key in `X-API-KEY`.
+ *     A key created in a console's application (Settings > Control Plane >
+ *     Integrations) works on that console only; a Site Manager key
+ *     (unifi.ui.com/settings/api-keys) works against `api.ui.com`, including
+ *     the cloud connector, which also needs console firmware >= 5.0.3.
+ *   - {@link Console}: where the console is. Only the console-hosted apps
+ *     (Network, Protect, InnerSpace) need it; they run on the console and are
+ *     reached either directly on the local network
+ *     (`https://<host>/proxy/<app>/integration`) or relayed through the cloud
+ *     connector on `api.ui.com`
+ *     (`/v1/connector/consoles/<consoleId>/proxy/<app>/integration`).
+ *     Site Manager, Mobility and Carrier Fabric are served by `api.ui.com`
+ *     alone, so they need the key and no console.
  *
- * Both services hold an *effect* that resolves the current credentials on
- * every request (the protocol resolves it per request on the calling fiber),
- * so one layer may provide either or both: an unused one is never resolved.
- * Both send the key as `X-API-KEY`.
+ * Each service holds an *effect* that resolves its value on every request
+ * (the protocol resolves it per request on the calling fiber), so a layer
+ * that is never used is never resolved. Swap the {@link Console} layer to
+ * move the same key between consoles, or between local and remote.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -43,27 +43,18 @@ export type ConsoleLocation =
    */
   | { readonly _tag: "Local"; readonly host: string }
   /** Through the cloud connector, by the console's ID (Site Manager `listHosts`). */
-  | { readonly _tag: "Cloud"; readonly consoleId: string; readonly apiBaseUrl?: string };
+  | { readonly _tag: "Remote"; readonly consoleId: string; readonly apiBaseUrl?: string };
 
+/** What a console-hosted call needs: the key and where the console is. */
 export interface ConsoleConfig {
   readonly apiKey: Redacted.Redacted<string>;
   readonly location: ConsoleLocation;
 }
 
+/** What a cloud-only call needs: the key. */
 export interface CloudConfig {
   readonly apiKey: Redacted.Redacted<string>;
-  readonly apiBaseUrl: string;
 }
-
-/** `ConsoleLocation` for a console on the local network. */
-export const localConsole = (host: string): ConsoleLocation => ({ _tag: "Local", host });
-
-/** `ConsoleLocation` for a console behind the cloud connector. */
-export const cloudConsole = (consoleId: string, apiBaseUrl?: string): ConsoleLocation => ({
-  _tag: "Cloud",
-  consoleId,
-  ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-});
 
 /** Base URL (everything before `/v1/...`) of one application on a console. */
 export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): string => {
@@ -77,89 +68,83 @@ export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): stri
   return `${origin}/v1/connector/consoles/${id}/proxy/${app}/integration`;
 };
 
-export class ConsoleCredentials
+/** The API key, redacted. */
+export class ApiKey
   extends /*@__PURE__*/ Context.Service<
-    ConsoleCredentials,
-    Effect.Effect<ConsoleConfig, ConfigError>
-  >()("UniFiConsoleCredentials") {}
+    ApiKey,
+    Effect.Effect<Redacted.Redacted<string>, ConfigError>
+  >()("UniFiApiKey") {}
 
-export class CloudCredentials
-  extends /*@__PURE__*/ Context.Service<
-    CloudCredentials,
-    Effect.Effect<CloudConfig, ConfigError>
-  >()("UniFiCloudCredentials") {}
+/** Where the console is. Needed by Network, Protect and InnerSpace only. */
+export class Console
+  extends /*@__PURE__*/ Context.Service<Console, Effect.Effect<ConsoleLocation, ConfigError>>()(
+    "UniFiConsole",
+  ) {}
 
-/** Layer for the console-hosted apps: a redacted key and where the console is. */
-export const fromConsoleApiKey = (config: {
-  readonly apiKey: Redacted.Redacted<string>;
-  readonly location: ConsoleLocation;
-}): Layer.Layer<ConsoleCredentials> =>
-  Layer.succeed(
-    ConsoleCredentials,
-    Effect.succeed({ apiKey: config.apiKey, location: config.location }),
-  );
-
-/** Layer for the cloud-only APIs: a redacted Site Manager key. */
-export const fromCloudApiKey = (config: {
-  readonly apiKey: Redacted.Redacted<string>;
-  readonly apiBaseUrl?: string;
-}): Layer.Layer<CloudCredentials> =>
-  Layer.succeed(
-    CloudCredentials,
-    Effect.succeed({
-      apiKey: config.apiKey,
-      apiBaseUrl: config.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL,
-    }),
-  );
+/** Layer providing the key. */
+export const apiKey = (key: Redacted.Redacted<string>): Layer.Layer<ApiKey> =>
+  Layer.succeed(ApiKey, Effect.succeed(key));
 
 /**
- * Reads `UNIFI_API_KEY` and where the console is: `UNIFI_CONSOLE_HOST`
- * (local) or, failing that, `UNIFI_CONSOLE_ID` (cloud connector, on
- * `UNIFI_CLOUD_API_BASE_URL` when set).
+ * Layer for a console on the local network: a host (`192.168.0.1`) or an
+ * origin (`https://192.168.0.1`). Use with a key created in the console.
  */
-export const ConsoleCredentialsFromEnv: Layer.Layer<ConsoleCredentials> =
-  /*@__PURE__*/ Layer.succeed(
-    ConsoleCredentials,
-    /*@__PURE__*/ Effect.gen(function* () {
-      const apiKey = process.env.UNIFI_API_KEY;
-      if (!apiKey) {
-        return yield* new ConfigError({
-          message: "UNIFI_API_KEY environment variable is required",
-        });
-      }
-      const host = process.env.UNIFI_CONSOLE_HOST;
-      const consoleId = process.env.UNIFI_CONSOLE_ID;
-      if (!host && !consoleId) {
-        return yield* new ConfigError({
-          message: "UNIFI_CONSOLE_HOST (local) or UNIFI_CONSOLE_ID (cloud connector) is required",
-        });
-      }
-      return {
-        apiKey: Redacted.make(apiKey),
-        location: host
-          ? localConsole(host)
-          : cloudConsole(consoleId!, process.env.UNIFI_CLOUD_API_BASE_URL),
-      };
+export const localConsole = (host: string): Layer.Layer<Console> =>
+  Layer.succeed(Console, Effect.succeed({ _tag: "Local", host }));
+
+/**
+ * Layer for a console behind the cloud connector, by its ID (`id` in Site
+ * Manager's `listHosts`). Use with a Site Manager key. `apiBaseUrl` replaces
+ * `https://api.ui.com`.
+ */
+export const remoteConsole = (consoleId: string, apiBaseUrl?: string): Layer.Layer<Console> =>
+  Layer.succeed(
+    Console,
+    Effect.succeed({
+      _tag: "Remote",
+      consoleId,
+      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
     }),
   );
 
-/** Reads `UNIFI_CLOUD_API_KEY` (required) and `UNIFI_CLOUD_API_BASE_URL` (optional). */
-export const CloudCredentialsFromEnv: Layer.Layer<CloudCredentials> = /*@__PURE__*/ Layer.succeed(
-  CloudCredentials,
+/** Reads `UNIFI_API_KEY`. */
+export const ApiKeyFromEnv: Layer.Layer<ApiKey> = /*@__PURE__*/ Layer.succeed(
+  ApiKey,
   /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.UNIFI_CLOUD_API_KEY;
-    if (!apiKey) {
+    const key = process.env.UNIFI_API_KEY;
+    if (!key) {
+      return yield* new ConfigError({ message: "UNIFI_API_KEY environment variable is required" });
+    }
+    return Redacted.make(key);
+  }),
+);
+
+/**
+ * Reads where the console is: `UNIFI_CONSOLE_HOST` (local) or, failing that,
+ * `UNIFI_CONSOLE_ID` (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
+ */
+export const ConsoleFromEnv: Layer.Layer<Console> = /*@__PURE__*/ Layer.succeed(
+  Console,
+  /*@__PURE__*/ Effect.gen(function* () {
+    const host = process.env.UNIFI_CONSOLE_HOST;
+    if (host) return { _tag: "Local", host } as const;
+    const consoleId = process.env.UNIFI_CONSOLE_ID;
+    if (!consoleId) {
       return yield* new ConfigError({
-        message: "UNIFI_CLOUD_API_KEY environment variable is required",
+        message: "UNIFI_CONSOLE_HOST (local) or UNIFI_CONSOLE_ID (cloud connector) is required",
       });
     }
+    const apiBaseUrl = process.env.UNIFI_CLOUD_API_BASE_URL;
     return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.UNIFI_CLOUD_API_BASE_URL ?? DEFAULT_CLOUD_BASE_URL,
-    };
+      _tag: "Remote",
+      consoleId,
+      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
+    } as const;
   }),
 );
 
 /** Both environment layers; each is only resolved by the calls that need it. */
-export const CredentialsFromEnv: Layer.Layer<ConsoleCredentials | CloudCredentials> =
-  /*@__PURE__*/ Layer.mergeAll(ConsoleCredentialsFromEnv, CloudCredentialsFromEnv);
+export const CredentialsFromEnv: Layer.Layer<ApiKey | Console> = /*@__PURE__*/ Layer.mergeAll(
+  ApiKeyFromEnv,
+  ConsoleFromEnv,
+);

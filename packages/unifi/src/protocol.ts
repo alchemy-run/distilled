@@ -9,9 +9,10 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * envelope), so each protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials -> `X-API-KEY: <apiKey>` + base URL, resolved from
- *             the calling fiber on every request. Paths in the specs start at
- *             `/v1`; the base URL carries everything before it.
+ *   request:  the key -> `X-API-KEY: <apiKey>`, and for the console-hosted apps
+ *             the console -> base URL, both resolved from the calling fiber
+ *             on every request. Paths in the specs start at `/v1`; the base
+ *             URL carries everything before it.
  *
  *   response: 2xx JSON is the payload; non-2xx `{ message? }` bodies map to
  *             the shared HTTP-status classes, then {@link UnknownUniFiError}.
@@ -30,8 +31,9 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
-  CloudCredentials,
-  ConsoleCredentials,
+  ApiKey,
+  Console,
+  DEFAULT_CLOUD_BASE_URL,
   consoleBaseUrl,
   type CloudConfig,
   type ConsoleApp,
@@ -55,18 +57,22 @@ export type UniFiOpError =
   | SdkError;
 
 /** Context of every Network, Protect and InnerSpace operation. */
-export type UniFiConsoleOpContext = ConsoleCredentials | HttpClient.HttpClient;
+export type UniFiConsoleOpContext = ApiKey | Console | HttpClient.HttpClient;
 
 /** Context of every Site Manager, Mobility and Carrier Fabric operation. */
-export type UniFiCloudOpContext = CloudCredentials | HttpClient.HttpClient;
+export type UniFiCloudOpContext = ApiKey | HttpClient.HttpClient;
 
 const consoleProtocol = (app: ConsoleApp): Layer.Layer<API.Protocol> =>
   makeRestProtocol<ConsoleConfig>({
-    // The credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.flatMap(ConsoleCredentials, (resolve) => resolve),
+    // Each service holds an effect -- resolving them here (per request, on the
+    // calling fiber) picks up context-provided layers.
+    credentials: Effect.gen(function* () {
+      const apiKey = yield* yield* ApiKey;
+      const location = yield* yield* Console;
+      return { apiKey, location };
+    }),
     baseUrl: (creds) => consoleBaseUrl(creds.location, app),
-    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey) }),
+    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
   });
@@ -82,9 +88,12 @@ export const UniFiInnerSpaceProtocol: Layer.Layer<API.Protocol> =
 
 export const UniFiCloudProtocol: Layer.Layer<API.Protocol> =
   /*@__PURE__*/ makeRestProtocol<CloudConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(CloudCredentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey) }),
+    credentials: /*@__PURE__*/ Effect.map(
+      Effect.flatMap(ApiKey, (resolve) => resolve),
+      (apiKey) => ({ apiKey }),
+    ),
+    baseUrl: () => DEFAULT_CLOUD_BASE_URL,
+    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
   });
