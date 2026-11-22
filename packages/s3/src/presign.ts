@@ -25,6 +25,7 @@ import {
   encodeLabel,
   invalidAwsLabel,
   invalidHostLabel,
+  invalidRegion,
 } from "./util/serialize-input.ts";
 import { isStreamBody } from "./util/stream.ts";
 
@@ -131,8 +132,9 @@ export const presignUrl: (
 /**
  * `path` under the bucket's URL: virtual-hosted
  * (`https://{bucket}.s3.{region}.{dnsSuffix}/{path}`), or path-style under a
- * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a bucket or
- * key that would address another resource.
+ * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a region
+ * that is not a DNS label, or a bucket or key that would address another
+ * resource.
  */
 const objectUrl = (
   bucket: string,
@@ -149,6 +151,7 @@ const objectUrl = (
     ),
     (customEndpoint): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> => {
       const invalid =
+        invalidRegion(region) ??
         invalidAwsLabel("bucket", bucket, false) ??
         invalidAwsLabel("key", key, true) ??
         (!customEndpoint && encodeLabel(bucket) !== bucket
