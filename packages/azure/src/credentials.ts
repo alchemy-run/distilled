@@ -60,20 +60,39 @@ export interface AccessToken {
 const REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 /**
+ * Time limit of one mint, above this file's own retry budget: a hung token
+ * endpoint takes 4 attempts of `TOKEN_TIMEOUT_MS` (30 s) plus 1.4 s of
+ * backoff, about 121 s, and IMDS backs off 63 s through its 410s.
+ */
+const MINT_TIMEOUT_MS = 3 * 60 * 1000;
+
+/**
  * One cached token per scope, minted again `REFRESH_WINDOW_MS` before it
  * expires. Concurrent calls for a scope share one mint (core `refreshing`,
  * AGENTS.md rule 16). Call once per layer value.
  */
 const cachePerScope = <E>(
   mint: (scope: string) => Effect.Effect<AccessToken, E>,
-): ((scope: string) => Effect.Effect<Redacted.Redacted<string>, E>) => {
-  const byScope = new Map<string, Effect.Effect<Redacted.Redacted<string>, E>>();
+): ((scope: string) => Effect.Effect<Redacted.Redacted<string>, E | TokenRequestFailed>) => {
+  const byScope = new Map<
+    string,
+    Effect.Effect<Redacted.Redacted<string>, E | TokenRequestFailed>
+  >();
   return (scope) => {
     let token = byScope.get(scope);
     if (token === undefined) {
-      token = refreshing(mint(scope), (minted) => minted.expiresAt - REFRESH_WINDOW_MS).pipe(
-        Effect.map((minted) => minted.value),
-      );
+      token = refreshing<AccessToken, E | TokenRequestFailed, never>(
+        mint(scope),
+        (minted) => minted.expiresAt - REFRESH_WINDOW_MS,
+        {
+          timeoutMs: MINT_TIMEOUT_MS,
+          onTimeout: (timeoutMs) =>
+            new TokenRequestFailed({
+              message: `Microsoft Entra ID token request timed out after ${timeoutMs / 1000} s`,
+              scope,
+            }),
+        },
+      ).pipe(Effect.map((minted) => minted.value));
       byScope.set(scope, token);
     }
     return token;

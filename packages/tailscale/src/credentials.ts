@@ -105,9 +105,12 @@ export const makeClientCredentials = (
       },
       refreshAt: Date.now() + token.expires_in * 1000 - TOKEN_REFRESH_WINDOW_MS,
     }));
-    return refreshing(mint, (cached) => cached.refreshAt).pipe(
-      Effect.map((cached) => cached.config),
-    );
+    return refreshing(mint, (cached) => cached.refreshAt, {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `Tailscale OAuth token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    }).pipe(Effect.map((cached) => cached.config));
   });
 
 export const fromClientCredentials = (

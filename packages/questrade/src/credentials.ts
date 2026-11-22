@@ -133,9 +133,12 @@ const redeemingResolver = (
         Math.max(tokens.expiresInSeconds * 1000 - REFRESH_WINDOW_MS, REFRESH_WINDOW_MS),
     };
   });
-  return refreshing(redeem, (redeemed) => redeemed.refreshAt).pipe(
-    Effect.map((redeemed) => redeemed.config),
-  );
+  return refreshing(redeem, (redeemed) => redeemed.refreshAt, {
+    onTimeout: (timeoutMs) =>
+      new ConfigError({
+        message: `Questrade refresh token redemption timed out after ${timeoutMs / 1000} s`,
+      }),
+  }).pipe(Effect.map((redeemed) => redeemed.config));
 };
 
 /** Credentials from a refresh token, redeemed on first use and again before each expiry. */

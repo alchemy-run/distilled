@@ -83,17 +83,21 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
           const expiresAt = (expiryOf(token) ?? now / 1000 + FALLBACK_LIFETIME_SECONDS) * 1000;
           last = { token, refreshAt: now + (expiresAt - now) * REFRESH_FRACTION, expiresAt };
           return last;
+        });
+        const cache = refreshing(fetch, (minted) => minted.refreshAt, {
+          onTimeout: (timeoutMs) =>
+            new Error(`Modal auth token request timed out after ${timeoutMs / 1000} s`),
         }).pipe(
-          // As Modal's clients do: a failed refresh keeps a token that has not
-          // expired, with a warning; with no such token the call fails with
-          // the reason, before it reaches Modal without the header.
+          // As Modal's clients do: a failed or timed-out refresh keeps a token
+          // that has not expired, with a warning; with no such token the call
+          // fails with the reason, before it reaches Modal without the header.
           Effect.catch((cause) =>
             last !== undefined && Date.now() < last.expiresAt
               ? Effect.as(Effect.logWarning("Could not refresh the Modal auth token", cause), last)
               : Effect.fail(authTokenError(cause)),
           ),
         );
-        return { identity, cache: refreshing(fetch, (minted) => minted.refreshAt) };
+        return { identity, cache };
       };
       // One cache, for the identity in use; another identity starts a new one.
       let current: ReturnType<typeof cacheFor> | undefined;

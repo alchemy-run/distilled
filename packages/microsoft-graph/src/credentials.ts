@@ -147,7 +147,12 @@ const clientSecretCredentials = (
 
   // Concurrent calls on a cold or stale cache share one mint (core
   // `refreshing`, AGENTS.md rule 16).
-  const token = refreshing(mint, (minted) => minted.expiresAt - REFRESH_WINDOW_MS);
+  const token = refreshing(mint, (minted) => minted.expiresAt - REFRESH_WINDOW_MS, {
+    onTimeout: (timeoutMs) =>
+      new TokenAcquisitionFailed({
+        message: `Microsoft Entra ID token request timed out after ${timeoutMs / 1000} s`,
+      }),
+  });
   return Effect.map(token, (minted) => ({ bearerToken: minted.value, apiBaseUrl }));
 };
 

@@ -216,9 +216,12 @@ const refreshingLayer = (
 ): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    refreshing(withHttpClient(mint), (minted) => minted.expiresAt - REFRESH_WINDOW_MS).pipe(
-      Effect.map((minted) => minted.config),
-    ),
+    refreshing(withHttpClient(mint), (minted) => minted.expiresAt - REFRESH_WINDOW_MS, {
+      onTimeout: (timeoutMs) =>
+        new GithubAppAuthError({
+          message: `GitHub App installation token request timed out after ${timeoutMs / 1000} s`,
+        }),
+    }).pipe(Effect.map((minted) => minted.config)),
   );
 
 /**

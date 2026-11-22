@@ -89,7 +89,9 @@ number.
     caches a token or credentials until they expire uses `refreshing` from
     `@distilled.cloud/core/token-cache`, created once per layer value.
     Concurrent calls on a cold or stale cache then share one mint, and no
-    call waits on another call's fiber. Do not share a `Semaphore`,
+    call waits on another call's fiber. Pass `onTimeout` with an error the
+    layer already fails with, and `timeoutMs` when the mint's own retries
+    can run past the 60 s default. Do not share a `Semaphore`,
     `Deferred`, `SynchronizedRef` or `Effect.cachedWithTTL` between calls:
     in workerd one request never wakes another, and workerd cancels the
     waiting request as hung. Example: 20 parallel calls on a cold cache run

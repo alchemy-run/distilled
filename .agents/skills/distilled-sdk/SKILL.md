@@ -170,7 +170,8 @@ plain strings.
 - **Cache tokens with core `refreshing`.** A token or credentials cache is
   `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
   created once per layer value, so a burst of calls on a cold or stale
-  cache mints once and works in workerd (`AGENTS.md` rule 16).
+  cache mints once and works in workerd. Give it `onTimeout`, and
+  `timeoutMs` if the mint's retries can exceed 60 s (`AGENTS.md` rule 16).
 
 This must print nothing:
 

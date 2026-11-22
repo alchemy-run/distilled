@@ -12,7 +12,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
-import type { GCPCredentialsError } from "./errors.ts";
+import { GCPCredentialsError } from "./errors.ts";
 
 export interface Config {
   readonly accessToken: Redacted.Redacted<string>;
@@ -86,6 +86,12 @@ export const createRefreshingProvider = (
   const resolve = refreshing(
     withHttpClient(source),
     (token) => token.expiresAt - REFRESH_WINDOW_MS,
+    {
+      onTimeout: (timeoutMs) =>
+        new GCPCredentialsError({
+          message: `GCP token request timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
   ).pipe(
     Effect.map((token): Config => ({
       accessToken: token.accessToken,

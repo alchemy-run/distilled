@@ -327,6 +327,12 @@ const cachedAccessToken = (
       };
     }),
     (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `1Password token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
   ).pipe(Effect.map((token) => token.config));
 
   return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);

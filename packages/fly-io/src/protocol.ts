@@ -453,6 +453,12 @@ const mintSpritesToken = (fly: Config) =>
       token: refreshing(
         Effect.suspend(() => mintOnce(cache.fly)),
         () => Number.POSITIVE_INFINITY,
+        {
+          onTimeout: (timeoutMs) =>
+            new FlyConfigError({
+              message: `Sprites token mint timed out after ${timeoutMs / 1000} s`,
+            }),
+        },
       ),
     };
     MutableHashMap.set(spritesTokens, fly.apiKey, cache);

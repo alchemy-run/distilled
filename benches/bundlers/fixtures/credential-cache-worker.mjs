@@ -38,7 +38,10 @@ const fetchToken = (key) =>
   });
 
 const makers = {
-  core: (key) => refreshing(fetchToken(key), () => Date.now() + 3_600_000),
+  core: (key) =>
+    refreshing(fetchToken(key), () => Date.now() + 3_600_000, {
+      onTimeout: () => new Error("token fetch timed out"),
+    }),
   aws: (key) =>
     createCachedCredentialsEffect(
       Effect.map(fetchToken(key), (token) => ({

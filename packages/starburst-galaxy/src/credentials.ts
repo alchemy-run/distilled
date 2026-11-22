@@ -135,9 +135,12 @@ export const makeClientCredentials = (
         refreshAt: Date.now() + reuseFor(token.expires_in),
       };
     });
-    return refreshing(exchange, (token) => token.refreshAt).pipe(
-      Effect.map((token) => token.config),
-    );
+    return refreshing(exchange, (token) => token.refreshAt, {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `Starburst Galaxy token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    }).pipe(Effect.map((token) => token.config));
   });
 
 /**

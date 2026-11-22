@@ -148,7 +148,13 @@ const isExpired = (expiresAt?: number): boolean =>
 /** Concurrent calls on a cold or stale cache share one refresh. */
 const createCachedCredentialsEffect = <E>(
   resolve: Effect.Effect<ResolvedCredentials, E>,
-): Effect.Effect<ResolvedCredentials, E> => refreshing(resolve, getRefreshAt);
+): Effect.Effect<ResolvedCredentials, E | OAuthRefreshError> =>
+  refreshing<ResolvedCredentials, E | OAuthRefreshError, never>(resolve, getRefreshAt, {
+    onTimeout: (timeoutMs) =>
+      new OAuthRefreshError({
+        message: `Cloudflare OAuth credentials refresh timed out after ${timeoutMs / 1000} s`,
+      }),
+  });
 
 const wrapOAuthError = <A>(
   message: string,

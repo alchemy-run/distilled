@@ -127,14 +127,27 @@ const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
  * Credentials are reused until five minutes before they expire, and
  * concurrent calls on a cold or stale cache share one resolution. Credentials
  * without an expiration are not cached: they are resolved again on every
- * call.
+ * call. A resolution that runs past `timeoutMs` (default 60 s) is interrupted
+ * and fails with {@link AwsCredentialProviderError}.
  */
 export const createCachedCredentialsEffect = <E, R>(
   resolve: Effect.Effect<ResolvedCredentials, E, R>,
-): Effect.Effect<ResolvedCredentials, E, R> =>
-  refreshing(resolve, (creds) =>
-    creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined,
+  options: { readonly provider?: string; readonly timeoutMs?: number } = {},
+): Effect.Effect<ResolvedCredentials, E | AwsCredentialProviderError, R> => {
+  const provider = options.provider ?? "credentials";
+  return refreshing<ResolvedCredentials, E | AwsCredentialProviderError, R>(
+    resolve,
+    (creds) => (creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined),
+    {
+      ...(options.timeoutMs !== undefined ? { timeoutMs: options.timeoutMs } : {}),
+      onTimeout: (timeoutMs) =>
+        new AwsCredentialProviderError({
+          message: `Resolving credentials from ${provider} timed out after ${timeoutMs / 1000} s.`,
+          provider,
+        }),
+    },
   );
+};
 
 /**
  * Create a lazy, cached credentials layer from a credential source.
@@ -166,7 +179,10 @@ export const createLazyProvider = (
     return fromAwsCredentialIdentity(identity, yield* region);
   });
 
-  return Layer.succeed(Credentials, createCachedCredentialsEffect(resolve));
+  return Layer.succeed(
+    Credentials,
+    createCachedCredentialsEffect(resolve, { provider: providerName }),
+  );
 };
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
