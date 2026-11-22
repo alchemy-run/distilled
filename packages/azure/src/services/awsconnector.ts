@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -23848,6 +23848,8 @@ export interface ListAccessAnalyzerAnalyzerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AccessAnalyzerAnalyzerTagsMap = { [key: string]: string | undefined };
@@ -23880,12 +23882,16 @@ export interface AccessAnalyzerAnalyzerListResult {
 export interface ListAccessAnalyzerAnalyzerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAcmCertificateSummaryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AcmCertificateSummaryTagsMap = { [key: string]: string | undefined };
@@ -23918,12 +23924,16 @@ export interface AcmCertificateSummaryListResult {
 export interface ListAcmCertificateSummaryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApiGatewayRestApisByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApiGatewayRestApiTagsMap = { [key: string]: string | undefined };
@@ -23956,12 +23966,16 @@ export interface ApiGatewayRestApiListResult {
 export interface ListApiGatewayRestApisBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApiGatewayStageByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApiGatewayStageTagsMap = { [key: string]: string | undefined };
@@ -23994,12 +24008,16 @@ export interface ApiGatewayStageListResult {
 export interface ListApiGatewayStageBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAppSyncGraphqlApisByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AppSyncGraphqlApiTagsMap = { [key: string]: string | undefined };
@@ -24032,12 +24050,16 @@ export interface AppSyncGraphqlApiListResult {
 export interface ListAppSyncGraphqlApisBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAutoScalingAutoScalingGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutoScalingAutoScalingGroupTagsMap = { [key: string]: string | undefined };
@@ -24070,12 +24092,16 @@ export interface AutoScalingAutoScalingGroupListResult {
 export interface ListAutoScalingAutoScalingGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudFormationStackByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudFormationStackTagsMap = { [key: string]: string | undefined };
@@ -24108,12 +24134,16 @@ export interface CloudFormationStackListResult {
 export interface ListCloudFormationStackBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudFormationStackSetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudFormationStackSetTagsMap = { [key: string]: string | undefined };
@@ -24146,12 +24176,16 @@ export interface CloudFormationStackSetListResult {
 export interface ListCloudFormationStackSetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudFrontDistributionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudFrontDistributionTagsMap = { [key: string]: string | undefined };
@@ -24184,12 +24218,16 @@ export interface CloudFrontDistributionListResult {
 export interface ListCloudFrontDistributionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudTrailTrailByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudTrailTrailTagsMap = { [key: string]: string | undefined };
@@ -24222,12 +24260,16 @@ export interface CloudTrailTrailListResult {
 export interface ListCloudTrailTrailBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudWatchAlarmByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudWatchAlarmTagsMap = { [key: string]: string | undefined };
@@ -24260,12 +24302,16 @@ export interface CloudWatchAlarmListResult {
 export interface ListCloudWatchAlarmBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCodeBuildProjectByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CodeBuildProjectTagsMap = { [key: string]: string | undefined };
@@ -24298,12 +24344,16 @@ export interface CodeBuildProjectListResult {
 export interface ListCodeBuildProjectBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCodeBuildSourceCredentialsInfosByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CodeBuildSourceCredentialsInfoTagsMap = { [key: string]: string | undefined };
@@ -24337,12 +24387,16 @@ export interface CodeBuildSourceCredentialsInfoListResult {
 export interface ListCodeBuildSourceCredentialsInfosBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigServiceConfigurationRecorderByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigServiceConfigurationRecorderTagsMap = { [key: string]: string | undefined };
@@ -24376,12 +24430,16 @@ export interface ConfigServiceConfigurationRecorderListResult {
 export interface ListConfigServiceConfigurationRecorderBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigServiceConfigurationRecorderStatusByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigServiceConfigurationRecorderStatusTagsMap = { [key: string]: string | undefined };
@@ -24415,12 +24473,16 @@ export interface ConfigServiceConfigurationRecorderStatusListResult {
 export interface ListConfigServiceConfigurationRecorderStatusBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigServiceDeliveryChannelByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigServiceDeliveryChannelTagsMap = { [key: string]: string | undefined };
@@ -24453,12 +24515,16 @@ export interface ConfigServiceDeliveryChannelListResult {
 export interface ListConfigServiceDeliveryChannelBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseMigrationServiceReplicationInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DatabaseMigrationServiceReplicationInstanceTagsMap = {
@@ -24494,12 +24560,16 @@ export interface DatabaseMigrationServiceReplicationInstanceListResult {
 export interface ListDatabaseMigrationServiceReplicationInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDaxClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DaxClusterTagsMap = { [key: string]: string | undefined };
@@ -24532,12 +24602,16 @@ export interface DaxClusterListResult {
 export interface ListDaxClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDynamoDbContinuousBackupsDescriptionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DynamoDBContinuousBackupsDescriptionTagsMap = { [key: string]: string | undefined };
@@ -24571,12 +24645,16 @@ export interface DynamoDBContinuousBackupsDescriptionListResult {
 export interface ListDynamoDbContinuousBackupsDescriptionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDynamoDbTableByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DynamoDBTableTagsMap = { [key: string]: string | undefined };
@@ -24609,12 +24687,16 @@ export interface DynamoDBTableListResult {
 export interface ListDynamoDbTableBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2AccountAttributeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2AccountAttributeTagsMap = { [key: string]: string | undefined };
@@ -24647,12 +24729,16 @@ export interface Ec2AccountAttributeListResult {
 export interface ListEc2AccountAttributeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2AddressByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2AddressTagsMap = { [key: string]: string | undefined };
@@ -24685,12 +24771,16 @@ export interface Ec2AddressListResult {
 export interface ListEc2AddressBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2FlowLogByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2FlowLogTagsMap = { [key: string]: string | undefined };
@@ -24723,12 +24813,16 @@ export interface Ec2FlowLogListResult {
 export interface ListEc2FlowLogBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2ImageByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2ImageTagsMap = { [key: string]: string | undefined };
@@ -24761,10 +24855,14 @@ export interface Ec2ImageListResult {
 export interface ListEc2ImageBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2InstancesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Microsoft.AwsConnector resource */
 export interface Ec2Instance {
@@ -24793,6 +24891,8 @@ export interface ListEc2InstanceStatusByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2InstanceStatusTagsMap = { [key: string]: string | undefined };
@@ -24825,12 +24925,16 @@ export interface Ec2InstanceStatusListResult {
 export interface ListEc2InstanceStatusBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2IpamByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2IpamTagsMap = { [key: string]: string | undefined };
@@ -24863,12 +24967,16 @@ export interface Ec2IpamListResult {
 export interface ListEc2IpamBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2KeyPairByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2KeyPairTagsMap = { [key: string]: string | undefined };
@@ -24901,12 +25009,16 @@ export interface Ec2KeyPairListResult {
 export interface ListEc2KeyPairBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2NetworkAclByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2NetworkAclTagsMap = { [key: string]: string | undefined };
@@ -24939,12 +25051,16 @@ export interface Ec2NetworkAclListResult {
 export interface ListEc2NetworkAclBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2NetworkInterfaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2NetworkInterfaceTagsMap = { [key: string]: string | undefined };
@@ -24977,12 +25093,16 @@ export interface Ec2NetworkInterfaceListResult {
 export interface ListEc2NetworkInterfaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2RouteTableByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2RouteTableTagsMap = { [key: string]: string | undefined };
@@ -25015,12 +25135,16 @@ export interface Ec2RouteTableListResult {
 export interface ListEc2RouteTableBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2SecurityGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2SecurityGroupTagsMap = { [key: string]: string | undefined };
@@ -25053,12 +25177,16 @@ export interface Ec2SecurityGroupListResult {
 export interface ListEc2SecurityGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2SnapshotByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2SnapshotTagsMap = { [key: string]: string | undefined };
@@ -25091,12 +25219,16 @@ export interface Ec2SnapshotListResult {
 export interface ListEc2SnapshotBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2SubnetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2SubnetTagsMap = { [key: string]: string | undefined };
@@ -25129,12 +25261,16 @@ export interface Ec2SubnetListResult {
 export interface ListEc2SubnetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2VolumeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2VolumeTagsMap = { [key: string]: string | undefined };
@@ -25167,12 +25303,16 @@ export interface Ec2VolumeListResult {
 export interface ListEc2VolumeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2VpcByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2VpcTagsMap = { [key: string]: string | undefined };
@@ -25205,12 +25345,16 @@ export interface Ec2VpcListResult {
 export interface ListEc2VpcBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2VpcEndpointByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2VPCEndpointTagsMap = { [key: string]: string | undefined };
@@ -25243,12 +25387,16 @@ export interface Ec2VPCEndpointListResult {
 export interface ListEc2VpcEndpointBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEc2VpcPeeringConnectionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Ec2VPCPeeringConnectionTagsMap = { [key: string]: string | undefined };
@@ -25281,12 +25429,16 @@ export interface Ec2VPCPeeringConnectionListResult {
 export interface ListEc2VpcPeeringConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEcrImageDetailByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EcrImageDetailTagsMap = { [key: string]: string | undefined };
@@ -25319,12 +25471,16 @@ export interface EcrImageDetailListResult {
 export interface ListEcrImageDetailBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEcrRepositoryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EcrRepositoryTagsMap = { [key: string]: string | undefined };
@@ -25357,12 +25513,16 @@ export interface EcrRepositoryListResult {
 export interface ListEcrRepositoryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEcsClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EcsClusterTagsMap = { [key: string]: string | undefined };
@@ -25395,12 +25555,16 @@ export interface EcsClusterListResult {
 export interface ListEcsClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEcsServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EcsServiceTagsMap = { [key: string]: string | undefined };
@@ -25433,12 +25597,16 @@ export interface EcsServiceListResult {
 export interface ListEcsServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEcsTaskDefinitionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EcsTaskDefinitionTagsMap = { [key: string]: string | undefined };
@@ -25471,12 +25639,16 @@ export interface EcsTaskDefinitionListResult {
 export interface ListEcsTaskDefinitionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEfsFileSystemByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EfsFileSystemTagsMap = { [key: string]: string | undefined };
@@ -25509,12 +25681,16 @@ export interface EfsFileSystemListResult {
 export interface ListEfsFileSystemBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEfsMountTargetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EfsMountTargetTagsMap = { [key: string]: string | undefined };
@@ -25547,10 +25723,14 @@ export interface EfsMountTargetListResult {
 export interface ListEfsMountTargetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEksClustersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Microsoft.AwsConnector resource */
 export interface EksCluster {
@@ -25579,6 +25759,8 @@ export interface ListEksNodegroupByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EksNodegroupTagsMap = { [key: string]: string | undefined };
@@ -25611,12 +25793,16 @@ export interface EksNodegroupListResult {
 export interface ListEksNodegroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticBeanstalkApplicationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticBeanstalkApplicationTagsMap = { [key: string]: string | undefined };
@@ -25649,12 +25835,16 @@ export interface ElasticBeanstalkApplicationListResult {
 export interface ListElasticBeanstalkApplicationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticBeanstalkConfigurationTemplateByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticBeanstalkConfigurationTemplateTagsMap = { [key: string]: string | undefined };
@@ -25688,12 +25878,16 @@ export interface ElasticBeanstalkConfigurationTemplateListResult {
 export interface ListElasticBeanstalkConfigurationTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticBeanstalkEnvironmentByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticBeanstalkEnvironmentTagsMap = { [key: string]: string | undefined };
@@ -25726,12 +25920,16 @@ export interface ElasticBeanstalkEnvironmentListResult {
 export interface ListElasticBeanstalkEnvironmentBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticLoadBalancingV2ListenerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticLoadBalancingV2ListenerTagsMap = { [key: string]: string | undefined };
@@ -25765,12 +25963,16 @@ export interface ElasticLoadBalancingV2ListenerListResult {
 export interface ListElasticLoadBalancingV2ListenerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticLoadBalancingV2LoadBalancerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticLoadBalancingV2LoadBalancerTagsMap = { [key: string]: string | undefined };
@@ -25804,12 +26006,16 @@ export interface ElasticLoadBalancingV2LoadBalancerListResult {
 export interface ListElasticLoadBalancingV2LoadBalancerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticLoadBalancingV2TargetGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticLoadBalancingV2TargetGroupTagsMap = { [key: string]: string | undefined };
@@ -25843,12 +26049,16 @@ export interface ElasticLoadBalancingV2TargetGroupListResult {
 export interface ListElasticLoadBalancingV2TargetGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticLoadBalancingv2TargetHealthDescriptionTagsMap = {
@@ -25884,12 +26094,16 @@ export interface ElasticLoadBalancingv2TargetHealthDescriptionListResult {
 export interface ListElasticLoadBalancingv2TargetHealthDescriptionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEmrClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EmrClusterTagsMap = { [key: string]: string | undefined };
@@ -25922,12 +26136,16 @@ export interface EmrClusterListResult {
 export interface ListEmrClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGuardDutyDetectorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GuardDutyDetectorTagsMap = { [key: string]: string | undefined };
@@ -25960,12 +26178,16 @@ export interface GuardDutyDetectorListResult {
 export interface ListGuardDutyDetectorBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamAccessKeyLastUsedByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamAccessKeyLastUsedTagsMap = { [key: string]: string | undefined };
@@ -25998,12 +26220,16 @@ export interface IamAccessKeyLastUsedListResult {
 export interface ListIamAccessKeyLastUsedBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamAccessKeyMetadataInfoByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamAccessKeyMetadataTagsMap = { [key: string]: string | undefined };
@@ -26036,12 +26262,16 @@ export interface IamAccessKeyMetadataListResult {
 export interface ListIamAccessKeyMetadataInfoBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamGroupTagsMap = { [key: string]: string | undefined };
@@ -26074,12 +26304,16 @@ export interface IamGroupListResult {
 export interface ListIamGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamInstanceProfileByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamInstanceProfileTagsMap = { [key: string]: string | undefined };
@@ -26112,12 +26346,16 @@ export interface IamInstanceProfileListResult {
 export interface ListIamInstanceProfileBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamMfaDeviceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamMFADeviceTagsMap = { [key: string]: string | undefined };
@@ -26150,12 +26388,16 @@ export interface IamMFADeviceListResult {
 export interface ListIamMfaDeviceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamPasswordPolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamPasswordPolicyTagsMap = { [key: string]: string | undefined };
@@ -26188,12 +26430,16 @@ export interface IamPasswordPolicyListResult {
 export interface ListIamPasswordPolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamPolicyVersionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamPolicyVersionTagsMap = { [key: string]: string | undefined };
@@ -26226,12 +26472,16 @@ export interface IamPolicyVersionListResult {
 export interface ListIamPolicyVersionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamRoleByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamRoleTagsMap = { [key: string]: string | undefined };
@@ -26264,12 +26514,16 @@ export interface IamRoleListResult {
 export interface ListIamRoleBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamServerCertificateByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamServerCertificateTagsMap = { [key: string]: string | undefined };
@@ -26302,12 +26556,16 @@ export interface IamServerCertificateListResult {
 export interface ListIamServerCertificateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIamVirtualMfaDeviceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IamVirtualMFADeviceTagsMap = { [key: string]: string | undefined };
@@ -26340,12 +26598,16 @@ export interface IamVirtualMFADeviceListResult {
 export interface ListIamVirtualMfaDeviceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListKmsAliasByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type KmsAliasTagsMap = { [key: string]: string | undefined };
@@ -26378,12 +26640,16 @@ export interface KmsAliasListResult {
 export interface ListKmsAliasBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListKmsKeyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type KmsKeyTagsMap = { [key: string]: string | undefined };
@@ -26416,12 +26682,16 @@ export interface KmsKeyListResult {
 export interface ListKmsKeyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLambdaFunctionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LambdaFunctionTagsMap = { [key: string]: string | undefined };
@@ -26454,12 +26724,16 @@ export interface LambdaFunctionListResult {
 export interface ListLambdaFunctionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLambdaFunctionCodeLocationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LambdaFunctionCodeLocationTagsMap = { [key: string]: string | undefined };
@@ -26492,12 +26766,16 @@ export interface LambdaFunctionCodeLocationListResult {
 export interface ListLambdaFunctionCodeLocationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLightsailBucketByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LightsailBucketTagsMap = { [key: string]: string | undefined };
@@ -26530,12 +26808,16 @@ export interface LightsailBucketListResult {
 export interface ListLightsailBucketBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLightsailInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LightsailInstanceTagsMap = { [key: string]: string | undefined };
@@ -26568,12 +26850,16 @@ export interface LightsailInstanceListResult {
 export interface ListLightsailInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLogsLogGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogsLogGroupTagsMap = { [key: string]: string | undefined };
@@ -26606,12 +26892,16 @@ export interface LogsLogGroupListResult {
 export interface ListLogsLogGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLogsLogStreamByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogsLogStreamTagsMap = { [key: string]: string | undefined };
@@ -26644,12 +26934,16 @@ export interface LogsLogStreamListResult {
 export interface ListLogsLogStreamBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLogsMetricFilterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogsMetricFilterTagsMap = { [key: string]: string | undefined };
@@ -26682,12 +26976,16 @@ export interface LogsMetricFilterListResult {
 export interface ListLogsMetricFilterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLogsSubscriptionFilterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogsSubscriptionFilterTagsMap = { [key: string]: string | undefined };
@@ -26720,12 +27018,16 @@ export interface LogsSubscriptionFilterListResult {
 export interface ListLogsSubscriptionFilterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMacie2JobSummaryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Macie2JobSummaryTagsMap = { [key: string]: string | undefined };
@@ -26758,12 +27060,16 @@ export interface Macie2JobSummaryListResult {
 export interface ListMacie2JobSummaryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMacieAllowListByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MacieAllowListTagsMap = { [key: string]: string | undefined };
@@ -26796,12 +27102,16 @@ export interface MacieAllowListListResult {
 export interface ListMacieAllowListBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFirewallFirewallByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFirewallFirewallTagsMap = { [key: string]: string | undefined };
@@ -26834,12 +27144,16 @@ export interface NetworkFirewallFirewallListResult {
 export interface ListNetworkFirewallFirewallBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFirewallFirewallPolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFirewallFirewallPolicyTagsMap = { [key: string]: string | undefined };
@@ -26872,12 +27186,16 @@ export interface NetworkFirewallFirewallPolicyListResult {
 export interface ListNetworkFirewallFirewallPolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFirewallRuleGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFirewallRuleGroupTagsMap = { [key: string]: string | undefined };
@@ -26910,12 +27228,16 @@ export interface NetworkFirewallRuleGroupListResult {
 export interface ListNetworkFirewallRuleGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOpenSearchDomainStatusByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OpenSearchDomainStatusTagsMap = { [key: string]: string | undefined };
@@ -26948,8 +27270,13 @@ export interface OpenSearchDomainStatusListResult {
 export interface ListOpenSearchDomainStatusBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -26982,7 +27309,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -26991,6 +27318,8 @@ export interface ListOrganizationsAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationsAccountTagsMap = { [key: string]: string | undefined };
@@ -27023,12 +27352,16 @@ export interface OrganizationsAccountListResult {
 export interface ListOrganizationsAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOrganizationsOrganizationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationsOrganizationTagsMap = { [key: string]: string | undefined };
@@ -27061,12 +27394,16 @@ export interface OrganizationsOrganizationListResult {
 export interface ListOrganizationsOrganizationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsDbClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsDBClusterTagsMap = { [key: string]: string | undefined };
@@ -27099,12 +27436,16 @@ export interface RdsDBClusterListResult {
 export interface ListRdsDbClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsDbInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsDBInstanceTagsMap = { [key: string]: string | undefined };
@@ -27137,12 +27478,16 @@ export interface RdsDBInstanceListResult {
 export interface ListRdsDbInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsDbSnapshotAttributesResultByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsDBSnapshotAttributesResultTagsMap = { [key: string]: string | undefined };
@@ -27175,12 +27520,16 @@ export interface RdsDBSnapshotAttributesResultListResult {
 export interface ListRdsDbSnapshotAttributesResultBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsDbSnapshotByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsDBSnapshotTagsMap = { [key: string]: string | undefined };
@@ -27213,12 +27562,16 @@ export interface RdsDBSnapshotListResult {
 export interface ListRdsDbSnapshotBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsEventSubscriptionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsEventSubscriptionTagsMap = { [key: string]: string | undefined };
@@ -27251,12 +27604,16 @@ export interface RdsEventSubscriptionListResult {
 export interface ListRdsEventSubscriptionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRdsExportTaskByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RdsExportTaskTagsMap = { [key: string]: string | undefined };
@@ -27289,12 +27646,16 @@ export interface RdsExportTaskListResult {
 export interface ListRdsExportTaskBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRedshiftClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RedshiftClusterTagsMap = { [key: string]: string | undefined };
@@ -27327,12 +27688,16 @@ export interface RedshiftClusterListResult {
 export interface ListRedshiftClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRedshiftClusterParameterGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RedshiftClusterParameterGroupTagsMap = { [key: string]: string | undefined };
@@ -27365,12 +27730,16 @@ export interface RedshiftClusterParameterGroupListResult {
 export interface ListRedshiftClusterParameterGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRoute53DomainsDomainSummaryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Route53DomainsDomainSummaryTagsMap = { [key: string]: string | undefined };
@@ -27403,12 +27772,16 @@ export interface Route53DomainsDomainSummaryListResult {
 export interface ListRoute53DomainsDomainSummaryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRoute53HostedZoneByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Route53HostedZoneTagsMap = { [key: string]: string | undefined };
@@ -27441,12 +27814,16 @@ export interface Route53HostedZoneListResult {
 export interface ListRoute53HostedZoneBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRoute53ResourceRecordSetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Route53ResourceRecordSetTagsMap = { [key: string]: string | undefined };
@@ -27479,12 +27856,16 @@ export interface Route53ResourceRecordSetListResult {
 export interface ListRoute53ResourceRecordSetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListS3AccessControlPolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type S3AccessControlPolicyTagsMap = { [key: string]: string | undefined };
@@ -27517,12 +27898,16 @@ export interface S3AccessControlPolicyListResult {
 export interface ListS3AccessControlPolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListS3AccessPointByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type S3AccessPointTagsMap = { [key: string]: string | undefined };
@@ -27555,12 +27940,16 @@ export interface S3AccessPointListResult {
 export interface ListS3AccessPointBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListS3BucketByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type S3BucketTagsMap = { [key: string]: string | undefined };
@@ -27593,12 +27982,16 @@ export interface S3BucketListResult {
 export interface ListS3BucketBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListS3BucketPolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type S3BucketPolicyTagsMap = { [key: string]: string | undefined };
@@ -27631,12 +28024,16 @@ export interface S3BucketPolicyListResult {
 export interface ListS3BucketPolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type S3ControlMultiRegionAccessPointPolicyDocumentTagsMap = {
@@ -27672,12 +28069,16 @@ export interface S3ControlMultiRegionAccessPointPolicyDocumentListResult {
 export interface ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSageMakerAppByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SageMakerAppTagsMap = { [key: string]: string | undefined };
@@ -27710,12 +28111,16 @@ export interface SageMakerAppListResult {
 export interface ListSageMakerAppBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSageMakerNotebookInstanceSummaryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SageMakerNotebookInstanceSummaryTagsMap = { [key: string]: string | undefined };
@@ -27749,12 +28154,16 @@ export interface SageMakerNotebookInstanceSummaryListResult {
 export interface ListSageMakerNotebookInstanceSummaryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSecretsManagerResourcePolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SecretsManagerResourcePolicyTagsMap = { [key: string]: string | undefined };
@@ -27787,12 +28196,16 @@ export interface SecretsManagerResourcePolicyListResult {
 export interface ListSecretsManagerResourcePolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSecretsManagerSecretByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SecretsManagerSecretTagsMap = { [key: string]: string | undefined };
@@ -27825,12 +28238,16 @@ export interface SecretsManagerSecretListResult {
 export interface ListSecretsManagerSecretBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSnsSubscriptionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SnsSubscriptionTagsMap = { [key: string]: string | undefined };
@@ -27863,12 +28280,16 @@ export interface SnsSubscriptionListResult {
 export interface ListSnsSubscriptionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSnsTopicByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SnsTopicTagsMap = { [key: string]: string | undefined };
@@ -27901,12 +28322,16 @@ export interface SnsTopicListResult {
 export interface ListSnsTopicBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSqsQueueByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SqsQueueTagsMap = { [key: string]: string | undefined };
@@ -27939,12 +28364,16 @@ export interface SqsQueueListResult {
 export interface ListSqsQueueBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSsmInstanceInformationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SsmInstanceInformationTagsMap = { [key: string]: string | undefined };
@@ -27977,12 +28406,16 @@ export interface SsmInstanceInformationListResult {
 export interface ListSsmInstanceInformationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSsmParameterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SsmParameterTagsMap = { [key: string]: string | undefined };
@@ -28015,12 +28448,16 @@ export interface SsmParameterListResult {
 export interface ListSsmParameterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSsmResourceComplianceSummaryItemByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SsmResourceComplianceSummaryItemTagsMap = { [key: string]: string | undefined };
@@ -28054,12 +28491,16 @@ export interface SsmResourceComplianceSummaryItemListResult {
 export interface ListSsmResourceComplianceSummaryItemBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWafv2LoggingConfigurationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type Wafv2LoggingConfigurationTagsMap = { [key: string]: string | undefined };
@@ -28092,12 +28533,16 @@ export interface Wafv2LoggingConfigurationListResult {
 export interface ListWafv2LoggingConfigurationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWafWebAclSummaryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WafWebACLSummaryTagsMap = { [key: string]: string | undefined };
@@ -28130,6 +28575,8 @@ export interface WafWebACLSummaryListResult {
 export interface ListWafWebAclSummaryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogsLogGroupsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -34520,8 +34967,7 @@ export const AccessAnalyzerAnalyzersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AccessAnalyzerAnalyzersCreateOrReplaceRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<AccessAnalyzerAnalyzersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34538,8 +34984,7 @@ export const AcmCertificateSummariesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c5, 1) as any as S.Schema<AcmCertificateSummariesCreateOrReplaceRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<AcmCertificateSummariesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34556,8 +35001,7 @@ export const ApiGatewayRestApisCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6817, __c213, 1) as any as S.Schema<ApiGatewayRestApisCreateOrReplaceRequest>,
   output: __S(6818, __c213, 2) as any as S.Schema<ApiGatewayRestApisCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34574,8 +35018,7 @@ export const ApiGatewayStagesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15169, __c474, 1) as any as S.Schema<ApiGatewayStagesCreateOrReplaceRequest>,
   output: __S(15170, __c474, 2) as any as S.Schema<ApiGatewayStagesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34592,8 +35035,7 @@ export const AppSyncGraphqlApisCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20321, __c635, 1) as any as S.Schema<AppSyncGraphqlApisCreateOrReplaceRequest>,
   output: __S(20322, __c635, 2) as any as S.Schema<AppSyncGraphqlApisCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34618,8 +35060,7 @@ export const AutoScalingAutoScalingGroupsCreateOrReplace: API.OperationMethod<
     __c797,
     2,
   ) as any as S.Schema<AutoScalingAutoScalingGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34636,8 +35077,7 @@ export const CloudFormationStacksCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29409, __c919, 1) as any as S.Schema<CloudFormationStacksCreateOrReplaceRequest>,
   output: __S(29410, __c919, 2) as any as S.Schema<CloudFormationStacksCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34654,8 +35094,7 @@ export const CloudFormationStackSetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32065, __c1002, 1) as any as S.Schema<CloudFormationStackSetsCreateOrReplaceRequest>,
   output: __S(32066, __c1002, 2) as any as S.Schema<CloudFormationStackSetsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34672,8 +35111,7 @@ export const CloudFrontDistributionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32449, __c1014, 1) as any as S.Schema<CloudFrontDistributionsCreateOrReplaceRequest>,
   output: __S(32450, __c1014, 2) as any as S.Schema<CloudFrontDistributionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34690,8 +35128,7 @@ export const CloudTrailTrailsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32897, __c1028, 1) as any as S.Schema<CloudTrailTrailsCreateOrReplaceRequest>,
   output: __S(32898, __c1028, 2) as any as S.Schema<CloudTrailTrailsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34708,8 +35145,7 @@ export const CloudWatchAlarmsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(289, __c9, 1) as any as S.Schema<CloudWatchAlarmsCreateOrReplaceRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<CloudWatchAlarmsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34726,8 +35162,7 @@ export const CodeBuildProjectsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<CodeBuildProjectsCreateOrReplaceRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<CodeBuildProjectsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34752,8 +35187,7 @@ export const CodeBuildSourceCredentialsInfosCreateOrReplace: API.OperationMethod
     __c34,
     2,
   ) as any as S.Schema<CodeBuildSourceCredentialsInfosCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34778,8 +35212,7 @@ export const ConfigServiceConfigurationRecordersCreateOrReplace: API.OperationMe
     __c46,
     2,
   ) as any as S.Schema<ConfigServiceConfigurationRecordersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34804,8 +35237,7 @@ export const ConfigServiceConfigurationRecorderStatusesCreateOrReplace: API.Oper
     __c73,
     2,
   ) as any as S.Schema<ConfigServiceConfigurationRecorderStatusesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34830,8 +35262,7 @@ export const ConfigServiceDeliveryChannelsCreateOrReplace: API.OperationMethod<
     __c95,
     2,
   ) as any as S.Schema<ConfigServiceDeliveryChannelsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34856,8 +35287,7 @@ export const DatabaseMigrationServiceReplicationInstancesCreateOrReplace: API.Op
     __c122,
     2,
   ) as any as S.Schema<DatabaseMigrationServiceReplicationInstancesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34874,8 +35304,7 @@ export const DaxClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4737, __c148, 1) as any as S.Schema<DaxClustersCreateOrReplaceRequest>,
   output: __S(4738, __c148, 2) as any as S.Schema<DaxClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34892,8 +35321,7 @@ export const DeleteAccessAnalyzerAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteAccessAnalyzerAnalyzerRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteAccessAnalyzerAnalyzerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34910,8 +35338,7 @@ export const DeleteAcmCertificateSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<DeleteAcmCertificateSummaryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteAcmCertificateSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34928,8 +35355,7 @@ export const DeleteApiGatewayRestApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<DeleteApiGatewayRestApisRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteApiGatewayRestApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34946,8 +35372,7 @@ export const DeleteApiGatewayStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<DeleteApiGatewayStageRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteApiGatewayStageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34964,8 +35389,7 @@ export const DeleteAppSyncGraphqlApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<DeleteAppSyncGraphqlApisRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteAppSyncGraphqlApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34982,8 +35406,7 @@ export const DeleteAutoScalingAutoScalingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<DeleteAutoScalingAutoScalingGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteAutoScalingAutoScalingGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35000,8 +35423,7 @@ export const DeleteCloudFormationStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<DeleteCloudFormationStackRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCloudFormationStackResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35018,8 +35440,7 @@ export const DeleteCloudFormationStackSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<DeleteCloudFormationStackSetRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCloudFormationStackSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35036,8 +35457,7 @@ export const DeleteCloudFrontDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<DeleteCloudFrontDistributionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCloudFrontDistributionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35054,8 +35474,7 @@ export const DeleteCloudTrailTrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<DeleteCloudTrailTrailRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCloudTrailTrailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35072,8 +35491,7 @@ export const DeleteCloudWatchAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<DeleteCloudWatchAlarmRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCloudWatchAlarmResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35090,8 +35508,7 @@ export const DeleteCodeBuildProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<DeleteCodeBuildProjectRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCodeBuildProjectResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35108,8 +35525,7 @@ export const DeleteCodeBuildSourceCredentialsInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<DeleteCodeBuildSourceCredentialsInfosRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteCodeBuildSourceCredentialsInfosResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35126,8 +35542,7 @@ export const DeleteConfigServiceConfigurationRecorder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<DeleteConfigServiceConfigurationRecorderRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteConfigServiceConfigurationRecorderResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35152,8 +35567,7 @@ export const DeleteConfigServiceConfigurationRecorderStatus: API.OperationMethod
     __c171,
     0,
   ) as any as S.Schema<DeleteConfigServiceConfigurationRecorderStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35170,8 +35584,7 @@ export const DeleteConfigServiceDeliveryChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<DeleteConfigServiceDeliveryChannelRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteConfigServiceDeliveryChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35196,8 +35609,7 @@ export const DeleteDatabaseMigrationServiceReplicationInstance: API.OperationMet
     __c171,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationServiceReplicationInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35214,8 +35626,7 @@ export const DeleteDaxCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<DeleteDaxClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteDaxClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35240,8 +35651,7 @@ export const DeleteDynamoDbContinuousBackupsDescription: API.OperationMethod<
     __c171,
     0,
   ) as any as S.Schema<DeleteDynamoDbContinuousBackupsDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35258,8 +35668,7 @@ export const DeleteDynamoDbTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<DeleteDynamoDbTableRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteDynamoDbTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35276,8 +35685,7 @@ export const DeleteEc2AccountAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19328, __c604, 0) as any as S.Schema<DeleteEc2AccountAttributeRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2AccountAttributeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35294,8 +35702,7 @@ export const DeleteEc2Address: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<DeleteEc2AddressRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2AddressResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35312,8 +35719,7 @@ export const DeleteEc2FlowLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<DeleteEc2FlowLogRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2FlowLogResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35330,8 +35736,7 @@ export const DeleteEc2Image: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<DeleteEc2ImageRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2ImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35348,8 +35753,7 @@ export const DeleteEc2Instance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21408, __c669, 0) as any as S.Schema<DeleteEc2InstanceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2InstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35371,8 +35775,7 @@ export const DeleteEc2InstanceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<DeleteEc2InstanceStatusRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2InstanceStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35389,8 +35792,7 @@ export const DeleteEc2Ipam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<DeleteEc2IpamRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2IpamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35407,8 +35809,7 @@ export const DeleteEc2KeyPair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<DeleteEc2KeyPairRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2KeyPairResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35425,8 +35826,7 @@ export const DeleteEc2NetworkAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<DeleteEc2NetworkAclRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2NetworkAclResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35443,8 +35843,7 @@ export const DeleteEc2NetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<DeleteEc2NetworkInterfaceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2NetworkInterfaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35461,8 +35860,7 @@ export const DeleteEc2RouteTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24480, __c765, 0) as any as S.Schema<DeleteEc2RouteTableRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2RouteTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35479,8 +35877,7 @@ export const DeleteEc2SecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<DeleteEc2SecurityGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2SecurityGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35497,8 +35894,7 @@ export const DeleteEc2Snapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25568, __c799, 0) as any as S.Schema<DeleteEc2SnapshotRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2SnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35515,8 +35911,7 @@ export const DeleteEc2Subnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26080, __c815, 0) as any as S.Schema<DeleteEc2SubnetRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2SubnetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35533,8 +35928,7 @@ export const DeleteEc2Volume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26560, __c830, 0) as any as S.Schema<DeleteEc2VolumeRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2VolumeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35551,8 +35945,7 @@ export const DeleteEc2Vpc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<DeleteEc2VpcRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2VpcResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35569,8 +35962,7 @@ export const DeleteEc2VpcEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27264, __c852, 0) as any as S.Schema<DeleteEc2VpcEndpointRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2VpcEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35587,8 +35979,7 @@ export const DeleteEc2VpcPeeringConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<DeleteEc2VpcPeeringConnectionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEc2VpcPeeringConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35605,8 +35996,7 @@ export const DeleteEcrImageDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28000, __c875, 0) as any as S.Schema<DeleteEcrImageDetailRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEcrImageDetailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35623,8 +36013,7 @@ export const DeleteEcrRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28352, __c886, 0) as any as S.Schema<DeleteEcrRepositoryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEcrRepositoryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35641,8 +36030,7 @@ export const DeleteEcsCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<DeleteEcsClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEcsClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35659,8 +36047,7 @@ export const DeleteEcsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29056, __c908, 0) as any as S.Schema<DeleteEcsServiceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEcsServiceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35677,8 +36064,7 @@ export const DeleteEcsTaskDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29472, __c921, 0) as any as S.Schema<DeleteEcsTaskDefinitionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEcsTaskDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35695,8 +36081,7 @@ export const DeleteEfsFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29824, __c932, 0) as any as S.Schema<DeleteEfsFileSystemRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEfsFileSystemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35713,8 +36098,7 @@ export const DeleteEfsMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30176, __c943, 0) as any as S.Schema<DeleteEfsMountTargetRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEfsMountTargetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35731,8 +36115,7 @@ export const DeleteEksCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30528, __c954, 0) as any as S.Schema<DeleteEksClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEksClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35754,8 +36137,7 @@ export const DeleteEksNodegroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30880, __c965, 0) as any as S.Schema<DeleteEksNodegroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEksNodegroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35772,8 +36154,7 @@ export const DeleteElasticBeanstalkApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31232, __c976, 0) as any as S.Schema<DeleteElasticBeanstalkApplicationRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteElasticBeanstalkApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35798,8 +36179,7 @@ export const DeleteElasticBeanstalkConfigurationTemplate: API.OperationMethod<
     __c171,
     0,
   ) as any as S.Schema<DeleteElasticBeanstalkConfigurationTemplateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35816,8 +36196,7 @@ export const DeleteElasticBeanstalkEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31936, __c998, 0) as any as S.Schema<DeleteElasticBeanstalkEnvironmentRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteElasticBeanstalkEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35834,8 +36213,7 @@ export const DeleteElasticLoadBalancingV2Listener: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32000, __c1000, 0) as any as S.Schema<DeleteElasticLoadBalancingV2ListenerRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteElasticLoadBalancingV2ListenerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35852,8 +36230,7 @@ export const DeleteElasticLoadBalancingV2LoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32032, __c1001, 0) as any as S.Schema<DeleteElasticLoadBalancingV2LoadBalancerRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteElasticLoadBalancingV2LoadBalancerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35870,8 +36247,7 @@ export const DeleteElasticLoadBalancingV2TargetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32128, __c1004, 0) as any as S.Schema<DeleteElasticLoadBalancingV2TargetGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteElasticLoadBalancingV2TargetGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35896,8 +36272,7 @@ export const DeleteElasticLoadBalancingv2TargetHealthDescription: API.OperationM
     __c171,
     0,
   ) as any as S.Schema<DeleteElasticLoadBalancingv2TargetHealthDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35914,8 +36289,7 @@ export const DeleteEmrCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32192, __c1006, 0) as any as S.Schema<DeleteEmrClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteEmrClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35932,8 +36306,7 @@ export const DeleteGuardDutyDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32224, __c1007, 0) as any as S.Schema<DeleteGuardDutyDetectorRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteGuardDutyDetectorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35950,8 +36323,7 @@ export const DeleteIamAccessKeyLastUsed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32256, __c1008, 0) as any as S.Schema<DeleteIamAccessKeyLastUsedRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamAccessKeyLastUsedResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35968,8 +36340,7 @@ export const DeleteIamAccessKeyMetadataInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32288, __c1009, 0) as any as S.Schema<DeleteIamAccessKeyMetadataInfoRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamAccessKeyMetadataInfoResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35986,8 +36357,7 @@ export const DeleteIamGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32320, __c1010, 0) as any as S.Schema<DeleteIamGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36004,8 +36374,7 @@ export const DeleteIamInstanceProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32352, __c1011, 0) as any as S.Schema<DeleteIamInstanceProfileRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamInstanceProfileResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36022,8 +36391,7 @@ export const DeleteIamMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32384, __c1012, 0) as any as S.Schema<DeleteIamMfaDeviceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36040,8 +36408,7 @@ export const DeleteIamPasswordPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32416, __c1013, 0) as any as S.Schema<DeleteIamPasswordPolicyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamPasswordPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36058,8 +36425,7 @@ export const DeleteIamPolicyVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32576, __c1018, 0) as any as S.Schema<DeleteIamPolicyVersionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamPolicyVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36076,8 +36442,7 @@ export const DeleteIamRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32608, __c1019, 0) as any as S.Schema<DeleteIamRoleRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36094,8 +36459,7 @@ export const DeleteIamServerCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32640, __c1020, 0) as any as S.Schema<DeleteIamServerCertificateRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamServerCertificateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36112,8 +36476,7 @@ export const DeleteIamVirtualMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32672, __c1021, 0) as any as S.Schema<DeleteIamVirtualMfaDeviceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteIamVirtualMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36130,8 +36493,7 @@ export const DeleteKmsAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32704, __c1022, 0) as any as S.Schema<DeleteKmsAliasRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteKmsAliasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36148,8 +36510,7 @@ export const DeleteKmsKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32736, __c1023, 0) as any as S.Schema<DeleteKmsKeyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteKmsKeyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36166,8 +36527,7 @@ export const DeleteLambdaFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32768, __c1024, 0) as any as S.Schema<DeleteLambdaFunctionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLambdaFunctionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36184,8 +36544,7 @@ export const DeleteLambdaFunctionCodeLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32800, __c1025, 0) as any as S.Schema<DeleteLambdaFunctionCodeLocationRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLambdaFunctionCodeLocationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36202,8 +36561,7 @@ export const DeleteLightsailBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32832, __c1026, 0) as any as S.Schema<DeleteLightsailBucketRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLightsailBucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36220,8 +36578,7 @@ export const DeleteLightsailInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32864, __c1027, 0) as any as S.Schema<DeleteLightsailInstanceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLightsailInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36238,8 +36595,7 @@ export const DeleteLogsLogGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32960, __c1030, 0) as any as S.Schema<DeleteLogsLogGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLogsLogGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36256,8 +36612,7 @@ export const DeleteLogsLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32992, __c1031, 0) as any as S.Schema<DeleteLogsLogStreamRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLogsLogStreamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36274,8 +36629,7 @@ export const DeleteLogsMetricFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33024, __c1032, 0) as any as S.Schema<DeleteLogsMetricFilterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLogsMetricFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36292,8 +36646,7 @@ export const DeleteLogsSubscriptionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33056, __c1033, 0) as any as S.Schema<DeleteLogsSubscriptionFilterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteLogsSubscriptionFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36310,8 +36663,7 @@ export const DeleteMacie2JobSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33088, __c1034, 0) as any as S.Schema<DeleteMacie2JobSummaryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteMacie2JobSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36328,8 +36680,7 @@ export const DeleteMacieAllowList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33120, __c1035, 0) as any as S.Schema<DeleteMacieAllowListRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteMacieAllowListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36346,8 +36697,7 @@ export const DeleteNetworkFirewallFirewall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33152, __c1036, 0) as any as S.Schema<DeleteNetworkFirewallFirewallRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteNetworkFirewallFirewallResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36364,8 +36714,7 @@ export const DeleteNetworkFirewallFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33184, __c1037, 0) as any as S.Schema<DeleteNetworkFirewallFirewallPolicyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteNetworkFirewallFirewallPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36382,8 +36731,7 @@ export const DeleteNetworkFirewallRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33216, __c1038, 0) as any as S.Schema<DeleteNetworkFirewallRuleGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteNetworkFirewallRuleGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36400,8 +36748,7 @@ export const DeleteOpenSearchDomainStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33248, __c1039, 0) as any as S.Schema<DeleteOpenSearchDomainStatusRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteOpenSearchDomainStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36418,8 +36765,7 @@ export const DeleteOrganizationsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteOrganizationsAccountRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteOrganizationsAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36436,8 +36782,7 @@ export const DeleteOrganizationsOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteOrganizationsOrganizationRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteOrganizationsOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36454,8 +36799,7 @@ export const DeleteRdsDbCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteRdsDbClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsDbClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36472,8 +36816,7 @@ export const DeleteRdsDbInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteRdsDbInstanceRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsDbInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36490,8 +36833,7 @@ export const DeleteRdsDbSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteRdsDbSnapshotRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsDbSnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36508,8 +36850,7 @@ export const DeleteRdsDbSnapshotAttributesResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteRdsDbSnapshotAttributesResultRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsDbSnapshotAttributesResultResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36526,8 +36867,7 @@ export const DeleteRdsEventSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteRdsEventSubscriptionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsEventSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36544,8 +36884,7 @@ export const DeleteRdsExportTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteRdsExportTaskRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRdsExportTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36562,8 +36901,7 @@ export const DeleteRedshiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteRedshiftClusterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRedshiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36580,8 +36918,7 @@ export const DeleteRedshiftClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteRedshiftClusterParameterGroupRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRedshiftClusterParameterGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36598,8 +36935,7 @@ export const DeleteRoute53DomainsDomainSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteRoute53DomainsDomainSummaryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRoute53DomainsDomainSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36616,8 +36952,7 @@ export const DeleteRoute53HostedZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteRoute53HostedZoneRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRoute53HostedZoneResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36634,8 +36969,7 @@ export const DeleteRoute53ResourceRecordSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteRoute53ResourceRecordSetRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteRoute53ResourceRecordSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36652,8 +36986,7 @@ export const DeleteS3AccessControlPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteS3AccessControlPolicyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteS3AccessControlPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36670,8 +37003,7 @@ export const DeleteS3AccessPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteS3AccessPointRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteS3AccessPointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36688,8 +37020,7 @@ export const DeleteS3Bucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteS3BucketRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteS3BucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36706,8 +37037,7 @@ export const DeleteS3BucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeleteS3BucketPolicyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteS3BucketPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36732,8 +37062,7 @@ export const DeleteS3ControlMultiRegionAccessPointPolicyDocument: API.OperationM
     __c171,
     0,
   ) as any as S.Schema<DeleteS3ControlMultiRegionAccessPointPolicyDocumentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36750,8 +37079,7 @@ export const DeleteSageMakerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteSageMakerAppRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSageMakerAppResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36768,8 +37096,7 @@ export const DeleteSageMakerNotebookInstanceSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteSageMakerNotebookInstanceSummaryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSageMakerNotebookInstanceSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36786,8 +37113,7 @@ export const DeleteSecretsManagerResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteSecretsManagerResourcePolicyRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSecretsManagerResourcePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36804,8 +37130,7 @@ export const DeleteSecretsManagerSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteSecretsManagerSecretRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSecretsManagerSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36822,8 +37147,7 @@ export const DeleteSnsSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteSnsSubscriptionRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSnsSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36840,8 +37164,7 @@ export const DeleteSnsTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteSnsTopicRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSnsTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36858,8 +37181,7 @@ export const DeleteSqsQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteSqsQueueRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSqsQueueResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36876,8 +37198,7 @@ export const DeleteSsmInstanceInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteSsmInstanceInformationRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSsmInstanceInformationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36894,8 +37215,7 @@ export const DeleteSsmParameter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteSsmParameterRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSsmParameterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36912,8 +37232,7 @@ export const DeleteSsmResourceComplianceSummaryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeleteSsmResourceComplianceSummaryItemRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteSsmResourceComplianceSummaryItemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36930,8 +37249,7 @@ export const DeleteWafv2LoggingConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteWafv2LoggingConfigurationRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteWafv2LoggingConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36948,8 +37266,7 @@ export const DeleteWafWebAclSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteWafWebAclSummaryRequest>,
   output: __S(5472, __c171, 0) as any as S.Schema<DeleteWafWebAclSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36974,8 +37291,7 @@ export const DynamoDbContinuousBackupsDescriptionsCreateOrReplace: API.Operation
     __c48,
     2,
   ) as any as S.Schema<DynamoDbContinuousBackupsDescriptionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36992,8 +37308,7 @@ export const DynamoDbTablesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1601, __c50, 1) as any as S.Schema<DynamoDbTablesCreateOrReplaceRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<DynamoDbTablesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37010,8 +37325,7 @@ export const Ec2AccountAttributesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c53, 1) as any as S.Schema<Ec2AccountAttributesCreateOrReplaceRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<Ec2AccountAttributesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37028,8 +37342,7 @@ export const Ec2AddressesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1761, __c55, 1) as any as S.Schema<Ec2AddressesCreateOrReplaceRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<Ec2AddressesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37046,8 +37359,7 @@ export const Ec2FlowLogsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1825, __c57, 1) as any as S.Schema<Ec2FlowLogsCreateOrReplaceRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<Ec2FlowLogsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37064,8 +37376,7 @@ export const Ec2ImagesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1889, __c59, 1) as any as S.Schema<Ec2ImagesCreateOrReplaceRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<Ec2ImagesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37082,8 +37393,7 @@ export const Ec2InstancesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1985, __c62, 1) as any as S.Schema<Ec2InstancesCreateOrReplaceRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<Ec2InstancesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37105,8 +37415,7 @@ export const Ec2InstanceStatusesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2145, __c67, 1) as any as S.Schema<Ec2InstanceStatusesCreateOrReplaceRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<Ec2InstanceStatusesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37123,8 +37432,7 @@ export const Ec2IpamsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c69, 1) as any as S.Schema<Ec2IpamsCreateOrReplaceRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<Ec2IpamsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37141,8 +37449,7 @@ export const Ec2KeyPairsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2273, __c71, 1) as any as S.Schema<Ec2KeyPairsCreateOrReplaceRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<Ec2KeyPairsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37159,8 +37466,7 @@ export const Ec2NetworkAclsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2401, __c75, 1) as any as S.Schema<Ec2NetworkAclsCreateOrReplaceRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<Ec2NetworkAclsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37177,8 +37483,7 @@ export const Ec2NetworkInterfacesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2465, __c77, 1) as any as S.Schema<Ec2NetworkInterfacesCreateOrReplaceRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<Ec2NetworkInterfacesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37195,8 +37500,7 @@ export const Ec2RouteTablesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2529, __c79, 1) as any as S.Schema<Ec2RouteTablesCreateOrReplaceRequest>,
   output: __S(2530, __c79, 2) as any as S.Schema<Ec2RouteTablesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37213,8 +37517,7 @@ export const Ec2SecurityGroupsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2593, __c81, 1) as any as S.Schema<Ec2SecurityGroupsCreateOrReplaceRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<Ec2SecurityGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37231,8 +37534,7 @@ export const Ec2SnapshotsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2657, __c83, 1) as any as S.Schema<Ec2SnapshotsCreateOrReplaceRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<Ec2SnapshotsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37249,8 +37551,7 @@ export const Ec2SubnetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<Ec2SubnetsCreateOrReplaceRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<Ec2SubnetsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37267,8 +37568,7 @@ export const Ec2VolumesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2785, __c87, 1) as any as S.Schema<Ec2VolumesCreateOrReplaceRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<Ec2VolumesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37285,8 +37585,7 @@ export const Ec2VpcEndpointsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<Ec2VpcEndpointsCreateOrReplaceRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<Ec2VpcEndpointsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37303,8 +37602,7 @@ export const Ec2VpcPeeringConnectionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2913, __c91, 1) as any as S.Schema<Ec2VpcPeeringConnectionsCreateOrReplaceRequest>,
   output: __S(2914, __c91, 2) as any as S.Schema<Ec2VpcPeeringConnectionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37321,8 +37619,7 @@ export const Ec2VpcsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2977, __c93, 1) as any as S.Schema<Ec2VpcsCreateOrReplaceRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<Ec2VpcsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37339,8 +37636,7 @@ export const EcrImageDetailsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3105, __c97, 1) as any as S.Schema<EcrImageDetailsCreateOrReplaceRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<EcrImageDetailsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37357,8 +37653,7 @@ export const EcrRepositoriesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3201, __c100, 1) as any as S.Schema<EcrRepositoriesCreateOrReplaceRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<EcrRepositoriesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37375,8 +37670,7 @@ export const EcsClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3265, __c102, 1) as any as S.Schema<EcsClustersCreateOrReplaceRequest>,
   output: __S(3266, __c102, 2) as any as S.Schema<EcsClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37393,8 +37687,7 @@ export const EcsServicesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3361, __c105, 1) as any as S.Schema<EcsServicesCreateOrReplaceRequest>,
   output: __S(3362, __c105, 2) as any as S.Schema<EcsServicesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37411,8 +37704,7 @@ export const EcsTaskDefinitionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3457, __c108, 1) as any as S.Schema<EcsTaskDefinitionsCreateOrReplaceRequest>,
   output: __S(3458, __c108, 2) as any as S.Schema<EcsTaskDefinitionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37429,8 +37721,7 @@ export const EfsFileSystemsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3553, __c111, 1) as any as S.Schema<EfsFileSystemsCreateOrReplaceRequest>,
   output: __S(3554, __c111, 2) as any as S.Schema<EfsFileSystemsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37447,8 +37738,7 @@ export const EfsMountTargetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c114, 1) as any as S.Schema<EfsMountTargetsCreateOrReplaceRequest>,
   output: __S(3650, __c114, 2) as any as S.Schema<EfsMountTargetsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37465,8 +37755,7 @@ export const EksClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3713, __c116, 1) as any as S.Schema<EksClustersCreateOrReplaceRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<EksClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37488,8 +37777,7 @@ export const EksNodegroupsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3777, __c118, 1) as any as S.Schema<EksNodegroupsCreateOrReplaceRequest>,
   output: __S(3778, __c118, 2) as any as S.Schema<EksNodegroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37514,8 +37802,7 @@ export const ElasticBeanstalkApplicationsCreateOrReplace: API.OperationMethod<
     __c120,
     2,
   ) as any as S.Schema<ElasticBeanstalkApplicationsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37540,8 +37827,7 @@ export const ElasticBeanstalkConfigurationTemplatesCreateOrReplace: API.Operatio
     __c125,
     2,
   ) as any as S.Schema<ElasticBeanstalkConfigurationTemplatesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37566,8 +37852,7 @@ export const ElasticBeanstalkEnvironmentsCreateOrReplace: API.OperationMethod<
     __c128,
     2,
   ) as any as S.Schema<ElasticBeanstalkEnvironmentsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37592,8 +37877,7 @@ export const ElasticLoadBalancingV2ListenersCreateOrReplace: API.OperationMethod
     __c130,
     2,
   ) as any as S.Schema<ElasticLoadBalancingV2ListenersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37618,8 +37902,7 @@ export const ElasticLoadBalancingV2LoadBalancersCreateOrReplace: API.OperationMe
     __c132,
     2,
   ) as any as S.Schema<ElasticLoadBalancingV2LoadBalancersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37644,8 +37927,7 @@ export const ElasticLoadBalancingV2TargetGroupsCreateOrReplace: API.OperationMet
     __c134,
     2,
   ) as any as S.Schema<ElasticLoadBalancingV2TargetGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37670,8 +37952,7 @@ export const ElasticLoadBalancingv2TargetHealthDescriptionsCreateOrReplace: API.
     __c137,
     2,
   ) as any as S.Schema<ElasticLoadBalancingv2TargetHealthDescriptionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37688,8 +37969,7 @@ export const EmrClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4449, __c139, 1) as any as S.Schema<EmrClustersCreateOrReplaceRequest>,
   output: __S(4450, __c139, 2) as any as S.Schema<EmrClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37706,8 +37986,7 @@ export const GetAccessAnalyzerAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetAccessAnalyzerAnalyzerRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<GetAccessAnalyzerAnalyzerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37724,8 +38003,7 @@ export const GetAcmCertificateSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<GetAcmCertificateSummaryRequest>,
   output: __S(4640, __c145, 0) as any as S.Schema<GetAcmCertificateSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37742,8 +38020,7 @@ export const GetApiGatewayRestApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetApiGatewayRestApisRequest>,
   output: __S(4704, __c147, 0) as any as S.Schema<GetApiGatewayRestApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37760,8 +38037,7 @@ export const GetApiGatewayStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetApiGatewayStageRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<GetApiGatewayStageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37778,8 +38054,7 @@ export const GetAppSyncGraphqlApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<GetAppSyncGraphqlApisRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<GetAppSyncGraphqlApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37796,8 +38071,7 @@ export const GetAutoScalingAutoScalingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetAutoScalingAutoScalingGroupRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<GetAutoScalingAutoScalingGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37814,8 +38088,7 @@ export const GetCloudFormationStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<GetCloudFormationStackRequest>,
   output: __S(5024, __c157, 0) as any as S.Schema<GetCloudFormationStackResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37832,8 +38105,7 @@ export const GetCloudFormationStackSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetCloudFormationStackSetRequest>,
   output: __S(5088, __c159, 0) as any as S.Schema<GetCloudFormationStackSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37850,8 +38122,7 @@ export const GetCloudFrontDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<GetCloudFrontDistributionRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<GetCloudFrontDistributionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37868,8 +38139,7 @@ export const GetCloudTrailTrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<GetCloudTrailTrailRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<GetCloudTrailTrailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37886,8 +38156,7 @@ export const GetCloudWatchAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<GetCloudWatchAlarmRequest>,
   output: __S(5280, __c165, 0) as any as S.Schema<GetCloudWatchAlarmResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37904,8 +38173,7 @@ export const GetCodeBuildProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<GetCodeBuildProjectRequest>,
   output: __S(5344, __c167, 0) as any as S.Schema<GetCodeBuildProjectResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37922,8 +38190,7 @@ export const GetCodeBuildSourceCredentialsInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<GetCodeBuildSourceCredentialsInfosRequest>,
   output: __S(5408, __c169, 0) as any as S.Schema<GetCodeBuildSourceCredentialsInfosResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37940,8 +38207,7 @@ export const GetConfigServiceConfigurationRecorder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<GetConfigServiceConfigurationRecorderRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<GetConfigServiceConfigurationRecorderResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37966,8 +38232,7 @@ export const GetConfigServiceConfigurationRecorderStatus: API.OperationMethod<
     __c175,
     0,
   ) as any as S.Schema<GetConfigServiceConfigurationRecorderStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37984,8 +38249,7 @@ export const GetConfigServiceDeliveryChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetConfigServiceDeliveryChannelRequest>,
   output: __S(5664, __c177, 0) as any as S.Schema<GetConfigServiceDeliveryChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38010,8 +38274,7 @@ export const GetDatabaseMigrationServiceReplicationInstance: API.OperationMethod
     __c179,
     0,
   ) as any as S.Schema<GetDatabaseMigrationServiceReplicationInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38028,8 +38291,7 @@ export const GetDaxCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetDaxClusterRequest>,
   output: __S(5792, __c181, 0) as any as S.Schema<GetDaxClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38046,8 +38308,7 @@ export const GetDynamoDbContinuousBackupsDescription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetDynamoDbContinuousBackupsDescriptionRequest>,
   output: __S(5856, __c183, 0) as any as S.Schema<GetDynamoDbContinuousBackupsDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38064,8 +38325,7 @@ export const GetDynamoDbTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<GetDynamoDbTableRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GetDynamoDbTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38082,8 +38342,7 @@ export const GetEc2AccountAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<GetEc2AccountAttributeRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<GetEc2AccountAttributeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38100,8 +38359,7 @@ export const GetEc2Address: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<GetEc2AddressRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<GetEc2AddressResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38118,8 +38376,7 @@ export const GetEc2FlowLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<GetEc2FlowLogRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<GetEc2FlowLogResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38136,8 +38393,7 @@ export const GetEc2Image: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetEc2ImageRequest>,
   output: __S(6208, __c194, 0) as any as S.Schema<GetEc2ImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38154,8 +38410,7 @@ export const GetEc2Instance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetEc2InstanceRequest>,
   output: __S(6272, __c196, 0) as any as S.Schema<GetEc2InstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38177,8 +38432,7 @@ export const GetEc2InstanceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetEc2InstanceStatusRequest>,
   output: __S(6336, __c198, 0) as any as S.Schema<GetEc2InstanceStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38195,8 +38449,7 @@ export const GetEc2Ipam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetEc2IpamRequest>,
   output: __S(6400, __c200, 0) as any as S.Schema<GetEc2IpamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38213,8 +38466,7 @@ export const GetEc2KeyPair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetEc2KeyPairRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<GetEc2KeyPairResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38231,8 +38483,7 @@ export const GetEc2NetworkAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<GetEc2NetworkAclRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<GetEc2NetworkAclResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38249,8 +38500,7 @@ export const GetEc2NetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<GetEc2NetworkInterfaceRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<GetEc2NetworkInterfaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38267,8 +38517,7 @@ export const GetEc2RouteTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<GetEc2RouteTableRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<GetEc2RouteTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38285,8 +38534,7 @@ export const GetEc2SecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetEc2SecurityGroupRequest>,
   output: __S(6720, __c210, 0) as any as S.Schema<GetEc2SecurityGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38303,8 +38551,7 @@ export const GetEc2Snapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetEc2SnapshotRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<GetEc2SnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38321,8 +38568,7 @@ export const GetEc2Subnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetEc2SubnetRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<GetEc2SubnetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38339,8 +38585,7 @@ export const GetEc2Volume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<GetEc2VolumeRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<GetEc2VolumeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38357,8 +38602,7 @@ export const GetEc2Vpc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<GetEc2VpcRequest>,
   output: __S(7104, __c222, 0) as any as S.Schema<GetEc2VpcResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38375,8 +38619,7 @@ export const GetEc2VpcEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<GetEc2VpcEndpointRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<GetEc2VpcEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38393,8 +38636,7 @@ export const GetEc2VpcPeeringConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetEc2VpcPeeringConnectionRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<GetEc2VpcPeeringConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38411,8 +38653,7 @@ export const GetEcrImageDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetEcrImageDetailRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<GetEcrImageDetailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38429,8 +38670,7 @@ export const GetEcrRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<GetEcrRepositoryRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GetEcrRepositoryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38447,8 +38687,7 @@ export const GetEcsCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetEcsClusterRequest>,
   output: __S(7424, __c232, 0) as any as S.Schema<GetEcsClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38465,8 +38704,7 @@ export const GetEcsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetEcsServiceRequest>,
   output: __S(7488, __c234, 0) as any as S.Schema<GetEcsServiceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38483,8 +38721,7 @@ export const GetEcsTaskDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetEcsTaskDefinitionRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<GetEcsTaskDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38501,8 +38738,7 @@ export const GetEfsFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetEfsFileSystemRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<GetEfsFileSystemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38519,8 +38755,7 @@ export const GetEfsMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetEfsMountTargetRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<GetEfsMountTargetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38537,8 +38772,7 @@ export const GetEksCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<GetEksClusterRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<GetEksClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38560,8 +38794,7 @@ export const GetEksNodegroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetEksNodegroupRequest>,
   output: __S(7840, __c245, 0) as any as S.Schema<GetEksNodegroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38578,8 +38811,7 @@ export const GetElasticBeanstalkApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetElasticBeanstalkApplicationRequest>,
   output: __S(7904, __c247, 0) as any as S.Schema<GetElasticBeanstalkApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38596,8 +38828,7 @@ export const GetElasticBeanstalkConfigurationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<GetElasticBeanstalkConfigurationTemplateRequest>,
   output: __S(7968, __c249, 0) as any as S.Schema<GetElasticBeanstalkConfigurationTemplateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38614,8 +38845,7 @@ export const GetElasticBeanstalkEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetElasticBeanstalkEnvironmentRequest>,
   output: __S(8032, __c251, 0) as any as S.Schema<GetElasticBeanstalkEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38632,8 +38862,7 @@ export const GetElasticLoadBalancingV2Listener: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetElasticLoadBalancingV2ListenerRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<GetElasticLoadBalancingV2ListenerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38650,8 +38879,7 @@ export const GetElasticLoadBalancingV2LoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetElasticLoadBalancingV2LoadBalancerRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<GetElasticLoadBalancingV2LoadBalancerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38668,8 +38896,7 @@ export const GetElasticLoadBalancingV2TargetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetElasticLoadBalancingV2TargetGroupRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<GetElasticLoadBalancingV2TargetGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38694,8 +38921,7 @@ export const GetElasticLoadBalancingv2TargetHealthDescription: API.OperationMeth
     __c260,
     0,
   ) as any as S.Schema<GetElasticLoadBalancingv2TargetHealthDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38712,8 +38938,7 @@ export const GetEmrCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetEmrClusterRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<GetEmrClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38730,8 +38955,7 @@ export const GetGuardDutyDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetGuardDutyDetectorRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<GetGuardDutyDetectorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38748,8 +38972,7 @@ export const GetIamAccessKeyLastUsed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetIamAccessKeyLastUsedRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<GetIamAccessKeyLastUsedResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38766,8 +38989,7 @@ export const GetIamAccessKeyMetadataInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetIamAccessKeyMetadataInfoRequest>,
   output: __S(8672, __c271, 0) as any as S.Schema<GetIamAccessKeyMetadataInfoResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38784,8 +39006,7 @@ export const GetIamGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetIamGroupRequest>,
   output: __S(8800, __c275, 0) as any as S.Schema<GetIamGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38802,8 +39023,7 @@ export const GetIamInstanceProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetIamInstanceProfileRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<GetIamInstanceProfileResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38820,8 +39040,7 @@ export const GetIamMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<GetIamMfaDeviceRequest>,
   output: __S(8992, __c281, 0) as any as S.Schema<GetIamMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38838,8 +39057,7 @@ export const GetIamPasswordPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetIamPasswordPolicyRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<GetIamPasswordPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38856,8 +39074,7 @@ export const GetIamPolicyVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetIamPolicyVersionRequest>,
   output: __S(9184, __c287, 0) as any as S.Schema<GetIamPolicyVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38874,8 +39091,7 @@ export const GetIamRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetIamRoleRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<GetIamRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38892,8 +39108,7 @@ export const GetIamServerCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<GetIamServerCertificateRequest>,
   output: __S(9408, __c294, 0) as any as S.Schema<GetIamServerCertificateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38910,8 +39125,7 @@ export const GetIamVirtualMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetIamVirtualMfaDeviceRequest>,
   output: __S(9504, __c297, 0) as any as S.Schema<GetIamVirtualMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38928,8 +39142,7 @@ export const GetKmsAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetKmsAliasRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<GetKmsAliasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38946,8 +39159,7 @@ export const GetKmsKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<GetKmsKeyRequest>,
   output: __S(9696, __c303, 0) as any as S.Schema<GetKmsKeyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38964,8 +39176,7 @@ export const GetLambdaFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<GetLambdaFunctionRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<GetLambdaFunctionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38982,8 +39193,7 @@ export const GetLambdaFunctionCodeLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetLambdaFunctionCodeLocationRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetLambdaFunctionCodeLocationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39000,8 +39210,7 @@ export const GetLightsailBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<GetLightsailBucketRequest>,
   output: __S(9984, __c312, 0) as any as S.Schema<GetLightsailBucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39018,8 +39227,7 @@ export const GetLightsailInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<GetLightsailInstanceRequest>,
   output: __S(10080, __c315, 0) as any as S.Schema<GetLightsailInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39036,8 +39244,7 @@ export const GetLogsLogGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<GetLogsLogGroupRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetLogsLogGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39054,8 +39261,7 @@ export const GetLogsLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetLogsLogStreamRequest>,
   output: __S(10272, __c321, 0) as any as S.Schema<GetLogsLogStreamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39072,8 +39278,7 @@ export const GetLogsMetricFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<GetLogsMetricFilterRequest>,
   output: __S(10368, __c324, 0) as any as S.Schema<GetLogsMetricFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39090,8 +39295,7 @@ export const GetLogsSubscriptionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<GetLogsSubscriptionFilterRequest>,
   output: __S(10464, __c327, 0) as any as S.Schema<GetLogsSubscriptionFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39108,8 +39312,7 @@ export const GetMacie2JobSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<GetMacie2JobSummaryRequest>,
   output: __S(10560, __c330, 0) as any as S.Schema<GetMacie2JobSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39126,8 +39329,7 @@ export const GetMacieAllowList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<GetMacieAllowListRequest>,
   output: __S(10656, __c333, 0) as any as S.Schema<GetMacieAllowListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39144,8 +39346,7 @@ export const GetNetworkFirewallFirewall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetNetworkFirewallFirewallRequest>,
   output: __S(10752, __c336, 0) as any as S.Schema<GetNetworkFirewallFirewallResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39162,8 +39363,7 @@ export const GetNetworkFirewallFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<GetNetworkFirewallFirewallPolicyRequest>,
   output: __S(10944, __c342, 0) as any as S.Schema<GetNetworkFirewallFirewallPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39180,8 +39380,7 @@ export const GetNetworkFirewallRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<GetNetworkFirewallRuleGroupRequest>,
   output: __S(11040, __c345, 0) as any as S.Schema<GetNetworkFirewallRuleGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39198,8 +39397,7 @@ export const GetOpenSearchDomainStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<GetOpenSearchDomainStatusRequest>,
   output: __S(11136, __c348, 0) as any as S.Schema<GetOpenSearchDomainStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39216,8 +39414,7 @@ export const GetOrganizationsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<GetOrganizationsAccountRequest>,
   output: __S(11232, __c351, 0) as any as S.Schema<GetOrganizationsAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39234,8 +39431,7 @@ export const GetOrganizationsOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<GetOrganizationsOrganizationRequest>,
   output: __S(11360, __c355, 0) as any as S.Schema<GetOrganizationsOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39252,8 +39448,7 @@ export const GetRdsDbCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<GetRdsDbClusterRequest>,
   output: __S(11520, __c360, 0) as any as S.Schema<GetRdsDbClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39270,8 +39465,7 @@ export const GetRdsDbInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<GetRdsDbInstanceRequest>,
   output: __S(11616, __c363, 0) as any as S.Schema<GetRdsDbInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39288,8 +39482,7 @@ export const GetRdsDbSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<GetRdsDbSnapshotRequest>,
   output: __S(11712, __c366, 0) as any as S.Schema<GetRdsDbSnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39306,8 +39499,7 @@ export const GetRdsDbSnapshotAttributesResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetRdsDbSnapshotAttributesResultRequest>,
   output: __S(11808, __c369, 0) as any as S.Schema<GetRdsDbSnapshotAttributesResultResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39324,8 +39516,7 @@ export const GetRdsEventSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetRdsEventSubscriptionRequest>,
   output: __S(11904, __c372, 0) as any as S.Schema<GetRdsEventSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39342,8 +39533,7 @@ export const GetRdsExportTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetRdsExportTaskRequest>,
   output: __S(12000, __c375, 0) as any as S.Schema<GetRdsExportTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39360,8 +39550,7 @@ export const GetRedshiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetRedshiftClusterRequest>,
   output: __S(12096, __c378, 0) as any as S.Schema<GetRedshiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39378,8 +39567,7 @@ export const GetRedshiftClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<GetRedshiftClusterParameterGroupRequest>,
   output: __S(12192, __c381, 0) as any as S.Schema<GetRedshiftClusterParameterGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39396,8 +39584,7 @@ export const GetRoute53DomainsDomainSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<GetRoute53DomainsDomainSummaryRequest>,
   output: __S(12288, __c384, 0) as any as S.Schema<GetRoute53DomainsDomainSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39414,8 +39601,7 @@ export const GetRoute53HostedZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<GetRoute53HostedZoneRequest>,
   output: __S(12416, __c388, 0) as any as S.Schema<GetRoute53HostedZoneResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39432,8 +39618,7 @@ export const GetRoute53ResourceRecordSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<GetRoute53ResourceRecordSetRequest>,
   output: __S(12512, __c391, 0) as any as S.Schema<GetRoute53ResourceRecordSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39450,8 +39635,7 @@ export const GetS3AccessControlPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<GetS3AccessControlPolicyRequest>,
   output: __S(12608, __c394, 0) as any as S.Schema<GetS3AccessControlPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39468,8 +39652,7 @@ export const GetS3AccessPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<GetS3AccessPointRequest>,
   output: __S(12736, __c398, 0) as any as S.Schema<GetS3AccessPointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39486,8 +39669,7 @@ export const GetS3Bucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<GetS3BucketRequest>,
   output: __S(12832, __c401, 0) as any as S.Schema<GetS3BucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39504,8 +39686,7 @@ export const GetS3BucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<GetS3BucketPolicyRequest>,
   output: __S(13024, __c407, 0) as any as S.Schema<GetS3BucketPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39530,8 +39711,7 @@ export const GetS3ControlMultiRegionAccessPointPolicyDocument: API.OperationMeth
     __c410,
     0,
   ) as any as S.Schema<GetS3ControlMultiRegionAccessPointPolicyDocumentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39548,8 +39728,7 @@ export const GetSageMakerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<GetSageMakerAppRequest>,
   output: __S(13216, __c413, 0) as any as S.Schema<GetSageMakerAppResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39566,8 +39745,7 @@ export const GetSageMakerNotebookInstanceSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<GetSageMakerNotebookInstanceSummaryRequest>,
   output: __S(13312, __c416, 0) as any as S.Schema<GetSageMakerNotebookInstanceSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39584,8 +39762,7 @@ export const GetSecretsManagerResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<GetSecretsManagerResourcePolicyRequest>,
   output: __S(13408, __c419, 0) as any as S.Schema<GetSecretsManagerResourcePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39602,8 +39779,7 @@ export const GetSecretsManagerSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<GetSecretsManagerSecretRequest>,
   output: __S(13536, __c423, 0) as any as S.Schema<GetSecretsManagerSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39620,8 +39796,7 @@ export const GetSnsSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<GetSnsSubscriptionRequest>,
   output: __S(13632, __c426, 0) as any as S.Schema<GetSnsSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39638,8 +39813,7 @@ export const GetSnsTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<GetSnsTopicRequest>,
   output: __S(13728, __c429, 0) as any as S.Schema<GetSnsTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39656,8 +39830,7 @@ export const GetSqsQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<GetSqsQueueRequest>,
   output: __S(13824, __c432, 0) as any as S.Schema<GetSqsQueueResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39674,8 +39847,7 @@ export const GetSsmInstanceInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<GetSsmInstanceInformationRequest>,
   output: __S(13920, __c435, 0) as any as S.Schema<GetSsmInstanceInformationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39692,8 +39864,7 @@ export const GetSsmParameter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<GetSsmParameterRequest>,
   output: __S(14016, __c438, 0) as any as S.Schema<GetSsmParameterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39710,8 +39881,7 @@ export const GetSsmResourceComplianceSummaryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<GetSsmResourceComplianceSummaryItemRequest>,
   output: __S(14112, __c441, 0) as any as S.Schema<GetSsmResourceComplianceSummaryItemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39728,8 +39898,7 @@ export const GetWafv2LoggingConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<GetWafv2LoggingConfigurationRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<GetWafv2LoggingConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39746,8 +39915,7 @@ export const GetWafWebAclSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<GetWafWebAclSummaryRequest>,
   output: __S(14304, __c447, 0) as any as S.Schema<GetWafWebAclSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39764,8 +39932,7 @@ export const GuardDutyDetectorsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14369, __c449, 1) as any as S.Schema<GuardDutyDetectorsCreateOrReplaceRequest>,
   output: __S(14370, __c449, 2) as any as S.Schema<GuardDutyDetectorsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39782,8 +39949,7 @@ export const IamAccessKeyLastUsedsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14433, __c451, 1) as any as S.Schema<IamAccessKeyLastUsedsCreateOrReplaceRequest>,
   output: __S(14434, __c451, 2) as any as S.Schema<IamAccessKeyLastUsedsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39800,8 +39966,7 @@ export const IamAccessKeyMetadataInfoCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14465, __c452, 1) as any as S.Schema<IamAccessKeyMetadataInfoCreateOrReplaceRequest>,
   output: __S(14466, __c452, 2) as any as S.Schema<IamAccessKeyMetadataInfoCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39818,8 +39983,7 @@ export const IamGroupsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14497, __c453, 1) as any as S.Schema<IamGroupsCreateOrReplaceRequest>,
   output: __S(14498, __c453, 2) as any as S.Schema<IamGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39836,8 +40000,7 @@ export const IamInstanceProfilesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14529, __c454, 1) as any as S.Schema<IamInstanceProfilesCreateOrUpdateRequest>,
   output: __S(14530, __c454, 2) as any as S.Schema<IamInstanceProfilesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39854,8 +40017,7 @@ export const IamMfaDevicesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14561, __c455, 1) as any as S.Schema<IamMfaDevicesCreateOrReplaceRequest>,
   output: __S(14562, __c455, 2) as any as S.Schema<IamMfaDevicesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39872,8 +40034,7 @@ export const IamPasswordPoliciesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14593, __c456, 1) as any as S.Schema<IamPasswordPoliciesCreateOrReplaceRequest>,
   output: __S(14594, __c456, 2) as any as S.Schema<IamPasswordPoliciesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39890,8 +40051,7 @@ export const IamPolicyVersionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14625, __c457, 1) as any as S.Schema<IamPolicyVersionsCreateOrReplaceRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<IamPolicyVersionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39908,8 +40068,7 @@ export const IamRolesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14657, __c458, 1) as any as S.Schema<IamRolesCreateOrReplaceRequest>,
   output: __S(14658, __c458, 2) as any as S.Schema<IamRolesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39926,8 +40085,7 @@ export const IamServerCertificatesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14689, __c459, 1) as any as S.Schema<IamServerCertificatesCreateOrReplaceRequest>,
   output: __S(14690, __c459, 2) as any as S.Schema<IamServerCertificatesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39944,8 +40102,7 @@ export const IamVirtualMfaDevicesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14721, __c460, 1) as any as S.Schema<IamVirtualMfaDevicesCreateOrReplaceRequest>,
   output: __S(14722, __c460, 2) as any as S.Schema<IamVirtualMfaDevicesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39962,8 +40119,7 @@ export const KmsAliasesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14785, __c462, 1) as any as S.Schema<KmsAliasesCreateOrReplaceRequest>,
   output: __S(14786, __c462, 2) as any as S.Schema<KmsAliasesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39980,8 +40136,7 @@ export const KmsKeysCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14817, __c463, 1) as any as S.Schema<KmsKeysCreateOrReplaceRequest>,
   output: __S(14818, __c463, 2) as any as S.Schema<KmsKeysCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40006,8 +40161,7 @@ export const LambdaFunctionCodeLocationsCreateOrReplace: API.OperationMethod<
     __c464,
     2,
   ) as any as S.Schema<LambdaFunctionCodeLocationsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40024,8 +40178,7 @@ export const LambdaFunctionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14881, __c465, 1) as any as S.Schema<LambdaFunctionsCreateOrReplaceRequest>,
   output: __S(14882, __c465, 2) as any as S.Schema<LambdaFunctionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40042,8 +40195,7 @@ export const LightsailBucketsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14913, __c466, 1) as any as S.Schema<LightsailBucketsCreateOrReplaceRequest>,
   output: __S(14914, __c466, 2) as any as S.Schema<LightsailBucketsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40060,8 +40212,7 @@ export const LightsailInstancesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14945, __c467, 1) as any as S.Schema<LightsailInstancesCreateOrReplaceRequest>,
   output: __S(14946, __c467, 2) as any as S.Schema<LightsailInstancesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40070,540 +40221,709 @@ export const LightsailInstancesCreateOrReplace: API.OperationMethod<
 
 export type ListAccessAnalyzerAnalyzerByResourceGroupError = AzureOpError;
 /** List AccessAnalyzerAnalyzer resources by resource group */
-export const ListAccessAnalyzerAnalyzerByResourceGroup: API.OperationMethod<
+export const ListAccessAnalyzerAnalyzerByResourceGroup: API.PaginatedOperationMethod<
   ListAccessAnalyzerAnalyzerByResourceGroupRequest,
   AccessAnalyzerAnalyzerListResult,
   ListAccessAnalyzerAnalyzerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AccessAnalyzerAnalyzer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<ListAccessAnalyzerAnalyzerByResourceGroupRequest>,
   output: __S(15009, __c469, 1) as any as S.Schema<AccessAnalyzerAnalyzerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessAnalyzerAnalyzerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccessAnalyzerAnalyzerBySubscriptionError = AzureOpError;
 /** List AccessAnalyzerAnalyzer resources by subscription ID */
-export const ListAccessAnalyzerAnalyzerBySubscription: API.OperationMethod<
+export const ListAccessAnalyzerAnalyzerBySubscription: API.PaginatedOperationMethod<
   ListAccessAnalyzerAnalyzerBySubscriptionRequest,
   AccessAnalyzerAnalyzerListResult,
   ListAccessAnalyzerAnalyzerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AccessAnalyzerAnalyzer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<ListAccessAnalyzerAnalyzerBySubscriptionRequest>,
   output: __S(15009, __c469, 1) as any as S.Schema<AccessAnalyzerAnalyzerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessAnalyzerAnalyzerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAcmCertificateSummaryByResourceGroupError = AzureOpError;
 /** List AcmCertificateSummary resources by resource group */
-export const ListAcmCertificateSummaryByResourceGroup: API.OperationMethod<
+export const ListAcmCertificateSummaryByResourceGroup: API.PaginatedOperationMethod<
   ListAcmCertificateSummaryByResourceGroupRequest,
   AcmCertificateSummaryListResult,
   ListAcmCertificateSummaryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AcmCertificateSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<ListAcmCertificateSummaryByResourceGroupRequest>,
   output: __S(15105, __c472, 1) as any as S.Schema<AcmCertificateSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAcmCertificateSummaryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAcmCertificateSummaryBySubscriptionError = AzureOpError;
 /** List AcmCertificateSummary resources by subscription ID */
-export const ListAcmCertificateSummaryBySubscription: API.OperationMethod<
+export const ListAcmCertificateSummaryBySubscription: API.PaginatedOperationMethod<
   ListAcmCertificateSummaryBySubscriptionRequest,
   AcmCertificateSummaryListResult,
   ListAcmCertificateSummaryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AcmCertificateSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<ListAcmCertificateSummaryBySubscriptionRequest>,
   output: __S(15105, __c472, 1) as any as S.Schema<AcmCertificateSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAcmCertificateSummaryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiGatewayRestApisByResourceGroupError = AzureOpError;
 /** List ApiGatewayRestApi resources by resource group */
-export const ListApiGatewayRestApisByResourceGroup: API.OperationMethod<
+export const ListApiGatewayRestApisByResourceGroup: API.PaginatedOperationMethod<
   ListApiGatewayRestApisByResourceGroupRequest,
   ApiGatewayRestApiListResult,
   ListApiGatewayRestApisByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiGatewayRestApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<ListApiGatewayRestApisByResourceGroupRequest>,
   output: __S(15297, __c478, 1) as any as S.Schema<ApiGatewayRestApiListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiGatewayRestApisByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiGatewayRestApisBySubscriptionError = AzureOpError;
 /** List ApiGatewayRestApi resources by subscription ID */
-export const ListApiGatewayRestApisBySubscription: API.OperationMethod<
+export const ListApiGatewayRestApisBySubscription: API.PaginatedOperationMethod<
   ListApiGatewayRestApisBySubscriptionRequest,
   ApiGatewayRestApiListResult,
   ListApiGatewayRestApisBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiGatewayRestApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<ListApiGatewayRestApisBySubscriptionRequest>,
   output: __S(15297, __c478, 1) as any as S.Schema<ApiGatewayRestApiListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiGatewayRestApisBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiGatewayStageByResourceGroupError = AzureOpError;
 /** List ApiGatewayStage resources by resource group */
-export const ListApiGatewayStageByResourceGroup: API.OperationMethod<
+export const ListApiGatewayStageByResourceGroup: API.PaginatedOperationMethod<
   ListApiGatewayStageByResourceGroupRequest,
   ApiGatewayStageListResult,
   ListApiGatewayStageByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiGatewayStage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<ListApiGatewayStageByResourceGroupRequest>,
   output: __S(15393, __c481, 1) as any as S.Schema<ApiGatewayStageListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiGatewayStageByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiGatewayStageBySubscriptionError = AzureOpError;
 /** List ApiGatewayStage resources by subscription ID */
-export const ListApiGatewayStageBySubscription: API.OperationMethod<
+export const ListApiGatewayStageBySubscription: API.PaginatedOperationMethod<
   ListApiGatewayStageBySubscriptionRequest,
   ApiGatewayStageListResult,
   ListApiGatewayStageBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiGatewayStage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<ListApiGatewayStageBySubscriptionRequest>,
   output: __S(15393, __c481, 1) as any as S.Schema<ApiGatewayStageListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiGatewayStageBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAppSyncGraphqlApisByResourceGroupError = AzureOpError;
 /** List AppSyncGraphqlApi resources by resource group */
-export const ListAppSyncGraphqlApisByResourceGroup: API.OperationMethod<
+export const ListAppSyncGraphqlApisByResourceGroup: API.PaginatedOperationMethod<
   ListAppSyncGraphqlApisByResourceGroupRequest,
   AppSyncGraphqlApiListResult,
   ListAppSyncGraphqlApisByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppSyncGraphqlApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<ListAppSyncGraphqlApisByResourceGroupRequest>,
   output: __S(15489, __c484, 1) as any as S.Schema<AppSyncGraphqlApiListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAppSyncGraphqlApisByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAppSyncGraphqlApisBySubscriptionError = AzureOpError;
 /** List AppSyncGraphqlApi resources by subscription ID */
-export const ListAppSyncGraphqlApisBySubscription: API.OperationMethod<
+export const ListAppSyncGraphqlApisBySubscription: API.PaginatedOperationMethod<
   ListAppSyncGraphqlApisBySubscriptionRequest,
   AppSyncGraphqlApiListResult,
   ListAppSyncGraphqlApisBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppSyncGraphqlApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<ListAppSyncGraphqlApisBySubscriptionRequest>,
   output: __S(15489, __c484, 1) as any as S.Schema<AppSyncGraphqlApiListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAppSyncGraphqlApisBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoScalingAutoScalingGroupByResourceGroupError = AzureOpError;
 /** List AutoScalingAutoScalingGroup resources by resource group */
-export const ListAutoScalingAutoScalingGroupByResourceGroup: API.OperationMethod<
+export const ListAutoScalingAutoScalingGroupByResourceGroup: API.PaginatedOperationMethod<
   ListAutoScalingAutoScalingGroupByResourceGroupRequest,
   AutoScalingAutoScalingGroupListResult,
   ListAutoScalingAutoScalingGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoScalingAutoScalingGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     15552,
     __c486,
     0,
   ) as any as S.Schema<ListAutoScalingAutoScalingGroupByResourceGroupRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<AutoScalingAutoScalingGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoScalingAutoScalingGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoScalingAutoScalingGroupBySubscriptionError = AzureOpError;
 /** List AutoScalingAutoScalingGroup resources by subscription ID */
-export const ListAutoScalingAutoScalingGroupBySubscription: API.OperationMethod<
+export const ListAutoScalingAutoScalingGroupBySubscription: API.PaginatedOperationMethod<
   ListAutoScalingAutoScalingGroupBySubscriptionRequest,
   AutoScalingAutoScalingGroupListResult,
   ListAutoScalingAutoScalingGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoScalingAutoScalingGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     15616,
     __c488,
     0,
   ) as any as S.Schema<ListAutoScalingAutoScalingGroupBySubscriptionRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<AutoScalingAutoScalingGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoScalingAutoScalingGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFormationStackByResourceGroupError = AzureOpError;
 /** List CloudFormationStack resources by resource group */
-export const ListCloudFormationStackByResourceGroup: API.OperationMethod<
+export const ListCloudFormationStackByResourceGroup: API.PaginatedOperationMethod<
   ListCloudFormationStackByResourceGroupRequest,
   CloudFormationStackListResult,
   ListCloudFormationStackByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFormationStack
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<ListCloudFormationStackByResourceGroupRequest>,
   output: __S(15681, __c490, 1) as any as S.Schema<CloudFormationStackListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFormationStackByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFormationStackBySubscriptionError = AzureOpError;
 /** List CloudFormationStack resources by subscription ID */
-export const ListCloudFormationStackBySubscription: API.OperationMethod<
+export const ListCloudFormationStackBySubscription: API.PaginatedOperationMethod<
   ListCloudFormationStackBySubscriptionRequest,
   CloudFormationStackListResult,
   ListCloudFormationStackBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFormationStack
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<ListCloudFormationStackBySubscriptionRequest>,
   output: __S(15681, __c490, 1) as any as S.Schema<CloudFormationStackListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFormationStackBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFormationStackSetByResourceGroupError = AzureOpError;
 /** List CloudFormationStackSet resources by resource group */
-export const ListCloudFormationStackSetByResourceGroup: API.OperationMethod<
+export const ListCloudFormationStackSetByResourceGroup: API.PaginatedOperationMethod<
   ListCloudFormationStackSetByResourceGroupRequest,
   CloudFormationStackSetListResult,
   ListCloudFormationStackSetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFormationStackSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<ListCloudFormationStackSetByResourceGroupRequest>,
   output: __S(15809, __c494, 1) as any as S.Schema<CloudFormationStackSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFormationStackSetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFormationStackSetBySubscriptionError = AzureOpError;
 /** List CloudFormationStackSet resources by subscription ID */
-export const ListCloudFormationStackSetBySubscription: API.OperationMethod<
+export const ListCloudFormationStackSetBySubscription: API.PaginatedOperationMethod<
   ListCloudFormationStackSetBySubscriptionRequest,
   CloudFormationStackSetListResult,
   ListCloudFormationStackSetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFormationStackSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<ListCloudFormationStackSetBySubscriptionRequest>,
   output: __S(15809, __c494, 1) as any as S.Schema<CloudFormationStackSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFormationStackSetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFrontDistributionByResourceGroupError = AzureOpError;
 /** List CloudFrontDistribution resources by resource group */
-export const ListCloudFrontDistributionByResourceGroup: API.OperationMethod<
+export const ListCloudFrontDistributionByResourceGroup: API.PaginatedOperationMethod<
   ListCloudFrontDistributionByResourceGroupRequest,
   CloudFrontDistributionListResult,
   ListCloudFrontDistributionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFrontDistribution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<ListCloudFrontDistributionByResourceGroupRequest>,
   output: __S(15905, __c497, 1) as any as S.Schema<CloudFrontDistributionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFrontDistributionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFrontDistributionBySubscriptionError = AzureOpError;
 /** List CloudFrontDistribution resources by subscription ID */
-export const ListCloudFrontDistributionBySubscription: API.OperationMethod<
+export const ListCloudFrontDistributionBySubscription: API.PaginatedOperationMethod<
   ListCloudFrontDistributionBySubscriptionRequest,
   CloudFrontDistributionListResult,
   ListCloudFrontDistributionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFrontDistribution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<ListCloudFrontDistributionBySubscriptionRequest>,
   output: __S(15905, __c497, 1) as any as S.Schema<CloudFrontDistributionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFrontDistributionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudTrailTrailByResourceGroupError = AzureOpError;
 /** List CloudTrailTrail resources by resource group */
-export const ListCloudTrailTrailByResourceGroup: API.OperationMethod<
+export const ListCloudTrailTrailByResourceGroup: API.PaginatedOperationMethod<
   ListCloudTrailTrailByResourceGroupRequest,
   CloudTrailTrailListResult,
   ListCloudTrailTrailByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudTrailTrail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<ListCloudTrailTrailByResourceGroupRequest>,
   output: __S(16001, __c500, 1) as any as S.Schema<CloudTrailTrailListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudTrailTrailByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudTrailTrailBySubscriptionError = AzureOpError;
 /** List CloudTrailTrail resources by subscription ID */
-export const ListCloudTrailTrailBySubscription: API.OperationMethod<
+export const ListCloudTrailTrailBySubscription: API.PaginatedOperationMethod<
   ListCloudTrailTrailBySubscriptionRequest,
   CloudTrailTrailListResult,
   ListCloudTrailTrailBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudTrailTrail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<ListCloudTrailTrailBySubscriptionRequest>,
   output: __S(16001, __c500, 1) as any as S.Schema<CloudTrailTrailListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudTrailTrailBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudWatchAlarmByResourceGroupError = AzureOpError;
 /** List CloudWatchAlarm resources by resource group */
-export const ListCloudWatchAlarmByResourceGroup: API.OperationMethod<
+export const ListCloudWatchAlarmByResourceGroup: API.PaginatedOperationMethod<
   ListCloudWatchAlarmByResourceGroupRequest,
   CloudWatchAlarmListResult,
   ListCloudWatchAlarmByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudWatchAlarm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<ListCloudWatchAlarmByResourceGroupRequest>,
   output: __S(16097, __c503, 1) as any as S.Schema<CloudWatchAlarmListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudWatchAlarmBySubscriptionError = AzureOpError;
 /** List CloudWatchAlarm resources by subscription ID */
-export const ListCloudWatchAlarmBySubscription: API.OperationMethod<
+export const ListCloudWatchAlarmBySubscription: API.PaginatedOperationMethod<
   ListCloudWatchAlarmBySubscriptionRequest,
   CloudWatchAlarmListResult,
   ListCloudWatchAlarmBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudWatchAlarm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16128, __c504, 0) as any as S.Schema<ListCloudWatchAlarmBySubscriptionRequest>,
   output: __S(16097, __c503, 1) as any as S.Schema<CloudWatchAlarmListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeBuildProjectByResourceGroupError = AzureOpError;
 /** List CodeBuildProject resources by resource group */
-export const ListCodeBuildProjectByResourceGroup: API.OperationMethod<
+export const ListCodeBuildProjectByResourceGroup: API.PaginatedOperationMethod<
   ListCodeBuildProjectByResourceGroupRequest,
   CodeBuildProjectListResult,
   ListCodeBuildProjectByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeBuildProject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<ListCodeBuildProjectByResourceGroupRequest>,
   output: __S(16193, __c506, 1) as any as S.Schema<CodeBuildProjectListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeBuildProjectByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeBuildProjectBySubscriptionError = AzureOpError;
 /** List CodeBuildProject resources by subscription ID */
-export const ListCodeBuildProjectBySubscription: API.OperationMethod<
+export const ListCodeBuildProjectBySubscription: API.PaginatedOperationMethod<
   ListCodeBuildProjectBySubscriptionRequest,
   CodeBuildProjectListResult,
   ListCodeBuildProjectBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeBuildProject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<ListCodeBuildProjectBySubscriptionRequest>,
   output: __S(16193, __c506, 1) as any as S.Schema<CodeBuildProjectListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeBuildProjectBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeBuildSourceCredentialsInfosByResourceGroupError = AzureOpError;
 /** List CodeBuildSourceCredentialsInfo resources by resource group */
-export const ListCodeBuildSourceCredentialsInfosByResourceGroup: API.OperationMethod<
+export const ListCodeBuildSourceCredentialsInfosByResourceGroup: API.PaginatedOperationMethod<
   ListCodeBuildSourceCredentialsInfosByResourceGroupRequest,
   CodeBuildSourceCredentialsInfoListResult,
   ListCodeBuildSourceCredentialsInfosByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeBuildSourceCredentialsInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16288,
     __c509,
     0,
   ) as any as S.Schema<ListCodeBuildSourceCredentialsInfosByResourceGroupRequest>,
   output: __S(16321, __c510, 1) as any as S.Schema<CodeBuildSourceCredentialsInfoListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeBuildSourceCredentialsInfosByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeBuildSourceCredentialsInfosBySubscriptionError = AzureOpError;
 /** List CodeBuildSourceCredentialsInfo resources by subscription ID */
-export const ListCodeBuildSourceCredentialsInfosBySubscription: API.OperationMethod<
+export const ListCodeBuildSourceCredentialsInfosBySubscription: API.PaginatedOperationMethod<
   ListCodeBuildSourceCredentialsInfosBySubscriptionRequest,
   CodeBuildSourceCredentialsInfoListResult,
   ListCodeBuildSourceCredentialsInfosBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeBuildSourceCredentialsInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16352,
     __c511,
     0,
   ) as any as S.Schema<ListCodeBuildSourceCredentialsInfosBySubscriptionRequest>,
   output: __S(16321, __c510, 1) as any as S.Schema<CodeBuildSourceCredentialsInfoListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeBuildSourceCredentialsInfosBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceConfigurationRecorderByResourceGroupError = AzureOpError;
 /** List ConfigServiceConfigurationRecorder resources by resource group */
-export const ListConfigServiceConfigurationRecorderByResourceGroup: API.OperationMethod<
+export const ListConfigServiceConfigurationRecorderByResourceGroup: API.PaginatedOperationMethod<
   ListConfigServiceConfigurationRecorderByResourceGroupRequest,
   ConfigServiceConfigurationRecorderListResult,
   ListConfigServiceConfigurationRecorderByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceConfigurationRecorder
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16384,
     __c512,
     0,
   ) as any as S.Schema<ListConfigServiceConfigurationRecorderByResourceGroupRequest>,
   output: __S(16417, __c513, 1) as any as S.Schema<ConfigServiceConfigurationRecorderListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceConfigurationRecorderByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceConfigurationRecorderBySubscriptionError = AzureOpError;
 /** List ConfigServiceConfigurationRecorder resources by subscription ID */
-export const ListConfigServiceConfigurationRecorderBySubscription: API.OperationMethod<
+export const ListConfigServiceConfigurationRecorderBySubscription: API.PaginatedOperationMethod<
   ListConfigServiceConfigurationRecorderBySubscriptionRequest,
   ConfigServiceConfigurationRecorderListResult,
   ListConfigServiceConfigurationRecorderBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceConfigurationRecorder
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16448,
     __c514,
     0,
   ) as any as S.Schema<ListConfigServiceConfigurationRecorderBySubscriptionRequest>,
   output: __S(16417, __c513, 1) as any as S.Schema<ConfigServiceConfigurationRecorderListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceConfigurationRecorderBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceConfigurationRecorderStatusByResourceGroupError = AzureOpError;
 /** List ConfigServiceConfigurationRecorderStatus resources by resource group */
-export const ListConfigServiceConfigurationRecorderStatusByResourceGroup: API.OperationMethod<
+export const ListConfigServiceConfigurationRecorderStatusByResourceGroup: API.PaginatedOperationMethod<
   ListConfigServiceConfigurationRecorderStatusByResourceGroupRequest,
   ConfigServiceConfigurationRecorderStatusListResult,
   ListConfigServiceConfigurationRecorderStatusByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceConfigurationRecorderStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16480,
     __c515,
@@ -40614,22 +40934,28 @@ export const ListConfigServiceConfigurationRecorderStatusByResourceGroup: API.Op
     __c516,
     1,
   ) as any as S.Schema<ConfigServiceConfigurationRecorderStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceConfigurationRecorderStatusByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceConfigurationRecorderStatusBySubscriptionError = AzureOpError;
 /** List ConfigServiceConfigurationRecorderStatus resources by subscription ID */
-export const ListConfigServiceConfigurationRecorderStatusBySubscription: API.OperationMethod<
+export const ListConfigServiceConfigurationRecorderStatusBySubscription: API.PaginatedOperationMethod<
   ListConfigServiceConfigurationRecorderStatusBySubscriptionRequest,
   ConfigServiceConfigurationRecorderStatusListResult,
   ListConfigServiceConfigurationRecorderStatusBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceConfigurationRecorderStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16544,
     __c517,
@@ -40640,66 +40966,84 @@ export const ListConfigServiceConfigurationRecorderStatusBySubscription: API.Ope
     __c516,
     1,
   ) as any as S.Schema<ConfigServiceConfigurationRecorderStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceConfigurationRecorderStatusBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceDeliveryChannelByResourceGroupError = AzureOpError;
 /** List ConfigServiceDeliveryChannel resources by resource group */
-export const ListConfigServiceDeliveryChannelByResourceGroup: API.OperationMethod<
+export const ListConfigServiceDeliveryChannelByResourceGroup: API.PaginatedOperationMethod<
   ListConfigServiceDeliveryChannelByResourceGroupRequest,
   ConfigServiceDeliveryChannelListResult,
   ListConfigServiceDeliveryChannelByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceDeliveryChannel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16576,
     __c518,
     0,
   ) as any as S.Schema<ListConfigServiceDeliveryChannelByResourceGroupRequest>,
   output: __S(16609, __c519, 1) as any as S.Schema<ConfigServiceDeliveryChannelListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceDeliveryChannelByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigServiceDeliveryChannelBySubscriptionError = AzureOpError;
 /** List ConfigServiceDeliveryChannel resources by subscription ID */
-export const ListConfigServiceDeliveryChannelBySubscription: API.OperationMethod<
+export const ListConfigServiceDeliveryChannelBySubscription: API.PaginatedOperationMethod<
   ListConfigServiceDeliveryChannelBySubscriptionRequest,
   ConfigServiceDeliveryChannelListResult,
   ListConfigServiceDeliveryChannelBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigServiceDeliveryChannel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16640,
     __c520,
     0,
   ) as any as S.Schema<ListConfigServiceDeliveryChannelBySubscriptionRequest>,
   output: __S(16609, __c519, 1) as any as S.Schema<ConfigServiceDeliveryChannelListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigServiceDeliveryChannelBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseMigrationServiceReplicationInstanceByResourceGroupError = AzureOpError;
 /** List DatabaseMigrationServiceReplicationInstance resources by resource group */
-export const ListDatabaseMigrationServiceReplicationInstanceByResourceGroup: API.OperationMethod<
+export const ListDatabaseMigrationServiceReplicationInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListDatabaseMigrationServiceReplicationInstanceByResourceGroupRequest,
   DatabaseMigrationServiceReplicationInstanceListResult,
   ListDatabaseMigrationServiceReplicationInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigrationServiceReplicationInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16672,
     __c521,
@@ -40710,22 +41054,28 @@ export const ListDatabaseMigrationServiceReplicationInstanceByResourceGroup: API
     __c522,
     1,
   ) as any as S.Schema<DatabaseMigrationServiceReplicationInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseMigrationServiceReplicationInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseMigrationServiceReplicationInstanceBySubscriptionError = AzureOpError;
 /** List DatabaseMigrationServiceReplicationInstance resources by subscription ID */
-export const ListDatabaseMigrationServiceReplicationInstanceBySubscription: API.OperationMethod<
+export const ListDatabaseMigrationServiceReplicationInstanceBySubscription: API.PaginatedOperationMethod<
   ListDatabaseMigrationServiceReplicationInstanceBySubscriptionRequest,
   DatabaseMigrationServiceReplicationInstanceListResult,
   ListDatabaseMigrationServiceReplicationInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabaseMigrationServiceReplicationInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16736,
     __c523,
@@ -40736,286 +41086,375 @@ export const ListDatabaseMigrationServiceReplicationInstanceBySubscription: API.
     __c522,
     1,
   ) as any as S.Schema<DatabaseMigrationServiceReplicationInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseMigrationServiceReplicationInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDaxClusterByResourceGroupError = AzureOpError;
 /** List DaxCluster resources by resource group */
-export const ListDaxClusterByResourceGroup: API.OperationMethod<
+export const ListDaxClusterByResourceGroup: API.PaginatedOperationMethod<
   ListDaxClusterByResourceGroupRequest,
   DaxClusterListResult,
   ListDaxClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DaxCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<ListDaxClusterByResourceGroupRequest>,
   output: __S(16833, __c526, 1) as any as S.Schema<DaxClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDaxClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDaxClusterBySubscriptionError = AzureOpError;
 /** List DaxCluster resources by subscription ID */
-export const ListDaxClusterBySubscription: API.OperationMethod<
+export const ListDaxClusterBySubscription: API.PaginatedOperationMethod<
   ListDaxClusterBySubscriptionRequest,
   DaxClusterListResult,
   ListDaxClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DaxCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<ListDaxClusterBySubscriptionRequest>,
   output: __S(16833, __c526, 1) as any as S.Schema<DaxClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDaxClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamoDbContinuousBackupsDescriptionByResourceGroupError = AzureOpError;
 /** List DynamoDBContinuousBackupsDescription resources by resource group */
-export const ListDynamoDbContinuousBackupsDescriptionByResourceGroup: API.OperationMethod<
+export const ListDynamoDbContinuousBackupsDescriptionByResourceGroup: API.PaginatedOperationMethod<
   ListDynamoDbContinuousBackupsDescriptionByResourceGroupRequest,
   DynamoDBContinuousBackupsDescriptionListResult,
   ListDynamoDbContinuousBackupsDescriptionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamoDBContinuousBackupsDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16896,
     __c528,
     0,
   ) as any as S.Schema<ListDynamoDbContinuousBackupsDescriptionByResourceGroupRequest>,
   output: __S(16929, __c529, 1) as any as S.Schema<DynamoDBContinuousBackupsDescriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamoDbContinuousBackupsDescriptionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamoDbContinuousBackupsDescriptionBySubscriptionError = AzureOpError;
 /** List DynamoDBContinuousBackupsDescription resources by subscription ID */
-export const ListDynamoDbContinuousBackupsDescriptionBySubscription: API.OperationMethod<
+export const ListDynamoDbContinuousBackupsDescriptionBySubscription: API.PaginatedOperationMethod<
   ListDynamoDbContinuousBackupsDescriptionBySubscriptionRequest,
   DynamoDBContinuousBackupsDescriptionListResult,
   ListDynamoDbContinuousBackupsDescriptionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamoDBContinuousBackupsDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     16960,
     __c530,
     0,
   ) as any as S.Schema<ListDynamoDbContinuousBackupsDescriptionBySubscriptionRequest>,
   output: __S(16929, __c529, 1) as any as S.Schema<DynamoDBContinuousBackupsDescriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamoDbContinuousBackupsDescriptionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamoDbTableByResourceGroupError = AzureOpError;
 /** List DynamoDBTable resources by resource group */
-export const ListDynamoDbTableByResourceGroup: API.OperationMethod<
+export const ListDynamoDbTableByResourceGroup: API.PaginatedOperationMethod<
   ListDynamoDbTableByResourceGroupRequest,
   DynamoDBTableListResult,
   ListDynamoDbTableByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamoDBTable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<ListDynamoDbTableByResourceGroupRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<DynamoDBTableListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamoDbTableByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamoDbTableBySubscriptionError = AzureOpError;
 /** List DynamoDBTable resources by subscription ID */
-export const ListDynamoDbTableBySubscription: API.OperationMethod<
+export const ListDynamoDbTableBySubscription: API.PaginatedOperationMethod<
   ListDynamoDbTableBySubscriptionRequest,
   DynamoDBTableListResult,
   ListDynamoDbTableBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamoDBTable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<ListDynamoDbTableBySubscriptionRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<DynamoDBTableListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamoDbTableBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2AccountAttributeByResourceGroupError = AzureOpError;
 /** List Ec2AccountAttribute resources by resource group */
-export const ListEc2AccountAttributeByResourceGroup: API.OperationMethod<
+export const ListEc2AccountAttributeByResourceGroup: API.PaginatedOperationMethod<
   ListEc2AccountAttributeByResourceGroupRequest,
   Ec2AccountAttributeListResult,
   ListEc2AccountAttributeByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2AccountAttribute
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<ListEc2AccountAttributeByResourceGroupRequest>,
   output: __S(17121, __c535, 1) as any as S.Schema<Ec2AccountAttributeListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2AccountAttributeByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2AccountAttributeBySubscriptionError = AzureOpError;
 /** List Ec2AccountAttribute resources by subscription ID */
-export const ListEc2AccountAttributeBySubscription: API.OperationMethod<
+export const ListEc2AccountAttributeBySubscription: API.PaginatedOperationMethod<
   ListEc2AccountAttributeBySubscriptionRequest,
   Ec2AccountAttributeListResult,
   ListEc2AccountAttributeBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2AccountAttribute
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<ListEc2AccountAttributeBySubscriptionRequest>,
   output: __S(17121, __c535, 1) as any as S.Schema<Ec2AccountAttributeListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2AccountAttributeBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2AddressByResourceGroupError = AzureOpError;
 /** List Ec2Address resources by resource group */
-export const ListEc2AddressByResourceGroup: API.OperationMethod<
+export const ListEc2AddressByResourceGroup: API.PaginatedOperationMethod<
   ListEc2AddressByResourceGroupRequest,
   Ec2AddressListResult,
   ListEc2AddressByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Address
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<ListEc2AddressByResourceGroupRequest>,
   output: __S(17217, __c538, 1) as any as S.Schema<Ec2AddressListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2AddressByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2AddressBySubscriptionError = AzureOpError;
 /** List Ec2Address resources by subscription ID */
-export const ListEc2AddressBySubscription: API.OperationMethod<
+export const ListEc2AddressBySubscription: API.PaginatedOperationMethod<
   ListEc2AddressBySubscriptionRequest,
   Ec2AddressListResult,
   ListEc2AddressBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Address
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<ListEc2AddressBySubscriptionRequest>,
   output: __S(17217, __c538, 1) as any as S.Schema<Ec2AddressListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2AddressBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2FlowLogByResourceGroupError = AzureOpError;
 /** List Ec2FlowLog resources by resource group */
-export const ListEc2FlowLogByResourceGroup: API.OperationMethod<
+export const ListEc2FlowLogByResourceGroup: API.PaginatedOperationMethod<
   ListEc2FlowLogByResourceGroupRequest,
   Ec2FlowLogListResult,
   ListEc2FlowLogByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2FlowLog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<ListEc2FlowLogByResourceGroupRequest>,
   output: __S(17345, __c542, 1) as any as S.Schema<Ec2FlowLogListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2FlowLogByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2FlowLogBySubscriptionError = AzureOpError;
 /** List Ec2FlowLog resources by subscription ID */
-export const ListEc2FlowLogBySubscription: API.OperationMethod<
+export const ListEc2FlowLogBySubscription: API.PaginatedOperationMethod<
   ListEc2FlowLogBySubscriptionRequest,
   Ec2FlowLogListResult,
   ListEc2FlowLogBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2FlowLog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<ListEc2FlowLogBySubscriptionRequest>,
   output: __S(17345, __c542, 1) as any as S.Schema<Ec2FlowLogListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2FlowLogBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2ImageByResourceGroupError = AzureOpError;
 /** List Ec2Image resources by resource group */
-export const ListEc2ImageByResourceGroup: API.OperationMethod<
+export const ListEc2ImageByResourceGroup: API.PaginatedOperationMethod<
   ListEc2ImageByResourceGroupRequest,
   Ec2ImageListResult,
   ListEc2ImageByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17408, __c544, 0) as any as S.Schema<ListEc2ImageByResourceGroupRequest>,
   output: __S(17441, __c545, 1) as any as S.Schema<Ec2ImageListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2ImageByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2ImageBySubscriptionError = AzureOpError;
 /** List Ec2Image resources by subscription ID */
-export const ListEc2ImageBySubscription: API.OperationMethod<
+export const ListEc2ImageBySubscription: API.PaginatedOperationMethod<
   ListEc2ImageBySubscriptionRequest,
   Ec2ImageListResult,
   ListEc2ImageBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<ListEc2ImageBySubscriptionRequest>,
   output: __S(17441, __c545, 1) as any as S.Schema<Ec2ImageListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2ImageBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2InstancesError = AzureOpError;
 /** List Ec2Instance resources by parent */
-export const ListEc2Instances: API.OperationMethod<
+export const ListEc2Instances: API.PaginatedOperationMethod<
   ListEc2InstancesRequest,
   Ec2InstanceListResult,
   ListEc2InstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Instance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<ListEc2InstancesRequest>,
   output: __S(17506, __c547, 2) as any as S.Schema<Ec2InstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41023,744 +41462,990 @@ export const ListEc2Instances: API.OperationMethod<
     op: "ListEc2Instances",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2InstanceStatusByResourceGroupError = AzureOpError;
 /** List Ec2InstanceStatus resources by resource group */
-export const ListEc2InstanceStatusByResourceGroup: API.OperationMethod<
+export const ListEc2InstanceStatusByResourceGroup: API.PaginatedOperationMethod<
   ListEc2InstanceStatusByResourceGroupRequest,
   Ec2InstanceStatusListResult,
   ListEc2InstanceStatusByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2InstanceStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<ListEc2InstanceStatusByResourceGroupRequest>,
   output: __S(17569, __c549, 1) as any as S.Schema<Ec2InstanceStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2InstanceStatusByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2InstanceStatusBySubscriptionError = AzureOpError;
 /** List Ec2InstanceStatus resources by subscription ID */
-export const ListEc2InstanceStatusBySubscription: API.OperationMethod<
+export const ListEc2InstanceStatusBySubscription: API.PaginatedOperationMethod<
   ListEc2InstanceStatusBySubscriptionRequest,
   Ec2InstanceStatusListResult,
   ListEc2InstanceStatusBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2InstanceStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<ListEc2InstanceStatusBySubscriptionRequest>,
   output: __S(17569, __c549, 1) as any as S.Schema<Ec2InstanceStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2InstanceStatusBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2IpamByResourceGroupError = AzureOpError;
 /** List Ec2Ipam resources by resource group */
-export const ListEc2IpamByResourceGroup: API.OperationMethod<
+export const ListEc2IpamByResourceGroup: API.PaginatedOperationMethod<
   ListEc2IpamByResourceGroupRequest,
   Ec2IpamListResult,
   ListEc2IpamByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Ipam
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<ListEc2IpamByResourceGroupRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<Ec2IpamListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2IpamByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2IpamBySubscriptionError = AzureOpError;
 /** List Ec2Ipam resources by subscription ID */
-export const ListEc2IpamBySubscription: API.OperationMethod<
+export const ListEc2IpamBySubscription: API.PaginatedOperationMethod<
   ListEc2IpamBySubscriptionRequest,
   Ec2IpamListResult,
   ListEc2IpamBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Ipam
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<ListEc2IpamBySubscriptionRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<Ec2IpamListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2IpamBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2KeyPairByResourceGroupError = AzureOpError;
 /** List Ec2KeyPair resources by resource group */
-export const ListEc2KeyPairByResourceGroup: API.OperationMethod<
+export const ListEc2KeyPairByResourceGroup: API.PaginatedOperationMethod<
   ListEc2KeyPairByResourceGroupRequest,
   Ec2KeyPairListResult,
   ListEc2KeyPairByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2KeyPair
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<ListEc2KeyPairByResourceGroupRequest>,
   output: __S(17761, __c555, 1) as any as S.Schema<Ec2KeyPairListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2KeyPairByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2KeyPairBySubscriptionError = AzureOpError;
 /** List Ec2KeyPair resources by subscription ID */
-export const ListEc2KeyPairBySubscription: API.OperationMethod<
+export const ListEc2KeyPairBySubscription: API.PaginatedOperationMethod<
   ListEc2KeyPairBySubscriptionRequest,
   Ec2KeyPairListResult,
   ListEc2KeyPairBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2KeyPair
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<ListEc2KeyPairBySubscriptionRequest>,
   output: __S(17761, __c555, 1) as any as S.Schema<Ec2KeyPairListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2KeyPairBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2NetworkAclByResourceGroupError = AzureOpError;
 /** List Ec2NetworkAcl resources by resource group */
-export const ListEc2NetworkAclByResourceGroup: API.OperationMethod<
+export const ListEc2NetworkAclByResourceGroup: API.PaginatedOperationMethod<
   ListEc2NetworkAclByResourceGroupRequest,
   Ec2NetworkAclListResult,
   ListEc2NetworkAclByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2NetworkAcl
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17856, __c558, 0) as any as S.Schema<ListEc2NetworkAclByResourceGroupRequest>,
   output: __S(17889, __c559, 1) as any as S.Schema<Ec2NetworkAclListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2NetworkAclByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2NetworkAclBySubscriptionError = AzureOpError;
 /** List Ec2NetworkAcl resources by subscription ID */
-export const ListEc2NetworkAclBySubscription: API.OperationMethod<
+export const ListEc2NetworkAclBySubscription: API.PaginatedOperationMethod<
   ListEc2NetworkAclBySubscriptionRequest,
   Ec2NetworkAclListResult,
   ListEc2NetworkAclBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2NetworkAcl
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<ListEc2NetworkAclBySubscriptionRequest>,
   output: __S(17889, __c559, 1) as any as S.Schema<Ec2NetworkAclListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2NetworkAclBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2NetworkInterfaceByResourceGroupError = AzureOpError;
 /** List Ec2NetworkInterface resources by resource group */
-export const ListEc2NetworkInterfaceByResourceGroup: API.OperationMethod<
+export const ListEc2NetworkInterfaceByResourceGroup: API.PaginatedOperationMethod<
   ListEc2NetworkInterfaceByResourceGroupRequest,
   Ec2NetworkInterfaceListResult,
   ListEc2NetworkInterfaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2NetworkInterface
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<ListEc2NetworkInterfaceByResourceGroupRequest>,
   output: __S(17985, __c562, 1) as any as S.Schema<Ec2NetworkInterfaceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2NetworkInterfaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2NetworkInterfaceBySubscriptionError = AzureOpError;
 /** List Ec2NetworkInterface resources by subscription ID */
-export const ListEc2NetworkInterfaceBySubscription: API.OperationMethod<
+export const ListEc2NetworkInterfaceBySubscription: API.PaginatedOperationMethod<
   ListEc2NetworkInterfaceBySubscriptionRequest,
   Ec2NetworkInterfaceListResult,
   ListEc2NetworkInterfaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2NetworkInterface
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<ListEc2NetworkInterfaceBySubscriptionRequest>,
   output: __S(17985, __c562, 1) as any as S.Schema<Ec2NetworkInterfaceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2NetworkInterfaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2RouteTableByResourceGroupError = AzureOpError;
 /** List Ec2RouteTable resources by resource group */
-export const ListEc2RouteTableByResourceGroup: API.OperationMethod<
+export const ListEc2RouteTableByResourceGroup: API.PaginatedOperationMethod<
   ListEc2RouteTableByResourceGroupRequest,
   Ec2RouteTableListResult,
   ListEc2RouteTableByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2RouteTable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<ListEc2RouteTableByResourceGroupRequest>,
   output: __S(18081, __c565, 1) as any as S.Schema<Ec2RouteTableListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2RouteTableByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2RouteTableBySubscriptionError = AzureOpError;
 /** List Ec2RouteTable resources by subscription ID */
-export const ListEc2RouteTableBySubscription: API.OperationMethod<
+export const ListEc2RouteTableBySubscription: API.PaginatedOperationMethod<
   ListEc2RouteTableBySubscriptionRequest,
   Ec2RouteTableListResult,
   ListEc2RouteTableBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2RouteTable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<ListEc2RouteTableBySubscriptionRequest>,
   output: __S(18081, __c565, 1) as any as S.Schema<Ec2RouteTableListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2RouteTableBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SecurityGroupByResourceGroupError = AzureOpError;
 /** List Ec2SecurityGroup resources by resource group */
-export const ListEc2SecurityGroupByResourceGroup: API.OperationMethod<
+export const ListEc2SecurityGroupByResourceGroup: API.PaginatedOperationMethod<
   ListEc2SecurityGroupByResourceGroupRequest,
   Ec2SecurityGroupListResult,
   ListEc2SecurityGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2SecurityGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<ListEc2SecurityGroupByResourceGroupRequest>,
   output: __S(18177, __c568, 1) as any as S.Schema<Ec2SecurityGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SecurityGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SecurityGroupBySubscriptionError = AzureOpError;
 /** List Ec2SecurityGroup resources by subscription ID */
-export const ListEc2SecurityGroupBySubscription: API.OperationMethod<
+export const ListEc2SecurityGroupBySubscription: API.PaginatedOperationMethod<
   ListEc2SecurityGroupBySubscriptionRequest,
   Ec2SecurityGroupListResult,
   ListEc2SecurityGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2SecurityGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<ListEc2SecurityGroupBySubscriptionRequest>,
   output: __S(18177, __c568, 1) as any as S.Schema<Ec2SecurityGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SecurityGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SnapshotByResourceGroupError = AzureOpError;
 /** List Ec2Snapshot resources by resource group */
-export const ListEc2SnapshotByResourceGroup: API.OperationMethod<
+export const ListEc2SnapshotByResourceGroup: API.PaginatedOperationMethod<
   ListEc2SnapshotByResourceGroupRequest,
   Ec2SnapshotListResult,
   ListEc2SnapshotByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Snapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<ListEc2SnapshotByResourceGroupRequest>,
   output: __S(18273, __c571, 1) as any as S.Schema<Ec2SnapshotListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SnapshotByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SnapshotBySubscriptionError = AzureOpError;
 /** List Ec2Snapshot resources by subscription ID */
-export const ListEc2SnapshotBySubscription: API.OperationMethod<
+export const ListEc2SnapshotBySubscription: API.PaginatedOperationMethod<
   ListEc2SnapshotBySubscriptionRequest,
   Ec2SnapshotListResult,
   ListEc2SnapshotBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Snapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<ListEc2SnapshotBySubscriptionRequest>,
   output: __S(18273, __c571, 1) as any as S.Schema<Ec2SnapshotListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SnapshotBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SubnetByResourceGroupError = AzureOpError;
 /** List Ec2Subnet resources by resource group */
-export const ListEc2SubnetByResourceGroup: API.OperationMethod<
+export const ListEc2SubnetByResourceGroup: API.PaginatedOperationMethod<
   ListEc2SubnetByResourceGroupRequest,
   Ec2SubnetListResult,
   ListEc2SubnetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Subnet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18368, __c574, 0) as any as S.Schema<ListEc2SubnetByResourceGroupRequest>,
   output: __S(18401, __c575, 1) as any as S.Schema<Ec2SubnetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SubnetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2SubnetBySubscriptionError = AzureOpError;
 /** List Ec2Subnet resources by subscription ID */
-export const ListEc2SubnetBySubscription: API.OperationMethod<
+export const ListEc2SubnetBySubscription: API.PaginatedOperationMethod<
   ListEc2SubnetBySubscriptionRequest,
   Ec2SubnetListResult,
   ListEc2SubnetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Subnet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<ListEc2SubnetBySubscriptionRequest>,
   output: __S(18401, __c575, 1) as any as S.Schema<Ec2SubnetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2SubnetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VolumeByResourceGroupError = AzureOpError;
 /** List Ec2Volume resources by resource group */
-export const ListEc2VolumeByResourceGroup: API.OperationMethod<
+export const ListEc2VolumeByResourceGroup: API.PaginatedOperationMethod<
   ListEc2VolumeByResourceGroupRequest,
   Ec2VolumeListResult,
   ListEc2VolumeByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Volume
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<ListEc2VolumeByResourceGroupRequest>,
   output: __S(18497, __c578, 1) as any as S.Schema<Ec2VolumeListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VolumeByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VolumeBySubscriptionError = AzureOpError;
 /** List Ec2Volume resources by subscription ID */
-export const ListEc2VolumeBySubscription: API.OperationMethod<
+export const ListEc2VolumeBySubscription: API.PaginatedOperationMethod<
   ListEc2VolumeBySubscriptionRequest,
   Ec2VolumeListResult,
   ListEc2VolumeBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Volume
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<ListEc2VolumeBySubscriptionRequest>,
   output: __S(18497, __c578, 1) as any as S.Schema<Ec2VolumeListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VolumeBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcByResourceGroupError = AzureOpError;
 /** List Ec2Vpc resources by resource group */
-export const ListEc2VpcByResourceGroup: API.OperationMethod<
+export const ListEc2VpcByResourceGroup: API.PaginatedOperationMethod<
   ListEc2VpcByResourceGroupRequest,
   Ec2VpcListResult,
   ListEc2VpcByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Vpc
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<ListEc2VpcByResourceGroupRequest>,
   output: __S(18593, __c581, 1) as any as S.Schema<Ec2VpcListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcBySubscriptionError = AzureOpError;
 /** List Ec2Vpc resources by subscription ID */
-export const ListEc2VpcBySubscription: API.OperationMethod<
+export const ListEc2VpcBySubscription: API.PaginatedOperationMethod<
   ListEc2VpcBySubscriptionRequest,
   Ec2VpcListResult,
   ListEc2VpcBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2Vpc
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<ListEc2VpcBySubscriptionRequest>,
   output: __S(18593, __c581, 1) as any as S.Schema<Ec2VpcListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcEndpointByResourceGroupError = AzureOpError;
 /** List Ec2VPCEndpoint resources by resource group */
-export const ListEc2VpcEndpointByResourceGroup: API.OperationMethod<
+export const ListEc2VpcEndpointByResourceGroup: API.PaginatedOperationMethod<
   ListEc2VpcEndpointByResourceGroupRequest,
   Ec2VPCEndpointListResult,
   ListEc2VpcEndpointByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2VPCEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<ListEc2VpcEndpointByResourceGroupRequest>,
   output: __S(18689, __c584, 1) as any as S.Schema<Ec2VPCEndpointListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcEndpointByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcEndpointBySubscriptionError = AzureOpError;
 /** List Ec2VPCEndpoint resources by subscription ID */
-export const ListEc2VpcEndpointBySubscription: API.OperationMethod<
+export const ListEc2VpcEndpointBySubscription: API.PaginatedOperationMethod<
   ListEc2VpcEndpointBySubscriptionRequest,
   Ec2VPCEndpointListResult,
   ListEc2VpcEndpointBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2VPCEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<ListEc2VpcEndpointBySubscriptionRequest>,
   output: __S(18689, __c584, 1) as any as S.Schema<Ec2VPCEndpointListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcEndpointBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcPeeringConnectionByResourceGroupError = AzureOpError;
 /** List Ec2VPCPeeringConnection resources by resource group */
-export const ListEc2VpcPeeringConnectionByResourceGroup: API.OperationMethod<
+export const ListEc2VpcPeeringConnectionByResourceGroup: API.PaginatedOperationMethod<
   ListEc2VpcPeeringConnectionByResourceGroupRequest,
   Ec2VPCPeeringConnectionListResult,
   ListEc2VpcPeeringConnectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2VPCPeeringConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     18752,
     __c586,
     0,
   ) as any as S.Schema<ListEc2VpcPeeringConnectionByResourceGroupRequest>,
   output: __S(18785, __c587, 1) as any as S.Schema<Ec2VPCPeeringConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcPeeringConnectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEc2VpcPeeringConnectionBySubscriptionError = AzureOpError;
 /** List Ec2VPCPeeringConnection resources by subscription ID */
-export const ListEc2VpcPeeringConnectionBySubscription: API.OperationMethod<
+export const ListEc2VpcPeeringConnectionBySubscription: API.PaginatedOperationMethod<
   ListEc2VpcPeeringConnectionBySubscriptionRequest,
   Ec2VPCPeeringConnectionListResult,
   ListEc2VpcPeeringConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Ec2VPCPeeringConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<ListEc2VpcPeeringConnectionBySubscriptionRequest>,
   output: __S(18785, __c587, 1) as any as S.Schema<Ec2VPCPeeringConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEc2VpcPeeringConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcrImageDetailByResourceGroupError = AzureOpError;
 /** List EcrImageDetail resources by resource group */
-export const ListEcrImageDetailByResourceGroup: API.OperationMethod<
+export const ListEcrImageDetailByResourceGroup: API.PaginatedOperationMethod<
   ListEcrImageDetailByResourceGroupRequest,
   EcrImageDetailListResult,
   ListEcrImageDetailByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcrImageDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<ListEcrImageDetailByResourceGroupRequest>,
   output: __S(18913, __c591, 1) as any as S.Schema<EcrImageDetailListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcrImageDetailByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcrImageDetailBySubscriptionError = AzureOpError;
 /** List EcrImageDetail resources by subscription ID */
-export const ListEcrImageDetailBySubscription: API.OperationMethod<
+export const ListEcrImageDetailBySubscription: API.PaginatedOperationMethod<
   ListEcrImageDetailBySubscriptionRequest,
   EcrImageDetailListResult,
   ListEcrImageDetailBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcrImageDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<ListEcrImageDetailBySubscriptionRequest>,
   output: __S(18913, __c591, 1) as any as S.Schema<EcrImageDetailListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcrImageDetailBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcrRepositoryByResourceGroupError = AzureOpError;
 /** List EcrRepository resources by resource group */
-export const ListEcrRepositoryByResourceGroup: API.OperationMethod<
+export const ListEcrRepositoryByResourceGroup: API.PaginatedOperationMethod<
   ListEcrRepositoryByResourceGroupRequest,
   EcrRepositoryListResult,
   ListEcrRepositoryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcrRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<ListEcrRepositoryByResourceGroupRequest>,
   output: __S(19009, __c594, 1) as any as S.Schema<EcrRepositoryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcrRepositoryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcrRepositoryBySubscriptionError = AzureOpError;
 /** List EcrRepository resources by subscription ID */
-export const ListEcrRepositoryBySubscription: API.OperationMethod<
+export const ListEcrRepositoryBySubscription: API.PaginatedOperationMethod<
   ListEcrRepositoryBySubscriptionRequest,
   EcrRepositoryListResult,
   ListEcrRepositoryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcrRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19040, __c595, 0) as any as S.Schema<ListEcrRepositoryBySubscriptionRequest>,
   output: __S(19009, __c594, 1) as any as S.Schema<EcrRepositoryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcrRepositoryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsClusterByResourceGroupError = AzureOpError;
 /** List EcsCluster resources by resource group */
-export const ListEcsClusterByResourceGroup: API.OperationMethod<
+export const ListEcsClusterByResourceGroup: API.PaginatedOperationMethod<
   ListEcsClusterByResourceGroupRequest,
   EcsClusterListResult,
   ListEcsClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<ListEcsClusterByResourceGroupRequest>,
   output: __S(19105, __c597, 1) as any as S.Schema<EcsClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsClusterBySubscriptionError = AzureOpError;
 /** List EcsCluster resources by subscription ID */
-export const ListEcsClusterBySubscription: API.OperationMethod<
+export const ListEcsClusterBySubscription: API.PaginatedOperationMethod<
   ListEcsClusterBySubscriptionRequest,
   EcsClusterListResult,
   ListEcsClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<ListEcsClusterBySubscriptionRequest>,
   output: __S(19105, __c597, 1) as any as S.Schema<EcsClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsServiceByResourceGroupError = AzureOpError;
 /** List EcsService resources by resource group */
-export const ListEcsServiceByResourceGroup: API.OperationMethod<
+export const ListEcsServiceByResourceGroup: API.PaginatedOperationMethod<
   ListEcsServiceByResourceGroupRequest,
   EcsServiceListResult,
   ListEcsServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<ListEcsServiceByResourceGroupRequest>,
   output: __S(19201, __c600, 1) as any as S.Schema<EcsServiceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsServiceBySubscriptionError = AzureOpError;
 /** List EcsService resources by subscription ID */
-export const ListEcsServiceBySubscription: API.OperationMethod<
+export const ListEcsServiceBySubscription: API.PaginatedOperationMethod<
   ListEcsServiceBySubscriptionRequest,
   EcsServiceListResult,
   ListEcsServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<ListEcsServiceBySubscriptionRequest>,
   output: __S(19201, __c600, 1) as any as S.Schema<EcsServiceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsTaskDefinitionByResourceGroupError = AzureOpError;
 /** List EcsTaskDefinition resources by resource group */
-export const ListEcsTaskDefinitionByResourceGroup: API.OperationMethod<
+export const ListEcsTaskDefinitionByResourceGroup: API.PaginatedOperationMethod<
   ListEcsTaskDefinitionByResourceGroupRequest,
   EcsTaskDefinitionListResult,
   ListEcsTaskDefinitionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsTaskDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<ListEcsTaskDefinitionByResourceGroupRequest>,
   output: __S(19297, __c603, 1) as any as S.Schema<EcsTaskDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsTaskDefinitionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEcsTaskDefinitionBySubscriptionError = AzureOpError;
 /** List EcsTaskDefinition resources by subscription ID */
-export const ListEcsTaskDefinitionBySubscription: API.OperationMethod<
+export const ListEcsTaskDefinitionBySubscription: API.PaginatedOperationMethod<
   ListEcsTaskDefinitionBySubscriptionRequest,
   EcsTaskDefinitionListResult,
   ListEcsTaskDefinitionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EcsTaskDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<ListEcsTaskDefinitionBySubscriptionRequest>,
   output: __S(19297, __c603, 1) as any as S.Schema<EcsTaskDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEcsTaskDefinitionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEfsFileSystemByResourceGroupError = AzureOpError;
 /** List EfsFileSystem resources by resource group */
-export const ListEfsFileSystemByResourceGroup: API.OperationMethod<
+export const ListEfsFileSystemByResourceGroup: API.PaginatedOperationMethod<
   ListEfsFileSystemByResourceGroupRequest,
   EfsFileSystemListResult,
   ListEfsFileSystemByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EfsFileSystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<ListEfsFileSystemByResourceGroupRequest>,
   output: __S(19425, __c607, 1) as any as S.Schema<EfsFileSystemListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEfsFileSystemByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEfsFileSystemBySubscriptionError = AzureOpError;
 /** List EfsFileSystem resources by subscription ID */
-export const ListEfsFileSystemBySubscription: API.OperationMethod<
+export const ListEfsFileSystemBySubscription: API.PaginatedOperationMethod<
   ListEfsFileSystemBySubscriptionRequest,
   EfsFileSystemListResult,
   ListEfsFileSystemBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EfsFileSystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<ListEfsFileSystemBySubscriptionRequest>,
   output: __S(19425, __c607, 1) as any as S.Schema<EfsFileSystemListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEfsFileSystemBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEfsMountTargetByResourceGroupError = AzureOpError;
 /** List EfsMountTarget resources by resource group */
-export const ListEfsMountTargetByResourceGroup: API.OperationMethod<
+export const ListEfsMountTargetByResourceGroup: API.PaginatedOperationMethod<
   ListEfsMountTargetByResourceGroupRequest,
   EfsMountTargetListResult,
   ListEfsMountTargetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EfsMountTarget
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<ListEfsMountTargetByResourceGroupRequest>,
   output: __S(19521, __c610, 1) as any as S.Schema<EfsMountTargetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEfsMountTargetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEfsMountTargetBySubscriptionError = AzureOpError;
 /** List EfsMountTarget resources by subscription ID */
-export const ListEfsMountTargetBySubscription: API.OperationMethod<
+export const ListEfsMountTargetBySubscription: API.PaginatedOperationMethod<
   ListEfsMountTargetBySubscriptionRequest,
   EfsMountTargetListResult,
   ListEfsMountTargetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EfsMountTarget
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<ListEfsMountTargetBySubscriptionRequest>,
   output: __S(19521, __c610, 1) as any as S.Schema<EfsMountTargetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEfsMountTargetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEksClustersError = AzureOpError;
 /** List EksCluster resources by parent */
-export const ListEksClusters: API.OperationMethod<
+export const ListEksClusters: API.PaginatedOperationMethod<
   ListEksClustersRequest,
   EksClusterListResult,
   ListEksClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EksCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<ListEksClustersRequest>,
   output: __S(19586, __c612, 2) as any as S.Schema<EksClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41768,316 +42453,407 @@ export const ListEksClusters: API.OperationMethod<
     op: "ListEksClusters",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.AwsConnector/eksClusters" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEksNodegroupByResourceGroupError = AzureOpError;
 /** List EksNodegroup resources by resource group */
-export const ListEksNodegroupByResourceGroup: API.OperationMethod<
+export const ListEksNodegroupByResourceGroup: API.PaginatedOperationMethod<
   ListEksNodegroupByResourceGroupRequest,
   EksNodegroupListResult,
   ListEksNodegroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EksNodegroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<ListEksNodegroupByResourceGroupRequest>,
   output: __S(19649, __c614, 1) as any as S.Schema<EksNodegroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEksNodegroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEksNodegroupBySubscriptionError = AzureOpError;
 /** List EksNodegroup resources by subscription ID */
-export const ListEksNodegroupBySubscription: API.OperationMethod<
+export const ListEksNodegroupBySubscription: API.PaginatedOperationMethod<
   ListEksNodegroupBySubscriptionRequest,
   EksNodegroupListResult,
   ListEksNodegroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EksNodegroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<ListEksNodegroupBySubscriptionRequest>,
   output: __S(19649, __c614, 1) as any as S.Schema<EksNodegroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEksNodegroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkApplicationByResourceGroupError = AzureOpError;
 /** List ElasticBeanstalkApplication resources by resource group */
-export const ListElasticBeanstalkApplicationByResourceGroup: API.OperationMethod<
+export const ListElasticBeanstalkApplicationByResourceGroup: API.PaginatedOperationMethod<
   ListElasticBeanstalkApplicationByResourceGroupRequest,
   ElasticBeanstalkApplicationListResult,
   ListElasticBeanstalkApplicationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkApplication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     19712,
     __c616,
     0,
   ) as any as S.Schema<ListElasticBeanstalkApplicationByResourceGroupRequest>,
   output: __S(19745, __c617, 1) as any as S.Schema<ElasticBeanstalkApplicationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkApplicationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkApplicationBySubscriptionError = AzureOpError;
 /** List ElasticBeanstalkApplication resources by subscription ID */
-export const ListElasticBeanstalkApplicationBySubscription: API.OperationMethod<
+export const ListElasticBeanstalkApplicationBySubscription: API.PaginatedOperationMethod<
   ListElasticBeanstalkApplicationBySubscriptionRequest,
   ElasticBeanstalkApplicationListResult,
   ListElasticBeanstalkApplicationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkApplication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     19776,
     __c618,
     0,
   ) as any as S.Schema<ListElasticBeanstalkApplicationBySubscriptionRequest>,
   output: __S(19745, __c617, 1) as any as S.Schema<ElasticBeanstalkApplicationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkApplicationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkConfigurationTemplateByResourceGroupError = AzureOpError;
 /** List ElasticBeanstalkConfigurationTemplate resources by resource group */
-export const ListElasticBeanstalkConfigurationTemplateByResourceGroup: API.OperationMethod<
+export const ListElasticBeanstalkConfigurationTemplateByResourceGroup: API.PaginatedOperationMethod<
   ListElasticBeanstalkConfigurationTemplateByResourceGroupRequest,
   ElasticBeanstalkConfigurationTemplateListResult,
   ListElasticBeanstalkConfigurationTemplateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkConfigurationTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     19840,
     __c620,
     0,
   ) as any as S.Schema<ListElasticBeanstalkConfigurationTemplateByResourceGroupRequest>,
   output: __S(19873, __c621, 1) as any as S.Schema<ElasticBeanstalkConfigurationTemplateListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkConfigurationTemplateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkConfigurationTemplateBySubscriptionError = AzureOpError;
 /** List ElasticBeanstalkConfigurationTemplate resources by subscription ID */
-export const ListElasticBeanstalkConfigurationTemplateBySubscription: API.OperationMethod<
+export const ListElasticBeanstalkConfigurationTemplateBySubscription: API.PaginatedOperationMethod<
   ListElasticBeanstalkConfigurationTemplateBySubscriptionRequest,
   ElasticBeanstalkConfigurationTemplateListResult,
   ListElasticBeanstalkConfigurationTemplateBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkConfigurationTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     19904,
     __c622,
     0,
   ) as any as S.Schema<ListElasticBeanstalkConfigurationTemplateBySubscriptionRequest>,
   output: __S(19873, __c621, 1) as any as S.Schema<ElasticBeanstalkConfigurationTemplateListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkConfigurationTemplateBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkEnvironmentByResourceGroupError = AzureOpError;
 /** List ElasticBeanstalkEnvironment resources by resource group */
-export const ListElasticBeanstalkEnvironmentByResourceGroup: API.OperationMethod<
+export const ListElasticBeanstalkEnvironmentByResourceGroup: API.PaginatedOperationMethod<
   ListElasticBeanstalkEnvironmentByResourceGroupRequest,
   ElasticBeanstalkEnvironmentListResult,
   ListElasticBeanstalkEnvironmentByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkEnvironment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     19936,
     __c623,
     0,
   ) as any as S.Schema<ListElasticBeanstalkEnvironmentByResourceGroupRequest>,
   output: __S(19969, __c624, 1) as any as S.Schema<ElasticBeanstalkEnvironmentListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkEnvironmentByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticBeanstalkEnvironmentBySubscriptionError = AzureOpError;
 /** List ElasticBeanstalkEnvironment resources by subscription ID */
-export const ListElasticBeanstalkEnvironmentBySubscription: API.OperationMethod<
+export const ListElasticBeanstalkEnvironmentBySubscription: API.PaginatedOperationMethod<
   ListElasticBeanstalkEnvironmentBySubscriptionRequest,
   ElasticBeanstalkEnvironmentListResult,
   ListElasticBeanstalkEnvironmentBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticBeanstalkEnvironment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20000,
     __c625,
     0,
   ) as any as S.Schema<ListElasticBeanstalkEnvironmentBySubscriptionRequest>,
   output: __S(19969, __c624, 1) as any as S.Schema<ElasticBeanstalkEnvironmentListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticBeanstalkEnvironmentBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2ListenerByResourceGroupError = AzureOpError;
 /** List ElasticLoadBalancingV2Listener resources by resource group */
-export const ListElasticLoadBalancingV2ListenerByResourceGroup: API.OperationMethod<
+export const ListElasticLoadBalancingV2ListenerByResourceGroup: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2ListenerByResourceGroupRequest,
   ElasticLoadBalancingV2ListenerListResult,
   ListElasticLoadBalancingV2ListenerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2Listener
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20032,
     __c626,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2ListenerByResourceGroupRequest>,
   output: __S(20065, __c627, 1) as any as S.Schema<ElasticLoadBalancingV2ListenerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2ListenerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2ListenerBySubscriptionError = AzureOpError;
 /** List ElasticLoadBalancingV2Listener resources by subscription ID */
-export const ListElasticLoadBalancingV2ListenerBySubscription: API.OperationMethod<
+export const ListElasticLoadBalancingV2ListenerBySubscription: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2ListenerBySubscriptionRequest,
   ElasticLoadBalancingV2ListenerListResult,
   ListElasticLoadBalancingV2ListenerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2Listener
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20096,
     __c628,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2ListenerBySubscriptionRequest>,
   output: __S(20065, __c627, 1) as any as S.Schema<ElasticLoadBalancingV2ListenerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2ListenerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2LoadBalancerByResourceGroupError = AzureOpError;
 /** List ElasticLoadBalancingV2LoadBalancer resources by resource group */
-export const ListElasticLoadBalancingV2LoadBalancerByResourceGroup: API.OperationMethod<
+export const ListElasticLoadBalancingV2LoadBalancerByResourceGroup: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2LoadBalancerByResourceGroupRequest,
   ElasticLoadBalancingV2LoadBalancerListResult,
   ListElasticLoadBalancingV2LoadBalancerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2LoadBalancer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20128,
     __c629,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2LoadBalancerByResourceGroupRequest>,
   output: __S(20161, __c630, 1) as any as S.Schema<ElasticLoadBalancingV2LoadBalancerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2LoadBalancerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2LoadBalancerBySubscriptionError = AzureOpError;
 /** List ElasticLoadBalancingV2LoadBalancer resources by subscription ID */
-export const ListElasticLoadBalancingV2LoadBalancerBySubscription: API.OperationMethod<
+export const ListElasticLoadBalancingV2LoadBalancerBySubscription: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2LoadBalancerBySubscriptionRequest,
   ElasticLoadBalancingV2LoadBalancerListResult,
   ListElasticLoadBalancingV2LoadBalancerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2LoadBalancer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20192,
     __c631,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2LoadBalancerBySubscriptionRequest>,
   output: __S(20161, __c630, 1) as any as S.Schema<ElasticLoadBalancingV2LoadBalancerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2LoadBalancerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2TargetGroupByResourceGroupError = AzureOpError;
 /** List ElasticLoadBalancingV2TargetGroup resources by resource group */
-export const ListElasticLoadBalancingV2TargetGroupByResourceGroup: API.OperationMethod<
+export const ListElasticLoadBalancingV2TargetGroupByResourceGroup: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2TargetGroupByResourceGroupRequest,
   ElasticLoadBalancingV2TargetGroupListResult,
   ListElasticLoadBalancingV2TargetGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2TargetGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20224,
     __c632,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2TargetGroupByResourceGroupRequest>,
   output: __S(20257, __c633, 1) as any as S.Schema<ElasticLoadBalancingV2TargetGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2TargetGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingV2TargetGroupBySubscriptionError = AzureOpError;
 /** List ElasticLoadBalancingV2TargetGroup resources by subscription ID */
-export const ListElasticLoadBalancingV2TargetGroupBySubscription: API.OperationMethod<
+export const ListElasticLoadBalancingV2TargetGroupBySubscription: API.PaginatedOperationMethod<
   ListElasticLoadBalancingV2TargetGroupBySubscriptionRequest,
   ElasticLoadBalancingV2TargetGroupListResult,
   ListElasticLoadBalancingV2TargetGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingV2TargetGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20288,
     __c634,
     0,
   ) as any as S.Schema<ListElasticLoadBalancingV2TargetGroupBySubscriptionRequest>,
   output: __S(20257, __c633, 1) as any as S.Schema<ElasticLoadBalancingV2TargetGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingV2TargetGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroupError = AzureOpError;
 /** List ElasticLoadBalancingv2TargetHealthDescription resources by resource group */
-export const ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroup: API.OperationMethod<
+export const ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroup: API.PaginatedOperationMethod<
   ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroupRequest,
   ElasticLoadBalancingv2TargetHealthDescriptionListResult,
   ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingv2TargetHealthDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20416,
     __c638,
@@ -42088,22 +42864,28 @@ export const ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroup: A
     __c639,
     1,
   ) as any as S.Schema<ElasticLoadBalancingv2TargetHealthDescriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingv2TargetHealthDescriptionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListElasticLoadBalancingv2TargetHealthDescriptionBySubscriptionError = AzureOpError;
 /** List ElasticLoadBalancingv2TargetHealthDescription resources by subscription ID */
-export const ListElasticLoadBalancingv2TargetHealthDescriptionBySubscription: API.OperationMethod<
+export const ListElasticLoadBalancingv2TargetHealthDescriptionBySubscription: API.PaginatedOperationMethod<
   ListElasticLoadBalancingv2TargetHealthDescriptionBySubscriptionRequest,
   ElasticLoadBalancingv2TargetHealthDescriptionListResult,
   ListElasticLoadBalancingv2TargetHealthDescriptionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticLoadBalancingv2TargetHealthDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20480,
     __c640,
@@ -42114,1736 +42896,2288 @@ export const ListElasticLoadBalancingv2TargetHealthDescriptionBySubscription: AP
     __c639,
     1,
   ) as any as S.Schema<ElasticLoadBalancingv2TargetHealthDescriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticLoadBalancingv2TargetHealthDescriptionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEmrClusterByResourceGroupError = AzureOpError;
 /** List EmrCluster resources by resource group */
-export const ListEmrClusterByResourceGroup: API.OperationMethod<
+export const ListEmrClusterByResourceGroup: API.PaginatedOperationMethod<
   ListEmrClusterByResourceGroupRequest,
   EmrClusterListResult,
   ListEmrClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EmrCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20512, __c641, 0) as any as S.Schema<ListEmrClusterByResourceGroupRequest>,
   output: __S(20545, __c642, 1) as any as S.Schema<EmrClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEmrClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEmrClusterBySubscriptionError = AzureOpError;
 /** List EmrCluster resources by subscription ID */
-export const ListEmrClusterBySubscription: API.OperationMethod<
+export const ListEmrClusterBySubscription: API.PaginatedOperationMethod<
   ListEmrClusterBySubscriptionRequest,
   EmrClusterListResult,
   ListEmrClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EmrCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<ListEmrClusterBySubscriptionRequest>,
   output: __S(20545, __c642, 1) as any as S.Schema<EmrClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEmrClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGuardDutyDetectorByResourceGroupError = AzureOpError;
 /** List GuardDutyDetector resources by resource group */
-export const ListGuardDutyDetectorByResourceGroup: API.OperationMethod<
+export const ListGuardDutyDetectorByResourceGroup: API.PaginatedOperationMethod<
   ListGuardDutyDetectorByResourceGroupRequest,
   GuardDutyDetectorListResult,
   ListGuardDutyDetectorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuardDutyDetector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<ListGuardDutyDetectorByResourceGroupRequest>,
   output: __S(20641, __c645, 1) as any as S.Schema<GuardDutyDetectorListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGuardDutyDetectorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGuardDutyDetectorBySubscriptionError = AzureOpError;
 /** List GuardDutyDetector resources by subscription ID */
-export const ListGuardDutyDetectorBySubscription: API.OperationMethod<
+export const ListGuardDutyDetectorBySubscription: API.PaginatedOperationMethod<
   ListGuardDutyDetectorBySubscriptionRequest,
   GuardDutyDetectorListResult,
   ListGuardDutyDetectorBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuardDutyDetector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<ListGuardDutyDetectorBySubscriptionRequest>,
   output: __S(20641, __c645, 1) as any as S.Schema<GuardDutyDetectorListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGuardDutyDetectorBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamAccessKeyLastUsedByResourceGroupError = AzureOpError;
 /** List IamAccessKeyLastUsed resources by resource group */
-export const ListIamAccessKeyLastUsedByResourceGroup: API.OperationMethod<
+export const ListIamAccessKeyLastUsedByResourceGroup: API.PaginatedOperationMethod<
   ListIamAccessKeyLastUsedByResourceGroupRequest,
   IamAccessKeyLastUsedListResult,
   ListIamAccessKeyLastUsedByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamAccessKeyLastUsed
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<ListIamAccessKeyLastUsedByResourceGroupRequest>,
   output: __S(20737, __c648, 1) as any as S.Schema<IamAccessKeyLastUsedListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamAccessKeyLastUsedByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamAccessKeyLastUsedBySubscriptionError = AzureOpError;
 /** List IamAccessKeyLastUsed resources by subscription ID */
-export const ListIamAccessKeyLastUsedBySubscription: API.OperationMethod<
+export const ListIamAccessKeyLastUsedBySubscription: API.PaginatedOperationMethod<
   ListIamAccessKeyLastUsedBySubscriptionRequest,
   IamAccessKeyLastUsedListResult,
   ListIamAccessKeyLastUsedBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamAccessKeyLastUsed
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<ListIamAccessKeyLastUsedBySubscriptionRequest>,
   output: __S(20737, __c648, 1) as any as S.Schema<IamAccessKeyLastUsedListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamAccessKeyLastUsedBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamAccessKeyMetadataInfoByResourceGroupError = AzureOpError;
 /** List IamAccessKeyMetadata resources by resource group */
-export const ListIamAccessKeyMetadataInfoByResourceGroup: API.OperationMethod<
+export const ListIamAccessKeyMetadataInfoByResourceGroup: API.PaginatedOperationMethod<
   ListIamAccessKeyMetadataInfoByResourceGroupRequest,
   IamAccessKeyMetadataListResult,
   ListIamAccessKeyMetadataInfoByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamAccessKeyMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20800,
     __c650,
     0,
   ) as any as S.Schema<ListIamAccessKeyMetadataInfoByResourceGroupRequest>,
   output: __S(20833, __c651, 1) as any as S.Schema<IamAccessKeyMetadataListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamAccessKeyMetadataInfoByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamAccessKeyMetadataInfoBySubscriptionError = AzureOpError;
 /** List IamAccessKeyMetadata resources by subscription ID */
-export const ListIamAccessKeyMetadataInfoBySubscription: API.OperationMethod<
+export const ListIamAccessKeyMetadataInfoBySubscription: API.PaginatedOperationMethod<
   ListIamAccessKeyMetadataInfoBySubscriptionRequest,
   IamAccessKeyMetadataListResult,
   ListIamAccessKeyMetadataInfoBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamAccessKeyMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     20864,
     __c652,
     0,
   ) as any as S.Schema<ListIamAccessKeyMetadataInfoBySubscriptionRequest>,
   output: __S(20833, __c651, 1) as any as S.Schema<IamAccessKeyMetadataListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamAccessKeyMetadataInfoBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamGroupByResourceGroupError = AzureOpError;
 /** List IamGroup resources by resource group */
-export const ListIamGroupByResourceGroup: API.OperationMethod<
+export const ListIamGroupByResourceGroup: API.PaginatedOperationMethod<
   ListIamGroupByResourceGroupRequest,
   IamGroupListResult,
   ListIamGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<ListIamGroupByResourceGroupRequest>,
   output: __S(20961, __c655, 1) as any as S.Schema<IamGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamGroupBySubscriptionError = AzureOpError;
 /** List IamGroup resources by subscription ID */
-export const ListIamGroupBySubscription: API.OperationMethod<
+export const ListIamGroupBySubscription: API.PaginatedOperationMethod<
   ListIamGroupBySubscriptionRequest,
   IamGroupListResult,
   ListIamGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<ListIamGroupBySubscriptionRequest>,
   output: __S(20961, __c655, 1) as any as S.Schema<IamGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamInstanceProfileByResourceGroupError = AzureOpError;
 /** List IamInstanceProfile resources by resource group */
-export const ListIamInstanceProfileByResourceGroup: API.OperationMethod<
+export const ListIamInstanceProfileByResourceGroup: API.PaginatedOperationMethod<
   ListIamInstanceProfileByResourceGroupRequest,
   IamInstanceProfileListResult,
   ListIamInstanceProfileByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamInstanceProfile_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<ListIamInstanceProfileByResourceGroupRequest>,
   output: __S(21057, __c658, 1) as any as S.Schema<IamInstanceProfileListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamInstanceProfileByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamInstanceProfileBySubscriptionError = AzureOpError;
 /** List IamInstanceProfile resources by subscription ID */
-export const ListIamInstanceProfileBySubscription: API.OperationMethod<
+export const ListIamInstanceProfileBySubscription: API.PaginatedOperationMethod<
   ListIamInstanceProfileBySubscriptionRequest,
   IamInstanceProfileListResult,
   ListIamInstanceProfileBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamInstanceProfile_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<ListIamInstanceProfileBySubscriptionRequest>,
   output: __S(21057, __c658, 1) as any as S.Schema<IamInstanceProfileListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamInstanceProfileBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamMfaDeviceByResourceGroupError = AzureOpError;
 /** List IamMFADevice resources by resource group */
-export const ListIamMfaDeviceByResourceGroup: API.OperationMethod<
+export const ListIamMfaDeviceByResourceGroup: API.PaginatedOperationMethod<
   ListIamMfaDeviceByResourceGroupRequest,
   IamMFADeviceListResult,
   ListIamMfaDeviceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamMFADevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<ListIamMfaDeviceByResourceGroupRequest>,
   output: __S(21153, __c661, 1) as any as S.Schema<IamMFADeviceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamMfaDeviceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamMfaDeviceBySubscriptionError = AzureOpError;
 /** List IamMFADevice resources by subscription ID */
-export const ListIamMfaDeviceBySubscription: API.OperationMethod<
+export const ListIamMfaDeviceBySubscription: API.PaginatedOperationMethod<
   ListIamMfaDeviceBySubscriptionRequest,
   IamMFADeviceListResult,
   ListIamMfaDeviceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamMFADevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<ListIamMfaDeviceBySubscriptionRequest>,
   output: __S(21153, __c661, 1) as any as S.Schema<IamMFADeviceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamMfaDeviceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamPasswordPolicyByResourceGroupError = AzureOpError;
 /** List IamPasswordPolicy resources by resource group */
-export const ListIamPasswordPolicyByResourceGroup: API.OperationMethod<
+export const ListIamPasswordPolicyByResourceGroup: API.PaginatedOperationMethod<
   ListIamPasswordPolicyByResourceGroupRequest,
   IamPasswordPolicyListResult,
   ListIamPasswordPolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamPasswordPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<ListIamPasswordPolicyByResourceGroupRequest>,
   output: __S(21249, __c664, 1) as any as S.Schema<IamPasswordPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamPasswordPolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamPasswordPolicyBySubscriptionError = AzureOpError;
 /** List IamPasswordPolicy resources by subscription ID */
-export const ListIamPasswordPolicyBySubscription: API.OperationMethod<
+export const ListIamPasswordPolicyBySubscription: API.PaginatedOperationMethod<
   ListIamPasswordPolicyBySubscriptionRequest,
   IamPasswordPolicyListResult,
   ListIamPasswordPolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamPasswordPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<ListIamPasswordPolicyBySubscriptionRequest>,
   output: __S(21249, __c664, 1) as any as S.Schema<IamPasswordPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamPasswordPolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamPolicyVersionByResourceGroupError = AzureOpError;
 /** List IamPolicyVersion resources by resource group */
-export const ListIamPolicyVersionByResourceGroup: API.OperationMethod<
+export const ListIamPolicyVersionByResourceGroup: API.PaginatedOperationMethod<
   ListIamPolicyVersionByResourceGroupRequest,
   IamPolicyVersionListResult,
   ListIamPolicyVersionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamPolicyVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<ListIamPolicyVersionByResourceGroupRequest>,
   output: __S(21345, __c667, 1) as any as S.Schema<IamPolicyVersionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamPolicyVersionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamPolicyVersionBySubscriptionError = AzureOpError;
 /** List IamPolicyVersion resources by subscription ID */
-export const ListIamPolicyVersionBySubscription: API.OperationMethod<
+export const ListIamPolicyVersionBySubscription: API.PaginatedOperationMethod<
   ListIamPolicyVersionBySubscriptionRequest,
   IamPolicyVersionListResult,
   ListIamPolicyVersionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamPolicyVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21376, __c668, 0) as any as S.Schema<ListIamPolicyVersionBySubscriptionRequest>,
   output: __S(21345, __c667, 1) as any as S.Schema<IamPolicyVersionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamPolicyVersionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamRoleByResourceGroupError = AzureOpError;
 /** List IamRole resources by resource group */
-export const ListIamRoleByResourceGroup: API.OperationMethod<
+export const ListIamRoleByResourceGroup: API.PaginatedOperationMethod<
   ListIamRoleByResourceGroupRequest,
   IamRoleListResult,
   ListIamRoleByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamRole
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<ListIamRoleByResourceGroupRequest>,
   output: __S(21473, __c671, 1) as any as S.Schema<IamRoleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamRoleByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamRoleBySubscriptionError = AzureOpError;
 /** List IamRole resources by subscription ID */
-export const ListIamRoleBySubscription: API.OperationMethod<
+export const ListIamRoleBySubscription: API.PaginatedOperationMethod<
   ListIamRoleBySubscriptionRequest,
   IamRoleListResult,
   ListIamRoleBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamRole
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<ListIamRoleBySubscriptionRequest>,
   output: __S(21473, __c671, 1) as any as S.Schema<IamRoleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamRoleBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamServerCertificateByResourceGroupError = AzureOpError;
 /** List IamServerCertificate resources by resource group */
-export const ListIamServerCertificateByResourceGroup: API.OperationMethod<
+export const ListIamServerCertificateByResourceGroup: API.PaginatedOperationMethod<
   ListIamServerCertificateByResourceGroupRequest,
   IamServerCertificateListResult,
   ListIamServerCertificateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamServerCertificate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<ListIamServerCertificateByResourceGroupRequest>,
   output: __S(21569, __c674, 1) as any as S.Schema<IamServerCertificateListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamServerCertificateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamServerCertificateBySubscriptionError = AzureOpError;
 /** List IamServerCertificate resources by subscription ID */
-export const ListIamServerCertificateBySubscription: API.OperationMethod<
+export const ListIamServerCertificateBySubscription: API.PaginatedOperationMethod<
   ListIamServerCertificateBySubscriptionRequest,
   IamServerCertificateListResult,
   ListIamServerCertificateBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamServerCertificate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<ListIamServerCertificateBySubscriptionRequest>,
   output: __S(21569, __c674, 1) as any as S.Schema<IamServerCertificateListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamServerCertificateBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamVirtualMfaDeviceByResourceGroupError = AzureOpError;
 /** List IamVirtualMFADevice resources by resource group */
-export const ListIamVirtualMfaDeviceByResourceGroup: API.OperationMethod<
+export const ListIamVirtualMfaDeviceByResourceGroup: API.PaginatedOperationMethod<
   ListIamVirtualMfaDeviceByResourceGroupRequest,
   IamVirtualMFADeviceListResult,
   ListIamVirtualMfaDeviceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamVirtualMFADevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<ListIamVirtualMfaDeviceByResourceGroupRequest>,
   output: __S(21665, __c677, 1) as any as S.Schema<IamVirtualMFADeviceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamVirtualMfaDeviceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIamVirtualMfaDeviceBySubscriptionError = AzureOpError;
 /** List IamVirtualMFADevice resources by subscription ID */
-export const ListIamVirtualMfaDeviceBySubscription: API.OperationMethod<
+export const ListIamVirtualMfaDeviceBySubscription: API.PaginatedOperationMethod<
   ListIamVirtualMfaDeviceBySubscriptionRequest,
   IamVirtualMFADeviceListResult,
   ListIamVirtualMfaDeviceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IamVirtualMFADevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<ListIamVirtualMfaDeviceBySubscriptionRequest>,
   output: __S(21665, __c677, 1) as any as S.Schema<IamVirtualMFADeviceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIamVirtualMfaDeviceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKmsAliasByResourceGroupError = AzureOpError;
 /** List KmsAlias resources by resource group */
-export const ListKmsAliasByResourceGroup: API.OperationMethod<
+export const ListKmsAliasByResourceGroup: API.PaginatedOperationMethod<
   ListKmsAliasByResourceGroupRequest,
   KmsAliasListResult,
   ListKmsAliasByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KmsAlias
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<ListKmsAliasByResourceGroupRequest>,
   output: __S(21761, __c680, 1) as any as S.Schema<KmsAliasListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKmsAliasByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKmsAliasBySubscriptionError = AzureOpError;
 /** List KmsAlias resources by subscription ID */
-export const ListKmsAliasBySubscription: API.OperationMethod<
+export const ListKmsAliasBySubscription: API.PaginatedOperationMethod<
   ListKmsAliasBySubscriptionRequest,
   KmsAliasListResult,
   ListKmsAliasBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KmsAlias
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<ListKmsAliasBySubscriptionRequest>,
   output: __S(21761, __c680, 1) as any as S.Schema<KmsAliasListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKmsAliasBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKmsKeyByResourceGroupError = AzureOpError;
 /** List KmsKey resources by resource group */
-export const ListKmsKeyByResourceGroup: API.OperationMethod<
+export const ListKmsKeyByResourceGroup: API.PaginatedOperationMethod<
   ListKmsKeyByResourceGroupRequest,
   KmsKeyListResult,
   ListKmsKeyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KmsKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<ListKmsKeyByResourceGroupRequest>,
   output: __S(21857, __c683, 1) as any as S.Schema<KmsKeyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKmsKeyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKmsKeyBySubscriptionError = AzureOpError;
 /** List KmsKey resources by subscription ID */
-export const ListKmsKeyBySubscription: API.OperationMethod<
+export const ListKmsKeyBySubscription: API.PaginatedOperationMethod<
   ListKmsKeyBySubscriptionRequest,
   KmsKeyListResult,
   ListKmsKeyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KmsKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<ListKmsKeyBySubscriptionRequest>,
   output: __S(21857, __c683, 1) as any as S.Schema<KmsKeyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKmsKeyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLambdaFunctionByResourceGroupError = AzureOpError;
 /** List LambdaFunction resources by resource group */
-export const ListLambdaFunctionByResourceGroup: API.OperationMethod<
+export const ListLambdaFunctionByResourceGroup: API.PaginatedOperationMethod<
   ListLambdaFunctionByResourceGroupRequest,
   LambdaFunctionListResult,
   ListLambdaFunctionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LambdaFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<ListLambdaFunctionByResourceGroupRequest>,
   output: __S(21985, __c687, 1) as any as S.Schema<LambdaFunctionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLambdaFunctionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLambdaFunctionBySubscriptionError = AzureOpError;
 /** List LambdaFunction resources by subscription ID */
-export const ListLambdaFunctionBySubscription: API.OperationMethod<
+export const ListLambdaFunctionBySubscription: API.PaginatedOperationMethod<
   ListLambdaFunctionBySubscriptionRequest,
   LambdaFunctionListResult,
   ListLambdaFunctionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LambdaFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<ListLambdaFunctionBySubscriptionRequest>,
   output: __S(21985, __c687, 1) as any as S.Schema<LambdaFunctionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLambdaFunctionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLambdaFunctionCodeLocationByResourceGroupError = AzureOpError;
 /** List LambdaFunctionCodeLocation resources by resource group */
-export const ListLambdaFunctionCodeLocationByResourceGroup: API.OperationMethod<
+export const ListLambdaFunctionCodeLocationByResourceGroup: API.PaginatedOperationMethod<
   ListLambdaFunctionCodeLocationByResourceGroupRequest,
   LambdaFunctionCodeLocationListResult,
   ListLambdaFunctionCodeLocationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LambdaFunctionCodeLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     22048,
     __c689,
     0,
   ) as any as S.Schema<ListLambdaFunctionCodeLocationByResourceGroupRequest>,
   output: __S(22081, __c690, 1) as any as S.Schema<LambdaFunctionCodeLocationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLambdaFunctionCodeLocationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLambdaFunctionCodeLocationBySubscriptionError = AzureOpError;
 /** List LambdaFunctionCodeLocation resources by subscription ID */
-export const ListLambdaFunctionCodeLocationBySubscription: API.OperationMethod<
+export const ListLambdaFunctionCodeLocationBySubscription: API.PaginatedOperationMethod<
   ListLambdaFunctionCodeLocationBySubscriptionRequest,
   LambdaFunctionCodeLocationListResult,
   ListLambdaFunctionCodeLocationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LambdaFunctionCodeLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     22112,
     __c691,
     0,
   ) as any as S.Schema<ListLambdaFunctionCodeLocationBySubscriptionRequest>,
   output: __S(22081, __c690, 1) as any as S.Schema<LambdaFunctionCodeLocationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLambdaFunctionCodeLocationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLightsailBucketByResourceGroupError = AzureOpError;
 /** List LightsailBucket resources by resource group */
-export const ListLightsailBucketByResourceGroup: API.OperationMethod<
+export const ListLightsailBucketByResourceGroup: API.PaginatedOperationMethod<
   ListLightsailBucketByResourceGroupRequest,
   LightsailBucketListResult,
   ListLightsailBucketByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LightsailBucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<ListLightsailBucketByResourceGroupRequest>,
   output: __S(22177, __c693, 1) as any as S.Schema<LightsailBucketListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLightsailBucketByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLightsailBucketBySubscriptionError = AzureOpError;
 /** List LightsailBucket resources by subscription ID */
-export const ListLightsailBucketBySubscription: API.OperationMethod<
+export const ListLightsailBucketBySubscription: API.PaginatedOperationMethod<
   ListLightsailBucketBySubscriptionRequest,
   LightsailBucketListResult,
   ListLightsailBucketBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LightsailBucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<ListLightsailBucketBySubscriptionRequest>,
   output: __S(22177, __c693, 1) as any as S.Schema<LightsailBucketListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLightsailBucketBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLightsailInstanceByResourceGroupError = AzureOpError;
 /** List LightsailInstance resources by resource group */
-export const ListLightsailInstanceByResourceGroup: API.OperationMethod<
+export const ListLightsailInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListLightsailInstanceByResourceGroupRequest,
   LightsailInstanceListResult,
   ListLightsailInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LightsailInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<ListLightsailInstanceByResourceGroupRequest>,
   output: __S(22273, __c696, 1) as any as S.Schema<LightsailInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLightsailInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLightsailInstanceBySubscriptionError = AzureOpError;
 /** List LightsailInstance resources by subscription ID */
-export const ListLightsailInstanceBySubscription: API.OperationMethod<
+export const ListLightsailInstanceBySubscription: API.PaginatedOperationMethod<
   ListLightsailInstanceBySubscriptionRequest,
   LightsailInstanceListResult,
   ListLightsailInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LightsailInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<ListLightsailInstanceBySubscriptionRequest>,
   output: __S(22273, __c696, 1) as any as S.Schema<LightsailInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLightsailInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsLogGroupByResourceGroupError = AzureOpError;
 /** List LogsLogGroup resources by resource group */
-export const ListLogsLogGroupByResourceGroup: API.OperationMethod<
+export const ListLogsLogGroupByResourceGroup: API.PaginatedOperationMethod<
   ListLogsLogGroupByResourceGroupRequest,
   LogsLogGroupListResult,
   ListLogsLogGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsLogGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<ListLogsLogGroupByResourceGroupRequest>,
   output: __S(22369, __c699, 1) as any as S.Schema<LogsLogGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsLogGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsLogGroupBySubscriptionError = AzureOpError;
 /** List LogsLogGroup resources by subscription ID */
-export const ListLogsLogGroupBySubscription: API.OperationMethod<
+export const ListLogsLogGroupBySubscription: API.PaginatedOperationMethod<
   ListLogsLogGroupBySubscriptionRequest,
   LogsLogGroupListResult,
   ListLogsLogGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsLogGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<ListLogsLogGroupBySubscriptionRequest>,
   output: __S(22369, __c699, 1) as any as S.Schema<LogsLogGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsLogGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsLogStreamByResourceGroupError = AzureOpError;
 /** List LogsLogStream resources by resource group */
-export const ListLogsLogStreamByResourceGroup: API.OperationMethod<
+export const ListLogsLogStreamByResourceGroup: API.PaginatedOperationMethod<
   ListLogsLogStreamByResourceGroupRequest,
   LogsLogStreamListResult,
   ListLogsLogStreamByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsLogStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22464, __c702, 0) as any as S.Schema<ListLogsLogStreamByResourceGroupRequest>,
   output: __S(22497, __c703, 1) as any as S.Schema<LogsLogStreamListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsLogStreamByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsLogStreamBySubscriptionError = AzureOpError;
 /** List LogsLogStream resources by subscription ID */
-export const ListLogsLogStreamBySubscription: API.OperationMethod<
+export const ListLogsLogStreamBySubscription: API.PaginatedOperationMethod<
   ListLogsLogStreamBySubscriptionRequest,
   LogsLogStreamListResult,
   ListLogsLogStreamBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsLogStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<ListLogsLogStreamBySubscriptionRequest>,
   output: __S(22497, __c703, 1) as any as S.Schema<LogsLogStreamListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsLogStreamBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsMetricFilterByResourceGroupError = AzureOpError;
 /** List LogsMetricFilter resources by resource group */
-export const ListLogsMetricFilterByResourceGroup: API.OperationMethod<
+export const ListLogsMetricFilterByResourceGroup: API.PaginatedOperationMethod<
   ListLogsMetricFilterByResourceGroupRequest,
   LogsMetricFilterListResult,
   ListLogsMetricFilterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsMetricFilter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<ListLogsMetricFilterByResourceGroupRequest>,
   output: __S(22593, __c706, 1) as any as S.Schema<LogsMetricFilterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsMetricFilterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsMetricFilterBySubscriptionError = AzureOpError;
 /** List LogsMetricFilter resources by subscription ID */
-export const ListLogsMetricFilterBySubscription: API.OperationMethod<
+export const ListLogsMetricFilterBySubscription: API.PaginatedOperationMethod<
   ListLogsMetricFilterBySubscriptionRequest,
   LogsMetricFilterListResult,
   ListLogsMetricFilterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsMetricFilter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<ListLogsMetricFilterBySubscriptionRequest>,
   output: __S(22593, __c706, 1) as any as S.Schema<LogsMetricFilterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsMetricFilterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsSubscriptionFilterByResourceGroupError = AzureOpError;
 /** List LogsSubscriptionFilter resources by resource group */
-export const ListLogsSubscriptionFilterByResourceGroup: API.OperationMethod<
+export const ListLogsSubscriptionFilterByResourceGroup: API.PaginatedOperationMethod<
   ListLogsSubscriptionFilterByResourceGroupRequest,
   LogsSubscriptionFilterListResult,
   ListLogsSubscriptionFilterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsSubscriptionFilter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<ListLogsSubscriptionFilterByResourceGroupRequest>,
   output: __S(22689, __c709, 1) as any as S.Schema<LogsSubscriptionFilterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsSubscriptionFilterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogsSubscriptionFilterBySubscriptionError = AzureOpError;
 /** List LogsSubscriptionFilter resources by subscription ID */
-export const ListLogsSubscriptionFilterBySubscription: API.OperationMethod<
+export const ListLogsSubscriptionFilterBySubscription: API.PaginatedOperationMethod<
   ListLogsSubscriptionFilterBySubscriptionRequest,
   LogsSubscriptionFilterListResult,
   ListLogsSubscriptionFilterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogsSubscriptionFilter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<ListLogsSubscriptionFilterBySubscriptionRequest>,
   output: __S(22689, __c709, 1) as any as S.Schema<LogsSubscriptionFilterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogsSubscriptionFilterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMacie2JobSummaryByResourceGroupError = AzureOpError;
 /** List Macie2JobSummary resources by resource group */
-export const ListMacie2JobSummaryByResourceGroup: API.OperationMethod<
+export const ListMacie2JobSummaryByResourceGroup: API.PaginatedOperationMethod<
   ListMacie2JobSummaryByResourceGroupRequest,
   Macie2JobSummaryListResult,
   ListMacie2JobSummaryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Macie2JobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<ListMacie2JobSummaryByResourceGroupRequest>,
   output: __S(22785, __c712, 1) as any as S.Schema<Macie2JobSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMacie2JobSummaryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMacie2JobSummaryBySubscriptionError = AzureOpError;
 /** List Macie2JobSummary resources by subscription ID */
-export const ListMacie2JobSummaryBySubscription: API.OperationMethod<
+export const ListMacie2JobSummaryBySubscription: API.PaginatedOperationMethod<
   ListMacie2JobSummaryBySubscriptionRequest,
   Macie2JobSummaryListResult,
   ListMacie2JobSummaryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Macie2JobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<ListMacie2JobSummaryBySubscriptionRequest>,
   output: __S(22785, __c712, 1) as any as S.Schema<Macie2JobSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMacie2JobSummaryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMacieAllowListByResourceGroupError = AzureOpError;
 /** List MacieAllowList resources by resource group */
-export const ListMacieAllowListByResourceGroup: API.OperationMethod<
+export const ListMacieAllowListByResourceGroup: API.PaginatedOperationMethod<
   ListMacieAllowListByResourceGroupRequest,
   MacieAllowListListResult,
   ListMacieAllowListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MacieAllowList
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22848, __c714, 0) as any as S.Schema<ListMacieAllowListByResourceGroupRequest>,
   output: __S(22881, __c715, 1) as any as S.Schema<MacieAllowListListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMacieAllowListByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMacieAllowListBySubscriptionError = AzureOpError;
 /** List MacieAllowList resources by subscription ID */
-export const ListMacieAllowListBySubscription: API.OperationMethod<
+export const ListMacieAllowListBySubscription: API.PaginatedOperationMethod<
   ListMacieAllowListBySubscriptionRequest,
   MacieAllowListListResult,
   ListMacieAllowListBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MacieAllowList
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<ListMacieAllowListBySubscriptionRequest>,
   output: __S(22881, __c715, 1) as any as S.Schema<MacieAllowListListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMacieAllowListBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallFirewallByResourceGroupError = AzureOpError;
 /** List NetworkFirewallFirewall resources by resource group */
-export const ListNetworkFirewallFirewallByResourceGroup: API.OperationMethod<
+export const ListNetworkFirewallFirewallByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkFirewallFirewallByResourceGroupRequest,
   NetworkFirewallFirewallListResult,
   ListNetworkFirewallFirewallByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallFirewall
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     22976,
     __c718,
     0,
   ) as any as S.Schema<ListNetworkFirewallFirewallByResourceGroupRequest>,
   output: __S(23009, __c719, 1) as any as S.Schema<NetworkFirewallFirewallListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallFirewallByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallFirewallBySubscriptionError = AzureOpError;
 /** List NetworkFirewallFirewall resources by subscription ID */
-export const ListNetworkFirewallFirewallBySubscription: API.OperationMethod<
+export const ListNetworkFirewallFirewallBySubscription: API.PaginatedOperationMethod<
   ListNetworkFirewallFirewallBySubscriptionRequest,
   NetworkFirewallFirewallListResult,
   ListNetworkFirewallFirewallBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallFirewall
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<ListNetworkFirewallFirewallBySubscriptionRequest>,
   output: __S(23009, __c719, 1) as any as S.Schema<NetworkFirewallFirewallListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallFirewallBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallFirewallPolicyByResourceGroupError = AzureOpError;
 /** List NetworkFirewallFirewallPolicy resources by resource group */
-export const ListNetworkFirewallFirewallPolicyByResourceGroup: API.OperationMethod<
+export const ListNetworkFirewallFirewallPolicyByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkFirewallFirewallPolicyByResourceGroupRequest,
   NetworkFirewallFirewallPolicyListResult,
   ListNetworkFirewallFirewallPolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallFirewallPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23072,
     __c721,
     0,
   ) as any as S.Schema<ListNetworkFirewallFirewallPolicyByResourceGroupRequest>,
   output: __S(23105, __c722, 1) as any as S.Schema<NetworkFirewallFirewallPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallFirewallPolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallFirewallPolicyBySubscriptionError = AzureOpError;
 /** List NetworkFirewallFirewallPolicy resources by subscription ID */
-export const ListNetworkFirewallFirewallPolicyBySubscription: API.OperationMethod<
+export const ListNetworkFirewallFirewallPolicyBySubscription: API.PaginatedOperationMethod<
   ListNetworkFirewallFirewallPolicyBySubscriptionRequest,
   NetworkFirewallFirewallPolicyListResult,
   ListNetworkFirewallFirewallPolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallFirewallPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23136,
     __c723,
     0,
   ) as any as S.Schema<ListNetworkFirewallFirewallPolicyBySubscriptionRequest>,
   output: __S(23105, __c722, 1) as any as S.Schema<NetworkFirewallFirewallPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallFirewallPolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallRuleGroupByResourceGroupError = AzureOpError;
 /** List NetworkFirewallRuleGroup resources by resource group */
-export const ListNetworkFirewallRuleGroupByResourceGroup: API.OperationMethod<
+export const ListNetworkFirewallRuleGroupByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkFirewallRuleGroupByResourceGroupRequest,
   NetworkFirewallRuleGroupListResult,
   ListNetworkFirewallRuleGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallRuleGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23168,
     __c724,
     0,
   ) as any as S.Schema<ListNetworkFirewallRuleGroupByResourceGroupRequest>,
   output: __S(23201, __c725, 1) as any as S.Schema<NetworkFirewallRuleGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallRuleGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFirewallRuleGroupBySubscriptionError = AzureOpError;
 /** List NetworkFirewallRuleGroup resources by subscription ID */
-export const ListNetworkFirewallRuleGroupBySubscription: API.OperationMethod<
+export const ListNetworkFirewallRuleGroupBySubscription: API.PaginatedOperationMethod<
   ListNetworkFirewallRuleGroupBySubscriptionRequest,
   NetworkFirewallRuleGroupListResult,
   ListNetworkFirewallRuleGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFirewallRuleGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23232,
     __c726,
     0,
   ) as any as S.Schema<ListNetworkFirewallRuleGroupBySubscriptionRequest>,
   output: __S(23201, __c725, 1) as any as S.Schema<NetworkFirewallRuleGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallRuleGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenSearchDomainStatusByResourceGroupError = AzureOpError;
 /** List OpenSearchDomainStatus resources by resource group */
-export const ListOpenSearchDomainStatusByResourceGroup: API.OperationMethod<
+export const ListOpenSearchDomainStatusByResourceGroup: API.PaginatedOperationMethod<
   ListOpenSearchDomainStatusByResourceGroupRequest,
   OpenSearchDomainStatusListResult,
   ListOpenSearchDomainStatusByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenSearchDomainStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<ListOpenSearchDomainStatusByResourceGroupRequest>,
   output: __S(23297, __c728, 1) as any as S.Schema<OpenSearchDomainStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenSearchDomainStatusByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenSearchDomainStatusBySubscriptionError = AzureOpError;
 /** List OpenSearchDomainStatus resources by subscription ID */
-export const ListOpenSearchDomainStatusBySubscription: API.OperationMethod<
+export const ListOpenSearchDomainStatusBySubscription: API.PaginatedOperationMethod<
   ListOpenSearchDomainStatusBySubscriptionRequest,
   OpenSearchDomainStatusListResult,
   ListOpenSearchDomainStatusBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenSearchDomainStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23328, __c729, 0) as any as S.Schema<ListOpenSearchDomainStatusBySubscriptionRequest>,
   output: __S(23297, __c728, 1) as any as S.Schema<OpenSearchDomainStatusListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenSearchDomainStatusBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(23364, __c730, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationsAccountByResourceGroupError = AzureOpError;
 /** List OrganizationsAccount resources by resource group */
-export const ListOrganizationsAccountByResourceGroup: API.OperationMethod<
+export const ListOrganizationsAccountByResourceGroup: API.PaginatedOperationMethod<
   ListOrganizationsAccountByResourceGroupRequest,
   OrganizationsAccountListResult,
   ListOrganizationsAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationsAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<ListOrganizationsAccountByResourceGroupRequest>,
   output: __S(23425, __c732, 1) as any as S.Schema<OrganizationsAccountListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationsAccountBySubscriptionError = AzureOpError;
 /** List OrganizationsAccount resources by subscription ID */
-export const ListOrganizationsAccountBySubscription: API.OperationMethod<
+export const ListOrganizationsAccountBySubscription: API.PaginatedOperationMethod<
   ListOrganizationsAccountBySubscriptionRequest,
   OrganizationsAccountListResult,
   ListOrganizationsAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationsAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<ListOrganizationsAccountBySubscriptionRequest>,
   output: __S(23425, __c732, 1) as any as S.Schema<OrganizationsAccountListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationsOrganizationByResourceGroupError = AzureOpError;
 /** List OrganizationsOrganization resources by resource group */
-export const ListOrganizationsOrganizationByResourceGroup: API.OperationMethod<
+export const ListOrganizationsOrganizationByResourceGroup: API.PaginatedOperationMethod<
   ListOrganizationsOrganizationByResourceGroupRequest,
   OrganizationsOrganizationListResult,
   ListOrganizationsOrganizationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationsOrganization
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23520,
     __c735,
     0,
   ) as any as S.Schema<ListOrganizationsOrganizationByResourceGroupRequest>,
   output: __S(23553, __c736, 1) as any as S.Schema<OrganizationsOrganizationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsOrganizationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationsOrganizationBySubscriptionError = AzureOpError;
 /** List OrganizationsOrganization resources by subscription ID */
-export const ListOrganizationsOrganizationBySubscription: API.OperationMethod<
+export const ListOrganizationsOrganizationBySubscription: API.PaginatedOperationMethod<
   ListOrganizationsOrganizationBySubscriptionRequest,
   OrganizationsOrganizationListResult,
   ListOrganizationsOrganizationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationsOrganization
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23584,
     __c737,
     0,
   ) as any as S.Schema<ListOrganizationsOrganizationBySubscriptionRequest>,
   output: __S(23553, __c736, 1) as any as S.Schema<OrganizationsOrganizationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsOrganizationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbClusterByResourceGroupError = AzureOpError;
 /** List RdsDBCluster resources by resource group */
-export const ListRdsDbClusterByResourceGroup: API.OperationMethod<
+export const ListRdsDbClusterByResourceGroup: API.PaginatedOperationMethod<
   ListRdsDbClusterByResourceGroupRequest,
   RdsDBClusterListResult,
   ListRdsDbClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<ListRdsDbClusterByResourceGroupRequest>,
   output: __S(23649, __c739, 1) as any as S.Schema<RdsDBClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbClusterBySubscriptionError = AzureOpError;
 /** List RdsDBCluster resources by subscription ID */
-export const ListRdsDbClusterBySubscription: API.OperationMethod<
+export const ListRdsDbClusterBySubscription: API.PaginatedOperationMethod<
   ListRdsDbClusterBySubscriptionRequest,
   RdsDBClusterListResult,
   ListRdsDbClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23680, __c740, 0) as any as S.Schema<ListRdsDbClusterBySubscriptionRequest>,
   output: __S(23649, __c739, 1) as any as S.Schema<RdsDBClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbInstanceByResourceGroupError = AzureOpError;
 /** List RdsDBInstance resources by resource group */
-export const ListRdsDbInstanceByResourceGroup: API.OperationMethod<
+export const ListRdsDbInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListRdsDbInstanceByResourceGroupRequest,
   RdsDBInstanceListResult,
   ListRdsDbInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23712, __c741, 0) as any as S.Schema<ListRdsDbInstanceByResourceGroupRequest>,
   output: __S(23745, __c742, 1) as any as S.Schema<RdsDBInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbInstanceBySubscriptionError = AzureOpError;
 /** List RdsDBInstance resources by subscription ID */
-export const ListRdsDbInstanceBySubscription: API.OperationMethod<
+export const ListRdsDbInstanceBySubscription: API.PaginatedOperationMethod<
   ListRdsDbInstanceBySubscriptionRequest,
   RdsDBInstanceListResult,
   ListRdsDbInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<ListRdsDbInstanceBySubscriptionRequest>,
   output: __S(23745, __c742, 1) as any as S.Schema<RdsDBInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbSnapshotAttributesResultByResourceGroupError = AzureOpError;
 /** List RdsDBSnapshotAttributesResult resources by resource group */
-export const ListRdsDbSnapshotAttributesResultByResourceGroup: API.OperationMethod<
+export const ListRdsDbSnapshotAttributesResultByResourceGroup: API.PaginatedOperationMethod<
   ListRdsDbSnapshotAttributesResultByResourceGroupRequest,
   RdsDBSnapshotAttributesResultListResult,
   ListRdsDbSnapshotAttributesResultByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBSnapshotAttributesResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23808,
     __c744,
     0,
   ) as any as S.Schema<ListRdsDbSnapshotAttributesResultByResourceGroupRequest>,
   output: __S(23841, __c745, 1) as any as S.Schema<RdsDBSnapshotAttributesResultListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbSnapshotAttributesResultByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbSnapshotAttributesResultBySubscriptionError = AzureOpError;
 /** List RdsDBSnapshotAttributesResult resources by subscription ID */
-export const ListRdsDbSnapshotAttributesResultBySubscription: API.OperationMethod<
+export const ListRdsDbSnapshotAttributesResultBySubscription: API.PaginatedOperationMethod<
   ListRdsDbSnapshotAttributesResultBySubscriptionRequest,
   RdsDBSnapshotAttributesResultListResult,
   ListRdsDbSnapshotAttributesResultBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBSnapshotAttributesResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     23872,
     __c746,
     0,
   ) as any as S.Schema<ListRdsDbSnapshotAttributesResultBySubscriptionRequest>,
   output: __S(23841, __c745, 1) as any as S.Schema<RdsDBSnapshotAttributesResultListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbSnapshotAttributesResultBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbSnapshotByResourceGroupError = AzureOpError;
 /** List RdsDBSnapshot resources by resource group */
-export const ListRdsDbSnapshotByResourceGroup: API.OperationMethod<
+export const ListRdsDbSnapshotByResourceGroup: API.PaginatedOperationMethod<
   ListRdsDbSnapshotByResourceGroupRequest,
   RdsDBSnapshotListResult,
   ListRdsDbSnapshotByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBSnapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<ListRdsDbSnapshotByResourceGroupRequest>,
   output: __S(23937, __c748, 1) as any as S.Schema<RdsDBSnapshotListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbSnapshotByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsDbSnapshotBySubscriptionError = AzureOpError;
 /** List RdsDBSnapshot resources by subscription ID */
-export const ListRdsDbSnapshotBySubscription: API.OperationMethod<
+export const ListRdsDbSnapshotBySubscription: API.PaginatedOperationMethod<
   ListRdsDbSnapshotBySubscriptionRequest,
   RdsDBSnapshotListResult,
   ListRdsDbSnapshotBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsDBSnapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<ListRdsDbSnapshotBySubscriptionRequest>,
   output: __S(23937, __c748, 1) as any as S.Schema<RdsDBSnapshotListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsDbSnapshotBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsEventSubscriptionByResourceGroupError = AzureOpError;
 /** List RdsEventSubscription resources by resource group */
-export const ListRdsEventSubscriptionByResourceGroup: API.OperationMethod<
+export const ListRdsEventSubscriptionByResourceGroup: API.PaginatedOperationMethod<
   ListRdsEventSubscriptionByResourceGroupRequest,
   RdsEventSubscriptionListResult,
   ListRdsEventSubscriptionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsEventSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<ListRdsEventSubscriptionByResourceGroupRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<RdsEventSubscriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsEventSubscriptionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsEventSubscriptionBySubscriptionError = AzureOpError;
 /** List RdsEventSubscription resources by subscription ID */
-export const ListRdsEventSubscriptionBySubscription: API.OperationMethod<
+export const ListRdsEventSubscriptionBySubscription: API.PaginatedOperationMethod<
   ListRdsEventSubscriptionBySubscriptionRequest,
   RdsEventSubscriptionListResult,
   ListRdsEventSubscriptionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsEventSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<ListRdsEventSubscriptionBySubscriptionRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<RdsEventSubscriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsEventSubscriptionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsExportTaskByResourceGroupError = AzureOpError;
 /** List RdsExportTask resources by resource group */
-export const ListRdsExportTaskByResourceGroup: API.OperationMethod<
+export const ListRdsExportTaskByResourceGroup: API.PaginatedOperationMethod<
   ListRdsExportTaskByResourceGroupRequest,
   RdsExportTaskListResult,
   ListRdsExportTaskByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsExportTask
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<ListRdsExportTaskByResourceGroupRequest>,
   output: __S(24161, __c755, 1) as any as S.Schema<RdsExportTaskListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsExportTaskByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRdsExportTaskBySubscriptionError = AzureOpError;
 /** List RdsExportTask resources by subscription ID */
-export const ListRdsExportTaskBySubscription: API.OperationMethod<
+export const ListRdsExportTaskBySubscription: API.PaginatedOperationMethod<
   ListRdsExportTaskBySubscriptionRequest,
   RdsExportTaskListResult,
   ListRdsExportTaskBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RdsExportTask
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<ListRdsExportTaskBySubscriptionRequest>,
   output: __S(24161, __c755, 1) as any as S.Schema<RdsExportTaskListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRdsExportTaskBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedshiftClusterByResourceGroupError = AzureOpError;
 /** List RedshiftCluster resources by resource group */
-export const ListRedshiftClusterByResourceGroup: API.OperationMethod<
+export const ListRedshiftClusterByResourceGroup: API.PaginatedOperationMethod<
   ListRedshiftClusterByResourceGroupRequest,
   RedshiftClusterListResult,
   ListRedshiftClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedshiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<ListRedshiftClusterByResourceGroupRequest>,
   output: __S(24257, __c758, 1) as any as S.Schema<RedshiftClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedshiftClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedshiftClusterBySubscriptionError = AzureOpError;
 /** List RedshiftCluster resources by subscription ID */
-export const ListRedshiftClusterBySubscription: API.OperationMethod<
+export const ListRedshiftClusterBySubscription: API.PaginatedOperationMethod<
   ListRedshiftClusterBySubscriptionRequest,
   RedshiftClusterListResult,
   ListRedshiftClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedshiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<ListRedshiftClusterBySubscriptionRequest>,
   output: __S(24257, __c758, 1) as any as S.Schema<RedshiftClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedshiftClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedshiftClusterParameterGroupByResourceGroupError = AzureOpError;
 /** List RedshiftClusterParameterGroup resources by resource group */
-export const ListRedshiftClusterParameterGroupByResourceGroup: API.OperationMethod<
+export const ListRedshiftClusterParameterGroupByResourceGroup: API.PaginatedOperationMethod<
   ListRedshiftClusterParameterGroupByResourceGroupRequest,
   RedshiftClusterParameterGroupListResult,
   ListRedshiftClusterParameterGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedshiftClusterParameterGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24320,
     __c760,
     0,
   ) as any as S.Schema<ListRedshiftClusterParameterGroupByResourceGroupRequest>,
   output: __S(24353, __c761, 1) as any as S.Schema<RedshiftClusterParameterGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedshiftClusterParameterGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedshiftClusterParameterGroupBySubscriptionError = AzureOpError;
 /** List RedshiftClusterParameterGroup resources by subscription ID */
-export const ListRedshiftClusterParameterGroupBySubscription: API.OperationMethod<
+export const ListRedshiftClusterParameterGroupBySubscription: API.PaginatedOperationMethod<
   ListRedshiftClusterParameterGroupBySubscriptionRequest,
   RedshiftClusterParameterGroupListResult,
   ListRedshiftClusterParameterGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedshiftClusterParameterGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24384,
     __c762,
     0,
   ) as any as S.Schema<ListRedshiftClusterParameterGroupBySubscriptionRequest>,
   output: __S(24353, __c761, 1) as any as S.Schema<RedshiftClusterParameterGroupListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedshiftClusterParameterGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53DomainsDomainSummaryByResourceGroupError = AzureOpError;
 /** List Route53DomainsDomainSummary resources by resource group */
-export const ListRoute53DomainsDomainSummaryByResourceGroup: API.OperationMethod<
+export const ListRoute53DomainsDomainSummaryByResourceGroup: API.PaginatedOperationMethod<
   ListRoute53DomainsDomainSummaryByResourceGroupRequest,
   Route53DomainsDomainSummaryListResult,
   ListRoute53DomainsDomainSummaryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53DomainsDomainSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24416,
     __c763,
     0,
   ) as any as S.Schema<ListRoute53DomainsDomainSummaryByResourceGroupRequest>,
   output: __S(24449, __c764, 1) as any as S.Schema<Route53DomainsDomainSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53DomainsDomainSummaryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53DomainsDomainSummaryBySubscriptionError = AzureOpError;
 /** List Route53DomainsDomainSummary resources by subscription ID */
-export const ListRoute53DomainsDomainSummaryBySubscription: API.OperationMethod<
+export const ListRoute53DomainsDomainSummaryBySubscription: API.PaginatedOperationMethod<
   ListRoute53DomainsDomainSummaryBySubscriptionRequest,
   Route53DomainsDomainSummaryListResult,
   ListRoute53DomainsDomainSummaryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53DomainsDomainSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24512,
     __c766,
     0,
   ) as any as S.Schema<ListRoute53DomainsDomainSummaryBySubscriptionRequest>,
   output: __S(24449, __c764, 1) as any as S.Schema<Route53DomainsDomainSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53DomainsDomainSummaryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53HostedZoneByResourceGroupError = AzureOpError;
 /** List Route53HostedZone resources by resource group */
-export const ListRoute53HostedZoneByResourceGroup: API.OperationMethod<
+export const ListRoute53HostedZoneByResourceGroup: API.PaginatedOperationMethod<
   ListRoute53HostedZoneByResourceGroupRequest,
   Route53HostedZoneListResult,
   ListRoute53HostedZoneByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53HostedZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<ListRoute53HostedZoneByResourceGroupRequest>,
   output: __S(24577, __c768, 1) as any as S.Schema<Route53HostedZoneListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53HostedZoneByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53HostedZoneBySubscriptionError = AzureOpError;
 /** List Route53HostedZone resources by subscription ID */
-export const ListRoute53HostedZoneBySubscription: API.OperationMethod<
+export const ListRoute53HostedZoneBySubscription: API.PaginatedOperationMethod<
   ListRoute53HostedZoneBySubscriptionRequest,
   Route53HostedZoneListResult,
   ListRoute53HostedZoneBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53HostedZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<ListRoute53HostedZoneBySubscriptionRequest>,
   output: __S(24577, __c768, 1) as any as S.Schema<Route53HostedZoneListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53HostedZoneBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53ResourceRecordSetByResourceGroupError = AzureOpError;
 /** List Route53ResourceRecordSet resources by resource group */
-export const ListRoute53ResourceRecordSetByResourceGroup: API.OperationMethod<
+export const ListRoute53ResourceRecordSetByResourceGroup: API.PaginatedOperationMethod<
   ListRoute53ResourceRecordSetByResourceGroupRequest,
   Route53ResourceRecordSetListResult,
   ListRoute53ResourceRecordSetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53ResourceRecordSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24640,
     __c770,
     0,
   ) as any as S.Schema<ListRoute53ResourceRecordSetByResourceGroupRequest>,
   output: __S(24673, __c771, 1) as any as S.Schema<Route53ResourceRecordSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53ResourceRecordSetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRoute53ResourceRecordSetBySubscriptionError = AzureOpError;
 /** List Route53ResourceRecordSet resources by subscription ID */
-export const ListRoute53ResourceRecordSetBySubscription: API.OperationMethod<
+export const ListRoute53ResourceRecordSetBySubscription: API.PaginatedOperationMethod<
   ListRoute53ResourceRecordSetBySubscriptionRequest,
   Route53ResourceRecordSetListResult,
   ListRoute53ResourceRecordSetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Route53ResourceRecordSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     24704,
     __c772,
     0,
   ) as any as S.Schema<ListRoute53ResourceRecordSetBySubscriptionRequest>,
   output: __S(24673, __c771, 1) as any as S.Schema<Route53ResourceRecordSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoute53ResourceRecordSetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3AccessControlPolicyByResourceGroupError = AzureOpError;
 /** List S3AccessControlPolicy resources by resource group */
-export const ListS3AccessControlPolicyByResourceGroup: API.OperationMethod<
+export const ListS3AccessControlPolicyByResourceGroup: API.PaginatedOperationMethod<
   ListS3AccessControlPolicyByResourceGroupRequest,
   S3AccessControlPolicyListResult,
   ListS3AccessControlPolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3AccessControlPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24736, __c773, 0) as any as S.Schema<ListS3AccessControlPolicyByResourceGroupRequest>,
   output: __S(24769, __c774, 1) as any as S.Schema<S3AccessControlPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3AccessControlPolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3AccessControlPolicyBySubscriptionError = AzureOpError;
 /** List S3AccessControlPolicy resources by subscription ID */
-export const ListS3AccessControlPolicyBySubscription: API.OperationMethod<
+export const ListS3AccessControlPolicyBySubscription: API.PaginatedOperationMethod<
   ListS3AccessControlPolicyBySubscriptionRequest,
   S3AccessControlPolicyListResult,
   ListS3AccessControlPolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3AccessControlPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<ListS3AccessControlPolicyBySubscriptionRequest>,
   output: __S(24769, __c774, 1) as any as S.Schema<S3AccessControlPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3AccessControlPolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3AccessPointByResourceGroupError = AzureOpError;
 /** List S3AccessPoint resources by resource group */
-export const ListS3AccessPointByResourceGroup: API.OperationMethod<
+export const ListS3AccessPointByResourceGroup: API.PaginatedOperationMethod<
   ListS3AccessPointByResourceGroupRequest,
   S3AccessPointListResult,
   ListS3AccessPointByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3AccessPoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24832, __c776, 0) as any as S.Schema<ListS3AccessPointByResourceGroupRequest>,
   output: __S(24865, __c777, 1) as any as S.Schema<S3AccessPointListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3AccessPointByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3AccessPointBySubscriptionError = AzureOpError;
 /** List S3AccessPoint resources by subscription ID */
-export const ListS3AccessPointBySubscription: API.OperationMethod<
+export const ListS3AccessPointBySubscription: API.PaginatedOperationMethod<
   ListS3AccessPointBySubscriptionRequest,
   S3AccessPointListResult,
   ListS3AccessPointBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3AccessPoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<ListS3AccessPointBySubscriptionRequest>,
   output: __S(24865, __c777, 1) as any as S.Schema<S3AccessPointListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3AccessPointBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3BucketByResourceGroupError = AzureOpError;
 /** List S3Bucket resources by resource group */
-export const ListS3BucketByResourceGroup: API.OperationMethod<
+export const ListS3BucketByResourceGroup: API.PaginatedOperationMethod<
   ListS3BucketByResourceGroupRequest,
   S3BucketListResult,
   ListS3BucketByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3Bucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24928, __c779, 0) as any as S.Schema<ListS3BucketByResourceGroupRequest>,
   output: __S(24961, __c780, 1) as any as S.Schema<S3BucketListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3BucketByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3BucketBySubscriptionError = AzureOpError;
 /** List S3Bucket resources by subscription ID */
-export const ListS3BucketBySubscription: API.OperationMethod<
+export const ListS3BucketBySubscription: API.PaginatedOperationMethod<
   ListS3BucketBySubscriptionRequest,
   S3BucketListResult,
   ListS3BucketBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3Bucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25024, __c782, 0) as any as S.Schema<ListS3BucketBySubscriptionRequest>,
   output: __S(24961, __c780, 1) as any as S.Schema<S3BucketListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3BucketBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3BucketPolicyByResourceGroupError = AzureOpError;
 /** List S3BucketPolicy resources by resource group */
-export const ListS3BucketPolicyByResourceGroup: API.OperationMethod<
+export const ListS3BucketPolicyByResourceGroup: API.PaginatedOperationMethod<
   ListS3BucketPolicyByResourceGroupRequest,
   S3BucketPolicyListResult,
   ListS3BucketPolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3BucketPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25056, __c783, 0) as any as S.Schema<ListS3BucketPolicyByResourceGroupRequest>,
   output: __S(25089, __c784, 1) as any as S.Schema<S3BucketPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3BucketPolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3BucketPolicyBySubscriptionError = AzureOpError;
 /** List S3BucketPolicy resources by subscription ID */
-export const ListS3BucketPolicyBySubscription: API.OperationMethod<
+export const ListS3BucketPolicyBySubscription: API.PaginatedOperationMethod<
   ListS3BucketPolicyBySubscriptionRequest,
   S3BucketPolicyListResult,
   ListS3BucketPolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3BucketPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<ListS3BucketPolicyBySubscriptionRequest>,
   output: __S(25089, __c784, 1) as any as S.Schema<S3BucketPolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3BucketPolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroupError = AzureOpError;
 /** List S3ControlMultiRegionAccessPointPolicyDocument resources by resource group */
-export const ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroup: API.OperationMethod<
+export const ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroup: API.PaginatedOperationMethod<
   ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroupRequest,
   S3ControlMultiRegionAccessPointPolicyDocumentListResult,
   ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3ControlMultiRegionAccessPointPolicyDocument
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25152,
     __c786,
@@ -43854,22 +45188,28 @@ export const ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroup: A
     __c787,
     1,
   ) as any as S.Schema<S3ControlMultiRegionAccessPointPolicyDocumentListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3ControlMultiRegionAccessPointPolicyDocumentByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscriptionError = AzureOpError;
 /** List S3ControlMultiRegionAccessPointPolicyDocument resources by subscription ID */
-export const ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscription: API.OperationMethod<
+export const ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscription: API.PaginatedOperationMethod<
   ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscriptionRequest,
   S3ControlMultiRegionAccessPointPolicyDocumentListResult,
   ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  S3ControlMultiRegionAccessPointPolicyDocument
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25216,
     __c788,
@@ -43880,477 +45220,626 @@ export const ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscription: AP
     __c787,
     1,
   ) as any as S.Schema<S3ControlMultiRegionAccessPointPolicyDocumentListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3ControlMultiRegionAccessPointPolicyDocumentBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSageMakerAppByResourceGroupError = AzureOpError;
 /** List SageMakerApp resources by resource group */
-export const ListSageMakerAppByResourceGroup: API.OperationMethod<
+export const ListSageMakerAppByResourceGroup: API.PaginatedOperationMethod<
   ListSageMakerAppByResourceGroupRequest,
   SageMakerAppListResult,
   ListSageMakerAppByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SageMakerApp
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25248, __c789, 0) as any as S.Schema<ListSageMakerAppByResourceGroupRequest>,
   output: __S(25281, __c790, 1) as any as S.Schema<SageMakerAppListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSageMakerAppByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSageMakerAppBySubscriptionError = AzureOpError;
 /** List SageMakerApp resources by subscription ID */
-export const ListSageMakerAppBySubscription: API.OperationMethod<
+export const ListSageMakerAppBySubscription: API.PaginatedOperationMethod<
   ListSageMakerAppBySubscriptionRequest,
   SageMakerAppListResult,
   ListSageMakerAppBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SageMakerApp
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<ListSageMakerAppBySubscriptionRequest>,
   output: __S(25281, __c790, 1) as any as S.Schema<SageMakerAppListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSageMakerAppBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSageMakerNotebookInstanceSummaryByResourceGroupError = AzureOpError;
 /** List SageMakerNotebookInstanceSummary resources by resource group */
-export const ListSageMakerNotebookInstanceSummaryByResourceGroup: API.OperationMethod<
+export const ListSageMakerNotebookInstanceSummaryByResourceGroup: API.PaginatedOperationMethod<
   ListSageMakerNotebookInstanceSummaryByResourceGroupRequest,
   SageMakerNotebookInstanceSummaryListResult,
   ListSageMakerNotebookInstanceSummaryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SageMakerNotebookInstanceSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25344,
     __c792,
     0,
   ) as any as S.Schema<ListSageMakerNotebookInstanceSummaryByResourceGroupRequest>,
   output: __S(25377, __c793, 1) as any as S.Schema<SageMakerNotebookInstanceSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSageMakerNotebookInstanceSummaryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSageMakerNotebookInstanceSummaryBySubscriptionError = AzureOpError;
 /** List SageMakerNotebookInstanceSummary resources by subscription ID */
-export const ListSageMakerNotebookInstanceSummaryBySubscription: API.OperationMethod<
+export const ListSageMakerNotebookInstanceSummaryBySubscription: API.PaginatedOperationMethod<
   ListSageMakerNotebookInstanceSummaryBySubscriptionRequest,
   SageMakerNotebookInstanceSummaryListResult,
   ListSageMakerNotebookInstanceSummaryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SageMakerNotebookInstanceSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25408,
     __c794,
     0,
   ) as any as S.Schema<ListSageMakerNotebookInstanceSummaryBySubscriptionRequest>,
   output: __S(25377, __c793, 1) as any as S.Schema<SageMakerNotebookInstanceSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSageMakerNotebookInstanceSummaryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecretsManagerResourcePolicyByResourceGroupError = AzureOpError;
 /** List SecretsManagerResourcePolicy resources by resource group */
-export const ListSecretsManagerResourcePolicyByResourceGroup: API.OperationMethod<
+export const ListSecretsManagerResourcePolicyByResourceGroup: API.PaginatedOperationMethod<
   ListSecretsManagerResourcePolicyByResourceGroupRequest,
   SecretsManagerResourcePolicyListResult,
   ListSecretsManagerResourcePolicyByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecretsManagerResourcePolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25440,
     __c795,
     0,
   ) as any as S.Schema<ListSecretsManagerResourcePolicyByResourceGroupRequest>,
   output: __S(25473, __c796, 1) as any as S.Schema<SecretsManagerResourcePolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecretsManagerResourcePolicyByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecretsManagerResourcePolicyBySubscriptionError = AzureOpError;
 /** List SecretsManagerResourcePolicy resources by subscription ID */
-export const ListSecretsManagerResourcePolicyBySubscription: API.OperationMethod<
+export const ListSecretsManagerResourcePolicyBySubscription: API.PaginatedOperationMethod<
   ListSecretsManagerResourcePolicyBySubscriptionRequest,
   SecretsManagerResourcePolicyListResult,
   ListSecretsManagerResourcePolicyBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecretsManagerResourcePolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     25600,
     __c800,
     0,
   ) as any as S.Schema<ListSecretsManagerResourcePolicyBySubscriptionRequest>,
   output: __S(25473, __c796, 1) as any as S.Schema<SecretsManagerResourcePolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecretsManagerResourcePolicyBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecretsManagerSecretByResourceGroupError = AzureOpError;
 /** List SecretsManagerSecret resources by resource group */
-export const ListSecretsManagerSecretByResourceGroup: API.OperationMethod<
+export const ListSecretsManagerSecretByResourceGroup: API.PaginatedOperationMethod<
   ListSecretsManagerSecretByResourceGroupRequest,
   SecretsManagerSecretListResult,
   ListSecretsManagerSecretByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecretsManagerSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<ListSecretsManagerSecretByResourceGroupRequest>,
   output: __S(25665, __c802, 1) as any as S.Schema<SecretsManagerSecretListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecretsManagerSecretByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecretsManagerSecretBySubscriptionError = AzureOpError;
 /** List SecretsManagerSecret resources by subscription ID */
-export const ListSecretsManagerSecretBySubscription: API.OperationMethod<
+export const ListSecretsManagerSecretBySubscription: API.PaginatedOperationMethod<
   ListSecretsManagerSecretBySubscriptionRequest,
   SecretsManagerSecretListResult,
   ListSecretsManagerSecretBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecretsManagerSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<ListSecretsManagerSecretBySubscriptionRequest>,
   output: __S(25665, __c802, 1) as any as S.Schema<SecretsManagerSecretListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecretsManagerSecretBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnsSubscriptionByResourceGroupError = AzureOpError;
 /** List SnsSubscription resources by resource group */
-export const ListSnsSubscriptionByResourceGroup: API.OperationMethod<
+export const ListSnsSubscriptionByResourceGroup: API.PaginatedOperationMethod<
   ListSnsSubscriptionByResourceGroupRequest,
   SnsSubscriptionListResult,
   ListSnsSubscriptionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnsSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25728, __c804, 0) as any as S.Schema<ListSnsSubscriptionByResourceGroupRequest>,
   output: __S(25761, __c805, 1) as any as S.Schema<SnsSubscriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnsSubscriptionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnsSubscriptionBySubscriptionError = AzureOpError;
 /** List SnsSubscription resources by subscription ID */
-export const ListSnsSubscriptionBySubscription: API.OperationMethod<
+export const ListSnsSubscriptionBySubscription: API.PaginatedOperationMethod<
   ListSnsSubscriptionBySubscriptionRequest,
   SnsSubscriptionListResult,
   ListSnsSubscriptionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnsSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25792, __c806, 0) as any as S.Schema<ListSnsSubscriptionBySubscriptionRequest>,
   output: __S(25761, __c805, 1) as any as S.Schema<SnsSubscriptionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnsSubscriptionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnsTopicByResourceGroupError = AzureOpError;
 /** List SnsTopic resources by resource group */
-export const ListSnsTopicByResourceGroup: API.OperationMethod<
+export const ListSnsTopicByResourceGroup: API.PaginatedOperationMethod<
   ListSnsTopicByResourceGroupRequest,
   SnsTopicListResult,
   ListSnsTopicByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnsTopic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<ListSnsTopicByResourceGroupRequest>,
   output: __S(25857, __c808, 1) as any as S.Schema<SnsTopicListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnsTopicByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnsTopicBySubscriptionError = AzureOpError;
 /** List SnsTopic resources by subscription ID */
-export const ListSnsTopicBySubscription: API.OperationMethod<
+export const ListSnsTopicBySubscription: API.PaginatedOperationMethod<
   ListSnsTopicBySubscriptionRequest,
   SnsTopicListResult,
   ListSnsTopicBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnsTopic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<ListSnsTopicBySubscriptionRequest>,
   output: __S(25857, __c808, 1) as any as S.Schema<SnsTopicListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnsTopicBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqsQueueByResourceGroupError = AzureOpError;
 /** List SqsQueue resources by resource group */
-export const ListSqsQueueByResourceGroup: API.OperationMethod<
+export const ListSqsQueueByResourceGroup: API.PaginatedOperationMethod<
   ListSqsQueueByResourceGroupRequest,
   SqsQueueListResult,
   ListSqsQueueByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SqsQueue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<ListSqsQueueByResourceGroupRequest>,
   output: __S(25953, __c811, 1) as any as S.Schema<SqsQueueListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSqsQueueByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSqsQueueBySubscriptionError = AzureOpError;
 /** List SqsQueue resources by subscription ID */
-export const ListSqsQueueBySubscription: API.OperationMethod<
+export const ListSqsQueueBySubscription: API.PaginatedOperationMethod<
   ListSqsQueueBySubscriptionRequest,
   SqsQueueListResult,
   ListSqsQueueBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SqsQueue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(25984, __c812, 0) as any as S.Schema<ListSqsQueueBySubscriptionRequest>,
   output: __S(25953, __c811, 1) as any as S.Schema<SqsQueueListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSqsQueueBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmInstanceInformationByResourceGroupError = AzureOpError;
 /** List SsmInstanceInformation resources by resource group */
-export const ListSsmInstanceInformationByResourceGroup: API.OperationMethod<
+export const ListSsmInstanceInformationByResourceGroup: API.PaginatedOperationMethod<
   ListSsmInstanceInformationByResourceGroupRequest,
   SsmInstanceInformationListResult,
   ListSsmInstanceInformationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmInstanceInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26016, __c813, 0) as any as S.Schema<ListSsmInstanceInformationByResourceGroupRequest>,
   output: __S(26049, __c814, 1) as any as S.Schema<SsmInstanceInformationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmInstanceInformationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmInstanceInformationBySubscriptionError = AzureOpError;
 /** List SsmInstanceInformation resources by subscription ID */
-export const ListSsmInstanceInformationBySubscription: API.OperationMethod<
+export const ListSsmInstanceInformationBySubscription: API.PaginatedOperationMethod<
   ListSsmInstanceInformationBySubscriptionRequest,
   SsmInstanceInformationListResult,
   ListSsmInstanceInformationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmInstanceInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<ListSsmInstanceInformationBySubscriptionRequest>,
   output: __S(26049, __c814, 1) as any as S.Schema<SsmInstanceInformationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmInstanceInformationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmParameterByResourceGroupError = AzureOpError;
 /** List SsmParameter resources by resource group */
-export const ListSsmParameterByResourceGroup: API.OperationMethod<
+export const ListSsmParameterByResourceGroup: API.PaginatedOperationMethod<
   ListSsmParameterByResourceGroupRequest,
   SsmParameterListResult,
   ListSsmParameterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmParameter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<ListSsmParameterByResourceGroupRequest>,
   output: __S(26177, __c818, 1) as any as S.Schema<SsmParameterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmParameterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmParameterBySubscriptionError = AzureOpError;
 /** List SsmParameter resources by subscription ID */
-export const ListSsmParameterBySubscription: API.OperationMethod<
+export const ListSsmParameterBySubscription: API.PaginatedOperationMethod<
   ListSsmParameterBySubscriptionRequest,
   SsmParameterListResult,
   ListSsmParameterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmParameter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26208, __c819, 0) as any as S.Schema<ListSsmParameterBySubscriptionRequest>,
   output: __S(26177, __c818, 1) as any as S.Schema<SsmParameterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmParameterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmResourceComplianceSummaryItemByResourceGroupError = AzureOpError;
 /** List SsmResourceComplianceSummaryItem resources by resource group */
-export const ListSsmResourceComplianceSummaryItemByResourceGroup: API.OperationMethod<
+export const ListSsmResourceComplianceSummaryItemByResourceGroup: API.PaginatedOperationMethod<
   ListSsmResourceComplianceSummaryItemByResourceGroupRequest,
   SsmResourceComplianceSummaryItemListResult,
   ListSsmResourceComplianceSummaryItemByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmResourceComplianceSummaryItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     26240,
     __c820,
     0,
   ) as any as S.Schema<ListSsmResourceComplianceSummaryItemByResourceGroupRequest>,
   output: __S(26273, __c821, 1) as any as S.Schema<SsmResourceComplianceSummaryItemListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmResourceComplianceSummaryItemByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSsmResourceComplianceSummaryItemBySubscriptionError = AzureOpError;
 /** List SsmResourceComplianceSummaryItem resources by subscription ID */
-export const ListSsmResourceComplianceSummaryItemBySubscription: API.OperationMethod<
+export const ListSsmResourceComplianceSummaryItemBySubscription: API.PaginatedOperationMethod<
   ListSsmResourceComplianceSummaryItemBySubscriptionRequest,
   SsmResourceComplianceSummaryItemListResult,
   ListSsmResourceComplianceSummaryItemBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SsmResourceComplianceSummaryItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     26304,
     __c822,
     0,
   ) as any as S.Schema<ListSsmResourceComplianceSummaryItemBySubscriptionRequest>,
   output: __S(26273, __c821, 1) as any as S.Schema<SsmResourceComplianceSummaryItemListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSsmResourceComplianceSummaryItemBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWafv2LoggingConfigurationByResourceGroupError = AzureOpError;
 /** List Wafv2LoggingConfiguration resources by resource group */
-export const ListWafv2LoggingConfigurationByResourceGroup: API.OperationMethod<
+export const ListWafv2LoggingConfigurationByResourceGroup: API.PaginatedOperationMethod<
   ListWafv2LoggingConfigurationByResourceGroupRequest,
   Wafv2LoggingConfigurationListResult,
   ListWafv2LoggingConfigurationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Wafv2LoggingConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     26336,
     __c823,
     0,
   ) as any as S.Schema<ListWafv2LoggingConfigurationByResourceGroupRequest>,
   output: __S(26369, __c824, 1) as any as S.Schema<Wafv2LoggingConfigurationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWafv2LoggingConfigurationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWafv2LoggingConfigurationBySubscriptionError = AzureOpError;
 /** List Wafv2LoggingConfiguration resources by subscription ID */
-export const ListWafv2LoggingConfigurationBySubscription: API.OperationMethod<
+export const ListWafv2LoggingConfigurationBySubscription: API.PaginatedOperationMethod<
   ListWafv2LoggingConfigurationBySubscriptionRequest,
   Wafv2LoggingConfigurationListResult,
   ListWafv2LoggingConfigurationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Wafv2LoggingConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     26400,
     __c825,
     0,
   ) as any as S.Schema<ListWafv2LoggingConfigurationBySubscriptionRequest>,
   output: __S(26369, __c824, 1) as any as S.Schema<Wafv2LoggingConfigurationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWafv2LoggingConfigurationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWafWebAclSummaryByResourceGroupError = AzureOpError;
 /** List WafWebACLSummary resources by resource group */
-export const ListWafWebAclSummaryByResourceGroup: API.OperationMethod<
+export const ListWafWebAclSummaryByResourceGroup: API.PaginatedOperationMethod<
   ListWafWebAclSummaryByResourceGroupRequest,
   WafWebACLSummaryListResult,
   ListWafWebAclSummaryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WafWebACLSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26432, __c826, 0) as any as S.Schema<ListWafWebAclSummaryByResourceGroupRequest>,
   output: __S(26465, __c827, 1) as any as S.Schema<WafWebACLSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWafWebAclSummaryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWafWebAclSummaryBySubscriptionError = AzureOpError;
 /** List WafWebACLSummary resources by subscription ID */
-export const ListWafWebAclSummaryBySubscription: API.OperationMethod<
+export const ListWafWebAclSummaryBySubscription: API.PaginatedOperationMethod<
   ListWafWebAclSummaryBySubscriptionRequest,
   WafWebACLSummaryListResult,
   ListWafWebAclSummaryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WafWebACLSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<ListWafWebAclSummaryBySubscriptionRequest>,
   output: __S(26465, __c827, 1) as any as S.Schema<WafWebACLSummaryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWafWebAclSummaryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type LogsLogGroupsCreateOrReplaceError = AzureOpError;
 /** Create a LogsLogGroup. Please note that end user resource creation is currently restricted, but it will be enabled in the future. */
@@ -44362,8 +45851,7 @@ export const LogsLogGroupsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26529, __c829, 1) as any as S.Schema<LogsLogGroupsCreateOrReplaceRequest>,
   output: __S(26530, __c829, 2) as any as S.Schema<LogsLogGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44380,8 +45868,7 @@ export const LogsLogStreamsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26593, __c831, 1) as any as S.Schema<LogsLogStreamsCreateOrReplaceRequest>,
   output: __S(26594, __c831, 2) as any as S.Schema<LogsLogStreamsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44398,8 +45885,7 @@ export const LogsMetricFiltersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26625, __c832, 1) as any as S.Schema<LogsMetricFiltersCreateOrReplaceRequest>,
   output: __S(26626, __c832, 2) as any as S.Schema<LogsMetricFiltersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44416,8 +45902,7 @@ export const LogsSubscriptionFiltersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26657, __c833, 1) as any as S.Schema<LogsSubscriptionFiltersCreateOrReplaceRequest>,
   output: __S(26658, __c833, 2) as any as S.Schema<LogsSubscriptionFiltersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44434,8 +45919,7 @@ export const Macie2JobSummariesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26689, __c834, 1) as any as S.Schema<Macie2JobSummariesCreateOrReplaceRequest>,
   output: __S(26690, __c834, 2) as any as S.Schema<Macie2JobSummariesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44452,8 +45936,7 @@ export const MacieAllowListsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26721, __c835, 1) as any as S.Schema<MacieAllowListsCreateOrReplaceRequest>,
   output: __S(26722, __c835, 2) as any as S.Schema<MacieAllowListsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44478,8 +45961,7 @@ export const NetworkFirewallFirewallPoliciesCreateOrReplace: API.OperationMethod
     __c836,
     2,
   ) as any as S.Schema<NetworkFirewallFirewallPoliciesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44496,8 +45978,7 @@ export const NetworkFirewallFirewallsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26785, __c837, 1) as any as S.Schema<NetworkFirewallFirewallsCreateOrReplaceRequest>,
   output: __S(26786, __c837, 2) as any as S.Schema<NetworkFirewallFirewallsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44518,8 +45999,7 @@ export const NetworkFirewallRuleGroupsCreateOrReplace: API.OperationMethod<
     __c838,
     2,
   ) as any as S.Schema<NetworkFirewallRuleGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44536,8 +46016,7 @@ export const OpenSearchDomainStatusesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26849, __c839, 1) as any as S.Schema<OpenSearchDomainStatusesCreateOrReplaceRequest>,
   output: __S(26850, __c839, 2) as any as S.Schema<OpenSearchDomainStatusesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44554,8 +46033,7 @@ export const OrganizationsAccountsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26881, __c840, 1) as any as S.Schema<OrganizationsAccountsCreateOrReplaceRequest>,
   output: __S(26882, __c840, 2) as any as S.Schema<OrganizationsAccountsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44576,8 +46054,7 @@ export const OrganizationsOrganizationsCreateOrReplace: API.OperationMethod<
     __c842,
     2,
   ) as any as S.Schema<OrganizationsOrganizationsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44594,8 +46071,7 @@ export const RdsDbClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26977, __c843, 1) as any as S.Schema<RdsDbClustersCreateOrReplaceRequest>,
   output: __S(26978, __c843, 2) as any as S.Schema<RdsDbClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44612,8 +46088,7 @@ export const RdsDbInstancesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27009, __c844, 1) as any as S.Schema<RdsDbInstancesCreateOrReplaceRequest>,
   output: __S(27010, __c844, 2) as any as S.Schema<RdsDbInstancesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44638,8 +46113,7 @@ export const RdsDbSnapshotAttributesResultsCreateOrReplace: API.OperationMethod<
     __c845,
     2,
   ) as any as S.Schema<RdsDbSnapshotAttributesResultsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44656,8 +46130,7 @@ export const RdsDbSnapshotsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27073, __c846, 1) as any as S.Schema<RdsDbSnapshotsCreateOrReplaceRequest>,
   output: __S(27074, __c846, 2) as any as S.Schema<RdsDbSnapshotsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44674,8 +46147,7 @@ export const RdsEventSubscriptionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27105, __c847, 1) as any as S.Schema<RdsEventSubscriptionsCreateOrReplaceRequest>,
   output: __S(27106, __c847, 2) as any as S.Schema<RdsEventSubscriptionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44692,8 +46164,7 @@ export const RdsExportTasksCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27137, __c848, 1) as any as S.Schema<RdsExportTasksCreateOrReplaceRequest>,
   output: __S(27138, __c848, 2) as any as S.Schema<RdsExportTasksCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44718,8 +46189,7 @@ export const RedshiftClusterParameterGroupsCreateOrReplace: API.OperationMethod<
     __c849,
     2,
   ) as any as S.Schema<RedshiftClusterParameterGroupsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44736,8 +46206,7 @@ export const RedshiftClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27201, __c850, 1) as any as S.Schema<RedshiftClustersCreateOrReplaceRequest>,
   output: __S(27202, __c850, 2) as any as S.Schema<RedshiftClustersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44762,8 +46231,7 @@ export const Route53DomainsDomainSummariesCreateOrReplace: API.OperationMethod<
     __c851,
     2,
   ) as any as S.Schema<Route53DomainsDomainSummariesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44780,8 +46248,7 @@ export const Route53HostedZonesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27297, __c853, 1) as any as S.Schema<Route53HostedZonesCreateOrReplaceRequest>,
   output: __S(27298, __c853, 2) as any as S.Schema<Route53HostedZonesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44802,8 +46269,7 @@ export const Route53ResourceRecordSetsCreateOrReplace: API.OperationMethod<
     __c854,
     2,
   ) as any as S.Schema<Route53ResourceRecordSetsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44820,8 +46286,7 @@ export const S3AccessControlPoliciesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27361, __c855, 1) as any as S.Schema<S3AccessControlPoliciesCreateOrReplaceRequest>,
   output: __S(27362, __c855, 2) as any as S.Schema<S3AccessControlPoliciesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44838,8 +46303,7 @@ export const S3AccessPointsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27393, __c856, 1) as any as S.Schema<S3AccessPointsCreateOrReplaceRequest>,
   output: __S(27394, __c856, 2) as any as S.Schema<S3AccessPointsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44856,8 +46320,7 @@ export const S3BucketPoliciesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27425, __c857, 1) as any as S.Schema<S3BucketPoliciesCreateOrReplaceRequest>,
   output: __S(27426, __c857, 2) as any as S.Schema<S3BucketPoliciesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44874,8 +46337,7 @@ export const S3BucketsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27457, __c858, 1) as any as S.Schema<S3BucketsCreateOrReplaceRequest>,
   output: __S(27458, __c858, 2) as any as S.Schema<S3BucketsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44900,8 +46362,7 @@ export const S3ControlMultiRegionAccessPointPolicyDocumentsCreateOrReplace: API.
     __c859,
     2,
   ) as any as S.Schema<S3ControlMultiRegionAccessPointPolicyDocumentsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44918,8 +46379,7 @@ export const SageMakerAppsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27521, __c860, 1) as any as S.Schema<SageMakerAppsCreateOrReplaceRequest>,
   output: __S(27522, __c860, 2) as any as S.Schema<SageMakerAppsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44944,8 +46404,7 @@ export const SageMakerNotebookInstanceSummariesCreateOrReplace: API.OperationMet
     __c861,
     2,
   ) as any as S.Schema<SageMakerNotebookInstanceSummariesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44970,8 +46429,7 @@ export const SecretsManagerResourcePoliciesCreateOrReplace: API.OperationMethod<
     __c862,
     2,
   ) as any as S.Schema<SecretsManagerResourcePoliciesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44988,8 +46446,7 @@ export const SecretsManagerSecretsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27649, __c864, 1) as any as S.Schema<SecretsManagerSecretsCreateOrReplaceRequest>,
   output: __S(27650, __c864, 2) as any as S.Schema<SecretsManagerSecretsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45006,8 +46463,7 @@ export const SnsSubscriptionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27681, __c865, 1) as any as S.Schema<SnsSubscriptionsCreateOrReplaceRequest>,
   output: __S(27682, __c865, 2) as any as S.Schema<SnsSubscriptionsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45024,8 +46480,7 @@ export const SnsTopicsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27713, __c866, 1) as any as S.Schema<SnsTopicsCreateOrReplaceRequest>,
   output: __S(27714, __c866, 2) as any as S.Schema<SnsTopicsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45042,8 +46497,7 @@ export const SqsQueuesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27745, __c867, 1) as any as S.Schema<SqsQueuesCreateOrReplaceRequest>,
   output: __S(27746, __c867, 2) as any as S.Schema<SqsQueuesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45060,8 +46514,7 @@ export const SsmInstanceInformationsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27777, __c868, 1) as any as S.Schema<SsmInstanceInformationsCreateOrReplaceRequest>,
   output: __S(27778, __c868, 2) as any as S.Schema<SsmInstanceInformationsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45078,8 +46531,7 @@ export const SsmParametersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27809, __c869, 1) as any as S.Schema<SsmParametersCreateOrReplaceRequest>,
   output: __S(27810, __c869, 2) as any as S.Schema<SsmParametersCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45104,8 +46556,7 @@ export const SsmResourceComplianceSummaryItemsCreateOrReplace: API.OperationMeth
     __c870,
     2,
   ) as any as S.Schema<SsmResourceComplianceSummaryItemsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45122,8 +46573,7 @@ export const StartEc2Instance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27872, __c871, 0) as any as S.Schema<StartEc2InstanceRequest>,
   output: __S(27907, __c872, 3) as any as S.Schema<StartEc2InstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45145,8 +46595,7 @@ export const StopEc2Instance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27936, __c873, 0) as any as S.Schema<StopEc2InstanceRequest>,
   output: __S(27907, __c872, 3) as any as S.Schema<StopEc2InstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45168,8 +46617,7 @@ export const UpdateAccessAnalyzerAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27968, __c874, 0) as any as S.Schema<UpdateAccessAnalyzerAnalyzerRequest>,
   output: __S(27969, __c874, 1) as any as S.Schema<UpdateAccessAnalyzerAnalyzerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45186,8 +46634,7 @@ export const UpdateAcmCertificateSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28032, __c876, 0) as any as S.Schema<UpdateAcmCertificateSummaryRequest>,
   output: __S(28033, __c876, 1) as any as S.Schema<UpdateAcmCertificateSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45204,8 +46651,7 @@ export const UpdateApiGatewayRestApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28064, __c877, 0) as any as S.Schema<UpdateApiGatewayRestApisRequest>,
   output: __S(28065, __c877, 1) as any as S.Schema<UpdateApiGatewayRestApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45222,8 +46668,7 @@ export const UpdateApiGatewayStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28096, __c878, 0) as any as S.Schema<UpdateApiGatewayStageRequest>,
   output: __S(28097, __c878, 1) as any as S.Schema<UpdateApiGatewayStageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45240,8 +46685,7 @@ export const UpdateAppSyncGraphqlApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28128, __c879, 0) as any as S.Schema<UpdateAppSyncGraphqlApisRequest>,
   output: __S(28129, __c879, 1) as any as S.Schema<UpdateAppSyncGraphqlApisResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45258,8 +46702,7 @@ export const UpdateAutoScalingAutoScalingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28160, __c880, 0) as any as S.Schema<UpdateAutoScalingAutoScalingGroupRequest>,
   output: __S(28161, __c880, 1) as any as S.Schema<UpdateAutoScalingAutoScalingGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45276,8 +46719,7 @@ export const UpdateCloudFormationStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28192, __c881, 0) as any as S.Schema<UpdateCloudFormationStackRequest>,
   output: __S(28193, __c881, 1) as any as S.Schema<UpdateCloudFormationStackResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45294,8 +46736,7 @@ export const UpdateCloudFormationStackSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28224, __c882, 0) as any as S.Schema<UpdateCloudFormationStackSetRequest>,
   output: __S(28225, __c882, 1) as any as S.Schema<UpdateCloudFormationStackSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45312,8 +46753,7 @@ export const UpdateCloudFrontDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28256, __c883, 0) as any as S.Schema<UpdateCloudFrontDistributionRequest>,
   output: __S(28257, __c883, 1) as any as S.Schema<UpdateCloudFrontDistributionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45330,8 +46770,7 @@ export const UpdateCloudTrailTrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28288, __c884, 0) as any as S.Schema<UpdateCloudTrailTrailRequest>,
   output: __S(28289, __c884, 1) as any as S.Schema<UpdateCloudTrailTrailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45348,8 +46787,7 @@ export const UpdateCloudWatchAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28320, __c885, 0) as any as S.Schema<UpdateCloudWatchAlarmRequest>,
   output: __S(28321, __c885, 1) as any as S.Schema<UpdateCloudWatchAlarmResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45366,8 +46804,7 @@ export const UpdateCodeBuildProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28384, __c887, 0) as any as S.Schema<UpdateCodeBuildProjectRequest>,
   output: __S(28385, __c887, 1) as any as S.Schema<UpdateCodeBuildProjectResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45384,8 +46821,7 @@ export const UpdateCodeBuildSourceCredentialsInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28416, __c888, 0) as any as S.Schema<UpdateCodeBuildSourceCredentialsInfosRequest>,
   output: __S(28417, __c888, 1) as any as S.Schema<UpdateCodeBuildSourceCredentialsInfosResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45406,8 +46842,7 @@ export const UpdateConfigServiceConfigurationRecorder: API.OperationMethod<
     __c889,
     1,
   ) as any as S.Schema<UpdateConfigServiceConfigurationRecorderResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45432,8 +46867,7 @@ export const UpdateConfigServiceConfigurationRecorderStatus: API.OperationMethod
     __c890,
     1,
   ) as any as S.Schema<UpdateConfigServiceConfigurationRecorderStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45450,8 +46884,7 @@ export const UpdateConfigServiceDeliveryChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28512, __c891, 0) as any as S.Schema<UpdateConfigServiceDeliveryChannelRequest>,
   output: __S(28513, __c891, 1) as any as S.Schema<UpdateConfigServiceDeliveryChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45476,8 +46909,7 @@ export const UpdateDatabaseMigrationServiceReplicationInstance: API.OperationMet
     __c892,
     1,
   ) as any as S.Schema<UpdateDatabaseMigrationServiceReplicationInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45494,8 +46926,7 @@ export const UpdateDaxCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28576, __c893, 0) as any as S.Schema<UpdateDaxClusterRequest>,
   output: __S(28577, __c893, 1) as any as S.Schema<UpdateDaxClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45520,8 +46951,7 @@ export const UpdateDynamoDbContinuousBackupsDescription: API.OperationMethod<
     __c894,
     1,
   ) as any as S.Schema<UpdateDynamoDbContinuousBackupsDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45538,8 +46968,7 @@ export const UpdateDynamoDbTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28640, __c895, 0) as any as S.Schema<UpdateDynamoDbTableRequest>,
   output: __S(28641, __c895, 1) as any as S.Schema<UpdateDynamoDbTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45556,8 +46985,7 @@ export const UpdateEc2AccountAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28672, __c896, 0) as any as S.Schema<UpdateEc2AccountAttributeRequest>,
   output: __S(28673, __c896, 1) as any as S.Schema<UpdateEc2AccountAttributeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45574,8 +47002,7 @@ export const UpdateEc2Address: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28736, __c898, 0) as any as S.Schema<UpdateEc2AddressRequest>,
   output: __S(28737, __c898, 1) as any as S.Schema<UpdateEc2AddressResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45592,8 +47019,7 @@ export const UpdateEc2FlowLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28768, __c899, 0) as any as S.Schema<UpdateEc2FlowLogRequest>,
   output: __S(28769, __c899, 1) as any as S.Schema<UpdateEc2FlowLogResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45610,8 +47036,7 @@ export const UpdateEc2Image: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<UpdateEc2ImageRequest>,
   output: __S(28801, __c900, 1) as any as S.Schema<UpdateEc2ImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45628,8 +47053,7 @@ export const UpdateEc2InstanceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28832, __c901, 0) as any as S.Schema<UpdateEc2InstanceStatusRequest>,
   output: __S(28833, __c901, 1) as any as S.Schema<UpdateEc2InstanceStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45646,8 +47070,7 @@ export const UpdateEc2Ipam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28864, __c902, 0) as any as S.Schema<UpdateEc2IpamRequest>,
   output: __S(28865, __c902, 1) as any as S.Schema<UpdateEc2IpamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45664,8 +47087,7 @@ export const UpdateEc2KeyPair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28896, __c903, 0) as any as S.Schema<UpdateEc2KeyPairRequest>,
   output: __S(28897, __c903, 1) as any as S.Schema<UpdateEc2KeyPairResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45682,8 +47104,7 @@ export const UpdateEc2NetworkAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28928, __c904, 0) as any as S.Schema<UpdateEc2NetworkAclRequest>,
   output: __S(28929, __c904, 1) as any as S.Schema<UpdateEc2NetworkAclResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45700,8 +47121,7 @@ export const UpdateEc2NetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28960, __c905, 0) as any as S.Schema<UpdateEc2NetworkInterfaceRequest>,
   output: __S(28961, __c905, 1) as any as S.Schema<UpdateEc2NetworkInterfaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45718,8 +47138,7 @@ export const UpdateEc2RouteTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28992, __c906, 0) as any as S.Schema<UpdateEc2RouteTableRequest>,
   output: __S(28993, __c906, 1) as any as S.Schema<UpdateEc2RouteTableResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45736,8 +47155,7 @@ export const UpdateEc2SecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29024, __c907, 0) as any as S.Schema<UpdateEc2SecurityGroupRequest>,
   output: __S(29025, __c907, 1) as any as S.Schema<UpdateEc2SecurityGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45754,8 +47172,7 @@ export const UpdateEc2Snapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29088, __c909, 0) as any as S.Schema<UpdateEc2SnapshotRequest>,
   output: __S(29089, __c909, 1) as any as S.Schema<UpdateEc2SnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45772,8 +47189,7 @@ export const UpdateEc2Subnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29120, __c910, 0) as any as S.Schema<UpdateEc2SubnetRequest>,
   output: __S(29121, __c910, 1) as any as S.Schema<UpdateEc2SubnetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45790,8 +47206,7 @@ export const UpdateEc2Volume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29152, __c911, 0) as any as S.Schema<UpdateEc2VolumeRequest>,
   output: __S(29153, __c911, 1) as any as S.Schema<UpdateEc2VolumeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45808,8 +47223,7 @@ export const UpdateEc2Vpc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29184, __c912, 0) as any as S.Schema<UpdateEc2VpcRequest>,
   output: __S(29185, __c912, 1) as any as S.Schema<UpdateEc2VpcResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45826,8 +47240,7 @@ export const UpdateEc2VpcEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29216, __c913, 0) as any as S.Schema<UpdateEc2VpcEndpointRequest>,
   output: __S(29217, __c913, 1) as any as S.Schema<UpdateEc2VpcEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45844,8 +47257,7 @@ export const UpdateEc2VpcPeeringConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29248, __c914, 0) as any as S.Schema<UpdateEc2VpcPeeringConnectionRequest>,
   output: __S(29249, __c914, 1) as any as S.Schema<UpdateEc2VpcPeeringConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45862,8 +47274,7 @@ export const UpdateEcrImageDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29280, __c915, 0) as any as S.Schema<UpdateEcrImageDetailRequest>,
   output: __S(29281, __c915, 1) as any as S.Schema<UpdateEcrImageDetailResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45880,8 +47291,7 @@ export const UpdateEcrRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29312, __c916, 0) as any as S.Schema<UpdateEcrRepositoryRequest>,
   output: __S(29313, __c916, 1) as any as S.Schema<UpdateEcrRepositoryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45898,8 +47308,7 @@ export const UpdateEcsCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29344, __c917, 0) as any as S.Schema<UpdateEcsClusterRequest>,
   output: __S(29345, __c917, 1) as any as S.Schema<UpdateEcsClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45916,8 +47325,7 @@ export const UpdateEcsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29376, __c918, 0) as any as S.Schema<UpdateEcsServiceRequest>,
   output: __S(29377, __c918, 1) as any as S.Schema<UpdateEcsServiceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45934,8 +47342,7 @@ export const UpdateEcsTaskDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29504, __c922, 0) as any as S.Schema<UpdateEcsTaskDefinitionRequest>,
   output: __S(29505, __c922, 1) as any as S.Schema<UpdateEcsTaskDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45952,8 +47359,7 @@ export const UpdateEfsFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29536, __c923, 0) as any as S.Schema<UpdateEfsFileSystemRequest>,
   output: __S(29537, __c923, 1) as any as S.Schema<UpdateEfsFileSystemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45970,8 +47376,7 @@ export const UpdateEfsMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29568, __c924, 0) as any as S.Schema<UpdateEfsMountTargetRequest>,
   output: __S(29569, __c924, 1) as any as S.Schema<UpdateEfsMountTargetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45988,8 +47393,7 @@ export const UpdateEksNodegroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29600, __c925, 0) as any as S.Schema<UpdateEksNodegroupRequest>,
   output: __S(29601, __c925, 1) as any as S.Schema<UpdateEksNodegroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46006,8 +47410,7 @@ export const UpdateElasticBeanstalkApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29632, __c926, 0) as any as S.Schema<UpdateElasticBeanstalkApplicationRequest>,
   output: __S(29633, __c926, 1) as any as S.Schema<UpdateElasticBeanstalkApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46032,8 +47435,7 @@ export const UpdateElasticBeanstalkConfigurationTemplate: API.OperationMethod<
     __c927,
     1,
   ) as any as S.Schema<UpdateElasticBeanstalkConfigurationTemplateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46050,8 +47452,7 @@ export const UpdateElasticBeanstalkEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29696, __c928, 0) as any as S.Schema<UpdateElasticBeanstalkEnvironmentRequest>,
   output: __S(29697, __c928, 1) as any as S.Schema<UpdateElasticBeanstalkEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46068,8 +47469,7 @@ export const UpdateElasticLoadBalancingV2Listener: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29728, __c929, 0) as any as S.Schema<UpdateElasticLoadBalancingV2ListenerRequest>,
   output: __S(29729, __c929, 1) as any as S.Schema<UpdateElasticLoadBalancingV2ListenerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46090,8 +47490,7 @@ export const UpdateElasticLoadBalancingV2LoadBalancer: API.OperationMethod<
     __c930,
     1,
   ) as any as S.Schema<UpdateElasticLoadBalancingV2LoadBalancerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46108,8 +47507,7 @@ export const UpdateElasticLoadBalancingV2TargetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29792, __c931, 0) as any as S.Schema<UpdateElasticLoadBalancingV2TargetGroupRequest>,
   output: __S(29793, __c931, 1) as any as S.Schema<UpdateElasticLoadBalancingV2TargetGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46134,8 +47532,7 @@ export const UpdateElasticLoadBalancingv2TargetHealthDescription: API.OperationM
     __c933,
     1,
   ) as any as S.Schema<UpdateElasticLoadBalancingv2TargetHealthDescriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46152,8 +47549,7 @@ export const UpdateEmrCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29888, __c934, 0) as any as S.Schema<UpdateEmrClusterRequest>,
   output: __S(29889, __c934, 1) as any as S.Schema<UpdateEmrClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46170,8 +47566,7 @@ export const UpdateGuardDutyDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29920, __c935, 0) as any as S.Schema<UpdateGuardDutyDetectorRequest>,
   output: __S(29921, __c935, 1) as any as S.Schema<UpdateGuardDutyDetectorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46188,8 +47583,7 @@ export const UpdateIamAccessKeyLastUsed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29952, __c936, 0) as any as S.Schema<UpdateIamAccessKeyLastUsedRequest>,
   output: __S(29953, __c936, 1) as any as S.Schema<UpdateIamAccessKeyLastUsedResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46206,8 +47600,7 @@ export const UpdateIamAccessKeyMetadataInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29984, __c937, 0) as any as S.Schema<UpdateIamAccessKeyMetadataInfoRequest>,
   output: __S(29985, __c937, 1) as any as S.Schema<UpdateIamAccessKeyMetadataInfoResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46224,8 +47617,7 @@ export const UpdateIamGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30016, __c938, 0) as any as S.Schema<UpdateIamGroupRequest>,
   output: __S(30017, __c938, 1) as any as S.Schema<UpdateIamGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46242,8 +47634,7 @@ export const UpdateIamInstanceProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30048, __c939, 0) as any as S.Schema<UpdateIamInstanceProfileRequest>,
   output: __S(30049, __c939, 1) as any as S.Schema<UpdateIamInstanceProfileResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46260,8 +47651,7 @@ export const UpdateIamMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30080, __c940, 0) as any as S.Schema<UpdateIamMfaDeviceRequest>,
   output: __S(30081, __c940, 1) as any as S.Schema<UpdateIamMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46278,8 +47668,7 @@ export const UpdateIamPasswordPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30112, __c941, 0) as any as S.Schema<UpdateIamPasswordPolicyRequest>,
   output: __S(30113, __c941, 1) as any as S.Schema<UpdateIamPasswordPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46296,8 +47685,7 @@ export const UpdateIamPolicyVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30144, __c942, 0) as any as S.Schema<UpdateIamPolicyVersionRequest>,
   output: __S(30145, __c942, 1) as any as S.Schema<UpdateIamPolicyVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46314,8 +47702,7 @@ export const UpdateIamRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30208, __c944, 0) as any as S.Schema<UpdateIamRoleRequest>,
   output: __S(30209, __c944, 1) as any as S.Schema<UpdateIamRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46332,8 +47719,7 @@ export const UpdateIamServerCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30240, __c945, 0) as any as S.Schema<UpdateIamServerCertificateRequest>,
   output: __S(30241, __c945, 1) as any as S.Schema<UpdateIamServerCertificateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46350,8 +47736,7 @@ export const UpdateIamVirtualMfaDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30272, __c946, 0) as any as S.Schema<UpdateIamVirtualMfaDeviceRequest>,
   output: __S(30273, __c946, 1) as any as S.Schema<UpdateIamVirtualMfaDeviceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46368,8 +47753,7 @@ export const UpdateKmsAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30304, __c947, 0) as any as S.Schema<UpdateKmsAliasRequest>,
   output: __S(30305, __c947, 1) as any as S.Schema<UpdateKmsAliasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46386,8 +47770,7 @@ export const UpdateKmsKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30336, __c948, 0) as any as S.Schema<UpdateKmsKeyRequest>,
   output: __S(30337, __c948, 1) as any as S.Schema<UpdateKmsKeyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46404,8 +47787,7 @@ export const UpdateLambdaFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30368, __c949, 0) as any as S.Schema<UpdateLambdaFunctionRequest>,
   output: __S(30369, __c949, 1) as any as S.Schema<UpdateLambdaFunctionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46422,8 +47804,7 @@ export const UpdateLambdaFunctionCodeLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30400, __c950, 0) as any as S.Schema<UpdateLambdaFunctionCodeLocationRequest>,
   output: __S(30401, __c950, 1) as any as S.Schema<UpdateLambdaFunctionCodeLocationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46440,8 +47821,7 @@ export const UpdateLightsailBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30432, __c951, 0) as any as S.Schema<UpdateLightsailBucketRequest>,
   output: __S(30433, __c951, 1) as any as S.Schema<UpdateLightsailBucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46458,8 +47838,7 @@ export const UpdateLightsailInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30464, __c952, 0) as any as S.Schema<UpdateLightsailInstanceRequest>,
   output: __S(30465, __c952, 1) as any as S.Schema<UpdateLightsailInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46476,8 +47855,7 @@ export const UpdateLogsLogGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30496, __c953, 0) as any as S.Schema<UpdateLogsLogGroupRequest>,
   output: __S(30497, __c953, 1) as any as S.Schema<UpdateLogsLogGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46494,8 +47872,7 @@ export const UpdateLogsLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30560, __c955, 0) as any as S.Schema<UpdateLogsLogStreamRequest>,
   output: __S(30561, __c955, 1) as any as S.Schema<UpdateLogsLogStreamResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46512,8 +47889,7 @@ export const UpdateLogsMetricFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30592, __c956, 0) as any as S.Schema<UpdateLogsMetricFilterRequest>,
   output: __S(30593, __c956, 1) as any as S.Schema<UpdateLogsMetricFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46530,8 +47906,7 @@ export const UpdateLogsSubscriptionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30624, __c957, 0) as any as S.Schema<UpdateLogsSubscriptionFilterRequest>,
   output: __S(30625, __c957, 1) as any as S.Schema<UpdateLogsSubscriptionFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46548,8 +47923,7 @@ export const UpdateMacie2JobSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30656, __c958, 0) as any as S.Schema<UpdateMacie2JobSummaryRequest>,
   output: __S(30657, __c958, 1) as any as S.Schema<UpdateMacie2JobSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46566,8 +47940,7 @@ export const UpdateMacieAllowList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30688, __c959, 0) as any as S.Schema<UpdateMacieAllowListRequest>,
   output: __S(30689, __c959, 1) as any as S.Schema<UpdateMacieAllowListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46584,8 +47957,7 @@ export const UpdateNetworkFirewallFirewall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30720, __c960, 0) as any as S.Schema<UpdateNetworkFirewallFirewallRequest>,
   output: __S(30721, __c960, 1) as any as S.Schema<UpdateNetworkFirewallFirewallResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46602,8 +47974,7 @@ export const UpdateNetworkFirewallFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30752, __c961, 0) as any as S.Schema<UpdateNetworkFirewallFirewallPolicyRequest>,
   output: __S(30753, __c961, 1) as any as S.Schema<UpdateNetworkFirewallFirewallPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46620,8 +47991,7 @@ export const UpdateNetworkFirewallRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30784, __c962, 0) as any as S.Schema<UpdateNetworkFirewallRuleGroupRequest>,
   output: __S(30785, __c962, 1) as any as S.Schema<UpdateNetworkFirewallRuleGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46638,8 +48008,7 @@ export const UpdateOpenSearchDomainStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30816, __c963, 0) as any as S.Schema<UpdateOpenSearchDomainStatusRequest>,
   output: __S(30817, __c963, 1) as any as S.Schema<UpdateOpenSearchDomainStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46656,8 +48025,7 @@ export const UpdateOrganizationsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30848, __c964, 0) as any as S.Schema<UpdateOrganizationsAccountRequest>,
   output: __S(30849, __c964, 1) as any as S.Schema<UpdateOrganizationsAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46674,8 +48042,7 @@ export const UpdateOrganizationsOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30912, __c966, 0) as any as S.Schema<UpdateOrganizationsOrganizationRequest>,
   output: __S(30913, __c966, 1) as any as S.Schema<UpdateOrganizationsOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46692,8 +48059,7 @@ export const UpdateRdsDbCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30944, __c967, 0) as any as S.Schema<UpdateRdsDbClusterRequest>,
   output: __S(30945, __c967, 1) as any as S.Schema<UpdateRdsDbClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46710,8 +48076,7 @@ export const UpdateRdsDbInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30976, __c968, 0) as any as S.Schema<UpdateRdsDbInstanceRequest>,
   output: __S(30977, __c968, 1) as any as S.Schema<UpdateRdsDbInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46728,8 +48093,7 @@ export const UpdateRdsDbSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31008, __c969, 0) as any as S.Schema<UpdateRdsDbSnapshotRequest>,
   output: __S(31009, __c969, 1) as any as S.Schema<UpdateRdsDbSnapshotResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46746,8 +48110,7 @@ export const UpdateRdsDbSnapshotAttributesResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31040, __c970, 0) as any as S.Schema<UpdateRdsDbSnapshotAttributesResultRequest>,
   output: __S(31041, __c970, 1) as any as S.Schema<UpdateRdsDbSnapshotAttributesResultResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46764,8 +48127,7 @@ export const UpdateRdsEventSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31072, __c971, 0) as any as S.Schema<UpdateRdsEventSubscriptionRequest>,
   output: __S(31073, __c971, 1) as any as S.Schema<UpdateRdsEventSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46782,8 +48144,7 @@ export const UpdateRdsExportTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31104, __c972, 0) as any as S.Schema<UpdateRdsExportTaskRequest>,
   output: __S(31105, __c972, 1) as any as S.Schema<UpdateRdsExportTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46800,8 +48161,7 @@ export const UpdateRedshiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31136, __c973, 0) as any as S.Schema<UpdateRedshiftClusterRequest>,
   output: __S(31137, __c973, 1) as any as S.Schema<UpdateRedshiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46818,8 +48178,7 @@ export const UpdateRedshiftClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31168, __c974, 0) as any as S.Schema<UpdateRedshiftClusterParameterGroupRequest>,
   output: __S(31169, __c974, 1) as any as S.Schema<UpdateRedshiftClusterParameterGroupResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46836,8 +48195,7 @@ export const UpdateRoute53DomainsDomainSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31200, __c975, 0) as any as S.Schema<UpdateRoute53DomainsDomainSummaryRequest>,
   output: __S(31201, __c975, 1) as any as S.Schema<UpdateRoute53DomainsDomainSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46854,8 +48212,7 @@ export const UpdateRoute53HostedZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31264, __c977, 0) as any as S.Schema<UpdateRoute53HostedZoneRequest>,
   output: __S(31265, __c977, 1) as any as S.Schema<UpdateRoute53HostedZoneResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46872,8 +48229,7 @@ export const UpdateRoute53ResourceRecordSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31296, __c978, 0) as any as S.Schema<UpdateRoute53ResourceRecordSetRequest>,
   output: __S(31297, __c978, 1) as any as S.Schema<UpdateRoute53ResourceRecordSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46890,8 +48246,7 @@ export const UpdateS3AccessControlPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31328, __c979, 0) as any as S.Schema<UpdateS3AccessControlPolicyRequest>,
   output: __S(31329, __c979, 1) as any as S.Schema<UpdateS3AccessControlPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46908,8 +48263,7 @@ export const UpdateS3AccessPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31360, __c980, 0) as any as S.Schema<UpdateS3AccessPointRequest>,
   output: __S(31361, __c980, 1) as any as S.Schema<UpdateS3AccessPointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46926,8 +48280,7 @@ export const UpdateS3Bucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31392, __c981, 0) as any as S.Schema<UpdateS3BucketRequest>,
   output: __S(31393, __c981, 1) as any as S.Schema<UpdateS3BucketResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46944,8 +48297,7 @@ export const UpdateS3BucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31424, __c982, 0) as any as S.Schema<UpdateS3BucketPolicyRequest>,
   output: __S(31425, __c982, 1) as any as S.Schema<UpdateS3BucketPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46970,8 +48322,7 @@ export const UpdateS3ControlMultiRegionAccessPointPolicyDocument: API.OperationM
     __c983,
     1,
   ) as any as S.Schema<UpdateS3ControlMultiRegionAccessPointPolicyDocumentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46988,8 +48339,7 @@ export const UpdateSageMakerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31488, __c984, 0) as any as S.Schema<UpdateSageMakerAppRequest>,
   output: __S(31489, __c984, 1) as any as S.Schema<UpdateSageMakerAppResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47006,8 +48356,7 @@ export const UpdateSageMakerNotebookInstanceSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31520, __c985, 0) as any as S.Schema<UpdateSageMakerNotebookInstanceSummaryRequest>,
   output: __S(31521, __c985, 1) as any as S.Schema<UpdateSageMakerNotebookInstanceSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47024,8 +48373,7 @@ export const UpdateSecretsManagerResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31552, __c986, 0) as any as S.Schema<UpdateSecretsManagerResourcePolicyRequest>,
   output: __S(31553, __c986, 1) as any as S.Schema<UpdateSecretsManagerResourcePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47042,8 +48390,7 @@ export const UpdateSecretsManagerSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31616, __c988, 0) as any as S.Schema<UpdateSecretsManagerSecretRequest>,
   output: __S(31617, __c988, 1) as any as S.Schema<UpdateSecretsManagerSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47060,8 +48407,7 @@ export const UpdateSnsSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31648, __c989, 0) as any as S.Schema<UpdateSnsSubscriptionRequest>,
   output: __S(31649, __c989, 1) as any as S.Schema<UpdateSnsSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47078,8 +48424,7 @@ export const UpdateSnsTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31680, __c990, 0) as any as S.Schema<UpdateSnsTopicRequest>,
   output: __S(31681, __c990, 1) as any as S.Schema<UpdateSnsTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47096,8 +48441,7 @@ export const UpdateSqsQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31712, __c991, 0) as any as S.Schema<UpdateSqsQueueRequest>,
   output: __S(31713, __c991, 1) as any as S.Schema<UpdateSqsQueueResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47114,8 +48458,7 @@ export const UpdateSsmInstanceInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31744, __c992, 0) as any as S.Schema<UpdateSsmInstanceInformationRequest>,
   output: __S(31745, __c992, 1) as any as S.Schema<UpdateSsmInstanceInformationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47132,8 +48475,7 @@ export const UpdateSsmParameter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31776, __c993, 0) as any as S.Schema<UpdateSsmParameterRequest>,
   output: __S(31777, __c993, 1) as any as S.Schema<UpdateSsmParameterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47150,8 +48492,7 @@ export const UpdateSsmResourceComplianceSummaryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31808, __c994, 0) as any as S.Schema<UpdateSsmResourceComplianceSummaryItemRequest>,
   output: __S(31809, __c994, 1) as any as S.Schema<UpdateSsmResourceComplianceSummaryItemResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47168,8 +48509,7 @@ export const UpdateWafv2LoggingConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31840, __c995, 0) as any as S.Schema<UpdateWafv2LoggingConfigurationRequest>,
   output: __S(31841, __c995, 1) as any as S.Schema<UpdateWafv2LoggingConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47186,8 +48526,7 @@ export const UpdateWafWebAclSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31872, __c996, 0) as any as S.Schema<UpdateWafWebAclSummaryRequest>,
   output: __S(31873, __c996, 1) as any as S.Schema<UpdateWafWebAclSummaryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47208,8 +48547,7 @@ export const Wafv2LoggingConfigurationsCreateOrReplace: API.OperationMethod<
     __c997,
     2,
   ) as any as S.Schema<Wafv2LoggingConfigurationsCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47226,8 +48564,7 @@ export const WafWebAclSummariesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31969, __c999, 1) as any as S.Schema<WafWebAclSummariesCreateOrReplaceRequest>,
   output: __S(31970, __c999, 2) as any as S.Schema<WafWebAclSummariesCreateOrReplaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -62634,12 +63971,14 @@ function __c468(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/accessAnalyzerAnalyzers",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccessAnalyzerAnalyzerByResourceGroupRequest" });
@@ -62664,12 +64003,14 @@ function __c470(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/accessAnalyzerAnalyzers",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccessAnalyzerAnalyzerBySubscriptionRequest" });
@@ -62682,12 +64023,14 @@ function __c471(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/acmCertificateSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAcmCertificateSummaryByResourceGroupRequest" });
@@ -62712,12 +64055,14 @@ function __c473(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/acmCertificateSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAcmCertificateSummaryBySubscriptionRequest" });
@@ -62868,12 +64213,14 @@ function __c477(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/apiGatewayRestApis",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiGatewayRestApisByResourceGroupRequest" });
@@ -62898,12 +64245,14 @@ function __c479(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/apiGatewayRestApis",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiGatewayRestApisBySubscriptionRequest" });
@@ -62916,12 +64265,14 @@ function __c480(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/apiGatewayStages",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiGatewayStageByResourceGroupRequest" });
@@ -62946,12 +64297,14 @@ function __c482(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/apiGatewayStages",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiGatewayStageBySubscriptionRequest" });
@@ -62964,12 +64317,14 @@ function __c483(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/appSyncGraphqlApis",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAppSyncGraphqlApisByResourceGroupRequest" });
@@ -62994,12 +64349,14 @@ function __c485(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/appSyncGraphqlApis",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAppSyncGraphqlApisBySubscriptionRequest" });
@@ -63012,12 +64369,14 @@ function __c486(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/autoScalingAutoScalingGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoScalingAutoScalingGroupByResourceGroupRequest" });
@@ -63042,12 +64401,14 @@ function __c488(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/autoScalingAutoScalingGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoScalingAutoScalingGroupBySubscriptionRequest" });
@@ -63060,12 +64421,14 @@ function __c489(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/cloudFormationStacks",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFormationStackByResourceGroupRequest" });
@@ -63090,12 +64453,14 @@ function __c491(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/cloudFormationStacks",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFormationStackBySubscriptionRequest" });
@@ -63127,12 +64492,14 @@ function __c493(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/cloudFormationStackSets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFormationStackSetByResourceGroupRequest" });
@@ -63157,12 +64524,14 @@ function __c495(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/cloudFormationStackSets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFormationStackSetBySubscriptionRequest" });
@@ -63175,12 +64544,14 @@ function __c496(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/cloudFrontDistributions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFrontDistributionByResourceGroupRequest" });
@@ -63205,12 +64576,14 @@ function __c498(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/cloudFrontDistributions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFrontDistributionBySubscriptionRequest" });
@@ -63223,12 +64596,14 @@ function __c499(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/cloudTrailTrails",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudTrailTrailByResourceGroupRequest" });
@@ -63253,12 +64628,14 @@ function __c501(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/cloudTrailTrails",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudTrailTrailBySubscriptionRequest" });
@@ -63271,12 +64648,14 @@ function __c502(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/cloudWatchAlarms",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudWatchAlarmByResourceGroupRequest" });
@@ -63301,12 +64680,14 @@ function __c504(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/cloudWatchAlarms",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudWatchAlarmBySubscriptionRequest" });
@@ -63319,12 +64700,14 @@ function __c505(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/codeBuildProjects",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeBuildProjectByResourceGroupRequest" });
@@ -63349,12 +64732,14 @@ function __c507(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/codeBuildProjects",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeBuildProjectBySubscriptionRequest" });
@@ -63386,12 +64771,14 @@ function __c509(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/codeBuildSourceCredentialsInfos",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeBuildSourceCredentialsInfosByResourceGroupRequest" });
@@ -63416,12 +64803,14 @@ function __c511(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/codeBuildSourceCredentialsInfos",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeBuildSourceCredentialsInfosBySubscriptionRequest" });
@@ -63434,12 +64823,14 @@ function __c512(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/configServiceConfigurationRecorders",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigServiceConfigurationRecorderByResourceGroupRequest" });
@@ -63464,12 +64855,14 @@ function __c514(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/configServiceConfigurationRecorders",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigServiceConfigurationRecorderBySubscriptionRequest" });
@@ -63482,12 +64875,14 @@ function __c515(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/configServiceConfigurationRecorderStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -63514,12 +64909,14 @@ function __c517(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/configServiceConfigurationRecorderStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -63534,12 +64931,14 @@ function __c518(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/configServiceDeliveryChannels",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigServiceDeliveryChannelByResourceGroupRequest" });
@@ -63564,12 +64963,14 @@ function __c520(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/configServiceDeliveryChannels",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigServiceDeliveryChannelBySubscriptionRequest" });
@@ -63582,12 +64983,14 @@ function __c521(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/databaseMigrationServiceReplicationInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -63614,12 +65017,14 @@ function __c523(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/databaseMigrationServiceReplicationInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -63653,12 +65058,14 @@ function __c525(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/daxClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDaxClusterByResourceGroupRequest" });
@@ -63683,12 +65090,14 @@ function __c527(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/daxClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDaxClusterBySubscriptionRequest" });
@@ -63701,12 +65110,14 @@ function __c528(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/dynamoDBContinuousBackupsDescriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamoDbContinuousBackupsDescriptionByResourceGroupRequest" });
@@ -63731,12 +65142,14 @@ function __c530(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/dynamoDBContinuousBackupsDescriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamoDbContinuousBackupsDescriptionBySubscriptionRequest" });
@@ -63749,12 +65162,14 @@ function __c531(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/dynamoDBTables",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamoDbTableByResourceGroupRequest" });
@@ -63779,12 +65194,14 @@ function __c533(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/dynamoDBTables",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamoDbTableBySubscriptionRequest" });
@@ -63797,12 +65214,14 @@ function __c534(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2AccountAttributes",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2AccountAttributeByResourceGroupRequest" });
@@ -63827,12 +65246,14 @@ function __c536(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2AccountAttributes",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2AccountAttributeBySubscriptionRequest" });
@@ -63845,12 +65266,14 @@ function __c537(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Addresses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2AddressByResourceGroupRequest" });
@@ -63875,12 +65298,14 @@ function __c539(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Addresses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2AddressBySubscriptionRequest" });
@@ -63912,12 +65337,14 @@ function __c541(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2FlowLogs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2FlowLogByResourceGroupRequest" });
@@ -63942,12 +65369,14 @@ function __c543(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2FlowLogs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2FlowLogBySubscriptionRequest" });
@@ -63960,12 +65389,14 @@ function __c544(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Images",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2ImageByResourceGroupRequest" });
@@ -63990,12 +65421,14 @@ function __c546(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Images",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2ImageBySubscriptionRequest" });
@@ -64007,12 +65440,14 @@ function __c547(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2InstancesRequest" });
@@ -64034,12 +65469,14 @@ function __c548(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2InstanceStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2InstanceStatusByResourceGroupRequest" });
@@ -64064,12 +65501,14 @@ function __c550(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2InstanceStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2InstanceStatusBySubscriptionRequest" });
@@ -64082,12 +65521,14 @@ function __c551(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Ipams",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2IpamByResourceGroupRequest" });
@@ -64112,12 +65553,14 @@ function __c553(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Ipams",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2IpamBySubscriptionRequest" });
@@ -64130,12 +65573,14 @@ function __c554(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2KeyPairs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2KeyPairByResourceGroupRequest" });
@@ -64179,12 +65624,14 @@ function __c557(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2KeyPairs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2KeyPairBySubscriptionRequest" });
@@ -64197,12 +65644,14 @@ function __c558(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2NetworkAcls",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2NetworkAclByResourceGroupRequest" });
@@ -64227,12 +65676,14 @@ function __c560(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2NetworkAcls",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2NetworkAclBySubscriptionRequest" });
@@ -64245,12 +65696,14 @@ function __c561(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2NetworkInterfaces",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2NetworkInterfaceByResourceGroupRequest" });
@@ -64275,12 +65728,14 @@ function __c563(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2NetworkInterfaces",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2NetworkInterfaceBySubscriptionRequest" });
@@ -64293,12 +65748,14 @@ function __c564(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2RouteTables",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2RouteTableByResourceGroupRequest" });
@@ -64323,12 +65780,14 @@ function __c566(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2RouteTables",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2RouteTableBySubscriptionRequest" });
@@ -64341,12 +65800,14 @@ function __c567(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2SecurityGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SecurityGroupByResourceGroupRequest" });
@@ -64371,12 +65832,14 @@ function __c569(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2SecurityGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SecurityGroupBySubscriptionRequest" });
@@ -64389,12 +65852,14 @@ function __c570(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Snapshots",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SnapshotByResourceGroupRequest" });
@@ -64438,12 +65903,14 @@ function __c573(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Snapshots",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SnapshotBySubscriptionRequest" });
@@ -64456,12 +65923,14 @@ function __c574(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Subnets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SubnetByResourceGroupRequest" });
@@ -64486,12 +65955,14 @@ function __c576(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Subnets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2SubnetBySubscriptionRequest" });
@@ -64504,12 +65975,14 @@ function __c577(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Volumes",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VolumeByResourceGroupRequest" });
@@ -64534,12 +66007,14 @@ function __c579(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Volumes",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VolumeBySubscriptionRequest" });
@@ -64552,12 +66027,14 @@ function __c580(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2Vpcs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcByResourceGroupRequest" });
@@ -64582,12 +66059,14 @@ function __c582(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2Vpcs",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcBySubscriptionRequest" });
@@ -64600,12 +66079,14 @@ function __c583(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2VPCEndpoints",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcEndpointByResourceGroupRequest" });
@@ -64630,12 +66111,14 @@ function __c585(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2VPCEndpoints",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcEndpointBySubscriptionRequest" });
@@ -64648,12 +66131,14 @@ function __c586(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ec2VPCPeeringConnections",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcPeeringConnectionByResourceGroupRequest" });
@@ -64697,12 +66182,14 @@ function __c589(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ec2VPCPeeringConnections",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEc2VpcPeeringConnectionBySubscriptionRequest" });
@@ -64715,12 +66202,14 @@ function __c590(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ecrImageDetails",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcrImageDetailByResourceGroupRequest" });
@@ -64745,12 +66234,14 @@ function __c592(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ecrImageDetails",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcrImageDetailBySubscriptionRequest" });
@@ -64763,12 +66254,14 @@ function __c593(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ecrRepositories",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcrRepositoryByResourceGroupRequest" });
@@ -64793,12 +66286,14 @@ function __c595(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ecrRepositories",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcrRepositoryBySubscriptionRequest" });
@@ -64811,12 +66306,14 @@ function __c596(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ecsClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsClusterByResourceGroupRequest" });
@@ -64841,12 +66338,14 @@ function __c598(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ecsClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsClusterBySubscriptionRequest" });
@@ -64859,12 +66358,14 @@ function __c599(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ecsServices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsServiceByResourceGroupRequest" });
@@ -64889,12 +66390,14 @@ function __c601(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ecsServices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsServiceBySubscriptionRequest" });
@@ -64907,12 +66410,14 @@ function __c602(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ecsTaskDefinitions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsTaskDefinitionByResourceGroupRequest" });
@@ -64956,12 +66461,14 @@ function __c605(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ecsTaskDefinitions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEcsTaskDefinitionBySubscriptionRequest" });
@@ -64974,12 +66481,14 @@ function __c606(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/efsFileSystems",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEfsFileSystemByResourceGroupRequest" });
@@ -65004,12 +66513,14 @@ function __c608(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/efsFileSystems",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEfsFileSystemBySubscriptionRequest" });
@@ -65022,12 +66533,14 @@ function __c609(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/efsMountTargets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEfsMountTargetByResourceGroupRequest" });
@@ -65052,12 +66565,14 @@ function __c611(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/efsMountTargets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEfsMountTargetBySubscriptionRequest" });
@@ -65069,12 +66584,14 @@ function __c612(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/eksClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEksClustersRequest" });
@@ -65096,12 +66613,14 @@ function __c613(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/eksNodegroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEksNodegroupByResourceGroupRequest" });
@@ -65126,12 +66645,14 @@ function __c615(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/eksNodegroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEksNodegroupBySubscriptionRequest" });
@@ -65144,12 +66665,14 @@ function __c616(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticBeanstalkApplications",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkApplicationByResourceGroupRequest" });
@@ -65174,12 +66697,14 @@ function __c618(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticBeanstalkApplications",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkApplicationBySubscriptionRequest" });
@@ -65211,12 +66736,14 @@ function __c620(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticBeanstalkConfigurationTemplates",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkConfigurationTemplateByResourceGroupRequest" });
@@ -65241,12 +66768,14 @@ function __c622(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticBeanstalkConfigurationTemplates",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkConfigurationTemplateBySubscriptionRequest" });
@@ -65259,12 +66788,14 @@ function __c623(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticBeanstalkEnvironments",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkEnvironmentByResourceGroupRequest" });
@@ -65289,12 +66820,14 @@ function __c625(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticBeanstalkEnvironments",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticBeanstalkEnvironmentBySubscriptionRequest" });
@@ -65307,12 +66840,14 @@ function __c626(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2Listeners",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2ListenerByResourceGroupRequest" });
@@ -65337,12 +66872,14 @@ function __c628(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2Listeners",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2ListenerBySubscriptionRequest" });
@@ -65355,12 +66892,14 @@ function __c629(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2LoadBalancers",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2LoadBalancerByResourceGroupRequest" });
@@ -65385,12 +66924,14 @@ function __c631(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2LoadBalancers",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2LoadBalancerBySubscriptionRequest" });
@@ -65403,12 +66944,14 @@ function __c632(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2TargetGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2TargetGroupByResourceGroupRequest" });
@@ -65433,12 +66976,14 @@ function __c634(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2TargetGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticLoadBalancingV2TargetGroupBySubscriptionRequest" });
@@ -65626,12 +67171,14 @@ function __c638(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2TargetHealthDescriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -65658,12 +67205,14 @@ function __c640(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/elasticLoadBalancingV2TargetHealthDescriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -65678,12 +67227,14 @@ function __c641(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/emrClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEmrClusterByResourceGroupRequest" });
@@ -65708,12 +67259,14 @@ function __c643(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/emrClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEmrClusterBySubscriptionRequest" });
@@ -65726,12 +67279,14 @@ function __c644(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/guardDutyDetectors",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGuardDutyDetectorByResourceGroupRequest" });
@@ -65756,12 +67311,14 @@ function __c646(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/guardDutyDetectors",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGuardDutyDetectorBySubscriptionRequest" });
@@ -65774,12 +67331,14 @@ function __c647(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamAccessKeyLastUseds",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamAccessKeyLastUsedByResourceGroupRequest" });
@@ -65804,12 +67363,14 @@ function __c649(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamAccessKeyLastUseds",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamAccessKeyLastUsedBySubscriptionRequest" });
@@ -65822,12 +67383,14 @@ function __c650(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamAccessKeyMetadata",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamAccessKeyMetadataInfoByResourceGroupRequest" });
@@ -65852,12 +67415,14 @@ function __c652(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamAccessKeyMetadata",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamAccessKeyMetadataInfoBySubscriptionRequest" });
@@ -65889,12 +67454,14 @@ function __c654(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamGroupByResourceGroupRequest" });
@@ -65919,12 +67486,14 @@ function __c656(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamGroupBySubscriptionRequest" });
@@ -65937,12 +67506,14 @@ function __c657(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamInstanceProfiles",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamInstanceProfileByResourceGroupRequest" });
@@ -65967,12 +67538,14 @@ function __c659(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamInstanceProfiles",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamInstanceProfileBySubscriptionRequest" });
@@ -65985,12 +67558,14 @@ function __c660(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamMFADevices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamMfaDeviceByResourceGroupRequest" });
@@ -66015,12 +67590,14 @@ function __c662(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamMFADevices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamMfaDeviceBySubscriptionRequest" });
@@ -66033,12 +67610,14 @@ function __c663(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamPasswordPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamPasswordPolicyByResourceGroupRequest" });
@@ -66063,12 +67642,14 @@ function __c665(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamPasswordPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamPasswordPolicyBySubscriptionRequest" });
@@ -66081,12 +67662,14 @@ function __c666(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamPolicyVersions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamPolicyVersionByResourceGroupRequest" });
@@ -66111,12 +67694,14 @@ function __c668(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamPolicyVersions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamPolicyVersionBySubscriptionRequest" });
@@ -66146,12 +67731,14 @@ function __c670(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamRoles",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamRoleByResourceGroupRequest" });
@@ -66176,12 +67763,14 @@ function __c672(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamRoles",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamRoleBySubscriptionRequest" });
@@ -66194,12 +67783,14 @@ function __c673(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamServerCertificates",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamServerCertificateByResourceGroupRequest" });
@@ -66224,12 +67815,14 @@ function __c675(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamServerCertificates",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamServerCertificateBySubscriptionRequest" });
@@ -66242,12 +67835,14 @@ function __c676(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/iamVirtualMFADevices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamVirtualMfaDeviceByResourceGroupRequest" });
@@ -66272,12 +67867,14 @@ function __c678(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/iamVirtualMFADevices",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIamVirtualMfaDeviceBySubscriptionRequest" });
@@ -66290,12 +67887,14 @@ function __c679(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/kmsAliases",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKmsAliasByResourceGroupRequest" });
@@ -66320,12 +67919,14 @@ function __c681(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/kmsAliases",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKmsAliasBySubscriptionRequest" });
@@ -66338,12 +67939,14 @@ function __c682(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/kmsKeys",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKmsKeyByResourceGroupRequest" });
@@ -66368,12 +67971,14 @@ function __c684(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/kmsKeys",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKmsKeyBySubscriptionRequest" });
@@ -66405,12 +68010,14 @@ function __c686(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/lambdaFunctions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLambdaFunctionByResourceGroupRequest" });
@@ -66435,12 +68042,14 @@ function __c688(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/lambdaFunctions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLambdaFunctionBySubscriptionRequest" });
@@ -66453,12 +68062,14 @@ function __c689(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/lambdaFunctionCodeLocations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLambdaFunctionCodeLocationByResourceGroupRequest" });
@@ -66483,12 +68094,14 @@ function __c691(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/lambdaFunctionCodeLocations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLambdaFunctionCodeLocationBySubscriptionRequest" });
@@ -66501,12 +68114,14 @@ function __c692(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/lightsailBuckets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLightsailBucketByResourceGroupRequest" });
@@ -66531,12 +68146,14 @@ function __c694(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/lightsailBuckets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLightsailBucketBySubscriptionRequest" });
@@ -66549,12 +68166,14 @@ function __c695(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/lightsailInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLightsailInstanceByResourceGroupRequest" });
@@ -66579,12 +68198,14 @@ function __c697(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/lightsailInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLightsailInstanceBySubscriptionRequest" });
@@ -66597,12 +68218,14 @@ function __c698(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/logsLogGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsLogGroupByResourceGroupRequest" });
@@ -66627,12 +68250,14 @@ function __c700(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/logsLogGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsLogGroupBySubscriptionRequest" });
@@ -66664,12 +68289,14 @@ function __c702(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/logsLogStreams",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsLogStreamByResourceGroupRequest" });
@@ -66694,12 +68321,14 @@ function __c704(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/logsLogStreams",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsLogStreamBySubscriptionRequest" });
@@ -66712,12 +68341,14 @@ function __c705(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/logsMetricFilters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsMetricFilterByResourceGroupRequest" });
@@ -66742,12 +68373,14 @@ function __c707(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/logsMetricFilters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsMetricFilterBySubscriptionRequest" });
@@ -66760,12 +68393,14 @@ function __c708(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/logsSubscriptionFilters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsSubscriptionFilterByResourceGroupRequest" });
@@ -66790,12 +68425,14 @@ function __c710(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/logsSubscriptionFilters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogsSubscriptionFilterBySubscriptionRequest" });
@@ -66808,12 +68445,14 @@ function __c711(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/macie2JobSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMacie2JobSummaryByResourceGroupRequest" });
@@ -66838,12 +68477,14 @@ function __c713(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/macie2JobSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMacie2JobSummaryBySubscriptionRequest" });
@@ -66856,12 +68497,14 @@ function __c714(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/macieAllowLists",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMacieAllowListByResourceGroupRequest" });
@@ -66886,12 +68529,14 @@ function __c716(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/macieAllowLists",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMacieAllowListBySubscriptionRequest" });
@@ -66923,12 +68568,14 @@ function __c718(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/networkFirewallFirewalls",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallFirewallByResourceGroupRequest" });
@@ -66953,12 +68600,14 @@ function __c720(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/networkFirewallFirewalls",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallFirewallBySubscriptionRequest" });
@@ -66971,12 +68620,14 @@ function __c721(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/networkFirewallFirewallPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallFirewallPolicyByResourceGroupRequest" });
@@ -67001,12 +68652,14 @@ function __c723(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/networkFirewallFirewallPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallFirewallPolicyBySubscriptionRequest" });
@@ -67019,12 +68672,14 @@ function __c724(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/networkFirewallRuleGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallRuleGroupByResourceGroupRequest" });
@@ -67049,12 +68704,14 @@ function __c726(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/networkFirewallRuleGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFirewallRuleGroupBySubscriptionRequest" });
@@ -67067,12 +68724,14 @@ function __c727(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/openSearchDomainStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenSearchDomainStatusByResourceGroupRequest" });
@@ -67097,12 +68756,14 @@ function __c729(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/openSearchDomainStatuses",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenSearchDomainStatusBySubscriptionRequest" });
@@ -67112,12 +68773,15 @@ function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AwsConnector/operations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -67145,7 +68809,7 @@ function __c730(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(23363, __c730, 3)),
+          value: __S(23363, __c730, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -67158,12 +68822,14 @@ function __c731(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/organizationsAccounts",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsAccountByResourceGroupRequest" });
@@ -67207,12 +68873,14 @@ function __c734(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/organizationsAccounts",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsAccountBySubscriptionRequest" });
@@ -67225,12 +68893,14 @@ function __c735(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/organizationsOrganizations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsOrganizationByResourceGroupRequest" });
@@ -67255,12 +68925,14 @@ function __c737(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/organizationsOrganizations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsOrganizationBySubscriptionRequest" });
@@ -67273,12 +68945,14 @@ function __c738(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsDBClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbClusterByResourceGroupRequest" });
@@ -67303,12 +68977,14 @@ function __c740(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsDBClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbClusterBySubscriptionRequest" });
@@ -67321,12 +68997,14 @@ function __c741(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsDBInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbInstanceByResourceGroupRequest" });
@@ -67351,12 +69029,14 @@ function __c743(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsDBInstances",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbInstanceBySubscriptionRequest" });
@@ -67369,12 +69049,14 @@ function __c744(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsDBSnapshotAttributesResults",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbSnapshotAttributesResultByResourceGroupRequest" });
@@ -67399,12 +69081,14 @@ function __c746(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsDBSnapshotAttributesResults",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbSnapshotAttributesResultBySubscriptionRequest" });
@@ -67417,12 +69101,14 @@ function __c747(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsDBSnapshots",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbSnapshotByResourceGroupRequest" });
@@ -67466,12 +69152,14 @@ function __c750(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsDBSnapshots",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsDbSnapshotBySubscriptionRequest" });
@@ -67484,12 +69172,14 @@ function __c751(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsEventSubscriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsEventSubscriptionByResourceGroupRequest" });
@@ -67514,12 +69204,14 @@ function __c753(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsEventSubscriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsEventSubscriptionBySubscriptionRequest" });
@@ -67532,12 +69224,14 @@ function __c754(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/rdsExportTasks",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsExportTaskByResourceGroupRequest" });
@@ -67562,12 +69256,14 @@ function __c756(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/rdsExportTasks",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRdsExportTaskBySubscriptionRequest" });
@@ -67580,12 +69276,14 @@ function __c757(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/redshiftClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedshiftClusterByResourceGroupRequest" });
@@ -67610,12 +69308,14 @@ function __c759(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/redshiftClusters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedshiftClusterBySubscriptionRequest" });
@@ -67628,12 +69328,14 @@ function __c760(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/redshiftClusterParameterGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedshiftClusterParameterGroupByResourceGroupRequest" });
@@ -67658,12 +69360,14 @@ function __c762(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/redshiftClusterParameterGroups",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedshiftClusterParameterGroupBySubscriptionRequest" });
@@ -67676,12 +69380,14 @@ function __c763(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/route53DomainsDomainSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53DomainsDomainSummaryByResourceGroupRequest" });
@@ -67725,12 +69431,14 @@ function __c766(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/route53DomainsDomainSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53DomainsDomainSummaryBySubscriptionRequest" });
@@ -67743,12 +69451,14 @@ function __c767(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/route53HostedZones",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53HostedZoneByResourceGroupRequest" });
@@ -67773,12 +69483,14 @@ function __c769(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/route53HostedZones",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53HostedZoneBySubscriptionRequest" });
@@ -67791,12 +69503,14 @@ function __c770(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/route53ResourceRecordSets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53ResourceRecordSetByResourceGroupRequest" });
@@ -67821,12 +69535,14 @@ function __c772(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/route53ResourceRecordSets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoute53ResourceRecordSetBySubscriptionRequest" });
@@ -67839,12 +69555,14 @@ function __c773(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/s3AccessControlPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3AccessControlPolicyByResourceGroupRequest" });
@@ -67869,12 +69587,14 @@ function __c775(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/s3AccessControlPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3AccessControlPolicyBySubscriptionRequest" });
@@ -67887,12 +69607,14 @@ function __c776(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/s3AccessPoints",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3AccessPointByResourceGroupRequest" });
@@ -67917,12 +69639,14 @@ function __c778(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/s3AccessPoints",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3AccessPointBySubscriptionRequest" });
@@ -67935,12 +69659,14 @@ function __c779(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/s3Buckets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3BucketByResourceGroupRequest" });
@@ -67984,12 +69710,14 @@ function __c782(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/s3Buckets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3BucketBySubscriptionRequest" });
@@ -68002,12 +69730,14 @@ function __c783(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/s3BucketPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3BucketPolicyByResourceGroupRequest" });
@@ -68032,12 +69762,14 @@ function __c785(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/s3BucketPolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListS3BucketPolicyBySubscriptionRequest" });
@@ -68050,12 +69782,14 @@ function __c786(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/s3ControlMultiRegionAccessPointPolicyDocuments",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -68082,12 +69816,14 @@ function __c788(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/s3ControlMultiRegionAccessPointPolicyDocuments",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -68102,12 +69838,14 @@ function __c789(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/sageMakerApps",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSageMakerAppByResourceGroupRequest" });
@@ -68132,12 +69870,14 @@ function __c791(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/sageMakerApps",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSageMakerAppBySubscriptionRequest" });
@@ -68150,12 +69890,14 @@ function __c792(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/sageMakerNotebookInstanceSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSageMakerNotebookInstanceSummaryByResourceGroupRequest" });
@@ -68180,12 +69922,14 @@ function __c794(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/sageMakerNotebookInstanceSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSageMakerNotebookInstanceSummaryBySubscriptionRequest" });
@@ -68198,12 +69942,14 @@ function __c795(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/secretsManagerResourcePolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsManagerResourcePolicyByResourceGroupRequest" });
@@ -68478,12 +70224,14 @@ function __c800(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/secretsManagerResourcePolicies",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsManagerResourcePolicyBySubscriptionRequest" });
@@ -68496,12 +70244,14 @@ function __c801(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/secretsManagerSecrets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsManagerSecretByResourceGroupRequest" });
@@ -68526,12 +70276,14 @@ function __c803(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/secretsManagerSecrets",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsManagerSecretBySubscriptionRequest" });
@@ -68544,12 +70296,14 @@ function __c804(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/snsSubscriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnsSubscriptionByResourceGroupRequest" });
@@ -68574,12 +70328,14 @@ function __c806(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/snsSubscriptions",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnsSubscriptionBySubscriptionRequest" });
@@ -68592,12 +70348,14 @@ function __c807(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/snsTopics",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnsTopicByResourceGroupRequest" });
@@ -68622,12 +70380,14 @@ function __c809(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/snsTopics",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnsTopicBySubscriptionRequest" });
@@ -68640,12 +70400,14 @@ function __c810(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/sqsQueues",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSqsQueueByResourceGroupRequest" });
@@ -68670,12 +70432,14 @@ function __c812(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/sqsQueues",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSqsQueueBySubscriptionRequest" });
@@ -68688,12 +70452,14 @@ function __c813(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ssmInstanceInformations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmInstanceInformationByResourceGroupRequest" });
@@ -68737,12 +70503,14 @@ function __c816(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ssmInstanceInformations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmInstanceInformationBySubscriptionRequest" });
@@ -68755,12 +70523,14 @@ function __c817(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ssmParameters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmParameterByResourceGroupRequest" });
@@ -68785,12 +70555,14 @@ function __c819(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ssmParameters",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmParameterBySubscriptionRequest" });
@@ -68803,12 +70575,14 @@ function __c820(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/ssmResourceComplianceSummaryItems",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmResourceComplianceSummaryItemByResourceGroupRequest" });
@@ -68833,12 +70607,14 @@ function __c822(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/ssmResourceComplianceSummaryItems",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSsmResourceComplianceSummaryItemBySubscriptionRequest" });
@@ -68851,12 +70627,14 @@ function __c823(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/wafv2LoggingConfigurations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWafv2LoggingConfigurationByResourceGroupRequest" });
@@ -68881,12 +70659,14 @@ function __c825(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/wafv2LoggingConfigurations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWafv2LoggingConfigurationBySubscriptionRequest" });
@@ -68899,12 +70679,14 @@ function __c826(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AwsConnector/wafWebACLSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWafWebAclSummaryByResourceGroupRequest" });
@@ -68929,12 +70711,14 @@ function __c828(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AwsConnector/wafWebACLSummaries",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWafWebAclSummaryBySubscriptionRequest" });

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -759,6 +759,8 @@ export interface ListConfigurationStoreByResourceGroupRequest {
   resourceGroupName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigurationStoreTagsMap = { [key: string]: string | undefined };
@@ -815,20 +817,22 @@ export type ConfigurationStoreListResultValueList = Array<ConfigurationStore>;
 /** The result of a request to list configuration stores. */
 export interface ConfigurationStoreListResult {
   /** The collection value. */
-  value?: ConfigurationStoreListResultValueList | undefined;
+  value: ConfigurationStoreListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
 export interface ListConfigurationStoreDeletedRequest {
   /** The Microsoft Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of deleted configuration store. */
 export type DeletedConfigurationStoreListResultValueList = Array<DeletedConfigurationStore>;
 /** List of deleted configuration stores */
 export interface DeletedConfigurationStoreListResult {
   /** The list of deleted configuration store. */
-  value?: DeletedConfigurationStoreListResultValueList | undefined;
+  value: DeletedConfigurationStoreListResultValueList;
   /** The URL to get the next set of deleted configuration stores. */
   nextLink?: string | undefined;
 }
@@ -841,6 +845,8 @@ export interface ListConfigurationStoreKeysRequest {
   configStoreName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An API key used for authenticating with a configuration store endpoint. */
 export interface ApiKey {
@@ -862,7 +868,7 @@ export type ApiKeyListResultValueList = Array<ApiKey>;
 /** The result of a request to list API keys. */
 export interface ApiKeyListResult {
   /** The collection value. */
-  value?: ApiKeyListResultValueList | undefined;
+  value: ApiKeyListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -871,10 +877,14 @@ export interface ListConfigurationStoresRequest {
   subscriptionId: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The display information for a configuration store operation. */
 export interface OperationDefinitionDisplay {
@@ -960,7 +970,7 @@ export type OperationDefinitionListResultValueList = Array<OperationDefinition>;
 /** The result of a request to list configuration store operations. */
 export interface OperationDefinitionListResult {
   /** The collection value. */
-  value?: OperationDefinitionListResultValueList | undefined;
+  value: OperationDefinitionListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -971,13 +981,15 @@ export interface ListPrivateEndpointConnectionByConfigurationStoreRequest {
   resourceGroupName: string;
   /** The name of the configuration store. */
   configStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The collection value. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** The collection value. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -988,13 +1000,15 @@ export interface ListPrivateLinkResourceByConfigurationStoreRequest {
   resourceGroupName: string;
   /** The name of the configuration store. */
   configStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The collection value. */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** The collection value. */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -1007,13 +1021,15 @@ export interface ListReplicasByConfigurationStoreRequest {
   configStoreName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The collection value. */
 export type ReplicaListResultValueList = Array<Replica>;
 /** The result of a request to list replicas. */
 export interface ReplicaListResult {
   /** The collection value. */
-  value?: ReplicaListResultValueList | undefined;
+  value: ReplicaListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -1180,8 +1196,7 @@ export const CheckOperationNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckOperationNameAvailabilityRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<NameAvailabilityStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1198,8 +1213,7 @@ export const CreateConfigurationStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c2, 1) as any as S.Schema<CreateConfigurationStoreRequest>,
   output: __S(152, __c9, 8) as any as S.Schema<CreateConfigurationStoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1216,8 +1230,7 @@ export const CreateReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreateReplicasRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<Replica>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1234,8 +1247,7 @@ export const CreateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(561, __c35, 1) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(579, __c36, 3) as any as S.Schema<Snapshot>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1252,8 +1264,7 @@ export const DeleteConfigurationStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteConfigurationStoreRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<DeleteConfigurationStoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1270,8 +1281,7 @@ export const DeleteKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DeleteKeyValueRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeleteKeyValueResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1288,8 +1298,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1306,8 +1315,7 @@ export const DeleteReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteReplicasRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<DeleteReplicasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1324,8 +1332,7 @@ export const GetConfigurationStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetConfigurationStoreRequest>,
   output: __S(152, __c9, 8) as any as S.Schema<GetConfigurationStoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1342,8 +1349,7 @@ export const GetConfigurationStoreDeleted: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetConfigurationStoreDeletedRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<DeletedConfigurationStore>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1360,8 +1366,7 @@ export const GetKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetKeyValueRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<KeyValue>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1378,8 +1383,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PrivateEndpointConnection>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,8 +1400,7 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<PrivateLinkResource>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1414,8 +1417,7 @@ export const GetReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetReplicasRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<Replica>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1432,8 +1434,7 @@ export const GetSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(579, __c36, 3) as any as S.Schema<Snapshot>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1450,8 +1451,7 @@ export const KeyValuesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(273, __c17, 1) as any as S.Schema<KeyValuesCreateOrUpdateRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<KeyValue>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1460,151 +1460,199 @@ export const KeyValuesCreateOrUpdate: API.OperationMethod<
 
 export type ListConfigurationStoreByResourceGroupError = AzureOpError;
 /** Lists the configuration stores for a given resource group. */
-export const ListConfigurationStoreByResourceGroup: API.OperationMethod<
+export const ListConfigurationStoreByResourceGroup: API.PaginatedOperationMethod<
   ListConfigurationStoreByResourceGroupRequest,
   ConfigurationStoreListResult,
   ListConfigurationStoreByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListConfigurationStoreByResourceGroupRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<ConfigurationStoreListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationStoreByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationStoreDeletedError = AzureOpError;
 /** Gets information about the deleted configuration stores in a subscription. */
-export const ListConfigurationStoreDeleted: API.OperationMethod<
+export const ListConfigurationStoreDeleted: API.PaginatedOperationMethod<
   ListConfigurationStoreDeletedRequest,
   DeletedConfigurationStoreListResult,
   ListConfigurationStoreDeletedError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedConfigurationStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListConfigurationStoreDeletedRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<DeletedConfigurationStoreListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationStoreDeleted",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationStoreKeysError = AzureOpError;
 /** Lists the access key for the specified configuration store. */
-export const ListConfigurationStoreKeys: API.OperationMethod<
+export const ListConfigurationStoreKeys: API.PaginatedOperationMethod<
   ListConfigurationStoreKeysRequest,
   ApiKeyListResult,
   ListConfigurationStoreKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListConfigurationStoreKeysRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ApiKeyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationStoreKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationStoresError = AzureOpError;
 /** Lists the configuration stores for a given subscription. */
-export const ListConfigurationStores: API.OperationMethod<
+export const ListConfigurationStores: API.PaginatedOperationMethod<
   ListConfigurationStoresRequest,
   ConfigurationStoreListResult,
   ListConfigurationStoresError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListConfigurationStoresRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<ConfigurationStoreListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationStores",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the operations available from this provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationDefinitionListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(428, __c26, 12) as any as S.Schema<OperationDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByConfigurationStoreError = AzureOpError;
 /** Lists all private endpoint connections for a configuration store. */
-export const ListPrivateEndpointConnectionByConfigurationStore: API.OperationMethod<
+export const ListPrivateEndpointConnectionByConfigurationStore: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByConfigurationStoreRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByConfigurationStoreError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     432,
     __c27,
     0,
   ) as any as S.Schema<ListPrivateEndpointConnectionByConfigurationStoreRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByConfigurationStore",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByConfigurationStoreError = AzureOpError;
 /** Gets the private link resources that need to be created for a configuration store. */
-export const ListPrivateLinkResourceByConfigurationStore: API.OperationMethod<
+export const ListPrivateLinkResourceByConfigurationStore: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByConfigurationStoreRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByConfigurationStoreError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListPrivateLinkResourceByConfigurationStoreRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByConfigurationStore",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReplicasByConfigurationStoreError = AzureOpError;
 /** Lists the replicas for a given configuration store. */
-export const ListReplicasByConfigurationStore: API.OperationMethod<
+export const ListReplicasByConfigurationStore: API.PaginatedOperationMethod<
   ListReplicasByConfigurationStoreRequest,
   ReplicaListResult,
   ListReplicasByConfigurationStoreError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Replica
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListReplicasByConfigurationStoreRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<ReplicaListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReplicasByConfigurationStore",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type OperationsRegionalCheckNameAvailabilityError = AzureOpError;
 /** Checks whether the configuration store name is available for use. */
@@ -1616,8 +1664,7 @@ export const OperationsRegionalCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<OperationsRegionalCheckNameAvailabilityRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<NameAvailabilityStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1634,8 +1681,7 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(498, __c31, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PrivateEndpointConnection>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1652,8 +1698,7 @@ export const PurgeConfigurationStoreDeleted: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<PurgeConfigurationStoreDeletedRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PurgeConfigurationStoreDeletedResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1670,8 +1715,7 @@ export const RegenerateConfigurationStoreKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<RegenerateConfigurationStoreKeyRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ApiKey>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1688,8 +1732,7 @@ export const UpdateConfigurationStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(545, __c34, 1) as any as S.Schema<UpdateConfigurationStoreRequest>,
   output: __S(152, __c9, 8) as any as S.Schema<UpdateConfigurationStoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2111,12 +2154,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationStoreByResourceGroupRequest" });
@@ -2129,7 +2174,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(304, __c19, 0)),
+          value: __S(304, __c19, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationStoreListResult" });
@@ -2141,12 +2186,14 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/deletedConfigurationStores",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationStoreDeletedRequest" });
@@ -2155,7 +2202,7 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(321, __c20, 1)),
+          value: __S(321, __c20, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeletedConfigurationStoreListResult" });
@@ -2170,12 +2217,14 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configStoreName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationStoreKeysRequest" });
@@ -2184,7 +2233,7 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(337, __c21, 1)),
+          value: __S(337, __c21, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiKeyListResult" });
@@ -2212,12 +2261,14 @@ function __c23(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/configurationStores",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationStoresRequest" });
@@ -2272,12 +2323,14 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AppConfiguration/operations",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2353,7 +2406,7 @@ function __c26(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(427, __c26, 11)),
+          value: __S(427, __c26, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationDefinitionListResult" });
@@ -2367,19 +2420,21 @@ function __c27(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByConfigurationStoreRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(128, __c8, 0)),
+          value: __S(128, __c8, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -2393,12 +2448,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByConfigurationStoreRequest" });
@@ -2407,7 +2464,7 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(449, __c28, 1)),
+          value: __S(449, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -2422,12 +2479,14 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configStoreName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReplicasByConfigurationStoreRequest" });
@@ -2436,7 +2495,7 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(465, __c29, 1)),
+          value: __S(465, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicaListResult" });

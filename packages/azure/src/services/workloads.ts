@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3053,6 +3053,8 @@ export interface ListMonitorByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MonitorTagsMap = { [key: string]: string | undefined };
@@ -3091,15 +3093,20 @@ export type MonitorListResultValueList = Array<Monitor>;
 /** The response from the List SAP monitors operation. */
 export interface MonitorListResult {
   /** The list of SAP monitors. */
-  value?: MonitorListResultValueList | undefined;
+  value: MonitorListResultValueList;
   /** The URL to get the next set of SAP monitors. */
   nextLink?: string | undefined;
 }
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3132,7 +3139,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -3143,6 +3150,8 @@ export interface ListProviderInstancesRequest {
   resourceGroupName: string;
   /** Name of the SAP monitor resource. */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ProviderInstanceIdentityUserAssignedIdentitiesMap = {
@@ -3175,7 +3184,7 @@ export type ProviderInstanceListResultValueList = Array<ProviderInstance>;
 /** The response from the List provider instances operation. */
 export interface ProviderInstanceListResult {
   /** The list of provider instances. */
-  value?: ProviderInstanceListResultValueList | undefined;
+  value: ProviderInstanceListResultValueList;
   /** The URL to get the next set of provider instances. */
   nextLink?: string | undefined;
 }
@@ -3186,6 +3195,8 @@ export interface ListSapApplicationServerInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SAPApplicationServerInstanceTagsMap = { [key: string]: string | undefined };
@@ -3222,6 +3233,8 @@ export interface ListSAPApplicationServerInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Define the SAP Application Server Instance resource. */
 export interface SAPApplicationServerInstance_2 {
@@ -3244,7 +3257,7 @@ export type SAPApplicationServerInstanceListValueList = Array<SAPApplicationServ
 /** Defines the collection of SAP Application Server Instance resources. */
 export interface SAPApplicationServerInstanceList {
   /** Gets the list of SAP Application Server instance resources. */
-  value?: SAPApplicationServerInstanceListValueList | undefined;
+  value: SAPApplicationServerInstanceListValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
 }
@@ -3255,6 +3268,8 @@ export interface ListSAPCentralInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SAPCentralServerInstanceTagsMap = { [key: string]: string | undefined };
@@ -3279,7 +3294,7 @@ export type SAPCentralInstanceListValueList = Array<SAPCentralServerInstance_2>;
 /** Defines the collection of SAP Central Services Instance resources. */
 export interface SAPCentralInstanceList {
   /** Gets the list of SAP central services instance resources. */
-  value?: SAPCentralInstanceListValueList | undefined;
+  value: SAPCentralInstanceListValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
 }
@@ -3290,6 +3305,8 @@ export interface ListSapCentralServerInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance {
@@ -3324,6 +3341,8 @@ export interface ListSapDatabaseInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SAPDatabaseInstanceTagsMap = { [key: string]: string | undefined };
@@ -3360,6 +3379,8 @@ export interface ListSAPDatabaseInstancesRequest {
   resourceGroupName: string;
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Define the Database resource. */
 export interface SAPDatabaseInstance_2 {
@@ -3382,7 +3403,7 @@ export type SAPDatabaseInstanceListValueList = Array<SAPDatabaseInstance_2>;
 /** Defines the collection of SAP Database Instances. */
 export interface SAPDatabaseInstanceList {
   /** Gets the list of SAP Database instances. */
-  value?: SAPDatabaseInstanceListValueList | undefined;
+  value: SAPDatabaseInstanceListValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
 }
@@ -3421,6 +3442,8 @@ export interface ListSapVirtualInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SAPVirtualInstanceTagsMap = { [key: string]: string | undefined };
@@ -3457,6 +3480,8 @@ export interface ListSAPVirtualInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type SAPVirtualInstanceIdentityUserAssignedIdentitiesMap_2 = {
@@ -3492,17 +3517,21 @@ export type SAPVirtualInstanceListValueList = Array<SAPVirtualInstance_2>;
 /** Defines the collection of Virtual Instance for SAP solutions resources. */
 export interface SAPVirtualInstanceList {
   /** Gets the list of Virtual Instances for SAP solutions resources. */
-  value?: SAPVirtualInstanceListValueList | undefined;
+  value: SAPVirtualInstanceListValueList;
   /** Gets the value of next link. */
   nextLink?: string | undefined;
 }
 export interface ListSapVirtualInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSAPVirtualInstanceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface SAPAvailabilityZoneDetailsRequest {
   /** The ID of the target subscription. */
@@ -4613,8 +4642,7 @@ export const CreateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateMonitorRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<CreateMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4631,8 +4659,7 @@ export const CreateProviderInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(353, __c11, 1) as any as S.Schema<CreateProviderInstanceRequest>,
   output: __S(392, __c12, 8) as any as S.Schema<CreateProviderInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4649,8 +4676,7 @@ export const CreateSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateSapApplicationServerInstanceRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<CreateSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4667,8 +4693,7 @@ export const CreateSAPApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateSAPApplicationServerInstanceRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<CreateSAPApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4685,8 +4710,7 @@ export const CreateSAPCentralInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CreateSAPCentralInstanceRequest>,
   output: __S(2084, __c65, 4) as any as S.Schema<CreateSAPCentralInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4703,8 +4727,7 @@ export const CreateSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<CreateSapCentralServerInstanceRequest>,
   output: __S(2593, __c81, 1) as any as S.Schema<CreateSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4721,8 +4744,7 @@ export const CreateSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<CreateSapDatabaseInstanceRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<CreateSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4739,8 +4761,7 @@ export const CreateSAPDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CreateSAPDatabaseInstanceRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<CreateSAPDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4757,8 +4778,7 @@ export const CreateSapLandscapeMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<CreateSapLandscapeMonitorRequest>,
   output: __S(3814, __c119, 6) as any as S.Schema<CreateSapLandscapeMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4775,8 +4795,7 @@ export const CreateSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3938, __c123, 2) as any as S.Schema<CreateSapVirtualInstanceRequest>,
   output: __S(3939, __c123, 3) as any as S.Schema<CreateSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4793,8 +4812,7 @@ export const CreateSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(450, __c14, 2) as any as S.Schema<CreateSAPVirtualInstanceRequest>,
   output: __S(496, __c15, 16) as any as S.Schema<CreateSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4811,8 +4829,7 @@ export const DeleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(547, __c17, 3) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4829,8 +4846,7 @@ export const DeleteProviderInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteProviderInstanceRequest>,
   output: __S(547, __c17, 3) as any as S.Schema<DeleteProviderInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4847,8 +4863,7 @@ export const DeleteSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteSapApplicationServerInstanceRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4865,8 +4880,7 @@ export const DeleteSAPApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteSAPApplicationServerInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<DeleteSAPApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4883,8 +4897,7 @@ export const DeleteSAPCentralInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteSAPCentralInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<DeleteSAPCentralInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4901,8 +4914,7 @@ export const DeleteSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteSapCentralServerInstanceRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4919,8 +4931,7 @@ export const DeleteSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteSapDatabaseInstanceRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4937,8 +4948,7 @@ export const DeleteSAPDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteSAPDatabaseInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<DeleteSAPDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4955,8 +4965,7 @@ export const DeleteSapLandscapeMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteSapLandscapeMonitorRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteSapLandscapeMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4973,8 +4982,7 @@ export const DeleteSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteSapVirtualInstanceRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4991,8 +4999,7 @@ export const DeleteSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteSAPVirtualInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<DeleteSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5009,8 +5016,7 @@ export const GetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<GetMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5027,8 +5033,7 @@ export const GetProviderInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetProviderInstanceRequest>,
   output: __S(392, __c12, 8) as any as S.Schema<GetProviderInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5045,8 +5050,7 @@ export const GetSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetSapApplicationServerInstanceRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<GetSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5063,8 +5067,7 @@ export const GetSAPApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetSAPApplicationServerInstanceRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<GetSAPApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5081,8 +5084,7 @@ export const GetSAPCentralInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetSAPCentralInstanceRequest>,
   output: __S(2084, __c65, 4) as any as S.Schema<GetSAPCentralInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5099,8 +5101,7 @@ export const GetSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetSapCentralServerInstanceRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<GetSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5117,8 +5118,7 @@ export const GetSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetSapDatabaseInstanceRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<GetSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5135,8 +5135,7 @@ export const GetSAPDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetSAPDatabaseInstanceRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<GetSAPDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5153,8 +5152,7 @@ export const GetSapLandscapeMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetSapLandscapeMonitorRequest>,
   output: __S(3814, __c119, 6) as any as S.Schema<GetSapLandscapeMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5171,8 +5169,7 @@ export const GetSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetSapVirtualInstanceRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5189,8 +5186,7 @@ export const GetSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetSAPVirtualInstanceRequest>,
   output: __S(496, __c15, 16) as any as S.Schema<GetSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5211,8 +5207,7 @@ export const InvokeSapVirtualInstanceAvailabilityZoneDetails: API.OperationMetho
     0,
   ) as any as S.Schema<InvokeSapVirtualInstanceAvailabilityZoneDetailsRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<SAPAvailabilityZoneDetailsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5229,8 +5224,7 @@ export const InvokeSapVirtualInstanceDiskConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<InvokeSapVirtualInstanceDiskConfigurationsRequest>,
   output: __S(1764, __c55, 4) as any as S.Schema<SAPDiskConfigurationsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5247,8 +5241,7 @@ export const InvokeSapVirtualInstanceSapSupportedSku: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<InvokeSapVirtualInstanceSapSupportedSkuRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<SAPSupportedResourceSkusResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5273,8 +5266,7 @@ export const InvokeSapVirtualInstanceSizingRecommendations: API.OperationMethod<
     __c59,
     3,
   ) as any as S.Schema<InvokeSapVirtualInstanceSizingRecommendationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5283,183 +5275,243 @@ export const InvokeSapVirtualInstanceSizingRecommendations: API.OperationMethod<
 
 export type ListMonitorByResourceGroupError = AzureOpError;
 /** Gets a list of SAP monitors Gets a list of SAP monitors in the specified resource group. */
-export const ListMonitorByResourceGroup: API.OperationMethod<
+export const ListMonitorByResourceGroup: API.PaginatedOperationMethod<
   ListMonitorByResourceGroupRequest,
   MonitorListResult,
   ListMonitorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Monitor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListMonitorByResourceGroupRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<MonitorListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorsError = AzureOpError;
 /** Gets a list of SAP monitors in the specified subscription. Gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor. */
-export const ListMonitors: API.OperationMethod<
+export const ListMonitors: API.PaginatedOperationMethod<
   ListMonitorsRequest,
   MonitorListResult,
   ListMonitorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Monitor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListMonitorsRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<MonitorListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitors",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2020, __c63, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProviderInstancesError = AzureOpError;
 /** Gets a list of provider instances in the specified SAP monitor. Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances. */
-export const ListProviderInstances: API.OperationMethod<
+export const ListProviderInstances: API.PaginatedOperationMethod<
   ListProviderInstancesRequest,
   ProviderInstanceListResult,
   ListProviderInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProviderInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListProviderInstancesRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ProviderInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProviderInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSapApplicationServerInstancesError = AzureOpError;
 /** Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions resource. */
-export const ListSapApplicationServerInstances: API.OperationMethod<
+export const ListSapApplicationServerInstances: API.PaginatedOperationMethod<
   ListSapApplicationServerInstancesRequest,
   SAPApplicationServerInstanceListResult,
   ListSapApplicationServerInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPApplicationServerInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListSapApplicationServerInstancesRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<SAPApplicationServerInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSapApplicationServerInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSAPApplicationServerInstancesError = AzureOpError;
 /** Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions resource. */
-export const ListSAPApplicationServerInstances: API.OperationMethod<
+export const ListSAPApplicationServerInstances: API.PaginatedOperationMethod<
   ListSAPApplicationServerInstancesRequest,
   SAPApplicationServerInstanceList,
   ListSAPApplicationServerInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPApplicationServerInstance_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListSAPApplicationServerInstancesRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<SAPApplicationServerInstanceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSAPApplicationServerInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSAPCentralInstancesError = AzureOpError;
 /** Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions resource. */
-export const ListSAPCentralInstances: API.OperationMethod<
+export const ListSAPCentralInstances: API.PaginatedOperationMethod<
   ListSAPCentralInstancesRequest,
   SAPCentralInstanceList,
   ListSAPCentralInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPCentralServerInstance_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListSAPCentralInstancesRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<SAPCentralInstanceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSAPCentralInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSapCentralServerInstancesError = AzureOpError;
 /** Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions resource. */
-export const ListSapCentralServerInstances: API.OperationMethod<
+export const ListSapCentralServerInstances: API.PaginatedOperationMethod<
   ListSapCentralServerInstancesRequest,
   SAPCentralServerInstanceListResult,
   ListSapCentralServerInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPCentralServerInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListSapCentralServerInstancesRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<SAPCentralServerInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSapCentralServerInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSapDatabaseInstancesError = AzureOpError;
 /** Lists the Database resources associated with a Virtual Instance for SAP solutions resource. */
-export const ListSapDatabaseInstances: API.OperationMethod<
+export const ListSapDatabaseInstances: API.PaginatedOperationMethod<
   ListSapDatabaseInstancesRequest,
   SAPDatabaseInstanceListResult,
   ListSapDatabaseInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPDatabaseInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListSapDatabaseInstancesRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<SAPDatabaseInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  output: __S(2369, __c74, 1) as any as S.Schema<SAPDatabaseInstanceListResult>,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSapDatabaseInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSAPDatabaseInstancesError = AzureOpError;
 /** Lists the Database resources associated with a Virtual Instance for SAP solutions resource. */
-export const ListSAPDatabaseInstances: API.OperationMethod<
+export const ListSAPDatabaseInstances: API.PaginatedOperationMethod<
   ListSAPDatabaseInstancesRequest,
   SAPDatabaseInstanceList,
   ListSAPDatabaseInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPDatabaseInstance_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListSAPDatabaseInstancesRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<SAPDatabaseInstanceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  output: __S(2369, __c74, 1) as any as S.Schema<SAPDatabaseInstanceList>,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSAPDatabaseInstances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSapLandscapeMonitorError = AzureOpError;
 /** Gets configuration values for Single Pane Of Glass for SAP monitor. Gets configuration values for Single Pane Of Glass for SAP monitor for the specified subscription, resource group, and resource name. */
@@ -5471,8 +5523,7 @@ export const ListSapLandscapeMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListSapLandscapeMonitorRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<SapLandscapeMonitorListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5481,75 +5532,99 @@ export const ListSapLandscapeMonitor: API.OperationMethod<
 
 export type ListSapVirtualInstanceByResourceGroupError = AzureOpError;
 /** Gets all Virtual Instances for SAP solutions resources in a Resource Group. */
-export const ListSapVirtualInstanceByResourceGroup: API.OperationMethod<
+export const ListSapVirtualInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListSapVirtualInstanceByResourceGroupRequest,
   SAPVirtualInstanceListResult,
   ListSapVirtualInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPVirtualInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListSapVirtualInstanceByResourceGroupRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<SAPVirtualInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSapVirtualInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSAPVirtualInstanceByResourceGroupError = AzureOpError;
 /** Gets all Virtual Instances for SAP solutions resources in a Resource Group. */
-export const ListSAPVirtualInstanceByResourceGroup: API.OperationMethod<
+export const ListSAPVirtualInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListSAPVirtualInstanceByResourceGroupRequest,
   SAPVirtualInstanceList,
   ListSAPVirtualInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPVirtualInstance_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListSAPVirtualInstanceByResourceGroupRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<SAPVirtualInstanceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSAPVirtualInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSapVirtualInstanceBySubscriptionError = AzureOpError;
 /** Gets all Virtual Instances for SAP solutions resources in a Subscription. */
-export const ListSapVirtualInstanceBySubscription: API.OperationMethod<
+export const ListSapVirtualInstanceBySubscription: API.PaginatedOperationMethod<
   ListSapVirtualInstanceBySubscriptionRequest,
   SAPVirtualInstanceListResult,
   ListSapVirtualInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPVirtualInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListSapVirtualInstanceBySubscriptionRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<SAPVirtualInstanceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSapVirtualInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSAPVirtualInstanceBySubscriptionError = AzureOpError;
 /** Gets all Virtual Instances for SAP solutions resources in a Subscription. */
-export const ListSAPVirtualInstanceBySubscription: API.OperationMethod<
+export const ListSAPVirtualInstanceBySubscription: API.PaginatedOperationMethod<
   ListSAPVirtualInstanceBySubscriptionRequest,
   SAPVirtualInstanceList,
   ListSAPVirtualInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SAPVirtualInstance_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListSAPVirtualInstanceBySubscriptionRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<SAPVirtualInstanceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSAPVirtualInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SAPAvailabilityZoneDetailsError = AzureOpError;
 /** Get the recommended SAP Availability Zone Pair Details for your region. */
@@ -5561,8 +5636,7 @@ export const SAPAvailabilityZoneDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<SAPAvailabilityZoneDetailsRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<SAPAvailabilityZoneDetailsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5579,8 +5653,7 @@ export const SAPDiskConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<SAPDiskConfigurationsRequest>,
   output: __S(1764, __c55, 4) as any as S.Schema<SAPDiskConfigurationsResult_2>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5597,8 +5670,7 @@ export const SAPSizingRecommendations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<SAPSizingRecommendationsRequest>,
   output: __S(1891, __c59, 3) as any as S.Schema<SAPSizingRecommendationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5615,8 +5687,7 @@ export const SAPSupportedSku2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<SAPSupportedSkuRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<SAPSupportedResourceSkusResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5633,8 +5704,7 @@ export const StartSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<StartSapApplicationServerInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StartSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5651,8 +5721,7 @@ export const StartSAPApplicationServerInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<StartSAPApplicationServerInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StartSAPApplicationServerInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5669,8 +5738,7 @@ export const StartSAPCentralInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<StartSAPCentralInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StartSAPCentralInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5687,8 +5755,7 @@ export const StartSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<StartSapCentralServerInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StartSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5705,8 +5772,7 @@ export const StartSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<StartSapDatabaseInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StartSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5723,8 +5789,7 @@ export const StartSAPDatabaseInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<StartSAPDatabaseInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StartSAPDatabaseInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5741,8 +5806,7 @@ export const StartSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<StartSapVirtualInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StartSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5759,8 +5823,7 @@ export const StartSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<StartSAPVirtualInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StartSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5777,8 +5840,7 @@ export const StopSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<StopSapApplicationServerInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StopSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,8 +5857,7 @@ export const StopSAPApplicationServerInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<StopSAPApplicationServerInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StopSAPApplicationServerInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5813,8 +5874,7 @@ export const StopSAPCentralInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<StopSAPCentralInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StopSAPCentralInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5831,8 +5891,7 @@ export const StopSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<StopSapCentralServerInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StopSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5849,8 +5908,7 @@ export const StopSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<StopSapDatabaseInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StopSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5867,8 +5925,7 @@ export const StopSAPDatabaseInstanceInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<StopSAPDatabaseInstanceInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StopSAPDatabaseInstanceInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5885,8 +5942,7 @@ export const StopSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<StopSapVirtualInstanceRequest>,
   output: __S(2883, __c90, 3) as any as S.Schema<StopSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5903,8 +5959,7 @@ export const StopSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<StopSAPVirtualInstanceRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<StopSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5921,8 +5976,7 @@ export const UpdateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5939,8 +5993,7 @@ export const UpdateSapApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<UpdateSapApplicationServerInstanceRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<UpdateSapApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5957,8 +6010,7 @@ export const UpdateSAPApplicationServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<UpdateSAPApplicationServerInstanceRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<UpdateSAPApplicationServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5975,8 +6027,7 @@ export const UpdateSAPCentralInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<UpdateSAPCentralInstanceRequest>,
   output: __S(2084, __c65, 4) as any as S.Schema<UpdateSAPCentralInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5993,8 +6044,7 @@ export const UpdateSapCentralServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<UpdateSapCentralServerInstanceRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<UpdateSapCentralServerInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6011,8 +6061,7 @@ export const UpdateSapDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<UpdateSapDatabaseInstanceRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<UpdateSapDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6029,8 +6078,7 @@ export const UpdateSAPDatabaseInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<UpdateSAPDatabaseInstanceRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<UpdateSAPDatabaseInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6047,8 +6095,7 @@ export const UpdateSapLandscapeMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<UpdateSapLandscapeMonitorRequest>,
   output: __S(3814, __c119, 6) as any as S.Schema<UpdateSapLandscapeMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6065,8 +6112,7 @@ export const UpdateSapVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3873, __c121, 1) as any as S.Schema<UpdateSapVirtualInstanceRequest>,
   output: __S(3874, __c121, 2) as any as S.Schema<UpdateSapVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6083,8 +6129,7 @@ export const UpdateSAPVirtualInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<UpdateSAPVirtualInstanceRequest>,
   output: __S(496, __c15, 16) as any as S.Schema<UpdateSAPVirtualInstanceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7535,12 +7580,14 @@ function __c60(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorByResourceGroupRequest" });
@@ -7553,7 +7600,7 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1952, __c61, 0)),
+          value: __S(1952, __c61, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MonitorListResult" });
@@ -7565,12 +7612,14 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/monitors",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorsRequest" });
@@ -7580,12 +7629,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Workloads/operations",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7613,7 +7665,7 @@ function __c63(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2019, __c63, 3)),
+          value: __S(2019, __c63, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -7742,12 +7794,14 @@ function __c68(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProviderInstancesRequest" });
@@ -7756,7 +7810,7 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2177, __c68, 1)),
+          value: __S(2177, __c68, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderInstanceListResult" });
@@ -7770,12 +7824,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSapApplicationServerInstancesRequest" });
@@ -7798,12 +7854,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSAPApplicationServerInstancesRequest" });
@@ -7812,7 +7870,7 @@ function __c70(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2241, __c70, 1)),
+          value: __S(2241, __c70, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SAPApplicationServerInstanceList" });
@@ -7826,12 +7884,14 @@ function __c71(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSAPCentralInstancesRequest" });
@@ -7840,7 +7900,7 @@ function __c71(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2273, __c71, 1)),
+          value: __S(2273, __c71, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SAPCentralInstanceList" });
@@ -7854,12 +7914,14 @@ function __c72(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSapCentralServerInstancesRequest" });
@@ -7882,15 +7944,23 @@ function __c73(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSapDatabaseInstancesRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(3424, __c107, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7898,12 +7968,6 @@ function __c73(j: number): any {
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SAPDatabaseInstanceListResult" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3424, __c107, 0));
   }
 }
 function __c75(j: number): any {
@@ -7914,22 +7978,17 @@ function __c75(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sapVirtualInstanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSAPDatabaseInstancesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(2368, __c74, 0)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SAPDatabaseInstanceList" });
   }
 }
 function __c76(j: number): any {
@@ -7967,12 +8026,14 @@ function __c77(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSapVirtualInstanceByResourceGroupRequest" });
@@ -7998,12 +8059,14 @@ function __c79(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSAPVirtualInstanceByResourceGroupRequest" });
@@ -8016,7 +8079,7 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2560, __c80, 0)),
+          value: __S(2560, __c80, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SAPVirtualInstanceList" });
@@ -8116,12 +8179,14 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/sapVirtualInstances",
             code: 200,
             apiVersion: "2024-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSapVirtualInstanceBySubscriptionRequest" });
@@ -8133,12 +8198,14 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/sapVirtualInstances",
             code: 200,
             apiVersion: "2023-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSAPVirtualInstanceBySubscriptionRequest" });

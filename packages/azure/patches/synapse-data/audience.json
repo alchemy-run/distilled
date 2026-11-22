@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Synapse workspaces accept Microsoft Entra ID tokens for the `https://dev.azuresynapse.net` resource (Microsoft Learn: \"Azure Synapse Analytics REST API\", authentication).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SynapseData/traits/com.azure.protocols#audience",
+      "value": "https://dev.azuresynapse.net/.default"
+    }
+  ]
+}
