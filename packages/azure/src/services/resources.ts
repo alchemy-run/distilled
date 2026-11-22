@@ -1622,7 +1622,7 @@ export interface DeleteManagementLockAtResourceLevelRequest {
   /** The resource provider namespace of the resource with the lock to delete. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type of the resource with the lock to delete. */
   resourceType: string;
   /** The name of the resource with the lock to delete. */
@@ -1746,7 +1746,7 @@ export interface DeleteResourceRequest {
   /** The resource provider of the resource to check. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type. */
   resourceType: string;
   /** The name of the resource to check whether it exists. */
@@ -4802,7 +4802,7 @@ export interface GetManagementLockAtResourceLevelRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** An extra path parameter needed in some services, like SQL Databases. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The type of the resource. */
   resourceType: string;
   /** The name of the resource. */
@@ -5337,7 +5337,7 @@ export interface GetResourceRequest {
   /** The resource provider of the resource to check. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type. */
   resourceType: string;
   /** The name of the resource to check whether it exists. */
@@ -6530,7 +6530,7 @@ export interface ListManagementLockAtResourceLevelRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type of the locked resource. */
   resourceType: string;
   /** The name of the locked resource. */
@@ -6631,7 +6631,7 @@ export interface ListPolicyAssignmentForResourceRequest {
   /** The namespace of the resource provider. For example, the namespace of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines) */
   resourceProviderNamespace: string;
   /** The parent resource path. Use empty string if there is none. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type name. For example the type name of a web app is 'sites' (from Microsoft.Web/sites). */
   resourceType: string;
   /** The name of the resource. */
@@ -7537,7 +7537,7 @@ export interface ManagementLocksCreateOrUpdateAtResourceLevelRequest {
   /** The resource provider namespace of the resource to lock. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type of the resource to lock. */
   resourceType: string;
   /** The name of the resource to lock. */
@@ -8190,7 +8190,7 @@ export interface ResourcesCreateOrUpdateRequest {
   /** The resource provider of the resource to check. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type. */
   resourceType: string;
   /** The name of the resource to check whether it exists. */
@@ -8813,7 +8813,7 @@ export interface UpdateResourceRequest {
   /** The resource provider of the resource to check. */
   resourceProviderNamespace: string;
   /** The parent resource identity. */
-  parentResourcePath: string;
+  parentResourcePath?: string | undefined;
   /** The resource type. */
   resourceType: string;
   /** The name of the resource to check whether it exists. */
@@ -16754,7 +16754,7 @@ function __c42(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
@@ -17378,7 +17378,7 @@ function __c71(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
         }).pipe(
@@ -18750,7 +18750,7 @@ function __c139(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
@@ -18868,7 +18868,7 @@ function __c145(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
@@ -20179,7 +20179,7 @@ function __c208(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
@@ -20911,7 +20911,7 @@ function __c240(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
@@ -21378,7 +21378,7 @@ function __c260(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
@@ -21865,7 +21865,7 @@ function __c281(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
@@ -22126,7 +22126,7 @@ function __c295(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          parentResourcePath: S.String.pipe(T.Label()),
+          parentResourcePath: S.optional(S.String.pipe(T.Label())),
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
         }).pipe(

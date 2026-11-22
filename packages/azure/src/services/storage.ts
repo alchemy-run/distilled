@@ -898,40 +898,6 @@ export interface BlobAccessPointQumuloSourceProperties {
   /** Details for authenticating to the backing data source. */
   auth: BlobAccessPointAccessKeyAuthProperties;
 }
-/** Details for connecting to a backing data source. */
-export interface BlobAccessPointConnection {
-  /** The connection type: `Endpoint` or `PrivateLink`. This value determines the remaining members. */
-  connectionType: string;
-  /** The endpoint URL of the S3-compatible data source. Fixed once the configuration is created. */
-  endpoint?: string | undefined;
-  /** TLS certificate verification behavior: `Perform` or `Skip`. */
-  tlsVerification?: string | undefined;
-  /** PrivateLink only. The type of `privateLinkId`; only `ResourceId` is supported. */
-  privateLinkIdType?: string | undefined;
-  /** PrivateLink only. ARM resource ID of the Microsoft.Network/privateLinkServices resource. */
-  privateLinkId?: string | undefined;
-  /** PrivateLink only. The group ID of the private link resource. */
-  privateLinkGroupId?: string | undefined;
-  /** PrivateLink only. The Azure region of the private link service. */
-  privateLinkLocation?: string | undefined;
-  /** PrivateLink only. The message sent with the private endpoint connection request. */
-  requestMessage?: string | undefined;
-  /** PrivateLink only. The name of the private endpoint the service created (read-only). */
-  privateEndpointName?: string | undefined;
-}
-/** Details for authenticating to a backing data source. */
-export interface BlobAccessPointRemoteAuth {
-  /** The authentication type; only `AccessKey` is supported. */
-  authType: string;
-  /** The access key ID. */
-  accessKeyId?: string | undefined;
-  /** The secret access key. This value is never returned by read or list operations. */
-  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
-  /** The region used by the request-signing algorithm. Defaults to 'us-east-1' when not specified. */
-  signingRegion?: string | undefined;
-  /** The host used when computing request signatures. The endpoint host is used by default. */
-  hostOverride?: string | undefined;
-}
 /** Information about the data source exposed through a Blob Access Point. */
 export type BlobAccessPointSourceProperties =
   | BlobAccessPointAzureNetAppFilesSourceProperties
@@ -940,9 +906,7 @@ export type BlobAccessPointSourceProperties =
   | BlobAccessPointGenericS3SourceProperties
   | BlobAccessPointNasuniSourceProperties
   | BlobAccessPointNetAppOntapSourceProperties
-  | BlobAccessPointQumuloSourceProperties
-  | BlobAccessPointConnection
-  | BlobAccessPointRemoteAuth;
+  | BlobAccessPointQumuloSourceProperties;
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** Details of a Blob Access Point configuration. */
@@ -6218,9 +6182,7 @@ export type BlobAccessPointSourcePropertiesUpdate =
   | BlobAccessPointGenericS3SourcePropertiesUpdate
   | BlobAccessPointNasuniSourcePropertiesUpdate
   | BlobAccessPointNetAppOntapSourcePropertiesUpdate
-  | BlobAccessPointQumuloSourcePropertiesUpdate
-  | BlobAccessPointConnection
-  | BlobAccessPointRemoteAuth;
+  | BlobAccessPointQumuloSourcePropertiesUpdate;
 /** Details of a Blob Access Point configuration. */
 export interface BlobAccessPointConfigurationPropertiesUpdate {
   /** The configuration state. A configuration is created in the Active state when this value is not specified. */
@@ -9958,7 +9920,7 @@ function __c24(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: __S(870, __c27, 6),
+          properties: __S(868, __c27, 4),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -10051,30 +10013,6 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "BlobAccessPointAzureNetAppFilesSourceProperties" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          connectionType: S.String,
-          endpoint: S.optional(S.String),
-          tlsVerification: S.optional(S.String),
-          privateLinkIdType: S.optional(S.String),
-          privateLinkId: S.optional(S.String),
-          privateLinkGroupId: S.optional(S.String),
-          privateLinkLocation: S.optional(S.String),
-          requestMessage: S.optional(S.String),
-          privateEndpointName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlobAccessPointConnection" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          authType: S.String,
-          accessKeyId: S.optional(S.String),
-          secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          signingRegion: S.optional(S.String),
-          hostOverride: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlobAccessPointRemoteAuth" });
-    case 5:
       return S.Union([
         __S(866, __c27, 2),
         __S(866, __c27, 2),
@@ -10083,10 +10021,8 @@ function __c27(j: number): any {
         __S(866, __c27, 2),
         __S(866, __c27, 2),
         __S(866, __c27, 2),
-        __S(867, __c27, 3),
-        __S(868, __c27, 4),
       ]);
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           uniqueId: S.optional(S.String),
@@ -10095,7 +10031,7 @@ function __c27(j: number): any {
           lastConnectionTestStatus: S.optional(S.String),
           lastConnectionTestTimestamp: S.optional(S.String),
           lastConnectionTestErrorMessage: S.optional(S.String),
-          source: __S(869, __c27, 5),
+          source: __S(867, __c27, 3),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlobAccessPointConfigurationProperties" });
@@ -10740,8 +10676,6 @@ function __c52(j: number): any {
         __S(1667, __c52, 3),
         __S(1667, __c52, 3),
         __S(1667, __c52, 3),
-        __S(867, __c27, 3),
-        __S(868, __c27, 4),
       ]);
     case 5:
       return S.suspend(() =>
@@ -10778,7 +10712,7 @@ function __c52(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: __S(870, __c27, 6),
+          properties: __S(868, __c27, 4),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12857,7 +12791,7 @@ function __c118(j: number): any {
           systemData: S.optional(__S(96, __c3, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: __S(870, __c27, 6),
+          properties: __S(868, __c27, 4),
         }),
       ).annotate({ identifier: "GetBlobAccessPointConfigurationResponse" });
   }

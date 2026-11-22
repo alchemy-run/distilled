@@ -320,7 +320,7 @@ export interface ListMatchingRefsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The Git reference. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
-  ref: string;
+  ref?: string | undefined;
 }
 export type ListMatchingRefsResponseBodyList = Array<GitRef>;
 export type ListMatchingRefsResponse = ListMatchingRefsResponseBodyList;
@@ -681,7 +681,7 @@ function __c6(j: number): any {
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          ref: S.String.pipe(T.Label()),
+          ref: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",

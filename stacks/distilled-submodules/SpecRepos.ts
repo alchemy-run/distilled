@@ -145,6 +145,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   // of the docs.slack.dev reference pages.
   { package: "slack" },
   { package: "spacetimedb" },
+  { package: "sproutboat" },
   { package: "stackit" },
   { package: "squarespace" },
   { package: "starburst-galaxy" },

@@ -69,6 +69,7 @@ import {
 } from "./errors.ts";
 import {
   type ArmError,
+  configuredSubscriptionId,
   fail,
   failResponse,
   nextLinkOf,
@@ -286,14 +287,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     //     the URL already carries one (or the operation sends it as a header).
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
-      if (!creds?.subscriptionId) {
-        return yield* fail(
-          new ConfigError({
-            message: `${http?.uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
-          }),
-        );
-      }
-      url = url.split("{subscriptionId}").join(encodeURIComponent(creds.subscriptionId));
+      const subscriptionId = configuredSubscriptionId(creds?.subscriptionId, http?.uri);
+      if (subscriptionId instanceof ConfigError) return yield* fail(subscriptionId);
+      url = url.split("{subscriptionId}").join(subscriptionId);
     }
     // A data-plane path label the spec documents as optional (Key Vault's
     // `{secret-version}`) is an empty segment when omitted.
