@@ -103,7 +103,7 @@ export interface PostNodesByNodeVzdumpRequest {
   mailnotification?: PostNodesByNodeVzdumpRequestMailnotification | (string & {}) | undefined;
   mailto?: string | undefined;
   mode?: PostNodesByNodeVzdumpRequestMode | (string & {}) | undefined;
-  node?: string | undefined;
+  node: string;
   "notes-template"?: string | undefined;
   "notification-mode"?: PostNodesByNodeVzdumpRequestNotificationMode | (string & {}) | undefined;
   "pbs-change-detection-mode"?:
@@ -271,7 +271,7 @@ function __c4(j: number): any {
           mailnotification: S.optional(S.String),
           mailto: S.optional(S.String),
           mode: S.optional(S.String),
-          node: S.optional(S.String.pipe(T.Label())),
+          node: S.String.pipe(T.Label()),
           "notes-template": S.optional(S.String),
           "notification-mode": S.optional(S.String),
           "pbs-change-detection-mode": S.optional(S.String),

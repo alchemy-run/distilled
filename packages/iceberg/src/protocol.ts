@@ -1,6 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import {
   makeRestProtocol,
   type RestErrorEnvelope,
@@ -55,11 +54,32 @@ export type IcebergOpContext = Credentials | HttpClient.HttpClient;
 /** Routes that are not scoped to a warehouse prefix. */
 const UNPREFIXED_ROUTES = /*@__PURE__*/ new Set(["/config"]);
 
-/** `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests. */
+/** A `.` or `..` path segment, also percent-encoded (`%2e%2E`): URL parsers resolve both. */
+const DOT_SEGMENT = /^(?:\.|%2e){1,2}$/i;
+
+/**
+ * Characters a path can't carry as written, and a `%` that starts no escape.
+ * `/` and existing `%XX` escapes stay: a prefix may span segments (Glue's
+ * `catalogs/<id>`) and catalogs hand it out already encoded (S3 Tables'
+ * `arn%3Aaws%3As3tables...`), so the official Java client inserts it as is.
+ */
+const UNSAFE_PATH_CHARACTER = /%(?![0-9A-Fa-f]{2})|[^A-Za-z0-9\-._~!$&'()*+,;=:@%/]/gu;
+
+/**
+ * `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests.
+ * Throws {@link ConfigError} for a prefix with a `.` or `..` segment or a
+ * lone UTF-16 surrogate; the protocol fails the call with it.
+ */
 export const baseUrlFor = (creds: Config, uri: string): string => {
   const root = `${creds.uri.replace(/\/+$/, "")}/v1`;
   const prefix = creds.prefix?.replace(/^\/+|\/+$/g, "");
-  return UNPREFIXED_ROUTES.has(uri) || !prefix ? root : `${root}/${prefix}`;
+  if (UNPREFIXED_ROUTES.has(uri) || !prefix) return root;
+  if (!prefix.isWellFormed() || prefix.split("/").some((s) => DOT_SEGMENT.test(s))) {
+    throw new ConfigError({
+      message: `The configured Iceberg prefix ${JSON.stringify(creds.prefix)} cannot be a URL path`,
+    });
+  }
+  return `${root}/${prefix.replace(UNSAFE_PATH_CHARACTER, encodeURIComponent)}`;
 };
 
 /**

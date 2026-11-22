@@ -35,6 +35,7 @@ import {
   layer as transportLayer,
   type Reply,
   hasNoBody,
+  resetTrailers,
   respond,
   type Trailers,
 } from "./grpc-transport.ts";
@@ -409,9 +410,15 @@ const exchange = (
           }
           case RST_STREAM: {
             if (payload.length !== 4) return fail("malformed RST_STREAM");
-            if (stream === STREAM) {
-              fail(`the server reset the stream (HTTP/2 error ${uint32(payload, 0)})`);
+            if (stream !== STREAM) return;
+            // A reset ends the call with the gRPC status its code maps to;
+            // before the response headers, as a reply of trailers alone.
+            if (responseHeaders === undefined) {
+              status = 200;
+              responseHeaders = { "content-type": "application/grpc" };
             }
+            trailers = { ...resetTrailers(uint32(payload, 0)) };
+            ended = true;
             return;
           }
           case GOAWAY: {
