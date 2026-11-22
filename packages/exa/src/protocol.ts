@@ -60,9 +60,6 @@ const shared = {
   parseError: ({ body, cause }) => new ExaParseError({ body, cause }),
 } satisfies Omit<RestProtocolOptions<Config>, "baseUrl" | "headers">;
 
-// The annotations are the check: everything a protocol fails with, besides
-// the errors an operation and the service declare, must be listed there.
-
 /** The public API: search, contents, answer, monitors, agent runs, batches, Websets. */
 export const ExaProtocol = /*@__PURE__*/ restProtocol({
   ...shared,
