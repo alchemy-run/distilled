@@ -1095,7 +1095,9 @@ function __c7(j: number): any {
           name: S.String,
           redirect_uris: S.optional(__S(80, __c10, 0)),
           route: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/apps", code: 200 })),
       ).annotate({ identifier: "CreateAppRequest" });
   }
@@ -1299,7 +1301,9 @@ function __c13(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           draft: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/apps/{id}/deploy", code: 200 })),
       ).annotate({ identifier: "DeployAppRequest" });
   }

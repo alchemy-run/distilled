@@ -489,7 +489,9 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           file_id: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/audiences/{id}/add_people", code: 200 })),
       ).annotate({ identifier: "AddAudiencePeopleRequest" });
   }
@@ -587,7 +589,9 @@ function __c4(j: number): any {
           percentage: S.optional(S.Number),
           source_audience_id: S.optional(S.String),
           source_type: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
       ).annotate({ identifier: "CreateAudienceRequest" });
     case 3:

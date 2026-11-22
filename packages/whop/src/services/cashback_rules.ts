@@ -321,7 +321,9 @@ function __c1(j: number): any {
           rate_bps: S.Number,
           scoped_account_id: S.optional(S.NullOr(S.String)),
           starts_at: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/cashback_rule", code: 200 })),
       ).annotate({ identifier: "CreateCashbackRuleRequest" });
   }
@@ -388,7 +390,9 @@ function __c4(j: number): any {
           account_id: S.optional(S.NullOr(S.String)),
           cashback_rule_id: S.optional(S.NullOr(S.String)),
           transaction_id: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/cashback_rules/payout", code: 200 })),
       ).annotate({ identifier: "PayoutCashbackRulesRequest" });
     case 1:

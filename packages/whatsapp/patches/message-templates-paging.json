@@ -1,0 +1,56 @@
+{
+  "description": "GET /{WABA-ID}/message_templates is a paged Graph API list, but the spec declares only the `name` query parameter and `paging.cursors` in the response. Live on 2026-11-18 (v23.0): `?limit=2&fields=name` returned two templates (only `name` and `id`) with `paging: { cursors: { before, after }, next }`; passing `after=<paging.cursors.after>` returned the next page with `cursors`, `next` and `previous`, and the final page `cursors` and `previous` with no `next`. The request gains `limit`, `after` and `fields`; the response paging gains `next` and `previous`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFieldsRequest/members/fields",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "fields",
+          "smithy.api#documentation": "Comma-separated template fields to return (e.g. `name,status,category,language,components`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFieldsRequest/members/limit",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "limit",
+          "smithy.api#documentation": "Maximum number of templates to return per page."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFieldsRequest/members/after",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "after",
+          "smithy.api#documentation": "Cursor for pagination: `paging.cursors.after` of the previous page."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFieldsResponsePaging/members/next",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#documentation": "URL of the next page; absent on the last page." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#GetTemplateByNameDefaultFieldsResponsePaging/members/previous",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URL of the previous page; absent on the first page."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "description": "sendEvents sends its events as the request body: the reference's examples POST NDJSON (or one JSON document with format=json) with `-d`/`--data-binary` to /v0/events?name=<datasource> (https://www.tinybird.co/docs/api-reference/events-api), and its 400 row names a missing `name` as the common cause. The body is a preserialized string sent verbatim as application/x-ndjson. Live: POST /v0/events?name=distilled_events with two NDJSON lines answered 202 {successful_rows: 2, quarantined_rows: 0}; with wait=true, 200.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.events#PostV0EventsRequest/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Newline-delimited JSON events (or one JSON document with `format: \"json\"`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.events#PostV0EventsRequest/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.events#PostV0Events/traits/smithy.api#http/bodyMediaType",
+      "value": "application/x-ndjson"
+    }
+  ]
+}

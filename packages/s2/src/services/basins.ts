@@ -264,7 +264,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          s2RequestToken: S.optional(S.String.pipe(T.Header("s2-request-token"))),
+          s2RequestToken: S.optional(
+            S.String.pipe(T.Header("s2-request-token"), T.IdempotencyToken()),
+          ),
           basin: S.String,
           config: S.optional(S.NullOr(__S(7, __c1, 3))),
           location: S.optional(S.NullOr(S.String)),

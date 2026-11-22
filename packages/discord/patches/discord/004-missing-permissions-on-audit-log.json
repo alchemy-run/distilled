@@ -1,0 +1,30 @@
+{
+  "description": "Type Discord's 403 on GET /guilds/{guild_id}/audit-logs. A bot without VIEW_AUDIT_LOG in a guild gets 403 with JSON code 50013 (Missing Permissions) or 50001 (Missing Access) (https://discord.com/developers/docs/topics/opcodes-and-status-codes#json-json-error-codes). Alchemy reads the audit log to find the guild objects its bot created (Discord has no tags), and skips guilds where the bot can't read it. No live response is recorded yet.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#MissingPermissions",
+      "before": "com.discord.api#Discord",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildAuditLogEntries/errors/-",
+      "value": {
+        "target": "com.discord.api#MissingPermissions"
+      }
+    }
+  ]
+}

@@ -52,10 +52,8 @@ export const env = (name: string): string | undefined =>
   typeof process !== "undefined" ? process.env?.[name] : undefined;
 
 /** Re-run `effect` up to `maxRetries` more times after a failure. */
-export const retry = <A, E>(
-  effect: Effect.Effect<A, E>,
-  maxRetries: number,
-): Effect.Effect<A, E> => (maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect);
+export const retry = <A, E>(effect: Effect.Effect<A, E>, maxRetries: number): Effect.Effect<A, E> =>
+  maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect;
 
 /**
  * Try each source in order. A source failing with `tryNextLink: false` stops

@@ -924,7 +924,9 @@ function __c3(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           until: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/pause", code: 200 })),
       ).annotate({ identifier: "PauseMembershipRequest" });
   }
@@ -936,7 +938,9 @@ function __c4(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           days: S.optional(S.Number),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/reactivate", code: 200 })),
       ).annotate({ identifier: "ReactivateMembershipRequest" });
   }
@@ -947,7 +951,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/resume", code: 200 })),
       ).annotate({ identifier: "ResumeMembershipRequest" });
   }
@@ -958,7 +964,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/resync_access", code: 200 })),
       ).annotate({ identifier: "ResyncAccessMembershipRequest" });
   }
@@ -969,7 +977,9 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/transfer", code: 200 })),
       ).annotate({ identifier: "TransferMembershipRequest" });
     case 1:
@@ -1108,7 +1118,9 @@ function __c12(j: number): any {
           id: S.String.pipe(T.Label()),
           cancel_at_period_end: S.optional(S.Boolean),
           reason: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelMembershipRequest" });
   }
@@ -1163,7 +1175,9 @@ function __c14(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           days: S.Number,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/extend", code: 200 })),
       ).annotate({ identifier: "ExtendMembershipRequest" });
   }
@@ -1186,7 +1200,9 @@ function __c16(j: number): any {
           email: S.optional(S.String),
           plan_id: S.String,
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/memberships/invite", code: 200 })),
       ).annotate({ identifier: "InviteMembershipRequest" });
     case 1:

@@ -1,0 +1,23 @@
+{
+  "description": "An environment variable's `value` is a secret (variables default to `type=secret`) (https://www.tinybird.co/docs/api-reference/environment-variables-api). PUT /v0/variables/(.+) has no parameter table; its example sends `-d \"value=new_value\"`. Live: POST /v0/variables?name=...&value=... and PUT /v0/variables/<name>?value=... both answered 200, and no response carries the value.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.environment_variables#PostV0VariablesRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.environment_variables#PutV0VariablesVariableRequest/members/value",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "value",
+          "smithy.api#required": {},
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The new variable value."
+        }
+      }
+    }
+  ]
+}

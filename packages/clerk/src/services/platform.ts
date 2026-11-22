@@ -4119,7 +4119,9 @@ function __c3(j: number): any {
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           namespace: S.String,
           package_name: S.String,
           fingerprints: S.optional(__S(2592, __c81, 0)),
@@ -4367,7 +4369,9 @@ function __c14(j: number): any {
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           app_id_prefix: S.String,
           bundle_id: S.String,
         }).pipe(
@@ -6362,7 +6366,9 @@ function __c91(j: number): any {
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
           userID: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           unsafe_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),

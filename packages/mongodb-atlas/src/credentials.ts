@@ -22,6 +22,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import * as Semaphore from "effect/Semaphore";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -115,30 +116,40 @@ const exchangeToken = (
 const cachedTokenEffect = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
 ): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError>) => {
+  // Concurrent calls on a cold or stale cache share one exchange.
+  const lock = Semaphore.makeUnsafe(1);
   let cached: Config | undefined;
   let refreshAt = 0;
+  const fresh = () => cached !== undefined && Date.now() < refreshAt;
 
   return (client) =>
-    Effect.suspend(() => {
-      if (cached !== undefined && Date.now() < refreshAt) {
-        return Effect.succeed(cached);
-      }
-      return Effect.gen(function* () {
-        const config = yield* load;
-        const token = yield* exchangeToken(client, config);
-        cached = {
-          accessToken: token.accessToken,
-          apiBaseUrl: config.apiBaseUrl,
-        };
-        refreshAt =
-          Date.now() +
-          Math.max(
-            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-            TOKEN_REFRESH_WINDOW_MS,
-          );
-        return cached;
-      });
-    });
+    Effect.suspend(() =>
+      fresh()
+        ? Effect.succeed(cached!)
+        : Semaphore.withPermit(
+            lock,
+            Effect.suspend(() =>
+              fresh()
+                ? Effect.succeed(cached!)
+                : Effect.gen(function* () {
+                    const config = yield* load;
+                    const token = yield* exchangeToken(client, config);
+                    const next: Config = {
+                      accessToken: token.accessToken,
+                      apiBaseUrl: config.apiBaseUrl,
+                    };
+                    cached = next;
+                    refreshAt =
+                      Date.now() +
+                      Math.max(
+                        token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+                        TOKEN_REFRESH_WINDOW_MS,
+                      );
+                    return next;
+                  }),
+            ),
+          ),
+    );
 };
 
 /**
