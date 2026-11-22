@@ -474,8 +474,8 @@ export interface CreateOAuth2TokenRequest {
 }
 export interface AccessToken {
   accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
+  secretAccessKey: string | redacted.Redacted<string>;
+  sessionToken: string | redacted.Redacted<string>;
 }
 export type TokenType = string;
 export type ExpiresIn = number;
@@ -1364,7 +1364,11 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateOAuth2TokenRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ accessKeyId: S.String, secretAccessKey: S.String, sessionToken: S.String }),
+        S.Struct({
+          accessKeyId: S.String,
+          secretAccessKey: SensitiveString,
+          sessionToken: SensitiveString,
+        }),
       ).annotate({ identifier: "AccessToken" });
     case 3:
       return S.suspend(() =>
