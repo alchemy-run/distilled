@@ -82,6 +82,38 @@ export const consoleBaseUrl = (
   return `${origin}/v1/connector/consoles/${id}/proxy/${app}/integration`;
 };
 
+/**
+ * A `console` given on a call, checked: a Local location with a host, or a
+ * Remote one with a console ID that can be a path segment. Anything else is
+ * an {@link InvalidInput} on the `console` member.
+ */
+export const checkConsoleLocation = (value: unknown): ConsoleLocation | InvalidInput => {
+  const invalid = (why: string) =>
+    new InvalidInput({
+      member: "console",
+      message: `Input member console ${why}: expected { _tag: "Local", host } or { _tag: "Remote", consoleId }`,
+    });
+  if (value === null || typeof value !== "object") return invalid("is not an object");
+  const location = value as Record<string, unknown>;
+  if (location._tag === "Local") {
+    return typeof location.host === "string" && location.host.trim() !== ""
+      ? { _tag: "Local", host: location.host }
+      : invalid("has no host");
+  }
+  if (location._tag !== "Remote") return invalid("has no Local or Remote _tag");
+  if (typeof location.consoleId !== "string" || location.consoleId.trim() === "") {
+    return invalid("has no consoleId");
+  }
+  if (location.apiBaseUrl !== undefined && typeof location.apiBaseUrl !== "string") {
+    return invalid("has an apiBaseUrl that is not a string");
+  }
+  const encoded = encodeLabel("console", location.consoleId);
+  if (encoded instanceof InvalidInput) return encoded;
+  return location.apiBaseUrl === undefined
+    ? { _tag: "Remote", consoleId: location.consoleId }
+    : { _tag: "Remote", consoleId: location.consoleId, apiBaseUrl: location.apiBaseUrl };
+};
+
 /** The API key, redacted. */
 export class ApiKey
   extends /*@__PURE__*/ Context.Service<

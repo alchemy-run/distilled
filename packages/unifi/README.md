@@ -101,6 +101,16 @@ is `id` in Site Manager's `listHosts`. Ubiquiti issues the two kinds of key in d
 places (the console's Integrations settings for local, unifi.ui.com for the connector and the
 cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
+Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
+over the layer for that call and is not sent. A malformed one fails the call with
+`InvalidInput`:
+
+```ts
+const sites = yield* Unifi.getSiteOverviewPage({
+  console: { _tag: "Remote", consoleId: "<consoleId>" },
+});
+```
+
 From the environment, `Unifi.CredentialsFromEnv` provides both layers (a layer is only
 resolved by the calls that need it):
 

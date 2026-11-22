@@ -1,5 +1,3 @@
-import type { ErrorOf } from "@distilled.cloud/core/protocol";
-import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * UniFi protocols -- hand-written.
  *
@@ -21,17 +19,26 @@ import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-
  *
  * The console-hosted apps (Network, Protect, InnerSpace) share a protocol
  * shape that differs only in the `/proxy/<app>/integration` segment of the
- * base URL; the cloud-only APIs share {@link UniFiCloudProtocol}.
+ * base URL. Their operations take an optional `console` member that is not
+ * sent: it replaces the {@link Console} layer for that call. The cloud-only
+ * APIs share {@link UniFiCloudProtocol}.
  */
+import { InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import type { EncodeArgs, Operation } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
+import * as Stream from "effect/Stream";
 import {
   ApiKey,
   Console,
   DEFAULT_CLOUD_BASE_URL,
+  checkConsoleLocation,
   consoleBaseUrl,
   type ConsoleApp,
+  type ConsoleLocation,
 } from "./credentials.ts";
 import { UnknownUniFiError, UniFiParseError, type UniFiServiceError } from "./errors.ts";
 
@@ -60,8 +67,25 @@ export type UniFiConsoleOpContext = ApiKey | Console | HttpClient.HttpClient;
 /** Context of every Site Manager, Mobility and Carrier Fabric operation. */
 export type UniFiCloudOpContext = ApiKey | HttpClient.HttpClient;
 
-const consoleProtocol = (app: ConsoleApp) =>
-  restProtocol({
+/** The input member that picks the console for one call (scripts/generate.ts adds it). */
+const CONSOLE_MEMBER = "console";
+
+/**
+ * The call's own console and the input without it; `undefined` when the call
+ * names none, and {@link InvalidInput} when what it names is not a console.
+ */
+const ownConsole = (
+  input: unknown,
+): { readonly location: ConsoleLocation; readonly input: unknown } | InvalidInput | undefined => {
+  if (input === null || typeof input !== "object") return undefined;
+  const { [CONSOLE_MEMBER]: value, ...rest } = input as Record<string, unknown>;
+  if (value === undefined) return undefined;
+  const location = checkConsoleLocation(value);
+  return location instanceof InvalidInput ? location : { location, input: rest };
+};
+
+const consoleProtocol = (app: ConsoleApp) => {
+  const rest = restProtocol({
     // Each service holds an effect -- resolving them here (per request, on the
     // calling fiber) picks up context-provided layers.
     credentials: Effect.gen(function* () {
@@ -78,6 +102,58 @@ const consoleProtocol = (app: ConsoleApp) =>
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
   });
+  const { call, stream } = rest;
+  // A call's `console` member, when set, is the Console for that call and is
+  // not sent; a malformed one fails the call with InvalidInput.
+  const methods = {
+    encode: (args: EncodeArgs) => {
+      const own = ownConsole(args.input);
+      return own === undefined
+        ? rest.encode(args)
+        : own instanceof InvalidInput
+          ? Effect.fail(own)
+          : Effect.provideService(
+              rest.encode({ ...args, input: own.input }),
+              Console,
+              Effect.succeed(own.location),
+            );
+    },
+    decode: rest.decode,
+    ...(call === undefined
+      ? {}
+      : {
+          call: (operation: Operation, input: unknown) => {
+            const own = ownConsole(input);
+            return own === undefined
+              ? call(operation, input)
+              : own instanceof InvalidInput
+                ? Effect.fail(own)
+                : Effect.provideService(
+                    call(operation, own.input),
+                    Console,
+                    Effect.succeed(own.location),
+                  );
+          },
+        }),
+    ...(stream === undefined
+      ? {}
+      : {
+          stream: (operation: Operation, input: unknown) => {
+            const own = ownConsole(input);
+            return own === undefined
+              ? stream(operation, input)
+              : own instanceof InvalidInput
+                ? Stream.fail(own)
+                : Stream.provideService(
+                    stream(operation, own.input),
+                    Console,
+                    Effect.succeed(own.location),
+                  );
+          },
+        }),
+  };
+  return methods;
+};
 
 export const UniFiNetworkProtocol = /*@__PURE__*/ consoleProtocol("network");
 

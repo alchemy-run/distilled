@@ -149,25 +149,73 @@ const base: SdkSpec = {
   },
   paginationProfileFor: (trait) => (trait.inputToken === "offset" ? "offset" : "token"),
 
-  operationDecl: {
-    contextType: "UniFiConsoleOpContext",
-    commonErrorType: "UniFiOpError",
-    serviceErrors: "UniFiServiceErrors",
-    protocol: "UniFiNetworkProtocol",
-    retry: "Retry.Retry",
-  },
-
   sourceNote: ".generated-specs (specs/spec-mirror-unifi)",
 
-  // `effect/Redacted` is only referenced by modules with sensitive members —
-  // import it exactly there.
-  postProcess: (code) =>
-    code.includes("Redacted.Redacted<")
-      ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema-lite";`,
-          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
-        )
-      : code,
+  // `effect/Redacted` is only referenced by modules with sensitive members,
+  // and `ConsoleLocation` by the console-hosted services — import each
+  // exactly there.
+  postProcess: (code) => {
+    const imports = [
+      ...(code.includes("Redacted.Redacted<")
+        ? [`import * as Redacted from "effect/Redacted";`]
+        : []),
+      ...(code.includes("ConsoleLocation")
+        ? [`import type { ConsoleLocation } from "../credentials.ts";`]
+        : []),
+    ];
+    const anchor = `import * as S from "@distilled.cloud/core/schema-lite";`;
+    return imports.length === 0 ? code : code.replace(anchor, [anchor, ...imports].join("\n"));
+  },
+};
+
+/**
+ * Every console-hosted operation takes an optional `console` member that is
+ * not sent: the protocol takes it off the input and uses it as the call's
+ * Console, over the layer (AGENTS.md rule 15). The member is added to the
+ * model, marked {@link CONSOLE_TRAIT}, and emitted as a `ConsoleLocation`.
+ */
+const CONSOLE_TRAIT = "com.ui#console";
+const CONSOLE_MEMBER = "console";
+
+const addConsoleMember = (model: any): string => {
+  const shapes = model?.shapes ?? {};
+  const inputs = new Set<string>();
+  for (const [opId, shape] of Object.entries<any>(shapes)) {
+    if (shape?.type !== "operation") continue;
+    let target = shape.input?.target;
+    if (target === undefined || target === "smithy.api#Unit") {
+      // An operation without input gets one, so the call can still name a console.
+      target = `${opId}Request`;
+      if (target in shapes) throw new Error(`${opId}: ${target} is taken`);
+      shapes[target] = { type: "structure", members: {}, traits: { "smithy.api#input": {} } };
+      shape.input = { target };
+    }
+    if (shapes[target]?.type !== "structure") {
+      throw new Error(`${opId}: input ${target} is not a structure`);
+    }
+    inputs.add(target);
+  }
+  for (const id of inputs) {
+    const members = (shapes[id].members ??= {});
+    if (CONSOLE_MEMBER in members) {
+      throw new Error(`${id} already has a \`${CONSOLE_MEMBER}\` member`);
+    }
+    members[CONSOLE_MEMBER] = {
+      target: "smithy.api#Document",
+      traits: {
+        [CONSOLE_TRAIT]: {},
+        "smithy.api#documentation":
+          "The console this call goes to, over the Console layer. Not sent.",
+      },
+    };
+  }
+  return `console member on ${inputs.size} input(s)`;
+};
+
+const CONSOLE_NAMESPACES: Readonly<Record<string, true>> = {
+  "com.ui.network": true,
+  "com.ui.protect": true,
+  "com.ui.innerspace": true,
 };
 
 const operationDecl = (contextType: string, protocol: string): SdkSpec["operationDecl"] => ({
@@ -180,6 +228,9 @@ const operationDecl = (contextType: string, protocol: string): SdkSpec["operatio
 
 const consoleSpec = (protocol: string): SdkSpec => ({
   ...base,
+  memberSchema: (m) => (CONSOLE_TRAIT in m.traits ? "S.Unknown" : undefined),
+  memberTsType: (m, tsRef) =>
+    CONSOLE_TRAIT in m.traits ? "ConsoleLocation" : base.memberTsType?.(m, tsRef),
   operationDecl: operationDecl("UniFiConsoleOpContext", protocol),
 });
 
@@ -204,7 +255,10 @@ runGeneratorCli({
   // Smithy-model patches are applied in convert (finalizeConvert).
   patchesDir: false,
   barrelExportName: camel,
-  transformModel: (model) => stampPagination(model),
+  transformModel: (model) =>
+    CONSOLE_NAMESPACES[namespaceOf(model)]
+      ? `${stampPagination(model)}; ${addConsoleMember(model)}`
+      : stampPagination(model),
   spec: (model) => {
     const spec = specs[namespaceOf(model)];
     if (spec === undefined) throw new Error(`no UniFi spec for ${namespaceOf(model)}`);
