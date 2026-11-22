@@ -1,0 +1,162 @@
+{
+  "description": "The docs reference the usergroup object as `{ \"schema\": \"usergroup\" }`, which has no JSON twin, so the `usergroup` in every usergroups.* response converted as an untyped Document. Model the documented object (https://docs.slack.dev/reference/objects/usergroup-object). usergroups.users.list answers `users` as user ID strings (its docs example: `\"users\": [\"U060R4BJ4\", \"W123A4BC5\"]`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.usergroups#UsergroupUserIds",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.usergroups#UsergroupPrefs",
+      "value": {
+        "type": "structure",
+        "members": {
+          "channels": {
+            "target": "com.slack.usergroups#UsergroupUserIds",
+            "traits": {
+              "smithy.api#documentation": "Default channel IDs."
+            }
+          },
+          "groups": {
+            "target": "com.slack.usergroups#UsergroupUserIds",
+            "traits": {
+              "smithy.api#documentation": "Default private channel IDs."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.usergroups#Usergroup",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "User group ID (`S\u2026`).",
+              "smithy.api#required": {}
+            }
+          },
+          "team_id": {
+            "target": "smithy.api#String"
+          },
+          "is_usergroup": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_subteam": {
+            "target": "smithy.api#Boolean"
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Display name."
+            }
+          },
+          "description": {
+            "target": "smithy.api#String"
+          },
+          "handle": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Mention handle, without the `@`."
+            }
+          },
+          "is_external": {
+            "target": "smithy.api#Boolean"
+          },
+          "auto_type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "`admin`/`owner` for the built-in groups, otherwise absent."
+            }
+          },
+          "date_create": {
+            "target": "smithy.api#Long"
+          },
+          "date_update": {
+            "target": "smithy.api#Long"
+          },
+          "date_delete": {
+            "target": "smithy.api#Long",
+            "traits": {
+              "smithy.api#documentation": "Unix time the group was disabled (0 while enabled)."
+            }
+          },
+          "created_by": {
+            "target": "smithy.api#String"
+          },
+          "updated_by": {
+            "target": "smithy.api#String"
+          },
+          "deleted_by": {
+            "target": "smithy.api#String"
+          },
+          "prefs": {
+            "target": "com.slack.usergroups#UsergroupPrefs",
+            "traits": {
+              "smithy.api#documentation": "Default channels and groups."
+            }
+          },
+          "users": {
+            "target": "com.slack.usergroups#UsergroupUserIds",
+            "traits": {
+              "smithy.api#documentation": "Member user IDs (with `include_users`)."
+            }
+          },
+          "user_count": {
+            "target": "smithy.api#Integer"
+          },
+          "channel_count": {
+            "target": "smithy.api#Integer"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A user group. See https://docs.slack.dev/reference/objects/usergroup-object"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsergroupsCreateResponse/members/usergroup/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsergroupsUpdateResponse/members/usergroup/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsergroupsDisableResponse/members/usergroup/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsergroupsEnableResponse/members/usergroup/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsersUpdateResponse/members/usergroup/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsergroupsListResponseUsergroupsList/member/target",
+      "value": "com.slack.usergroups#Usergroup"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.usergroups#UsersListResponseUsersList/member/target",
+      "value": "smithy.api#String"
+    }
+  ]
+}

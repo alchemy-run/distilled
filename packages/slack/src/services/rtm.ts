@@ -24,6 +24,45 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `method_deprecated` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. */
+export class MethodDeprecated
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MethodDeprecated>()("MethodDeprecated", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "method_deprecated" } }],
+  ) {}
+
+/** `migration_in_progress` -- Team is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. */
+export class MigrationInProgress
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MigrationInProgress>()("MigrationInProgress", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "migration_in_progress" } }],
+  ) {}
+
+/** `rtm_connect_required` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. */
+export class RtmConnectRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RtmConnectRequired>()("RtmConnectRequired", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "rtm_connect_required" } }],
+  ) {}
+
 export interface ConnectRtmRequest {
   /** Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/apis/web-api/user-presence-and-status#batching). */
   batch_presence_aware?: boolean | undefined;
@@ -73,8 +112,8 @@ export interface StartRtmResponse {
   self: ConnectRtmResponseSelf;
   team: ConnectRtmResponseTeam;
 }
-export type ConnectRtmError = SlackOpError;
-/** Starts a Real Time Messaging session. Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `migration_in_progress` -- Team is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. See https://docs.slack.dev/reference/methods/rtm.connect */
+export type ConnectRtmError = MigrationInProgress | SlackOpError;
+/** Starts a Real Time Messaging session. Rate limit tier: 1 Method-specific errors (each a typed error named after its slug): - `migration_in_progress` -- Team is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. See https://docs.slack.dev/reference/methods/rtm.connect */
 export const connectRtm: API.OperationMethod<
   ConnectRtmRequest,
   ConnectRtmResponse,
@@ -83,15 +122,19 @@ export const connectRtm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectRtmRequest>,
   output: __S(6, __c1, 2) as any as S.Schema<ConnectRtmResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [MigrationInProgress, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConnectRtm",
 }));
 
-export type StartRtmError = SlackOpError;
-/** Deprecated: Starts a Real Time Messaging session. Use rtm.connect instead. Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `method_deprecated` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. - `migration_in_progress` -- Workspace is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. - `rtm_connect_required` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. See https://docs.slack.dev/reference/methods/rtm.start */
+export type StartRtmError =
+  | MethodDeprecated
+  | MigrationInProgress
+  | RtmConnectRequired
+  | SlackOpError;
+/** Deprecated: Starts a Real Time Messaging session. Use rtm.connect instead. Rate limit tier: 1 Method-specific errors (each a typed error named after its slug): - `method_deprecated` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. - `migration_in_progress` -- Workspace is being migrated between servers. See [the `team_migration_started` event documentation](/reference/events/team_migration_started) for details. - `rtm_connect_required` -- `rtm.start` is deprecated. Please use `rtm.connect` instead of `rtm.start`. Read https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop for more info. See https://docs.slack.dev/reference/methods/rtm.start */
 export const startRtm: API.OperationMethod<
   StartRtmRequest,
   StartRtmResponse,
@@ -100,7 +143,7 @@ export const startRtm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<StartRtmRequest>,
   output: __S(6, __c1, 2) as any as S.Schema<StartRtmResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [MethodDeprecated, MigrationInProgress, RtmConnectRequired, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

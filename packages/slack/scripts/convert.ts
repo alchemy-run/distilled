@@ -34,8 +34,9 @@
  *   • Every response rides Slack's envelope: `{ "ok": true, …payload }` at
  *     the SAME level as the payload, so the response schema is the documented
  *     output plus a required `ok: boolean`, and failures (`ok: false`) are
- *     the protocol's job (src/protocol.ts), not typed per-op errors — the
- *     documented error slugs land in the operation's doc comment instead.
+ *     the protocol's job (src/protocol.ts). Each documented error slug
+ *     becomes a typed error class on the operations that list it, matched
+ *     on the envelope's `/error` member.
  *   • `admin.analytics.getFile` answers with a gzipped NDJSON FILE, not
  *     JSON — its output converts as a bare Document and the protocol hands
  *     back the raw bytes.
@@ -43,7 +44,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
-import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { convertOpenApiToSmithy, ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
@@ -277,7 +278,7 @@ const buildDescription = (name: string, page: MethodPage): string => {
   const errors = Object.entries(page.errors ?? {});
   if (errors.length > 0) {
     parts.push(
-      `Method-specific errors (the \`error\` slug on the SlackError):\n` +
+      `Method-specific errors (each a typed error named after its slug):\n` +
         errors.map(([slug, e]) => `  - \`${slug}\`${e?.desc ? ` — ${e.desc}` : ""}`).join("\n"),
     );
   }
@@ -435,6 +436,118 @@ const buildOutputSchema = (name: string, page: MethodPage): Record<string, any> 
 };
 
 // ============================================================================
+// Documented error slugs → typed error classes
+// ============================================================================
+
+/**
+ * Slugs the protocol already maps onto shared classes (src/protocol.ts):
+ * credential failures become `Unauthorized`, Slack-side hiccups the
+ * retryable server errors, and throttling `SlackRateLimited`. A per-operation
+ * class for one of these would win the match and lose that mapping, so they
+ * stay untyped here.
+ */
+const PROTOCOL_SLUGS = new Set([
+  "not_authed",
+  "invalid_auth",
+  "account_inactive",
+  "token_revoked",
+  "token_expired",
+  "internal_error",
+  "fatal_error",
+  "service_unavailable",
+  "request_timeout",
+  "rate_limited",
+  "ratelimited",
+]);
+
+/** `channel_not_found` → `ChannelNotFound`; a leading digit gets a `Slack` prefix. */
+const errorClassName = (slug: string): string => {
+  const name = toPascal(slug);
+  return /^[0-9]/.test(name) ? `Slack${name}` : name;
+};
+
+/**
+ * Categories a slug's wording states: `*_not_found` is a missing resource,
+ * `already_*` / `*_taken` a conflict with one that exists.
+ */
+const slugCategories = (slug: string): string[] =>
+  /(^|_)not_found$/.test(slug)
+    ? ["NotFoundError"]
+    : /^already_|_taken$|_exists$/.test(slug)
+      ? ["AlreadyExistsError"]
+      : [];
+
+/**
+ * Every method page documents the `error` slugs it can answer with
+ * (`{ "ok": false, "error": "channel_not_found" }`, usually at HTTP 200).
+ * Each slug becomes one error structure per family — shared by every
+ * operation that lists it — matched on the envelope's `/error` member, so
+ * callers branch with `Effect.catchTag("ChannelNotFound", ...)` instead of
+ * reading a string off `SlackError`. Slugs a page doesn't list still arrive
+ * as `SlackError`; live findings add them with a patch.
+ */
+const addDocumentedErrors = (
+  model: { shapes: Record<string, any> },
+  family: string,
+  errorsByUri: ReadonlyMap<string, Record<string, { readonly desc?: string }>>,
+): number => {
+  const namespace = `com.slack.${family.toLowerCase()}`;
+  const shapeId = (name: string) => `${namespace}#${name}`;
+  const slugByClass = new Map<string, string>();
+  let added = 0;
+  for (const shape of Object.values<any>(model.shapes)) {
+    if (shape?.type !== "operation") continue;
+    const uri = shape.traits?.["smithy.api#http"]?.uri as string | undefined;
+    const errors = uri === undefined ? undefined : errorsByUri.get(uri);
+    if (errors === undefined) continue;
+    const targets: Array<{ target: string }> = [];
+    for (const [slug, entry] of Object.entries(errors).sort(([a], [b]) => a.localeCompare(b))) {
+      if (PROTOCOL_SLUGS.has(slug)) continue;
+      let name = errorClassName(slug);
+      const owner = slugByClass.get(name);
+      if (owner !== undefined && owner !== slug) {
+        throw new Error(`family "${family}": slugs "${owner}" and "${slug}" both name ${name}`);
+      }
+      if (owner === undefined && model.shapes[shapeId(name)] !== undefined) {
+        // The name is taken by a payload shape; keep the error distinct.
+        name = `${name}Error`;
+        if (model.shapes[shapeId(name)] !== undefined) {
+          throw new Error(`family "${family}": no free shape name for error slug "${slug}"`);
+        }
+      }
+      if (owner === undefined) {
+        slugByClass.set(name, slug);
+        const categories = slugCategories(slug);
+        model.shapes[shapeId(name)] = {
+          type: "structure",
+          members: {
+            message: { target: "smithy.api#String" },
+            needed: { target: "smithy.api#String" },
+            provided: { target: "smithy.api#String" },
+          },
+          traits: {
+            "smithy.api#error": "client",
+            "smithy.api#documentation": `\`${slug}\`${entry?.desc ? ` — ${entry.desc}` : ""}`,
+            [ERROR_MATCHERS_TRAIT]: [{ body: { "/error": slug } }],
+            ...(categories.length > 0 ? { "distilled.errors#categories": categories } : {}),
+          },
+        };
+        added++;
+      }
+      targets.push({ target: shapeId(name) });
+    }
+    if (targets.length > 0) {
+      const existing = (shape.errors ?? []) as Array<{ target: string }>;
+      shape.errors = [
+        ...existing,
+        ...targets.filter((t) => !existing.some((e) => e.target === t.target)),
+      ];
+    }
+  }
+  return added;
+};
+
+// ============================================================================
 // 1. Read the index and bucket methods by family
 // ============================================================================
 
@@ -478,6 +591,7 @@ clearModels(outDir);
 let written = 0;
 let totalOps = 0;
 let totalPaginated = 0;
+let totalErrorClasses = 0;
 for (const family of [...families.keys()].sort()) {
   const methods = families.get(family)!;
 
@@ -536,6 +650,13 @@ for (const family of [...families.keys()].sort()) {
   }
   totalPaginated += paginatedCount;
 
+  // One typed error class per documented `error` slug, attached to every
+  // operation whose page lists it (see `addDocumentedErrors`).
+  const errorsByUri = new Map(
+    methods.map(({ name, page }) => [`/${name}`, page.errors ?? {}] as const),
+  );
+  totalErrorClasses += addDocumentedErrors(model, family, errorsByUri);
+
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue;
   writeModel(path.join(outDir, `${family.toLowerCase()}.json`), model);
@@ -544,7 +665,7 @@ for (const family of [...families.keys()].sort()) {
 }
 
 console.log(
-  `✅ ${written} Smithy models (${totalOps} operations, ${totalPaginated} cursor-paginated) → ${outDir}`,
+  `✅ ${written} Smithy models (${totalOps} operations, ${totalPaginated} cursor-paginated, ${totalErrorClasses} typed errors) → ${outDir}`,
 );
 
 await finalizeConvert({ root: rootDir });

@@ -1,0 +1,78 @@
+{
+  "description": "The docs reference canvas content as `{ \"schema\": \"document_content\" }` and each edit as `{ \"schema\": \"selection\" }`, neither of which has a JSON twin, so canvases.create's `document_content` and canvases.edit's `changes` converted as untyped Documents. Model them from the method examples (`{\"type\":\"markdown\",\"markdown\":\"\u2026\"}`, `{\"operation\":\"insert_before\",\"document_content\":\u2026,\"section_id\":\"\u2026\"}`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.canvases#CanvasDocumentContent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Always `markdown`.",
+              "smithy.api#required": {}
+            }
+          },
+          "markdown": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Canvas content as Slack-flavored markdown.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Canvas content. See https://docs.slack.dev/messaging/canvases/#canvas-formatting"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.canvases#CanvasesCreateRequest/members/document_content/target",
+      "value": "com.slack.canvases#CanvasDocumentContent"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.canvases#CanvasChange",
+      "value": {
+        "type": "structure",
+        "members": {
+          "operation": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "`insert_after`, `insert_before`, `insert_at_start`, `insert_at_end`, `replace`, `delete`, or `rename`.",
+              "smithy.api#required": {}
+            }
+          },
+          "section_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Section to act on (`canvases.sections.lookup`); omit to act on the whole canvas."
+            }
+          },
+          "document_content": {
+            "target": "com.slack.canvases#CanvasDocumentContent",
+            "traits": {
+              "smithy.api#documentation": "Content for insert and replace operations."
+            }
+          },
+          "title_content": {
+            "target": "com.slack.canvases#CanvasDocumentContent",
+            "traits": {
+              "smithy.api#documentation": "New title for `rename`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "One canvas edit. See https://docs.slack.dev/reference/methods/canvases.edit"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.canvases#CanvasesEditRequestChangesList/member/target",
+      "value": "com.slack.canvases#CanvasChange"
+    }
+  ]
+}

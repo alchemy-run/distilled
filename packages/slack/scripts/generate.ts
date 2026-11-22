@@ -18,9 +18,10 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *   • Operations export under lowerCamel of their `operationId` (the method
  *     name minus its family prefix: `chat.postMessage` → `postMessage`,
  *     `admin.analytics.getFile` → `analyticsGetFile`), the compiler default.
- *   • No per-operation error classes: Slack failures are `ok: false`
- *     envelopes dispatched by slug in SlackProtocol; every operation shares
- *     `SlackError` / `SlackRateLimited` plus core's HTTP classes.
+ *   • Per-operation error classes come from each method page's documented
+ *     `error` slugs (scripts/convert.ts), matched on the envelope's `/error`.
+ *     Every operation also shares `SlackError` (undocumented slugs) and
+ *     `SlackRateLimited` plus core's HTTP classes.
  *   • No pagination profiles yet: Slack's cursor methods take `cursor` and
  *     answer `response_metadata.next_cursor`, which stays a plain response
  *     member for callers to thread.
@@ -91,6 +92,16 @@ const spec: SdkSpec = {
     commonErrorClasses: ["SlackError", "SlackRateLimited"],
     protocol: "SlackProtocol",
     retry: "Retry.Retry",
+  },
+
+  // Error classes carry the envelope's `message` (the detail, or the slug
+  // when there is none) plus the `needed`/`provided` scope detail that only
+  // `missing_scope`-style envelopes send -- so those two are optional.
+  errors: {
+    field: (name) =>
+      name === "message"
+        ? `  message: S.String,`
+        : `  ${name}: /*@__PURE__*/ S.optional(S.String),`,
   },
 
   sourceNote: ".generated-specs (docs.slack.dev JSON twins)",
