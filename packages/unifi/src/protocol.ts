@@ -69,11 +69,9 @@ const consoleProtocol = (app: ConsoleApp) =>
       const location = yield* yield* Console;
       return { apiKey, location };
     }),
-    baseUrl: (creds) => {
-      const baseUrl = consoleBaseUrl(creds.location, app);
-      // A console ID that can't be a path segment refuses the call.
-      return typeof baseUrl === "string" ? baseUrl : Effect.fail(baseUrl);
-    },
+    // A console ID that can't be a path segment is refused earlier, when the
+    // `Console` layer is built (`check` in ./credentials.ts).
+    baseUrl: (creds) => consoleBaseUrl(creds.location, app),
     headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
