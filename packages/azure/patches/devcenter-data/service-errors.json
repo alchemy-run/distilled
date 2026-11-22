@@ -1,0 +1,130 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the body's `/error/code`: the `{ error: { code } }` codes the Dev Center data plane answers for a missing pool, dev box, environment or environment definition, and a bad pool name (carried over from #976's client-level code map). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#PoolNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Dev Center data plane: the dev box pool does not exist in the project. Azure error code: `PoolNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "PoolNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#DevBoxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Dev Center data plane: the dev box does not exist. Azure error code: `DevBoxNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "DevBoxNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#EnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Dev Center data plane: the deployment environment does not exist. Azure error code: `EnvironmentNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "EnvironmentNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#EnvironmentDefinitionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Dev Center data plane: the catalog has no environment definition with that name (a `ValidationError` detail). Azure error code: `EnvironmentDefinitionNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "EnvironmentDefinitionNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#InvalidPoolName",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Dev Center data plane: the pool name is not an existing pool of the project (a `ValidationError` detail). Azure error code: `InvalidPoolName` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "InvalidPoolName"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devcenter_data#DevcenterData/errors",
+      "value": [
+        {
+          "target": "com.azure.devcenter_data#PoolNotFound"
+        },
+        {
+          "target": "com.azure.devcenter_data#DevBoxNotFound"
+        },
+        {
+          "target": "com.azure.devcenter_data#EnvironmentNotFound"
+        },
+        {
+          "target": "com.azure.devcenter_data#EnvironmentDefinitionNotFound"
+        },
+        {
+          "target": "com.azure.devcenter_data#InvalidPoolName"
+        }
+      ]
+    }
+  ]
+}

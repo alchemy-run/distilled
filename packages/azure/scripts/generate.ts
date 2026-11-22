@@ -44,6 +44,8 @@ const HEADERS_TRAIT = "com.azure.protocols#headers";
 /** Storage XML / header-collection traits written by convert.ts (stampStorageOp). */
 const XML_TEXT_TRAIT = "com.azure.protocols#xmlText";
 const XML_ITEM_NAME_TRAIT = "com.azure.protocols#xmlItemName";
+/** Hand-authored models (manual-specs): a member sent as one JSON-encoded header. */
+const JSON_HEADER_TRAIT = "com.azure.protocols#jsonHeader";
 
 /** Azure's provider spec for the shared smithy→SDK compiler. */
 const azureSpec: SdkSpec = {
@@ -91,6 +93,8 @@ const azureSpec: SdkSpec = {
     [XML_TEXT_TRAIT]: "T.XmlText",
     [XML_ITEM_NAME_TRAIT]: "T.XmlItemName",
     "smithy.api#httpPrefixHeaders": "T.HeaderPrefix",
+    // manual-specs: a struct sent and read as one JSON header (`BrokerProperties`).
+    [JSON_HEADER_TRAIT]: "T.JsonHeader",
   },
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits

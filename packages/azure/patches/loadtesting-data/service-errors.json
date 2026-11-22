@@ -1,0 +1,83 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the body's `/error/code`: the `{ error: { code } }` 404s the Load Testing data plane answers for a missing test, test file or test run (carried over from #976's client-level code map). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_data#LoadTestNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Azure Load Testing data plane: the test does not exist. Azure error code: `TestNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "TestNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_data#LoadTestFileNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Azure Load Testing data plane: the test (or test run) file does not exist. Azure error code: `TestFileNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "TestFileNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_data#LoadTestRunNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Azure Load Testing data plane: the test run does not exist. Azure error code: `TestRunNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "TestRunNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_data#LoadtestingData/errors",
+      "value": [
+        {
+          "target": "com.azure.loadtesting_data#LoadTestNotFound"
+        },
+        {
+          "target": "com.azure.loadtesting_data#LoadTestFileNotFound"
+        },
+        {
+          "target": "com.azure.loadtesting_data#LoadTestRunNotFound"
+        }
+      ]
+    }
+  ]
+}

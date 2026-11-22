@@ -1,0 +1,20 @@
+{
+  "description": "Attach the observed Table service errors to CreateTable.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableCreate/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableAlreadyExists"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TableBeingDeleted"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    }
+  ]
+}
