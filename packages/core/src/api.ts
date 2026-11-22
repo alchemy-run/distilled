@@ -5,20 +5,17 @@ import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import { getAnn, getProps, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
-import type { Protocol as TypedProtocol } from "./protocol.ts";
+import type { Operation, Protocol } from "./protocol.ts";
 import { takeLastRequest } from "./retry-state.ts";
 import {
   type Backoff,
@@ -76,65 +73,6 @@ export interface ProtocolOperationConfig {
    */
   readonly items?: S.Top;
 }
-
-/**
- * The Protocol service knows how to turn a value into an HTTP request using
- * only the input schema's trait annotations, and how to turn a response back
- * into an output value using the output schema's trait annotations.
- *
- * Swap implementations by providing a different `Layer<Protocol>`.
- *
- * This is the older form of a protocol: its methods state no errors, so
- * each SDK writes `<Sdk>OpError` on its operations by hand. core/protocol
- * has the typed form, which `API.make` also accepts.
- */
-export class Protocol
-  extends /*@__PURE__*/ Context.Service<
-    Protocol,
-    {
-      readonly encode: (args: {
-        readonly input: unknown;
-        readonly inputAst: AST.AST;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<HttpClientRequest.HttpClientRequest>;
-      readonly decode: (args: {
-        readonly response: HttpClientResponse.HttpClientResponse;
-        readonly outputAst: AST.AST;
-        /**
-         * The operation's declared error classes (from `OperationConfig.errors`).
-         * Protocols use these to surface wire failures as the operation's typed
-         * errors -- e.g. by consulting matcher metadata stamped on the class.
-         */
-        readonly errors: ReadonlyArray<ApiErrorClass>;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<unknown>;
-      /**
-       * Optional whole-call implementation. When present, `API.make` runs a
-       * call as `call(operation, input)` instead of encode -> HttpClient ->
-       * decode, so a protocol can read the context once, build the request
-       * synchronously and decode the response without intermediate effects.
-       * It must read the `HttpClient` from the calling fiber's context and
-       * produce the same request, result and errors as encode/decode.
-       */
-      readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown>;
-      /**
-       * Server streaming (see {@link makeStreaming}): each response message
-       * as it arrives, decoded as one element of the output's `items`.
-       * Ending the stream early cancels the call. Protocols that can't
-       * stream leave it out; one that streams only some operations fails
-       * the others with {@link cannotStream}.
-       */
-      readonly stream?: (
-        operation: PreparedOperation,
-        input: unknown,
-      ) => Stream.Stream<unknown, unknown>;
-    }
-  >()("Protocol") {}
-
-/** The service a protocol layer provides. */
-export type ProtocolShape = (typeof Protocol)["Service"];
 
 /**
  * One operation as a protocol's {@link Protocol.call} sees it. Built once per
@@ -216,68 +154,11 @@ export interface OperationSchemas<I, O> {
 // nothing extra.
 
 /**
- * Protocol layers are built once per process and shared by every operation
- * call (keyed by layer value identity -- generated operations all reference the
- * same module-level layer const). The build runs against a process-lifetime
- * scope, and concurrent first calls are deduplicated through a private
- * MemoMap.
- *
- * Contract for protocol implementations: the layer build must not capture
- * per-call context. Anything call-dependent -- credentials, per-request
- * options -- must be resolved inside `encode`/`decode`, which execute on the
- * calling fiber and therefore see the caller's services on every request.
+ * The operation's protocol, kept on `prepared` from its first call on (the
+ * warm path reads it there).
  */
-const protocolMemoMap = /*@__PURE__*/ Layer.makeMemoMapUnsafe();
-const protocolScope = /*@__PURE__*/ Scope.makeUnsafe();
-const protocolContexts = /*@__PURE__*/ new WeakMap<
-  Layer.Layer<Protocol, any, any>,
-  Context.Context<Protocol>
->();
-
-const protocolContext = <PE, PR>(
-  layer: Layer.Layer<Protocol, PE, PR>,
-): Effect.Effect<Context.Context<Protocol>, PE, PR> => {
-  const cached = protocolContexts.get(layer);
-  if (cached) return Effect.succeed(cached);
-  return Effect.map(Layer.buildWithMemoMap(layer, protocolMemoMap, protocolScope), (ctx) => {
-    protocolContexts.set(layer, ctx);
-    return ctx;
-  });
-};
-
-/** An operation's `protocol`, in either form (see {@link OperationConfig.protocol}). */
-type AnyProtocol = Layer.Layer<Protocol, any, any> | TypedProtocol<any, any>;
-
-const isProtocolLayer = (protocol: AnyProtocol): protocol is Layer.Layer<Protocol, any, any> =>
-  Layer.isLayer(protocol);
-
-/**
- * A protocol's methods as `API.make` runs them: a typed protocol, or the
- * service a protocol layer builds. `API.make` passes the operation's own
- * and its service's error classes to either one, and types each operation
- * from its config.
- */
-interface ProtocolMethods {
-  readonly encode: (args: any) => Effect.Effect<HttpClientRequest.HttpClientRequest, any, any>;
-  readonly decode: (args: any) => Effect.Effect<unknown, any, any>;
-  readonly call?: (operation: any, input: unknown) => Effect.Effect<unknown, any, any>;
-  readonly stream?: (operation: any, input: unknown) => Stream.Stream<unknown, any, any>;
-}
-
-/**
- * The methods of an operation's protocol, kept on `prepared` for its next
- * calls: a typed protocol as it is, a layer's service once the layer is
- * built.
- */
-const protocolOf = (prepared: Prepared): Effect.Effect<ProtocolMethods, any, any> => {
-  const protocol: AnyProtocol = prepared.cfg.protocol;
-  return isProtocolLayer(protocol)
-    ? Effect.map(
-        protocolContext(protocol),
-        (ctx) => (prepared.service = Context.get(ctx, Protocol)),
-      )
-    : Effect.succeed((prepared.service = protocol));
-};
+const protocolOf = (prepared: Prepared): Effect.Effect<Protocol<any, any>> =>
+  Effect.succeed((prepared.service = prepared.cfg.protocol));
 
 export interface OperationConfig<
   I extends S.Top,
@@ -298,21 +179,13 @@ export interface OperationConfig<
    */
   serviceErrors?: SE;
   /**
-   * What encodes and decodes this operation's wire format, in one of two
-   * forms:
-   *
-   * - A typed protocol (core/protocol): an object whose type states the
-   *   errors the protocol declares (`PE`) and what its methods read
-   *   (`PR`), so the operation's type gets them from the protocol.
-   * - A protocol layer, the older form, which states neither: its SDK
-   *   writes `<Sdk>OpError` on each operation by hand. Built once per
-   *   process and shared across all operations that reference the same
-   *   layer value.
-   *
-   * Either one resolves call-dependent services (credentials etc.) inside
-   * encode/decode, on the calling fiber.
+   * What encodes and decodes this operation's wire format: a protocol
+   * (core/protocol), an object whose type states the errors the protocol
+   * declares (`PE`) and what its methods read (`PR`), so the operation's
+   * type gets them from the protocol. It resolves call-dependent services
+   * (credentials etc.) inside encode/decode, on the calling fiber.
    */
-  protocol: Layer.Layer<Protocol, PE, PR> | TypedProtocol<PE, PR>;
+  protocol: Protocol<PE, PR>;
   /**
    * SDK-specific retry service tag (see `core/retry`). When provided and the
    * caller's context carries a policy under this tag, every call is retried
@@ -543,10 +416,10 @@ interface OperationState {
   readonly strategy?: Pagination.PaginationStrategy;
 }
 
-interface Prepared extends PreparedOperation {
+interface Prepared extends Operation {
   readonly cfg: OperationConfig<any, any, any, any, any>;
-  /** The protocol's methods, once resolved (see {@link protocolOf}). */
-  service?: ProtocolMethods;
+  /** The operation's protocol, from its first call on (see {@link protocolOf}). */
+  service?: Protocol<any, any>;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
   /** Input members marked `T.IdempotencyToken()`, with their format; read on the first call. */
@@ -621,7 +494,8 @@ const prepare = (state: OperationState): Prepared => {
     inputAst: cfg.input!.ast,
     outputAst: cfg.output!.ast,
     // What the protocol matches a failed response against: the operation's
-    // declared classes, then its service's.
+    // declared classes, then its service's. The protocol receives them as
+    // `DeclaredErrorClass` (core/protocol).
     errors:
       cfg.serviceErrors === undefined
         ? (cfg.errors ?? [])
@@ -662,8 +536,8 @@ export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
  * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
  * no response. It fails as the call would before sending (bad input,
  * credentials, endpoint), or with {@link SdkError} when the operation can't
- * be loaded; the Protocol seam does not type those failures, so the error is
- * `unknown`. Presigning builds on it.
+ * be loaded; the operation's type does not tell those failures from a
+ * response's, so the error is `unknown`. Presigning builds on it.
  */
 export const encodeRequest = <I, O, E, R>(
   op: OperationMethod<I, O, E, R>,
@@ -674,7 +548,7 @@ export const encodeRequest = <I, O, E, R>(
     if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const encode = (service: ProtocolMethods) =>
+    const encode = (service: Protocol<any, any>) =>
       service.encode({
         input: withIdempotencyTokens(prepared, input),
         inputAst: prepared.inputAst,
@@ -691,7 +565,7 @@ const defineState = (op: unknown, state: OperationState): OperationState => {
 
 const runWith = (
   p: Prepared,
-  protocol: ProtocolMethods,
+  protocol: Protocol<any, any>,
   input: unknown,
 ): Effect.Effect<any, any, any> => {
   if (protocol.call !== undefined) return protocol.call(p, input);
@@ -712,7 +586,7 @@ const callUntraced = (
   input: unknown,
   debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
-  // Warm path: the operation is prepared and its protocol built, so the call
+  // Warm path: the operation is prepared and has its protocol, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
   if (p?.service !== undefined) {
@@ -1050,7 +924,7 @@ const streamCall =
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const fixed = prepared.cfg.streamInput;
         const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
-        const run = (service: ProtocolMethods) =>
+        const run = (service: Protocol<any, any>) =>
           service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
@@ -1089,7 +963,7 @@ const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationPro
 /**
  * Like {@link make}, for a server-streaming RPC whose output is `{ items }`:
  * calling it collects the stream, and `.stream(input)` emits each message as
- * the protocol receives it (see {@link ProtocolShape.stream}).
+ * the protocol receives it (see {@link Protocol.stream}).
  *
  * An operation that streams only when its input asks keeps its own output:
  * its config sets `items` (one frame) and `streamInput` (what `.stream()`
