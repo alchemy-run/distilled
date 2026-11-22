@@ -209,13 +209,7 @@ export type RouterRule =
   | ExpressionRouterRule
   | FunctionRouterRule
   | StaticRouterRule
-  | WebhookRouterRule
-  | unknown
-  | string
-  | string
-  | string
-  | string
-  | string;
+  | WebhookRouterRule;
 /** Describes supported operations on label values. */
 export type LabelOperator =
   | "equal"
@@ -523,11 +517,7 @@ export interface WaitTimeExceptionTrigger {
   thresholdSeconds: number;
 }
 /** Abstract base class for defining a trigger for exception rules. */
-export type ExceptionTrigger =
-  | QueueLengthExceptionTrigger
-  | WaitTimeExceptionTrigger
-  | number
-  | number;
+export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 /** The type discriminator describing a sub-type of ExceptionAction. */
 export type CancelExceptionActionKind = "cancel";
 /** An action that marks a job as cancelled. */
@@ -577,12 +567,7 @@ export interface ReclassifyExceptionAction {
 export type ExceptionAction =
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
-  | ReclassifyExceptionAction
-  | string
-  | string
-  | string
-  | string
-  | number;
+  | ReclassifyExceptionAction;
 /** A collection of actions to perform once the exception is triggered. */
 export type ExceptionRuleActionsList = Array<ExceptionAction>;
 /** A rule that defines actions to execute upon a specific trigger. */
@@ -1244,13 +1229,7 @@ export type RouterRuleCreateOrUpdate =
   | ExpressionRouterRuleCreateOrUpdate
   | FunctionRouterRuleCreateOrUpdate
   | StaticRouterRuleCreateOrUpdate
-  | WebhookRouterRuleCreateOrUpdate
-  | unknown
-  | string
-  | string
-  | string
-  | string
-  | string;
+  | WebhookRouterRuleCreateOrUpdate;
 /** The type discriminator describing a sub-type of WorkerSelectorAttachment. */
 export type ConditionalWorkerSelectorAttachmentInputKind = "conditional";
 /** Describes a condition that must be met against a set of labels for worker selection. */
@@ -2568,12 +2547,6 @@ function __c3(j: number): any {
         __S(98, __c3, 2),
         __S(99, __c3, 3),
         __S(101, __c3, 5),
-        S.Unknown,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
       ]);
   }
 }
@@ -2849,7 +2822,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "WaitTimeExceptionTrigger" });
     case 2:
-      return S.Union([__S(384, __c12, 0), __S(385, __c12, 1), S.Number, S.Number]);
+      return S.Union([__S(384, __c12, 0), __S(385, __c12, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2879,16 +2852,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ReclassifyExceptionAction" });
     case 6:
-      return S.Union([
-        __S(387, __c12, 3),
-        __S(388, __c12, 4),
-        __S(389, __c12, 5),
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.Number,
-      ]);
+      return S.Union([__S(387, __c12, 3), __S(388, __c12, 4), __S(389, __c12, 5)]);
     case 7:
       return S.Array(__S(390, __c12, 6));
     case 8:
@@ -3695,12 +3659,6 @@ function __c37(j: number): any {
         __S(1185, __c37, 1),
         __S(99, __c3, 3),
         __S(101, __c3, 5),
-        S.Unknown,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
-        S.String,
       ]);
   }
 }

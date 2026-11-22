@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface DeleteClusterAcmeAccountByNameRequest {
-  name?: string | undefined;
+  name: string;
 }
 export type DeleteClusterAcmeAccountByNameResponse = string;
 export interface DeleteClusterAcmePluginsByIdRequest {
@@ -51,7 +51,7 @@ export type DeleteClusterFirewallGroupsByGroupResponse = null;
 export interface DeleteClusterFirewallGroupsByGroupByPosRequest {
   digest?: string | undefined;
   group: string;
-  pos?: number | undefined;
+  pos: number;
 }
 export type DeleteClusterFirewallGroupsByGroupByPosResponse = null;
 export interface DeleteClusterFirewallIpsetByNameRequest {
@@ -67,7 +67,7 @@ export interface DeleteClusterFirewallIpsetByNameByCidrRequest {
 export type DeleteClusterFirewallIpsetByNameByCidrResponse = null;
 export interface DeleteClusterFirewallRulesByPosRequest {
   digest?: string | undefined;
-  pos?: number | undefined;
+  pos: number;
 }
 export type DeleteClusterFirewallRulesByPosResponse = null;
 export interface DeleteClusterHaGroupsByGroupRequest {
@@ -185,7 +185,7 @@ export interface DeleteClusterSdnVnetsByVnetRequest {
 export type DeleteClusterSdnVnetsByVnetResponse = null;
 export interface DeleteClusterSdnVnetsByVnetFirewallRulesByPosRequest {
   digest?: string | undefined;
-  pos?: number | undefined;
+  pos: number;
   vnet: string;
 }
 export type DeleteClusterSdnVnetsByVnetFirewallRulesByPosResponse = null;
@@ -220,7 +220,7 @@ export type GetClusterAcmeAccountResultItem = { [key: string]: unknown | undefin
 export type GetClusterAcmeAccountResult = Array<GetClusterAcmeAccountResultItem>;
 export type GetClusterAcmeAccountResponse = GetClusterAcmeAccountResult;
 export interface GetClusterAcmeAccountByNameRequest {
-  name?: string | undefined;
+  name: string;
 }
 export type GetClusterAcmeAccountByNameResultAccount = { [key: string]: unknown | undefined };
 export interface GetClusterAcmeAccountByNameResult {
@@ -973,7 +973,7 @@ export type GetClusterFirewallGroupsByGroupResult =
 export type GetClusterFirewallGroupsByGroupResponse = GetClusterFirewallGroupsByGroupResult;
 export interface GetClusterFirewallGroupsByGroupByPosRequest {
   group: string;
-  pos?: number | undefined;
+  pos: number;
 }
 export type GetClusterFirewallGroupsByGroupByPosResultLog =
   | "emerg"
@@ -1094,7 +1094,7 @@ export interface GetClusterFirewallRulesResultItem {
 export type GetClusterFirewallRulesResult = Array<GetClusterFirewallRulesResultItem>;
 export type GetClusterFirewallRulesResponse = GetClusterFirewallRulesResult;
 export interface GetClusterFirewallRulesByPosRequest {
-  pos?: number | undefined;
+  pos: number;
 }
 export type GetClusterFirewallRulesByPosResultLog =
   | "emerg"
@@ -2657,7 +2657,7 @@ export type GetClusterSdnVnetsByVnetFirewallRulesResult =
 export type GetClusterSdnVnetsByVnetFirewallRulesResponse =
   GetClusterSdnVnetsByVnetFirewallRulesResult;
 export interface GetClusterSdnVnetsByVnetFirewallRulesByPosRequest {
-  pos?: number | undefined;
+  pos: number;
   vnet: string;
 }
 export type GetClusterSdnVnetsByVnetFirewallRulesByPosResultLog =
@@ -3907,7 +3907,7 @@ export interface PostClusterSdnZonesRequest {
 export type PostClusterSdnZonesResponse = null;
 export interface PutClusterAcmeAccountByNameRequest {
   contact?: string | undefined;
-  name?: string | undefined;
+  name: string;
 }
 export type PutClusterAcmeAccountByNameResponse = string;
 export type PutClusterAcmePluginsByIdRequestApi =
@@ -4209,7 +4209,7 @@ export interface PutClusterFirewallGroupsByGroupByPosRequest {
   log?: PutClusterFirewallGroupsByGroupByPosRequestLog | (string & {}) | undefined;
   macro?: string | undefined;
   moveto?: number | undefined;
-  pos?: number | undefined;
+  pos: number;
   proto?: string | undefined;
   source?: string | undefined;
   sport?: string | undefined;
@@ -4262,7 +4262,7 @@ export interface PutClusterFirewallRulesByPosRequest {
   log?: PutClusterFirewallRulesByPosRequestLog | (string & {}) | undefined;
   macro?: string | undefined;
   moveto?: number | undefined;
-  pos?: number | undefined;
+  pos: number;
   proto?: string | undefined;
   source?: string | undefined;
   sport?: string | undefined;
@@ -4926,7 +4926,7 @@ export interface PutClusterSdnVnetsByVnetFirewallRulesByPosRequest {
   log?: PutClusterSdnVnetsByVnetFirewallRulesByPosRequestLog | (string & {}) | undefined;
   macro?: string | undefined;
   moveto?: number | undefined;
-  pos?: number | undefined;
+  pos: number;
   proto?: string | undefined;
   source?: string | undefined;
   sport?: string | undefined;
@@ -4953,7 +4953,7 @@ export interface PutClusterSdnVnetsByVnetSubnetsBySubnetRequest {
   "lock-token"?: string | undefined;
   snat?: boolean | 0 | 1 | undefined;
   subnet: string;
-  vnet?: string | undefined;
+  vnet: string;
 }
 export type PutClusterSdnVnetsByVnetSubnetsBySubnetResponse = null;
 export type PutClusterSdnZonesByZoneRequestDhcp = "dnsmasq";
@@ -9583,7 +9583,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String.pipe(T.Label())),
+          name: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/cluster/acme/account/{name}", code: 200 })),
       ).annotate({ identifier: "DeleteClusterAcmeAccountByNameRequest" });
   }
@@ -11086,7 +11086,7 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           vnet: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -12334,7 +12334,7 @@ function __c152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contact: S.optional(S.String),
-          name: S.optional(S.String.pipe(T.Label())),
+          name: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/acme/account/{name}", code: 200 })),
       ).annotate({ identifier: "PutClusterAcmeAccountByNameRequest" });
   }
@@ -12481,7 +12481,7 @@ function __c159(j: number): any {
           log: S.optional(S.String),
           macro: S.optional(S.String),
           moveto: S.optional(S.Number),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           proto: S.optional(S.String),
           source: S.optional(S.String),
           sport: S.optional(S.String),
@@ -12552,7 +12552,7 @@ function __c163(j: number): any {
           log: S.optional(S.String),
           macro: S.optional(S.String),
           moveto: S.optional(S.Number),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           proto: S.optional(S.String),
           source: S.optional(S.String),
           sport: S.optional(S.String),
@@ -13163,7 +13163,7 @@ function __c194(j: number): any {
           log: S.optional(S.String),
           macro: S.optional(S.String),
           moveto: S.optional(S.Number),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           proto: S.optional(S.String),
           source: S.optional(S.String),
           sport: S.optional(S.String),
@@ -13218,7 +13218,7 @@ function __c197(j: number): any {
           "lock-token": S.optional(S.String),
           snat: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           subnet: S.String.pipe(T.Label()),
-          vnet: S.optional(S.String.pipe(T.Label())),
+          vnet: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "PUT", uri: "/cluster/sdn/vnets/{vnet}/subnets/{subnet}", code: 200 }),
         ),
@@ -13385,7 +13385,7 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           digest: S.optional(S.String.pipe(T.Query())),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           vnet: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -13495,7 +13495,7 @@ function __c218(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String.pipe(T.Label())),
+          name: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/cluster/acme/account/{name}", code: 200 })),
       ).annotate({ identifier: "GetClusterAcmeAccountByNameRequest" });
     case 1:
@@ -13937,7 +13937,7 @@ function __c241(j: number): any {
         S.Struct({
           digest: S.optional(S.String.pipe(T.Query())),
           group: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/cluster/firewall/groups/{group}/{pos}", code: 200 }),
         ),
@@ -14225,7 +14225,7 @@ function __c260(j: number): any {
       return S.suspend(() =>
         S.Struct({
           group: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/cluster/firewall/groups/{group}/{pos}", code: 200 }),
         ),
@@ -14395,7 +14395,7 @@ function __c270(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/cluster/firewall/rules/{pos}", code: 200 })),
       ).annotate({ identifier: "GetClusterFirewallRulesByPosRequest" });
   }
@@ -14567,7 +14567,7 @@ function __c280(j: number): any {
       return S.suspend(() =>
         S.Struct({
           digest: S.optional(S.String.pipe(T.Query())),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/cluster/firewall/rules/{pos}", code: 200 })),
       ).annotate({ identifier: "DeleteClusterFirewallRulesByPosRequest" });
   }

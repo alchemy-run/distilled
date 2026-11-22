@@ -24,6 +24,7 @@ import {
   GrpcTransport,
   hasTrailers,
   isResponseStatus,
+  resetTrailers,
   respond,
   trailersOf,
 } from "../src/grpc-transport.ts";
@@ -242,6 +243,16 @@ describe("gRPC over HTTP/2 on cloudflare:sockets", () => {
     expect(result._tag).toBe("Failure");
     expect(result.failure._tag).toBe("Gone");
     expect(result.failure.message).toBe("gone at once");
+  });
+
+  test("a reset before the response fails the call with the status it maps to", async () => {
+    // A scripted server: Bun's `node:http2` server doesn't send the code
+    // given to `stream.close`.
+    sockets.next = () => new Peer([rst(1, 0)]);
+    const result = await run(get({ count: 1 }));
+    expect(result._tag).toBe("Failure");
+    expect(result.failure._tag).toBe("InternalServerError");
+    expect(result.failure.body).toMatchObject({ code: 13, status: "INTERNAL" });
   });
 
   test("a server may answer before it has read the request", async () => {
@@ -916,10 +927,10 @@ describe("HTTP/2 on cloudflare:sockets: the server's windows", () => {
     expect(dataFrames(peer).at(-1)!.flags).toBe(END_STREAM);
   });
 
-  test("a reset while the upload waits fails the request", async () => {
-    const peer = await refusedWith([rst(1, 8)], "the server reset the stream (HTTP/2 error 8)", {
-      request: postRequest(70_000),
-    });
+  test("a reset while the upload waits ends the call with its status", async () => {
+    const { peer, response } = await reply([rst(1, 7)], { request: postRequest(70_000) });
+    expect(await textOf(response)).toBe("");
+    expect(await trailersFor(response)).toEqual(resetTrailers(7));
     expect(dataOctets(peer)).toBe(65_535);
   });
 
@@ -1389,21 +1400,37 @@ describe("HTTP/2 on cloudflare:sockets: control frames", () => {
     expect(peer.writes.length).toBe(1);
   });
 
-  test("RST_STREAM fails the request with the server's code", async () => {
-    await refusedWith([rst(1, 8)], "the server reset the stream (HTTP/2 error 8)");
-    await refusedWith([rst(1, 0)], "the server reset the stream (HTTP/2 error 0)");
-    await refusedWith(
-      [rst(1, 0xffffffff)],
-      "the server reset the stream (HTTP/2 error 4294967295)",
-    );
-  });
+  // gRPC over HTTP/2 (PROTOCOL-HTTP2.md, "Errors"), as grpc-js maps it.
+  test.each([
+    [0x0, "13", "the server reset the stream without a grpc-status (HTTP/2 error 0)"],
+    [0x2, "13", "the server reset the stream (HTTP/2 error 2)"],
+    [0x7, "14", "the server refused the stream (HTTP/2 error 7)"],
+    [0x8, "1", "the server cancelled the call (HTTP/2 error 8)"],
+    [0xb, "8", "the server asked to slow down (HTTP/2 error 11)"],
+    [0xc, "7", "the connection is not secure enough (HTTP/2 error 12)"],
+    [0xffffffff, "13", "the server reset the stream (HTTP/2 error 4294967295)"],
+  ] as const)(
+    "RST_STREAM %i before the head is a reply of trailers alone with status %s",
+    async (code, status, message) => {
+      const { peer, response } = await reply([rst(1, code)]);
+      expect(response.status).toBe(200);
+      expect(response.headers["content-type"]).toBe("application/grpc");
+      expect(await textOf(response)).toBe("");
+      expect(await trailersFor(response)).toEqual({
+        "grpc-status": status,
+        "grpc-message": message,
+      });
+      expect(peer.closes).toBe(1);
+    },
+  );
 
-  test("RST_STREAM after the head fails the body", async () => {
-    await bodyFailsWith([head200, rst(1, 2)], "the server reset the stream (HTTP/2 error 2)");
-    await bodyFailsWith(
-      [cat(head200, data("partial"), rst(1, 11))],
-      "the server reset the stream (HTTP/2 error 11)",
-    );
+  test("RST_STREAM after the head ends the body with the code's status", async () => {
+    const first = await reply([head200, rst(1, 2)]);
+    expect(await textOf(first.response)).toBe("");
+    expect(await trailersFor(first.response)).toEqual(resetTrailers(2));
+    const second = await reply([cat(head200, data("partial"), rst(1, 11))]);
+    expect(await textOf(second.response)).toBe("partial");
+    expect(await trailersFor(second.response)).toEqual(resetTrailers(11));
   });
 
   test("RST_STREAM for another stream is ignored", async () => {
@@ -1582,9 +1609,16 @@ describe("HTTP/2 on cloudflare:sockets: framing", () => {
 
   test("what follows a failure is never read", async () => {
     const peer = await refusedWith(
-      [cat(rst(1, 8), ping(), done)],
-      "the server reset the stream (HTTP/2 error 8)",
+      [cat(frameOf(RST_STREAM, 0, 1, [0, 0, 8]), ping(), done)],
+      "malformed RST_STREAM",
     );
+    expect(peer.writes.length).toBe(1);
+  });
+
+  test("what follows a reset is never read", async () => {
+    const { peer, response } = await reply([cat(rst(1, 8), ping(), done)]);
+    expect(await textOf(response)).toBe("");
+    expect(await trailersFor(response)).toEqual(resetTrailers(8));
     expect(peer.writes.length).toBe(1);
   });
 
@@ -2003,7 +2037,7 @@ describe("HTTP/2 on cloudflare:sockets: the connection", () => {
     expect(await textOf(response)).toBe("a");
     expect(await trailersFor(response)).toEqual({ "grpc-status": "0" });
     expect(peer.closes).toBe(1);
-    await refusedWith([rst(1, 8)], "the server reset the stream (HTTP/2 error 8)", {
+    await refusedWith(["close"], "connection closed before the response ended", {
       closeRejects: true,
     });
     await bodyFailsWith([head200, "close"], "connection closed before the response ended", {
@@ -2011,14 +2045,13 @@ describe("HTTP/2 on cloudflare:sockets: the connection", () => {
     });
   });
 
-  test("a reset after the head, while the request body waits, fails the body", async () => {
-    const peer = await bodyFailsWith(
-      [head200, rst(1, 8)],
-      "the server reset the stream (HTTP/2 error 8)",
-      {
-        request: postRequest(70_000),
-      },
-    );
+  test("a reset after the head, while the request body waits, ends the call with its status", async () => {
+    const { peer, response } = await reply([head200, rst(1, 8)], {
+      request: postRequest(70_000),
+    });
+    expect(await textOf(response)).toBe("");
+    expect(await trailersFor(response)).toEqual(resetTrailers(8));
+    expect(peer.closes).toBe(1);
     expect(dataOctets(peer)).toBe(65_535);
   });
 

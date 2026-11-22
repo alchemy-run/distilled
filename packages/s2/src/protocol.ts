@@ -44,7 +44,10 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  */
 const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
-/** The route's base URL; credentials without a basin refuse a basin route. */
+/** The basin becomes a label of the host name, so it must be one DNS label. */
+const DNS_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
+/** The route's base URL; credentials without a usable basin refuse a basin route. */
 const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
   if (creds.basin === undefined || creds.basin === "") {
@@ -53,6 +56,15 @@ const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, C
         message:
           `S2 operation on ${uri} is basin-scoped (${creds.basinBaseUrl}) \u2014 ` +
           `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
+      }),
+    );
+  }
+  if (!DNS_LABEL.test(creds.basin)) {
+    return Effect.fail(
+      new ConfigError({
+        message:
+          `S2 basin ${JSON.stringify(creds.basin)} is not a valid basin name ` +
+          `(letters, digits and hyphens, at most 63 characters)`,
       }),
     );
   }

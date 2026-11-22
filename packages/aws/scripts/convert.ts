@@ -16,15 +16,13 @@ import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { applyTelemetryTraits } from "@distilled.cloud/dev/codegen/telemetry";
 import { AWS_EVENT_TRAIT } from "./events-spec.ts";
-import { dropForeignNamespaceShapes, supportedProtocol } from "./spec.ts";
+import { dropForeignNamespaceShapes, moduleName, supportedProtocol } from "./spec.ts";
 import { awsTelemetry } from "./telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
 const modelsRoot = path.join(specsRoot, "models");
 const outDir = path.join(root, ".generated-specs");
-
-const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 const serviceOf = (model: { shapes?: Record<string, any> }) =>
   Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
