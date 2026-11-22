@@ -557,8 +557,12 @@ export interface SdkSpec {
     readonly contextType: string;
     /** Base of the per-op error union alias (e.g. `CloudflareOpError`). */
     readonly commonErrorType: string;
-    /** Error classes appended to every op's `errors: [...]` list. */
-    readonly commonErrorClasses: readonly string[];
+    /**
+     * Error classes appended to every op's `errors: [...]` list. For an SDK
+     * on a protocol layer, whose type states no errors. Leave it out with a
+     * typed protocol: its errors reach every operation through its type.
+     */
+    readonly commonErrorClasses?: readonly string[];
     /**
      * The errors declared on the service: the name of a list of error
      * classes that `../errors.ts` exports. Every operation gets it as its
@@ -1417,7 +1421,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (!decl) {
         throw new Error("SdkSpec needs either operationDecl or operation");
       }
-      const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
+      const errList = [...ctx.errorNames, ...(decl.commonErrorClasses ?? [])];
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
@@ -1849,9 +1853,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       (ctx.hasPaginated && pagImports.length
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
-      (decl.commonErrorClasses.length || decl.serviceErrors
+      (decl.commonErrorClasses?.length || decl.serviceErrors
         ? `import { ${[
-            ...decl.commonErrorClasses,
+            ...(decl.commonErrorClasses ?? []),
             ...(decl.serviceErrors ? [decl.serviceErrors] : []),
           ]
             .sort()

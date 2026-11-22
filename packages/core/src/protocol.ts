@@ -14,10 +14,12 @@
  * `API.make` adds the three together. A protocol never names an error of
  * groups 1 and 2: it receives their classes, matches a failed response
  * against them, and fails with the instance as a {@link DeclaredError}.
- * Everything else it fails with has to be in its own type, so the compiler
- * checks group 3:
+ * Everything else it fails with is in its own type, and passes through to
+ * every operation that names the protocol. Nobody writes that list: the
+ * compiler reads it from the protocol's code.
  *
- *   export const NeonProtocol: Protocol<NeonProtocolError, Credentials> = restProtocol({ ... });
+ *   export const NeonProtocol = restProtocol({ ... });
+ *   export type NeonOpError = NeonServiceError | ErrorOf<typeof NeonProtocol>;
  *
  * Types only: this module has no runtime code.
  */
@@ -102,3 +104,10 @@ export interface Protocol<ProtocolError, Requirements = never> {
     input: unknown,
   ) => Stream.Stream<unknown, DeclaredError | ProtocolError, Requirements>;
 }
+
+/**
+ * The errors a protocol declares (group 3), read from its type. An SDK uses
+ * it to name what every operation fails with besides its own errors:
+ * `<Sdk>ServiceError | ErrorOf<typeof <Sdk>Protocol>`.
+ */
+export type ErrorOf<P> = P extends Protocol<infer ProtocolError, any> ? ProtocolError : never;

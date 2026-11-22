@@ -114,8 +114,6 @@ const neonSpec: SdkSpec = {
   operationDecl: {
     contextType: "NeonOpContext",
     commonErrorType: "NeonOpError",
-    // UnknownNeonError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "NeonServiceErrors",
     protocol: "NeonProtocol",
     retry: "Retry.Retry",

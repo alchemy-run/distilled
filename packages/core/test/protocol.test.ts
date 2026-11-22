@@ -2,8 +2,9 @@
  * A typed protocol (core/protocol). An operation's errors are declared in
  * three places: on the operation (`errors`), on its service
  * (`serviceErrors`) and on its protocol (the protocol's type). `API.make`
- * adds them together, and the compiler checks what the protocol declares.
- * The `@ts-expect-error` lines are the compile-time half.
+ * adds them together. Nobody lists the protocol's errors: its type carries
+ * what its code fails with. The `@ts-expect-error` lines and the `Same`
+ * constants are the compile-time half.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -15,7 +16,7 @@ import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import { TooManyRequests, Unauthorized } from "../src/errors.ts";
 import { restProtocol, type RestProtocolError } from "../src/protocol-rest.ts";
-import type { Protocol } from "../src/protocol.ts";
+import type { ErrorOf, Protocol } from "../src/protocol.ts";
 import * as S from "../src/schema.ts";
 import { SdkError } from "../src/sdk-error.ts";
 import * as T from "../src/trait.ts";
@@ -42,7 +43,7 @@ class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseErro
 const TestServiceErrors = [Unauthorized, TooManyRequests] as const;
 type TestServiceError = InstanceType<(typeof TestServiceErrors)[number]>;
 
-/** Declared on the protocol: what its own code fails with. */
+/** What the protocol's own code fails with. Written out here only to check the inferred type. */
 type TestProtocolError = RestProtocolError | TestParseError | TestUnknownError;
 
 const options = {
@@ -59,9 +60,11 @@ const options = {
   parseError: (info: { readonly cause: unknown }) => new TestParseError({ cause: info.cause }),
 };
 
-const TestProtocol: Protocol<TestProtocolError, TestCreds> = restProtocol(options);
+// No annotation: the protocol's type lists what its options build.
+const TestProtocol = restProtocol(options);
+export const passedThrough: Same<ErrorOf<typeof TestProtocol>, TestProtocolError> = true;
 
-// The protocol fails with a class its type does not declare.
+// A protocol that is annotated must list everything it fails with.
 // @ts-expect-error TestParseError is not listed
 export const undeclared: Protocol<RestProtocolError | TestUnknownError, TestCreds> =
   restProtocol(options);
