@@ -623,3 +623,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-microsoft-graph.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/sproutboat/specs/spec-mirror-sproutboat"]
+	path = packages/sproutboat/specs/spec-mirror-sproutboat
+	url = https://github.com/distilled-mirror/spec-mirror-sproutboat.git
+	ignore = dirty
+	shallow = true
