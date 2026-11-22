@@ -455,7 +455,7 @@ type Decoded<Failure> =
  * The methods {@link restMethods} builds. With `StatusError` a
  * {@link DeclaredError}, they are a `Protocol<ProtocolError, Requirements>`.
  */
-interface RestMethods<StatusError, ProtocolError, Requirements> {
+export interface RestMethods<StatusError, ProtocolError, Requirements> {
   readonly encode: Protocol<ProtocolError, Requirements>["encode"];
   readonly decode: (
     args: DecodeArgs,
@@ -867,6 +867,57 @@ export const declaredStatusClass = (
 };
 
 /**
+ * The methods of {@link restProtocol}: a status's class comes from the
+ * classes the operation and its service declare, and a `baseUrl` that
+ * throws fails the call with `SdkError`. For the protocols core builds on
+ * them (core/protocol-grpc).
+ */
+export const restProtocolMethods = <
+  Credentials,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
+>(
+  options: Omit<
+    RestProtocolOptions<
+      Credentials,
+      CredentialsError,
+      CredentialsRequirements,
+      RouteError,
+      ClassifiedError,
+      UnknownError,
+      ParseError
+    >,
+    "statusMap"
+  >,
+): RestMethods<
+  DeclaredError,
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+> =>
+  restMethods(options, declaredStatusClass, (cause) =>
+    Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` })),
+  );
+
+/**
+ * The methods of {@link makeRestProtocol}: a status's class comes from the
+ * status map, and a `baseUrl` that throws fails the call with what it
+ * threw. They state none of their errors.
+ */
+export const restLayerMethods = <C>(options: RestProtocolOptions<C>) => {
+  const statusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
+    options.statusMap ?? HTTP_STATUS_MAP;
+  return restMethods(
+    options,
+    (status) => statusMap[status],
+    (thrown) => Effect.fail(thrown),
+  );
+};
+
+/**
  * {@link restProtocol}'s options for one form of `credentials`. The service
  * key and the effect are separate signatures: a key is also an effect (of
  * the service), so one signature for both could not tell which it is given.
@@ -974,9 +1025,7 @@ export function restProtocol<
   CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
   CredentialsRequirements
 > {
-  return restMethods(options, declaredStatusClass, (cause) =>
-    Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` })),
-  );
+  return restProtocolMethods(options);
 }
 
 /**
@@ -986,17 +1035,10 @@ export function restProtocol<
  * Assign the result to a module-level const in the provider's `protocol.ts`
  * -- `API.make` memoizes protocol layers by value identity.
  */
-export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> => {
-  const statusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
-    options.statusMap ?? HTTP_STATUS_MAP;
-  return Layer.succeed(
+export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> =>
+  Layer.succeed(
     API.Protocol,
     // The layer's service says its methods fail with nothing and need
-    // nothing; a throwing `baseUrl` fails the call with what it threw.
-    restMethods(
-      options,
-      (status) => statusMap[status],
-      (thrown) => Effect.fail(thrown),
-    ) as unknown as API.ProtocolShape,
+    // nothing.
+    restLayerMethods(options) as unknown as API.ProtocolShape,
   );
-};

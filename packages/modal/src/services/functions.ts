@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownModalError } from "../errors.ts";
+import { ModalServiceErrors } from "../errors.ts";
 import { ModalProtocol, type ModalOpError, type ModalOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1258,7 +1258,8 @@ export const cancelFunctionCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<CancelFunctionCallRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CancelFunctionCallResponse>,
-  errors: [FunctionCallNotFound, UnknownModalError],
+  errors: [FunctionCallNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1274,7 +1275,8 @@ export const createFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<CreateFunctionRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<CreateFunctionResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,7 +1292,8 @@ export const fetchFunctionCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1314, __c41, 2) as any as S.Schema<FetchFunctionCallRequest>,
   output: __S(1317, __c41, 5) as any as S.Schema<FetchFunctionCallResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1306,7 +1309,8 @@ export const functionBindParams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<FunctionBindParamsRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<FunctionBindParamsResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1322,7 +1326,8 @@ export const functionCallCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<FunctionCallCountRequest>,
   output: __S(1411, __c44, 3) as any as S.Schema<FunctionCallCountResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1338,7 +1343,8 @@ export const functionCallFromId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallFromIdRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<FunctionCallFromIdResponse>,
-  errors: [FunctionCallNotFound, UnknownModalError],
+  errors: [FunctionCallNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1354,7 +1360,8 @@ export const functionCallGetDataIn: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataInStream>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1370,7 +1377,8 @@ export const functionCallGetDataOut: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1386,7 +1394,8 @@ export const functionCallGetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<FunctionCallGetInfoRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<FunctionCallGetInfoResponse>,
-  errors: [FunctionCallNotFound, UnknownModalError],
+  errors: [FunctionCallNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1402,7 +1411,8 @@ export const functionCallPutDataOut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<FunctionCallPutDataOutRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<FunctionCallPutDataOutResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1419,7 +1429,8 @@ export const functionFinishInputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<FunctionFinishInputsRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<FunctionFinishInputsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,7 +1446,8 @@ export const functionGetById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<FunctionGetByIdRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<FunctionGetByIdResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1451,7 +1463,8 @@ export const functionGetCallGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<FunctionGetCallGraphRequest>,
   output: __S(165, __c5, 5) as any as S.Schema<FunctionGetCallGraphResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1467,7 +1480,8 @@ export const functionGetCurrentStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<FunctionGetCurrentStatsRequest>,
   output: __S(193, __c6, 1) as any as S.Schema<FunctionGetCurrentStatsResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1483,7 +1497,8 @@ export const functionGetDynamicConcurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<FunctionGetDynamicConcurrencyRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<FunctionGetDynamicConcurrencyResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1499,7 +1514,8 @@ export const functionGetFlashAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<FunctionGetFlashAuthTokenRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<FunctionGetFlashAuthTokenResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1515,7 +1531,8 @@ export const functionGetMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<FunctionGetMetricsRequest>,
   output: __S(293, __c9, 5) as any as S.Schema<FunctionGetMetricsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1531,7 +1548,8 @@ export const functionGetSchedulingParams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<FunctionGetSchedulingParamsRequest>,
   output: __S(324, __c10, 4) as any as S.Schema<FunctionGetSchedulingParamsResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1547,7 +1565,8 @@ export const functionGetSerialized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<FunctionGetSerializedRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<FunctionGetSerializedResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1582,8 @@ export const functionGetTimeRangeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<FunctionGetTimeRangeStatsRequest>,
   output: __S(453, __c14, 5) as any as S.Schema<FunctionGetTimeRangeStatsResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1579,7 +1599,8 @@ export const functionListVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<FunctionListVariantsRequest>,
   output: __S(484, __c15, 4) as any as S.Schema<FunctionListVariantsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,7 +1616,8 @@ export const functionMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<FunctionMapRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<FunctionMapResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1611,7 +1633,8 @@ export const functionPrecreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<FunctionPrecreateRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<FunctionPrecreateResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1627,7 +1650,8 @@ export const functionPutInputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<FunctionPutInputsRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<FunctionPutInputsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1644,7 +1668,8 @@ export const functionPutOutputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(674, __c21, 2) as any as S.Schema<FunctionPutOutputsRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<FunctionPutOutputsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1660,7 +1685,8 @@ export const functionRetryInputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(738, __c23, 2) as any as S.Schema<FunctionRetryInputsRequest>,
   output: __S(739, __c23, 3) as any as S.Schema<FunctionRetryInputsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1676,7 +1702,8 @@ export const functionStartPtyShell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<FunctionStartPtyShellRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<FunctionStartPtyShellResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1692,7 +1719,8 @@ export const functionUpdateSchedulingParams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<FunctionUpdateSchedulingParamsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<FunctionUpdateSchedulingParamsResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1708,7 +1736,8 @@ export const getFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetFunctionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<GetFunctionResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1724,7 +1753,8 @@ export const getFunctionBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetFunctionBlobRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetFunctionBlobResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1741,7 +1771,8 @@ export const getFunctionInputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetFunctionInputsRequest>,
   output: __S(1187, __c37, 3) as any as S.Schema<GetFunctionInputsResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1758,7 +1789,8 @@ export const getFunctionOutputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetFunctionOutputsRequest>,
   output: __S(1220, __c38, 4) as any as S.Schema<GetFunctionOutputsResponse>,
-  errors: [FunctionCallNotFound, UnknownModalError],
+  errors: [FunctionCallNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1775,7 +1807,8 @@ export const invokeFunctionAsync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1791,7 +1824,8 @@ export const listFunctionCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListFunctionCallRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ListFunctionCallResponse>,
-  errors: [FunctionNotFound, UnknownModalError],
+  errors: [FunctionNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

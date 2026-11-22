@@ -140,6 +140,7 @@ const RESERVED_SCHEMA_NAMES = new Set([
   "GcpProtocol",
   "GcpOpError",
   "GcpOpContext",
+  "GcpServiceErrors",
   "UnknownGCPError",
   "KEY_DICTIONARY",
   // v0 reserved set (kept for naming parity)

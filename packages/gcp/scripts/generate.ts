@@ -115,7 +115,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   operationDecl: {
     contextType: "GcpOpContext",
     commonErrorType: "GcpOpError",
-    commonErrorClasses: ["UnknownGCPError"],
+    serviceErrors: "GcpServiceErrors",
     protocol: "GcpProtocol",
     retry: "Retry.Retry",
   },

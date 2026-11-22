@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownModalError } from "../errors.ts";
+import { ModalServiceErrors } from "../errors.ts";
 import { ModalProtocol, type ModalOpError, type ModalOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -93,7 +93,8 @@ export const createTokenFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTokenFlowRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateTokenFlowResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110,7 +111,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<DeleteTokenResponse>,
-  errors: [TokenNotFound, UnknownModalError],
+  errors: [TokenNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -126,7 +128,8 @@ export const getTokenInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetTokenInfoRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<GetTokenInfoResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -142,7 +145,8 @@ export const waitTokenFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<WaitTokenFlowRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<WaitTokenFlowResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

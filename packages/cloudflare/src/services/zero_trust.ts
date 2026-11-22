@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
+import { CloudflareServiceErrors } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
   CloudflareProtocol,
@@ -100626,7 +100626,8 @@ export const activateGatewayCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<ActivateGatewayCertificateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<ActivateGatewayCertificateResponse>,
-  errors: [GatewayCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100643,7 +100644,8 @@ export const archiveCasbPostureFindingsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<ArchiveCasbPostureFindingsInstanceRequest>,
   output: __S(16640, __c520, 0) as any as S.Schema<ArchiveCasbPostureFindingsInstanceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100660,7 +100662,8 @@ export const bulkDeleteAccessInfrastructureTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<BulkDeleteAccessInfrastructureTargetsRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<BulkDeleteAccessInfrastructureTargetsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100677,7 +100680,8 @@ export const bulkDeleteDeviceRegistrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<BulkDeleteDeviceRegistrationsRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<BulkDeleteDeviceRegistrationsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100694,7 +100698,8 @@ export const bulkDeleteV2AccessInfrastructureTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<BulkDeleteV2AccessInfrastructureTargetsRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<BulkDeleteV2AccessInfrastructureTargetsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100711,7 +100716,8 @@ export const bulkPatchDlpEmailRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18369, __c574, 1) as any as S.Schema<BulkPatchDlpEmailRulesRequest>,
   output: __S(18373, __c574, 5) as any as S.Schema<BulkPatchDlpEmailRulesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100730,7 +100736,8 @@ export const bulkPutAccessInfrastructureTargets: API.PaginatedOperationMethod<
   () => ({
     input: __S(18754, __c586, 2) as any as S.Schema<BulkPutAccessInfrastructureTargetsRequest>,
     output: __S(18786, __c587, 2) as any as S.Schema<BulkPutAccessInfrastructureTargetsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -100750,7 +100757,8 @@ export const casbPostureFindingsIgnore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<CasbPostureFindingsIgnoreRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<CasbPostureFindingsIgnoreResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100767,7 +100775,8 @@ export const casbPostureFindingsResetSeverity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<CasbPostureFindingsResetSeverityRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<CasbPostureFindingsResetSeverityResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100784,7 +100793,8 @@ export const casbPostureFindingsTuneSeverity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20128, __c629, 0) as any as S.Schema<CasbPostureFindingsTuneSeverityRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<CasbPostureFindingsTuneSeverityResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100801,7 +100811,8 @@ export const casbPostureFindingsUnignore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<CasbPostureFindingsUnignoreRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<CasbPostureFindingsUnignoreResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100818,7 +100829,8 @@ export const casbPostureWebhooksEvaluate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<CasbPostureWebhooksEvaluateRequest>,
   output: __S(20864, __c652, 0) as any as S.Schema<CasbPostureWebhooksEvaluateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100835,7 +100847,8 @@ export const casbPostureWebhooksEvaluateExisting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<CasbPostureWebhooksEvaluateExistingRequest>,
   output: __S(20864, __c652, 0) as any as S.Schema<CasbPostureWebhooksEvaluateExistingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100855,7 +100868,8 @@ export const createAccessAiControlMcpPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<CreateAccessAiControlMcpPortalRequest>,
   output: __S(21760, __c680, 0) as any as S.Schema<CreateAccessAiControlMcpPortalResponse>,
-  errors: [McpPortalHostnameInUse, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [McpPortalHostnameInUse, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100872,7 +100886,8 @@ export const createAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<CreateAccessAiControlMcpServerRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<CreateAccessAiControlMcpServerResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100889,7 +100904,8 @@ export const createAccessApplicationCaForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<CreateAccessApplicationCaForAccountRequest>,
   output: __S(22720, __c710, 0) as any as S.Schema<CreateAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100906,7 +100922,8 @@ export const createAccessApplicationCaForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<CreateAccessApplicationCaForZoneRequest>,
   output: __S(22720, __c710, 0) as any as S.Schema<CreateAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100926,12 +100943,8 @@ export const createAccessApplicationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23489, __c734, 1) as any as S.Schema<CreateAccessApplicationForAccountRequest>,
   output: __S(23528, __c735, 8) as any as S.Schema<CreateAccessApplicationResponse>,
-  errors: [
-    AccessReferenceNotFound,
-    AccessDestinationConflict,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [AccessReferenceNotFound, AccessDestinationConflict],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100948,7 +100961,8 @@ export const createAccessApplicationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23713, __c741, 1) as any as S.Schema<CreateAccessApplicationForZoneRequest>,
   output: __S(23528, __c735, 8) as any as S.Schema<CreateAccessApplicationResponse>,
-  errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessReferenceNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100965,7 +100979,8 @@ export const createAccessApplicationPolicyForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23746, __c742, 2) as any as S.Schema<CreateAccessApplicationPolicyForAccountRequest>,
   output: __S(23748, __c742, 4) as any as S.Schema<CreateAccessApplicationPolicyForAccountResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100982,7 +100997,8 @@ export const createAccessApplicationPolicyForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23842, __c745, 2) as any as S.Schema<CreateAccessApplicationPolicyForZoneRequest>,
   output: __S(23844, __c745, 4) as any as S.Schema<CreateAccessApplicationPolicyForZoneResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100999,7 +101015,8 @@ export const createAccessApplicationPolicyTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23874, __c746, 2) as any as S.Schema<CreateAccessApplicationPolicyTestRequest>,
   output: __S(23875, __c746, 3) as any as S.Schema<CreateAccessApplicationPolicyTestResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101016,7 +101033,8 @@ export const createAccessBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<CreateAccessBookmarkRequest>,
   output: __S(23936, __c748, 0) as any as S.Schema<CreateAccessBookmarkResponse>,
-  errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessBookmarkNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101035,7 +101053,8 @@ export const createAccessCertificateForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<CreateAccessCertificateForAccountRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<CreateAccessCertificateResponse>,
-  errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateQuotaExceeded],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101054,7 +101073,8 @@ export const createAccessCertificateForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<CreateAccessCertificateForZoneRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<CreateAccessCertificateResponse>,
-  errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateQuotaExceeded],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101071,7 +101091,8 @@ export const createAccessCustomPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<CreateAccessCustomPageRequest>,
   output: __S(24128, __c754, 0) as any as S.Schema<CreateAccessCustomPageResponse>,
-  errors: [AccessCustomPagesNotEntitled, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCustomPagesNotEntitled],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101088,7 +101109,8 @@ export const createAccessGatewayCa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<CreateAccessGatewayCaRequest>,
   output: __S(24161, __c755, 1) as any as S.Schema<CreateAccessGatewayCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101105,7 +101127,8 @@ export const createAccessGroupForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<CreateAccessGroupForAccountRequest>,
   output: __S(24232, __c757, 8) as any as S.Schema<CreateAccessGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101122,7 +101145,8 @@ export const createAccessGroupForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<CreateAccessGroupForZoneRequest>,
   output: __S(24232, __c757, 8) as any as S.Schema<CreateAccessGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101139,7 +101163,8 @@ export const createAccessIdpFederationGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<CreateAccessIdpFederationGrantRequest>,
   output: __S(24320, __c760, 0) as any as S.Schema<CreateAccessIdpFederationGrantResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101156,7 +101181,8 @@ export const createAccessInfrastructureTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<CreateAccessInfrastructureTargetRequest>,
   output: __S(24384, __c762, 0) as any as S.Schema<CreateAccessInfrastructureTargetResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101173,7 +101199,8 @@ export const createAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24418, __c763, 2) as any as S.Schema<CreateAccessPolicyRequest>,
   output: __S(24425, __c763, 9) as any as S.Schema<CreateAccessPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101190,7 +101217,8 @@ export const createAccessServiceTokenForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<CreateAccessServiceTokenForAccountRequest>,
   output: __S(24544, __c767, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101207,7 +101235,8 @@ export const createAccessServiceTokenForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<CreateAccessServiceTokenForZoneRequest>,
   output: __S(24544, __c767, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101224,7 +101253,8 @@ export const createAccessTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<CreateAccessTagRequest>,
   output: __S(24640, __c770, 0) as any as S.Schema<CreateAccessTagResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101241,7 +101271,8 @@ export const createAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<CreateAccessUserRequest>,
   output: __S(24704, __c772, 0) as any as S.Schema<CreateAccessUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101258,7 +101289,8 @@ export const createAccessUserPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24736, __c773, 0) as any as S.Schema<CreateAccessUserPopulationRequest>,
   output: __S(24768, __c774, 0) as any as S.Schema<CreateAccessUserPopulationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101275,7 +101307,8 @@ export const createAccessUserPopulationsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<CreateAccessUserPopulationsUserRequest>,
   output: __S(24896, __c778, 0) as any as S.Schema<CreateAccessUserPopulationsUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101292,7 +101325,8 @@ export const createCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<CreateCasbIntegrationRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<CreateCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101309,7 +101343,8 @@ export const createCasbPostureFindingType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25024, __c782, 0) as any as S.Schema<CreateCasbPostureFindingTypeRequest>,
   output: __S(25056, __c783, 0) as any as S.Schema<CreateCasbPostureFindingTypeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101326,7 +101361,8 @@ export const createCasbPosturePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25088, __c784, 0) as any as S.Schema<CreateCasbPosturePolicyRequest>,
   output: __S(25152, __c786, 0) as any as S.Schema<CreateCasbPosturePolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101343,7 +101379,8 @@ export const createCasbPostureRemediationsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25216, __c788, 0) as any as S.Schema<CreateCasbPostureRemediationsJobRequest>,
   output: __S(25225, __c788, 9) as any as S.Schema<CreateCasbPostureRemediationsJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101360,7 +101397,8 @@ export const createCasbPostureWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25280, __c790, 0) as any as S.Schema<CreateCasbPostureWebhookRequest>,
   output: __S(25344, __c792, 0) as any as S.Schema<CreateCasbPostureWebhookResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101377,7 +101415,8 @@ export const createCasbPostureWebhooksJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25376, __c793, 0) as any as S.Schema<CreateCasbPostureWebhooksJobRequest>,
   output: __S(25382, __c793, 6) as any as S.Schema<CreateCasbPostureWebhooksJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101394,7 +101433,8 @@ export const createCwsBasicAuthCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25408, __c794, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsRequest>,
   output: __S(25440, __c795, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101411,7 +101451,8 @@ export const createCwsBasicAuthCredentialsSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101428,7 +101469,8 @@ export const createCwsDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<CreateCwsDeploymentRequest>,
   output: __S(25568, __c799, 0) as any as S.Schema<CreateCwsDeploymentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101445,7 +101487,8 @@ export const createCwsDomainAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<CreateCwsDomainAclRequest>,
   output: __S(25664, __c802, 0) as any as S.Schema<CreateCwsDomainAclResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101462,7 +101505,8 @@ export const createCwsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<CreateCwsPolicyRequest>,
   output: __S(25728, __c804, 0) as any as S.Schema<CreateCwsPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101479,7 +101523,8 @@ export const createCwsPolicySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25760, __c805, 0) as any as S.Schema<CreateCwsPolicySetRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<CreateCwsPolicySetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101496,7 +101541,8 @@ export const createCwsRegoMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<CreateCwsRegoMetadataRequest>,
   output: __S(25920, __c810, 0) as any as S.Schema<CreateCwsRegoMetadataResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101513,7 +101559,8 @@ export const createCwsRegoModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<CreateCwsRegoModuleRequest>,
   output: __S(25984, __c812, 0) as any as S.Schema<CreateCwsRegoModuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101530,7 +101577,8 @@ export const createCwsTenantStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateCwsTenantStructureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCwsTenantStructureResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101547,7 +101595,8 @@ export const createCwsTenantStructuresNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateCwsTenantStructuresNodeRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<CreateCwsTenantStructuresNodeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101564,7 +101613,8 @@ export const createCwsWorkload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateCwsWorkloadRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateCwsWorkloadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101581,7 +101631,8 @@ export const createDeviceDeploymentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CreateDeviceDeploymentGroupRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<CreateDeviceDeploymentGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101598,7 +101649,8 @@ export const createDeviceDexTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateDeviceDexTestRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CreateDeviceDexTestResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101615,7 +101667,8 @@ export const createDeviceIpProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateDeviceIpProfileRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<CreateDeviceIpProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101632,7 +101685,8 @@ export const createDeviceNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<CreateDeviceNetworkRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<CreateDeviceNetworkResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101649,7 +101703,8 @@ export const createDevicePolicyCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(644, __c20, 4) as any as S.Schema<CreateDevicePolicyCustomRequest>,
   output: __S(649, __c20, 9) as any as S.Schema<CreateDevicePolicyCustomResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101666,7 +101721,8 @@ export const createDevicePosture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(801, __c25, 1) as any as S.Schema<CreateDevicePostureRequest>,
   output: __S(803, __c25, 3) as any as S.Schema<CreateDevicePostureResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101686,7 +101742,8 @@ export const createDevicePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<CreateDevicePostureIntegrationRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<CreateDevicePostureIntegrationResponse>,
-  errors: [InvalidPostureIntegrationConfig, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidPostureIntegrationConfig, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101703,7 +101760,8 @@ export const createDeviceResilienceGlobalWarpOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateDeviceResilienceGlobalWarpOverrideRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<CreateDeviceResilienceGlobalWarpOverrideResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101720,7 +101778,8 @@ export const createDeviceRevoke: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateDeviceRevokeRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<CreateDeviceRevokeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101737,7 +101796,8 @@ export const createDeviceUnrevoke: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CreateDeviceUnrevokeRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<CreateDeviceUnrevokeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101754,7 +101814,8 @@ export const createDexCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1123, __c35, 3) as any as S.Schema<CreateDexCommandRequest>,
   output: __S(1126, __c35, 6) as any as S.Schema<CreateDexCommandResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101771,7 +101832,8 @@ export const createDexRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<CreateDexRuleRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<CreateDexRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101788,7 +101850,8 @@ export const createDlpCustomEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateDlpCustomEntryRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<CreateDlpCustomEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101805,7 +101868,8 @@ export const createDlpCustomPromptTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateDlpCustomPromptTopicRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<CreateDlpCustomPromptTopicResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101822,7 +101886,8 @@ export const createDlpDataClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateDlpDataClassRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<CreateDlpDataClassResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101839,7 +101904,8 @@ export const createDlpDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<CreateDlpDatasetRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<CreateDlpDatasetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101856,7 +101922,8 @@ export const createDlpDatasetUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<CreateDlpDatasetUploadRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<CreateDlpDatasetUploadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101875,7 +101942,8 @@ export const createDlpDatasetVersion: API.PaginatedOperationMethod<
   () => ({
     input: __S(1634, __c51, 2) as any as S.Schema<CreateDlpDatasetVersionRequest>,
     output: __S(1635, __c51, 3) as any as S.Schema<CreateDlpDatasetVersionResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -101895,7 +101963,8 @@ export const createDlpDatasetVersionEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<CreateDlpDatasetVersionEntryRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<CreateDlpDatasetVersionEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101912,7 +101981,8 @@ export const createDlpDataTagCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<CreateDlpDataTagCategoryRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<CreateDlpDataTagCategoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101929,7 +101999,8 @@ export const createDlpDataTagCategoryDataTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<CreateDlpDataTagCategoryDataTagRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<CreateDlpDataTagCategoryDataTagResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101946,7 +102017,8 @@ export const createDlpEmailAccountMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1889, __c59, 1) as any as S.Schema<CreateDlpEmailAccountMappingRequest>,
   output: __S(1891, __c59, 3) as any as S.Schema<CreateDlpEmailAccountMappingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101963,7 +102035,8 @@ export const createDlpEmailRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1923, __c60, 3) as any as S.Schema<CreateDlpEmailRuleRequest>,
   output: __S(1927, __c60, 7) as any as S.Schema<CreateDlpEmailRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101980,7 +102053,8 @@ export const createDlpEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<CreateDlpEntryRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<CreateDlpEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101997,7 +102071,8 @@ export const createDlpEntryIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<CreateDlpEntryIntegrationRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<CreateDlpEntryIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102014,7 +102089,8 @@ export const createDlpEntryPredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateDlpEntryPredefinedRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<CreateDlpEntryPredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102031,7 +102107,8 @@ export const createDlpProfileCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2146, __c67, 2) as any as S.Schema<CreateDlpProfileCustomRequest>,
   output: __S(2148, __c67, 4) as any as S.Schema<CreateDlpProfileCustomResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102048,7 +102125,8 @@ export const createDlpSensitivityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<CreateDlpSensitivityGroupRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<CreateDlpSensitivityGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102065,7 +102143,8 @@ export const createDlpSensitivityGroupLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CreateDlpSensitivityGroupLevelRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<CreateDlpSensitivityGroupLevelResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102082,7 +102161,8 @@ export const createDlpValidatorsProximityWord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CreateDlpValidatorsProximityWordRequest>,
   output: __S(2341, __c73, 5) as any as S.Schema<CreateDlpValidatorsProximityWordResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102099,7 +102179,8 @@ export const createGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateGatewayRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<CreateGatewayResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102116,7 +102197,8 @@ export const createGatewayCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CreateGatewayCertificateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<CreateGatewayCertificateResponse>,
-  errors: [GatewayCertificateQuotaReached, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayCertificateQuotaReached],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102133,7 +102215,8 @@ export const createGatewayList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CreateGatewayListRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<CreateGatewayListResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102150,7 +102233,8 @@ export const createGatewayLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<CreateGatewayLocationRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CreateGatewayLocationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102167,7 +102251,8 @@ export const createGatewayPacfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CreateGatewayPacfileRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CreateGatewayPacfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102187,7 +102272,8 @@ export const createGatewayProxyEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateGatewayProxyEndpointRequest>,
   output: __S(2818, __c88, 2) as any as S.Schema<CreateGatewayProxyEndpointResponse>,
-  errors: [IpProxyEndpointsRequireEnterprise, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [IpProxyEndpointsRequireEnterprise, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102204,7 +102290,8 @@ export const createGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateGatewayRuleRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<CreateGatewayRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102221,7 +102308,8 @@ export const createIdentityProviderForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CreateIdentityProviderForAccountRequest>,
   output: __S(3074, __c96, 2) as any as S.Schema<CreateIdentityProviderResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102238,7 +102326,8 @@ export const createIdentityProviderForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreateIdentityProviderForZoneRequest>,
   output: __S(3074, __c96, 2) as any as S.Schema<CreateIdentityProviderResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102255,7 +102344,8 @@ export const createIdentityProviderSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<CreateIdentityProviderSamlCertificateRequest>,
   output: __S(3232, __c101, 0) as any as S.Schema<CreateIdentityProviderSamlCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102275,7 +102365,8 @@ export const createNetworkHostnameRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateNetworkHostnameRouteRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<CreateNetworkHostnameRouteResponse>,
-  errors: [HostnameRouteAlreadyRouted, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [HostnameRouteAlreadyRouted, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102292,7 +102383,8 @@ export const createNetworkRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<CreateNetworkRouteRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<CreateNetworkRouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102309,7 +102401,8 @@ export const createNetworkRouteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CreateNetworkRouteNetworkRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<CreateNetworkRouteNetworkResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102326,7 +102419,8 @@ export const createNetworkSubnetWarp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<CreateNetworkSubnetWarpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<CreateNetworkSubnetWarpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102343,7 +102437,8 @@ export const createNetworkVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<CreateNetworkVirtualNetworkRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<CreateNetworkVirtualNetworkResponse>,
-  errors: [VirtualNetworkConflict, CloudflareRateLimited, CloudflareError],
+  errors: [VirtualNetworkConflict],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102360,7 +102455,8 @@ export const createOrganizationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<CreateOrganizationForAccountRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<CreateOrganizationResponse>,
-  errors: [OrganizationAlreadyExists, CloudflareRateLimited, CloudflareError],
+  errors: [OrganizationAlreadyExists],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102377,7 +102473,8 @@ export const createOrganizationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CreateOrganizationForZoneRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<CreateOrganizationResponse>,
-  errors: [OrganizationAlreadyExists, CloudflareRateLimited, CloudflareError],
+  errors: [OrganizationAlreadyExists],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102394,7 +102491,8 @@ export const createResourceLibraryApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<CreateResourceLibraryApplicationRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<CreateResourceLibraryApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102411,7 +102509,8 @@ export const createRiskScoringIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<CreateRiskScoringIntegrationRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<CreateRiskScoringIntegrationResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102428,7 +102527,8 @@ export const createTunnelCloudflared: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<CreateTunnelCloudflaredRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<CreateTunnelCloudflaredResponse>,
-  errors: [DuplicateTunnelName, CloudflareRateLimited, CloudflareError],
+  errors: [DuplicateTunnelName],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102445,7 +102545,8 @@ export const createTunnelCloudflaredManagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<CreateTunnelCloudflaredManagementRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<CreateTunnelCloudflaredManagementResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102462,7 +102563,8 @@ export const createTunnelWarpConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<CreateTunnelWarpConnectorRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<CreateTunnelWarpConnectorResponse>,
-  errors: [DuplicateTunnelName, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DuplicateTunnelName, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102479,7 +102581,8 @@ export const cwsTenantStructuresNodesBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4069, __c127, 5) as any as S.Schema<CwsTenantStructuresNodesBatchRequest>,
   output: __S(4070, __c127, 6) as any as S.Schema<CwsTenantStructuresNodesBatchResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102499,12 +102602,8 @@ export const deactivateGatewayCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DeactivateGatewayCertificateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<DeactivateGatewayCertificateResponse>,
-  errors: [
-    GatewayCertificateNotFound,
-    GatewayCertificateInUse,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [GatewayCertificateNotFound, GatewayCertificateInUse],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102521,7 +102620,8 @@ export const deleteAccessAiControlMcpPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DeleteAccessAiControlMcpPortalRequest>,
   output: __S(4193, __c131, 1) as any as S.Schema<DeleteAccessAiControlMcpPortalResponse>,
-  errors: [McpPortalNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [McpPortalNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102538,7 +102638,8 @@ export const deleteAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DeleteAccessAiControlMcpServerRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<DeleteAccessAiControlMcpServerResponse>,
-  errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [McpServerNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102555,7 +102656,8 @@ export const deleteAccessApplicationCaForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DeleteAccessApplicationCaForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102572,7 +102674,8 @@ export const deleteAccessApplicationCaForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteAccessApplicationCaForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102589,7 +102692,8 @@ export const deleteAccessApplicationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DeleteAccessApplicationForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationResponse>,
-  errors: [AccessApplicationNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessApplicationNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102606,7 +102710,8 @@ export const deleteAccessApplicationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<DeleteAccessApplicationForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102623,7 +102728,8 @@ export const deleteAccessApplicationPolicyForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<DeleteAccessApplicationPolicyForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102640,7 +102746,8 @@ export const deleteAccessApplicationPolicyForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DeleteAccessApplicationPolicyForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessApplicationPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102657,7 +102764,8 @@ export const deleteAccessBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DeleteAccessBookmarkRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessBookmarkResponse>,
-  errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessBookmarkNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102674,7 +102782,8 @@ export const deleteAccessCertificateForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DeleteAccessCertificateForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102691,7 +102800,8 @@ export const deleteAccessCertificateForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DeleteAccessCertificateForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102708,7 +102818,8 @@ export const deleteAccessCustomPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DeleteAccessCustomPageRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessCustomPageResponse>,
-  errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCustomPageNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102725,7 +102836,8 @@ export const deleteAccessGatewayCa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<DeleteAccessGatewayCaRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessGatewayCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102742,7 +102854,8 @@ export const deleteAccessGroupForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeleteAccessGroupForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessGroupResponse>,
-  errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102759,7 +102872,8 @@ export const deleteAccessGroupForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DeleteAccessGroupForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessGroupResponse>,
-  errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102776,7 +102890,8 @@ export const deleteAccessIdpFederationGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteAccessIdpFederationGrantRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessIdpFederationGrantResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102793,7 +102908,8 @@ export const deleteAccessInfrastructureTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteAccessInfrastructureTargetRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteAccessInfrastructureTargetResponse>,
-  errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TargetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102810,7 +102926,8 @@ export const deleteAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102829,7 +102946,8 @@ export const deleteAccessServiceTokenForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DeleteAccessServiceTokenForAccountRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<DeleteAccessServiceTokenResponse>,
-  errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessServiceTokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102846,7 +102964,8 @@ export const deleteAccessServiceTokenForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteAccessServiceTokenForZoneRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<DeleteAccessServiceTokenResponse>,
-  errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessServiceTokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102863,7 +102982,8 @@ export const deleteAccessTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DeleteAccessTagRequest>,
   output: __S(4897, __c153, 1) as any as S.Schema<DeleteAccessTagResponse>,
-  errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessTagNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102880,7 +103000,8 @@ export const deleteAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteAccessUserRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteAccessUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102897,7 +103018,8 @@ export const deleteAccessUserPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<DeleteAccessUserPopulationRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteAccessUserPopulationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102914,7 +103036,8 @@ export const deleteAccessUserPopulationsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteAccessUserPopulationsUserRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteAccessUserPopulationsUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102931,7 +103054,8 @@ export const deleteAccessUsersMfaAuthenticator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteAccessUsersMfaAuthenticatorRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteAccessUsersMfaAuthenticatorResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102948,7 +103072,8 @@ export const deleteAccessUsersPasskey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeleteAccessUsersPasskeyRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteAccessUsersPasskeyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102965,7 +103090,8 @@ export const deleteCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeleteCasbIntegrationRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102982,7 +103108,8 @@ export const deleteCasbPostureFindingType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeleteCasbPostureFindingTypeRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteCasbPostureFindingTypeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102999,7 +103126,8 @@ export const deleteCasbPosturePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DeleteCasbPosturePolicyRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCasbPosturePolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103016,7 +103144,8 @@ export const deleteCasbPostureWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DeleteCasbPostureWebhookRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteCasbPostureWebhookResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103033,7 +103162,8 @@ export const deleteCwsBasicAuthCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeleteCwsBasicAuthCredentialsRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsBasicAuthCredentialsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103050,7 +103180,8 @@ export const deleteCwsBasicAuthCredentialsSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DeleteCwsBasicAuthCredentialsSecretRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsBasicAuthCredentialsSecretResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103067,7 +103198,8 @@ export const deleteCwsDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeleteCwsDeploymentRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsDeploymentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103084,7 +103216,8 @@ export const deleteCwsDomainAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteCwsDomainAclRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsDomainAclResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103101,7 +103234,8 @@ export const deleteCwsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteCwsPolicyRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103118,7 +103252,8 @@ export const deleteCwsPolicySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteCwsPolicySetRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsPolicySetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103135,7 +103270,8 @@ export const deleteCwsRegoMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteCwsRegoMetadataRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsRegoMetadataResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103152,7 +103288,8 @@ export const deleteCwsRegoModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteCwsRegoModuleRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsRegoModuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103169,7 +103306,8 @@ export const deleteCwsTenantStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteCwsTenantStructureRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsTenantStructureResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103186,7 +103324,8 @@ export const deleteCwsTenantStructuresNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteCwsTenantStructuresNodeRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsTenantStructuresNodeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103203,7 +103342,8 @@ export const deleteCwsWorkload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteCwsWorkloadRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<DeleteCwsWorkloadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103220,7 +103360,8 @@ export const deleteDeviceDeploymentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteDeviceDeploymentGroupRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteDeviceDeploymentGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103237,7 +103378,8 @@ export const deleteDeviceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteDeviceDevicesRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDeviceDevicesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103254,7 +103396,8 @@ export const deleteDeviceDexTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteDeviceDexTestRequest>,
   output: __S(5665, __c177, 1) as any as S.Schema<DeleteDeviceDexTestResponse>,
-  errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DexTestNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103271,7 +103414,8 @@ export const deleteDeviceIpProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteDeviceIpProfileRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteDeviceIpProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103290,7 +103434,8 @@ export const deleteDeviceNetwork: API.PaginatedOperationMethod<
   () => ({
     input: __S(5760, __c180, 0) as any as S.Schema<DeleteDeviceNetworkRequest>,
     output: __S(5794, __c181, 2) as any as S.Schema<DeleteDeviceNetworkResponse>,
-    errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DeviceNetworkNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -103312,7 +103457,8 @@ export const deleteDevicePolicyCustom: API.PaginatedOperationMethod<
   () => ({
     input: __S(5824, __c182, 0) as any as S.Schema<DeleteDevicePolicyCustomRequest>,
     output: __S(5831, __c182, 7) as any as S.Schema<DeleteDevicePolicyCustomResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -103332,7 +103478,8 @@ export const deleteDevicePosture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteDevicePostureRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteDevicePostureResponse>,
-  errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [PostureRuleNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103352,7 +103499,8 @@ export const deleteDevicePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteDevicePostureIntegrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDevicePostureIntegrationResponse>,
-  errors: [DevicePostureIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DevicePostureIntegrationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103369,7 +103517,8 @@ export const deleteDeviceRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<DeleteDeviceRegistrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDeviceRegistrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103386,7 +103535,8 @@ export const deleteDeviceSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteDeviceSettingRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<DeleteDeviceSettingResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103403,7 +103553,8 @@ export const deleteDexRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteDexRuleRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<DeleteDexRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103420,7 +103571,8 @@ export const deleteDlpCustomEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteDlpCustomEntryRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpCustomEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103437,7 +103589,8 @@ export const deleteDlpCustomPromptTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DeleteDlpCustomPromptTopicRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpCustomPromptTopicResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103454,7 +103607,8 @@ export const deleteDlpDataClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<DeleteDlpDataClassRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpDataClassResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103471,7 +103625,8 @@ export const deleteDlpDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<DeleteDlpDatasetRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteDlpDatasetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103488,7 +103643,8 @@ export const deleteDlpDataTagCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteDlpDataTagCategoryRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpDataTagCategoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103505,7 +103661,8 @@ export const deleteDlpDataTagCategoryDataTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteDlpDataTagCategoryDataTagRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpDataTagCategoryDataTagResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103522,7 +103679,8 @@ export const deleteDlpEmailRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteDlpEmailRuleRequest>,
   output: __S(6276, __c196, 4) as any as S.Schema<DeleteDlpEmailRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103539,7 +103697,8 @@ export const deleteDlpEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteDlpEntryRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpEntryResponse>,
-  errors: [DlpEntryNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [DlpEntryNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103556,7 +103715,8 @@ export const deleteDlpEntryIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteDlpEntryIntegrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpEntryIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103573,7 +103733,8 @@ export const deleteDlpEntryPredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteDlpEntryPredefinedRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpEntryPredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103590,7 +103751,8 @@ export const deleteDlpProfileCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteDlpProfileCustomRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpProfileCustomResponse>,
-  errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DlpProfileNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103607,7 +103769,8 @@ export const deleteDlpProfilePredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteDlpProfilePredefinedRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpProfilePredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103624,7 +103787,8 @@ export const deleteDlpSensitivityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DeleteDlpSensitivityGroupRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpSensitivityGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103641,7 +103805,8 @@ export const deleteDlpSensitivityGroupLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DeleteDlpSensitivityGroupLevelRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpSensitivityGroupLevelResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103658,7 +103823,8 @@ export const deleteDlpSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<DeleteDlpSettingRequest>,
   output: __S(6561, __c205, 1) as any as S.Schema<DeleteDlpSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103675,7 +103841,8 @@ export const deleteDlpValidatorsProximityWord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteDlpValidatorsProximityWordRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteDlpValidatorsProximityWordResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103695,12 +103862,8 @@ export const deleteGatewayCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<DeleteGatewayCertificateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<DeleteGatewayCertificateResponse>,
-  errors: [
-    GatewayCertificateNotFound,
-    GatewayCertificateInUse,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [GatewayCertificateNotFound, GatewayCertificateInUse],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103717,7 +103880,8 @@ export const deleteGatewayList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<DeleteGatewayListRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteGatewayListResponse>,
-  errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayListNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103738,13 +103902,8 @@ export const deleteGatewayLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<DeleteGatewayLocationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteGatewayLocationResponse>,
-  errors: [
-    GatewayLocationNotFound,
-    CannotDeleteDefaultGatewayLocation,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [GatewayLocationNotFound, CannotDeleteDefaultGatewayLocation, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103761,7 +103920,8 @@ export const deleteGatewayPacfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<DeleteGatewayPacfileRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteGatewayPacfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103778,7 +103938,8 @@ export const deleteGatewayProxyEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<DeleteGatewayProxyEndpointRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteGatewayProxyEndpointResponse>,
-  errors: [ProxyEndpointNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [ProxyEndpointNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103795,7 +103956,8 @@ export const deleteGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteGatewayRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103814,7 +103976,8 @@ export const deleteIdentityProviderForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<DeleteIdentityProviderForAccountRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103831,7 +103994,8 @@ export const deleteIdentityProviderForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<DeleteIdentityProviderForZoneRequest>,
   output: __S(4288, __c134, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103848,7 +104012,8 @@ export const deleteIdentityProvidersScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<DeleteIdentityProvidersScimGroupRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteIdentityProvidersScimGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103865,7 +104030,8 @@ export const deleteIdentityProvidersScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<DeleteIdentityProvidersScimUserRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<DeleteIdentityProvidersScimUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103882,7 +104048,8 @@ export const deleteNetworkHostnameRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<DeleteNetworkHostnameRouteRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<DeleteNetworkHostnameRouteResponse>,
-  errors: [HostnameRouteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [HostnameRouteNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103899,7 +104066,8 @@ export const deleteNetworkRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<DeleteNetworkRouteRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<DeleteNetworkRouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103916,7 +104084,8 @@ export const deleteNetworkRouteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<DeleteNetworkRouteNetworkRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<DeleteNetworkRouteNetworkResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103933,7 +104102,8 @@ export const deleteNetworkSubnetWarp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<DeleteNetworkSubnetWarpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<DeleteNetworkSubnetWarpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103953,7 +104123,8 @@ export const deleteNetworkVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteNetworkVirtualNetworkRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<DeleteNetworkVirtualNetworkResponse>,
-  errors: [VirtualNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [VirtualNetworkNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103970,7 +104141,8 @@ export const deleteOrganizationsTrustSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteOrganizationsTrustSettingsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<DeleteOrganizationsTrustSettingsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103987,7 +104159,8 @@ export const deleteResourceLibraryApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<DeleteResourceLibraryApplicationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteResourceLibraryApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104007,7 +104180,8 @@ export const deleteRiskScoringIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<DeleteRiskScoringIntegrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteRiskScoringIntegrationResponse>,
-  errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RiskScoringIntegrationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104024,7 +104198,8 @@ export const deleteTunnelCloudflared: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<DeleteTunnelCloudflaredRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<DeleteTunnelCloudflaredResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104041,7 +104216,8 @@ export const deleteTunnelCloudflaredConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<DeleteTunnelCloudflaredConnectionRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<DeleteTunnelCloudflaredConnectionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104058,7 +104234,8 @@ export const deleteTunnelWarpConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<DeleteTunnelWarpConnectorRequest>,
   output: __S(7297, __c228, 1) as any as S.Schema<DeleteTunnelWarpConnectorResponse>,
-  errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104075,7 +104252,8 @@ export const editDlpDatasetUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<EditDlpDatasetUploadRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<EditDlpDatasetUploadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104092,7 +104270,8 @@ export const exportCasbPostureContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7396, __c231, 4) as any as S.Schema<ExportCasbPostureContentRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ExportCasbPostureContentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104109,7 +104288,8 @@ export const exportCasbPostureFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<ExportCasbPostureFindingRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ExportCasbPostureFindingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104126,7 +104306,8 @@ export const exportCasbPostureFindingsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<ExportCasbPostureFindingsInstanceRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ExportCasbPostureFindingsInstanceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104143,7 +104324,8 @@ export const exportCasbPostureRemediationsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<ExportCasbPostureRemediationsJobRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ExportCasbPostureRemediationsJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104160,7 +104342,8 @@ export const getAccessApplicationCaForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetAccessApplicationCaForAccountRequest>,
   output: __S(22720, __c710, 0) as any as S.Schema<GetAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104177,7 +104360,8 @@ export const getAccessApplicationCaForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetAccessApplicationCaForZoneRequest>,
   output: __S(22720, __c710, 0) as any as S.Schema<GetAccessApplicationCaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104197,7 +104381,8 @@ export const getAccessApplicationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetAccessApplicationForAccountRequest>,
   output: __S(7681, __c240, 1) as any as S.Schema<GetAccessApplicationResponse>,
-  errors: [Forbidden, AccessApplicationNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden, AccessApplicationNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104214,7 +104399,8 @@ export const getAccessApplicationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetAccessApplicationForZoneRequest>,
   output: __S(7681, __c240, 1) as any as S.Schema<GetAccessApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104231,7 +104417,8 @@ export const getAccessApplicationPolicyForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<GetAccessApplicationPolicyForAccountRequest>,
   output: __S(7746, __c242, 2) as any as S.Schema<GetAccessApplicationPolicyForAccountResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104248,7 +104435,8 @@ export const getAccessApplicationPolicyForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetAccessApplicationPolicyForZoneRequest>,
   output: __S(7778, __c243, 2) as any as S.Schema<GetAccessApplicationPolicyForZoneResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104265,7 +104453,8 @@ export const getAccessApplicationPolicyTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetAccessApplicationPolicyTestRequest>,
   output: __S(7809, __c244, 1) as any as S.Schema<GetAccessApplicationPolicyTestResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104282,7 +104471,8 @@ export const getAccessBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<GetAccessBookmarkRequest>,
   output: __S(23936, __c748, 0) as any as S.Schema<GetAccessBookmarkResponse>,
-  errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessBookmarkNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104299,7 +104489,8 @@ export const getAccessCertificateForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetAccessCertificateForAccountRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<GetAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104316,7 +104507,8 @@ export const getAccessCertificateForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetAccessCertificateForZoneRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<GetAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104335,7 +104527,8 @@ export const getAccessCertificateSettingForAccount: API.PaginatedOperationMethod
   () => ({
     input: __S(7936, __c248, 0) as any as S.Schema<GetAccessCertificateSettingForAccountRequest>,
     output: __S(7970, __c249, 2) as any as S.Schema<GetAccessCertificateSettingResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -104357,7 +104550,8 @@ export const getAccessCertificateSettingForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(8000, __c250, 0) as any as S.Schema<GetAccessCertificateSettingForZoneRequest>,
     output: __S(7970, __c249, 2) as any as S.Schema<GetAccessCertificateSettingResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -104377,7 +104571,8 @@ export const getAccessCustomPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetAccessCustomPageRequest>,
   output: __S(8033, __c251, 1) as any as S.Schema<GetAccessCustomPageResponse>,
-  errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCustomPageNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104394,7 +104589,8 @@ export const getAccessGroupForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetAccessGroupForAccountRequest>,
   output: __S(8102, __c253, 6) as any as S.Schema<GetAccessGroupResponse>,
-  errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104411,7 +104607,8 @@ export const getAccessGroupForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetAccessGroupForZoneRequest>,
   output: __S(8102, __c253, 6) as any as S.Schema<GetAccessGroupResponse>,
-  errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104428,7 +104625,8 @@ export const getAccessIdpFederationGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<GetAccessIdpFederationGrantRequest>,
   output: __S(24320, __c760, 0) as any as S.Schema<GetAccessIdpFederationGrantResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104445,7 +104643,8 @@ export const getAccessInfrastructureTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetAccessInfrastructureTargetRequest>,
   output: __S(24384, __c762, 0) as any as S.Schema<GetAccessInfrastructureTargetResponse>,
-  errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TargetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104462,7 +104661,8 @@ export const getAccessKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<GetAccessKeyRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<GetAccessKeyResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104479,7 +104679,8 @@ export const getAccessLogsJitRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<GetAccessLogsJitRequestRequest>,
   output: __S(8291, __c259, 3) as any as S.Schema<GetAccessLogsJitRequestResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104496,7 +104697,8 @@ export const getAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetAccessPolicyRequest>,
   output: __S(8327, __c260, 7) as any as S.Schema<GetAccessPolicyResponse>,
-  errors: [AccessPolicyNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessPolicyNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104513,7 +104715,8 @@ export const getAccessSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetAccessSamlCertificateRequest>,
   output: __S(3232, __c101, 0) as any as S.Schema<GetAccessSamlCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104530,7 +104733,8 @@ export const getAccessServiceTokenForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetAccessServiceTokenForAccountRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<GetAccessServiceTokenResponse>,
-  errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessServiceTokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104547,7 +104751,8 @@ export const getAccessServiceTokenForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<GetAccessServiceTokenForZoneRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<GetAccessServiceTokenResponse>,
-  errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessServiceTokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104564,7 +104769,8 @@ export const getAccessTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetAccessTagRequest>,
   output: __S(24640, __c770, 0) as any as S.Schema<GetAccessTagResponse>,
-  errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessTagNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104581,7 +104787,8 @@ export const getAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetAccessUserRequest>,
   output: __S(24704, __c772, 0) as any as S.Schema<GetAccessUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104598,7 +104805,8 @@ export const getAccessUserActiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetAccessUserActiveSessionRequest>,
   output: __S(8545, __c267, 1) as any as S.Schema<GetAccessUserActiveSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104615,7 +104823,8 @@ export const getAccessUserLastSeenIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<GetAccessUserLastSeenIdentityRequest>,
   output: __S(8643, __c270, 3) as any as S.Schema<GetAccessUserLastSeenIdentityResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104632,7 +104841,8 @@ export const getAccessUserPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetAccessUserPopulationRequest>,
   output: __S(24768, __c774, 0) as any as S.Schema<GetAccessUserPopulationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104649,7 +104859,8 @@ export const getAccessUserPopulationsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetAccessUserPopulationsUserRequest>,
   output: __S(24896, __c778, 0) as any as S.Schema<GetAccessUserPopulationsUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104666,7 +104877,8 @@ export const getCasbApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetCasbApplicationRequest>,
   output: __S(8743, __c273, 7) as any as S.Schema<GetCasbApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104683,7 +104895,8 @@ export const getCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetCasbIntegrationRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<GetCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104700,7 +104913,8 @@ export const getCasbPostureAssetSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetCasbPostureAssetSchemaRequest>,
   output: __S(8833, __c276, 1) as any as S.Schema<GetCasbPostureAssetSchemaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104717,7 +104931,8 @@ export const getCasbPostureExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetCasbPostureExportRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<GetCasbPostureExportResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104734,7 +104949,8 @@ export const getCasbPostureFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetCasbPostureFindingRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<GetCasbPostureFindingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104751,7 +104967,8 @@ export const getCasbPostureFindingsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<GetCasbPostureFindingsInstanceRequest>,
   output: __S(16640, __c520, 0) as any as S.Schema<GetCasbPostureFindingsInstanceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104768,7 +104985,8 @@ export const getCasbPostureFindingType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<GetCasbPostureFindingTypeRequest>,
   output: __S(8961, __c280, 1) as any as S.Schema<GetCasbPostureFindingTypeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104785,7 +105003,8 @@ export const getCasbPosturePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetCasbPosturePolicyRequest>,
   output: __S(25152, __c786, 0) as any as S.Schema<GetCasbPosturePolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104802,7 +105021,8 @@ export const getCasbPostureWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetCasbPostureWebhookRequest>,
   output: __S(25344, __c792, 0) as any as S.Schema<GetCasbPostureWebhookResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104819,7 +105039,8 @@ export const getConnectivitySetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<GetConnectivitySettingRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<GetConnectivitySettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104836,7 +105057,8 @@ export const getCwsBasicAuthCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetCwsBasicAuthCredentialsRequest>,
   output: __S(25440, __c795, 0) as any as S.Schema<GetCwsBasicAuthCredentialsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104853,7 +105075,8 @@ export const getCwsBasicAuthCredentialsSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetCwsBasicAuthCredentialsSecretRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<GetCwsBasicAuthCredentialsSecretResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104870,7 +105093,8 @@ export const getCwsDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetCwsDeploymentRequest>,
   output: __S(25568, __c799, 0) as any as S.Schema<GetCwsDeploymentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104887,7 +105111,8 @@ export const getCwsDomainAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetCwsDomainAclRequest>,
   output: __S(25664, __c802, 0) as any as S.Schema<GetCwsDomainAclResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104904,7 +105129,8 @@ export const getCwsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetCwsPolicyRequest>,
   output: __S(25728, __c804, 0) as any as S.Schema<GetCwsPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104921,7 +105147,8 @@ export const getCwsPolicySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetCwsPolicySetRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<GetCwsPolicySetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104938,7 +105165,8 @@ export const getCwsRegoMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<GetCwsRegoMetadataRequest>,
   output: __S(25920, __c810, 0) as any as S.Schema<GetCwsRegoMetadataResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104955,7 +105183,8 @@ export const getCwsRegoModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<GetCwsRegoModuleRequest>,
   output: __S(25984, __c812, 0) as any as S.Schema<GetCwsRegoModuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104972,7 +105201,8 @@ export const getCwsTenantStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<GetCwsTenantStructureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCwsTenantStructureResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104989,7 +105219,8 @@ export const getCwsTenantStructuresNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetCwsTenantStructuresNodeRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetCwsTenantStructuresNodeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105006,7 +105237,8 @@ export const getCwsWorkload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetCwsWorkloadRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetCwsWorkloadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105023,7 +105255,8 @@ export const getDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(9474, __c296, 2) as any as S.Schema<GetDeviceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105040,7 +105273,8 @@ export const getDeviceDeploymentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetDeviceDeploymentGroupRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<GetDeviceDeploymentGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105057,7 +105291,8 @@ export const getDeviceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<GetDeviceDevicesRequest>,
   output: __S(9569, __c299, 1) as any as S.Schema<GetDeviceDevicesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105074,7 +105309,8 @@ export const getDeviceDexTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<GetDeviceDexTestRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<GetDeviceDexTestResponse>,
-  errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DexTestNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105091,7 +105327,8 @@ export const getDeviceFleetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetDeviceFleetStatusRequest>,
   output: __S(9697, __c303, 1) as any as S.Schema<GetDeviceFleetStatusResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105108,7 +105345,8 @@ export const getDeviceIpProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetDeviceIpProfileRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GetDeviceIpProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105125,7 +105363,8 @@ export const getDeviceNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetDeviceNetworkRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<GetDeviceNetworkResponse>,
-  errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DeviceNetworkNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105142,7 +105381,8 @@ export const getDeviceOverrideCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetDeviceOverrideCodeRequest>,
   output: __S(9857, __c308, 1) as any as S.Schema<GetDeviceOverrideCodeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105159,7 +105399,8 @@ export const getDevicePolicyCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<GetDevicePolicyCustomRequest>,
   output: __S(9893, __c309, 5) as any as S.Schema<GetDevicePolicyCustomResponse>,
-  errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DevicePolicyNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105181,7 +105422,8 @@ export const getDevicePolicyCustomExclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(9920, __c310, 0) as any as S.Schema<GetDevicePolicyCustomExcludeRequest>,
     output: __S(9923, __c310, 3) as any as S.Schema<GetDevicePolicyCustomExcludeResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105206,7 +105448,8 @@ export const getDevicePolicyCustomFallbackDomain: API.PaginatedOperationMethod<
   () => ({
     input: __S(9952, __c311, 0) as any as S.Schema<GetDevicePolicyCustomFallbackDomainRequest>,
     output: __S(9984, __c312, 0) as any as S.Schema<GetDevicePolicyCustomFallbackDomainResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105231,7 +105474,8 @@ export const getDevicePolicyCustomInclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(10016, __c313, 0) as any as S.Schema<GetDevicePolicyCustomIncludeRequest>,
     output: __S(10019, __c313, 3) as any as S.Schema<GetDevicePolicyCustomIncludeResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105251,7 +105495,8 @@ export const getDevicePolicyDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<GetDevicePolicyDefaultRequest>,
   output: __S(10053, __c314, 5) as any as S.Schema<GetDevicePolicyDefaultResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105268,7 +105513,8 @@ export const getDevicePolicyDefaultCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<GetDevicePolicyDefaultCertificateRequest>,
   output: __S(10112, __c316, 0) as any as S.Schema<GetDevicePolicyDefaultCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105287,7 +105533,8 @@ export const getDevicePolicyDefaultExclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(10144, __c317, 0) as any as S.Schema<GetDevicePolicyDefaultExcludeRequest>,
     output: __S(10147, __c317, 3) as any as S.Schema<GetDevicePolicyDefaultExcludeResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105309,7 +105556,8 @@ export const getDevicePolicyDefaultFallbackDomain: API.PaginatedOperationMethod<
   () => ({
     input: __S(10176, __c318, 0) as any as S.Schema<GetDevicePolicyDefaultFallbackDomainRequest>,
     output: __S(9984, __c312, 0) as any as S.Schema<GetDevicePolicyDefaultFallbackDomainResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105331,7 +105579,8 @@ export const getDevicePolicyDefaultInclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(10208, __c319, 0) as any as S.Schema<GetDevicePolicyDefaultIncludeRequest>,
     output: __S(10211, __c319, 3) as any as S.Schema<GetDevicePolicyDefaultIncludeResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -105351,7 +105600,8 @@ export const getDevicePosture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetDevicePostureRequest>,
   output: __S(10242, __c320, 2) as any as S.Schema<GetDevicePostureResponse>,
-  errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [PostureRuleNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105371,7 +105621,8 @@ export const getDevicePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<GetDevicePostureIntegrationRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<GetDevicePostureIntegrationResponse>,
-  errors: [DevicePostureIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DevicePostureIntegrationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105388,7 +105639,8 @@ export const getDeviceRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<GetDeviceRegistrationRequest>,
   output: __S(10305, __c322, 1) as any as S.Schema<GetDeviceRegistrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105405,7 +105657,8 @@ export const getDeviceResilienceGlobalWarpOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetDeviceResilienceGlobalWarpOverrideRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<GetDeviceResilienceGlobalWarpOverrideResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105422,7 +105675,8 @@ export const getDeviceSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetDeviceSettingRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<GetDeviceSettingResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105439,7 +105693,8 @@ export const getDexCommandDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<GetDexCommandDownloadRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<GetDexCommandDownloadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105456,7 +105711,8 @@ export const getDexCommandQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<GetDexCommandQuotaRequest>,
   output: __S(10465, __c327, 1) as any as S.Schema<GetDexCommandQuotaResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105473,7 +105729,8 @@ export const getDexHttpTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<GetDexHttpTestRequest>,
   output: __S(10502, __c328, 6) as any as S.Schema<GetDexHttpTestResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105490,7 +105747,8 @@ export const getDexHttpTestPercentile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<GetDexHttpTestPercentileRequest>,
   output: __S(10593, __c331, 1) as any as S.Schema<GetDexHttpTestPercentileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105507,7 +105765,8 @@ export const getDexRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetDexRuleRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<GetDexRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105524,7 +105783,8 @@ export const getDexTracerouteTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetDexTracerouteTestRequest>,
   output: __S(10692, __c334, 4) as any as S.Schema<GetDexTracerouteTestResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105541,7 +105801,8 @@ export const getDexTracerouteTestResultNetworkPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetDexTracerouteTestResultNetworkPathRequest>,
   output: __S(10724, __c335, 4) as any as S.Schema<GetDexTracerouteTestResultNetworkPathResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105558,7 +105819,8 @@ export const getDexWarpChangeEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<GetDexWarpChangeEventRequest>,
   output: __S(10755, __c336, 3) as any as S.Schema<GetDexWarpChangeEventResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105575,7 +105837,8 @@ export const getDlpCustomEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<GetDlpCustomEntryRequest>,
   output: __S(10786, __c337, 2) as any as S.Schema<GetDlpCustomEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105592,7 +105855,8 @@ export const getDlpCustomPromptTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<GetDlpCustomPromptTopicRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<GetDlpCustomPromptTopicResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105609,7 +105873,8 @@ export const getDlpDataClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<GetDlpDataClassRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<GetDlpDataClassResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105626,7 +105891,8 @@ export const getDlpDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<GetDlpDatasetRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GetDlpDatasetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105643,7 +105909,8 @@ export const getDlpDataTagCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<GetDlpDataTagCategoryRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<GetDlpDataTagCategoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105660,7 +105927,8 @@ export const getDlpDataTagCategoryDataTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<GetDlpDataTagCategoryDataTagRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetDlpDataTagCategoryDataTagResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105677,7 +105945,8 @@ export const getDlpEmailAccountMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<GetDlpEmailAccountMappingRequest>,
   output: __S(10978, __c343, 2) as any as S.Schema<GetDlpEmailAccountMappingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105694,7 +105963,8 @@ export const getDlpEmailRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<GetDlpEmailRuleRequest>,
   output: __S(11012, __c344, 4) as any as S.Schema<GetDlpEmailRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105711,7 +105981,8 @@ export const getDlpEntriesIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<GetDlpEntriesIntegrationRequest>,
   output: __S(11042, __c345, 2) as any as S.Schema<GetDlpEntriesIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105728,7 +105999,8 @@ export const getDlpEntriesPredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<GetDlpEntriesPredefinedRequest>,
   output: __S(11074, __c346, 2) as any as S.Schema<GetDlpEntriesPredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105745,7 +106017,8 @@ export const getDlpEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<GetDlpEntryRequest>,
   output: __S(11106, __c347, 2) as any as S.Schema<GetDlpEntryResponse>,
-  errors: [DlpEntryNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [DlpEntryNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105762,7 +106035,8 @@ export const getDlpPayloadLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<GetDlpPayloadLogRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetDlpPayloadLogResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105779,7 +106053,8 @@ export const getDlpProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<GetDlpProfileRequest>,
   output: __S(11202, __c350, 2) as any as S.Schema<GetDlpProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105796,7 +106071,8 @@ export const getDlpProfileCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<GetDlpProfileCustomRequest>,
   output: __S(11234, __c351, 2) as any as S.Schema<GetDlpProfileCustomResponse>,
-  errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DlpProfileNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105813,7 +106089,8 @@ export const getDlpProfilePredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<GetDlpProfilePredefinedRequest>,
   output: __S(11267, __c352, 3) as any as S.Schema<GetDlpProfilePredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105830,7 +106107,8 @@ export const getDlpSensitivityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<GetDlpSensitivityGroupRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<GetDlpSensitivityGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105847,7 +106125,8 @@ export const getDlpSensitivityGroupLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<GetDlpSensitivityGroupLevelRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetDlpSensitivityGroupLevelResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105864,7 +106143,8 @@ export const getDlpSensitivityGroupLevelOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<GetDlpSensitivityGroupLevelOrderRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<GetDlpSensitivityGroupLevelOrderResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105881,7 +106161,8 @@ export const getDlpSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<GetDlpSettingRequest>,
   output: __S(6561, __c205, 1) as any as S.Schema<GetDlpSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105898,7 +106179,8 @@ export const getDlpValidator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<GetDlpValidatorRequest>,
   output: __S(11458, __c358, 2) as any as S.Schema<GetDlpValidatorResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105915,7 +106197,8 @@ export const getDlpValidatorsProximityWord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<GetDlpValidatorsProximityWordRequest>,
   output: __S(2341, __c73, 5) as any as S.Schema<GetDlpValidatorsProximityWordResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105932,7 +106215,8 @@ export const getGatewayAuditSshSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<GetGatewayAuditSshSettingRequest>,
   output: __S(11552, __c361, 0) as any as S.Schema<GetGatewayAuditSshSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105949,7 +106233,8 @@ export const getGatewayCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<GetGatewayCertificateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<GetGatewayCertificateResponse>,
-  errors: [GatewayCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayCertificateNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105966,7 +106251,8 @@ export const getGatewayConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<GetGatewayConfigurationRequest>,
   output: __S(11658, __c364, 10) as any as S.Schema<GetGatewayConfigurationResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105987,7 +106273,8 @@ export const getGatewayConfigurationCustomCertificate: API.OperationMethod<
     __c536,
     0,
   ) as any as S.Schema<GetGatewayConfigurationCustomCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106004,7 +106291,8 @@ export const getGatewayList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<GetGatewayListRequest>,
   output: __S(11744, __c367, 0) as any as S.Schema<GetGatewayListResponse>,
-  errors: [GatewayListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayListNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106021,7 +106309,8 @@ export const getGatewayLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetGatewayLocationRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<GetGatewayLocationResponse>,
-  errors: [GatewayLocationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayLocationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106038,7 +106327,8 @@ export const getGatewayLogging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<GetGatewayLoggingRequest>,
   output: __S(11842, __c370, 2) as any as S.Schema<GetGatewayLoggingResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106055,7 +106345,8 @@ export const getGatewayPacfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetGatewayPacfileRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<GetGatewayPacfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106072,7 +106363,8 @@ export const getGatewayProxyEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<GetGatewayProxyEndpointRequest>,
   output: __S(11906, __c372, 2) as any as S.Schema<GetGatewayProxyEndpointResponse>,
-  errors: [ProxyEndpointNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [ProxyEndpointNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106089,7 +106381,8 @@ export const getGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<GetGatewayRuleRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<GetGatewayRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106109,7 +106402,8 @@ export const getIdentityProviderForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetIdentityProviderForAccountRequest>,
   output: __S(12001, __c375, 1) as any as S.Schema<GetIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106129,7 +106423,8 @@ export const getIdentityProviderForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<GetIdentityProviderForZoneRequest>,
   output: __S(12001, __c375, 1) as any as S.Schema<GetIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106146,7 +106441,8 @@ export const getIdentityProvidersScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetIdentityProvidersScimGroupRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<GetIdentityProvidersScimGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106163,7 +106459,8 @@ export const getIdentityProvidersScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<GetIdentityProvidersScimUserRequest>,
   output: __S(12129, __c379, 1) as any as S.Schema<GetIdentityProvidersScimUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106180,7 +106477,8 @@ export const getNetworkHostnameRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<GetNetworkHostnameRouteRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<GetNetworkHostnameRouteResponse>,
-  errors: [HostnameRouteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [HostnameRouteNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106197,7 +106495,8 @@ export const getNetworkRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<GetNetworkRouteRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<GetNetworkRouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106214,7 +106513,8 @@ export const getNetworkRouteIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<GetNetworkRouteIpRequest>,
   output: __S(12225, __c382, 1) as any as S.Schema<GetNetworkRouteIpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106231,7 +106531,8 @@ export const getNetworksSubnetsInitialResolvedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<GetNetworksSubnetsInitialResolvedIpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<GetNetworksSubnetsInitialResolvedIpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106248,7 +106549,8 @@ export const getNetworkSubnetWarp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<GetNetworkSubnetWarpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<GetNetworkSubnetWarpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106265,7 +106567,8 @@ export const getNetworkVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<GetNetworkVirtualNetworkRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<GetNetworkVirtualNetworkResponse>,
-  errors: [VirtualNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [VirtualNetworkNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106282,7 +106585,8 @@ export const getOrganizationDoh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<GetOrganizationDohRequest>,
   output: __S(12384, __c387, 0) as any as S.Schema<GetOrganizationDohResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106299,7 +106603,8 @@ export const getOrganizationsTrustSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<GetOrganizationsTrustSettingsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<GetOrganizationsTrustSettingsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106316,7 +106621,8 @@ export const getPemAccessSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<GetPemAccessSamlCertificateRequest>,
   output: __S(17152, __c536, 0) as any as S.Schema<GetPemAccessSamlCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106333,7 +106639,8 @@ export const getResourceLibraryApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<GetResourceLibraryApplicationRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<GetResourceLibraryApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106350,7 +106657,8 @@ export const getResourceLibraryCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<GetResourceLibraryCategoryRequest>,
   output: __S(12513, __c391, 1) as any as S.Schema<GetResourceLibraryCategoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106367,7 +106675,8 @@ export const getRiskScoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<GetRiskScoringRequest>,
   output: __S(12547, __c392, 3) as any as S.Schema<GetRiskScoringResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106384,7 +106693,8 @@ export const getRiskScoringBehaviour: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<GetRiskScoringBehaviourRequest>,
   output: __S(12579, __c393, 3) as any as S.Schema<GetRiskScoringBehaviourResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106404,7 +106714,8 @@ export const getRiskScoringIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<GetRiskScoringIntegrationRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<GetRiskScoringIntegrationResponse>,
-  errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RiskScoringIntegrationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106421,7 +106732,8 @@ export const getRiskScoringIntegrationReference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<GetRiskScoringIntegrationReferenceRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<GetRiskScoringIntegrationReferenceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106438,7 +106750,8 @@ export const getRiskScoringSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<GetRiskScoringSummaryRequest>,
   output: __S(12675, __c396, 3) as any as S.Schema<GetRiskScoringSummaryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106455,7 +106768,8 @@ export const getTunnelCloudflared: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<GetTunnelCloudflaredRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<GetTunnelCloudflaredResponse>,
-  errors: [TunnelNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106474,7 +106788,8 @@ export const getTunnelCloudflaredConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<GetTunnelCloudflaredConfigurationRequest>,
   output: __S(12773, __c399, 5) as any as S.Schema<GetTunnelCloudflaredConfigurationResponse>,
-  errors: [TunnelConfigurationNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelConfigurationNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106493,7 +106808,8 @@ export const getTunnelCloudflaredConnection: API.PaginatedOperationMethod<
   () => ({
     input: __S(12800, __c400, 0) as any as S.Schema<GetTunnelCloudflaredConnectionRequest>,
     output: __S(12803, __c400, 3) as any as S.Schema<GetTunnelCloudflaredConnectionResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106513,7 +106829,8 @@ export const getTunnelCloudflaredConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<GetTunnelCloudflaredConnectorRequest>,
   output: __S(12833, __c401, 1) as any as S.Schema<GetTunnelCloudflaredConnectorResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106530,7 +106847,8 @@ export const getTunnelCloudflaredToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<GetTunnelCloudflaredTokenRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<GetTunnelCloudflaredTokenResponse>,
-  errors: [TunnelTokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelTokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106547,7 +106865,8 @@ export const getTunnelWarpConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<GetTunnelWarpConnectorRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<GetTunnelWarpConnectorResponse>,
-  errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106564,7 +106883,8 @@ export const getTunnelWarpConnectorConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<GetTunnelWarpConnectorConfigurationRequest>,
   output: __S(12930, __c404, 2) as any as S.Schema<GetTunnelWarpConnectorConfigurationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106583,7 +106903,8 @@ export const getTunnelWarpConnectorConnection: API.PaginatedOperationMethod<
   () => ({
     input: __S(12960, __c405, 0) as any as S.Schema<GetTunnelWarpConnectorConnectionRequest>,
     output: __S(12963, __c405, 3) as any as S.Schema<GetTunnelWarpConnectorConnectionResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106603,7 +106924,8 @@ export const getTunnelWarpConnectorConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<GetTunnelWarpConnectorConnectorRequest>,
   output: __S(13025, __c407, 1) as any as S.Schema<GetTunnelWarpConnectorConnectorResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106620,7 +106942,8 @@ export const getTunnelWarpConnectorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<GetTunnelWarpConnectorTokenRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<GetTunnelWarpConnectorTokenResponse>,
-  errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106639,7 +106962,8 @@ export const listAccessAiControlMcpPortals: API.PaginatedOperationMethod<
   () => ({
     input: __S(13088, __c409, 0) as any as S.Schema<ListAccessAiControlMcpPortalsRequest>,
     output: __S(13091, __c409, 3) as any as S.Schema<ListAccessAiControlMcpPortalsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106667,7 +106991,8 @@ export const listAccessAiControlMcpServers: API.PaginatedOperationMethod<
   () => ({
     input: __S(13120, __c410, 0) as any as S.Schema<ListAccessAiControlMcpServersRequest>,
     output: __S(13123, __c410, 3) as any as S.Schema<ListAccessAiControlMcpServersResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106695,7 +107020,8 @@ export const listAccessApplicationCasForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(13152, __c411, 0) as any as S.Schema<ListAccessApplicationCasForAccountRequest>,
     output: __S(13186, __c412, 2) as any as S.Schema<ListAccessApplicationCasResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106723,7 +107049,8 @@ export const listAccessApplicationCasForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(13216, __c413, 0) as any as S.Schema<ListAccessApplicationCasForZoneRequest>,
     output: __S(13186, __c412, 2) as any as S.Schema<ListAccessApplicationCasResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106755,7 +107082,8 @@ export const listAccessApplicationPoliciesForAccount: API.PaginatedOperationMeth
       __c414,
       3,
     ) as any as S.Schema<ListAccessApplicationPoliciesForAccountResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106783,7 +107111,8 @@ export const listAccessApplicationPoliciesForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(13280, __c415, 0) as any as S.Schema<ListAccessApplicationPoliciesForZoneRequest>,
     output: __S(13283, __c415, 3) as any as S.Schema<ListAccessApplicationPoliciesForZoneResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106811,7 +107140,8 @@ export const listAccessApplicationPolicyTestUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(13312, __c416, 0) as any as S.Schema<ListAccessApplicationPolicyTestUsersRequest>,
     output: __S(13315, __c416, 3) as any as S.Schema<ListAccessApplicationPolicyTestUsersResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106839,7 +107169,8 @@ export const listAccessApplicationsForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(13344, __c417, 0) as any as S.Schema<ListAccessApplicationsForAccountRequest>,
     output: __S(13378, __c418, 2) as any as S.Schema<ListAccessApplicationsResponse>,
-    errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
+    errors: [AccessReferenceNotFound],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106867,7 +107198,8 @@ export const listAccessApplicationsForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(13408, __c419, 0) as any as S.Schema<ListAccessApplicationsForZoneRequest>,
     output: __S(13378, __c418, 2) as any as S.Schema<ListAccessApplicationsResponse>,
-    errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
+    errors: [AccessReferenceNotFound],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106897,7 +107229,8 @@ export const listAccessApplicationUserPolicyChecksForAccount: API.OperationMetho
     0,
   ) as any as S.Schema<ListAccessApplicationUserPolicyChecksForAccountRequest>,
   output: __S(13475, __c421, 3) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106918,7 +107251,8 @@ export const listAccessApplicationUserPolicyChecksForZone: API.OperationMethod<
     0,
   ) as any as S.Schema<ListAccessApplicationUserPolicyChecksForZoneRequest>,
   output: __S(13475, __c421, 3) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106937,7 +107271,8 @@ export const listAccessBookmarks: API.PaginatedOperationMethod<
   () => ({
     input: __S(13536, __c423, 0) as any as S.Schema<ListAccessBookmarksRequest>,
     output: __S(13539, __c423, 3) as any as S.Schema<ListAccessBookmarksResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106959,7 +107294,8 @@ export const listAccessCertificatesForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(13568, __c424, 0) as any as S.Schema<ListAccessCertificatesForAccountRequest>,
     output: __S(13602, __c425, 2) as any as S.Schema<ListAccessCertificatesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -106987,7 +107323,8 @@ export const listAccessCertificatesForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(13632, __c426, 0) as any as S.Schema<ListAccessCertificatesForZoneRequest>,
     output: __S(13602, __c425, 2) as any as S.Schema<ListAccessCertificatesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107015,7 +107352,8 @@ export const listAccessCustomPages: API.PaginatedOperationMethod<
   () => ({
     input: __S(13664, __c427, 0) as any as S.Schema<ListAccessCustomPagesRequest>,
     output: __S(13667, __c427, 3) as any as S.Schema<ListAccessCustomPagesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107043,7 +107381,8 @@ export const listAccessGatewayCas: API.PaginatedOperationMethod<
   () => ({
     input: __S(13696, __c428, 0) as any as S.Schema<ListAccessGatewayCasRequest>,
     output: __S(13699, __c428, 3) as any as S.Schema<ListAccessGatewayCasResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107065,7 +107404,8 @@ export const listAccessGroupsForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(13728, __c429, 0) as any as S.Schema<ListAccessGroupsForAccountRequest>,
     output: __S(13768, __c430, 8) as any as S.Schema<ListAccessGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107093,7 +107433,8 @@ export const listAccessGroupsForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(13792, __c431, 0) as any as S.Schema<ListAccessGroupsForZoneRequest>,
     output: __S(13768, __c430, 8) as any as S.Schema<ListAccessGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107119,7 +107460,8 @@ export const listAccessIdpFederationGrants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<ListAccessIdpFederationGrantsRequest>,
   output: __S(13827, __c432, 3) as any as S.Schema<ListAccessIdpFederationGrantsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107138,7 +107480,8 @@ export const listAccessInfrastructureTargets: API.PaginatedOperationMethod<
   () => ({
     input: __S(13856, __c433, 0) as any as S.Schema<ListAccessInfrastructureTargetsRequest>,
     output: __S(18786, __c587, 2) as any as S.Schema<ListAccessInfrastructureTargetsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107164,7 +107507,8 @@ export const listAccessLogAccessRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<ListAccessLogAccessRequestsRequest>,
   output: __S(13891, __c434, 3) as any as S.Schema<ListAccessLogAccessRequestsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107183,7 +107527,8 @@ export const listAccessLogScimUpdates: API.PaginatedOperationMethod<
   () => ({
     input: __S(13920, __c435, 0) as any as S.Schema<ListAccessLogScimUpdatesRequest>,
     output: __S(13923, __c435, 3) as any as S.Schema<ListAccessLogScimUpdatesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107209,7 +107554,8 @@ export const listAccessLogsJitRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<ListAccessLogsJitRequestsRequest>,
   output: __S(13955, __c436, 3) as any as S.Schema<ListAccessLogsJitRequestsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107226,7 +107572,8 @@ export const listAccessMfaAuthenticatorCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<ListAccessMfaAuthenticatorCatalogRequest>,
   output: __S(13987, __c437, 3) as any as S.Schema<ListAccessMfaAuthenticatorCatalogResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107245,7 +107592,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(14016, __c438, 0) as any as S.Schema<ListAccessPoliciesRequest>,
     output: __S(14025, __c438, 9) as any as S.Schema<ListAccessPoliciesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107273,7 +107621,8 @@ export const listAccessSamlCertificates: API.PaginatedOperationMethod<
   () => ({
     input: __S(14049, __c439, 1) as any as S.Schema<ListAccessSamlCertificatesRequest>,
     output: __S(14051, __c439, 3) as any as S.Schema<ListAccessSamlCertificatesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107301,7 +107650,8 @@ export const listAccessServiceTokensForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(14080, __c440, 0) as any as S.Schema<ListAccessServiceTokensForAccountRequest>,
     output: __S(14114, __c441, 2) as any as S.Schema<ListAccessServiceTokensResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107329,7 +107679,8 @@ export const listAccessServiceTokensForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(14144, __c442, 0) as any as S.Schema<ListAccessServiceTokensForZoneRequest>,
     output: __S(14114, __c441, 2) as any as S.Schema<ListAccessServiceTokensResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107357,7 +107708,8 @@ export const listAccessTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(14176, __c443, 0) as any as S.Schema<ListAccessTagsRequest>,
     output: __S(14179, __c443, 3) as any as S.Schema<ListAccessTagsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107385,7 +107737,8 @@ export const listAccessUserActiveSessions: API.PaginatedOperationMethod<
   () => ({
     input: __S(14208, __c444, 0) as any as S.Schema<ListAccessUserActiveSessionsRequest>,
     output: __S(14214, __c444, 6) as any as S.Schema<ListAccessUserActiveSessionsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107407,7 +107760,8 @@ export const listAccessUserFailedLogins: API.PaginatedOperationMethod<
   () => ({
     input: __S(14240, __c445, 0) as any as S.Schema<ListAccessUserFailedLoginsRequest>,
     output: __S(14243, __c445, 3) as any as S.Schema<ListAccessUserFailedLoginsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107427,7 +107781,8 @@ export const listAccessUserPopulations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14274, __c446, 2) as any as S.Schema<ListAccessUserPopulationsRequest>,
   output: __S(14275, __c446, 3) as any as S.Schema<ListAccessUserPopulationsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107444,7 +107799,8 @@ export const listAccessUserPopulationsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<ListAccessUserPopulationsUsersRequest>,
   output: __S(14307, __c447, 3) as any as S.Schema<ListAccessUserPopulationsUsersResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107463,7 +107819,8 @@ export const listAccessUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(14336, __c448, 0) as any as S.Schema<ListAccessUsersRequest>,
     output: __S(14339, __c448, 3) as any as S.Schema<ListAccessUsersResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107489,7 +107846,8 @@ export const listCasbApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<ListCasbApplicationsRequest>,
   output: __S(14372, __c449, 4) as any as S.Schema<ListCasbApplicationsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107506,7 +107864,8 @@ export const listCasbApplicationsAuthMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<ListCasbApplicationsAuthMethodsRequest>,
   output: __S(14436, __c451, 4) as any as S.Schema<ListCasbApplicationsAuthMethodsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107523,7 +107882,8 @@ export const listCasbApplicationsSetupFlows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<ListCasbApplicationsSetupFlowsRequest>,
   output: __S(14472, __c452, 8) as any as S.Schema<ListCasbApplicationsSetupFlowsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107540,7 +107900,8 @@ export const listCasbIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<ListCasbIntegrationsRequest>,
   output: __S(14499, __c453, 3) as any as S.Schema<ListCasbIntegrationsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107557,7 +107918,8 @@ export const listCasbPostureAssetSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<ListCasbPostureAssetSchemasRequest>,
   output: __S(14533, __c454, 5) as any as S.Schema<ListCasbPostureAssetSchemasResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107574,7 +107936,8 @@ export const listCasbPostureContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<ListCasbPostureContentRequest>,
   output: __S(14563, __c455, 3) as any as S.Schema<ListCasbPostureContentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107591,7 +107954,8 @@ export const listCasbPostureExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14592, __c456, 0) as any as S.Schema<ListCasbPostureExportsRequest>,
   output: __S(14595, __c456, 3) as any as S.Schema<ListCasbPostureExportsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107608,7 +107972,8 @@ export const listCasbPostureFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<ListCasbPostureFindingsRequest>,
   output: __S(14627, __c457, 3) as any as S.Schema<ListCasbPostureFindingsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107625,7 +107990,8 @@ export const listCasbPostureFindingsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<ListCasbPostureFindingsInstancesRequest>,
   output: __S(14659, __c458, 3) as any as S.Schema<ListCasbPostureFindingsInstancesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107642,7 +108008,8 @@ export const listCasbPostureFindingTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<ListCasbPostureFindingTypesRequest>,
   output: __S(14691, __c459, 3) as any as S.Schema<ListCasbPostureFindingTypesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107667,7 +108034,8 @@ export const listCasbPostureFindingTypesRemediationTypes: API.OperationMethod<
     __c460,
     3,
   ) as any as S.Schema<ListCasbPostureFindingTypesRemediationTypesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107684,7 +108052,8 @@ export const listCasbPosturePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<ListCasbPosturePoliciesRequest>,
   output: __S(14755, __c461, 3) as any as S.Schema<ListCasbPosturePoliciesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107701,7 +108070,8 @@ export const listCasbPostureRemediationsJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<ListCasbPostureRemediationsJobsRequest>,
   output: __S(14791, __c462, 7) as any as S.Schema<ListCasbPostureRemediationsJobsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107718,7 +108088,8 @@ export const listCasbPostureWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<ListCasbPostureWebhooksRequest>,
   output: __S(14819, __c463, 3) as any as S.Schema<ListCasbPostureWebhooksResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107735,7 +108106,8 @@ export const listCwsBasicAuthCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<ListCwsBasicAuthCredentialsRequest>,
   output: __S(14851, __c464, 3) as any as S.Schema<ListCwsBasicAuthCredentialsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107752,7 +108124,8 @@ export const listCwsBasicAuthCredentialsSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<ListCwsBasicAuthCredentialsSecretsRequest>,
   output: __S(14883, __c465, 3) as any as S.Schema<ListCwsBasicAuthCredentialsSecretsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107769,7 +108142,8 @@ export const listCwsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<ListCwsDeploymentsRequest>,
   output: __S(14915, __c466, 3) as any as S.Schema<ListCwsDeploymentsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107786,7 +108160,8 @@ export const listCwsDomainAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<ListCwsDomainAclsRequest>,
   output: __S(14947, __c467, 3) as any as S.Schema<ListCwsDomainAclsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107803,7 +108178,8 @@ export const listCwsPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<ListCwsPoliciesRequest>,
   output: __S(14979, __c468, 3) as any as S.Schema<ListCwsPoliciesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107820,7 +108196,8 @@ export const listCwsPolicySets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<ListCwsPolicySetsRequest>,
   output: __S(15011, __c469, 3) as any as S.Schema<ListCwsPolicySetsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107837,7 +108214,8 @@ export const listCwsRegoMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<ListCwsRegoMetadataRequest>,
   output: __S(15043, __c470, 3) as any as S.Schema<ListCwsRegoMetadataResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107854,7 +108232,8 @@ export const listCwsRegoModules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<ListCwsRegoModulesRequest>,
   output: __S(15075, __c471, 3) as any as S.Schema<ListCwsRegoModulesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107871,7 +108250,8 @@ export const listCwsTenantStructures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<ListCwsTenantStructuresRequest>,
   output: __S(15107, __c472, 3) as any as S.Schema<ListCwsTenantStructuresResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107888,7 +108268,8 @@ export const listCwsTenantStructuresNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<ListCwsTenantStructuresNodesRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<ListCwsTenantStructuresNodesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107905,7 +108286,8 @@ export const listCwsWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<ListCwsWorkloadsRequest>,
   output: __S(15171, __c474, 3) as any as S.Schema<ListCwsWorkloadsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107924,7 +108306,8 @@ export const listDeviceDeploymentGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(15200, __c475, 0) as any as S.Schema<ListDeviceDeploymentGroupsRequest>,
     output: __S(15203, __c475, 3) as any as S.Schema<ListDeviceDeploymentGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107952,7 +108335,8 @@ export const listDeviceDevices: API.PaginatedOperationMethod<
   () => ({
     input: __S(15234, __c476, 2) as any as S.Schema<ListDeviceDevicesRequest>,
     output: __S(15237, __c476, 5) as any as S.Schema<ListDeviceDevicesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -107980,7 +108364,8 @@ export const listDeviceDexTests: API.PaginatedOperationMethod<
   () => ({
     input: __S(15264, __c477, 0) as any as S.Schema<ListDeviceDexTestsRequest>,
     output: __S(15265, __c477, 1) as any as S.Schema<ListDeviceDexTestsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108008,7 +108393,8 @@ export const listDeviceIpProfiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(15296, __c478, 0) as any as S.Schema<ListDeviceIpProfilesRequest>,
     output: __S(15299, __c478, 3) as any as S.Schema<ListDeviceIpProfilesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108036,7 +108422,8 @@ export const listDeviceNetworks: API.PaginatedOperationMethod<
   () => ({
     input: __S(15328, __c479, 0) as any as S.Schema<ListDeviceNetworksRequest>,
     output: __S(5794, __c181, 2) as any as S.Schema<ListDeviceNetworksResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108056,7 +108443,8 @@ export const listDeviceOverrideCodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<ListDeviceOverrideCodesRequest>,
   output: __S(15362, __c480, 2) as any as S.Schema<ListDeviceOverrideCodesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108075,7 +108463,8 @@ export const listDevicePolicyCustoms: API.PaginatedOperationMethod<
   () => ({
     input: __S(15392, __c481, 0) as any as S.Schema<ListDevicePolicyCustomsRequest>,
     output: __S(15399, __c481, 7) as any as S.Schema<ListDevicePolicyCustomsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108097,7 +108486,8 @@ export const listDevicePostureIntegrations: API.PaginatedOperationMethod<
   () => ({
     input: __S(15424, __c482, 0) as any as S.Schema<ListDevicePostureIntegrationsRequest>,
     output: __S(15427, __c482, 3) as any as S.Schema<ListDevicePostureIntegrationsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108119,7 +108509,8 @@ export const listDevicePostures: API.PaginatedOperationMethod<
   () => ({
     input: __S(15456, __c483, 0) as any as S.Schema<ListDevicePosturesRequest>,
     output: __S(15460, __c483, 4) as any as S.Schema<ListDevicePosturesResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108141,7 +108532,8 @@ export const listDeviceRegistrations: API.PaginatedOperationMethod<
   () => ({
     input: __S(15490, __c484, 2) as any as S.Schema<ListDeviceRegistrationsRequest>,
     output: __S(15493, __c484, 5) as any as S.Schema<ListDeviceRegistrationsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108169,7 +108561,8 @@ export const listDevices: API.PaginatedOperationMethod<
   () => ({
     input: __S(15520, __c485, 0) as any as S.Schema<ListDevicesRequest>,
     output: __S(15523, __c485, 3) as any as S.Schema<ListDevicesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108191,7 +108584,8 @@ export const listDexColos: API.PaginatedOperationMethod<
   () => ({
     input: __S(15552, __c486, 0) as any as S.Schema<ListDexColosRequest>,
     output: __S(15555, __c486, 3) as any as S.Schema<ListDexColosResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108211,7 +108605,8 @@ export const listDexCommandDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<ListDexCommandDevicesRequest>,
   output: __S(15587, __c487, 3) as any as S.Schema<ListDexCommandDevicesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108228,7 +108623,8 @@ export const listDexCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<ListDexCommandsRequest>,
   output: __S(15619, __c488, 3) as any as S.Schema<ListDexCommandsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108245,7 +108641,8 @@ export const listDexDeviceIsps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<ListDexDeviceIspsRequest>,
   output: __S(15651, __c489, 3) as any as S.Schema<ListDexDeviceIspsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108264,7 +108661,8 @@ export const listDexFleetStatusDevices: API.PaginatedOperationMethod<
   () => ({
     input: __S(15680, __c490, 0) as any as S.Schema<ListDexFleetStatusDevicesRequest>,
     output: __S(15683, __c490, 3) as any as S.Schema<ListDexFleetStatusDevicesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108290,7 +108688,8 @@ export const listDexRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<ListDexRulesRequest>,
   output: __S(15715, __c491, 3) as any as S.Schema<ListDexRulesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108307,7 +108706,8 @@ export const listDexTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<ListDexTestsRequest>,
   output: __S(15761, __c492, 17) as any as S.Schema<ListDexTestsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108324,7 +108724,8 @@ export const listDexTestUniqueDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<ListDexTestUniqueDevicesRequest>,
   output: __S(15777, __c493, 1) as any as S.Schema<ListDexTestUniqueDevicesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108343,7 +108744,8 @@ export const listDlpCustomEntries: API.PaginatedOperationMethod<
   () => ({
     input: __S(15808, __c494, 0) as any as S.Schema<ListDlpCustomEntriesRequest>,
     output: __S(15811, __c494, 3) as any as S.Schema<ListDlpCustomEntriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108365,7 +108767,8 @@ export const listDlpCustomPromptTopics: API.PaginatedOperationMethod<
   () => ({
     input: __S(15840, __c495, 0) as any as S.Schema<ListDlpCustomPromptTopicsRequest>,
     output: __S(15843, __c495, 3) as any as S.Schema<ListDlpCustomPromptTopicsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108387,7 +108790,8 @@ export const listDlpDataClasses: API.PaginatedOperationMethod<
   () => ({
     input: __S(15872, __c496, 0) as any as S.Schema<ListDlpDataClassesRequest>,
     output: __S(15875, __c496, 3) as any as S.Schema<ListDlpDataClassesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108407,7 +108811,8 @@ export const listDlpDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<ListDlpDatasetsRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<ListDlpDatasetsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108426,7 +108831,8 @@ export const listDlpDataTagCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(15936, __c498, 0) as any as S.Schema<ListDlpDataTagCategoriesRequest>,
     output: __S(15939, __c498, 3) as any as S.Schema<ListDlpDataTagCategoriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108448,7 +108854,8 @@ export const listDlpDataTagCategoryDataTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(15968, __c499, 0) as any as S.Schema<ListDlpDataTagCategoryDataTagsRequest>,
     output: __S(16000, __c500, 0) as any as S.Schema<ListDlpDataTagCategoryDataTagsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108470,7 +108877,8 @@ export const listDlpEmailRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(16032, __c501, 0) as any as S.Schema<ListDlpEmailRulesRequest>,
     output: __S(16038, __c501, 6) as any as S.Schema<ListDlpEmailRulesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108492,7 +108900,8 @@ export const listDlpEntries: API.PaginatedOperationMethod<
   () => ({
     input: __S(16064, __c502, 0) as any as S.Schema<ListDlpEntriesRequest>,
     output: __S(16067, __c502, 3) as any as S.Schema<ListDlpEntriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108514,7 +108923,8 @@ export const listDlpEntriesIntegration: API.PaginatedOperationMethod<
   () => ({
     input: __S(16096, __c503, 0) as any as S.Schema<ListDlpEntriesIntegrationRequest>,
     output: __S(16099, __c503, 3) as any as S.Schema<ListDlpEntriesIntegrationResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108536,7 +108946,8 @@ export const listDlpEntriesPredefined: API.PaginatedOperationMethod<
   () => ({
     input: __S(16128, __c504, 0) as any as S.Schema<ListDlpEntriesPredefinedRequest>,
     output: __S(16131, __c504, 3) as any as S.Schema<ListDlpEntriesPredefinedResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108556,7 +108967,8 @@ export const listDlpLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<ListDlpLimitsRequest>,
   output: __S(16225, __c507, 1) as any as S.Schema<ListDlpLimitsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108575,7 +108987,8 @@ export const listDlpProfiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(16256, __c508, 0) as any as S.Schema<ListDlpProfilesRequest>,
     output: __S(16259, __c508, 3) as any as S.Schema<ListDlpProfilesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108597,7 +109010,8 @@ export const listDlpSensitivityGroupLevels: API.PaginatedOperationMethod<
   () => ({
     input: __S(16288, __c509, 0) as any as S.Schema<ListDlpSensitivityGroupLevelsRequest>,
     output: __S(16000, __c500, 0) as any as S.Schema<ListDlpSensitivityGroupLevelsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108619,7 +109033,8 @@ export const listDlpSensitivityGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(16320, __c510, 0) as any as S.Schema<ListDlpSensitivityGroupsRequest>,
     output: __S(16323, __c510, 3) as any as S.Schema<ListDlpSensitivityGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108639,7 +109054,8 @@ export const listDlpValidators: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<ListDlpValidatorsRequest>,
   output: __S(16354, __c511, 2) as any as S.Schema<ListDlpValidatorsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108656,7 +109072,8 @@ export const listDlpValidatorsProximityWords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ListDlpValidatorsProximityWordsRequest>,
   output: __S(2341, __c73, 5) as any as S.Schema<ListDlpValidatorsProximityWordsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108675,7 +109092,8 @@ export const listGatewayAppTypes: API.PaginatedOperationMethod<
   () => ({
     input: __S(16416, __c513, 0) as any as S.Schema<ListGatewayAppTypesRequest>,
     output: __S(16419, __c513, 3) as any as S.Schema<ListGatewayAppTypesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108697,7 +109115,8 @@ export const listGatewayCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(16448, __c514, 0) as any as S.Schema<ListGatewayCategoriesRequest>,
     output: __S(16453, __c514, 5) as any as S.Schema<ListGatewayCategoriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108719,7 +109138,8 @@ export const listGatewayCertificates: API.PaginatedOperationMethod<
   () => ({
     input: __S(16480, __c515, 0) as any as S.Schema<ListGatewayCertificatesRequest>,
     output: __S(16483, __c515, 3) as any as S.Schema<ListGatewayCertificatesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108739,7 +109159,8 @@ export const listGatewayDnsDestinationIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<ListGatewayDnsDestinationIpsRequest>,
   output: __S(16515, __c516, 3) as any as S.Schema<ListGatewayDnsDestinationIpsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108758,7 +109179,8 @@ export const listGatewayListItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(16736, __c523, 0) as any as S.Schema<ListGatewayListItemsRequest>,
     output: __S(16737, __c523, 1) as any as S.Schema<ListGatewayListItemsResponse>,
-    errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
+    errors: [GatewayListNotFound],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108780,7 +109202,8 @@ export const listGatewayLists: API.PaginatedOperationMethod<
   () => ({
     input: __S(16768, __c524, 0) as any as S.Schema<ListGatewayListsRequest>,
     output: __S(16771, __c524, 3) as any as S.Schema<ListGatewayListsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108802,7 +109225,8 @@ export const listGatewayLocations: API.PaginatedOperationMethod<
   () => ({
     input: __S(16800, __c525, 0) as any as S.Schema<ListGatewayLocationsRequest>,
     output: __S(16803, __c525, 3) as any as S.Schema<ListGatewayLocationsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108824,7 +109248,8 @@ export const listGatewayPacfiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(16832, __c526, 0) as any as S.Schema<ListGatewayPacfilesRequest>,
     output: __S(16835, __c526, 3) as any as S.Schema<ListGatewayPacfilesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108846,7 +109271,8 @@ export const listGatewayProxyEndpoints: API.PaginatedOperationMethod<
   () => ({
     input: __S(16864, __c527, 0) as any as S.Schema<ListGatewayProxyEndpointsRequest>,
     output: __S(16867, __c527, 3) as any as S.Schema<ListGatewayProxyEndpointsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108868,7 +109294,8 @@ export const listGatewayRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(16896, __c528, 0) as any as S.Schema<ListGatewayRulesRequest>,
     output: __S(16930, __c529, 2) as any as S.Schema<ListGatewayRulesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108888,7 +109315,8 @@ export const listGateways: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<ListGatewaysRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<ListGatewaysResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -108907,7 +109335,8 @@ export const listIdentityProviderScimGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(16992, __c531, 0) as any as S.Schema<ListIdentityProviderScimGroupsRequest>,
     output: __S(16995, __c531, 3) as any as S.Schema<ListIdentityProviderScimGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108935,7 +109364,8 @@ export const listIdentityProviderScimUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(17024, __c532, 0) as any as S.Schema<ListIdentityProviderScimUsersRequest>,
     output: __S(17027, __c532, 3) as any as S.Schema<ListIdentityProviderScimUsersResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108963,7 +109393,8 @@ export const listIdentityProvidersForAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(17056, __c533, 0) as any as S.Schema<ListIdentityProvidersForAccountRequest>,
     output: __S(17090, __c534, 2) as any as S.Schema<ListIdentityProvidersResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -108991,7 +109422,8 @@ export const listIdentityProvidersForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(17184, __c537, 0) as any as S.Schema<ListIdentityProvidersForZoneRequest>,
     output: __S(17090, __c534, 2) as any as S.Schema<ListIdentityProvidersResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109019,7 +109451,8 @@ export const listNetworkHostnameRoutes: API.PaginatedOperationMethod<
   () => ({
     input: __S(17216, __c538, 0) as any as S.Schema<ListNetworkHostnameRoutesRequest>,
     output: __S(17219, __c538, 3) as any as S.Schema<ListNetworkHostnameRoutesResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109047,7 +109480,8 @@ export const listNetworkRoutes: API.PaginatedOperationMethod<
   () => ({
     input: __S(17248, __c539, 0) as any as S.Schema<ListNetworkRoutesRequest>,
     output: __S(17251, __c539, 3) as any as S.Schema<ListNetworkRoutesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109075,7 +109509,8 @@ export const listNetworkSubnets: API.PaginatedOperationMethod<
   () => ({
     input: __S(17280, __c540, 0) as any as S.Schema<ListNetworkSubnetsRequest>,
     output: __S(17283, __c540, 3) as any as S.Schema<ListNetworkSubnetsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109103,7 +109538,8 @@ export const listNetworkVirtualNetworks: API.PaginatedOperationMethod<
   () => ({
     input: __S(17312, __c541, 0) as any as S.Schema<ListNetworkVirtualNetworksRequest>,
     output: __S(17315, __c541, 3) as any as S.Schema<ListNetworkVirtualNetworksResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109123,7 +109559,8 @@ export const listOrganizationsForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<ListOrganizationsForAccountRequest>,
   output: __S(17376, __c543, 0) as any as S.Schema<ListOrganizationsResponse>,
-  errors: [OrganizationNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [OrganizationNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109140,7 +109577,8 @@ export const listOrganizationsForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17408, __c544, 0) as any as S.Schema<ListOrganizationsForZoneRequest>,
   output: __S(17376, __c543, 0) as any as S.Schema<ListOrganizationsResponse>,
-  errors: [OrganizationNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [OrganizationNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109159,7 +109597,8 @@ export const listResourceLibraryApplications: API.PaginatedOperationMethod<
   () => ({
     input: __S(17440, __c545, 0) as any as S.Schema<ListResourceLibraryApplicationsRequest>,
     output: __S(17443, __c545, 3) as any as S.Schema<ListResourceLibraryApplicationsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109181,7 +109620,8 @@ export const listResourceLibraryCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(17472, __c546, 0) as any as S.Schema<ListResourceLibraryCategoriesRequest>,
     output: __S(17475, __c546, 3) as any as S.Schema<ListResourceLibraryCategoriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109203,7 +109643,8 @@ export const listRiskScoringIntegrations: API.PaginatedOperationMethod<
   () => ({
     input: __S(17504, __c547, 0) as any as S.Schema<ListRiskScoringIntegrationsRequest>,
     output: __S(17507, __c547, 3) as any as S.Schema<ListRiskScoringIntegrationsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109225,7 +109666,8 @@ export const listTenantGatewayRule: API.PaginatedOperationMethod<
   () => ({
     input: __S(17600, __c550, 0) as any as S.Schema<ListTenantGatewayRuleRequest>,
     output: __S(16930, __c529, 2) as any as S.Schema<ListTenantGatewayRuleResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109247,7 +109689,8 @@ export const listTunnelCloudflareds: API.PaginatedOperationMethod<
   () => ({
     input: __S(17632, __c551, 0) as any as S.Schema<ListTunnelCloudflaredsRequest>,
     output: __S(17635, __c551, 3) as any as S.Schema<ListTunnelCloudflaredsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109275,7 +109718,8 @@ export const listTunnels: API.PaginatedOperationMethod<
   () => ({
     input: __S(17664, __c552, 0) as any as S.Schema<ListTunnelsRequest>,
     output: __S(17667, __c552, 3) as any as S.Schema<ListTunnelsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109303,7 +109747,8 @@ export const listTunnelWarpConnectors: API.PaginatedOperationMethod<
   () => ({
     input: __S(17697, __c553, 1) as any as S.Schema<ListTunnelWarpConnectorsRequest>,
     output: __S(17699, __c553, 3) as any as S.Schema<ListTunnelWarpConnectorsResponse>,
-    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109329,7 +109774,8 @@ export const liveDexFleetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<LiveDexFleetStatusRequest>,
   output: __S(17732, __c554, 4) as any as S.Schema<LiveDexFleetStatusResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109346,7 +109792,8 @@ export const overTimeDexFleetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<OverTimeDexFleetStatusRequest>,
   output: __S(17764, __c555, 4) as any as S.Schema<OverTimeDexFleetStatusResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109363,7 +109810,8 @@ export const patchAccessApplicationSettingForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<PatchAccessApplicationSettingForAccountRequest>,
   output: __S(17824, __c557, 0) as any as S.Schema<PatchAccessApplicationSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109380,7 +109828,8 @@ export const patchAccessApplicationSettingForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17856, __c558, 0) as any as S.Schema<PatchAccessApplicationSettingForZoneRequest>,
   output: __S(17824, __c557, 0) as any as S.Schema<PatchAccessApplicationSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109397,7 +109846,8 @@ export const patchConnectivitySetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<PatchConnectivitySettingRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<PatchConnectivitySettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109414,7 +109864,8 @@ export const patchDeviceDeploymentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<PatchDeviceDeploymentGroupRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<PatchDeviceDeploymentGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109431,7 +109882,8 @@ export const patchDeviceIpProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<PatchDeviceIpProfileRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<PatchDeviceIpProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109448,7 +109900,8 @@ export const patchDevicePolicyCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18020, __c563, 4) as any as S.Schema<PatchDevicePolicyCustomRequest>,
   output: __S(18025, __c563, 9) as any as S.Schema<PatchDevicePolicyCustomResponse>,
-  errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DevicePolicyNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109465,7 +109918,8 @@ export const patchDevicePolicyDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18052, __c564, 4) as any as S.Schema<PatchDevicePolicyDefaultRequest>,
   output: __S(18057, __c564, 9) as any as S.Schema<PatchDevicePolicyDefaultResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109482,7 +109936,8 @@ export const patchDevicePolicyDefaultCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18080, __c565, 0) as any as S.Schema<PatchDevicePolicyDefaultCertificateRequest>,
   output: __S(10112, __c316, 0) as any as S.Schema<PatchDevicePolicyDefaultCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109503,13 +109958,8 @@ export const patchDevicePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<PatchDevicePostureIntegrationRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<PatchDevicePostureIntegrationResponse>,
-  errors: [
-    DevicePostureIntegrationNotFound,
-    InvalidPostureIntegrationConfig,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [DevicePostureIntegrationNotFound, InvalidPostureIntegrationConfig, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109526,7 +109976,8 @@ export const patchDeviceSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<PatchDeviceSettingRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<PatchDeviceSettingResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109543,7 +109994,8 @@ export const patchDexRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<PatchDexRuleRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<PatchDexRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109560,7 +110012,8 @@ export const patchDlpSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<PatchDlpSettingRequest>,
   output: __S(6561, __c205, 1) as any as S.Schema<PatchDlpSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109577,7 +110030,8 @@ export const patchGatewayConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<PatchGatewayConfigurationRequest>,
   output: __S(11658, __c364, 10) as any as S.Schema<PatchGatewayConfigurationResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109594,7 +110048,8 @@ export const patchGatewayList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<PatchGatewayListRequest>,
   output: __S(11744, __c367, 0) as any as S.Schema<PatchGatewayListResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109611,7 +110066,8 @@ export const patchGatewayProxyEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<PatchGatewayProxyEndpointRequest>,
   output: __S(18434, __c576, 2) as any as S.Schema<PatchGatewayProxyEndpointResponse>,
-  errors: [ProxyEndpointNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [ProxyEndpointNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109632,13 +110088,8 @@ export const patchNetworkHostnameRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<PatchNetworkHostnameRouteRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<PatchNetworkHostnameRouteResponse>,
-  errors: [
-    HostnameRouteNotFound,
-    HostnameRouteAlreadyRouted,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [HostnameRouteNotFound, HostnameRouteAlreadyRouted, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109655,7 +110106,8 @@ export const patchNetworkRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<PatchNetworkRouteRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<PatchNetworkRouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109672,7 +110124,8 @@ export const patchNetworkRouteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<PatchNetworkRouteNetworkRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<PatchNetworkRouteNetworkResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109689,7 +110142,8 @@ export const patchNetworkSubnetCloudflareSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<PatchNetworkSubnetCloudflareSourceRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<PatchNetworkSubnetCloudflareSourceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109706,7 +110160,8 @@ export const patchNetworkSubnetWarp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18592, __c581, 0) as any as S.Schema<PatchNetworkSubnetWarpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<PatchNetworkSubnetWarpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109723,7 +110178,8 @@ export const patchNetworkVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<PatchNetworkVirtualNetworkRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<PatchNetworkVirtualNetworkResponse>,
-  errors: [VirtualNetworkNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [VirtualNetworkNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109742,7 +110198,8 @@ export const patchSeat: API.PaginatedOperationMethod<
   () => ({
     input: __S(18658, __c583, 2) as any as S.Schema<PatchSeatRequest>,
     output: __S(18661, __c583, 5) as any as S.Schema<PatchSeatResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109762,7 +110219,8 @@ export const patchTunnelCloudflared: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<PatchTunnelCloudflaredRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<PatchTunnelCloudflaredResponse>,
-  errors: [TunnelNotFound, DuplicateTunnelName, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound, DuplicateTunnelName],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109783,7 +110241,8 @@ export const patchTunnelWarpConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<PatchTunnelWarpConnectorRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<PatchTunnelWarpConnectorResponse>,
-  errors: [TunnelNotFound, DuplicateTunnelName, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound, DuplicateTunnelName, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109800,7 +110259,8 @@ export const pauseCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<PauseCasbIntegrationRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<PauseCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109817,7 +110277,8 @@ export const putAccessApplicationSettingForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<PutAccessApplicationSettingForAccountRequest>,
   output: __S(17824, __c557, 0) as any as S.Schema<PutAccessApplicationSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109834,7 +110295,8 @@ export const putAccessApplicationSettingForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<PutAccessApplicationSettingForZoneRequest>,
   output: __S(17824, __c557, 0) as any as S.Schema<PutAccessApplicationSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109853,7 +110315,8 @@ export const putAccessCertificateSettingForAccount: API.PaginatedOperationMethod
   () => ({
     input: __S(19008, __c594, 0) as any as S.Schema<PutAccessCertificateSettingForAccountRequest>,
     output: __S(7970, __c249, 2) as any as S.Schema<PutAccessCertificateSettingResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109875,7 +110338,8 @@ export const putAccessCertificateSettingForZone: API.PaginatedOperationMethod<
   () => ({
     input: __S(19040, __c595, 0) as any as S.Schema<PutAccessCertificateSettingForZoneRequest>,
     output: __S(7970, __c249, 2) as any as S.Schema<PutAccessCertificateSettingResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109895,7 +110359,8 @@ export const putAccessKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<PutAccessKeyRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<PutAccessKeyResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109917,7 +110382,8 @@ export const putDevicePolicyCustomExclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(19106, __c597, 2) as any as S.Schema<PutDevicePolicyCustomExcludeRequest>,
     output: __S(19109, __c597, 5) as any as S.Schema<PutDevicePolicyCustomExcludeResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109942,7 +110408,8 @@ export const putDevicePolicyCustomFallbackDomain: API.PaginatedOperationMethod<
   () => ({
     input: __S(19136, __c598, 0) as any as S.Schema<PutDevicePolicyCustomFallbackDomainRequest>,
     output: __S(9984, __c312, 0) as any as S.Schema<PutDevicePolicyCustomFallbackDomainResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109967,7 +110434,8 @@ export const putDevicePolicyCustomInclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(19202, __c600, 2) as any as S.Schema<PutDevicePolicyCustomIncludeRequest>,
     output: __S(19205, __c600, 5) as any as S.Schema<PutDevicePolicyCustomIncludeResponse>,
-    errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [DevicePolicyNotFound, Forbidden],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -109989,7 +110457,8 @@ export const putDevicePolicyDefaultExclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(19234, __c601, 2) as any as S.Schema<PutDevicePolicyDefaultExcludeRequest>,
     output: __S(19237, __c601, 5) as any as S.Schema<PutDevicePolicyDefaultExcludeResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110011,7 +110480,8 @@ export const putDevicePolicyDefaultFallbackDomain: API.PaginatedOperationMethod<
   () => ({
     input: __S(19456, __c608, 0) as any as S.Schema<PutDevicePolicyDefaultFallbackDomainRequest>,
     output: __S(9984, __c312, 0) as any as S.Schema<PutDevicePolicyDefaultFallbackDomainResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110033,7 +110503,8 @@ export const putDevicePolicyDefaultInclude: API.PaginatedOperationMethod<
   () => ({
     input: __S(19490, __c609, 2) as any as S.Schema<PutDevicePolicyDefaultIncludeRequest>,
     output: __S(19493, __c609, 5) as any as S.Schema<PutDevicePolicyDefaultIncludeResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -110053,7 +110524,8 @@ export const putDeviceSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<PutDeviceSettingRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<PutDeviceSettingResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110070,7 +110542,8 @@ export const putDlpPayloadLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<PutDlpPayloadLogRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<PutDlpPayloadLogResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110087,7 +110560,8 @@ export const putDlpProfilePredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19586, __c612, 2) as any as S.Schema<PutDlpProfilePredefinedRequest>,
   output: __S(19589, __c612, 5) as any as S.Schema<PutDlpProfilePredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110104,7 +110578,8 @@ export const putDlpSensitivityGroupLevelOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<PutDlpSensitivityGroupLevelOrderRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<PutDlpSensitivityGroupLevelOrderResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110121,7 +110596,8 @@ export const putDlpSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<PutDlpSettingRequest>,
   output: __S(6561, __c205, 1) as any as S.Schema<PutDlpSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110138,7 +110614,8 @@ export const putGatewayAuditSshSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<PutGatewayAuditSshSettingRequest>,
   output: __S(11552, __c361, 0) as any as S.Schema<PutGatewayAuditSshSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110155,7 +110632,8 @@ export const putGatewayConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<PutGatewayConfigurationRequest>,
   output: __S(11658, __c364, 10) as any as S.Schema<PutGatewayConfigurationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110172,7 +110650,8 @@ export const putGatewayLogging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19746, __c617, 2) as any as S.Schema<PutGatewayLoggingRequest>,
   output: __S(11842, __c370, 2) as any as S.Schema<PutGatewayLoggingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110189,7 +110668,8 @@ export const putOrganizationDoh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<PutOrganizationDohRequest>,
   output: __S(12384, __c387, 0) as any as S.Schema<PutOrganizationDohResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110206,7 +110686,8 @@ export const putRiskScoringBehaviour: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19842, __c620, 2) as any as S.Schema<PutRiskScoringBehaviourRequest>,
   output: __S(19843, __c620, 3) as any as S.Schema<PutRiskScoringBehaviourResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110223,7 +110704,8 @@ export const putTunnelCloudflaredConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19877, __c621, 5) as any as S.Schema<PutTunnelCloudflaredConfigurationRequest>,
   output: __S(12773, __c399, 5) as any as S.Schema<PutTunnelCloudflaredConfigurationResponse>,
-  errors: [TunnelNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [TunnelNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110240,7 +110722,8 @@ export const putTunnelWarpConnectorConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19904, __c622, 0) as any as S.Schema<PutTunnelWarpConnectorConfigurationRequest>,
   output: __S(19906, __c622, 2) as any as S.Schema<PutTunnelWarpConnectorConfigurationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110257,7 +110740,8 @@ export const putTunnelWarpConnectorFailover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<PutTunnelWarpConnectorFailoverRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<PutTunnelWarpConnectorFailoverResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110274,7 +110758,8 @@ export const readAccessAiControlMcpPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19968, __c624, 0) as any as S.Schema<ReadAccessAiControlMcpPortalRequest>,
   output: __S(21760, __c680, 0) as any as S.Schema<ReadAccessAiControlMcpPortalResponse>,
-  errors: [McpPortalNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [McpPortalNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110295,13 +110780,8 @@ export const readAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<ReadAccessAiControlMcpServerRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<ReadAccessAiControlMcpServerResponse>,
-  errors: [
-    McpServerNotFound,
-    Forbidden,
-    McpServerInvalidId,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [McpServerNotFound, Forbidden, McpServerInvalidId],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110318,7 +110798,8 @@ export const refreshAccessServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<RefreshAccessServiceTokenRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<RefreshAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110335,7 +110816,8 @@ export const replaceAccessUserPopulationsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<ReplaceAccessUserPopulationsUserRequest>,
   output: __S(24896, __c778, 0) as any as S.Schema<ReplaceAccessUserPopulationsUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110352,7 +110834,8 @@ export const replaceOrganizationsTrustSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<ReplaceOrganizationsTrustSettingsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<ReplaceOrganizationsTrustSettingsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110369,7 +110852,8 @@ export const resetExpirationGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20160, __c630, 0) as any as S.Schema<ResetExpirationGatewayRuleRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<ResetExpirationGatewayRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110386,7 +110870,8 @@ export const resetRiskScoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<ResetRiskScoringRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<ResetRiskScoringResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110403,7 +110888,8 @@ export const resumeCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<ResumeCasbIntegrationRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<ResumeCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110420,7 +110906,8 @@ export const revokeDeviceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<RevokeDeviceDevicesRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<RevokeDeviceDevicesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110437,7 +110924,8 @@ export const revokeDeviceRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<RevokeDeviceRegistrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<RevokeDeviceRegistrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110454,7 +110942,8 @@ export const revokeTokensAccessApplicationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<RevokeTokensAccessApplicationForAccountRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<RevokeTokensAccessApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110471,7 +110960,8 @@ export const revokeTokensAccessApplicationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<RevokeTokensAccessApplicationForZoneRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<RevokeTokensAccessApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110488,7 +110978,8 @@ export const revokeUsersOrganizationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<RevokeUsersOrganizationForAccountRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<RevokeUsersOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110505,7 +110996,8 @@ export const revokeUsersOrganizationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20416, __c638, 0) as any as S.Schema<RevokeUsersOrganizationForZoneRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<RevokeUsersOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110522,7 +111014,8 @@ export const rotateAccessKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<RotateAccessKeyRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<RotateAccessKeyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110539,7 +111032,8 @@ export const rotateAccessSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20512, __c641, 0) as any as S.Schema<RotateAccessSamlCertificateRequest>,
   output: __S(3232, __c101, 0) as any as S.Schema<RotateAccessSamlCertificateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110556,7 +111050,8 @@ export const rotateAccessServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<RotateAccessServiceTokenRequest>,
   output: __S(24544, __c767, 0) as any as S.Schema<RotateAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110573,7 +111068,8 @@ export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<RotateSeedGatewayAuditSshSettingRequest>,
   output: __S(11552, __c361, 0) as any as S.Schema<RotateSeedGatewayAuditSshSettingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110594,13 +111090,8 @@ export const syncAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<SyncAccessAiControlMcpServerRequest>,
   output: __S(20609, __c644, 1) as any as S.Schema<SyncAccessAiControlMcpServerResponse>,
-  errors: [
-    McpServerNotFound,
-    Forbidden,
-    McpServerSyncFailure,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [McpServerNotFound, Forbidden, McpServerSyncFailure],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110617,7 +111108,8 @@ export const testNetworkPathDexTraceroute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20640, __c645, 0) as any as S.Schema<TestNetworkPathDexTracerouteRequest>,
   output: __S(20645, __c645, 5) as any as S.Schema<TestNetworkPathDexTracerouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110634,7 +111126,8 @@ export const testPercentilesDexTraceroute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<TestPercentilesDexTracerouteRequest>,
   output: __S(20673, __c646, 1) as any as S.Schema<TestPercentilesDexTracerouteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110651,7 +111144,8 @@ export const unarchiveCasbPostureFindingsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<UnarchiveCasbPostureFindingsInstanceRequest>,
   output: __S(16640, __c520, 0) as any as S.Schema<UnarchiveCasbPostureFindingsInstanceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110668,7 +111162,8 @@ export const unrevokeDeviceRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<UnrevokeDeviceRegistrationRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<UnrevokeDeviceRegistrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110689,13 +111184,8 @@ export const updateAccessAiControlMcpPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<UpdateAccessAiControlMcpPortalRequest>,
   output: __S(21760, __c680, 0) as any as S.Schema<UpdateAccessAiControlMcpPortalResponse>,
-  errors: [
-    McpPortalNotFound,
-    McpPortalHostnameInUse,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [McpPortalNotFound, McpPortalHostnameInUse, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110712,7 +111202,8 @@ export const updateAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20800, __c650, 0) as any as S.Schema<UpdateAccessAiControlMcpServerRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<UpdateAccessAiControlMcpServerResponse>,
-  errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [McpServerNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110729,7 +111220,8 @@ export const updateAccessApplicationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20929, __c654, 1) as any as S.Schema<UpdateAccessApplicationForAccountRequest>,
   output: __S(20968, __c655, 8) as any as S.Schema<UpdateAccessApplicationResponse>,
-  errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessReferenceNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110746,7 +111238,8 @@ export const updateAccessApplicationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20993, __c656, 1) as any as S.Schema<UpdateAccessApplicationForZoneRequest>,
   output: __S(20968, __c655, 8) as any as S.Schema<UpdateAccessApplicationResponse>,
-  errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessReferenceNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110763,7 +111256,8 @@ export const updateAccessApplicationPolicyForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21026, __c657, 2) as any as S.Schema<UpdateAccessApplicationPolicyForAccountRequest>,
   output: __S(21028, __c657, 4) as any as S.Schema<UpdateAccessApplicationPolicyForAccountResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110780,7 +111274,8 @@ export const updateAccessApplicationPolicyForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21090, __c659, 2) as any as S.Schema<UpdateAccessApplicationPolicyForZoneRequest>,
   output: __S(21092, __c659, 4) as any as S.Schema<UpdateAccessApplicationPolicyForZoneResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110797,7 +111292,8 @@ export const updateAccessBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<UpdateAccessBookmarkRequest>,
   output: __S(23936, __c748, 0) as any as S.Schema<UpdateAccessBookmarkResponse>,
-  errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessBookmarkNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110814,7 +111310,8 @@ export const updateAccessCertificateForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<UpdateAccessCertificateForAccountRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110831,7 +111328,8 @@ export const updateAccessCertificateForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<UpdateAccessCertificateForZoneRequest>,
   output: __S(24000, __c750, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
-  errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCertificateNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110848,7 +111346,8 @@ export const updateAccessCustomPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<UpdateAccessCustomPageRequest>,
   output: __S(24128, __c754, 0) as any as S.Schema<UpdateAccessCustomPageResponse>,
-  errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessCustomPageNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110865,7 +111364,8 @@ export const updateAccessGroupForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<UpdateAccessGroupForAccountRequest>,
   output: __S(21288, __c665, 8) as any as S.Schema<UpdateAccessGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110882,7 +111382,8 @@ export const updateAccessGroupForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<UpdateAccessGroupForZoneRequest>,
   output: __S(21288, __c665, 8) as any as S.Schema<UpdateAccessGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110899,7 +111400,8 @@ export const updateAccessInfrastructureTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21376, __c668, 0) as any as S.Schema<UpdateAccessInfrastructureTargetRequest>,
   output: __S(24384, __c762, 0) as any as S.Schema<UpdateAccessInfrastructureTargetResponse>,
-  errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [TargetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110916,7 +111418,8 @@ export const updateAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21410, __c669, 2) as any as S.Schema<UpdateAccessPolicyRequest>,
   output: __S(21417, __c669, 9) as any as S.Schema<UpdateAccessPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110933,7 +111436,8 @@ export const updateAccessServiceTokenForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<UpdateAccessServiceTokenForAccountRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<UpdateAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110950,7 +111454,8 @@ export const updateAccessServiceTokenForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<UpdateAccessServiceTokenForZoneRequest>,
   output: __S(4832, __c151, 0) as any as S.Schema<UpdateAccessServiceTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110967,7 +111472,8 @@ export const updateAccessTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<UpdateAccessTagRequest>,
   output: __S(24640, __c770, 0) as any as S.Schema<UpdateAccessTagResponse>,
-  errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessTagNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -110984,7 +111490,8 @@ export const updateAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<UpdateAccessUserRequest>,
   output: __S(24704, __c772, 0) as any as S.Schema<UpdateAccessUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111001,7 +111508,8 @@ export const updateAccessUserPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<UpdateAccessUserPopulationRequest>,
   output: __S(24768, __c774, 0) as any as S.Schema<UpdateAccessUserPopulationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111018,7 +111526,8 @@ export const updateAccessUserPopulationsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21603, __c675, 3) as any as S.Schema<UpdateAccessUserPopulationsUserRequest>,
   output: __S(24896, __c778, 0) as any as S.Schema<UpdateAccessUserPopulationsUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111035,7 +111544,8 @@ export const updateCasbIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<UpdateCasbIntegrationRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<UpdateCasbIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111052,7 +111562,8 @@ export const updateCasbPostureFindingType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<UpdateCasbPostureFindingTypeRequest>,
   output: __S(25056, __c783, 0) as any as S.Schema<UpdateCasbPostureFindingTypeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111069,7 +111580,8 @@ export const updateCasbPosturePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<UpdateCasbPosturePolicyRequest>,
   output: __S(25152, __c786, 0) as any as S.Schema<UpdateCasbPosturePolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111086,7 +111598,8 @@ export const updateCasbPostureWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<UpdateCasbPostureWebhookRequest>,
   output: __S(25344, __c792, 0) as any as S.Schema<UpdateCasbPostureWebhookResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111103,7 +111616,8 @@ export const updateCwsDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<UpdateCwsDeploymentRequest>,
   output: __S(25568, __c799, 0) as any as S.Schema<UpdateCwsDeploymentResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111120,7 +111634,8 @@ export const updateCwsDomainAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<UpdateCwsDomainAclRequest>,
   output: __S(25664, __c802, 0) as any as S.Schema<UpdateCwsDomainAclResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111137,7 +111652,8 @@ export const updateCwsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<UpdateCwsPolicyRequest>,
   output: __S(25728, __c804, 0) as any as S.Schema<UpdateCwsPolicyResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111154,7 +111670,8 @@ export const updateCwsPolicySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<UpdateCwsPolicySetRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<UpdateCwsPolicySetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111171,7 +111688,8 @@ export const updateCwsRegoMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<UpdateCwsRegoMetadataRequest>,
   output: __S(25920, __c810, 0) as any as S.Schema<UpdateCwsRegoMetadataResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111188,7 +111706,8 @@ export const updateCwsRegoModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<UpdateCwsRegoModuleRequest>,
   output: __S(25984, __c812, 0) as any as S.Schema<UpdateCwsRegoModuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111205,7 +111724,8 @@ export const updateCwsTenantStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<UpdateCwsTenantStructureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateCwsTenantStructureResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111222,7 +111742,8 @@ export const updateCwsTenantStructuresNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<UpdateCwsTenantStructuresNodeRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateCwsTenantStructuresNodeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111239,7 +111760,8 @@ export const updateCwsWorkload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<UpdateCwsWorkloadRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpdateCwsWorkloadResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111256,7 +111778,8 @@ export const updateDeviceDexTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<UpdateDeviceDexTestRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<UpdateDeviceDexTestResponse>,
-  errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DexTestNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111273,7 +111796,8 @@ export const updateDeviceNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<UpdateDeviceNetworkRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<UpdateDeviceNetworkResponse>,
-  errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DeviceNetworkNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111290,7 +111814,8 @@ export const updateDevicePosture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22433, __c701, 1) as any as S.Schema<UpdateDevicePostureRequest>,
   output: __S(22435, __c701, 3) as any as S.Schema<UpdateDevicePostureResponse>,
-  errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [PostureRuleNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111307,7 +111832,8 @@ export const updateDlpCustomPromptTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22464, __c702, 0) as any as S.Schema<UpdateDlpCustomPromptTopicRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<UpdateDlpCustomPromptTopicResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111324,7 +111850,8 @@ export const updateDlpDataClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<UpdateDlpDataClassRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<UpdateDlpDataClassResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111341,7 +111868,8 @@ export const updateDlpDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<UpdateDlpDatasetRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<UpdateDlpDatasetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111358,7 +111886,8 @@ export const updateDlpDataTagCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<UpdateDlpDataTagCategoryRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<UpdateDlpDataTagCategoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111375,7 +111904,8 @@ export const updateDlpDataTagCategoryDataTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<UpdateDlpDataTagCategoryDataTagRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<UpdateDlpDataTagCategoryDataTagResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111392,7 +111922,8 @@ export const updateDlpEmailRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22659, __c708, 3) as any as S.Schema<UpdateDlpEmailRuleRequest>,
   output: __S(22663, __c708, 7) as any as S.Schema<UpdateDlpEmailRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111409,7 +111940,8 @@ export const updateDlpEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<UpdateDlpEntryRequest>,
   output: __S(22754, __c711, 2) as any as S.Schema<UpdateDlpEntryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111426,7 +111958,8 @@ export const updateDlpEntryCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<UpdateDlpEntryCustomRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<UpdateDlpEntryCustomResponse>,
-  errors: [DlpEntryNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DlpEntryNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111443,7 +111976,8 @@ export const updateDlpEntryIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<UpdateDlpEntryIntegrationRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<UpdateDlpEntryIntegrationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111460,7 +111994,8 @@ export const updateDlpEntryPredefined: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22848, __c714, 0) as any as S.Schema<UpdateDlpEntryPredefinedRequest>,
   output: __S(22850, __c714, 2) as any as S.Schema<UpdateDlpEntryPredefinedResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111477,7 +112012,8 @@ export const updateDlpProfileCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22882, __c715, 2) as any as S.Schema<UpdateDlpProfileCustomRequest>,
   output: __S(22884, __c715, 4) as any as S.Schema<UpdateDlpProfileCustomResponse>,
-  errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [DlpProfileNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111494,7 +112030,8 @@ export const updateDlpSensitivityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<UpdateDlpSensitivityGroupRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<UpdateDlpSensitivityGroupResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111511,7 +112048,8 @@ export const updateDlpSensitivityGroupLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<UpdateDlpSensitivityGroupLevelRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<UpdateDlpSensitivityGroupLevelResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111528,7 +112066,8 @@ export const updateDlpValidatorsProximityWord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<UpdateDlpValidatorsProximityWordRequest>,
   output: __S(2341, __c73, 5) as any as S.Schema<UpdateDlpValidatorsProximityWordResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111545,7 +112084,8 @@ export const updateGatewayList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23008, __c719, 0) as any as S.Schema<UpdateGatewayListRequest>,
   output: __S(11744, __c367, 0) as any as S.Schema<UpdateGatewayListResponse>,
-  errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [GatewayListNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111565,12 +112105,8 @@ export const updateGatewayLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<UpdateGatewayLocationRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<UpdateGatewayLocationResponse>,
-  errors: [
-    GatewayLocationNotFound,
-    CannotDemoteDefaultGatewayLocation,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [GatewayLocationNotFound, CannotDemoteDefaultGatewayLocation],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111587,7 +112123,8 @@ export const updateGatewayPacfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<UpdateGatewayPacfileRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UpdateGatewayPacfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111604,7 +112141,8 @@ export const updateGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111623,7 +112161,8 @@ export const updateIdentityProviderForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<UpdateIdentityProviderForAccountRequest>,
   output: __S(23202, __c725, 2) as any as S.Schema<UpdateIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111640,7 +112179,8 @@ export const updateIdentityProviderForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<UpdateIdentityProviderForZoneRequest>,
   output: __S(23202, __c725, 2) as any as S.Schema<UpdateIdentityProviderResponse>,
-  errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [AccessIdentityProviderNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111657,7 +112197,8 @@ export const updateNetworksSubnetsInitialResolvedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<UpdateNetworksSubnetsInitialResolvedIpRequest>,
   output: __S(3488, __c109, 0) as any as S.Schema<UpdateNetworksSubnetsInitialResolvedIpResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111674,7 +112215,8 @@ export const updateOrganizationForAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<UpdateOrganizationForAccountRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<UpdateOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111691,7 +112233,8 @@ export const updateOrganizationForZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<UpdateOrganizationForZoneRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<UpdateOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111708,7 +112251,8 @@ export const updateOrganizationsTrustSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<UpdateOrganizationsTrustSettingsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<UpdateOrganizationsTrustSettingsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111725,7 +112269,8 @@ export const updateResourceLibraryApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<UpdateResourceLibraryApplicationRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<UpdateResourceLibraryApplicationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111745,7 +112290,8 @@ export const updateRiskScoringIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<UpdateRiskScoringIntegrationRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<UpdateRiskScoringIntegrationResponse>,
-  errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RiskScoringIntegrationNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111762,7 +112308,8 @@ export const validateAccessCustomPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<ValidateAccessCustomPageRequest>,
   output: __S(23617, __c738, 1) as any as S.Schema<ValidateAccessCustomPageResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111779,7 +112326,8 @@ export const validateCasbPostureFindingType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<ValidateCasbPostureFindingTypeRequest>,
   output: __S(23651, __c739, 3) as any as S.Schema<ValidateCasbPostureFindingTypeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111796,7 +112344,8 @@ export const validateDlpPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23680, __c740, 0) as any as S.Schema<ValidateDlpPatternRequest>,
   output: __S(23681, __c740, 1) as any as S.Schema<ValidateDlpPatternResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

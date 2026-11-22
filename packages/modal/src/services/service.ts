@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownModalError } from "../errors.ts";
+import { ModalServiceErrors } from "../errors.ts";
 import { ModalProtocol, type ModalOpError, type ModalOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -140,7 +140,8 @@ export const createServiceUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateServiceUserRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateServiceUserResponse>,
-  errors: [ServiceUserAlreadyExists, ServiceUsersNotAvailable, UnknownModalError],
+  errors: [ServiceUserAlreadyExists, ServiceUsersNotAvailable],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -156,7 +157,8 @@ export const deleteServiceUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteServiceUserRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<DeleteServiceUserResponse>,
-  errors: [ServiceUserNotFound, UnknownModalError],
+  errors: [ServiceUserNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -172,7 +174,8 @@ export const listServiceUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ListServiceUserRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<ListServiceUserResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -188,7 +191,8 @@ export const serviceUserInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ServiceUserInfoRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<ServiceUserInfoResponse>,
-  errors: [ServiceUserNotFound, UnknownModalError],
+  errors: [ServiceUserNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
