@@ -1,5 +1,5 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
@@ -116,10 +116,19 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
  */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
+  // Only the owner may read the token: a new folder is 700 and the file 600.
+  // `mode` applies only when writeFile creates the file, so an existing file
+  // is tightened first.
   return Effect.tryPromise(() =>
-    mkdir(dirname(path), { recursive: true }).then(() =>
-      writeFile(path, JSON.stringify(token, null, 2), "utf8"),
-    ),
+    mkdir(dirname(path), { recursive: true, mode: 0o700 })
+      .then(() =>
+        chmod(path, 0o600).catch((cause: NodeJS.ErrnoException) =>
+          cause?.code === "ENOENT" ? undefined : Promise.reject(cause),
+        ),
+      )
+      .then(() =>
+        writeFile(path, JSON.stringify(token, null, 2), { encoding: "utf8", mode: 0o600 }),
+      ),
   ).pipe(
     Effect.ignore({
       log: "Warn",

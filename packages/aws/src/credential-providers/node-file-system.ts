@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
 /**
  * A minimal Node `FileSystem` -- just what the Node providers and `Auth`
  * read and write under `~/.aws`.
@@ -44,11 +44,21 @@ export const nodeFileSystem = /*@__PURE__*/ FileSystem.makeNoop({
       try: () => readFile(path, "utf8"),
       catch: systemError("readFileString", path),
     }),
-  writeFileString: (path, data) =>
+  writeFileString: (path, data, options) =>
     Effect.tryPromise({
-      try: () => writeFile(path, data),
+      try: () => writeFile(path, data, { flag: options?.flag, mode: options?.mode }),
       catch: systemError("writeFileString", path),
     }),
+  chmod: (path, mode) =>
+    Effect.tryPromise({
+      try: () => chmod(path, mode),
+      catch: systemError("chmod", path),
+    }),
+  makeDirectory: (path, options) =>
+    Effect.tryPromise({
+      try: () => mkdir(path, { recursive: options?.recursive, mode: options?.mode }),
+      catch: systemError("makeDirectory", path),
+    }).pipe(Effect.asVoid),
 });
 
 export const readFileString = (path: string) => nodeFileSystem.readFileString(path);
