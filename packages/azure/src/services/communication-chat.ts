@@ -1076,6 +1076,7 @@ function __c12(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateChatThreadChatMessageRequest" });
@@ -1099,6 +1100,7 @@ function __c13(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateChatThreadChatThreadPropertiesRequest" });

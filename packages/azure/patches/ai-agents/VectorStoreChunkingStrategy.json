@@ -1,0 +1,25 @@
+{
+  "description": "The vector store chunking strategies are polymorphic on `type` (`auto`, `static`), but the converted model keeps only the discriminator, so static chunking options are dropped. Add the subtype member to the request and response shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#VectorStoreChunkingStrategyRequest/members/static",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"static\"`: the chunk size and overlap."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#VectorStoreChunkingStrategyResponse/members/static",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"static\"`: the chunk size and overlap."
+        }
+      }
+    }
+  ]
+}

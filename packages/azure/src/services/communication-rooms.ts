@@ -450,6 +450,7 @@ function __c7(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateParticipantRequest" });
@@ -477,6 +478,7 @@ function __c8(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
+            jsonContentType: "application/merge-patch+json",
           }),
         ),
       ).annotate({ identifier: "UpdateRoomRequest" });

@@ -153,7 +153,27 @@ export interface SendSmsRequest {
   message: string;
   smsSendOptions?: SmsSendOptions | undefined;
 }
-export interface SendSmsResponse {}
+/** Response for a single recipient. */
+export interface SmsSendResponseItem {
+  /** The recipient's phone number in E.164 format. */
+  to: string;
+  /** The identifier of the outgoing SMS message. Only present if the message was processed. */
+  messageId?: string | undefined;
+  /** HTTP status code for this recipient. */
+  httpStatusCode: number;
+  /** Result of a repeatable request: `accepted` or `rejected`. */
+  repeatabilityResult?: string | undefined;
+  /** Whether the message was processed successfully. */
+  successful: boolean;
+  /** Error message for 4xx/5xx/repeatable errors. */
+  errorMessage?: string | undefined;
+}
+export type SmsSendResponseValueList = Array<SmsSendResponseItem>;
+/** Response for a successful or multi-status send SMS request. */
+export interface SmsSendResponse {
+  /** One result per recipient. */
+  value: SmsSendResponseValueList;
+}
 export type AddOptOutError = AzureOpError;
 /** Add phone numbers to the optouts list which shall stop receiving messages from a sender number. */
 export const AddOptOut: API.OperationMethod<
@@ -226,12 +246,12 @@ export type SendSmsError = AzureOpError;
 /** Sends a SMS message from a phone number that belongs to the authenticated account. */
 export const SendSms: API.OperationMethod<
   SendSmsRequest,
-  SendSmsResponse,
+  SmsSendResponse,
   SendSmsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c5, 4) as any as S.Schema<SendSmsRequest>,
-  output: __S(45, __c5, 5) as any as S.Schema<SendSmsResponse>,
+  output: __S(47, __c5, 7) as any as S.Schema<SmsSendResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -424,7 +444,24 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "SendSmsRequest" });
     case 5:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "SendSmsResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          to: S.String,
+          messageId: S.optional(S.String),
+          httpStatusCode: S.Number,
+          repeatabilityResult: S.optional(S.String),
+          successful: S.Boolean,
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SmsSendResponseItem" });
+    case 6:
+      return S.Array(__S(45, __c5, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(46, __c5, 6),
+        }),
+      ).annotate({ identifier: "SmsSendResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

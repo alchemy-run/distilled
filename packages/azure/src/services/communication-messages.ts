@@ -360,8 +360,28 @@ export interface SendNotificationMessagesOperationRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   body: NotificationContent;
+  /** `text` message: the message text. */
+  content?: string | undefined;
+  /** `image`, `video`, `audio`, or `document` message: public URL of the media. */
+  mediaUri?: string | undefined;
+  /** `image`, `video`, or `document` message: the caption. */
+  caption?: string | undefined;
+  /** `document` message: the file name shown to the user. */
+  fileName?: string | undefined;
 }
-export interface SendNotificationMessagesOperationResponse {}
+/** Receipt of the sending one message. */
+export interface MessageReceipt {
+  /** The message id. */
+  messageId: string;
+  /** The native external platform user identifier of the recipient. */
+  to: string;
+}
+export type MessageReceiptList = Array<MessageReceipt>;
+/** Result of the send message operation. */
+export interface SendMessageResult {
+  /** Receipts of the send message operation. */
+  receipts: MessageReceiptList;
+}
 export type GetStreamOperationMediaError = AzureOpError;
 /** Download the Media payload from a User to Business message. */
 export const GetStreamOperationMedia: API.OperationMethod<
@@ -407,12 +427,12 @@ export type SendNotificationMessagesOperationError = AzureOpError;
 /** Sends a notification message from Business to User. */
 export const SendNotificationMessagesOperation: API.OperationMethod<
   SendNotificationMessagesOperationRequest,
-  SendNotificationMessagesOperationResponse,
+  SendMessageResult,
   SendNotificationMessagesOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c2, 20) as any as S.Schema<SendNotificationMessagesOperationRequest>,
-  output: __S(85, __c2, 21) as any as S.Schema<SendNotificationMessagesOperationResponse>,
+  output: __S(87, __c2, 23) as any as S.Schema<SendMessageResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -656,6 +676,10 @@ function __c2(j: number): any {
           repeatabilityFirstSent: S.optional(S.String.pipe(T.Header("Repeatability-First-Sent"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           body: __S(83, __c2, 19).pipe(T.HttpBody()),
+          content: S.optional(S.String),
+          mediaUri: S.optional(S.String),
+          caption: S.optional(S.String),
+          fileName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -669,9 +693,20 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "SendNotificationMessagesOperationRequest" });
     case 21:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "SendNotificationMessagesOperationResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          messageId: S.String,
+          to: S.String,
+        }),
+      ).annotate({ identifier: "MessageReceipt" });
+    case 22:
+      return S.Array(__S(85, __c2, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          receipts: __S(86, __c2, 22),
+        }),
+      ).annotate({ identifier: "SendMessageResult" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -306,7 +306,13 @@ export type ToolDefinition =
   | ConnectedAgentToolDefinition
   | FileSearchToolDefinition
   | FunctionToolDefinition
-  | OpenApiToolDefinition;
+  | OpenApiToolDefinition
+  | unknown
+  | unknown
+  | unknown
+  | unknown
+  | unknown
+  | unknown;
 /** The overridden enabled tools used for this agent thread run. */
 export type ThreadRunToolsList = Array<ToolDefinition>;
 /** The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run. */
@@ -678,83 +684,12 @@ export interface MessageImageFileContent {
 }
 /** The object type. */
 export type MessageTextContentType = "text";
-/** The object type. */
-export type MessageTextFileCitationAnnotationType = "file_citation";
-/** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
-export interface MessageTextFileCitationDetails {
-  /** The ID of the file associated with this citation. */
-  file_id: string;
-  /** The specific quote cited in the associated file. */
-  quote: string;
-}
-/** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
-export interface MessageTextFileCitationAnnotation {
-  /** The object type. */
-  type: MessageTextFileCitationAnnotationType;
-  /** The textual content associated with this text annotation item. */
-  text: string;
-  /** A citation within the message that points to a specific quote from a specific file. Generated when the agent uses the "file_search" tool to search files. */
-  file_citation: MessageTextFileCitationDetails;
-  /** The first text index associated with this text annotation. */
-  start_index?: number | undefined;
-  /** The last text index associated with this text annotation. */
-  end_index?: number | undefined;
-}
-/** The object type. */
-export type MessageTextFilePathAnnotationType = "file_path";
-/** An encapsulation of an image file ID, as used by message image content. */
-export interface MessageTextFilePathDetails {
-  /** The ID of the specific file that the citation is from. */
-  file_id: string;
-}
-/** A citation within the message that points to a file located at a specific path. */
-export interface MessageTextFilePathAnnotation {
-  /** The object type. */
-  type: MessageTextFilePathAnnotationType;
-  /** The textual content associated with this text annotation item. */
-  text: string;
-  /** A URL for the file that's generated when the agent used the code_interpreter tool to generate a file. */
-  file_path: MessageTextFilePathDetails;
-  /** The first text index associated with this text annotation. */
-  start_index?: number | undefined;
-  /** The last text index associated with this text annotation. */
-  end_index?: number | undefined;
-}
-/** The object type. */
-export type MessageTextUrlCitationAnnotationType = "url_citation";
-/** A representation of a URL citation, as used in text thread message content. */
-export interface MessageTextUrlCitationDetails {
-  /** The URL associated with this citation. */
-  url: string;
-  /** The title of the URL. */
-  title?: string | undefined;
-}
-/** A citation within the message that points to a specific URL associated with the message. Generated when the agent uses tools such as 'bing_grounding' to search the Internet. */
-export interface MessageTextUrlCitationAnnotation {
-  /** The object type. */
-  type: MessageTextUrlCitationAnnotationType;
-  /** The textual content associated with this text annotation item. */
-  text: string;
-  /** The details of the URL citation. */
-  url_citation: MessageTextUrlCitationDetails;
-  /** The first text index associated with this text annotation. */
-  start_index?: number | undefined;
-  /** The last text index associated with this text annotation. */
-  end_index?: number | undefined;
-}
-/** An abstract representation of an annotation to text thread message content. */
-export type MessageTextAnnotation =
-  | MessageTextFileCitationAnnotation
-  | MessageTextFilePathAnnotation
-  | MessageTextUrlCitationAnnotation;
-/** A list of annotations associated with this text. */
-export type MessageTextDetailsAnnotationsList = Array<MessageTextAnnotation>;
 /** The text and associated annotations for a single item of agent thread message content. */
 export interface MessageTextDetails {
   /** The text data. */
   value: string;
   /** A list of annotations associated with this text. */
-  annotations: MessageTextDetailsAnnotationsList;
+  annotations?: unknown | undefined;
 }
 /** A representation of a textual item of thread message content. */
 export interface MessageTextContent {
@@ -764,7 +699,11 @@ export interface MessageTextContent {
   text: MessageTextDetails;
 }
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent = MessageImageFileContent | MessageTextContent;
+export type MessageContent =
+  | MessageImageFileContent
+  | MessageTextContent
+  | MessageTextDetails
+  | unknown;
 /** The list of content items associated with the agent thread message. */
 export type ThreadMessageContentList = Array<MessageContent>;
 /** A list of files attached to the message, and the tools they were added to. */
@@ -983,7 +922,8 @@ export interface VectorStoreStaticChunkingStrategyRequest {
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreAutoChunkingStrategyRequest
-  | VectorStoreStaticChunkingStrategyRequest;
+  | VectorStoreStaticChunkingStrategyRequest
+  | unknown;
 export interface CreateVectorStoreFileBatchVectorStoreFileBatchRequest {
   /** Project endpoint in the form of: https://<aiservices-id>.services.ai.azure.com/api/projects/<project-name> */
   endpoint: string;
@@ -1040,7 +980,8 @@ export interface VectorStoreStaticChunkingStrategyResponse {
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyResponse =
   | VectorStoreAutoChunkingStrategyResponse
-  | VectorStoreStaticChunkingStrategyResponse;
+  | VectorStoreStaticChunkingStrategyResponse
+  | unknown;
 /** Description of a file attached to a vector store. */
 export interface VectorStoreFile {
   /** The identifier, which can be referenced in API endpoints. */
@@ -1478,7 +1419,11 @@ export interface RunStepToolCallDetails {
   tool_calls: RunStepToolCallDetailsToolCallsList;
 }
 /** An abstract representation of the details for a run step. */
-export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
+export type RunStepDetails =
+  | RunStepMessageCreationDetails
+  | RunStepToolCallDetails
+  | unknown
+  | unknown;
 /** Possible error code values attributable to a failed run step. */
 export type RunStepErrorCode = "server_error" | "rate_limit_exceeded";
 /** The error information associated with a failed run step. */
@@ -1978,7 +1923,7 @@ export const CreateMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateMessageMessageRequest>,
-  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -2233,7 +2178,7 @@ export const GetMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetMessageMessageRequest>,
-  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -2564,7 +2509,7 @@ export const UpdateMessageMessage: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateMessageMessageRequest>,
-  output: __S(1388, __c43, 12) as any as S.Schema<ThreadMessage>,
+  output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -2832,6 +2777,12 @@ function __c4(j: number): any {
         __S(140, __c4, 12),
         __S(141, __c4, 13),
         __S(149, __c4, 21),
+        S.Unknown,
+        S.Unknown,
+        S.Unknown,
+        S.Unknown,
+        S.Unknown,
+        S.Unknown,
       ]);
     case 23:
       return S.Array(__S(150, __c4, 22));
@@ -3557,7 +3508,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "RunStepToolCallDetails" });
     case 20:
-      return S.Union([__S(993, __c31, 1), __S(1011, __c31, 19)]);
+      return S.Union([__S(993, __c31, 1), __S(1011, __c31, 19), S.Unknown, S.Unknown]);
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -3756,7 +3707,7 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListMessageMessagesRequest" });
     case 1:
-      return S.Array(__S(1388, __c43, 12));
+      return S.Array(__S(1381, __c43, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3888,70 +3839,22 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          file_id: S.String,
-          quote: S.String,
+          value: S.String,
+          annotations: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "MessageTextFileCitationDetails" });
+      ).annotate({ identifier: "MessageTextDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          text: S.String,
-          file_citation: __S(1377, __c43, 1),
-          start_index: S.optional(S.Number),
-          end_index: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MessageTextFileCitationAnnotation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          text: S.String,
-          file_path: __S(1344, __c42, 0),
-          start_index: S.optional(S.Number),
-          end_index: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MessageTextFilePathAnnotation" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MessageTextUrlCitationDetails" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          text: S.String,
-          url_citation: __S(1380, __c43, 4),
-          start_index: S.optional(S.Number),
-          end_index: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MessageTextUrlCitationAnnotation" });
-    case 6:
-      return S.Union([__S(1378, __c43, 2), __S(1379, __c43, 3), __S(1381, __c43, 5)]);
-    case 7:
-      return S.Array(__S(1382, __c43, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.String,
-          annotations: __S(1383, __c43, 7),
-        }),
-      ).annotate({ identifier: "MessageTextDetails" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          text: __S(1384, __c43, 8),
+          text: __S(1377, __c43, 1),
         }),
       ).annotate({ identifier: "MessageTextContent" });
-    case 10:
-      return S.Union([__S(1376, __c43, 0), __S(1385, __c43, 9)]);
-    case 11:
-      return S.Array(__S(1386, __c43, 10));
-    case 12:
+    case 3:
+      return S.Union([__S(1376, __c43, 0), __S(1378, __c43, 2), __S(1377, __c43, 1), S.Unknown]);
+    case 4:
+      return S.Array(__S(1379, __c43, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -3963,7 +3866,7 @@ function __c43(j: number): any {
           completed_at: S.NullOr(S.Number),
           incomplete_at: S.NullOr(S.Number),
           role: S.String,
-          content: __S(1387, __c43, 11),
+          content: __S(1380, __c43, 4),
           assistant_id: S.NullOr(S.String),
           run_id: S.NullOr(S.String),
           attachments: S.NullOr(__S(1410, __c44, 2)),
@@ -4485,7 +4388,7 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "VectorStoreStaticChunkingStrategyRequest" });
     case 2:
-      return S.Union([__S(256, __c8, 0), __S(2049, __c64, 1)]);
+      return S.Union([__S(256, __c8, 0), __S(2049, __c64, 1), S.Unknown]);
   }
 }
 function __c65(j: number): any {

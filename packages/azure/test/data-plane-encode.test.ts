@@ -290,6 +290,15 @@ describe("data-plane request encoding", () => {
 });
 
 describe("data-plane protocol details", () => {
+  test("secrets.GetSecret({ vaultBaseUrl, secretName }) reads the latest version", async () => {
+    const req = await send(secrets.GetSecret({ vaultBaseUrl: VAULT, secretName: "db-password" }));
+    expect(req.method).toBe("GET");
+    expect(req.url).toBe(
+      "https://my-vault.vault.azure.net/secrets/db-password/?api-version=2026-04-01",
+    );
+    expect(req.headers.authorization).toBe(vault);
+  });
+
   test("a host member with a spec default may be omitted", async () => {
     const req = await send(mapsSearch.SearchGetGeocoding({ query: "Seattle" }));
     expect(req.url).toBe(

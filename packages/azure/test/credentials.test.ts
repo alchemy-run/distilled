@@ -224,7 +224,6 @@ describe("fromClientSecret", () => {
         yield* secrets.GetSecret({
           vaultBaseUrl: "https://my-vault.vault.azure.net",
           secretName: "s",
-          secretVersion: "",
         });
       }),
       fromClientSecret(SP),
@@ -240,11 +239,7 @@ describe("fromClientSecret", () => {
   test("a Key Vault-only program mints only the vault token", async () => {
     const { calls, layer } = fakeHttp(entraRoute);
     await run(
-      secrets.GetSecret({
-        vaultBaseUrl: "https://my-vault.vault.azure.net",
-        secretName: "s",
-        secretVersion: "",
-      }),
+      secrets.GetSecret({ vaultBaseUrl: "https://my-vault.vault.azure.net", secretName: "s" }),
       fromClientSecret(SP),
       layer,
     );
@@ -596,11 +591,7 @@ describe("fromStaticToken", () => {
     await run(
       Effect.gen(function* () {
         yield* GetResourceGroup({ subscriptionId: SP.subscriptionId, resourceGroupName: "rg" });
-        yield* secrets.GetSecret({
-          vaultBaseUrl: "https://v.vault.azure.net",
-          secretName: "s",
-          secretVersion: "",
-        });
+        yield* secrets.GetSecret({ vaultBaseUrl: "https://v.vault.azure.net", secretName: "s" });
       }),
       fromStaticToken({ bearerToken: Redacted.make("static"), subscriptionId: SP.subscriptionId }),
       layer,
