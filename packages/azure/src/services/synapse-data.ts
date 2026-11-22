@@ -888,6 +888,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2020-12-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "CreateRoleAssignmentRequest" });
@@ -924,6 +925,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteArtifactForDBRequest" });
@@ -950,6 +952,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2020-12-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoleAssignmentByIdRequest" });
@@ -970,6 +973,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetSyMSOperationStatusRequest" });
@@ -1006,6 +1010,7 @@ function __c7(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListArtifactsRequest" });
@@ -1030,6 +1035,7 @@ function __c8(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListArtifactsInSchemaByTypeRequest" });
@@ -1051,6 +1057,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatabasesRequest" });
@@ -1075,6 +1082,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListPartitionInfosForSchemaAndTableRequest" });
@@ -1099,6 +1107,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListPartitionInfosForSchemaAndViewRequest" });
@@ -1122,6 +1131,7 @@ function __c12(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListPartitionInfosForTableRequest" });
@@ -1145,6 +1155,7 @@ function __c13(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListPartitionInfosForViewRequest" });
@@ -1167,6 +1178,7 @@ function __c14(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2020-12-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListRoleAssignmentsRequest" });
@@ -1199,6 +1211,7 @@ function __c15(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteArtifactFromSchemaRequest" });
@@ -1226,6 +1239,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutArtifactInDBRequest" });
@@ -1252,6 +1266,7 @@ function __c17(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutArtifactInSchemaRequest" });
@@ -1285,6 +1300,7 @@ function __c18(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutDatabaseRequest" });
@@ -1305,6 +1321,7 @@ function __c19(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDatabaseRequest" });
@@ -1326,6 +1343,7 @@ function __c20(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2020-12-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteRoleAssignmentByIdRequest" });
@@ -1346,6 +1364,7 @@ function __c21(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ExecuteChangeRequest" });
@@ -1413,6 +1432,7 @@ function __c24(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "ExecuteChangeWithValidationRequest" });
@@ -1435,6 +1455,7 @@ function __c25(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetArtifactFromDBRequest" });
@@ -1471,6 +1492,7 @@ function __c27(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetArtifactFromSchemaRequest" });
@@ -1491,6 +1513,7 @@ function __c28(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-04-01",
+            audience: "https://dev.azuresynapse.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseRequest" });

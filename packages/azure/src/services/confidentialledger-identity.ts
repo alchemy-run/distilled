@@ -80,6 +80,7 @@ function __c0(j: number): any {
               certificateEndpoint: "https://identity.confidential-ledger.core.azure.com",
             },
             apiVersion: "2026-02-23",
+            anonymous: true,
           }),
         ),
       ).annotate({ identifier: "GetLedgerIdentityRequest" });

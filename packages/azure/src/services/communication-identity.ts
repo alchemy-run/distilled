@@ -334,6 +334,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateIdentityOperationRequest" });
@@ -388,6 +389,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteIdentityOperationRequest" });
@@ -417,6 +419,7 @@ function __c6(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteTeamsExtensionOperationAssignmentRequest" });
@@ -438,6 +441,7 @@ function __c7(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTeamsExtensionOperationAssignmentRequest" });
@@ -475,6 +479,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "IdentityOperationsIssueAccessTokenRequest" });
@@ -495,6 +500,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RevokeIdentityOperationAccessTokensRequest" });
@@ -517,6 +523,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TeamsExtensionOperationsExchangeTokenRequest" });
@@ -539,6 +546,7 @@ function __c12(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TeamsUserOperationsExchangeTeamsUserAccessTokenRequest" });
@@ -562,6 +570,7 @@ function __c13(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-09-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpsertTeamsExtensionOperationAssignmentRequest" });

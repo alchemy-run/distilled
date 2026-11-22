@@ -3904,6 +3904,7 @@ function __c0(j: number): any {
             query: { comp: "copy" },
             headers: { "x-ms-copy-action": "abort" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CopyFileAbortRequest" });
@@ -3959,6 +3960,7 @@ function __c2(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDirectoryRequest" });
@@ -4017,6 +4019,7 @@ function __c4(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteShareRequest" });
@@ -4062,6 +4065,7 @@ function __c5(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "forceclosehandles" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DirectoryForceCloseHandlesRequest" });
@@ -4114,6 +4118,7 @@ function __c7(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory", comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DirectoryListFilesAndDirectoriesSegmentRequest" });
@@ -4224,6 +4229,7 @@ function __c10(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadFileRequest" });
@@ -4304,6 +4310,7 @@ function __c11(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "acquire" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileAcquireLeaseRequest" });
@@ -4350,6 +4357,7 @@ function __c13(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "break" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileBreakLeaseRequest" });
@@ -4381,6 +4389,7 @@ function __c14(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "change" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileChangeLeaseRequest" });
@@ -4411,6 +4420,7 @@ function __c15(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "forceclosehandles" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileForceCloseHandlesRequest" });
@@ -4445,6 +4455,7 @@ function __c16(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "rangelist" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileGetRangeListRequest" });
@@ -4500,6 +4511,7 @@ function __c17(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "release" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileReleaseLeaseRequest" });
@@ -4573,6 +4585,7 @@ function __c19(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-type": "file" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileRequest" });
@@ -4653,6 +4666,7 @@ function __c20(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FileStartCopyRequest" });
@@ -4693,6 +4707,7 @@ function __c21(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDirectoryPropertiesRequest" });
@@ -4750,6 +4765,7 @@ function __c23(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDirectoryPropertiesByFileIdRequest" });
@@ -4780,6 +4796,7 @@ function __c24(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "hardlinks" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileHardLinksRequest" });
@@ -4863,6 +4880,7 @@ function __c25(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFilePropertiesRequest" });
@@ -4940,6 +4958,7 @@ function __c27(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFilePropertiesByFileIdRequest" });
@@ -4968,6 +4987,7 @@ function __c28(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "symboliclink" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileSymbolicLinkRequest" });
@@ -5004,6 +5024,7 @@ function __c29(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "service", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServicePropertiesRequest" });
@@ -5107,6 +5128,7 @@ function __c31(j: number): any {
             query: { restype: "service", comp: "userdelegationkey" },
             storage: true,
             xmlRoot: "KeyInfo",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceUserDelegationKeyRequest" });
@@ -5150,6 +5172,7 @@ function __c32(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "acl" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetShareAccessPolicyRequest" });
@@ -5205,6 +5228,7 @@ function __c34(j: number): any {
             query: { restype: "hardlink" },
             headers: { "x-ms-type": "file" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileHardLinkRequest" });
@@ -5255,6 +5279,7 @@ function __c35(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "filepermission" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetSharePermissionRequest" });
@@ -5292,6 +5317,7 @@ function __c36(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetSharePropertiesRequest" });
@@ -5394,6 +5420,7 @@ function __c37(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "stats" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetShareStatisticsRequest" });
@@ -5436,6 +5463,7 @@ function __c38(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "listhandles" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDirectoryHandlesRequest" });
@@ -5500,6 +5528,7 @@ function __c40(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "listhandles" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFileHandlesRequest" });
@@ -5528,6 +5557,7 @@ function __c41(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListServiceSharesSegmentRequest" });
@@ -5636,6 +5666,7 @@ function __c42(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory", comp: "rename" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenameDirectoryRequest" });
@@ -5710,6 +5741,7 @@ function __c44(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "rename" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenameFileRequest" });
@@ -5739,6 +5771,7 @@ function __c45(j: number): any {
             query: { comp: "lease", restype: "share" },
             headers: { "x-ms-lease-action": "renew" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenewShareLeaseRequest" });
@@ -5767,6 +5800,7 @@ function __c46(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "undelete" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RestoreShareRequest" });
@@ -5825,6 +5859,7 @@ function __c47(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "symboliclink" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileSymbolicLinkRequest" });
@@ -5873,6 +5908,7 @@ function __c48(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory", comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetDirectoryMetadataRequest" });
@@ -5928,6 +5964,7 @@ function __c50(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetDirectoryPropertiesRequest" });
@@ -5998,6 +6035,7 @@ function __c51(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetFileHTTPHeadersRequest" });
@@ -6051,6 +6089,7 @@ function __c52(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetFileMetadataRequest" });
@@ -6080,6 +6119,7 @@ function __c53(j: number): any {
             query: { restype: "service", comp: "properties" },
             storage: true,
             xmlRoot: "StorageServiceProperties",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetServicePropertiesRequest" });
@@ -6117,6 +6157,7 @@ function __c54(j: number): any {
             query: { restype: "share", comp: "acl" },
             storage: true,
             xmlRoot: "SignedIdentifiers",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetShareAccessPolicyRequest" });
@@ -6158,6 +6199,7 @@ function __c56(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetShareMetadataRequest" });
@@ -6214,6 +6256,7 @@ function __c57(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetSharePropertiesRequest" });
@@ -6276,6 +6319,7 @@ function __c58(j: number): any {
             query: { comp: "lease", restype: "share" },
             headers: { "x-ms-lease-action": "acquire" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ShareAcquireLeaseRequest" });
@@ -6306,6 +6350,7 @@ function __c59(j: number): any {
             query: { comp: "lease", restype: "share" },
             headers: { "x-ms-lease-action": "break" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ShareBreakLeaseRequest" });
@@ -6376,6 +6421,7 @@ function __c60(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateShareRequest" });
@@ -6429,6 +6475,7 @@ function __c61(j: number): any {
             query: { comp: "lease", restype: "share" },
             headers: { "x-ms-lease-action": "change" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ShareChangeLeaseRequest" });
@@ -6458,6 +6505,7 @@ function __c62(j: number): any {
             query: { comp: "lease", restype: "share" },
             headers: { "x-ms-lease-action": "release" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ShareReleaseLeaseRequest" });
@@ -6495,6 +6543,7 @@ function __c63(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "range" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFileRangeRequest" });
@@ -6555,6 +6604,7 @@ function __c64(j: number): any {
             query: { comp: "range" },
             headers: { "x-ms-write": "update" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFileRangeFromURLRequest" });
@@ -6603,6 +6653,7 @@ function __c65(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "filepermission" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateSharePermissionRequest" });
@@ -6638,6 +6689,7 @@ function __c66(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "share", comp: "snapshot" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateShareSnapshotRequest" });
@@ -6676,6 +6728,7 @@ function __c67(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "directory" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDirectoryRequest" });
@@ -6703,6 +6756,7 @@ function __c68(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFileRequest" });

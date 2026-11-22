@@ -236,6 +236,7 @@ function __c0(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/cose; application/cbor" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEntryRequest" });
@@ -265,6 +266,7 @@ function __c2(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/scitt-receipt+cose" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEntryRequest" });
@@ -286,6 +288,7 @@ function __c3(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/scitt-statement+cose" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEntryStatementRequest" });
@@ -305,6 +308,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPublicKeysRequest" });
@@ -351,6 +355,7 @@ function __c5(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/cbor" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetScittKeyRequest" });
@@ -371,6 +376,7 @@ function __c6(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/cbor" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTransparencyConfigCborRequest" });
@@ -391,6 +397,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-26",
             headers: { accept: "application/cbor" },
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListScittKeysRequest" });

@@ -1,0 +1,10 @@
+{
+  "description": "Container Registry's data plane accepts only registry tokens: the Microsoft Entra ID token for the spec's `https://containerregistry.azure.net` audience is traded at `POST /oauth2/exchange` for a refresh token, then at `POST /oauth2/token` for an access token scoped to the repository and actions (Microsoft Learn / Azure/acr: \"AAD integration\" token exchange). Name the exchange so the protocol performs it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerregistryData/traits/com.azure.protocols#tokenExchange",
+      "value": "acr"
+    }
+  ]
+}

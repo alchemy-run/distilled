@@ -444,6 +444,7 @@ function __c0(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEntityRequest" });
@@ -474,6 +475,7 @@ function __c2(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteRuleRequest" });
@@ -495,6 +497,7 @@ function __c3(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutEntityRequest" });
@@ -518,6 +521,7 @@ function __c4(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutRuleRequest" });
@@ -540,6 +544,7 @@ function __c5(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PutSubscriptionRequest" });
@@ -561,6 +566,7 @@ function __c6(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteSubscriptionRequest" });
@@ -582,6 +588,7 @@ function __c7(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetEntityRequest" });
@@ -601,6 +608,7 @@ function __c8(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetNamespaceRequest" });
@@ -667,6 +675,7 @@ function __c9(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetRuleRequest" });
@@ -689,6 +698,7 @@ function __c10(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetSubscriptionRequest" });
@@ -711,6 +721,7 @@ function __c11(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListEntitiesRequest" });
@@ -734,6 +745,7 @@ function __c12(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListRulesRequest" });
@@ -756,6 +768,7 @@ function __c13(j: number): any {
             host: "https://{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-05",
+            audience: "https://servicebus.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });

@@ -338,6 +338,7 @@ function __c0(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTextIndependentEnrollmentRequest" });
@@ -371,6 +372,7 @@ function __c1(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTextIndependentProfileRequest" });
@@ -412,6 +414,7 @@ function __c3(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteTextIndependentProfileRequest" });
@@ -436,6 +439,7 @@ function __c4(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTextIndependentProfileRequest" });
@@ -476,6 +480,7 @@ function __c6(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTextIndependentActivationPhrasesRequest" });
@@ -512,6 +517,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTextIndependentProfilesRequest" });
@@ -541,6 +547,7 @@ function __c8(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ResetTextIndependentProfileRequest" });
@@ -564,6 +571,7 @@ function __c9(j: number): any {
             host: "{endpoint}/speaker-recognition/identification",
             hostRaw: ["endpoint"],
             apiVersion: "2021-09-05",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TextIndependentIdentifySingleSpeakerRequest" });

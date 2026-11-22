@@ -1075,6 +1075,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelPhoneNumberOperationRequest" });
@@ -1103,6 +1104,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeletePhoneNumberReservationRequest" });
@@ -1125,6 +1127,7 @@ function __c3(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberReservationsRequest" });
@@ -1165,6 +1168,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersBrowseAvailableNumbersRequest" });
@@ -1212,6 +1216,7 @@ function __c6(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersCreateOrUpdateReservationRequest" });
@@ -1232,6 +1237,7 @@ function __c7(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersGetSearchResultRequest" });
@@ -1268,6 +1274,7 @@ function __c8(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersPurchasePhoneNumbersRequest" });
@@ -1299,6 +1306,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersPurchaseReservationRequest" });
@@ -1319,6 +1327,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PhoneNumbersReleasePhoneNumberRequest" });
@@ -1344,6 +1353,7 @@ function __c12(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SearchPhoneNumberAvailablePhoneNumbersRequest" });
@@ -1382,6 +1392,7 @@ function __c14(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SearchPhoneNumbersOperatorInformationRequest" });
@@ -1432,6 +1443,7 @@ function __c15(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdatePhoneNumberCapabilitiesRequest" });
@@ -1452,6 +1464,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPhoneNumberByNumberRequest" });
@@ -1512,6 +1525,7 @@ function __c20(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPhoneNumberOperationRequest" });
@@ -1569,6 +1583,7 @@ function __c21(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPhoneNumberReservationRequest" });
@@ -1639,6 +1654,7 @@ function __c24(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberAreaCodesRequest" });
@@ -1678,6 +1694,7 @@ function __c25(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberAvailableCountriesRequest" });
@@ -1721,6 +1738,7 @@ function __c26(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberAvailableLocalitiesRequest" });
@@ -1771,6 +1789,7 @@ function __c27(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberOfferingsRequest" });
@@ -1812,6 +1831,7 @@ function __c28(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-06-01",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListPhoneNumberPhoneNumbersRequest" });

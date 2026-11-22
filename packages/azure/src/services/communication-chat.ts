@@ -802,6 +802,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AddChatThreadChatParticipantsRequest" });
@@ -933,6 +934,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ChatThreadListChatReadReceiptsRequest" });
@@ -974,6 +976,7 @@ function __c8(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListChatThreadChatParticipantsRequest" });
@@ -1008,6 +1011,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveChatThreadChatParticipantRequest" });
@@ -1032,6 +1036,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SendChatThreadChatMessageRequest" });
@@ -1053,6 +1058,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SendChatThreadTypingNotificationRequest" });
@@ -1077,6 +1083,7 @@ function __c12(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateChatThreadChatMessageRequest" });
@@ -1101,6 +1108,7 @@ function __c13(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateChatThreadChatThreadPropertiesRequest" });
@@ -1122,6 +1130,7 @@ function __c14(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ChatThreadSendChatReadReceiptRequest" });
@@ -1154,6 +1163,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateChatChatThreadRequest" });
@@ -1216,6 +1226,7 @@ function __c19(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteChatChatThreadRequest" });
@@ -1237,6 +1248,7 @@ function __c20(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteChatThreadChatMessageRequest" });
@@ -1258,6 +1270,7 @@ function __c21(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetChatThreadChatMessageRequest" });
@@ -1320,6 +1333,7 @@ function __c23(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetChatThreadChatThreadPropertiesRequest" });
@@ -1343,6 +1357,7 @@ function __c24(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListChatChatThreadsRequest" });
@@ -1385,6 +1400,7 @@ function __c25(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-15",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListChatThreadChatMessagesRequest" });

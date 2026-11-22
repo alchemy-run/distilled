@@ -1321,6 +1321,7 @@ function __c0(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateLedgerEntryRequest" });
@@ -1392,6 +1393,7 @@ function __c4(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateOrUpdateLedgerUserRequest" });
@@ -1428,6 +1430,7 @@ function __c6(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ExecuteUserDefinedFunctionRequest" });
@@ -1467,6 +1470,7 @@ function __c7(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetConstitutionRequest" });
@@ -1494,6 +1498,7 @@ function __c8(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetCurrentLedgerEntryRequest" });
@@ -1527,6 +1532,7 @@ function __c10(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEnclaveQuotesRequest" });
@@ -1566,6 +1572,7 @@ function __c11(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetLedgerEntryRequest" });
@@ -1593,6 +1600,7 @@ function __c12(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetLedgerUserRequest" });
@@ -1613,6 +1621,7 @@ function __c13(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetReceiptRequest" });
@@ -1697,6 +1706,7 @@ function __c14(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetRuntimeOptionsRequest" });
@@ -1717,6 +1727,7 @@ function __c15(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTransactionStatusRequest" });
@@ -1744,6 +1755,7 @@ function __c16(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserRequest" });
@@ -1766,6 +1778,7 @@ function __c17(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateOrUpdateUserRequest" });
@@ -1796,6 +1809,7 @@ function __c19(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserDefinedEndpointRequest" });
@@ -1823,6 +1837,7 @@ function __c20(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserDefinedEndpointsModuleRequest" });
@@ -1843,6 +1858,7 @@ function __c21(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserDefinedFunctionRequest" });
@@ -1863,6 +1879,7 @@ function __c22(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserDefinedRoleRequest" });
@@ -1890,6 +1907,7 @@ function __c23(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListCollectionsRequest" });
@@ -1926,6 +1944,7 @@ function __c24(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListConsortiumMembersRequest" });
@@ -1967,6 +1986,7 @@ function __c25(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListLedgerEntriesRequest" });
@@ -1998,6 +2018,7 @@ function __c26(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListLedgerUsersRequest" });
@@ -2029,6 +2050,7 @@ function __c27(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTagsRequest" });
@@ -2057,6 +2079,7 @@ function __c28(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListUserDefinedFunctionsRequest" });
@@ -2087,6 +2110,7 @@ function __c29(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateUserDefinedEndpointRequest" });
@@ -2174,6 +2198,7 @@ function __c33(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             nextLink: "nextLink",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListUsersRequest" });
@@ -2209,6 +2234,7 @@ function __c34(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateRuntimeOptionsRequest" });
@@ -2230,6 +2256,7 @@ function __c35(j: number): any {
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateUserDefinedRoleRequest" });
@@ -2251,6 +2278,7 @@ function __c36(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateUserDefinedFunctionRequest" });
@@ -2282,6 +2310,7 @@ function __c38(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateUserDefinedRoleRequest" });
@@ -2325,6 +2354,7 @@ function __c41(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteLedgerUserRequest" });
@@ -2345,6 +2375,7 @@ function __c42(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteUserRequest" });
@@ -2365,6 +2396,7 @@ function __c43(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteUserDefinedFunctionRequest" });
@@ -2385,6 +2417,7 @@ function __c44(j: number): any {
             host: "{ledgerEndpoint}",
             hostRaw: ["ledgerEndpoint"],
             apiVersion: "2026-02-23",
+            audience: "https://confidential-ledger.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteUserDefinedRoleRequest" });

@@ -129,6 +129,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-03-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetSipRoutingRequest" });
@@ -191,6 +192,7 @@ function __c2(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-03-01",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateSipRoutingRequest" });

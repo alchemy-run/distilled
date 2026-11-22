@@ -1054,7 +1054,7 @@ function __c0(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "CheckEkmConnectionRequest" });
@@ -1088,7 +1088,7 @@ function __c1(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEkmConnectionRequest" });
@@ -1127,7 +1127,7 @@ function __c4(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetEkmConnectionRequest" });
@@ -1149,7 +1149,7 @@ function __c5(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoleAssignmentRequest" });
@@ -1171,7 +1171,7 @@ function __c6(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoleDefinitionRequest" });
@@ -1192,7 +1192,7 @@ function __c7(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetSettingRequest" });
@@ -1224,7 +1224,7 @@ function __c9(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetSettingsRequest" });
@@ -1256,7 +1256,7 @@ function __c10(j: number): any {
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
             nextLink: "nextLink",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListRoleAssignmentForScopeRequest" });
@@ -1289,7 +1289,7 @@ function __c11(j: number): any {
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
             nextLink: "nextLink",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListRoleDefinitionsRequest" });
@@ -1321,7 +1321,7 @@ function __c12(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PreFullBackupRequest" });
@@ -1343,7 +1343,7 @@ function __c13(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PreFullRestoreOperationRequest" });
@@ -1364,7 +1364,7 @@ function __c14(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "RestoreStatusRequest" });
@@ -1409,7 +1409,7 @@ function __c16(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "CreateRoleAssignmentRequest" });
@@ -1453,7 +1453,7 @@ function __c18(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "RoleDefinitionsCreateOrUpdateRequest" });
@@ -1476,7 +1476,7 @@ function __c19(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "SelectiveKeyRestoreOperationRequest" });
@@ -1497,7 +1497,7 @@ function __c20(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "SelectiveKeyRestoreStatusRequest" });
@@ -1521,7 +1521,7 @@ function __c21(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEkmConnectionRequest" });
@@ -1543,7 +1543,7 @@ function __c22(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateSettingRequest" });
@@ -1563,7 +1563,7 @@ function __c23(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEkmConnectionRequest" });
@@ -1585,7 +1585,7 @@ function __c24(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteRoleAssignmentRequest" });
@@ -1607,7 +1607,7 @@ function __c25(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteRoleDefinitionRequest" });
@@ -1666,7 +1666,7 @@ function __c27(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "FullBackupRequest" });
@@ -1717,7 +1717,7 @@ function __c30(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "FullBackupStatusRequest" });
@@ -1751,7 +1751,7 @@ function __c31(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "FullRestoreOperationRequest" });
@@ -1796,7 +1796,7 @@ function __c33(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetEkmCertificateRequest" });

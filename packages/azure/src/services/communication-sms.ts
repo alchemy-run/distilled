@@ -276,6 +276,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-01-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AddOptOutRequest" });
@@ -326,6 +327,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-01-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CheckOptOutRequest" });
@@ -346,6 +348,7 @@ function __c3(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-01-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeliveryReportRequest" });
@@ -391,6 +394,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-01-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveOptOutRequest" });
@@ -440,6 +444,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-01-23",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SendSmsRequest" });

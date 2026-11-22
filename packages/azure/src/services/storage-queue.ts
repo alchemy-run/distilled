@@ -841,6 +841,7 @@ function __c0(j: number): any {
             apiVersion: "2026-04-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ClearMessageRequest" });
@@ -878,6 +879,7 @@ function __c2(j: number): any {
             apiVersion: "2026-04-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateQueueRequest" });
@@ -910,6 +912,7 @@ function __c4(j: number): any {
             apiVersion: "2026-04-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "MessagesDequeueRequest" });
@@ -956,6 +959,7 @@ function __c5(j: number): any {
             apiVersionHeader: "x-ms-version",
             storage: true,
             xmlRoot: "QueueMessage",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "MessagesEnqueueRequest" });
@@ -998,6 +1002,7 @@ function __c6(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { peekonly: "true" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "MessagesPeekRequest" });
@@ -1043,6 +1048,7 @@ function __c7(j: number): any {
             query: { comp: "acl" },
             storage: true,
             xmlRoot: "SignedIdentifiers",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetQueueAccessPolicyRequest" });
@@ -1069,6 +1075,7 @@ function __c8(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetQueueMetadataRequest" });
@@ -1098,6 +1105,7 @@ function __c9(j: number): any {
             query: { restype: "service", comp: "properties" },
             storage: true,
             xmlRoot: "StorageServiceProperties",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetServicePropertiesRequest" });
@@ -1134,6 +1142,7 @@ function __c10(j: number): any {
             apiVersionHeader: "x-ms-version",
             storage: true,
             xmlRoot: "QueueMessage",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateMessageIdRequest" });
@@ -1170,6 +1179,7 @@ function __c11(j: number): any {
             apiVersion: "2026-04-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteMessageIdRequest" });
@@ -1194,6 +1204,7 @@ function __c12(j: number): any {
             apiVersion: "2026-04-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteQueueRequest" });
@@ -1219,6 +1230,7 @@ function __c13(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "acl" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetQueueAccessPolicyRequest" });
@@ -1269,6 +1281,7 @@ function __c15(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetQueuePropertiesRequest" });
@@ -1305,6 +1318,7 @@ function __c16(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "service", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServicePropertiesRequest" });
@@ -1382,6 +1396,7 @@ function __c18(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "service", comp: "stats" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceStatisticsRequest" });
@@ -1426,6 +1441,7 @@ function __c19(j: number): any {
             query: { restype: "service", comp: "userdelegationkey" },
             storage: true,
             xmlRoot: "KeyInfo",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceUserDelegationKeyRequest" });
@@ -1473,6 +1489,7 @@ function __c20(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListServiceQueuesSegmentRequest" });
