@@ -1,12 +1,18 @@
 import { ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
   hasPropAnn,
   matchTypedError,
-  responseErrorFields,
   nameOf,
+  responseErrorFields,
 } from "@distilled.cloud/core/protocol-http";
 import { declaredStatusClass } from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
@@ -45,36 +51,17 @@ import {
  *             declares (`GcpServiceErrors`); every error carries the body
  *             and headers. Unmatched statuses -> `UnknownGCPError`.
  */
-import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials-service.ts";
+import { Credentials, type Config } from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import { type GcpServiceError, GCPParseError, UnknownGCPError } from "./errors.ts";
 import * as Region from "./region.ts";
 import type { GcpHttpTrait } from "./traits.ts";
-
-/**
- * The errors declared on GCP's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link GCPParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownGCPError}, and `InternalServerError`
- * for a 5xx), an endpoint override that is not a URL (`ConfigError`) or
- * can't be read (`SourceError`), an operation without its `Http` trait
- * (`SdkError`), and a body read (`HttpClientError`).
- */
-export type GcpProtocolError =
-  | GCPParseError
-  | UnknownGCPError
-  | InternalServerError
-  | ConfigError
-  | SourceError
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated GCP operation fails with besides its own errors: the
@@ -83,7 +70,7 @@ export type GcpProtocolError =
  * `API.OperationMethod<I, O, <Op>Error, GcpOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type GcpOpError = GcpServiceError | GcpProtocolError | CredentialsError;
+export type GcpOpError = GcpServiceError | ErrorOf<typeof GcpProtocol>;
 
 /** Context (requirements) shared by every generated GCP operation. */
 export type GcpOpContext = Credentials | HttpClient.HttpClient;
@@ -313,9 +300,9 @@ const decode = ({ response, outputAst, errors }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const GcpProtocol: Protocol<GcpProtocolError | CredentialsError, Credentials> = {
+const gcpProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const GcpProtocol: ProtocolOf<typeof gcpProtocolMethods> = gcpProtocolMethods;
