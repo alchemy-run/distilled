@@ -152,7 +152,7 @@ const base: SdkSpec = {
   operationDecl: {
     contextType: "UniFiConsoleOpContext",
     commonErrorType: "UniFiOpError",
-    commonErrorClasses: ["UnknownUniFiError"],
+    serviceErrors: "UniFiServiceErrors",
     protocol: "UniFiNetworkProtocol",
     retry: "Retry.Retry",
   },
@@ -173,7 +173,7 @@ const base: SdkSpec = {
 const operationDecl = (contextType: string, protocol: string): SdkSpec["operationDecl"] => ({
   contextType,
   commonErrorType: "UniFiOpError",
-  commonErrorClasses: ["UnknownUniFiError"],
+  serviceErrors: "UniFiServiceErrors",
   protocol,
   retry: "Retry.Retry",
 });

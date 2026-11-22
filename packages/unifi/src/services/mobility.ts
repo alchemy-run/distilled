@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUniFiError } from "../errors.ts";
+import { UniFiServiceErrors } from "../errors.ts";
 import { paginateOffset } from "../pagination.ts";
 import { UniFiCloudProtocol, type UniFiOpError, type UniFiCloudOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -404,7 +404,8 @@ export const getDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(21, __c2, 5) as any as S.Schema<DeviceDetailResponse>,
-  errors: [Forbidden, NotFound, UnknownUniFiError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -423,7 +424,8 @@ export const listDeviceClients: API.PaginatedOperationMethod<
   () => ({
     input: __S(24, __c3, 0) as any as S.Schema<ListDeviceClientsRequest>,
     output: __S(27, __c3, 3) as any as S.Schema<ListDeviceClientsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUniFiError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiCloudProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -445,7 +447,8 @@ export const listDevices: API.PaginatedOperationMethod<
   () => ({
     input: __S(32, __c4, 0) as any as S.Schema<ListDevicesRequest>,
     output: __S(35, __c4, 3) as any as S.Schema<ListDevicesResponse>,
-    errors: [BadRequest, Forbidden, UnknownUniFiError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiCloudProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -465,7 +468,8 @@ export const listWorkspaceAdmins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListWorkspaceAdminsRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<ListWorkspaceAdminsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUniFiError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -482,7 +486,8 @@ export const listWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<ListWorkspacesResponse>,
-  errors: [BadRequest, Forbidden, UnknownUniFiError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -499,7 +504,8 @@ export const updateDeviceName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<UpdateDeviceNameRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateDeviceNameResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUniFiError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -516,7 +522,8 @@ export const updateDeviceNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<UpdateDeviceNetworkRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateDeviceNetworkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUniFiError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -533,7 +540,8 @@ export const updateDeviceWireless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<UpdateDeviceWirelessRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateDeviceWirelessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUniFiError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
