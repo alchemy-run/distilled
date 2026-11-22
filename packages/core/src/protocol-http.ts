@@ -717,7 +717,8 @@ export const makeRequest = (
 /**
  * The input cannot be sent: a path label whose value would address another
  * resource (`.` or `..`, which the URL parser resolves to the parent path,
- * or `""`, which addresses the parent path). Raised before anything is sent.
+ * or `""`, which addresses the parent path), or a host label that would
+ * address another host. Raised before anything is sent.
  */
 export class InvalidInput
   extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
@@ -779,6 +780,37 @@ export const encodeLabel = (
 ): string | InvalidInput =>
   invalidLabel(member, value, greedy, optional) ??
   (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
+
+/** One RFC 1123 DNS label: 1-63 letters, digits and `-`, no `-` at either end. */
+const HOST_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
+/**
+ * Whether `value` is one DNS host label (RFC 1123), or with
+ * `allowSubDomains` a dot-separated name made of them. A value that goes into
+ * a URL host must pass it: any other character (`/`, `@`, `#`, `?`, `:`)
+ * can move the request to another host, and no encoding fixes a host.
+ */
+export const isHostLabel = (value: unknown, allowSubDomains?: boolean): boolean =>
+  typeof value === "string" &&
+  (allowSubDomains ? value.split(".") : [value]).every((label) => HOST_LABEL.test(label));
+
+/**
+ * The refusal for a value that goes into a URL host but is not a host label
+ * ({@link isHostLabel}), or `undefined`. The host-side counterpart of
+ * {@link invalidLabel}. A value read from credentials config should fail with
+ * `ConfigError` instead: check it with {@link isHostLabel}.
+ */
+export const invalidHostLabel = (
+  member: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): InvalidInput | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: as a host label it would address another host`,
+      });
 
 /**
  * Build an HTTP request from an operation input and its schema, driven by

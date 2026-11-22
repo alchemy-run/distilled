@@ -1,13 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import {
+  ConfigError,
   HTTP_STATUS_MAP,
   InternalServerError,
-  type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
   getAnn,
+  isHostLabel,
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
@@ -106,9 +107,16 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
+const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError | ConfigError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
+  }
+  // The region becomes a label of the host name (`applyRegion` accepts the
+  // spec's glued `eu01.` form too), so it must be one DNS label.
+  if (!isHostLabel(creds.region.endsWith(".") ? creds.region.slice(0, -1) : creds.region)) {
+    return new ConfigError({
+      message: `STACKIT region ${JSON.stringify(creds.region)} is not a valid region: it must be one DNS label, such as "eu01"`,
+    });
   }
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
@@ -128,7 +136,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
         const resolve = yield* Credentials;
         const creds = yield* resolve;
         const baseUrl = baseUrlFor(creds, inputAst);
-        if (baseUrl instanceof SdkError) return yield* baseUrl;
+        if (typeof baseUrl !== "string") return yield* baseUrl;
         return yield* buildRequest({
           input: unwrapRedactedDeep(input),
           inputAst,

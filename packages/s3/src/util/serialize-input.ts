@@ -5,10 +5,9 @@
  * based on Smithy HTTP trait annotations.
  */
 
-import { InvalidInput, invalidLabel } from "@distilled.cloud/core/protocol-http";
+import { InvalidInput, invalidLabel, isHostLabel } from "@distilled.cloud/core/protocol-http";
 import type * as AST from "effect/SchemaAST";
 import type { Request } from "../client/request.ts";
-import { isValidHostLabel } from "../rules-engine/standard-functions.ts";
 import {
   getHttpHeader,
   getHttpLabelName,
@@ -41,21 +40,16 @@ export const encodeLabel = (value: string): string =>
 export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
-/** The refusal for a host label value that would move the request to another host. */
-export const invalidHostLabel = (member: string, value: string): InvalidInput =>
-  new InvalidInput({
-    member,
-    message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a host label it would address another host`,
-  });
 
 /**
  * The refusal for a region that is not one DNS label, or `undefined`. Every
  * AWS endpoint puts the region in its host, so this is the check S3's
- * endpoint rules make (`isValidHostLabel(Region, false)`), applied to every
- * service. Every region in `partitions.json` passes it.
+ * endpoint rules make (`isValidHostLabel(Region, false)`, core
+ * `isHostLabel`), applied to every service. Every region in
+ * `partitions.json` passes it.
  */
 export const invalidRegion = (region: string): InvalidInput | undefined =>
-  isValidHostLabel(region, false)
+  isHostLabel(region)
     ? undefined
     : new InvalidInput({
         member: "region",

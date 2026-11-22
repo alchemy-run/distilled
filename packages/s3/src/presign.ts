@@ -3,6 +3,7 @@ import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import {
   type InvalidInput,
   InvalidInput as InvalidInputError,
+  invalidHostLabel,
   invalidLabel,
 } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -24,7 +25,6 @@ import { toBase64 } from "./util/base64.ts";
 import {
   encodeGreedyLabel,
   encodeLabel,
-  invalidHostLabel,
   invalidRegion,
 } from "./util/serialize-input.ts";
 import { isStreamBody } from "./util/stream.ts";
@@ -154,8 +154,10 @@ const objectUrl = (
         invalidRegion(region) ??
         invalidLabel("bucket", bucket, false) ??
         invalidLabel("key", key, true) ??
+        // A bucket that needs percent-encoding always fails the host check;
+        // the guard keeps unencoded legacy names (`my_bucket`) as before.
         (!customEndpoint && encodeLabel(bucket) !== bucket
-          ? invalidHostLabel("bucket", bucket)
+          ? invalidHostLabel("bucket", bucket, true)
           : undefined);
       if (invalid !== undefined) return Effect.fail(invalid);
       return parseUrl(
