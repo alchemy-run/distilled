@@ -696,7 +696,9 @@ function __c2(j: number): any {
           special_ad_categories: S.optional(__S(12, __c3, 0)),
           starts_at: S.optional(S.String),
           title: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns", code: 200 })),
       ).annotate({ identifier: "CreateAdCampaignRequest" });
   }
@@ -813,7 +815,9 @@ function __c5(j: number): any {
           id: S.String.pipe(T.Label()),
           count: S.optional(S.Number),
           preserve_engagement: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/duplicate", code: 200 })),
       ).annotate({ identifier: "DuplicateAdCampaignRequest" });
     case 1:
@@ -890,7 +894,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/pause", code: 200 })),
       ).annotate({ identifier: "PauseAdCampaignRequest" });
   }
@@ -901,7 +907,9 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/unpause", code: 200 })),
       ).annotate({ identifier: "UnpauseAdCampaignRequest" });
   }

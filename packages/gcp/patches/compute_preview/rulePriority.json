@@ -1,0 +1,75 @@
+{
+  "description": "Compute's patch*Rule methods take the rule to change as the `priority` query parameter, and the patched rule, with its own `priority`, as the body. Flattening the body into the input gave both the same member name, and the query parameter won, so the body `priority` could not be sent. gcloud's `firewall-policies rules update --new-priority` (also network-firewall-policies, mirroring-rules, traffic-classification-rules and org-security-policies) sends `?priority=<old>` with body `priority: <new>` to move a rule (google-cloud-sdk lib/surface/compute/firewall_policies/rules/update.py). `gcloud compute security-policies rules update` sends the body `priority` too. This patch renames the query member to `rulePriority` (wire name stays `priority`), so the body `priority` is the rule's new priority. It also marks `rulePriority` required: gcloud always sends `?priority=`, and a caller that passed `priority` as the selector before this rename gets a type error instead of a silent change of meaning.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchPacketMirroringRuleNetworkFirewallPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchPacketMirroringRuleNetworkFirewallPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchPacketMirroringRuleNetworkFirewallPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleFirewallPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleFirewallPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleFirewallPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleNetworkFirewallPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleNetworkFirewallPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleNetworkFirewallPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleOrganizationSecurityPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleOrganizationSecurityPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleOrganizationSecurityPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleRegionNetworkFirewallPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleRegionNetworkFirewallPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleRegionNetworkFirewallPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleRegionSecurityPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleRegionSecurityPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleRegionSecurityPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.compute_preview#PatchRuleSecurityPoliciesRequest/members/priority",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleSecurityPoliciesRequest/members/rulePriority"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_preview#PatchRuleSecurityPoliciesRequest/members/rulePriority/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

@@ -583,20 +583,8 @@ export const S3UnwrappedXmlOutput = () => makeAnnotation(s3UnwrappedXmlOutputSym
 // Idempotency Token Trait (smithy.api#idempotencyToken)
 // =============================================================================
 
-/**
- * smithy.api#idempotencyToken - Marks a member as an idempotency token.
- * When set, the SDK will automatically generate a UUID if the value is not provided.
- */
-export const idempotencyTokenSymbol = "distilled-aws/idempotency-token" as const;
-export const IdempotencyToken = () => makeAnnotation(idempotencyTokenSymbol, true);
-
-/** Check if a PropertySignature has the idempotencyToken annotation */
-export const hasIdempotencyToken = (prop: AST.PropertySignature): boolean =>
-  hasPropAnnotation(prop, idempotencyTokenSymbol);
-
-/** Check if an AST has the idempotencyToken annotation */
-export const isIdempotencyToken = (ast: AST.AST): boolean =>
-  hasAnnotation(ast, idempotencyTokenSymbol);
+// Core fills a missing token once per call, before the retry (`api.ts`).
+export { IdempotencyToken, idempotencyTokenSymbol } from "@distilled.cloud/core/trait";
 
 // =============================================================================
 // Blob Type (smithy.api#blob without @streaming)

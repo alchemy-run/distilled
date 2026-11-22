@@ -1,0 +1,28 @@
+{
+  "description": "Business-level reads with a system user token holding `business_management` (live, 2026-11-18, v23.0). GET /{Business-ID}/owned_whatsapp_business_accounts returned each account as `{ id, name, timezone_id, message_template_namespace }`; WhatsAppBusinessAccount has no `message_template_namespace`, the namespace Meta's docs list as a WhatsApp Business Account field. GET /{WABA-ID}/assigned_users returned each user as `{ id, name, tasks: [\"MANAGE\"] }`; AssignedUser has no `tasks`. Both are added as optional.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#WhatsAppBusinessAccount/members/message_template_namespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#documentation": "Namespace of the account's message templates." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#AssignedUserTasksList",
+      "value": { "type": "list", "member": { "target": "smithy.api#String" }, "traits": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#AssignedUser/members/tasks",
+      "value": {
+        "target": "com.meta.whatsapp#AssignedUserTasksList",
+        "traits": {
+          "smithy.api#documentation": "Tasks the user can perform on the asset, e.g. `MANAGE`."
+        }
+      }
+    }
+  ]
+}

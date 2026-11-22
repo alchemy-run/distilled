@@ -461,7 +461,7 @@ export interface RootDirectory {
   CreationInfo?: CreationInfo | undefined;
 }
 export interface CreateAccessPointRequest {
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
   FileSystemId: string;
   PosixUser?: PosixUser | undefined;
@@ -500,7 +500,7 @@ export type ProvisionedThroughputInMibps = number;
 export type AvailabilityZoneName = string;
 export type Backup = boolean;
 export interface CreateFileSystemRequest {
-  CreationToken: string;
+  CreationToken?: string | undefined;
   PerformanceMode?: PerformanceMode | undefined;
   Encrypted?: boolean | undefined;
   KmsKeyId?: string | undefined;
@@ -2225,7 +2225,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(9, __c1, 1)),
           FileSystemId: S.String,
           PosixUser: S.optional(__S(17, __c2, 1)),
@@ -2291,7 +2291,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreationToken: S.String.pipe(T.IdempotencyToken()),
+          CreationToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           PerformanceMode: S.optional(S.String),
           Encrypted: S.optional(S.Boolean),
           KmsKeyId: S.optional(S.String),

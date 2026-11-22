@@ -16287,6 +16287,8 @@ export interface PutScriptResponse {
   tailConsumers?: ScriptsUpdateResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
   usageModel?: ScriptsUpdateResponseUsageModel | null | undefined;
+  /** Immutable Worker version created by this upload, not a deployment record ID. */
+  deploymentId?: string | null | undefined;
 }
 export interface ScriptsContentUpdateRequestMetadata {
   /** Name of the uploaded file that contains the Worker script (e.g. the file adding a listener to the `fetch` event). Indicates a `service worker syntax` Worker. */
@@ -23485,6 +23487,7 @@ function __c39(j: number): any {
           tags: S.optional(S.NullOr(__S(1856, __c58, 0))),
           tailConsumers: S.optional(S.NullOr(__S(5443, __c170, 3)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
+          deploymentId: S.optional(S.NullOr(S.String).pipe(T.Body("deployment_id"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutScriptResponse" });
   }

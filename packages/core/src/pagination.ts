@@ -251,7 +251,10 @@ export const paginateCursor = <Input extends Record<string, unknown>, Output, E,
 
 /**
  * Stream of pages using token-based pagination -- pass `outputToken` back as
- * `inputToken` until it comes back absent.
+ * `inputToken` until it comes back absent or repeats a token already sent.
+ * Some APIs never omit the token: CloudWatch Logs `GetLogEvents` marks the end
+ * of a stream by echoing the `nextToken` it was sent. Empty pages still
+ * advance when they return a new token.
  */
 export const paginateToken = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
@@ -266,25 +269,33 @@ export const paginateToken = <Input extends Record<string, unknown>, Output, E, 
   type State = { token: unknown; done: boolean };
   const startToken = input[inputToken];
 
-  return Stream.unfold({ token: startToken, done: false } as State, (state) =>
-    Effect.gen(function* () {
-      if (state.done) return undefined;
+  return Stream.suspend(() => {
+    // Token history belongs to this traversal, not to the reusable stream.
+    // Only string tokens are tracked; object tokens (DynamoDB keys) are not.
+    const requestedTokens = new Set<string>();
+    return Stream.unfold({ token: startToken, done: false } as State, (state) =>
+      Effect.gen(function* () {
+        if (state.done) return undefined;
+        if (typeof state.token === "string") requestedTokens.add(state.token);
 
-      const requestPayload =
-        state.token !== undefined ? ({ ...input, [inputToken]: state.token } as Input) : input;
+        const requestPayload =
+          state.token !== undefined ? ({ ...input, [inputToken]: state.token } as Input) : input;
 
-      const response = yield* operation(requestPayload);
+        const response = yield* operation(requestPayload);
 
-      const nextToken = getPath(response, outputToken);
+        const nextToken = getPath(response, outputToken);
 
-      const nextState: State = {
-        token: nextToken,
-        done: isTerminalToken(nextToken),
-      };
+        const nextState: State = {
+          token: nextToken,
+          done:
+            isTerminalToken(nextToken) ||
+            (typeof nextToken === "string" && requestedTokens.has(nextToken)),
+        };
 
-      return [response, nextState] as const;
-    }),
-  );
+        return [response, nextState] as const;
+      }),
+    );
+  });
 };
 
 // ============================================================================

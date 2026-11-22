@@ -108,9 +108,9 @@ export interface Release {
   /** Output only. Time the release was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsReleasesRequest extends Omit<Release, "name"> {
+export interface CreateProjectsReleasesRequest extends Release {
   /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
-  name: string;
+  parent: string;
 }
 export type StringList = Array<string>;
 /** Metadata for a Ruleset. */
@@ -863,12 +863,12 @@ function __c6(j: number): any {
         S.Extend(
           __S(224, __c7, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1/{+name}/releases",
+            uri: "v1/{+parent}/releases",
             baseUrl: "https://firebaserules.googleapis.com/",
           }),
         ),

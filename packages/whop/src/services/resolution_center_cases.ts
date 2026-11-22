@@ -873,7 +873,9 @@ function __c4(j: number): any {
           id: S.String.pipe(T.Label()),
           attachments: S.optional(__S(65, __c8, 1)),
           message: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/reply", code: 200 })),
       ).annotate({ identifier: "ReplyToResolutionCenterCaseRequest" });
   }
@@ -886,7 +888,9 @@ function __c5(j: number): any {
           id: S.String.pipe(T.Label()),
           attachments: S.optional(__S(65, __c8, 1)),
           message: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/request_info", code: 200 }),
         ),
@@ -899,7 +903,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/withdraw", code: 200 }),
         ),
@@ -915,7 +921,9 @@ function __c7(j: number): any {
           attachments: S.optional(__S(65, __c8, 1)),
           message: S.optional(S.String),
           terminate_membership: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/accept", code: 200 })),
       ).annotate({ identifier: "AcceptResolutionCenterCaseRequest" });
   }
@@ -1026,7 +1034,9 @@ function __c11(j: number): any {
           id: S.String.pipe(T.Label()),
           attachments: S.optional(__S(65, __c8, 1)),
           message: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/appeal", code: 200 })),
       ).annotate({ identifier: "AppealResolutionCenterCaseRequest" });
   }
@@ -1040,7 +1050,9 @@ function __c12(j: number): any {
           message: S.String,
           reason: S.String,
           receipt_id: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases", code: 200 })),
       ).annotate({ identifier: "CreateResolutionCenterCaseRequest" });
   }
@@ -1053,7 +1065,9 @@ function __c13(j: number): any {
           id: S.String.pipe(T.Label()),
           attachments: S.optional(__S(65, __c8, 1)),
           message: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/deny", code: 200 })),
       ).annotate({ identifier: "DenyResolutionCenterCaseRequest" });
   }
