@@ -122,8 +122,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ScalewayOpContext",
     commonErrorType: "ScalewayOpError",
-    // UnknownScalewayError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ScalewayServiceErrors",
     protocol: "ScalewayProtocol",
     retry: "Retry.Retry",

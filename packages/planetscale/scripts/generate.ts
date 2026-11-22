@@ -87,9 +87,6 @@ const makePlanetScaleSpec = (): SdkSpec => {
     operationDecl: {
       contextType: "PlanetScaleOpContext",
       commonErrorType: "PlanetScaleOpError",
-      // UnknownPlanetScaleError is declared on the protocol, whose type adds
-      // it.
-      commonErrorClasses: [],
       serviceErrors: "PlanetScaleServiceErrors",
       protocol: "PlanetScaleProtocol",
       retry: "Retry.Retry",

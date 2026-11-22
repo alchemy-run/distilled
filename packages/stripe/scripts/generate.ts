@@ -93,8 +93,6 @@ const stripeSpec: SdkSpec = {
   operationDecl: {
     contextType: "StripeOpContext",
     commonErrorType: "StripeOpError",
-    // UnknownStripeError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "StripeServiceErrors",
     protocol: "StripeProtocol",
     retry: "Retry.Retry",

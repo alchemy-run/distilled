@@ -65,9 +65,6 @@ const elasticsearchSpec: SdkSpec = {
   operationDecl: {
     contextType: "ElasticsearchOpContext",
     commonErrorType: "ElasticsearchOpError",
-    // UnknownElasticsearchError is declared on the protocol, whose type adds
-    // it.
-    commonErrorClasses: [],
     serviceErrors: "ElasticsearchServiceErrors",
     protocol: "ElasticsearchProtocol",
     retry: "Retry.Retry",

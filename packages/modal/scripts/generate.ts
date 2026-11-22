@@ -58,8 +58,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ModalOpContext",
     commonErrorType: "ModalOpError",
-    // UnknownModalError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ModalServiceErrors",
     protocol: "ModalProtocol",
     retry: "Retry.Retry",

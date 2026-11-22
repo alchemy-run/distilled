@@ -67,9 +67,6 @@ const chronosphereSpec: SdkSpec = {
   operationDecl: {
     contextType: "ChronosphereOpContext",
     commonErrorType: "ChronosphereOpError",
-    // UnknownChronosphereError is declared on the protocol, whose type adds
-    // it.
-    commonErrorClasses: [],
     serviceErrors: "ChronosphereServiceErrors",
     protocol: "ChronosphereProtocol",
     retry: "Retry.Retry",

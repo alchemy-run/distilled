@@ -30,9 +30,6 @@ export class Credentials
     "HuggingFaceCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `HF_TOKEN` is what huggingface_hub, huggingface.js and the hf CLI read.
   token: /*@__PURE__*/ EffectConfig.String("HF_TOKEN"),

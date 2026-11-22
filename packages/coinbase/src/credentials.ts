@@ -47,9 +47,6 @@ export class Credentials
     "CoinbaseCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKeyId: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("CDP_API_KEY_ID")),
   apiKeyName: /*@__PURE__*/ EffectConfig.option(

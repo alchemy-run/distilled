@@ -64,8 +64,6 @@ const workosSpec: SdkSpec = {
   operationDecl: {
     contextType: "WorkosOpContext",
     commonErrorType: "WorkosOpError",
-    // UnknownWorkosError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "WorkosServiceErrors",
     protocol: "WorkosProtocol",
     retry: "Retry.Retry",

@@ -75,8 +75,6 @@ const paypalSpec: SdkSpec = {
   operationDecl: {
     contextType: "PaypalOpContext",
     commonErrorType: "PaypalOpError",
-    // UnknownPaypalError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "PaypalServiceErrors",
     protocol: "PaypalProtocol",
     retry: "Retry.Retry",

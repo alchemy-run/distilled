@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * IcebergProtocol -- the shared bearer-REST protocol instantiated for the
@@ -24,18 +23,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { IcebergParseError, UnknownIcebergError, type IcebergServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Iceberg's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link IcebergParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownIcebergError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type IcebergProtocolError = RestProtocolError | IcebergParseError | UnknownIcebergError;
 
 /**
  * What every generated Iceberg operation fails with besides its own errors:
@@ -44,7 +33,7 @@ export type IcebergProtocolError = RestProtocolError | IcebergParseError | Unkno
  * `API.OperationMethod<I, O, IcebergOpError, IcebergOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type IcebergOpError = IcebergServiceError | IcebergProtocolError | CredentialsError;
+export type IcebergOpError = IcebergServiceError | ErrorOf<typeof IcebergProtocol>;
 
 /** Context (requirements) shared by every generated Iceberg operation. */
 export type IcebergOpContext = Credentials | HttpClient.HttpClient;
@@ -75,17 +64,14 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const IcebergProtocol: Protocol<IcebergProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the CALLING fiber per request; the Credentials service holds
-    // an effect, so a token rotated between calls is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-    headers: (creds): Record<string, string> =>
-      creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
-    errorEnvelope,
-    unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
-  });
+export const IcebergProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a token rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+  headers: (creds): Record<string, string> =>
+    creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
+  errorEnvelope,
+  unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
+});

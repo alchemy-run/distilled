@@ -58,8 +58,6 @@ const clerkSpec: SdkSpec = {
   operationDecl: {
     contextType: "ClerkOpContext",
     commonErrorType: "ClerkOpError",
-    // UnknownClerkError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ClerkServiceErrors",
     protocol: "ClerkProtocol",
     retry: "Retry.Retry",

@@ -65,8 +65,6 @@ const argocdSpec: SdkSpec = {
   operationDecl: {
     contextType: "ArgocdOpContext",
     commonErrorType: "ArgocdOpError",
-    // UnknownArgocdError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ArgocdServiceErrors",
     protocol: "ArgocdProtocol",
     retry: "Retry.Retry",

@@ -1,10 +1,9 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   type RestProtocolOptions,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * Exa protocols -- the shared REST protocol instantiated once per Exa API.
@@ -26,17 +25,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { ExaParseError, UnknownExaError, type ExaServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Exa's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link ExaParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownExaError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
- */
-export type ExaProtocolError = RestProtocolError | ExaParseError | UnknownExaError;
 
 /**
  * What every generated Exa operation fails with besides its own errors: the
@@ -45,7 +35,9 @@ export type ExaProtocolError = RestProtocolError | ExaParseError | UnknownExaErr
  * `API.OperationMethod<I, O, ExaOpError, ExaOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type ExaOpError = ExaServiceError | ExaProtocolError | CredentialsError;
+export type ExaOpError =
+  | ExaServiceError
+  | ErrorOf<typeof ExaProtocol | typeof ExaTeamManagementProtocol>;
 
 /** Context (requirements) shared by every generated Exa operation. */
 export type ExaOpContext = Credentials | HttpClient.HttpClient;
@@ -72,19 +64,17 @@ const shared = {
 // the errors an operation and the service declare, must be listed there.
 
 /** The public API: search, contents, answer, monitors, agent runs, batches, Websets. */
-export const ExaProtocol: Protocol<ExaProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    ...shared,
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({ "x-api-key": Redacted.value(creds.apiKey) }),
-  });
+export const ExaProtocol = /*@__PURE__*/ restProtocol({
+  ...shared,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({ "x-api-key": Redacted.value(creds.apiKey) }),
+});
 
 /** The Team Management API: API keys and credits, with the service API key. */
-export const ExaTeamManagementProtocol: Protocol<ExaProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    ...shared,
-    baseUrl: (creds) => creds.teamManagementBaseUrl,
-    headers: (creds) => ({
-      "x-api-key": Redacted.value(creds.serviceApiKey ?? creds.apiKey),
-    }),
-  });
+export const ExaTeamManagementProtocol = /*@__PURE__*/ restProtocol({
+  ...shared,
+  baseUrl: (creds) => creds.teamManagementBaseUrl,
+  headers: (creds) => ({
+    "x-api-key": Redacted.value(creds.serviceApiKey ?? creds.apiKey),
+  }),
+});

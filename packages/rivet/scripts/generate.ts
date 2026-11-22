@@ -72,8 +72,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "RivetOpContext",
     commonErrorType: "RivetOpError",
-    // UnknownRivetError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "RivetServiceErrors",
     protocol: "RivetProtocol",
     retry: "Retry.Retry",

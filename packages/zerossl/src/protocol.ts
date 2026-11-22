@@ -1,5 +1,11 @@
-import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import {
   declaredStatusClass,
@@ -23,37 +29,18 @@ import {
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownZeroSslError, ZeroSslParseError, type ZeroSslServiceError } from "./errors.ts";
-
-/**
- * The errors declared on ZeroSSL's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link ZeroSslParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownZeroSslError}, and
- * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), a
- * request that can't be built (`SdkError`), and a body read
- * (`HttpClientError`).
- */
-export type ZeroSslProtocolError =
-  | ZeroSslParseError
-  | UnknownZeroSslError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated ZeroSSL operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with.
  */
-export type ZeroSslOpError = ZeroSslServiceError | ZeroSslProtocolError | CredentialsError;
+export type ZeroSslOpError = ZeroSslServiceError | ErrorOf<typeof ZeroSslProtocol>;
 
 export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
@@ -168,9 +155,9 @@ const parseError = (cause: string) =>
     cause,
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const ZeroSslProtocol: Protocol<ZeroSslProtocolError | CredentialsError, Credentials> = {
+const zeroSslProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const ZeroSslProtocol: ProtocolOf<typeof zeroSslProtocolMethods> = zeroSslProtocolMethods;

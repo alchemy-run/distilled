@@ -1,11 +1,13 @@
 import * as crypto from "node:crypto";
-import { ConfigError, InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
+import { ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import {
@@ -15,7 +17,6 @@ import {
   wrapSensitive,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * CoinbaseProtocol -- hand-written.
  *
@@ -58,12 +59,11 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import { Credentials, DEFAULT_API_BASE_URL, type CredentialsError } from "./credentials.ts";
+import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import {
   COINBASE_HTTP_STATUS_MAP,
   CoinbaseParseError,
@@ -74,32 +74,13 @@ import {
 } from "./errors.ts";
 
 /**
- * The errors declared on Coinbase's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link CoinbaseParseError}), a failed response that the
- * service does not declare ({@link UnknownCoinbaseError}, and
- * `InternalServerError` for a 5xx), an API key secret that can't sign or a
- * base URL that is not absolute (`ConfigError`), a bad path label
- * (`InvalidInput`), a request that can't be built (`SdkError`), and a body
- * read (`HttpClientError`).
- */
-export type CoinbaseProtocolError =
-  | CoinbaseParseError
-  | UnknownCoinbaseError
-  | InternalServerError
-  | ConfigError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Coinbase operation fails with besides its own
  * errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, CoinbaseOpError, CoinbaseOpContext>` explicitly
  * so the compiler never infers these back out of the schema generics.
  */
-export type CoinbaseOpError = CoinbaseServiceError | CoinbaseProtocolError | CredentialsError;
+export type CoinbaseOpError = CoinbaseServiceError | ErrorOf<typeof CoinbaseProtocol>;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -474,15 +455,15 @@ const decode = ({ response, outputAst, errors }: DecodeArgs) =>
     );
   });
 
+const coinbaseProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
 /**
  * Coinbase CDP protocol.
  *
  * Uses JWT bearer token authentication signed per request with your CDP API
  * Key Secret.
  */
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const CoinbaseProtocol: Protocol<CoinbaseProtocolError | CredentialsError, Credentials> = {
-  encode,
-  decode,
-};
+export const CoinbaseProtocol: ProtocolOf<typeof coinbaseProtocolMethods> = coinbaseProtocolMethods;

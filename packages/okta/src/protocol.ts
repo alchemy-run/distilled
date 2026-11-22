@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * OktaProtocol -- hand-written.
@@ -23,17 +22,8 @@ import {
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import { Credentials, formatHeaders, type CredentialsError } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import { UnknownOktaError, OktaParseError, type OktaServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Okta's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link OktaParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownOktaError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
- */
-export type OktaProtocolError = RestProtocolError | OktaParseError | UnknownOktaError;
 
 /**
  * What every generated Okta operation fails with besides its own errors: the
@@ -42,7 +32,7 @@ export type OktaProtocolError = RestProtocolError | OktaParseError | UnknownOkta
  * `API.OperationMethod<I, O, OktaOpError, OktaOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type OktaOpError = OktaServiceError | OktaProtocolError | CredentialsError;
+export type OktaOpError = OktaServiceError | ErrorOf<typeof OktaProtocol>;
 
 /** Context (requirements) shared by every generated Okta operation. */
 export type OktaOpContext = Credentials | HttpClient.HttpClient;
@@ -67,16 +57,13 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const OktaProtocol: Protocol<OktaProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => formatHeaders(creds),
-    errorEnvelope,
-    unknownError: (info) => new UnknownOktaError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new OktaParseError({ body, cause }),
-  });
+export const OktaProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => formatHeaders(creds),
+  errorEnvelope,
+  unknownError: (info) => new UnknownOktaError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new OktaParseError({ body, cause }),
+});

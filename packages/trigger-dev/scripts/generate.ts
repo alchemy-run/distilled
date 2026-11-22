@@ -70,8 +70,6 @@ const triggerDevSpec: SdkSpec = {
   operationDecl: {
     contextType: "TriggerDevOpContext",
     commonErrorType: "TriggerDevOpError",
-    // UnknownTriggerDevError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "TriggerDevServiceErrors",
     protocol: "TriggerDevProtocol",
     retry: "Retry.Retry",

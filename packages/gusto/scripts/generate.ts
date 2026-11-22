@@ -64,8 +64,6 @@ const gustoSpec: SdkSpec = {
   operationDecl: {
     contextType: "GustoOpContext",
     commonErrorType: "GustoOpError",
-    // UnknownGustoError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "GustoServiceErrors",
     protocol: "GustoProtocol",
     retry: "Retry.Retry",

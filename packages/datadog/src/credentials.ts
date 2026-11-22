@@ -34,9 +34,6 @@ export class Credentials
     "DatadogCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** Layer from a redacted API key + optional application key / site / base URL. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

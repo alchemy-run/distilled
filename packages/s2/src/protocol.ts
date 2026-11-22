@@ -1,10 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * S2Protocol -- the shared bearer-REST protocol instantiated for S2 (s2.dev).
  *
@@ -25,18 +21,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { UnknownS2Error, S2ParseError, type S2ServiceError } from "./errors.ts";
-
-/**
- * The errors declared on S2's protocol: what the code that builds requests and
- * reads responses fails with. A response that does not match its schema
- * ({@link S2ParseError}), a failed response that neither the operation nor the
- * service declares ({@link UnknownS2Error}), a basin route without a basin in
- * the credentials (`ConfigError`), and core's REST errors (a bad path label, a
- * request that can't be built, the transport).
- */
-export type S2ProtocolError = RestProtocolError | S2ParseError | UnknownS2Error | ConfigError;
 
 /**
  * What every generated S2 operation fails with besides its own errors: the
@@ -45,7 +31,7 @@ export type S2ProtocolError = RestProtocolError | S2ParseError | UnknownS2Error 
  * `API.OperationMethod<I, O, S2OpError, S2OpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type S2OpError = S2ServiceError | S2ProtocolError | CredentialsError;
+export type S2OpError = S2ServiceError | ErrorOf<typeof S2Protocol>;
 
 /** Context (requirements) shared by every generated S2 operation. */
 export type S2OpContext = Credentials | HttpClient.HttpClient;
@@ -73,19 +59,16 @@ const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, C
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const S2Protocol: Protocol<S2ProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the CALLING fiber per request; the Credentials service holds
-    // an effect, so a token rotated between calls is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    // S2's error body IS the envelope: `{ code, message }` at the top level,
-    // which the factory's default extractor already reads.
-    unknownError: (info) => new UnknownS2Error(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
-  });
+export const S2Protocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a token rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  // S2's error body IS the envelope: `{ code, message }` at the top level,
+  // which the factory's default extractor already reads.
+  unknownError: (info) => new UnknownS2Error(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
+});
