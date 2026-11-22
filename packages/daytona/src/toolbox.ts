@@ -20,6 +20,7 @@
  * `WebSocket`).
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import type * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
@@ -407,10 +408,13 @@ const followLogs = (path: string) =>
 export const followSessionCommandLogs = (request: {
   readonly sessionId: string;
   readonly commandId: string;
-}): Stream.Stream<LogOutput, ToolboxSocketOpenError, ToolboxSocketContext> =>
-  followLogs(
-    `/process/session/${encodeURIComponent(request.sessionId)}/command/${encodeURIComponent(request.commandId)}/logs`,
-  );
+}): Stream.Stream<LogOutput, ToolboxSocketOpenError | InvalidInput, ToolboxSocketContext> => {
+  const sessionId = encodeLabel("sessionId", request.sessionId);
+  if (sessionId instanceof InvalidInput) return Stream.fail(sessionId);
+  const commandId = encodeLabel("commandId", request.commandId);
+  if (commandId instanceof InvalidInput) return Stream.fail(commandId);
+  return followLogs(`/process/session/${sessionId}/command/${commandId}/logs`);
+};
 
 /**
  * Follow the sandbox entrypoint's output, as stdout and stderr pieces.
@@ -601,8 +605,12 @@ export const createPty = (
  */
 export const connectPty = (request: {
   readonly sessionId: string;
-}): Effect.Effect<PtyConnection, PtyError, ToolboxSocketContext | Scope.Scope> =>
-  attachPty(request.sessionId, `/process/pty/${encodeURIComponent(request.sessionId)}/connect`, {});
+}): Effect.Effect<PtyConnection, PtyError | InvalidInput, ToolboxSocketContext | Scope.Scope> => {
+  const sessionId = encodeLabel("sessionId", request.sessionId);
+  return sessionId instanceof InvalidInput
+    ? Effect.fail(sessionId)
+    : attachPty(request.sessionId, `/process/pty/${sessionId}/connect`, {});
+};
 
 // ---------------------------------------------------------------------------
 // Bulk file transfer

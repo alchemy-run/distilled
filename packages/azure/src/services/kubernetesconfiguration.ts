@@ -1149,6 +1149,8 @@ export interface ListExtensionsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The identity type. */
 export type ExtensionIdentityType = "SystemAssigned";
@@ -1202,6 +1204,8 @@ export interface ListFluxConfigurationsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Flux Configuration object returned in Get & Put response. */
 export interface FluxConfiguration {
@@ -1225,7 +1229,10 @@ export interface FluxConfigurationsList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
   /** Resource provider: Microsoft KubernetesConfiguration. */
@@ -1252,7 +1259,7 @@ export interface ResourceProviderOperation {
 export type ListOperationsResponseValueList = Array<ResourceProviderOperation>;
 export interface ListOperationsResponse {
   /** List of operations supported by this resource provider. */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to the next set of results, if any. */
   nextLink?: string | undefined;
 }
@@ -1267,12 +1274,14 @@ export interface ListOperationStatusRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of async operations in progress, in the cluster. */
 export type ListOperationStatusResponseValueList = Array<OperationStatusResult>;
 export interface ListOperationStatusResponse {
   /** List of async operations in progress, in the cluster. */
-  value?: ListOperationStatusResponseValueList | undefined;
+  value: ListOperationStatusResponseValueList;
   /** URL to get the next set of Operation Result objects, if any. */
   nextLink?: string | undefined;
 }
@@ -1287,6 +1296,8 @@ export interface ListSourceControlConfigurationsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The provisioning state of the resource provider. */
 export type SourceControlConfigurationPropertiesProvisioningState =
@@ -1369,7 +1380,7 @@ export type SourceControlConfigurationListValueList = Array<SourceControlConfigu
 /** Result of the request to list Source Control Configurations. It contains a list of SourceControlConfiguration objects and a URL link to get the next set of results. */
 export interface SourceControlConfigurationList {
   /** List of Source Control Configurations within a Kubernetes cluster. */
-  value?: SourceControlConfigurationListValueList | undefined;
+  value: SourceControlConfigurationListValueList;
   /** URL to get the next set of configuration objects, if any. */
   nextLink?: string | undefined;
 }
@@ -1946,12 +1957,13 @@ export const GetSourceControlConfiguration: API.OperationMethod<
 
 export type ListExtensionsError = AzureOpError;
 /** List all Extensions in the cluster. */
-export const ListExtensions: API.OperationMethod<
+export const ListExtensions: API.PaginatedOperationMethod<
   ListExtensionsRequest,
   ExtensionsList,
   ListExtensionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Extension
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListExtensionsRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<ExtensionsList>,
   errors: [UnknownAzureError],
@@ -1959,16 +1971,23 @@ export const ListExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFluxConfigurationsError = AzureOpError;
 /** List all Flux Configurations. */
-export const ListFluxConfigurations: API.OperationMethod<
+export const ListFluxConfigurations: API.PaginatedOperationMethod<
   ListFluxConfigurationsRequest,
   FluxConfigurationsList,
   ListFluxConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FluxConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListFluxConfigurationsRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<FluxConfigurationsList>,
   errors: [UnknownAzureError],
@@ -1976,16 +1995,23 @@ export const ListFluxConfigurations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFluxConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List all the available operations the KubernetesConfiguration resource provider supports. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceProviderOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(388, __c12, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1993,16 +2019,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationStatusError = AzureOpError;
 /** List Async Operations, currently in progress, in a cluster */
-export const ListOperationStatus: API.OperationMethod<
+export const ListOperationStatus: API.PaginatedOperationMethod<
   ListOperationStatusRequest,
   ListOperationStatusResponse,
   ListOperationStatusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationStatusResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListOperationStatusRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<ListOperationStatusResponse>,
   errors: [UnknownAzureError],
@@ -2010,16 +2043,23 @@ export const ListOperationStatus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperationStatus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlConfigurationsError = AzureOpError;
 /** List all Source Control Configurations. */
-export const ListSourceControlConfigurations: API.OperationMethod<
+export const ListSourceControlConfigurations: API.PaginatedOperationMethod<
   ListSourceControlConfigurationsRequest,
   SourceControlConfigurationList,
   ListSourceControlConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListSourceControlConfigurationsRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<SourceControlConfigurationList>,
   errors: [UnknownAzureError],
@@ -2027,7 +2067,13 @@ export const ListSourceControlConfigurations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SourceControlConfigurationsCreateOrUpdateError = AzureOpError;
 /** Create a new Kubernetes Source Control Configuration. */
@@ -2388,12 +2434,14 @@ function __c10(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions",
             code: 200,
             apiVersion: "2025-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionsRequest" });
@@ -2418,12 +2466,14 @@ function __c11(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFluxConfigurationsRequest" });
@@ -2442,12 +2492,15 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.KubernetesConfiguration/operations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2474,7 +2527,7 @@ function __c12(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(387, __c12, 3)),
+          value: __S(387, __c12, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2490,12 +2543,14 @@ function __c13(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/operations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationStatusRequest" });
@@ -2504,7 +2559,7 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(417, __c13, 1)),
+          value: __S(417, __c13, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationStatusResponse" });
@@ -2520,12 +2575,14 @@ function __c14(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlConfigurationsRequest" });
@@ -2534,7 +2591,7 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(449, __c14, 1)),
+          value: __S(449, __c14, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceControlConfigurationList" });

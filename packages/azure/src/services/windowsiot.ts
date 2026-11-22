@@ -114,7 +114,10 @@ export interface GetServiceResponse {
   /** The properties of a Windows IoT Device Service. */
   properties?: DeviceServiceProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
@@ -142,7 +145,7 @@ export type OperationListResultValueList = Array<OperationEntity>;
 /** Result of the request to list Windows IoT Device Service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Windows IoT Device Service operations supported by the Microsoft.WindowsIoT resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -151,6 +154,8 @@ export interface ListServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group that contains the Windows IoT Device Service. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DeviceServiceTagsMap = { [key: string]: string | undefined };
@@ -176,13 +181,15 @@ export type DeviceServiceDescriptionListResultValueList = Array<DeviceService>;
 /** The JSON-serialized array of DeviceService objects with a next link. */
 export interface DeviceServiceDescriptionListResult {
   /** The array of DeviceService objects. */
-  value?: DeviceServiceDescriptionListResultValueList | undefined;
+  value: DeviceServiceDescriptionListResultValueList;
   /** The next link. */
   nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** The subscription identifier. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -320,12 +327,13 @@ export const GetService: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Windows IoT Services REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationEntity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(36, __c4, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -333,16 +341,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceByResourceGroupError = AzureOpError;
 /** Get all the IoT hubs in a resource group. */
-export const ListServiceByResourceGroup: API.OperationMethod<
+export const ListServiceByResourceGroup: API.PaginatedOperationMethod<
   ListServiceByResourceGroupRequest,
   DeviceServiceDescriptionListResult,
   ListServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeviceService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<DeviceServiceDescriptionListResult>,
   errors: [UnknownAzureError],
@@ -350,16 +365,23 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServicesError = AzureOpError;
 /** Get all the IoT hubs in a subscription. */
-export const ListServices: API.OperationMethod<
+export const ListServices: API.PaginatedOperationMethod<
   ListServicesRequest,
   DeviceServiceDescriptionListResult,
   ListServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeviceService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<DeviceServiceDescriptionListResult>,
   errors: [UnknownAzureError],
@@ -367,7 +389,13 @@ export const ListServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ServicesCreateOrUpdateError = AzureOpError;
 /** Create or update the metadata of a Windows IoT Device Service. Create or update the metadata of a Windows IoT Device Service. The usual pattern to modify a property is to retrieve the Windows IoT Device Service metadata and security metadata, and then combine them with the modified values in a new body to update the Windows IoT Device Service. */
@@ -500,12 +528,15 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.WindowsIoT/operations",
             code: 200,
             apiVersion: "2019-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -532,7 +563,7 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(35, __c4, 3)),
+          value: __S(35, __c4, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -545,12 +576,14 @@ function __c5(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WindowsIoT/deviceServices",
             code: 200,
             apiVersion: "2019-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -563,7 +596,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(48, __c6, 0)),
+          value: __S(48, __c6, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeviceServiceDescriptionListResult" });
@@ -575,12 +608,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.WindowsIoT/deviceServices",
             code: 200,
             apiVersion: "2019-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServicesRequest" });

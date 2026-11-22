@@ -1,0 +1,24 @@
+{
+  "description": "One Table API serves Azure Storage tables (`*.table.core.windows.net`) and Azure Cosmos DB for Table (`*.table.cosmos.azure.com`). The spec names only the Storage audience; a Cosmos DB endpoint takes Microsoft Entra ID tokens for `https://cosmos.azure.com` (Microsoft Learn: \"Use data plane role-based access control with Azure Cosmos DB for Table\"). Default to the Cosmos audience and keep the Storage audience for Storage endpoints. OData JSON wants its metadata level named in `Accept`; minimal metadata is the service default (Table service REST API: \"Payload format for Table service operations\").",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cosmos_tables#CosmosTables/traits/com.azure.protocols#audience",
+      "value": "https://cosmos.azure.com/.default"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#CosmosTables/traits/com.azure.protocols#audienceByHost",
+      "value": {
+        ".table.core.windows.net": "https://storage.azure.com/.default"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#CosmosTables/traits/com.azure.protocols#headers",
+      "value": {
+        "Accept": "application/json;odata=minimalmetadata"
+      }
+    }
+  ]
+}

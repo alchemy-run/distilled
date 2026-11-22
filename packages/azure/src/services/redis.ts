@@ -1056,6 +1056,8 @@ export interface ListAccessPolicyRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Response to get/put access policy. */
 export interface RedisCacheAccessPolicy {
@@ -1086,6 +1088,8 @@ export interface ListAccessPolicyAssignmentRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Response to an operation on access policy assignment */
 export interface RedisCacheAccessPolicyAssignment {
@@ -1116,6 +1120,8 @@ export interface ListFirewallRulesRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect */
 export interface RedisFirewallRule {
@@ -1146,6 +1152,8 @@ export interface ListLinkedServerRequest {
   resourceGroupName: string;
   /** The name of the redis cache. */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Response to put/get linked server (with properties) for Redis cache. */
 export interface RedisLinkedServerWithProperties {
@@ -1169,7 +1177,10 @@ export interface RedisLinkedServerWithPropertiesList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider */
@@ -1204,6 +1215,8 @@ export interface ListPatchScheduleByRedisResourceRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Response to put/get patch schedules for Redis cache. */
 export interface RedisPatchSchedule {
@@ -1236,6 +1249,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private endpoint connection resource. */
 export type PrivateEndpointConnectionListResultValueItem =
@@ -1257,6 +1272,8 @@ export interface ListPrivateLinkResourceByRedisCacheRequest {
   resourceGroupName: string;
   /** The name of the Redis cache. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -1298,6 +1315,8 @@ export interface ListRedisByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RedisResourceTagsMap = { [key: string]: string | undefined };
@@ -1338,6 +1357,8 @@ export interface RedisListResult {
 export interface ListRedisBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRedisKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1356,6 +1377,8 @@ export interface ListRedisUpgradeNotificationsRequest {
   name: string;
   /** how many minutes in past to look for upgrade notifications */
   history: number;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details about this upgrade notification */
 export type UpgradeNotificationUpsellNotificationMap = { [key: string]: string | undefined };
@@ -1963,12 +1986,13 @@ export const ImportRedisData: API.OperationMethod<
 
 export type ListAccessPolicyError = AzureOpError;
 /** Gets the list of access policies associated with this redis cache */
-export const ListAccessPolicy: API.OperationMethod<
+export const ListAccessPolicy: API.PaginatedOperationMethod<
   ListAccessPolicyRequest,
   RedisCacheAccessPolicyList,
   ListAccessPolicyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisCacheAccessPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListAccessPolicyRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<RedisCacheAccessPolicyList>,
   errors: [UnknownAzureError],
@@ -1976,16 +2000,23 @@ export const ListAccessPolicy: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPolicy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccessPolicyAssignmentError = AzureOpError;
 /** Gets the list of access policy assignments associated with this redis cache */
-export const ListAccessPolicyAssignment: API.OperationMethod<
+export const ListAccessPolicyAssignment: API.PaginatedOperationMethod<
   ListAccessPolicyAssignmentRequest,
   RedisCacheAccessPolicyAssignmentList,
   ListAccessPolicyAssignmentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisCacheAccessPolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListAccessPolicyAssignmentRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<RedisCacheAccessPolicyAssignmentList>,
   errors: [UnknownAzureError],
@@ -1993,16 +2024,23 @@ export const ListAccessPolicyAssignment: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPolicyAssignment",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirewallRulesError = AzureOpError;
 /** Gets all firewall rules in the specified redis cache. */
-export const ListFirewallRules: API.OperationMethod<
+export const ListFirewallRules: API.PaginatedOperationMethod<
   ListFirewallRulesRequest,
   RedisFirewallRuleListResult,
   ListFirewallRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisFirewallRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListFirewallRulesRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<RedisFirewallRuleListResult>,
   errors: [UnknownAzureError],
@@ -2010,16 +2048,23 @@ export const ListFirewallRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLinkedServerError = AzureOpError;
 /** Gets the list of linked servers associated with this redis cache (requires Premium SKU). */
-export const ListLinkedServer: API.OperationMethod<
+export const ListLinkedServer: API.PaginatedOperationMethod<
   ListLinkedServerRequest,
   RedisLinkedServerWithPropertiesList,
   ListLinkedServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisLinkedServerWithProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListLinkedServerRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<RedisLinkedServerWithPropertiesList>,
   errors: [UnknownAzureError],
@@ -2027,16 +2072,23 @@ export const ListLinkedServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLinkedServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(516, __c32, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -2044,16 +2096,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPatchScheduleByRedisResourceError = AzureOpError;
 /** Gets all patch schedules in the specified redis cache (there is only one). */
-export const ListPatchScheduleByRedisResource: API.OperationMethod<
+export const ListPatchScheduleByRedisResource: API.PaginatedOperationMethod<
   ListPatchScheduleByRedisResourceRequest,
   RedisPatchScheduleListResult,
   ListPatchScheduleByRedisResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisPatchSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListPatchScheduleByRedisResourceRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<RedisPatchScheduleListResult>,
   errors: [UnknownAzureError],
@@ -2061,16 +2120,23 @@ export const ListPatchScheduleByRedisResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPatchScheduleByRedisResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** List all the private endpoint connections associated with the redis cache. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisPropertiesPrivateEndpointConnectionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2078,16 +2144,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByRedisCacheError = AzureOpError;
 /** Gets the private link resources that need to be created for a redis cache. */
-export const ListPrivateLinkResourceByRedisCache: API.OperationMethod<
+export const ListPrivateLinkResourceByRedisCache: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByRedisCacheRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByRedisCacheError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResourceListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListPrivateLinkResourceByRedisCacheRequest>,
   output: __S(596, __c37, 4) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -2095,16 +2168,23 @@ export const ListPrivateLinkResourceByRedisCache: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByRedisCache",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisByResourceGroupError = AzureOpError;
 /** Lists all Redis caches in a resource group. */
-export const ListRedisByResourceGroup: API.OperationMethod<
+export const ListRedisByResourceGroup: API.PaginatedOperationMethod<
   ListRedisByResourceGroupRequest,
   RedisListResult,
   ListRedisByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListRedisByResourceGroupRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<RedisListResult>,
   errors: [UnknownAzureError],
@@ -2112,16 +2192,23 @@ export const ListRedisByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisBySubscriptionError = AzureOpError;
 /** Gets all Redis caches in the specified subscription. */
-export const ListRedisBySubscription: API.OperationMethod<
+export const ListRedisBySubscription: API.PaginatedOperationMethod<
   ListRedisBySubscriptionRequest,
   RedisListResult,
   ListRedisBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RedisResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListRedisBySubscriptionRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<RedisListResult>,
   errors: [UnknownAzureError],
@@ -2129,7 +2216,13 @@ export const ListRedisBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRedisKeysError = AzureOpError;
 /** Retrieve a Redis cache's access keys. This operation requires write permission to the cache resource. */
@@ -2150,12 +2243,13 @@ export const ListRedisKeys: API.OperationMethod<
 
 export type ListRedisUpgradeNotificationsError = AzureOpError;
 /** [Deprecated] Gets any upgrade notifications for a Redis cache. */
-export const ListRedisUpgradeNotifications: API.OperationMethod<
+export const ListRedisUpgradeNotifications: API.PaginatedOperationMethod<
   ListRedisUpgradeNotificationsRequest,
   NotificationListResponse,
   ListRedisUpgradeNotificationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UpgradeNotification
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListRedisUpgradeNotificationsRequest>,
   output: __S(675, __c42, 3) as any as S.Schema<NotificationListResponse>,
   errors: [UnknownAzureError],
@@ -2163,7 +2257,13 @@ export const ListRedisUpgradeNotifications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisUpgradeNotifications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PatchSchedulesCreateOrUpdateError = AzureOpError;
 /** Create or replace the patching schedule for Redis cache. */
@@ -2865,12 +2965,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccessPolicyRequest" });
@@ -2893,12 +2995,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicyAssignments",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccessPolicyAssignmentRequest" });
@@ -2921,12 +3025,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFirewallRulesRequest" });
@@ -2949,12 +3055,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLinkedServerRequest" });
@@ -2973,12 +3081,15 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Cache/operations",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3017,12 +3128,14 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/patchSchedules",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPatchScheduleByRedisResourceRequest" });
@@ -3100,12 +3213,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -3126,12 +3241,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByRedisCacheRequest" });
@@ -3171,12 +3288,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedisByResourceGroupRequest" });
@@ -3201,12 +3320,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redis",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedisBySubscriptionRequest" });
@@ -3240,12 +3361,14 @@ function __c42(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           history: S.Number.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listUpgradeNotifications",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRedisUpgradeNotificationsRequest" });
