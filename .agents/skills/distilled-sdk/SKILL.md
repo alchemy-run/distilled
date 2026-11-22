@@ -30,9 +30,10 @@ description: Build or update a distilled SDK for an API provider — sourcing it
 
 Two facts follow from this and shape everything below:
 
-- **The generated output is committed.** CI never runs `generate` and never
-  checks out a submodule. A PR is green with no spec present at all — the
-  specs only matter to whoever regenerates.
+- **The generated output is committed.** CI regenerates only turso and npm,
+  to check the committed code matches the generator, and fetches only their
+  mirrors. A new SDK's PR is green with no spec present at all — the specs
+  only matter to whoever regenerates.
 - **The mirror is the spec source, not the upstream.** A package never
   submodules the upstream repository. `github/rest-api-description` is 6.7 GB
   checked out for one 13 MB file; the mirror holds the file. See
