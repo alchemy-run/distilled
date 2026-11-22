@@ -310,6 +310,8 @@ export interface AwsAuthSigv2Trait {
 /** Protocol annotation value - includes trait data and implementation */
 export interface ProtocolAnnotationValue {
   protocol: Protocol;
+  /** The protocol's bodies are binary (CBOR): a response is never read as text. */
+  binaryBody?: boolean;
 }
 
 /** Common symbol for discovering the protocol from any annotation */
