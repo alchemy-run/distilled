@@ -10,7 +10,7 @@ import {
   nameOf,
   responseErrorFields,
 } from "@distilled.cloud/core/protocol-http";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
@@ -149,7 +149,8 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     if (!http) {
       return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
     }
-    const inputObj = (input ?? {}) as Record<string, unknown>;
+    // Sensitive members accept `string | Redacted<string>`; the wire wants the string.
+    const inputObj = unwrapRedactedDeep(input ?? {}) as Record<string, unknown>;
 
     const headers: Record<string, string> = {
       Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
@@ -276,11 +277,16 @@ const decode = ({
     // already the TS-facing names). Empty bodies (204 / empty 200) decode
     // to an empty object so `<Op>Response {}` outputs stay well-typed.
     // Strict mode (core/response-validation) checks it against the output
-    // schema.
-    return yield* validateResponse(
+    // schema, and sensitive members come back Redacted (core
+    // `validateSuccess`).
+    return yield* validateSuccess(
       outputAst,
-      nonJson ? text : json === undefined ? {} : json,
-      (cause) => new GoogleWorkspaceParseError({ body: nonJson ? text : json, cause }),
+      {
+        value: nonJson ? text : json === undefined ? {} : json,
+        body: nonJson ? text : json,
+        nonJson,
+      },
+      (info) => new GoogleWorkspaceParseError(info),
     ).pipe(Effect.catch(fail));
   });
 

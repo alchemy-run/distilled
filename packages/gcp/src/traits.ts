@@ -28,6 +28,7 @@ export {
   httpBodySymbol,
   errorMatchersSymbol,
 } from "@distilled.cloud/core/trait";
+export { SensitiveValue, sensitiveValueSymbol } from "@distilled.cloud/core/protocol-rest";
 
 /**
  * Core `HttpTrait` plus the service base URL from the discovery document.
