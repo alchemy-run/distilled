@@ -9,6 +9,10 @@
  * Signature"). `path` is the route path without the query string, and
  * `body` is the exact serialized request body, left out when empty --
  * the same rules as Polymarket's own `clob-client` (`buildPolyHmacSignature`).
+ *
+ * The secret is decoded once, when the credentials layer is built
+ * (./credentials.ts): a secret that is not base64 is a setup error
+ * (`ConfigError`) there, so a call never meets one.
  */
 import * as Crypto from "@distilled.cloud/core/crypto";
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -20,9 +24,9 @@ import * as Result from "effect/Result";
 /**
  * Decode an API secret the way the official client does: base64url is
  * read as base64, characters outside the alphabet are dropped, and missing
- * padding is restored.
+ * padding is restored. A secret that is not base64 fails with `ConfigError`.
  */
-const decodeSecret = (secret: string): Effect.Effect<Uint8Array, ConfigError> => {
+export const decodeSecret = (secret: string): Effect.Effect<Uint8Array, ConfigError> => {
   const stripped = secret
     .replace(/-/g, "+")
     .replace(/_/g, "/")
@@ -34,19 +38,29 @@ const decodeSecret = (secret: string): Effect.Effect<Uint8Array, ConfigError> =>
     : Effect.fail(new ConfigError({ message: "The Polymarket CLOB secret is not base64" }));
 };
 
-/** `POLY_SIGNATURE` for one request. */
-export const signL2 = (args: {
-  readonly secret: string;
+/** What one request's signature covers. */
+interface SignedRequest {
   readonly timestamp: number | string;
   readonly method: string;
   readonly requestPath: string;
   readonly body?: string | undefined;
-}): Effect.Effect<string, ConfigError | Crypto.CryptoError> =>
+}
+
+/** `POLY_SIGNATURE` for one request, from the decoded secret ({@link decodeSecret}). */
+export const signL2WithKey = (
+  key: Uint8Array,
+  request: SignedRequest,
+): Effect.Effect<string, Crypto.CryptoError> =>
   Effect.gen(function* () {
-    const key = yield* decodeSecret(args.secret);
     const crypto = yield* Crypto.Crypto;
     const hmacKey = yield* crypto.importHmacKey(key);
-    const message = `${args.timestamp}${args.method}${args.requestPath}${args.body ?? ""}`;
+    const message = `${request.timestamp}${request.method}${request.requestPath}${request.body ?? ""}`;
     const digest = yield* crypto.hmacSha256(hmacKey, message);
     return Base64Url.encodePadded(digest);
   });
+
+/** `POLY_SIGNATURE` for one request, from the API secret as Polymarket gives it. */
+export const signL2 = (
+  args: SignedRequest & { readonly secret: string },
+): Effect.Effect<string, ConfigError | Crypto.CryptoError> =>
+  Effect.flatMap(decodeSecret(args.secret), (key) => signL2WithKey(key, args));

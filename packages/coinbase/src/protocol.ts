@@ -1,5 +1,5 @@
 import * as crypto from "node:crypto";
-import { ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
@@ -16,6 +16,7 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * CoinbaseProtocol -- hand-written.
  *
@@ -27,7 +28,8 @@ import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
  * ## Authentication
  *
  * The Coinbase CDP API uses per-request JWT bearer tokens. The JWT is signed
- * with your CDP API Key Secret (ES256 or Ed25519) and includes:
+ * with your CDP API Key Secret (ES256 or Ed25519; parsed and checked once,
+ * when the credentials layer is built, see ./credentials.ts) and includes:
  *
  * - `sub`: Your CDP API Key ID
  * - `iss`: "cdp"
@@ -60,9 +62,8 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
-import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   COINBASE_HTTP_STATUS_MAP,
   CoinbaseParseError,
@@ -71,6 +72,7 @@ import {
   STANDARD_ERROR_TYPE_MAP,
   UnknownCoinbaseError,
 } from "./errors.ts";
+import { sign, type SigningKey } from "./signing.ts";
 
 /**
  * What every generated Coinbase operation fails with besides its own
@@ -112,60 +114,6 @@ const base64url = (buf: Buffer | Uint8Array): string =>
  */
 const randomNonce = (): string => crypto.randomBytes(16).toString("hex");
 
-interface SigningKey {
-  readonly jwsAlg: "ES256" | "EdDSA";
-  readonly key: crypto.KeyObject;
-}
-
-const invalidKey = (detail: string, cause: unknown) =>
-  new ConfigError({
-    message: `${detail}: ${cause instanceof Error ? cause.message : String(cause)}`,
-  });
-
-/**
- * Detect key type and return the appropriate signing algorithm and key object.
- * A secret that is not a usable key fails with `ConfigError`.
- */
-const resolveSigningKey = (apiKeySecret: string): Effect.Effect<SigningKey, ConfigError> => {
-  // Try EC (ES256) first -- PEM format
-  if (apiKeySecret.includes("-----BEGIN")) {
-    return Effect.try({
-      try: (): SigningKey => ({ jwsAlg: "ES256", key: crypto.createPrivateKey(apiKeySecret) }),
-      catch: (cause) =>
-        invalidKey("The CDP API Key Secret is not a valid EC PEM private key", cause),
-    });
-  }
-
-  // Ed25519 -- base64 encoded 64-byte key (32 seed + 32 public)
-  const keyBytes = Buffer.from(apiKeySecret, "base64");
-  if (keyBytes.length === 64) {
-    // Extract the 32-byte seed (private key)
-    const seed = keyBytes.subarray(0, 32);
-    // Import as Ed25519 private key using PKCS8 DER wrapping
-    // Ed25519 PKCS8 prefix: 302e020100300506032b657004220420
-    const pkcs8Prefix = Buffer.from("302e020100300506032b657004220420", "hex");
-    const pkcs8Der = Buffer.concat([pkcs8Prefix, seed]);
-    return Effect.try({
-      try: (): SigningKey => ({
-        jwsAlg: "EdDSA",
-        key: crypto.createPrivateKey({
-          key: pkcs8Der,
-          format: "der",
-          type: "pkcs8",
-        }),
-      }),
-      catch: (cause) =>
-        invalidKey("The CDP API Key Secret is not a valid Ed25519 private key", cause),
-    });
-  }
-
-  return Effect.fail(
-    new ConfigError({
-      message: "Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.",
-    }),
-  );
-};
-
 /**
  * Generate a JWT bearer token for Coinbase CDP API authentication.
  *
@@ -175,77 +123,39 @@ const resolveSigningKey = (apiKeySecret: string): Effect.Effect<SigningKey, Conf
  */
 const generateJwt = (
   apiKeyId: string,
-  apiKeySecret: string,
+  signingKey: SigningKey,
   method: string,
   uri: string,
-): Effect.Effect<string, ConfigError> =>
-  Effect.flatMap(resolveSigningKey(apiKeySecret), ({ jwsAlg, key }) => {
-    const now = Math.floor(Date.now() / 1000);
-    const header = {
-      alg: jwsAlg,
-      kid: apiKeyId,
-      typ: "JWT",
-      nonce: randomNonce(),
-    };
-    const payload = {
-      sub: apiKeyId,
-      iss: "cdp",
-      aud: ["cdp_service"],
-      nbf: now,
-      exp: now + 120,
-      uri: `${method} ${uri}`,
-    };
+): Effect.Effect<string, SdkError> => {
+  const now = Math.floor(Date.now() / 1000);
+  const header = {
+    alg: signingKey.jwsAlg,
+    kid: apiKeyId,
+    typ: "JWT",
+    nonce: randomNonce(),
+  };
+  const payload = {
+    sub: apiKeyId,
+    iss: "cdp",
+    aud: ["cdp_service"],
+    nbf: now,
+    exp: now + 120,
+    uri: `${method} ${uri}`,
+  };
 
-    const headerB64 = base64url(Buffer.from(JSON.stringify(header)));
-    const payloadB64 = base64url(Buffer.from(JSON.stringify(payload)));
-    const signingInput = `${headerB64}.${payloadB64}`;
+  const headerB64 = base64url(Buffer.from(JSON.stringify(header)));
+  const payloadB64 = base64url(Buffer.from(JSON.stringify(payload)));
+  const signingInput = `${headerB64}.${payloadB64}`;
 
-    // A key that parses but cannot sign with its algorithm (for example an
-    // Ed25519 key in PEM form, which is routed to ES256) fails here.
-    return Effect.try({
-      try: () => {
-        if (jwsAlg === "ES256") {
-          // ES256 uses SHA-256 with ECDSA, needs IEEE P1363 format (not DER)
-          const sign = crypto.createSign("SHA256");
-          sign.update(signingInput);
-          const derSig = sign.sign(key);
-          // Convert DER signature to IEEE P1363 (raw r||s) format
-          return derToP1363(derSig, 32);
-        }
-        // EdDSA (Ed25519) uses sign directly
-        return Buffer.from(crypto.sign(null, Buffer.from(signingInput), key));
-      },
-      catch: (cause) => invalidKey(`The CDP API Key Secret cannot sign a ${jwsAlg} JWT`, cause),
-    }).pipe(Effect.map((signature) => `${signingInput}.${base64url(signature)}`));
+  // The credentials were checked when their layer was built, with a trial
+  // signature, so a failure here is not the configuration's.
+  return Effect.try({
+    try: () => `${signingInput}.${base64url(sign(signingKey, signingInput))}`,
+    catch: (cause) =>
+      new SdkError({
+        message: `Could not sign the ${signingKey.jwsAlg} JWT: ${cause instanceof Error ? cause.message : String(cause)}`,
+      }),
   });
-
-/**
- * Convert a DER-encoded ECDSA signature to IEEE P1363 (raw r||s) format.
- * JWS requires P1363 format for ES256.
- */
-const derToP1363 = (derSig: Buffer, componentLength: number): Buffer => {
-  // DER format: 30 <len> 02 <rLen> <r> 02 <sLen> <s>
-  let offset = 2; // skip 30 <len>
-  if (derSig[1]! & 0x80) offset += derSig[1]! & 0x7f;
-
-  // Read r
-  offset++; // skip 02
-  const rLen = derSig[offset++]!;
-  const r = derSig.subarray(offset, offset + rLen);
-  offset += rLen;
-
-  // Read s
-  offset++; // skip 02
-  const sLen = derSig[offset++]!;
-  const s = derSig.subarray(offset, offset + sLen);
-
-  // Pad or trim to componentLength
-  const result = Buffer.alloc(componentLength * 2);
-  const rPadded = r.length > componentLength ? r.subarray(r.length - componentLength) : r;
-  const sPadded = s.length > componentLength ? s.subarray(s.length - componentLength) : s;
-  rPadded.copy(result, componentLength - rPadded.length);
-  sPadded.copy(result, componentLength * 2 - sPadded.length);
-  return result;
 };
 
 // ============================================================================
@@ -386,17 +296,14 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
 
     // JWT `uri` claim: "METHOD host/path" -- label-substituted path, no query
     // string (matches the v0 client: baseUrl.host + baseUrl.pathname +
-    // parts.path).
-    const url = yield* Effect.try({
-      try: () => new URL(request.url),
-      catch: () =>
-        new ConfigError({
-          message: `Coinbase apiBaseUrl must be an absolute URL such as ${DEFAULT_API_BASE_URL}; got ${JSON.stringify(creds.apiBaseUrl)}`,
-        }),
-    });
+    // parts.path). The base URL was checked with the credentials.
+    if (!URL.canParse(request.url)) {
+      return yield* new SdkError({ message: `Could not read the request URL ${request.url}` });
+    }
+    const url = new URL(request.url);
     const jwt = yield* generateJwt(
       creds.apiKeyId,
-      Redacted.value(creds.apiKeySecret),
+      creds.signingKey,
       request.method,
       `${url.host}${url.pathname}`,
     );

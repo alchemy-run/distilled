@@ -23,13 +23,18 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type BaseUrls, type ClobCredentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  type BaseUrls,
+  type CheckedClobCredentials,
+  type CheckedConfig,
+} from "./credentials.ts";
 import {
   PolymarketParseError,
   UnknownPolymarketError,
   type PolymarketServiceError,
 } from "./errors.ts";
-import { signL2 } from "./signing.ts";
+import { signL2WithKey } from "./signing.ts";
 
 /**
  * What every generated Polymarket operation fails with besides its own
@@ -52,7 +57,7 @@ export type PolymarketOpContext = Credentials | HttpClient.HttpClient;
 // for 413).
 const rest = (
   api: keyof BaseUrls,
-  headers: (creds: Config) => Record<string, string> = () => ({}),
+  headers: (creds: CheckedConfig) => Record<string, string> = () => ({}),
 ) =>
   restProtocol({
     // Resolved on the calling fiber per request.
@@ -107,13 +112,12 @@ const routePath = (url: string, baseUrl: string): string => {
 /** Add the five L2 headers to an encoded request. */
 const withL2Headers = (
   request: HttpClientRequest.HttpClientRequest,
-  clob: ClobCredentials,
+  clob: CheckedClobCredentials,
   baseUrl: string,
 ) =>
   Effect.gen(function* () {
     const timestamp = Math.floor((yield* Clock.currentTimeMillis) / 1000);
-    const signature = yield* signL2({
-      secret: Redacted.value(clob.secret),
+    const signature = yield* signL2WithKey(Redacted.value(clob.key), {
       timestamp,
       method: request.method,
       requestPath: routePath(request.url, baseUrl),
