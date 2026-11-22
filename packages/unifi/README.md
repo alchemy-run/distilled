@@ -76,8 +76,11 @@ the cloud** and need no `Console`.
 
 Through the connector, each console is limited to 100 requests a minute, a proxied request
 must finish within 25 seconds, the response is capped at 10 MB, and the console needs
-firmware 5.0.3 or later. A console on the local network presents a self-signed certificate;
-trust it in your runtime's TLS settings, or use the connector.
+firmware 5.0.3 or later. A proxied request that takes longer than 25 seconds, or reaches a
+console that is offline, fails with a `408` (`{"code":"DeviceTimeout",...}`) and an
+unreachable gateway with a `502`; the SDK raises them as `GatewayTimeout` and `BadGateway`,
+both retryable (`Unifi.Retry.transient`). A console on the local network presents a
+self-signed certificate; trust it in your runtime's TLS settings, or use the connector.
 
 ### Choosing local or remote
 
