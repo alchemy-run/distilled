@@ -1,4 +1,5 @@
-import { type ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
+import type { Checked } from "@distilled.cloud/core/config";
+import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DecodeArgs,
   EncodeArgs,
@@ -9,7 +10,6 @@ import type {
 import {
   buildRequest,
   getAnn,
-  invalidHostLabelConfig,
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
@@ -99,17 +99,12 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError | ConfigError => {
+const baseUrlFor = (creds: Checked<Config>, inputAst: AST.AST): string | SdkError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
   }
-  // The region becomes a label of the host name (`applyRegion` accepts the
-  // spec's glued `eu01.` form too).
-  const invalid = invalidHostLabelConfig(
-    "STACKIT region",
-    creds.region.endsWith(".") ? creds.region.slice(0, -1) : creds.region,
-  );
-  if (invalid !== undefined) return invalid;
+  // The region becomes a label of the host name; `check` in
+  // ./credentials.ts made sure it can.
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
   if (typeof specUrl !== "string" || specUrl === "") {
