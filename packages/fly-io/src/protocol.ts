@@ -3,11 +3,12 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
-  type InvalidInput,
+  InvalidInput,
   type UnknownErrorProps,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
+  encodeLabel,
   getAnn,
   mapKeys,
   matchTypedError,
@@ -388,9 +389,15 @@ const mintOnce = (fly: Config) =>
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient;
     const orgSlug = yield* discoverOrgSlug(fly);
+    const orgLabel = encodeLabel("orgSlug", orgSlug);
+    if (orgLabel instanceof InvalidInput) {
+      return yield* new FlyConfigError({
+        message: `The discovered Fly organization slug ${JSON.stringify(orgSlug)} cannot be a URL path segment`,
+      });
+    }
     const macaroon = stripFlyAuthScheme(Redacted.value(fly.apiKey));
     const request = HttpClientRequest.make("POST")(
-      `${DEFAULT_SPRITES_API_BASE_URL}/organizations/${encodeURIComponent(orgSlug)}/tokens`,
+      `${DEFAULT_SPRITES_API_BASE_URL}/organizations/${orgLabel}/tokens`,
     ).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `FlyV1 ${macaroon}`,

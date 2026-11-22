@@ -7,8 +7,13 @@
  * ARM-only program never loads the data-plane code (Storage XML, the
  * Container Registry token exchange).
  */
-import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
-import { matchTypedError } from "@distilled.cloud/core/protocol-http";
+import {
+  ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  InvalidInput,
+} from "@distilled.cloud/core/errors";
+import { encodeLabel, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import * as Effect from "effect/Effect";
 import { AZURE_ERROR_CODE_MAP, matchAzureErrorMessage, UnknownAzureError } from "./errors.ts";
@@ -19,6 +24,29 @@ import type { HttpTrait } from "./traits.ts";
 // Fail with the instance and erase the type here; the generated operation
 // annotations reintroduce it for callers.
 export const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+
+/**
+ * The credentials' subscription, percent-encoded for a `{subscriptionId}`
+ * the caller left unfilled. A missing one, or one that can't be a path
+ * segment (`.`, `..`, a lone UTF-16 surrogate), is a {@link ConfigError}:
+ * the value comes from the credentials, not the call.
+ */
+export const configuredSubscriptionId = (
+  subscriptionId: string | undefined,
+  uri: string | undefined,
+): string | ConfigError => {
+  if (!subscriptionId) {
+    return new ConfigError({
+      message: `${uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
+    });
+  }
+  const encoded = encodeLabel("subscriptionId", subscriptionId);
+  return encoded instanceof InvalidInput
+    ? new ConfigError({
+        message: `The configured subscriptionId ${JSON.stringify(subscriptionId)} cannot be a URL path segment`,
+      })
+    : encoded;
+};
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
