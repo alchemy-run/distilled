@@ -1,0 +1,20 @@
+{
+  "description": "Attach the observed Table service errors to TableQueryEntityWithPartitionAndRowKey.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableQueryEntityWithPartitionAndRowKey/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableEntityNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TableNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    }
+  ]
+}

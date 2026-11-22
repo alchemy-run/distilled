@@ -1,0 +1,20 @@
+{
+  "description": "Attach the observed Table service errors to InsertTableEntity.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableInsertEntity/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableEntityAlreadyExists"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TableNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    }
+  ]
+}
