@@ -107,6 +107,8 @@ export interface MailboxFolder {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -158,6 +160,8 @@ export interface CreateChildFoldersRequest {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -175,6 +179,8 @@ export interface CreateChildFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -291,6 +297,8 @@ export interface CreateFoldersRequest {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -308,6 +316,8 @@ export interface CreateFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -1793,6 +1803,8 @@ export interface GetChildFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -2177,6 +2189,8 @@ export interface GetFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -5179,6 +5193,8 @@ export interface UpdateChildFoldersRequest {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -5196,6 +5212,8 @@ export interface UpdateChildFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -5281,6 +5299,8 @@ export interface UpdateFoldersRequest {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -5298,6 +5318,8 @@ export interface UpdateFoldersResponse {
   childFolderCount?: number | null | undefined;
   /** The display name of the folder. */
   displayName?: string | null | undefined;
+  /** Indicates whether the folder is hidden. The default value is false. This property can be set only when you create the folder; it can't be updated using PATCH. By default, listing folders or listing child folders returns only folders that aren't hidden. To include hidden folders in the response, use the optional query parameter includeHiddenFolders=true. The response includes both hidden and nonhidden folders. If you use $select to limit the returned properties, include isHidden in the selection. */
+  isHidden?: boolean | null | undefined;
   /** The unique identifier for the parent folder of this folder. */
   parentFolderId?: string | null | undefined;
   /** The number of items in the folder. */
@@ -8996,7 +9018,7 @@ export const listAttachments: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListChildFoldersError = MicrosoftGraphOpError;
-/** List childFolders Get the mailboxFolder collection under the specified mailboxFolder in a mailbox. */
+/** List childFolders Get the mailboxFolder collection under the specified mailboxFolder in a mailbox. By default, hidden child folders aren't returned. To include them, specify includeHiddenFolders=true. */
 export const listChildFolders: API.PaginatedOperationMethod<
   ListChildFoldersRequest,
   ListChildFoldersResponse,
@@ -9192,7 +9214,7 @@ export const listConfigurationSnapshots: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListFoldersError = MicrosoftGraphOpError;
-/** List folders Get all the mailboxFolder objects in the specified mailbox, including any search folders. */
+/** List folders Get all the mailboxFolder objects in the specified mailbox, including any search folders. By default, hidden folders aren't returned. To include them, specify includeHiddenFolders=true. */
 export const listFolders: API.PaginatedOperationMethod<
   ListFoldersRequest,
   ListFoldersResponse,
@@ -13253,6 +13275,7 @@ function __c122(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           childFolderCount: S.optional(S.NullOr(S.Number)),
           displayName: S.optional(S.NullOr(S.String)),
+          isHidden: S.optional(S.NullOr(S.Boolean)),
           parentFolderId: S.optional(S.NullOr(S.String)),
           totalItemCount: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),
@@ -13369,6 +13392,7 @@ function __c128(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           childFolderCount: S.optional(S.NullOr(S.Number)),
           displayName: S.optional(S.NullOr(S.String)),
+          isHidden: S.optional(S.NullOr(S.Boolean)),
           parentFolderId: S.optional(S.NullOr(S.String)),
           totalItemCount: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),
@@ -14462,6 +14486,7 @@ function __c178(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           childFolderCount: S.optional(S.NullOr(S.Number)),
           displayName: S.optional(S.NullOr(S.String)),
+          isHidden: S.optional(S.NullOr(S.Boolean)),
           parentFolderId: S.optional(S.NullOr(S.String)),
           totalItemCount: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),
@@ -14835,6 +14860,7 @@ function __c203(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           childFolderCount: S.optional(S.NullOr(S.Number)),
           displayName: S.optional(S.NullOr(S.String)),
+          isHidden: S.optional(S.NullOr(S.Boolean)),
           parentFolderId: S.optional(S.NullOr(S.String)),
           totalItemCount: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),
@@ -15303,6 +15329,7 @@ function __c229(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           childFolderCount: S.optional(S.NullOr(S.Number)),
           displayName: S.optional(S.NullOr(S.String)),
+          isHidden: S.optional(S.NullOr(S.Boolean)),
           parentFolderId: S.optional(S.NullOr(S.String)),
           totalItemCount: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),

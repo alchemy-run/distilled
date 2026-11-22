@@ -86,9 +86,9 @@ export interface ProtectionPolicyArtifactCount {
   odataType?: string | undefined;
 }
 export interface RetentionSetting {
-  /** The frequency of the backup. */
+  /** The backup frequency, expressed as an ISO 8601 repeating interval. The service defines the backup intervals: R/PT10M for 10-minute copies and R/P1W for weekly copies. Use R/P1W when specifying the policy retention period in a create or update request. */
   interval?: string | null | undefined;
-  /** The period of time to retain the protected data for a single Microsoft 365 service. */
+  /** The period of time to retain the protected data for a single Microsoft 365 service, expressed as an ISO 8601 duration. The supported policy retention periods in create and update requests are: P90D, P180D, P365D, P730D, P1095D, P1460D, P1825D, P2190D, P2555D, P2920D, P3285D, and P3650D. Other policy retention periods aren't supported. */
   period?: string | null | undefined;
   odataType?: string | undefined;
 }
@@ -182,6 +182,20 @@ export interface PublicError {
   target?: string | null | undefined;
   odataType?: string | undefined;
 }
+export type RetentionPeriodChangeStatus =
+  | "none"
+  | "inProgress"
+  | "failed"
+  | "completed"
+  | "unknownFutureValue";
+export interface RetentionPeriodChange {
+  /** The date and time from which the retention period change takes effect. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2026, is 2026-01-01T00:00:00Z. Nullable. */
+  effectiveFromDateTime?: string | null | undefined;
+  status?: RetentionPeriodChangeStatus | undefined;
+  /** Specifies the retention period, in days, that applies after the change is completed. Nullable. */
+  targetRetentionPeriodInDays?: number | null | undefined;
+  odataType?: string | undefined;
+}
 export type ProtectionSource = "none" | "manual" | "dynamicRule" | "unknownFutureValue";
 export type ProtectionUnitStatus =
   | "protectRequested"
@@ -197,6 +211,8 @@ export interface DriveProtectionUnit {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -209,6 +225,8 @@ export interface DriveProtectionUnit {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -254,6 +272,8 @@ export interface MailboxProtectionUnit {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -266,6 +286,8 @@ export interface MailboxProtectionUnit {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -311,6 +333,8 @@ export interface SiteProtectionUnit {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -323,6 +347,8 @@ export interface SiteProtectionUnit {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -366,10 +392,18 @@ export type BrowseQueryResponseItemType =
   | "file"
   | "unknownFutureValue";
 export interface BrowseQueryResponseItem {
+  /** The identity of the user or application that created the item. Returned only when type is file or folder. */
+  createdBy?: IdentitySet | null | undefined;
+  /** The date and time when the item was created. Returned only when type is file or folder. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2024, is 2024-01-01T00:00:00Z. */
+  createdDateTime?: string | null | undefined;
   /** Unique identifier of the returned item. */
   itemKey?: string | null | undefined;
   /** The count of items present within the items; for example, the count of files in a folder. */
   itemsCount?: number | null | undefined;
+  /** The identity of the user or application that last modified the item. Returned only when type is file or folder. */
+  lastModifiedBy?: IdentitySet | null | undefined;
+  /** The date and time when the item was last modified. Returned only when type is file or folder. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2024, is 2024-01-01T00:00:00Z. */
+  lastModifiedDateTime?: string | null | undefined;
   /** The name of the item. */
   name?: string | null | undefined;
   /** The size of the item in bytes. */
@@ -469,6 +503,8 @@ export interface ProtectionUnitBase {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -481,6 +517,8 @@ export interface ProtectionUnitBase {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -1533,6 +1571,8 @@ export interface CreateDriveProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -1557,6 +1597,8 @@ export interface CreateDriveProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -1569,6 +1611,8 @@ export interface CreateDriveProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -2030,6 +2074,8 @@ export interface CreateGranularDriveRestoreArtifactsRequest {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -2054,6 +2100,8 @@ export interface CreateGranularDriveRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -2130,6 +2178,8 @@ export interface CreateGranularSiteRestoreArtifactsRequest {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -2143,7 +2193,7 @@ export interface CreateGranularSiteRestoreArtifactsRequest {
   status?: ArtifactRestoreStatus | (string & {}) | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export interface CreateGranularSiteRestoreArtifactsResponse {
@@ -2154,6 +2204,8 @@ export interface CreateGranularSiteRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -2167,7 +2219,7 @@ export interface CreateGranularSiteRestoreArtifactsResponse {
   status?: ArtifactRestoreStatus | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export interface CreateMailboxInclusionRulesRequest {
@@ -2216,6 +2268,8 @@ export interface CreateMailboxProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -2240,6 +2294,8 @@ export interface CreateMailboxProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -2252,6 +2308,8 @@ export interface CreateMailboxProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -3602,6 +3660,8 @@ export interface CreateSiteProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -3626,6 +3686,8 @@ export interface CreateSiteProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -3638,6 +3700,8 @@ export interface CreateSiteProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -6062,6 +6126,8 @@ export interface GetDriveProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -6074,6 +6140,8 @@ export interface GetDriveProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -6454,6 +6522,8 @@ export interface GetExchangeProtectionPoliciesMailboxProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -6466,6 +6536,8 @@ export interface GetExchangeProtectionPoliciesMailboxProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -6608,6 +6680,8 @@ export interface GetGranularDriveRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -6722,6 +6796,8 @@ export interface GetGranularSiteRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -6735,7 +6811,7 @@ export interface GetGranularSiteRestoreArtifactsResponse {
   status?: ArtifactRestoreStatus | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export interface GetGranularSiteRestoreArtifactsCountRequest {
@@ -6799,6 +6875,8 @@ export interface GetMailboxProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -6811,6 +6889,8 @@ export interface GetMailboxProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7169,6 +7249,8 @@ export interface GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRes
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7181,6 +7263,8 @@ export interface GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRes
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7389,6 +7473,8 @@ export interface GetProtectionUnitResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7401,6 +7487,8 @@ export interface GetProtectionUnitResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7421,6 +7509,8 @@ export interface GetProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7433,6 +7523,8 @@ export interface GetProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7453,6 +7545,8 @@ export interface GetProtectionUnitsAsDriveProtectionUnitResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7465,6 +7559,8 @@ export interface GetProtectionUnitsAsDriveProtectionUnitResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7491,6 +7587,8 @@ export interface GetProtectionUnitsAsMailboxProtectionUnitResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7503,6 +7601,8 @@ export interface GetProtectionUnitsAsMailboxProtectionUnitResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -7529,6 +7629,8 @@ export interface GetProtectionUnitsAsSiteProtectionUnitResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -7541,6 +7643,8 @@ export interface GetProtectionUnitsAsSiteProtectionUnitResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -8446,6 +8550,8 @@ export interface GetSharePointProtectionPoliciesSiteProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -8458,6 +8564,8 @@ export interface GetSharePointProtectionPoliciesSiteProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -8632,6 +8740,8 @@ export interface GetSiteProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -8644,6 +8754,8 @@ export interface GetSiteProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -10858,6 +10970,8 @@ export interface GranularDriveRestoreArtifact {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -10971,6 +11085,8 @@ export interface GranularSiteRestoreArtifact {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -10984,7 +11100,7 @@ export interface GranularSiteRestoreArtifact {
   status?: ArtifactRestoreStatus | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export type ListGranularSiteRestoreArtifactsResponseValueList = Array<GranularSiteRestoreArtifact>;
@@ -13987,6 +14103,8 @@ export interface UpdateDriveProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -14011,6 +14129,8 @@ export interface UpdateDriveProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -14023,6 +14143,8 @@ export interface UpdateDriveProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -14421,6 +14543,8 @@ export interface UpdateGranularDriveRestoreArtifactsRequest {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -14445,6 +14569,8 @@ export interface UpdateGranularDriveRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -14525,6 +14651,8 @@ export interface UpdateGranularSiteRestoreArtifactsRequest {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -14538,7 +14666,7 @@ export interface UpdateGranularSiteRestoreArtifactsRequest {
   status?: ArtifactRestoreStatus | (string & {}) | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export interface UpdateGranularSiteRestoreArtifactsResponse {
@@ -14549,6 +14677,8 @@ export interface UpdateGranularSiteRestoreArtifactsResponse {
   browseSessionId?: string | null | undefined;
   /** Date time when the artifact's restoration completes. */
   completionDateTime?: string | null | undefined;
+  /** Contains error details if the restoration fails or completes with an error. */
+  error?: PublicError | null | undefined;
   /** The unique identifier for the restored artifact. */
   restoredItemKey?: string | null | undefined;
   /** The path of the restored artifact. It's the path of the folder where all the artifacts are restored within a granular restore session. */
@@ -14562,7 +14692,7 @@ export interface UpdateGranularSiteRestoreArtifactsResponse {
   status?: ArtifactRestoreStatus | undefined;
   /** The original web url of the artifact being restored. */
   webUrl?: string | null | undefined;
-  /** Id of the site in which artifact is present. */
+  /** The ID of the site in which the artifact is present. */
   siteId?: string | null | undefined;
 }
 export interface UpdateMailboxInclusionRulesRequest {
@@ -14615,6 +14745,8 @@ export interface UpdateMailboxProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -14639,6 +14771,8 @@ export interface UpdateMailboxProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -14651,6 +14785,8 @@ export interface UpdateMailboxProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -16083,6 +16219,8 @@ export interface UpdateSiteProtectionUnitsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -16107,6 +16245,8 @@ export interface UpdateSiteProtectionUnitsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The policy-configured retention period of the backup, in days. Not nullable. */
+  backupRetentionPeriodInDays?: number | undefined;
   /** The identity of the person who created the protection unit. */
   createdBy?: IdentitySet | null | undefined;
   /** The time of creation of the protection unit. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
@@ -16119,6 +16259,8 @@ export interface UpdateSiteProtectionUnitsResponse {
   lastModifiedDateTime?: string | null | undefined;
   /** The date and time when protection unit offboard was requested. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. */
   offboardRequestedDateTime?: string | null | undefined;
+  /** The retention period change to be applied to the protection unit when it moves between policies with different retention periods. Read-only. null when no change is pending. */
+  pendingRetentionPeriodChange?: RetentionPeriodChange | null | undefined;
   /** The unique identifier of the protection policy based on which protection unit was created. */
   policyId?: string | null | undefined;
   protectionSources?: ProtectionSource | undefined;
@@ -17130,7 +17272,7 @@ export const asMailboxProtectionUnit: API.PaginatedOperationMethod<
   MailboxProtectionUnit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4128, __c258, 0) as any as S.Schema<AsMailboxProtectionUnitRequest>,
+    input: __S(4144, __c259, 0) as any as S.Schema<AsMailboxProtectionUnitRequest>,
     output: __S(2049, __c128, 1) as any as S.Schema<AsMailboxProtectionUnitResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
@@ -17158,8 +17300,8 @@ export const asSiteProtectionUnit: API.PaginatedOperationMethod<
   SiteProtectionUnit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6368, __c398, 0) as any as S.Schema<AsSiteProtectionUnitRequest>,
-    output: __S(6385, __c399, 1) as any as S.Schema<AsSiteProtectionUnitResponse>,
+    input: __S(6384, __c399, 0) as any as S.Schema<AsSiteProtectionUnitRequest>,
+    output: __S(6401, __c400, 1) as any as S.Schema<AsSiteProtectionUnitResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -17186,8 +17328,8 @@ export const browse: API.PaginatedOperationMethod<
   BrowseQueryResponseItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8064, __c504, 0) as any as S.Schema<BrowseRequest>,
-    output: __S(8082, __c505, 2) as any as S.Schema<BrowseResponse>,
+    input: __S(8080, __c505, 0) as any as S.Schema<BrowseRequest>,
+    output: __S(8098, __c506, 2) as any as S.Schema<BrowseResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -17213,8 +17355,8 @@ export const browseSessionBaseBrowse: API.PaginatedOperationMethod<
   BrowseQueryResponseItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8352, __c522, 0) as any as S.Schema<BrowseSessionBaseBrowseRequest>,
-    output: __S(8082, __c505, 2) as any as S.Schema<BrowseSessionBaseBrowseResponse>,
+    input: __S(8368, __c523, 0) as any as S.Schema<BrowseSessionBaseBrowseRequest>,
+    output: __S(8098, __c506, 2) as any as S.Schema<BrowseSessionBaseBrowseResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -17239,8 +17381,8 @@ export const cancel: API.OperationMethod<
   CancelError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8592, __c537, 0) as any as S.Schema<CancelRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelResponse>,
+  input: __S(8608, __c538, 0) as any as S.Schema<CancelRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17256,8 +17398,8 @@ export const cancelAppointmentsBookingAppointment: API.OperationMethod<
   CancelAppointmentsBookingAppointmentError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8848, __c553, 0) as any as S.Schema<CancelAppointmentsBookingAppointmentRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelAppointmentsBookingAppointmentResponse>,
+  input: __S(8864, __c554, 0) as any as S.Schema<CancelAppointmentsBookingAppointmentRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelAppointmentsBookingAppointmentResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17273,8 +17415,8 @@ export const cancelCalendarViewBookingAppointment: API.OperationMethod<
   CancelCalendarViewBookingAppointmentError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c564, 0) as any as S.Schema<CancelCalendarViewBookingAppointmentRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelCalendarViewBookingAppointmentResponse>,
+  input: __S(9040, __c565, 0) as any as S.Schema<CancelCalendarViewBookingAppointmentRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelCalendarViewBookingAppointmentResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17342,7 +17484,7 @@ export const cancelEmail: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<CancelEmailRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelEmailResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17376,7 +17518,7 @@ export const cancelRegistrationsEmail: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<CancelRegistrationsEmailRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelRegistrationsEmailResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelRegistrationsEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17393,7 +17535,7 @@ export const cancelRegistrationsUserId: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<CancelRegistrationsUserIdRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelRegistrationsUserIdResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelRegistrationsUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17411,8 +17553,8 @@ export const cancelRegistrationsVirtualEventRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<CancelRegistrationsVirtualEventRegistrationRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<CancelRegistrationsVirtualEventRegistrationResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -17431,7 +17573,7 @@ export const cancelUserId: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<CancelUserIdRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelUserIdResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17448,7 +17590,7 @@ export const cancelVirtualEventRegistration: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<CancelVirtualEventRegistrationRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<CancelVirtualEventRegistrationResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<CancelVirtualEventRegistrationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17464,8 +17606,8 @@ export const createAppointments: API.OperationMethod<
   CreateAppointmentsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<CreateAppointmentsRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<CreateAppointmentsResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CreateAppointmentsRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<CreateAppointmentsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17481,8 +17623,8 @@ export const createAttendanceRecords: API.OperationMethod<
   CreateAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<CreateAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<CreateAttendanceRecordsResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<CreateAttendanceRecordsRequest>,
+  output: __S(2420, __c151, 4) as any as S.Schema<CreateAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17498,8 +17640,8 @@ export const createAttendanceReports: API.OperationMethod<
   CreateAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<CreateAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<CreateAttendanceReportsResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<CreateAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<CreateAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17515,8 +17657,8 @@ export const createAttendanceReportsAttendanceRecords: API.OperationMethod<
   CreateAttendanceReportsAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<CreateAttendanceReportsAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<CreateAttendanceReportsAttendanceRecordsResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<CreateAttendanceReportsAttendanceRecordsRequest>,
+  output: __S(2420, __c151, 4) as any as S.Schema<CreateAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17532,8 +17674,8 @@ export const createBookingBusinesses: API.OperationMethod<
   CreateBookingBusinessesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<CreateBookingBusinessesRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<CreateBookingBusinessesResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<CreateBookingBusinessesRequest>,
+  output: __S(2993, __c187, 1) as any as S.Schema<CreateBookingBusinessesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17549,8 +17691,8 @@ export const createBookingCurrencies: API.OperationMethod<
   CreateBookingCurrenciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<CreateBookingCurrenciesRequest>,
-  output: __S(3184, __c199, 0) as any as S.Schema<CreateBookingCurrenciesResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<CreateBookingCurrenciesRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<CreateBookingCurrenciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17566,8 +17708,8 @@ export const createBrowseSessions: API.OperationMethod<
   CreateBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<CreateBrowseSessionsRequest>,
-  output: __S(3392, __c212, 0) as any as S.Schema<CreateBrowseSessionsResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<CreateBrowseSessionsRequest>,
+  output: __S(3408, __c213, 0) as any as S.Schema<CreateBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17583,8 +17725,8 @@ export const createCalendarView: API.OperationMethod<
   CreateCalendarViewError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<CreateCalendarViewRequest>,
-  output: __S(3569, __c223, 1) as any as S.Schema<CreateCalendarViewResponse>,
+  input: __S(3584, __c224, 0) as any as S.Schema<CreateCalendarViewRequest>,
+  output: __S(3585, __c224, 1) as any as S.Schema<CreateCalendarViewResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17600,8 +17742,8 @@ export const createCrossTenantMigrationJobs: API.OperationMethod<
   CreateCrossTenantMigrationJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c234, 0) as any as S.Schema<CreateCrossTenantMigrationJobsRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<CreateCrossTenantMigrationJobsResponse>,
+  input: __S(3760, __c235, 0) as any as S.Schema<CreateCrossTenantMigrationJobsRequest>,
+  output: __S(3777, __c236, 1) as any as S.Schema<CreateCrossTenantMigrationJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17617,8 +17759,8 @@ export const createCustomers: API.OperationMethod<
   CreateCustomersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c246, 0) as any as S.Schema<CreateCustomersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<CreateCustomersResponse>,
+  input: __S(3952, __c247, 0) as any as S.Schema<CreateCustomersRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<CreateCustomersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17634,8 +17776,8 @@ export const createCustomQuestions: API.OperationMethod<
   CreateCustomQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<CreateCustomQuestionsRequest>,
-  output: __S(4160, __c260, 0) as any as S.Schema<CreateCustomQuestionsResponse>,
+  input: __S(4160, __c260, 0) as any as S.Schema<CreateCustomQuestionsRequest>,
+  output: __S(4176, __c261, 0) as any as S.Schema<CreateCustomQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17651,8 +17793,8 @@ export const createDriveInclusionRules: API.OperationMethod<
   CreateDriveInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<CreateDriveInclusionRulesRequest>,
-  output: __S(4368, __c273, 0) as any as S.Schema<CreateDriveInclusionRulesResponse>,
+  input: __S(4368, __c273, 0) as any as S.Schema<CreateDriveInclusionRulesRequest>,
+  output: __S(4384, __c274, 0) as any as S.Schema<CreateDriveInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17668,7 +17810,7 @@ export const createDriveProtectionUnits: API.OperationMethod<
   CreateDriveProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c284, 0) as any as S.Schema<CreateDriveProtectionUnitsRequest>,
+  input: __S(4560, __c285, 0) as any as S.Schema<CreateDriveProtectionUnitsRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<CreateDriveProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -17685,10 +17827,10 @@ export const createDriveProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   CreateDriveProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c296, 0) as any as S.Schema<CreateDriveProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(4752, __c297, 0) as any as S.Schema<CreateDriveProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    4752,
-    __c297,
+    4768,
+    __c298,
     0,
   ) as any as S.Schema<CreateDriveProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -17706,8 +17848,8 @@ export const createDriveRestoreArtifacts: API.OperationMethod<
   CreateDriveRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4976, __c311, 0) as any as S.Schema<CreateDriveRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<CreateDriveRestoreArtifactsResponse>,
+  input: __S(4992, __c312, 0) as any as S.Schema<CreateDriveRestoreArtifactsRequest>,
+  output: __S(5008, __c313, 0) as any as S.Schema<CreateDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17724,13 +17866,13 @@ export const createDriveRestoreArtifactsBulkAdditionRequests: API.OperationMetho
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5264,
-    __c329,
+    5280,
+    __c330,
     0,
   ) as any as S.Schema<CreateDriveRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    5280,
-    __c330,
+    5296,
+    __c331,
     0,
   ) as any as S.Schema<CreateDriveRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -17748,8 +17890,8 @@ export const createEvents: API.OperationMethod<
   CreateEventsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5488, __c343, 0) as any as S.Schema<CreateEventsRequest>,
-  output: __S(5504, __c344, 0) as any as S.Schema<CreateEventsResponse>,
+  input: __S(5504, __c344, 0) as any as S.Schema<CreateEventsRequest>,
+  output: __S(5520, __c345, 0) as any as S.Schema<CreateEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17765,7 +17907,7 @@ export const createExchangeProtectionPolicies: API.OperationMethod<
   CreateExchangeProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5744, __c359, 0) as any as S.Schema<CreateExchangeProtectionPoliciesRequest>,
+  input: __S(5760, __c360, 0) as any as S.Schema<CreateExchangeProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CreateExchangeProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -17782,8 +17924,8 @@ export const createExchangeRestoreSessions: API.OperationMethod<
   CreateExchangeRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c372, 0) as any as S.Schema<CreateExchangeRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<CreateExchangeRestoreSessionsResponse>,
+  input: __S(5968, __c373, 0) as any as S.Schema<CreateExchangeRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<CreateExchangeRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17799,8 +17941,8 @@ export const createGranularDriveRestoreArtifacts: API.OperationMethod<
   CreateGranularDriveRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c386, 0) as any as S.Schema<CreateGranularDriveRestoreArtifactsRequest>,
-  output: __S(6192, __c387, 0) as any as S.Schema<CreateGranularDriveRestoreArtifactsResponse>,
+  input: __S(6192, __c387, 0) as any as S.Schema<CreateGranularDriveRestoreArtifactsRequest>,
+  output: __S(6208, __c388, 0) as any as S.Schema<CreateGranularDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17816,8 +17958,8 @@ export const createGranularMailboxRestoreArtifacts: API.OperationMethod<
   CreateGranularMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6416, __c401, 0) as any as S.Schema<CreateGranularMailboxRestoreArtifactsRequest>,
-  output: __S(6432, __c402, 0) as any as S.Schema<CreateGranularMailboxRestoreArtifactsResponse>,
+  input: __S(6432, __c402, 0) as any as S.Schema<CreateGranularMailboxRestoreArtifactsRequest>,
+  output: __S(6448, __c403, 0) as any as S.Schema<CreateGranularMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17833,8 +17975,8 @@ export const createGranularSiteRestoreArtifacts: API.OperationMethod<
   CreateGranularSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c414, 0) as any as S.Schema<CreateGranularSiteRestoreArtifactsRequest>,
-  output: __S(6640, __c415, 0) as any as S.Schema<CreateGranularSiteRestoreArtifactsResponse>,
+  input: __S(6640, __c415, 0) as any as S.Schema<CreateGranularSiteRestoreArtifactsRequest>,
+  output: __S(6656, __c416, 0) as any as S.Schema<CreateGranularSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17850,8 +17992,8 @@ export const createMailboxInclusionRules: API.OperationMethod<
   CreateMailboxInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c426, 0) as any as S.Schema<CreateMailboxInclusionRulesRequest>,
-  output: __S(6832, __c427, 0) as any as S.Schema<CreateMailboxInclusionRulesResponse>,
+  input: __S(6832, __c427, 0) as any as S.Schema<CreateMailboxInclusionRulesRequest>,
+  output: __S(6848, __c428, 0) as any as S.Schema<CreateMailboxInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17867,7 +18009,7 @@ export const createMailboxProtectionUnits: API.OperationMethod<
   CreateMailboxProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c438, 0) as any as S.Schema<CreateMailboxProtectionUnitsRequest>,
+  input: __S(7024, __c439, 0) as any as S.Schema<CreateMailboxProtectionUnitsRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<CreateMailboxProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -17885,13 +18027,13 @@ export const createMailboxProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7184,
-    __c449,
+    7200,
+    __c450,
     0,
   ) as any as S.Schema<CreateMailboxProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    7200,
-    __c450,
+    7216,
+    __c451,
     0,
   ) as any as S.Schema<CreateMailboxProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -17909,8 +18051,8 @@ export const createMailboxRestoreArtifacts: API.OperationMethod<
   CreateMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7376, __c461, 0) as any as S.Schema<CreateMailboxRestoreArtifactsRequest>,
-  output: __S(7392, __c462, 0) as any as S.Schema<CreateMailboxRestoreArtifactsResponse>,
+  input: __S(7392, __c462, 0) as any as S.Schema<CreateMailboxRestoreArtifactsRequest>,
+  output: __S(7408, __c463, 0) as any as S.Schema<CreateMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17927,13 +18069,13 @@ export const createMailboxRestoreArtifactsBulkAdditionRequests: API.OperationMet
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7568,
-    __c473,
+    7584,
+    __c474,
     0,
   ) as any as S.Schema<CreateMailboxRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    7584,
-    __c474,
+    7600,
+    __c475,
     0,
   ) as any as S.Schema<CreateMailboxRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -17951,8 +18093,8 @@ export const createOneDriveForBusinessBrowseSessions: API.OperationMethod<
   CreateOneDriveForBusinessBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7760, __c485, 0) as any as S.Schema<CreateOneDriveForBusinessBrowseSessionsRequest>,
-  output: __S(7776, __c486, 0) as any as S.Schema<CreateOneDriveForBusinessBrowseSessionsResponse>,
+  input: __S(7776, __c486, 0) as any as S.Schema<CreateOneDriveForBusinessBrowseSessionsRequest>,
+  output: __S(7792, __c487, 0) as any as S.Schema<CreateOneDriveForBusinessBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -17969,8 +18111,8 @@ export const createOneDriveForBusinessProtectionPolicies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7952,
-    __c497,
+    7968,
+    __c498,
     0,
   ) as any as S.Schema<CreateOneDriveForBusinessProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CreateOneDriveForBusinessProtectionPoliciesResponse>,
@@ -17989,8 +18131,8 @@ export const createOneDriveForBusinessRestoreSessions: API.OperationMethod<
   CreateOneDriveForBusinessRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8048, __c503, 0) as any as S.Schema<CreateOneDriveForBusinessRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<CreateOneDriveForBusinessRestoreSessionsResponse>,
+  input: __S(8064, __c504, 0) as any as S.Schema<CreateOneDriveForBusinessRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<CreateOneDriveForBusinessRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18006,8 +18148,8 @@ export const createPresenters: API.OperationMethod<
   CreatePresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c506, 0) as any as S.Schema<CreatePresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<CreatePresentersResponse>,
+  input: __S(8112, __c507, 0) as any as S.Schema<CreatePresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<CreatePresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18023,7 +18165,7 @@ export const createProtectionPolicies: API.OperationMethod<
   CreateProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c508, 0) as any as S.Schema<CreateProtectionPoliciesRequest>,
+  input: __S(8144, __c509, 0) as any as S.Schema<CreateProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CreateProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -18040,8 +18182,8 @@ export const createQuestions: API.OperationMethod<
   CreateQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8144, __c509, 0) as any as S.Schema<CreateQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<CreateQuestionsResponse>,
+  input: __S(8160, __c510, 0) as any as S.Schema<CreateQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<CreateQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18057,8 +18199,8 @@ export const createRegistrationConfigurationQuestions: API.OperationMethod<
   CreateRegistrationConfigurationQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8176, __c511, 0) as any as S.Schema<CreateRegistrationConfigurationQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<CreateRegistrationConfigurationQuestionsResponse>,
+  input: __S(8192, __c512, 0) as any as S.Schema<CreateRegistrationConfigurationQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<CreateRegistrationConfigurationQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18074,8 +18216,8 @@ export const createRegistrations: API.OperationMethod<
   CreateRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c512, 0) as any as S.Schema<CreateRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<CreateRegistrationsResponse>,
+  input: __S(8208, __c513, 0) as any as S.Schema<CreateRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<CreateRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18091,8 +18233,8 @@ export const createRestorePoints: API.OperationMethod<
   CreateRestorePointsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c514, 0) as any as S.Schema<CreateRestorePointsRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<CreateRestorePointsResponse>,
+  input: __S(8240, __c515, 0) as any as S.Schema<CreateRestorePointsRequest>,
+  output: __S(8256, __c516, 0) as any as S.Schema<CreateRestorePointsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18108,8 +18250,8 @@ export const createRestoreSessions: API.OperationMethod<
   CreateRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c516, 0) as any as S.Schema<CreateRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<CreateRestoreSessionsResponse>,
+  input: __S(8272, __c517, 0) as any as S.Schema<CreateRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<CreateRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18125,7 +18267,7 @@ export const createServiceApps: API.OperationMethod<
   CreateServiceAppsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8272, __c517, 0) as any as S.Schema<CreateServiceAppsRequest>,
+  input: __S(8288, __c518, 0) as any as S.Schema<CreateServiceAppsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CreateServiceAppsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -18142,8 +18284,8 @@ export const createServices: API.OperationMethod<
   CreateServicesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c518, 0) as any as S.Schema<CreateServicesRequest>,
-  output: __S(8289, __c518, 1) as any as S.Schema<CreateServicesResponse>,
+  input: __S(8304, __c519, 0) as any as S.Schema<CreateServicesRequest>,
+  output: __S(8305, __c519, 1) as any as S.Schema<CreateServicesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18159,8 +18301,8 @@ export const createSessions: API.OperationMethod<
   CreateSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c520, 0) as any as S.Schema<CreateSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<CreateSessionsResponse>,
+  input: __S(8336, __c521, 0) as any as S.Schema<CreateSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<CreateSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18176,8 +18318,8 @@ export const createSessionsAttendanceReports: API.OperationMethod<
   CreateSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8368, __c523, 0) as any as S.Schema<CreateSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<CreateSessionsAttendanceReportsResponse>,
+  input: __S(8384, __c524, 0) as any as S.Schema<CreateSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<CreateSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18194,13 +18336,13 @@ export const createSessionsAttendanceReportsAttendanceRecords: API.OperationMeth
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8384,
-    __c524,
+    8400,
+    __c525,
     0,
   ) as any as S.Schema<CreateSessionsAttendanceReportsAttendanceRecordsRequest>,
   output: __S(
-    2404,
-    __c150,
+    2420,
+    __c151,
     4,
   ) as any as S.Schema<CreateSessionsAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -18218,8 +18360,8 @@ export const createSharePointBrowseSessions: API.OperationMethod<
   CreateSharePointBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8400, __c525, 0) as any as S.Schema<CreateSharePointBrowseSessionsRequest>,
-  output: __S(8416, __c526, 0) as any as S.Schema<CreateSharePointBrowseSessionsResponse>,
+  input: __S(8416, __c526, 0) as any as S.Schema<CreateSharePointBrowseSessionsRequest>,
+  output: __S(8432, __c527, 0) as any as S.Schema<CreateSharePointBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18235,7 +18377,7 @@ export const createSharePointProtectionPolicies: API.OperationMethod<
   CreateSharePointProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8432, __c527, 0) as any as S.Schema<CreateSharePointProtectionPoliciesRequest>,
+  input: __S(8448, __c528, 0) as any as S.Schema<CreateSharePointProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CreateSharePointProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -18252,8 +18394,8 @@ export const createSharePointRestoreSessions: API.OperationMethod<
   CreateSharePointRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c528, 0) as any as S.Schema<CreateSharePointRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<CreateSharePointRestoreSessionsResponse>,
+  input: __S(8464, __c529, 0) as any as S.Schema<CreateSharePointRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<CreateSharePointRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18269,8 +18411,8 @@ export const createSiteInclusionRules: API.OperationMethod<
   CreateSiteInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8464, __c529, 0) as any as S.Schema<CreateSiteInclusionRulesRequest>,
-  output: __S(8480, __c530, 0) as any as S.Schema<CreateSiteInclusionRulesResponse>,
+  input: __S(8480, __c530, 0) as any as S.Schema<CreateSiteInclusionRulesRequest>,
+  output: __S(8496, __c531, 0) as any as S.Schema<CreateSiteInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18286,8 +18428,8 @@ export const createSiteProtectionUnits: API.OperationMethod<
   CreateSiteProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8496, __c531, 0) as any as S.Schema<CreateSiteProtectionUnitsRequest>,
-  output: __S(6400, __c400, 0) as any as S.Schema<CreateSiteProtectionUnitsResponse>,
+  input: __S(8512, __c532, 0) as any as S.Schema<CreateSiteProtectionUnitsRequest>,
+  output: __S(6416, __c401, 0) as any as S.Schema<CreateSiteProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18303,10 +18445,10 @@ export const createSiteProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   CreateSiteProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c532, 0) as any as S.Schema<CreateSiteProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(8528, __c533, 0) as any as S.Schema<CreateSiteProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8528,
-    __c533,
+    8544,
+    __c534,
     0,
   ) as any as S.Schema<CreateSiteProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -18324,8 +18466,8 @@ export const createSiteRestoreArtifacts: API.OperationMethod<
   CreateSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c534, 0) as any as S.Schema<CreateSiteRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<CreateSiteRestoreArtifactsResponse>,
+  input: __S(8560, __c535, 0) as any as S.Schema<CreateSiteRestoreArtifactsRequest>,
+  output: __S(5008, __c313, 0) as any as S.Schema<CreateSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18342,13 +18484,13 @@ export const createSiteRestoreArtifactsBulkAdditionRequests: API.OperationMethod
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8560,
-    __c535,
+    8576,
+    __c536,
     0,
   ) as any as S.Schema<CreateSiteRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8576,
-    __c536,
+    8592,
+    __c537,
     0,
   ) as any as S.Schema<CreateSiteRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -18366,8 +18508,8 @@ export const createStaffMembers: API.OperationMethod<
   CreateStaffMembersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8624, __c539, 0) as any as S.Schema<CreateStaffMembersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<CreateStaffMembersResponse>,
+  input: __S(8640, __c540, 0) as any as S.Schema<CreateStaffMembersRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<CreateStaffMembersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18383,8 +18525,8 @@ export const createTownhalls: API.OperationMethod<
   CreateTownhallsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c540, 0) as any as S.Schema<CreateTownhallsRequest>,
-  output: __S(8657, __c541, 1) as any as S.Schema<CreateTownhallsResponse>,
+  input: __S(8656, __c541, 0) as any as S.Schema<CreateTownhallsRequest>,
+  output: __S(8673, __c542, 1) as any as S.Schema<CreateTownhallsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18400,8 +18542,8 @@ export const createTownhallsPresenters: API.OperationMethod<
   CreateTownhallsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8688, __c543, 0) as any as S.Schema<CreateTownhallsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<CreateTownhallsPresentersResponse>,
+  input: __S(8704, __c544, 0) as any as S.Schema<CreateTownhallsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<CreateTownhallsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18417,8 +18559,8 @@ export const createTownhallsRegistrations: API.OperationMethod<
   CreateTownhallsRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c544, 0) as any as S.Schema<CreateTownhallsRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<CreateTownhallsRegistrationsResponse>,
+  input: __S(8720, __c545, 0) as any as S.Schema<CreateTownhallsRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<CreateTownhallsRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18434,8 +18576,8 @@ export const createTownhallsSessions: API.OperationMethod<
   CreateTownhallsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8720, __c545, 0) as any as S.Schema<CreateTownhallsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<CreateTownhallsSessionsResponse>,
+  input: __S(8736, __c546, 0) as any as S.Schema<CreateTownhallsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<CreateTownhallsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18451,8 +18593,8 @@ export const createTownhallsSessionsAttendanceReports: API.OperationMethod<
   CreateTownhallsSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c546, 0) as any as S.Schema<CreateTownhallsSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<CreateTownhallsSessionsAttendanceReportsResponse>,
+  input: __S(8752, __c547, 0) as any as S.Schema<CreateTownhallsSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<CreateTownhallsSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18468,8 +18610,8 @@ export const createUsers: API.OperationMethod<
   CreateUsersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8752, __c547, 0) as any as S.Schema<CreateUsersRequest>,
-  output: __S(8772, __c548, 4) as any as S.Schema<CreateUsersResponse>,
+  input: __S(8768, __c548, 0) as any as S.Schema<CreateUsersRequest>,
+  output: __S(8788, __c549, 4) as any as S.Schema<CreateUsersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18485,8 +18627,8 @@ export const createWebinars: API.OperationMethod<
   CreateWebinarsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8784, __c549, 0) as any as S.Schema<CreateWebinarsRequest>,
-  output: __S(8800, __c550, 0) as any as S.Schema<CreateWebinarsResponse>,
+  input: __S(8800, __c550, 0) as any as S.Schema<CreateWebinarsRequest>,
+  output: __S(8816, __c551, 0) as any as S.Schema<CreateWebinarsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18502,8 +18644,8 @@ export const createWebinarsPresenters: API.OperationMethod<
   CreateWebinarsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8816, __c551, 0) as any as S.Schema<CreateWebinarsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<CreateWebinarsPresentersResponse>,
+  input: __S(8832, __c552, 0) as any as S.Schema<CreateWebinarsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<CreateWebinarsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18519,8 +18661,8 @@ export const createWebinarsSessions: API.OperationMethod<
   CreateWebinarsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c552, 0) as any as S.Schema<CreateWebinarsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<CreateWebinarsSessionsResponse>,
+  input: __S(8848, __c553, 0) as any as S.Schema<CreateWebinarsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<CreateWebinarsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18536,7 +18678,7 @@ export const deactivate: API.OperationMethod<
   DeactivateError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c554, 0) as any as S.Schema<DeactivateRequest>,
+  input: __S(8880, __c555, 0) as any as S.Schema<DeactivateRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<DeactivateResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -18553,7 +18695,7 @@ export const deactivateProtectionPolicyBase: API.OperationMethod<
   DeactivateProtectionPolicyBaseError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8880, __c555, 0) as any as S.Schema<DeactivateProtectionPolicyBaseRequest>,
+  input: __S(8896, __c556, 0) as any as S.Schema<DeactivateProtectionPolicyBaseRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<DeactivateProtectionPolicyBaseResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -18570,8 +18712,8 @@ export const deleteAppointments: API.OperationMethod<
   DeleteAppointmentsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c556, 0) as any as S.Schema<DeleteAppointmentsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteAppointmentsResponse>,
+  input: __S(8912, __c557, 0) as any as S.Schema<DeleteAppointmentsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteAppointmentsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18587,8 +18729,8 @@ export const deleteAttendanceRecords: API.OperationMethod<
   DeleteAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8912, __c557, 0) as any as S.Schema<DeleteAttendanceRecordsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteAttendanceRecordsResponse>,
+  input: __S(8928, __c558, 0) as any as S.Schema<DeleteAttendanceRecordsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18604,8 +18746,8 @@ export const deleteAttendanceReports: API.OperationMethod<
   DeleteAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c558, 0) as any as S.Schema<DeleteAttendanceReportsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteAttendanceReportsResponse>,
+  input: __S(8944, __c559, 0) as any as S.Schema<DeleteAttendanceReportsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18621,8 +18763,8 @@ export const deleteAttendanceReportsAttendanceRecords: API.OperationMethod<
   DeleteAttendanceReportsAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8944, __c559, 0) as any as S.Schema<DeleteAttendanceReportsAttendanceRecordsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteAttendanceReportsAttendanceRecordsResponse>,
+  input: __S(8960, __c560, 0) as any as S.Schema<DeleteAttendanceReportsAttendanceRecordsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18638,8 +18780,8 @@ export const deleteBackupRestore: API.OperationMethod<
   DeleteBackupRestoreError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c560, 0) as any as S.Schema<DeleteBackupRestoreRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteBackupRestoreResponse>,
+  input: __S(8976, __c561, 0) as any as S.Schema<DeleteBackupRestoreRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteBackupRestoreResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18655,8 +18797,8 @@ export const deleteBookingBusinesses: API.OperationMethod<
   DeleteBookingBusinessesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8976, __c561, 0) as any as S.Schema<DeleteBookingBusinessesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteBookingBusinessesResponse>,
+  input: __S(8992, __c562, 0) as any as S.Schema<DeleteBookingBusinessesRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteBookingBusinessesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18672,8 +18814,8 @@ export const deleteBookingCurrencies: API.OperationMethod<
   DeleteBookingCurrenciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c562, 0) as any as S.Schema<DeleteBookingCurrenciesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteBookingCurrenciesResponse>,
+  input: __S(9008, __c563, 0) as any as S.Schema<DeleteBookingCurrenciesRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteBookingCurrenciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18689,8 +18831,8 @@ export const deleteBrowseSessions: API.OperationMethod<
   DeleteBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9008, __c563, 0) as any as S.Schema<DeleteBrowseSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteBrowseSessionsResponse>,
+  input: __S(9024, __c564, 0) as any as S.Schema<DeleteBrowseSessionsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18706,8 +18848,8 @@ export const deleteByDisplayName: API.OperationMethod<
   DeleteByDisplayNameError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9040, __c565, 0) as any as S.Schema<DeleteByDisplayNameRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteByDisplayNameResponse>,
+  input: __S(9056, __c566, 0) as any as S.Schema<DeleteByDisplayNameRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteByDisplayNameResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18723,8 +18865,8 @@ export const deleteByEmail: API.OperationMethod<
   DeleteByEmailError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c566, 0) as any as S.Schema<DeleteByEmailRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteByEmailResponse>,
+  input: __S(9072, __c567, 0) as any as S.Schema<DeleteByEmailRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18740,8 +18882,8 @@ export const deleteByUserId: API.OperationMethod<
   DeleteByUserIdError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9072, __c567, 0) as any as S.Schema<DeleteByUserIdRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteByUserIdResponse>,
+  input: __S(9088, __c568, 0) as any as S.Schema<DeleteByUserIdRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18757,8 +18899,8 @@ export const deleteCalendarView: API.OperationMethod<
   DeleteCalendarViewError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c568, 0) as any as S.Schema<DeleteCalendarViewRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteCalendarViewResponse>,
+  input: __S(9104, __c569, 0) as any as S.Schema<DeleteCalendarViewRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteCalendarViewResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18774,8 +18916,8 @@ export const deleteCrossTenantMigrationJobs: API.OperationMethod<
   DeleteCrossTenantMigrationJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9104, __c569, 0) as any as S.Schema<DeleteCrossTenantMigrationJobsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteCrossTenantMigrationJobsResponse>,
+  input: __S(9120, __c570, 0) as any as S.Schema<DeleteCrossTenantMigrationJobsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteCrossTenantMigrationJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18791,8 +18933,8 @@ export const deleteCustomers: API.OperationMethod<
   DeleteCustomersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c570, 0) as any as S.Schema<DeleteCustomersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteCustomersResponse>,
+  input: __S(9136, __c571, 0) as any as S.Schema<DeleteCustomersRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteCustomersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18808,8 +18950,8 @@ export const deleteCustomQuestions: API.OperationMethod<
   DeleteCustomQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9136, __c571, 0) as any as S.Schema<DeleteCustomQuestionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteCustomQuestionsResponse>,
+  input: __S(9152, __c572, 0) as any as S.Schema<DeleteCustomQuestionsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteCustomQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18825,8 +18967,8 @@ export const deleteDriveInclusionRules: API.OperationMethod<
   DeleteDriveInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c572, 0) as any as S.Schema<DeleteDriveInclusionRulesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteDriveInclusionRulesResponse>,
+  input: __S(9168, __c573, 0) as any as S.Schema<DeleteDriveInclusionRulesRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteDriveInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18842,8 +18984,8 @@ export const deleteDriveProtectionUnits: API.OperationMethod<
   DeleteDriveProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9168, __c573, 0) as any as S.Schema<DeleteDriveProtectionUnitsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteDriveProtectionUnitsResponse>,
+  input: __S(9184, __c574, 0) as any as S.Schema<DeleteDriveProtectionUnitsRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteDriveProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18859,10 +19001,10 @@ export const deleteDriveProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   DeleteDriveProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c574, 0) as any as S.Schema<DeleteDriveProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(9200, __c575, 0) as any as S.Schema<DeleteDriveProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteDriveProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -18881,7 +19023,7 @@ export const deleteDriveRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteDriveRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteDriveRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18903,8 +19045,8 @@ export const deleteDriveRestoreArtifactsBulkAdditionRequests: API.OperationMetho
     0,
   ) as any as S.Schema<DeleteDriveRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteDriveRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -18923,7 +19065,7 @@ export const deleteEmailNotificationsSetting: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteEmailNotificationsSettingRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteEmailNotificationsSettingResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteEmailNotificationsSettingResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18940,7 +19082,7 @@ export const deleteEvents: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteEventsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteEventsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18957,7 +19099,7 @@ export const deleteExchangeProtectionPolicies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteExchangeProtectionPoliciesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteExchangeProtectionPoliciesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteExchangeProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18974,7 +19116,7 @@ export const deleteExchangeRestoreSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteExchangeRestoreSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteExchangeRestoreSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteExchangeRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -18991,7 +19133,7 @@ export const deleteGranularDriveRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteGranularDriveRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteGranularDriveRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteGranularDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19008,7 +19150,7 @@ export const deleteGranularMailboxRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteGranularMailboxRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteGranularMailboxRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteGranularMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19025,7 +19167,7 @@ export const deleteGranularSiteRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteGranularSiteRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteGranularSiteRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteGranularSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19042,7 +19184,7 @@ export const deleteMailboxInclusionRules: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeleteMailboxInclusionRulesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteMailboxInclusionRulesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteMailboxInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19059,7 +19201,7 @@ export const deleteMailboxProtectionUnits: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteMailboxProtectionUnitsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteMailboxProtectionUnitsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteMailboxProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19077,8 +19219,8 @@ export const deleteMailboxProtectionUnitsBulkAdditionJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteMailboxProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteMailboxProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19097,7 +19239,7 @@ export const deleteMailboxRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteMailboxRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteMailboxRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19119,8 +19261,8 @@ export const deleteMailboxRestoreArtifactsBulkAdditionRequests: API.OperationMet
     0,
   ) as any as S.Schema<DeleteMailboxRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteMailboxRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19139,7 +19281,7 @@ export const deleteMigrations: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteMigrationsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteMigrationsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteMigrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19156,7 +19298,7 @@ export const deleteOneDriveForBusinessBrowseSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteOneDriveForBusinessBrowseSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteOneDriveForBusinessBrowseSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteOneDriveForBusinessBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19174,8 +19316,8 @@ export const deleteOneDriveForBusinessProtectionPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteOneDriveForBusinessProtectionPoliciesRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteOneDriveForBusinessProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19194,7 +19336,7 @@ export const deleteOneDriveForBusinessRestoreSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteOneDriveForBusinessRestoreSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteOneDriveForBusinessRestoreSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteOneDriveForBusinessRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19211,7 +19353,7 @@ export const deletePresenters: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<DeletePresentersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeletePresentersResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeletePresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19228,7 +19370,7 @@ export const deleteProtectionPolicies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteProtectionPoliciesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteProtectionPoliciesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19245,7 +19387,7 @@ export const deleteQuestions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<DeleteQuestionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteQuestionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19262,7 +19404,7 @@ export const deleteRegistrationConfiguration: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<DeleteRegistrationConfigurationRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRegistrationConfigurationResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19279,7 +19421,7 @@ export const deleteRegistrationConfigurationQuestions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteRegistrationConfigurationQuestionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRegistrationConfigurationQuestionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRegistrationConfigurationQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19296,7 +19438,7 @@ export const deleteRegistrations: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteRegistrationsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRegistrationsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19313,7 +19455,7 @@ export const deleteRegistrationsByEmail: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteRegistrationsByEmailRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRegistrationsByEmailResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRegistrationsByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19330,7 +19472,7 @@ export const deleteRegistrationsByUserId: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DeleteRegistrationsByUserIdRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRegistrationsByUserIdResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRegistrationsByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19347,7 +19489,7 @@ export const deleteReports: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DeleteReportsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteReportsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19364,7 +19506,7 @@ export const deleteRestorePoints: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteRestorePointsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRestorePointsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRestorePointsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19381,7 +19523,7 @@ export const deleteRestoreSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<DeleteRestoreSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteRestoreSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19398,7 +19540,7 @@ export const deleteServiceApps: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<DeleteServiceAppsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteServiceAppsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteServiceAppsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19415,7 +19557,7 @@ export const deleteServices: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteServicesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteServicesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteServicesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19432,7 +19574,7 @@ export const deleteSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<DeleteSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19449,7 +19591,7 @@ export const deleteSessionsAttendanceReports: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<DeleteSessionsAttendanceReportsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSessionsAttendanceReportsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19471,8 +19613,8 @@ export const deleteSessionsAttendanceReportsAttendanceRecords: API.OperationMeth
     0,
   ) as any as S.Schema<DeleteSessionsAttendanceReportsAttendanceRecordsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteSessionsAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19491,7 +19633,7 @@ export const deleteSharePointBrowseSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<DeleteSharePointBrowseSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSharePointBrowseSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSharePointBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19508,7 +19650,7 @@ export const deleteSharePointProtectionPolicies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<DeleteSharePointProtectionPoliciesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSharePointProtectionPoliciesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSharePointProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19525,7 +19667,7 @@ export const deleteSharePointRestoreSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<DeleteSharePointRestoreSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSharePointRestoreSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSharePointRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19542,7 +19684,7 @@ export const deleteSiteInclusionRules: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<DeleteSiteInclusionRulesRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSiteInclusionRulesResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSiteInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19559,7 +19701,7 @@ export const deleteSiteProtectionUnits: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<DeleteSiteProtectionUnitsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSiteProtectionUnitsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSiteProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19577,8 +19719,8 @@ export const deleteSiteProtectionUnitsBulkAdditionJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<DeleteSiteProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteSiteProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19597,7 +19739,7 @@ export const deleteSiteRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteSiteRestoreArtifactsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteSiteRestoreArtifactsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19619,8 +19761,8 @@ export const deleteSiteRestoreArtifactsBulkAdditionRequests: API.OperationMethod
     0,
   ) as any as S.Schema<DeleteSiteRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<DeleteSiteRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19639,7 +19781,7 @@ export const deleteStaffMembers: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteStaffMembersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteStaffMembersResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteStaffMembersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19656,7 +19798,7 @@ export const deleteTownhalls: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteTownhallsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19673,7 +19815,7 @@ export const deleteTownhallsPresenters: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteTownhallsPresentersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsPresentersResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19690,7 +19832,7 @@ export const deleteTownhallsRegistrationConfiguration: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DeleteTownhallsRegistrationConfigurationRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsRegistrationConfigurationResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19707,7 +19849,7 @@ export const deleteTownhallsRegistrations: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteTownhallsRegistrationsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsRegistrationsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19724,7 +19866,7 @@ export const deleteTownhallsSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<DeleteTownhallsSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19741,7 +19883,7 @@ export const deleteTownhallsSessionsAttendanceReports: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteTownhallsSessionsAttendanceReportsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteTownhallsSessionsAttendanceReportsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteTownhallsSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19758,7 +19900,7 @@ export const deleteUsers: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<DeleteUsersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteUsersResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteUsersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19775,7 +19917,7 @@ export const deleteVirtualEvents: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<DeleteVirtualEventsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteVirtualEventsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteVirtualEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19792,7 +19934,7 @@ export const deleteWebinars: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<DeleteWebinarsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteWebinarsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteWebinarsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19809,7 +19951,7 @@ export const deleteWebinarsPresenters: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<DeleteWebinarsPresentersRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteWebinarsPresentersResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteWebinarsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19826,7 +19968,7 @@ export const deleteWebinarsSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<DeleteWebinarsSessionsRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<DeleteWebinarsSessionsResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<DeleteWebinarsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19877,7 +20019,7 @@ export const getAppointmentsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetAppointmentsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetAppointmentsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetAppointmentsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19894,7 +20036,7 @@ export const getAttendanceRecords: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<GetAttendanceRecordsResponse>,
+  output: __S(2420, __c151, 4) as any as S.Schema<GetAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19911,7 +20053,7 @@ export const getAttendanceRecordsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<GetAttendanceRecordsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetAttendanceRecordsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetAttendanceRecordsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19928,7 +20070,7 @@ export const getAttendanceReports: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<GetAttendanceReportsResponse>,
+  output: __S(2624, __c164, 0) as any as S.Schema<GetAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19945,7 +20087,7 @@ export const getAttendanceReportsAttendanceRecords: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetAttendanceReportsAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<GetAttendanceReportsAttendanceRecordsResponse>,
+  output: __S(2420, __c151, 4) as any as S.Schema<GetAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -19963,8 +20105,8 @@ export const getAttendanceReportsAttendanceRecordsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetAttendanceReportsAttendanceRecordsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetAttendanceReportsAttendanceRecordsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -19983,7 +20125,7 @@ export const getAttendanceReportsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetAttendanceReportsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetAttendanceReportsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetAttendanceReportsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20017,7 +20159,7 @@ export const getBookingBusinesses: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetBookingBusinessesRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<GetBookingBusinessesResponse>,
+  output: __S(2993, __c187, 1) as any as S.Schema<GetBookingBusinessesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20034,7 +20176,7 @@ export const getBookingBusinessesCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<GetBookingBusinessesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetBookingBusinessesCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetBookingBusinessesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20051,7 +20193,7 @@ export const getBookingCurrencies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetBookingCurrenciesRequest>,
-  output: __S(3184, __c199, 0) as any as S.Schema<GetBookingCurrenciesResponse>,
+  output: __S(3200, __c200, 0) as any as S.Schema<GetBookingCurrenciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20068,7 +20210,7 @@ export const getBookingCurrenciesCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<GetBookingCurrenciesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetBookingCurrenciesCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetBookingCurrenciesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20085,7 +20227,7 @@ export const getBrowseSessions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetBrowseSessionsRequest>,
-  output: __S(3392, __c212, 0) as any as S.Schema<GetBrowseSessionsResponse>,
+  output: __S(3408, __c213, 0) as any as S.Schema<GetBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20102,7 +20244,7 @@ export const getBrowseSessionsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetBrowseSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetBrowseSessionsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetBrowseSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20119,7 +20261,7 @@ export const getByDisplayName: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetByDisplayNameRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<GetByDisplayNameResponse>,
+  output: __S(3777, __c236, 1) as any as S.Schema<GetByDisplayNameResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20136,7 +20278,7 @@ export const getByEmail: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetByEmailRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetByEmailResponse>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20153,7 +20295,7 @@ export const getByUserId: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetByUserIdRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetByUserIdResponse>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20243,7 +20385,7 @@ export const getCalendarViewCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetCalendarViewCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCalendarViewCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCalendarViewCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20260,7 +20402,7 @@ export const getCountAsDriveProtectionUnit: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetCountAsDriveProtectionUnitRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCountAsDriveProtectionUnitResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCountAsDriveProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20277,7 +20419,7 @@ export const getCountAsMailboxProtectionUnit: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetCountAsMailboxProtectionUnitRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCountAsMailboxProtectionUnitResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCountAsMailboxProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20294,7 +20436,7 @@ export const getCountAsSiteProtectionUnit: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetCountAsSiteProtectionUnitRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCountAsSiteProtectionUnitResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCountAsSiteProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20311,7 +20453,7 @@ export const getCrossTenantMigrationJobs: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetCrossTenantMigrationJobsRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<GetCrossTenantMigrationJobsResponse>,
+  output: __S(3777, __c236, 1) as any as S.Schema<GetCrossTenantMigrationJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20328,7 +20470,7 @@ export const getCrossTenantMigrationJobsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetCrossTenantMigrationJobsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCrossTenantMigrationJobsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCrossTenantMigrationJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20345,7 +20487,7 @@ export const getCustomers: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetCustomersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<GetCustomersResponse>,
+  output: __S(3968, __c248, 0) as any as S.Schema<GetCustomersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20362,7 +20504,7 @@ export const getCustomersCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetCustomersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCustomersCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCustomersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20379,7 +20521,7 @@ export const getCustomQuestions: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetCustomQuestionsRequest>,
-  output: __S(4160, __c260, 0) as any as S.Schema<GetCustomQuestionsResponse>,
+  output: __S(4176, __c261, 0) as any as S.Schema<GetCustomQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20396,7 +20538,7 @@ export const getCustomQuestionsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetCustomQuestionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetCustomQuestionsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetCustomQuestionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20413,7 +20555,7 @@ export const getDriveInclusionRules: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetDriveInclusionRulesRequest>,
-  output: __S(4368, __c273, 0) as any as S.Schema<GetDriveInclusionRulesResponse>,
+  output: __S(4384, __c274, 0) as any as S.Schema<GetDriveInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20430,7 +20572,7 @@ export const getDriveInclusionRulesCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetDriveInclusionRulesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetDriveInclusionRulesCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetDriveInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20464,7 +20606,7 @@ export const getDriveProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetDriveProtectionUnitsBulkAdditionJobsRequest>,
-  output: __S(4752, __c297, 0) as any as S.Schema<GetDriveProtectionUnitsBulkAdditionJobsResponse>,
+  output: __S(4768, __c298, 0) as any as S.Schema<GetDriveProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20486,8 +20628,8 @@ export const getDriveProtectionUnitsBulkAdditionJobsCount: API.OperationMethod<
     0,
   ) as any as S.Schema<GetDriveProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetDriveProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20506,7 +20648,7 @@ export const getDriveProtectionUnitsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetDriveProtectionUnitsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetDriveProtectionUnitsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetDriveProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20523,7 +20665,7 @@ export const getDriveRestoreArtifacts: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<GetDriveRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<GetDriveRestoreArtifactsResponse>,
+  output: __S(5008, __c313, 0) as any as S.Schema<GetDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20545,8 +20687,8 @@ export const getDriveRestoreArtifactsBulkAdditionRequests: API.OperationMethod<
     0,
   ) as any as S.Schema<GetDriveRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    5280,
-    __c330,
+    5296,
+    __c331,
     0,
   ) as any as S.Schema<GetDriveRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20570,8 +20712,8 @@ export const getDriveRestoreArtifactsBulkAdditionRequestsCount: API.OperationMet
     0,
   ) as any as S.Schema<GetDriveRestoreArtifactsBulkAdditionRequestsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetDriveRestoreArtifactsBulkAdditionRequestsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20590,7 +20732,7 @@ export const getDriveRestoreArtifactsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<GetDriveRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetDriveRestoreArtifactsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetDriveRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20607,7 +20749,7 @@ export const getDriveRestoreArtifactsRestorePoint: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<GetDriveRestoreArtifactsRestorePointRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<GetDriveRestoreArtifactsRestorePointResponse>,
+  output: __S(8256, __c516, 0) as any as S.Schema<GetDriveRestoreArtifactsRestorePointResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20641,7 +20783,7 @@ export const getEvents: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetEventsRequest>,
-  output: __S(5504, __c344, 0) as any as S.Schema<GetEventsResponse>,
+  output: __S(5520, __c345, 0) as any as S.Schema<GetEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20658,7 +20800,7 @@ export const getEventsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetEventsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetEventsCountResponse>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetEventsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20674,7 +20816,7 @@ export const getExchangeProtectionPolicies: API.OperationMethod<
   GetExchangeProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetExchangeProtectionPoliciesRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<GetExchangeProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetExchangeProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -20691,8 +20833,8 @@ export const getExchangeProtectionPoliciesCount: API.OperationMethod<
   GetExchangeProtectionPoliciesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<GetExchangeProtectionPoliciesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetExchangeProtectionPoliciesCountResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<GetExchangeProtectionPoliciesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetExchangeProtectionPoliciesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20709,13 +20851,13 @@ export const getExchangeProtectionPoliciesMailboxInclusionRules: API.OperationMe
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2240,
-    __c140,
+    2256,
+    __c141,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxInclusionRulesRequest>,
   output: __S(
-    6832,
-    __c427,
+    6848,
+    __c428,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20734,13 +20876,13 @@ export const getExchangeProtectionPoliciesMailboxInclusionRulesCount: API.Operat
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2256,
-    __c141,
+    2272,
+    __c142,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxInclusionRulesCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20759,8 +20901,8 @@ export const getExchangeProtectionPoliciesMailboxProtectionUnits: API.OperationM
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c142,
+    2288,
+    __c143,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsRequest>,
   output: __S(
@@ -20785,13 +20927,13 @@ export const getExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobs
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2288,
-    __c143,
+    2304,
+    __c144,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    7200,
-    __c450,
+    7216,
+    __c451,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20811,13 +20953,13 @@ export const getExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobs
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c144,
+    2320,
+    __c145,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20836,13 +20978,13 @@ export const getExchangeProtectionPoliciesMailboxProtectionUnitsCount: API.Opera
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2320,
-    __c145,
+    2336,
+    __c146,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetExchangeProtectionPoliciesMailboxProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20860,8 +21002,8 @@ export const getExchangeRestoreSessions: API.OperationMethod<
   GetExchangeRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetExchangeRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<GetExchangeRestoreSessionsResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<GetExchangeRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<GetExchangeRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20877,8 +21019,8 @@ export const getExchangeRestoreSessionsCount: API.OperationMethod<
   GetExchangeRestoreSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetExchangeRestoreSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetExchangeRestoreSessionsCountResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<GetExchangeRestoreSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetExchangeRestoreSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20894,8 +21036,8 @@ export const getGranularDriveRestoreArtifacts: API.OperationMethod<
   GetGranularDriveRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsRequest>,
-  output: __S(6192, __c387, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsRequest>,
+  output: __S(6208, __c388, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20911,8 +21053,8 @@ export const getGranularDriveRestoreArtifactsCount: API.OperationMethod<
   GetGranularDriveRestoreArtifactsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsCountResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetGranularDriveRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20928,8 +21070,8 @@ export const getGranularMailboxRestoreArtifacts: API.OperationMethod<
   GetGranularMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsRequest>,
-  output: __S(6432, __c402, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsRequest>,
+  output: __S(6448, __c403, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20945,8 +21087,8 @@ export const getGranularMailboxRestoreArtifactsCount: API.OperationMethod<
   GetGranularMailboxRestoreArtifactsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsCountResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetGranularMailboxRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -20963,13 +21105,13 @@ export const getGranularMailboxRestoreArtifactsRestorePoint: API.OperationMethod
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2480,
-    __c155,
+    2496,
+    __c156,
     0,
   ) as any as S.Schema<GetGranularMailboxRestoreArtifactsRestorePointRequest>,
   output: __S(
-    8240,
-    __c515,
+    8256,
+    __c516,
     0,
   ) as any as S.Schema<GetGranularMailboxRestoreArtifactsRestorePointResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -20987,8 +21129,8 @@ export const getGranularSiteRestoreArtifacts: API.OperationMethod<
   GetGranularSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsRequest>,
-  output: __S(6640, __c415, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsRequest>,
+  output: __S(6656, __c416, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21004,8 +21146,8 @@ export const getGranularSiteRestoreArtifactsCount: API.OperationMethod<
   GetGranularSiteRestoreArtifactsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsCountResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetGranularSiteRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21021,8 +21163,8 @@ export const getMailboxInclusionRules: API.OperationMethod<
   GetMailboxInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetMailboxInclusionRulesRequest>,
-  output: __S(6832, __c427, 0) as any as S.Schema<GetMailboxInclusionRulesResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetMailboxInclusionRulesRequest>,
+  output: __S(6848, __c428, 0) as any as S.Schema<GetMailboxInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21038,8 +21180,8 @@ export const getMailboxInclusionRulesCount: API.OperationMethod<
   GetMailboxInclusionRulesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetMailboxInclusionRulesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetMailboxInclusionRulesCountResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<GetMailboxInclusionRulesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetMailboxInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21055,7 +21197,7 @@ export const getMailboxProtectionUnits: API.OperationMethod<
   GetMailboxProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetMailboxProtectionUnitsRequest>,
+  input: __S(2576, __c161, 0) as any as S.Schema<GetMailboxProtectionUnitsRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<GetMailboxProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21072,10 +21214,10 @@ export const getMailboxProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   GetMailboxProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetMailboxProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetMailboxProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    7200,
-    __c450,
+    7216,
+    __c451,
     0,
   ) as any as S.Schema<GetMailboxProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21094,13 +21236,13 @@ export const getMailboxProtectionUnitsBulkAdditionJobsCount: API.OperationMethod
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2640,
-    __c165,
+    2656,
+    __c166,
     0,
   ) as any as S.Schema<GetMailboxProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetMailboxProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21118,8 +21260,8 @@ export const getMailboxProtectionUnitsCount: API.OperationMethod<
   GetMailboxProtectionUnitsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetMailboxProtectionUnitsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetMailboxProtectionUnitsCountResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetMailboxProtectionUnitsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetMailboxProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21135,8 +21277,8 @@ export const getMailboxRestoreArtifacts: API.OperationMethod<
   GetMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetMailboxRestoreArtifactsRequest>,
-  output: __S(7392, __c462, 0) as any as S.Schema<GetMailboxRestoreArtifactsResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetMailboxRestoreArtifactsRequest>,
+  output: __S(7408, __c463, 0) as any as S.Schema<GetMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21153,13 +21295,13 @@ export const getMailboxRestoreArtifactsBulkAdditionRequests: API.OperationMethod
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c168,
+    2704,
+    __c169,
     0,
   ) as any as S.Schema<GetMailboxRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    7584,
-    __c474,
+    7600,
+    __c475,
     0,
   ) as any as S.Schema<GetMailboxRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21178,13 +21320,13 @@ export const getMailboxRestoreArtifactsBulkAdditionRequestsCount: API.OperationM
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2704,
-    __c169,
+    2720,
+    __c170,
     0,
   ) as any as S.Schema<GetMailboxRestoreArtifactsBulkAdditionRequestsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetMailboxRestoreArtifactsBulkAdditionRequestsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21202,8 +21344,8 @@ export const getMailboxRestoreArtifactsCount: API.OperationMethod<
   GetMailboxRestoreArtifactsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<GetMailboxRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetMailboxRestoreArtifactsCountResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<GetMailboxRestoreArtifactsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetMailboxRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21219,8 +21361,8 @@ export const getMailboxRestoreArtifactsRestorePoint: API.OperationMethod<
   GetMailboxRestoreArtifactsRestorePointError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetMailboxRestoreArtifactsRestorePointRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<GetMailboxRestoreArtifactsRestorePointResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<GetMailboxRestoreArtifactsRestorePointRequest>,
+  output: __S(8256, __c516, 0) as any as S.Schema<GetMailboxRestoreArtifactsRestorePointResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21236,8 +21378,8 @@ export const getMigrations: API.OperationMethod<
   GetMigrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetMigrationsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<GetMigrationsResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetMigrationsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<GetMigrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21253,8 +21395,8 @@ export const getOneDriveForBusinessBrowseSessions: API.OperationMethod<
   GetOneDriveForBusinessBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsRequest>,
-  output: __S(7776, __c486, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsRequest>,
+  output: __S(7792, __c487, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21270,10 +21412,10 @@ export const getOneDriveForBusinessBrowseSessionsCount: API.OperationMethod<
   GetOneDriveForBusinessBrowseSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsCountRequest>,
+  input: __S(2816, __c176, 0) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessBrowseSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21291,7 +21433,7 @@ export const getOneDriveForBusinessProtectionPolicies: API.OperationMethod<
   GetOneDriveForBusinessProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesRequest>,
+  input: __S(2832, __c177, 0) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21309,13 +21451,13 @@ export const getOneDriveForBusinessProtectionPoliciesCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2832,
-    __c177,
+    2848,
+    __c178,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21335,13 +21477,13 @@ export const getOneDriveForBusinessProtectionPoliciesDriveInclusionRules: API.Op
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c178,
+    2864,
+    __c179,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveInclusionRulesRequest>,
   output: __S(
-    4368,
-    __c273,
+    4384,
+    __c274,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21361,13 +21503,13 @@ export const getOneDriveForBusinessProtectionPoliciesDriveInclusionRulesCount: A
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2864,
-    __c179,
+    2880,
+    __c180,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveInclusionRulesCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21387,8 +21529,8 @@ export const getOneDriveForBusinessProtectionPoliciesDriveProtectionUnits: API.O
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c180,
+    2896,
+    __c181,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRequest>,
   output: __S(
@@ -21413,13 +21555,13 @@ export const getOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdd
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2896,
-    __c181,
+    2912,
+    __c182,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    4752,
-    __c297,
+    4768,
+    __c298,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21439,13 +21581,13 @@ export const getOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdd
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c182,
+    2928,
+    __c183,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21465,13 +21607,13 @@ export const getOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsCount: 
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2928,
-    __c183,
+    2944,
+    __c184,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21489,8 +21631,8 @@ export const getOneDriveForBusinessRestoreSessions: API.OperationMethod<
   GetOneDriveForBusinessRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21506,10 +21648,10 @@ export const getOneDriveForBusinessRestoreSessionsCount: API.OperationMethod<
   GetOneDriveForBusinessRestoreSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsCountRequest>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetOneDriveForBusinessRestoreSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21527,8 +21669,8 @@ export const getPresenters: API.OperationMethod<
   GetPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<GetPresentersResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<GetPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<GetPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21544,8 +21686,8 @@ export const getPresentersCount: API.OperationMethod<
   GetPresentersCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetPresentersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetPresentersCountResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetPresentersCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetPresentersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21561,7 +21703,7 @@ export const getProtectionPolicies: API.OperationMethod<
   GetProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetProtectionPoliciesRequest>,
+  input: __S(3072, __c192, 0) as any as S.Schema<GetProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21578,8 +21720,8 @@ export const getProtectionPoliciesCount: API.OperationMethod<
   GetProtectionPoliciesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<GetProtectionPoliciesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetProtectionPoliciesCountResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetProtectionPoliciesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetProtectionPoliciesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21595,7 +21737,7 @@ export const getProtectionUnit: API.OperationMethod<
   GetProtectionUnitError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<GetProtectionUnitRequest>,
+  input: __S(3104, __c194, 0) as any as S.Schema<GetProtectionUnitRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21612,7 +21754,7 @@ export const getProtectionUnits: API.OperationMethod<
   GetProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetProtectionUnitsRequest>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetProtectionUnitsRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21629,7 +21771,7 @@ export const getProtectionUnitsAsDriveProtectionUnit: API.OperationMethod<
   GetProtectionUnitsAsDriveProtectionUnitError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetProtectionUnitsAsDriveProtectionUnitRequest>,
+  input: __S(3136, __c196, 0) as any as S.Schema<GetProtectionUnitsAsDriveProtectionUnitRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<GetProtectionUnitsAsDriveProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -21646,7 +21788,7 @@ export const getProtectionUnitsAsMailboxProtectionUnit: API.OperationMethod<
   GetProtectionUnitsAsMailboxProtectionUnitError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetProtectionUnitsAsMailboxProtectionUnitRequest>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetProtectionUnitsAsMailboxProtectionUnitRequest>,
   output: __S(
     2032,
     __c127,
@@ -21667,8 +21809,8 @@ export const getProtectionUnitsAsSiteProtectionUnit: API.OperationMethod<
   GetProtectionUnitsAsSiteProtectionUnitError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetProtectionUnitsAsSiteProtectionUnitRequest>,
-  output: __S(6400, __c400, 0) as any as S.Schema<GetProtectionUnitsAsSiteProtectionUnitResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetProtectionUnitsAsSiteProtectionUnitRequest>,
+  output: __S(6416, __c401, 0) as any as S.Schema<GetProtectionUnitsAsSiteProtectionUnitResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21684,8 +21826,8 @@ export const getProtectionUnitsCount: API.OperationMethod<
   GetProtectionUnitsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetProtectionUnitsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetProtectionUnitsCountResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetProtectionUnitsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21701,8 +21843,8 @@ export const getQuestions: API.OperationMethod<
   GetQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<GetQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<GetQuestionsResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<GetQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21718,8 +21860,8 @@ export const getQuestionsCount: API.OperationMethod<
   GetQuestionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<GetQuestionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetQuestionsCountResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetQuestionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetQuestionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21735,8 +21877,8 @@ export const getRegistrationConfiguration: API.OperationMethod<
   GetRegistrationConfigurationError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<GetRegistrationConfigurationRequest>,
-  output: __S(3264, __c204, 0) as any as S.Schema<GetRegistrationConfigurationResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetRegistrationConfigurationRequest>,
+  output: __S(3280, __c205, 0) as any as S.Schema<GetRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21752,8 +21894,8 @@ export const getRegistrationConfigurationQuestions: API.OperationMethod<
   GetRegistrationConfigurationQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21769,10 +21911,10 @@ export const getRegistrationConfigurationQuestionsCount: API.OperationMethod<
   GetRegistrationConfigurationQuestionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsCountRequest>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetRegistrationConfigurationQuestionsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetRegistrationConfigurationQuestionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -21790,8 +21932,8 @@ export const getRegistrations: API.OperationMethod<
   GetRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetRegistrationsResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21807,8 +21949,8 @@ export const getRegistrationsByEmail: API.OperationMethod<
   GetRegistrationsByEmailError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<GetRegistrationsByEmailRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetRegistrationsByEmailResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<GetRegistrationsByEmailRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetRegistrationsByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21824,8 +21966,8 @@ export const getRegistrationsByUserId: API.OperationMethod<
   GetRegistrationsByUserIdError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<GetRegistrationsByUserIdRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetRegistrationsByUserIdResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetRegistrationsByUserIdRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetRegistrationsByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21841,8 +21983,8 @@ export const getRegistrationsCount: API.OperationMethod<
   GetRegistrationsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<GetRegistrationsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetRegistrationsCountResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<GetRegistrationsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetRegistrationsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21858,8 +22000,8 @@ export const getRegistrationsSessions: API.OperationMethod<
   GetRegistrationsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<GetRegistrationsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<GetRegistrationsSessionsResponse>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetRegistrationsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<GetRegistrationsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21875,8 +22017,8 @@ export const getRegistrationsSessionsCount: API.OperationMethod<
   GetRegistrationsSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<GetRegistrationsSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetRegistrationsSessionsCountResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetRegistrationsSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetRegistrationsSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21892,8 +22034,8 @@ export const getReports: API.OperationMethod<
   GetReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<GetReportsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<GetReportsResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<GetReportsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<GetReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21909,8 +22051,8 @@ export const getRestorePoint: API.OperationMethod<
   GetRestorePointError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<GetRestorePointRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<GetRestorePointResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<GetRestorePointRequest>,
+  output: __S(8256, __c516, 0) as any as S.Schema<GetRestorePointResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21926,8 +22068,8 @@ export const getRestorePoints: API.OperationMethod<
   GetRestorePointsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<GetRestorePointsRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<GetRestorePointsResponse>,
+  input: __S(3488, __c218, 0) as any as S.Schema<GetRestorePointsRequest>,
+  output: __S(8256, __c516, 0) as any as S.Schema<GetRestorePointsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21943,8 +22085,8 @@ export const getRestorePointsCount: API.OperationMethod<
   GetRestorePointsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<GetRestorePointsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetRestorePointsCountResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<GetRestorePointsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetRestorePointsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21960,8 +22102,8 @@ export const getRestoreSessions: API.OperationMethod<
   GetRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<GetRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<GetRestoreSessionsResponse>,
+  input: __S(3520, __c220, 0) as any as S.Schema<GetRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<GetRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21977,8 +22119,8 @@ export const getRestoreSessionsCount: API.OperationMethod<
   GetRestoreSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<GetRestoreSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetRestoreSessionsCountResponse>,
+  input: __S(3536, __c221, 0) as any as S.Schema<GetRestoreSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetRestoreSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -21994,7 +22136,7 @@ export const getServiceApps: API.OperationMethod<
   GetServiceAppsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<GetServiceAppsRequest>,
+  input: __S(3552, __c222, 0) as any as S.Schema<GetServiceAppsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<GetServiceAppsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -22011,8 +22153,8 @@ export const getServiceAppsCount: API.OperationMethod<
   GetServiceAppsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<GetServiceAppsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetServiceAppsCountResponse>,
+  input: __S(3568, __c223, 0) as any as S.Schema<GetServiceAppsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetServiceAppsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22028,8 +22170,8 @@ export const getServices: API.OperationMethod<
   GetServicesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<GetServicesRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<GetServicesResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<GetServicesRequest>,
+  output: __S(3601, __c225, 1) as any as S.Schema<GetServicesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22045,8 +22187,8 @@ export const getServicesCount: API.OperationMethod<
   GetServicesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<GetServicesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetServicesCountResponse>,
+  input: __S(3616, __c226, 0) as any as S.Schema<GetServicesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetServicesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22062,8 +22204,8 @@ export const getSessions: API.OperationMethod<
   GetSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<GetSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<GetSessionsResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<GetSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<GetSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22079,8 +22221,8 @@ export const getSessionsAttendanceReports: API.OperationMethod<
   GetSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<GetSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<GetSessionsAttendanceReportsResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<GetSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<GetSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22097,13 +22239,13 @@ export const getSessionsAttendanceReportsAttendanceRecords: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3648,
-    __c228,
+    3664,
+    __c229,
     0,
   ) as any as S.Schema<GetSessionsAttendanceReportsAttendanceRecordsRequest>,
   output: __S(
-    2404,
-    __c150,
+    2420,
+    __c151,
     4,
   ) as any as S.Schema<GetSessionsAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22122,13 +22264,13 @@ export const getSessionsAttendanceReportsAttendanceRecordsCount: API.OperationMe
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3664,
-    __c229,
+    3680,
+    __c230,
     0,
   ) as any as S.Schema<GetSessionsAttendanceReportsAttendanceRecordsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSessionsAttendanceReportsAttendanceRecordsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22146,8 +22288,8 @@ export const getSessionsAttendanceReportsCount: API.OperationMethod<
   GetSessionsAttendanceReportsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c230, 0) as any as S.Schema<GetSessionsAttendanceReportsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSessionsAttendanceReportsCountResponse>,
+  input: __S(3696, __c231, 0) as any as S.Schema<GetSessionsAttendanceReportsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSessionsAttendanceReportsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22163,8 +22305,8 @@ export const getSessionsCount: API.OperationMethod<
   GetSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<GetSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSessionsCountResponse>,
+  input: __S(3712, __c232, 0) as any as S.Schema<GetSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22180,8 +22322,8 @@ export const getSharePointBrowseSessions: API.OperationMethod<
   GetSharePointBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<GetSharePointBrowseSessionsRequest>,
-  output: __S(8416, __c526, 0) as any as S.Schema<GetSharePointBrowseSessionsResponse>,
+  input: __S(3728, __c233, 0) as any as S.Schema<GetSharePointBrowseSessionsRequest>,
+  output: __S(8432, __c527, 0) as any as S.Schema<GetSharePointBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22197,8 +22339,8 @@ export const getSharePointBrowseSessionsCount: API.OperationMethod<
   GetSharePointBrowseSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<GetSharePointBrowseSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSharePointBrowseSessionsCountResponse>,
+  input: __S(3744, __c234, 0) as any as S.Schema<GetSharePointBrowseSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSharePointBrowseSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22214,7 +22356,7 @@ export const getSharePointProtectionPolicies: API.OperationMethod<
   GetSharePointProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<GetSharePointProtectionPoliciesRequest>,
+  input: __S(3792, __c237, 0) as any as S.Schema<GetSharePointProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetSharePointProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -22231,8 +22373,8 @@ export const getSharePointProtectionPoliciesCount: API.OperationMethod<
   GetSharePointProtectionPoliciesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3792, __c237, 0) as any as S.Schema<GetSharePointProtectionPoliciesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSharePointProtectionPoliciesCountResponse>,
+  input: __S(3808, __c238, 0) as any as S.Schema<GetSharePointProtectionPoliciesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSharePointProtectionPoliciesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22249,13 +22391,13 @@ export const getSharePointProtectionPoliciesSiteInclusionRules: API.OperationMet
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c238,
+    3824,
+    __c239,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteInclusionRulesRequest>,
   output: __S(
-    8480,
-    __c530,
+    8496,
+    __c531,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22274,13 +22416,13 @@ export const getSharePointProtectionPoliciesSiteInclusionRulesCount: API.Operati
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3824,
-    __c239,
+    3840,
+    __c240,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteInclusionRulesCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22299,13 +22441,13 @@ export const getSharePointProtectionPoliciesSiteProtectionUnits: API.OperationMe
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c240,
+    3856,
+    __c241,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsRequest>,
   output: __S(
-    6400,
-    __c400,
+    6416,
+    __c401,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22325,13 +22467,13 @@ export const getSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobs:
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3856,
-    __c241,
+    3872,
+    __c242,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8528,
-    __c533,
+    8544,
+    __c534,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22351,13 +22493,13 @@ export const getSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsC
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c242,
+    3888,
+    __c243,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22376,13 +22518,13 @@ export const getSharePointProtectionPoliciesSiteProtectionUnitsCount: API.Operat
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3888,
-    __c243,
+    3904,
+    __c244,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSharePointProtectionPoliciesSiteProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22400,8 +22542,8 @@ export const getSharePointRestoreSessions: API.OperationMethod<
   GetSharePointRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c244, 0) as any as S.Schema<GetSharePointRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<GetSharePointRestoreSessionsResponse>,
+  input: __S(3920, __c245, 0) as any as S.Schema<GetSharePointRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<GetSharePointRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22417,8 +22559,8 @@ export const getSharePointRestoreSessionsCount: API.OperationMethod<
   GetSharePointRestoreSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3920, __c245, 0) as any as S.Schema<GetSharePointRestoreSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSharePointRestoreSessionsCountResponse>,
+  input: __S(3936, __c246, 0) as any as S.Schema<GetSharePointRestoreSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSharePointRestoreSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22434,8 +22576,8 @@ export const getSiteInclusionRules: API.OperationMethod<
   GetSiteInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<GetSiteInclusionRulesRequest>,
-  output: __S(8480, __c530, 0) as any as S.Schema<GetSiteInclusionRulesResponse>,
+  input: __S(3984, __c249, 0) as any as S.Schema<GetSiteInclusionRulesRequest>,
+  output: __S(8496, __c531, 0) as any as S.Schema<GetSiteInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22451,8 +22593,8 @@ export const getSiteInclusionRulesCount: API.OperationMethod<
   GetSiteInclusionRulesCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<GetSiteInclusionRulesCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSiteInclusionRulesCountResponse>,
+  input: __S(4000, __c250, 0) as any as S.Schema<GetSiteInclusionRulesCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSiteInclusionRulesCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22468,8 +22610,8 @@ export const getSiteProtectionUnits: API.OperationMethod<
   GetSiteProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<GetSiteProtectionUnitsRequest>,
-  output: __S(6400, __c400, 0) as any as S.Schema<GetSiteProtectionUnitsResponse>,
+  input: __S(4016, __c251, 0) as any as S.Schema<GetSiteProtectionUnitsRequest>,
+  output: __S(6416, __c401, 0) as any as S.Schema<GetSiteProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22485,8 +22627,8 @@ export const getSiteProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   GetSiteProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsRequest>,
-  output: __S(8528, __c533, 0) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsResponse>,
+  input: __S(4032, __c252, 0) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsRequest>,
+  output: __S(8544, __c534, 0) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22503,13 +22645,13 @@ export const getSiteProtectionUnitsBulkAdditionJobsCount: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4032,
-    __c252,
+    4048,
+    __c253,
     0,
   ) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSiteProtectionUnitsBulkAdditionJobsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22527,8 +22669,8 @@ export const getSiteProtectionUnitsCount: API.OperationMethod<
   GetSiteProtectionUnitsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4048, __c253, 0) as any as S.Schema<GetSiteProtectionUnitsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSiteProtectionUnitsCountResponse>,
+  input: __S(4064, __c254, 0) as any as S.Schema<GetSiteProtectionUnitsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSiteProtectionUnitsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22544,8 +22686,8 @@ export const getSiteRestoreArtifacts: API.OperationMethod<
   GetSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c254, 0) as any as S.Schema<GetSiteRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<GetSiteRestoreArtifactsResponse>,
+  input: __S(4080, __c255, 0) as any as S.Schema<GetSiteRestoreArtifactsRequest>,
+  output: __S(5008, __c313, 0) as any as S.Schema<GetSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22562,13 +22704,13 @@ export const getSiteRestoreArtifactsBulkAdditionRequests: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4080,
-    __c255,
+    4096,
+    __c256,
     0,
   ) as any as S.Schema<GetSiteRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8576,
-    __c536,
+    8592,
+    __c537,
     0,
   ) as any as S.Schema<GetSiteRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22587,13 +22729,13 @@ export const getSiteRestoreArtifactsBulkAdditionRequestsCount: API.OperationMeth
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4096,
-    __c256,
+    4112,
+    __c257,
     0,
   ) as any as S.Schema<GetSiteRestoreArtifactsBulkAdditionRequestsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetSiteRestoreArtifactsBulkAdditionRequestsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22611,8 +22753,8 @@ export const getSiteRestoreArtifactsCount: API.OperationMethod<
   GetSiteRestoreArtifactsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<GetSiteRestoreArtifactsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetSiteRestoreArtifactsCountResponse>,
+  input: __S(4128, __c258, 0) as any as S.Schema<GetSiteRestoreArtifactsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetSiteRestoreArtifactsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22628,8 +22770,8 @@ export const getSolutionsRoot: API.OperationMethod<
   GetSolutionsRootError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4176, __c261, 0) as any as S.Schema<GetSolutionsRootRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<SolutionsRoot>,
+  input: __S(4192, __c262, 0) as any as S.Schema<GetSolutionsRootRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<SolutionsRoot>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22647,8 +22789,8 @@ export const getStaffAvailability: API.PaginatedOperationMethod<
   StaffAvailabilityItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4192, __c262, 0) as any as S.Schema<GetStaffAvailabilityRequest>,
-    output: __S(4197, __c262, 5) as any as S.Schema<GetStaffAvailabilityResponse>,
+    input: __S(4208, __c263, 0) as any as S.Schema<GetStaffAvailabilityRequest>,
+    output: __S(4213, __c263, 5) as any as S.Schema<GetStaffAvailabilityResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -22672,8 +22814,8 @@ export const getStaffMembers: API.OperationMethod<
   GetStaffMembersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4208, __c263, 0) as any as S.Schema<GetStaffMembersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<GetStaffMembersResponse>,
+  input: __S(4224, __c264, 0) as any as S.Schema<GetStaffMembersRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<GetStaffMembersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22689,8 +22831,8 @@ export const getStaffMembersCount: API.OperationMethod<
   GetStaffMembersCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c264, 0) as any as S.Schema<GetStaffMembersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetStaffMembersCountResponse>,
+  input: __S(4240, __c265, 0) as any as S.Schema<GetStaffMembersCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetStaffMembersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22706,8 +22848,8 @@ export const getStatisticsByPolicy: API.OperationMethod<
   GetStatisticsByPolicyError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4240, __c265, 0) as any as S.Schema<GetStatisticsByPolicyRequest>,
-  output: __S(4243, __c265, 3) as any as S.Schema<GetStatisticsByPolicyResponse>,
+  input: __S(4256, __c266, 0) as any as S.Schema<GetStatisticsByPolicyRequest>,
+  output: __S(4259, __c266, 3) as any as S.Schema<GetStatisticsByPolicyResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22723,8 +22865,8 @@ export const getTownhalls: API.OperationMethod<
   GetTownhallsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<GetTownhallsRequest>,
-  output: __S(8657, __c541, 1) as any as S.Schema<GetTownhallsResponse>,
+  input: __S(4272, __c267, 0) as any as S.Schema<GetTownhallsRequest>,
+  output: __S(8673, __c542, 1) as any as S.Schema<GetTownhallsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22742,8 +22884,8 @@ export const getTownhallsByUserIdAndRole: API.PaginatedOperationMethod<
   VirtualEventTownhall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4272, __c267, 0) as any as S.Schema<GetTownhallsByUserIdAndRoleRequest>,
-    output: __S(4289, __c268, 1) as any as S.Schema<GetTownhallsByUserIdAndRoleResponse>,
+    input: __S(4288, __c268, 0) as any as S.Schema<GetTownhallsByUserIdAndRoleRequest>,
+    output: __S(4305, __c269, 1) as any as S.Schema<GetTownhallsByUserIdAndRoleResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -22770,8 +22912,8 @@ export const getTownhallsByUserRole: API.PaginatedOperationMethod<
   VirtualEventTownhall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4304, __c269, 0) as any as S.Schema<GetTownhallsByUserRoleRequest>,
-    output: __S(4289, __c268, 1) as any as S.Schema<GetTownhallsByUserRoleResponse>,
+    input: __S(4320, __c270, 0) as any as S.Schema<GetTownhallsByUserRoleRequest>,
+    output: __S(4305, __c269, 1) as any as S.Schema<GetTownhallsByUserRoleResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -22796,8 +22938,8 @@ export const getTownhallsCount: API.OperationMethod<
   GetTownhallsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c270, 0) as any as S.Schema<GetTownhallsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetTownhallsCountResponse>,
+  input: __S(4336, __c271, 0) as any as S.Schema<GetTownhallsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetTownhallsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22813,8 +22955,8 @@ export const getTownhallsPresenters: API.OperationMethod<
   GetTownhallsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4336, __c271, 0) as any as S.Schema<GetTownhallsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<GetTownhallsPresentersResponse>,
+  input: __S(4352, __c272, 0) as any as S.Schema<GetTownhallsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<GetTownhallsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22830,8 +22972,8 @@ export const getTownhallsPresentersCount: API.OperationMethod<
   GetTownhallsPresentersCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c274, 0) as any as S.Schema<GetTownhallsPresentersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetTownhallsPresentersCountResponse>,
+  input: __S(4400, __c275, 0) as any as S.Schema<GetTownhallsPresentersCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetTownhallsPresentersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22847,8 +22989,8 @@ export const getTownhallsRegistrationConfiguration: API.OperationMethod<
   GetTownhallsRegistrationConfigurationError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4400, __c275, 0) as any as S.Schema<GetTownhallsRegistrationConfigurationRequest>,
-  output: __S(3264, __c204, 0) as any as S.Schema<GetTownhallsRegistrationConfigurationResponse>,
+  input: __S(4416, __c276, 0) as any as S.Schema<GetTownhallsRegistrationConfigurationRequest>,
+  output: __S(3280, __c205, 0) as any as S.Schema<GetTownhallsRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22864,8 +23006,8 @@ export const getTownhallsRegistrations: API.OperationMethod<
   GetTownhallsRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c276, 0) as any as S.Schema<GetTownhallsRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<GetTownhallsRegistrationsResponse>,
+  input: __S(4432, __c277, 0) as any as S.Schema<GetTownhallsRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<GetTownhallsRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22881,8 +23023,8 @@ export const getTownhallsRegistrationsCount: API.OperationMethod<
   GetTownhallsRegistrationsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4432, __c277, 0) as any as S.Schema<GetTownhallsRegistrationsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetTownhallsRegistrationsCountResponse>,
+  input: __S(4448, __c278, 0) as any as S.Schema<GetTownhallsRegistrationsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetTownhallsRegistrationsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22898,8 +23040,8 @@ export const getTownhallsRegistrationsSessions: API.OperationMethod<
   GetTownhallsRegistrationsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c278, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<GetTownhallsRegistrationsSessionsResponse>,
+  input: __S(4464, __c279, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<GetTownhallsRegistrationsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22915,8 +23057,8 @@ export const getTownhallsRegistrationsSessionsCount: API.OperationMethod<
   GetTownhallsRegistrationsSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsCountResponse>,
+  input: __S(4480, __c280, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetTownhallsRegistrationsSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22932,8 +23074,8 @@ export const getTownhallsSessions: API.OperationMethod<
   GetTownhallsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<GetTownhallsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<GetTownhallsSessionsResponse>,
+  input: __S(4496, __c281, 0) as any as S.Schema<GetTownhallsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<GetTownhallsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22949,8 +23091,8 @@ export const getTownhallsSessionsAttendanceReports: API.OperationMethod<
   GetTownhallsSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4496, __c281, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsResponse>,
+  input: __S(4512, __c282, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -22966,10 +23108,10 @@ export const getTownhallsSessionsAttendanceReportsCount: API.OperationMethod<
   GetTownhallsSessionsAttendanceReportsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c282, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsCountRequest>,
+  input: __S(4528, __c283, 0) as any as S.Schema<GetTownhallsSessionsAttendanceReportsCountRequest>,
   output: __S(
-    8608,
-    __c538,
+    8624,
+    __c539,
     0,
   ) as any as S.Schema<GetTownhallsSessionsAttendanceReportsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -22987,8 +23129,8 @@ export const getTownhallsSessionsCount: API.OperationMethod<
   GetTownhallsSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<GetTownhallsSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetTownhallsSessionsCountResponse>,
+  input: __S(4544, __c284, 0) as any as S.Schema<GetTownhallsSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetTownhallsSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23004,8 +23146,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(8772, __c548, 4) as any as S.Schema<GetUsersResponse>,
+  input: __S(4576, __c286, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(8788, __c549, 4) as any as S.Schema<GetUsersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23021,8 +23163,8 @@ export const getUsersCount: API.OperationMethod<
   GetUsersCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<GetUsersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetUsersCountResponse>,
+  input: __S(4592, __c287, 0) as any as S.Schema<GetUsersCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetUsersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23038,8 +23180,8 @@ export const getVirtualEvents: API.OperationMethod<
   GetVirtualEventsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4592, __c287, 0) as any as S.Schema<GetVirtualEventsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<GetVirtualEventsResponse>,
+  input: __S(4608, __c288, 0) as any as S.Schema<GetVirtualEventsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<GetVirtualEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23055,8 +23197,8 @@ export const getWebinars: API.OperationMethod<
   GetWebinarsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<GetWebinarsRequest>,
-  output: __S(8800, __c550, 0) as any as S.Schema<GetWebinarsResponse>,
+  input: __S(4624, __c289, 0) as any as S.Schema<GetWebinarsRequest>,
+  output: __S(8816, __c551, 0) as any as S.Schema<GetWebinarsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23072,8 +23214,8 @@ export const getWebinarsCount: API.OperationMethod<
   GetWebinarsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4624, __c289, 0) as any as S.Schema<GetWebinarsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetWebinarsCountResponse>,
+  input: __S(4640, __c290, 0) as any as S.Schema<GetWebinarsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetWebinarsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23089,8 +23231,8 @@ export const getWebinarsPresenters: API.OperationMethod<
   GetWebinarsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c290, 0) as any as S.Schema<GetWebinarsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<GetWebinarsPresentersResponse>,
+  input: __S(4656, __c291, 0) as any as S.Schema<GetWebinarsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<GetWebinarsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23106,8 +23248,8 @@ export const getWebinarsPresentersCount: API.OperationMethod<
   GetWebinarsPresentersCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4656, __c291, 0) as any as S.Schema<GetWebinarsPresentersCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetWebinarsPresentersCountResponse>,
+  input: __S(4672, __c292, 0) as any as S.Schema<GetWebinarsPresentersCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetWebinarsPresentersCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23123,8 +23265,8 @@ export const getWebinarsSessions: API.OperationMethod<
   GetWebinarsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c292, 0) as any as S.Schema<GetWebinarsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<GetWebinarsSessionsResponse>,
+  input: __S(4688, __c293, 0) as any as S.Schema<GetWebinarsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<GetWebinarsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23140,8 +23282,8 @@ export const getWebinarsSessionsCount: API.OperationMethod<
   GetWebinarsSessionsCountError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4688, __c293, 0) as any as S.Schema<GetWebinarsSessionsCountRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<GetWebinarsSessionsCountResponse>,
+  input: __S(4704, __c294, 0) as any as S.Schema<GetWebinarsSessionsCountRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<GetWebinarsSessionsCountResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -23159,8 +23301,8 @@ export const listAppointments: API.PaginatedOperationMethod<
   BookingAppointment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4704, __c294, 0) as any as S.Schema<ListAppointmentsRequest>,
-    output: __S(4722, __c295, 2) as any as S.Schema<ListAppointmentsResponse>,
+    input: __S(4720, __c295, 0) as any as S.Schema<ListAppointmentsRequest>,
+    output: __S(4738, __c296, 2) as any as S.Schema<ListAppointmentsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23187,8 +23329,8 @@ export const listAttendanceRecords: API.PaginatedOperationMethod<
   AttendanceRecord
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4768, __c298, 0) as any as S.Schema<ListAttendanceRecordsRequest>,
-    output: __S(4785, __c299, 1) as any as S.Schema<ListAttendanceRecordsResponse>,
+    input: __S(4784, __c299, 0) as any as S.Schema<ListAttendanceRecordsRequest>,
+    output: __S(4801, __c300, 1) as any as S.Schema<ListAttendanceRecordsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23215,8 +23357,8 @@ export const listAttendanceReports: API.PaginatedOperationMethod<
   MeetingAttendanceReport
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4800, __c300, 0) as any as S.Schema<ListAttendanceReportsRequest>,
-    output: __S(4817, __c301, 1) as any as S.Schema<ListAttendanceReportsResponse>,
+    input: __S(4816, __c301, 0) as any as S.Schema<ListAttendanceReportsRequest>,
+    output: __S(4833, __c302, 1) as any as S.Schema<ListAttendanceReportsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23243,8 +23385,8 @@ export const listAttendanceReportsAttendanceRecords: API.PaginatedOperationMetho
   AttendanceRecord
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4832, __c302, 0) as any as S.Schema<ListAttendanceReportsAttendanceRecordsRequest>,
-    output: __S(4785, __c299, 1) as any as S.Schema<ListAttendanceReportsAttendanceRecordsResponse>,
+    input: __S(4848, __c303, 0) as any as S.Schema<ListAttendanceReportsAttendanceRecordsRequest>,
+    output: __S(4801, __c300, 1) as any as S.Schema<ListAttendanceReportsAttendanceRecordsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23271,8 +23413,8 @@ export const listBookingBusinesses: API.PaginatedOperationMethod<
   BookingBusiness
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4848, __c303, 0) as any as S.Schema<ListBookingBusinessesRequest>,
-    output: __S(4850, __c303, 2) as any as S.Schema<ListBookingBusinessesResponse>,
+    input: __S(4864, __c304, 0) as any as S.Schema<ListBookingBusinessesRequest>,
+    output: __S(4866, __c304, 2) as any as S.Schema<ListBookingBusinessesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23299,8 +23441,8 @@ export const listBookingCurrencies: API.PaginatedOperationMethod<
   BookingCurrency
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4864, __c304, 0) as any as S.Schema<ListBookingCurrenciesRequest>,
-    output: __S(4866, __c304, 2) as any as S.Schema<ListBookingCurrenciesResponse>,
+    input: __S(4880, __c305, 0) as any as S.Schema<ListBookingCurrenciesRequest>,
+    output: __S(4882, __c305, 2) as any as S.Schema<ListBookingCurrenciesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23327,8 +23469,8 @@ export const listBrowseSessions: API.PaginatedOperationMethod<
   BrowseSessionBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4880, __c305, 0) as any as S.Schema<ListBrowseSessionsRequest>,
-    output: __S(4882, __c305, 2) as any as S.Schema<ListBrowseSessionsResponse>,
+    input: __S(4896, __c306, 0) as any as S.Schema<ListBrowseSessionsRequest>,
+    output: __S(4898, __c306, 2) as any as S.Schema<ListBrowseSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23355,8 +23497,8 @@ export const listCalendarView: API.PaginatedOperationMethod<
   BookingAppointment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4896, __c306, 0) as any as S.Schema<ListCalendarViewRequest>,
-    output: __S(4722, __c295, 2) as any as S.Schema<ListCalendarViewResponse>,
+    input: __S(4912, __c307, 0) as any as S.Schema<ListCalendarViewRequest>,
+    output: __S(4738, __c296, 2) as any as S.Schema<ListCalendarViewResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23383,8 +23525,8 @@ export const listCrossTenantMigrationJobs: API.PaginatedOperationMethod<
   CrossTenantMigrationJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4912, __c307, 0) as any as S.Schema<ListCrossTenantMigrationJobsRequest>,
-    output: __S(4914, __c307, 2) as any as S.Schema<ListCrossTenantMigrationJobsResponse>,
+    input: __S(4928, __c308, 0) as any as S.Schema<ListCrossTenantMigrationJobsRequest>,
+    output: __S(4930, __c308, 2) as any as S.Schema<ListCrossTenantMigrationJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23411,8 +23553,8 @@ export const listCustomers: API.PaginatedOperationMethod<
   BookingCustomerBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4928, __c308, 0) as any as S.Schema<ListCustomersRequest>,
-    output: __S(4945, __c309, 1) as any as S.Schema<ListCustomersResponse>,
+    input: __S(4944, __c309, 0) as any as S.Schema<ListCustomersRequest>,
+    output: __S(4961, __c310, 1) as any as S.Schema<ListCustomersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23439,8 +23581,8 @@ export const listCustomQuestions: API.PaginatedOperationMethod<
   BookingCustomQuestion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4960, __c310, 0) as any as S.Schema<ListCustomQuestionsRequest>,
-    output: __S(4962, __c310, 2) as any as S.Schema<ListCustomQuestionsResponse>,
+    input: __S(4976, __c311, 0) as any as S.Schema<ListCustomQuestionsRequest>,
+    output: __S(4978, __c311, 2) as any as S.Schema<ListCustomQuestionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23467,8 +23609,8 @@ export const listDriveInclusionRules: API.PaginatedOperationMethod<
   DriveProtectionRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5008, __c313, 0) as any as S.Schema<ListDriveInclusionRulesRequest>,
-    output: __S(5025, __c314, 1) as any as S.Schema<ListDriveInclusionRulesResponse>,
+    input: __S(5024, __c314, 0) as any as S.Schema<ListDriveInclusionRulesRequest>,
+    output: __S(5041, __c315, 1) as any as S.Schema<ListDriveInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23495,7 +23637,7 @@ export const listDriveProtectionUnits: API.PaginatedOperationMethod<
   DriveProtectionUnit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5040, __c315, 0) as any as S.Schema<ListDriveProtectionUnitsRequest>,
+    input: __S(5056, __c316, 0) as any as S.Schema<ListDriveProtectionUnitsRequest>,
     output: __S(2049, __c128, 1) as any as S.Schema<ListDriveProtectionUnitsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
@@ -23523,10 +23665,10 @@ export const listDriveProtectionUnitsBulkAdditionJobs: API.PaginatedOperationMet
   DriveProtectionUnitsBulkAdditionJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5056, __c316, 0) as any as S.Schema<ListDriveProtectionUnitsBulkAdditionJobsRequest>,
+    input: __S(5072, __c317, 0) as any as S.Schema<ListDriveProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      5073,
-      __c317,
+      5089,
+      __c318,
       1,
     ) as any as S.Schema<ListDriveProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -23555,8 +23697,8 @@ export const listDriveRestoreArtifacts: API.PaginatedOperationMethod<
   DriveRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5088, __c318, 0) as any as S.Schema<ListDriveRestoreArtifactsRequest>,
-    output: __S(5105, __c319, 1) as any as S.Schema<ListDriveRestoreArtifactsResponse>,
+    input: __S(5104, __c319, 0) as any as S.Schema<ListDriveRestoreArtifactsRequest>,
+    output: __S(5121, __c320, 1) as any as S.Schema<ListDriveRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23584,13 +23726,13 @@ export const listDriveRestoreArtifactsBulkAdditionRequests: API.PaginatedOperati
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5120,
-      __c320,
+      5136,
+      __c321,
       0,
     ) as any as S.Schema<ListDriveRestoreArtifactsBulkAdditionRequestsRequest>,
     output: __S(
-      5122,
-      __c320,
+      5138,
+      __c321,
       2,
     ) as any as S.Schema<ListDriveRestoreArtifactsBulkAdditionRequestsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -23619,8 +23761,8 @@ export const listEvents: API.PaginatedOperationMethod<
   VirtualEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5136, __c321, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(5138, __c321, 2) as any as S.Schema<ListEventsResponse>,
+    input: __S(5152, __c322, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(5154, __c322, 2) as any as S.Schema<ListEventsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23647,8 +23789,8 @@ export const listExchangeProtectionPolicies: API.PaginatedOperationMethod<
   ExchangeProtectionPolicy
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5152, __c322, 0) as any as S.Schema<ListExchangeProtectionPoliciesRequest>,
-    output: __S(5169, __c323, 1) as any as S.Schema<ListExchangeProtectionPoliciesResponse>,
+    input: __S(5168, __c323, 0) as any as S.Schema<ListExchangeProtectionPoliciesRequest>,
+    output: __S(5185, __c324, 1) as any as S.Schema<ListExchangeProtectionPoliciesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23676,13 +23818,13 @@ export const listExchangeProtectionPoliciesMailboxInclusionRules: API.PaginatedO
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5184,
-      __c324,
+      5200,
+      __c325,
       0,
     ) as any as S.Schema<ListExchangeProtectionPoliciesMailboxInclusionRulesRequest>,
     output: __S(
-      5201,
-      __c325,
+      5217,
+      __c326,
       1,
     ) as any as S.Schema<ListExchangeProtectionPoliciesMailboxInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -23712,8 +23854,8 @@ export const listExchangeProtectionPoliciesMailboxProtectionUnits: API.Paginated
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5216,
-      __c326,
+      5232,
+      __c327,
       0,
     ) as any as S.Schema<ListExchangeProtectionPoliciesMailboxProtectionUnitsRequest>,
     output: __S(
@@ -23749,13 +23891,13 @@ export const listExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5232,
-      __c327,
+      5248,
+      __c328,
       0,
     ) as any as S.Schema<ListExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      5249,
-      __c328,
+      5265,
+      __c329,
       1,
     ) as any as S.Schema<ListExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -23784,8 +23926,8 @@ export const listExchangeRestoreSessions: API.PaginatedOperationMethod<
   ExchangeRestoreSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5312, __c332, 0) as any as S.Schema<ListExchangeRestoreSessionsRequest>,
-    output: __S(5329, __c333, 1) as any as S.Schema<ListExchangeRestoreSessionsResponse>,
+    input: __S(5328, __c333, 0) as any as S.Schema<ListExchangeRestoreSessionsRequest>,
+    output: __S(5345, __c334, 1) as any as S.Schema<ListExchangeRestoreSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23812,8 +23954,8 @@ export const listGranularDriveRestoreArtifacts: API.PaginatedOperationMethod<
   GranularDriveRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5344, __c334, 0) as any as S.Schema<ListGranularDriveRestoreArtifactsRequest>,
-    output: __S(5346, __c334, 2) as any as S.Schema<ListGranularDriveRestoreArtifactsResponse>,
+    input: __S(5360, __c335, 0) as any as S.Schema<ListGranularDriveRestoreArtifactsRequest>,
+    output: __S(5362, __c335, 2) as any as S.Schema<ListGranularDriveRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23840,8 +23982,8 @@ export const listGranularMailboxRestoreArtifacts: API.PaginatedOperationMethod<
   GranularMailboxRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5360, __c335, 0) as any as S.Schema<ListGranularMailboxRestoreArtifactsRequest>,
-    output: __S(5362, __c335, 2) as any as S.Schema<ListGranularMailboxRestoreArtifactsResponse>,
+    input: __S(5376, __c336, 0) as any as S.Schema<ListGranularMailboxRestoreArtifactsRequest>,
+    output: __S(5378, __c336, 2) as any as S.Schema<ListGranularMailboxRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23868,8 +24010,8 @@ export const listGranularSiteRestoreArtifacts: API.PaginatedOperationMethod<
   GranularSiteRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5376, __c336, 0) as any as S.Schema<ListGranularSiteRestoreArtifactsRequest>,
-    output: __S(5378, __c336, 2) as any as S.Schema<ListGranularSiteRestoreArtifactsResponse>,
+    input: __S(5392, __c337, 0) as any as S.Schema<ListGranularSiteRestoreArtifactsRequest>,
+    output: __S(5394, __c337, 2) as any as S.Schema<ListGranularSiteRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23896,8 +24038,8 @@ export const listMailboxInclusionRules: API.PaginatedOperationMethod<
   MailboxProtectionRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5392, __c337, 0) as any as S.Schema<ListMailboxInclusionRulesRequest>,
-    output: __S(5201, __c325, 1) as any as S.Schema<ListMailboxInclusionRulesResponse>,
+    input: __S(5408, __c338, 0) as any as S.Schema<ListMailboxInclusionRulesRequest>,
+    output: __S(5217, __c326, 1) as any as S.Schema<ListMailboxInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -23924,7 +24066,7 @@ export const listMailboxProtectionUnits: API.PaginatedOperationMethod<
   MailboxProtectionUnit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5408, __c338, 0) as any as S.Schema<ListMailboxProtectionUnitsRequest>,
+    input: __S(5424, __c339, 0) as any as S.Schema<ListMailboxProtectionUnitsRequest>,
     output: __S(2049, __c128, 1) as any as S.Schema<ListMailboxProtectionUnitsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
@@ -23953,13 +24095,13 @@ export const listMailboxProtectionUnitsBulkAdditionJobs: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5424,
-      __c339,
+      5440,
+      __c340,
       0,
     ) as any as S.Schema<ListMailboxProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      5249,
-      __c328,
+      5265,
+      __c329,
       1,
     ) as any as S.Schema<ListMailboxProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -23988,8 +24130,8 @@ export const listMailboxRestoreArtifacts: API.PaginatedOperationMethod<
   MailboxRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5440, __c340, 0) as any as S.Schema<ListMailboxRestoreArtifactsRequest>,
-    output: __S(5442, __c340, 2) as any as S.Schema<ListMailboxRestoreArtifactsResponse>,
+    input: __S(5456, __c341, 0) as any as S.Schema<ListMailboxRestoreArtifactsRequest>,
+    output: __S(5458, __c341, 2) as any as S.Schema<ListMailboxRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24017,13 +24159,13 @@ export const listMailboxRestoreArtifactsBulkAdditionRequests: API.PaginatedOpera
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5456,
-      __c341,
+      5472,
+      __c342,
       0,
     ) as any as S.Schema<ListMailboxRestoreArtifactsBulkAdditionRequestsRequest>,
     output: __S(
-      5458,
-      __c341,
+      5474,
+      __c342,
       2,
     ) as any as S.Schema<ListMailboxRestoreArtifactsBulkAdditionRequestsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24052,8 +24194,8 @@ export const listOneDriveForBusinessBrowseSessions: API.PaginatedOperationMethod
   OneDriveForBusinessBrowseSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5472, __c342, 0) as any as S.Schema<ListOneDriveForBusinessBrowseSessionsRequest>,
-    output: __S(5474, __c342, 2) as any as S.Schema<ListOneDriveForBusinessBrowseSessionsResponse>,
+    input: __S(5488, __c343, 0) as any as S.Schema<ListOneDriveForBusinessBrowseSessionsRequest>,
+    output: __S(5490, __c343, 2) as any as S.Schema<ListOneDriveForBusinessBrowseSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24081,13 +24223,13 @@ export const listOneDriveForBusinessProtectionPolicies: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5552,
-      __c347,
+      5568,
+      __c348,
       0,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesRequest>,
     output: __S(
-      5169,
-      __c323,
+      5185,
+      __c324,
       1,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24118,13 +24260,13 @@ export const listOneDriveForBusinessProtectionPoliciesDriveInclusionRules: API.P
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5568,
-      __c348,
+      5584,
+      __c349,
       0,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesDriveInclusionRulesRequest>,
     output: __S(
-      5025,
-      __c314,
+      5041,
+      __c315,
       1,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesDriveInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24155,8 +24297,8 @@ export const listOneDriveForBusinessProtectionPoliciesDriveProtectionUnits: API.
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5584,
-      __c349,
+      5600,
+      __c350,
       0,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRequest>,
     output: __S(
@@ -24192,13 +24334,13 @@ export const listOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAd
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5600,
-      __c350,
+      5616,
+      __c351,
       0,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      5073,
-      __c317,
+      5089,
+      __c318,
       1,
     ) as any as S.Schema<ListOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24227,8 +24369,8 @@ export const listOneDriveForBusinessRestoreSessions: API.PaginatedOperationMetho
   ExchangeRestoreSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5616, __c351, 0) as any as S.Schema<ListOneDriveForBusinessRestoreSessionsRequest>,
-    output: __S(5329, __c333, 1) as any as S.Schema<ListOneDriveForBusinessRestoreSessionsResponse>,
+    input: __S(5632, __c352, 0) as any as S.Schema<ListOneDriveForBusinessRestoreSessionsRequest>,
+    output: __S(5345, __c334, 1) as any as S.Schema<ListOneDriveForBusinessRestoreSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24255,8 +24397,8 @@ export const listPresenters: API.PaginatedOperationMethod<
   VirtualEventPresenter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5632, __c352, 0) as any as S.Schema<ListPresentersRequest>,
-    output: __S(5649, __c353, 1) as any as S.Schema<ListPresentersResponse>,
+    input: __S(5648, __c353, 0) as any as S.Schema<ListPresentersRequest>,
+    output: __S(5665, __c354, 1) as any as S.Schema<ListPresentersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24283,8 +24425,8 @@ export const listProtectionPolicies: API.PaginatedOperationMethod<
   ProtectionPolicyBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5664, __c354, 0) as any as S.Schema<ListProtectionPoliciesRequest>,
-    output: __S(5169, __c323, 1) as any as S.Schema<ListProtectionPoliciesResponse>,
+    input: __S(5680, __c355, 0) as any as S.Schema<ListProtectionPoliciesRequest>,
+    output: __S(5185, __c324, 1) as any as S.Schema<ListProtectionPoliciesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24311,8 +24453,8 @@ export const listProtectionUnits: API.PaginatedOperationMethod<
   ProtectionUnitBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5680, __c355, 0) as any as S.Schema<ListProtectionUnitsRequest>,
-    output: __S(5682, __c355, 2) as any as S.Schema<ListProtectionUnitsResponse>,
+    input: __S(5696, __c356, 0) as any as S.Schema<ListProtectionUnitsRequest>,
+    output: __S(5698, __c356, 2) as any as S.Schema<ListProtectionUnitsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24339,8 +24481,8 @@ export const listQuestions: API.PaginatedOperationMethod<
   VirtualEventRegistrationQuestionBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5696, __c356, 0) as any as S.Schema<ListQuestionsRequest>,
-    output: __S(5713, __c357, 1) as any as S.Schema<ListQuestionsResponse>,
+    input: __S(5712, __c357, 0) as any as S.Schema<ListQuestionsRequest>,
+    output: __S(5729, __c358, 1) as any as S.Schema<ListQuestionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24367,8 +24509,8 @@ export const listRegistrationConfigurationQuestions: API.PaginatedOperationMetho
   VirtualEventRegistrationQuestionBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5728, __c358, 0) as any as S.Schema<ListRegistrationConfigurationQuestionsRequest>,
-    output: __S(5713, __c357, 1) as any as S.Schema<ListRegistrationConfigurationQuestionsResponse>,
+    input: __S(5744, __c359, 0) as any as S.Schema<ListRegistrationConfigurationQuestionsRequest>,
+    output: __S(5729, __c358, 1) as any as S.Schema<ListRegistrationConfigurationQuestionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24395,8 +24537,8 @@ export const listRegistrations: API.PaginatedOperationMethod<
   VirtualEventRegistration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5760, __c360, 0) as any as S.Schema<ListRegistrationsRequest>,
-    output: __S(5777, __c361, 1) as any as S.Schema<ListRegistrationsResponse>,
+    input: __S(5776, __c361, 0) as any as S.Schema<ListRegistrationsRequest>,
+    output: __S(5793, __c362, 1) as any as S.Schema<ListRegistrationsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24423,8 +24565,8 @@ export const listRegistrationsSessions: API.PaginatedOperationMethod<
   VirtualEventSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5792, __c362, 0) as any as S.Schema<ListRegistrationsSessionsRequest>,
-    output: __S(5809, __c363, 1) as any as S.Schema<ListRegistrationsSessionsResponse>,
+    input: __S(5808, __c363, 0) as any as S.Schema<ListRegistrationsSessionsRequest>,
+    output: __S(5825, __c364, 1) as any as S.Schema<ListRegistrationsSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24451,8 +24593,8 @@ export const listRestorePoints: API.PaginatedOperationMethod<
   RestorePoint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5824, __c364, 0) as any as S.Schema<ListRestorePointsRequest>,
-    output: __S(5826, __c364, 2) as any as S.Schema<ListRestorePointsResponse>,
+    input: __S(5840, __c365, 0) as any as S.Schema<ListRestorePointsRequest>,
+    output: __S(5842, __c365, 2) as any as S.Schema<ListRestorePointsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24479,8 +24621,8 @@ export const listRestoreSessions: API.PaginatedOperationMethod<
   ExchangeRestoreSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5840, __c365, 0) as any as S.Schema<ListRestoreSessionsRequest>,
-    output: __S(5329, __c333, 1) as any as S.Schema<ListRestoreSessionsResponse>,
+    input: __S(5856, __c366, 0) as any as S.Schema<ListRestoreSessionsRequest>,
+    output: __S(5345, __c334, 1) as any as S.Schema<ListRestoreSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24507,8 +24649,8 @@ export const listServiceApps: API.PaginatedOperationMethod<
   ServiceApp
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5856, __c366, 0) as any as S.Schema<ListServiceAppsRequest>,
-    output: __S(5858, __c366, 2) as any as S.Schema<ListServiceAppsResponse>,
+    input: __S(5872, __c367, 0) as any as S.Schema<ListServiceAppsRequest>,
+    output: __S(5874, __c367, 2) as any as S.Schema<ListServiceAppsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24535,8 +24677,8 @@ export const listServices: API.PaginatedOperationMethod<
   BookingService
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5872, __c367, 0) as any as S.Schema<ListServicesRequest>,
-    output: __S(5875, __c367, 3) as any as S.Schema<ListServicesResponse>,
+    input: __S(5888, __c368, 0) as any as S.Schema<ListServicesRequest>,
+    output: __S(5891, __c368, 3) as any as S.Schema<ListServicesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24563,8 +24705,8 @@ export const listSessions: API.PaginatedOperationMethod<
   VirtualEventSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5888, __c368, 0) as any as S.Schema<ListSessionsRequest>,
-    output: __S(5809, __c363, 1) as any as S.Schema<ListSessionsResponse>,
+    input: __S(5904, __c369, 0) as any as S.Schema<ListSessionsRequest>,
+    output: __S(5825, __c364, 1) as any as S.Schema<ListSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24591,8 +24733,8 @@ export const listSessionsAttendanceReports: API.PaginatedOperationMethod<
   MeetingAttendanceReport
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5904, __c369, 0) as any as S.Schema<ListSessionsAttendanceReportsRequest>,
-    output: __S(4817, __c301, 1) as any as S.Schema<ListSessionsAttendanceReportsResponse>,
+    input: __S(5920, __c370, 0) as any as S.Schema<ListSessionsAttendanceReportsRequest>,
+    output: __S(4833, __c302, 1) as any as S.Schema<ListSessionsAttendanceReportsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24620,13 +24762,13 @@ export const listSessionsAttendanceReportsAttendanceRecords: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      5920,
-      __c370,
+      5936,
+      __c371,
       0,
     ) as any as S.Schema<ListSessionsAttendanceReportsAttendanceRecordsRequest>,
     output: __S(
-      4785,
-      __c299,
+      4801,
+      __c300,
       1,
     ) as any as S.Schema<ListSessionsAttendanceReportsAttendanceRecordsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24655,8 +24797,8 @@ export const listSharePointBrowseSessions: API.PaginatedOperationMethod<
   SharePointBrowseSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5936, __c371, 0) as any as S.Schema<ListSharePointBrowseSessionsRequest>,
-    output: __S(5938, __c371, 2) as any as S.Schema<ListSharePointBrowseSessionsResponse>,
+    input: __S(5952, __c372, 0) as any as S.Schema<ListSharePointBrowseSessionsRequest>,
+    output: __S(5954, __c372, 2) as any as S.Schema<ListSharePointBrowseSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24683,8 +24825,8 @@ export const listSharePointProtectionPolicies: API.PaginatedOperationMethod<
   SharePointProtectionPolicy
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5984, __c374, 0) as any as S.Schema<ListSharePointProtectionPoliciesRequest>,
-    output: __S(5169, __c323, 1) as any as S.Schema<ListSharePointProtectionPoliciesResponse>,
+    input: __S(6000, __c375, 0) as any as S.Schema<ListSharePointProtectionPoliciesRequest>,
+    output: __S(5185, __c324, 1) as any as S.Schema<ListSharePointProtectionPoliciesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24712,13 +24854,13 @@ export const listSharePointProtectionPoliciesSiteInclusionRules: API.PaginatedOp
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      6000,
-      __c375,
+      6016,
+      __c376,
       0,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteInclusionRulesRequest>,
     output: __S(
-      6017,
-      __c376,
+      6033,
+      __c377,
       1,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24748,13 +24890,13 @@ export const listSharePointProtectionPoliciesSiteProtectionUnits: API.PaginatedO
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      6032,
-      __c377,
+      6048,
+      __c378,
       0,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteProtectionUnitsRequest>,
     output: __S(
-      6385,
-      __c399,
+      6401,
+      __c400,
       1,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteProtectionUnitsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24785,13 +24927,13 @@ export const listSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobs
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      6048,
-      __c378,
+      6064,
+      __c379,
       0,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      6065,
-      __c379,
+      6081,
+      __c380,
       1,
     ) as any as S.Schema<ListSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24820,8 +24962,8 @@ export const listSharePointRestoreSessions: API.PaginatedOperationMethod<
   ExchangeRestoreSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6080, __c380, 0) as any as S.Schema<ListSharePointRestoreSessionsRequest>,
-    output: __S(5329, __c333, 1) as any as S.Schema<ListSharePointRestoreSessionsResponse>,
+    input: __S(6096, __c381, 0) as any as S.Schema<ListSharePointRestoreSessionsRequest>,
+    output: __S(5345, __c334, 1) as any as S.Schema<ListSharePointRestoreSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24848,8 +24990,8 @@ export const listSiteInclusionRules: API.PaginatedOperationMethod<
   SiteProtectionRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6096, __c381, 0) as any as S.Schema<ListSiteInclusionRulesRequest>,
-    output: __S(6017, __c376, 1) as any as S.Schema<ListSiteInclusionRulesResponse>,
+    input: __S(6112, __c382, 0) as any as S.Schema<ListSiteInclusionRulesRequest>,
+    output: __S(6033, __c377, 1) as any as S.Schema<ListSiteInclusionRulesResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24876,8 +25018,8 @@ export const listSiteProtectionUnits: API.PaginatedOperationMethod<
   SiteProtectionUnit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6112, __c382, 0) as any as S.Schema<ListSiteProtectionUnitsRequest>,
-    output: __S(6385, __c399, 1) as any as S.Schema<ListSiteProtectionUnitsResponse>,
+    input: __S(6128, __c383, 0) as any as S.Schema<ListSiteProtectionUnitsRequest>,
+    output: __S(6401, __c400, 1) as any as S.Schema<ListSiteProtectionUnitsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24904,10 +25046,10 @@ export const listSiteProtectionUnitsBulkAdditionJobs: API.PaginatedOperationMeth
   SiteProtectionUnitsBulkAdditionJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6128, __c383, 0) as any as S.Schema<ListSiteProtectionUnitsBulkAdditionJobsRequest>,
+    input: __S(6144, __c384, 0) as any as S.Schema<ListSiteProtectionUnitsBulkAdditionJobsRequest>,
     output: __S(
-      6065,
-      __c379,
+      6081,
+      __c380,
       1,
     ) as any as S.Schema<ListSiteProtectionUnitsBulkAdditionJobsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -24936,8 +25078,8 @@ export const listSiteRestoreArtifacts: API.PaginatedOperationMethod<
   SiteRestoreArtifact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6144, __c384, 0) as any as S.Schema<ListSiteRestoreArtifactsRequest>,
-    output: __S(5105, __c319, 1) as any as S.Schema<ListSiteRestoreArtifactsResponse>,
+    input: __S(6160, __c385, 0) as any as S.Schema<ListSiteRestoreArtifactsRequest>,
+    output: __S(5121, __c320, 1) as any as S.Schema<ListSiteRestoreArtifactsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -24965,13 +25107,13 @@ export const listSiteRestoreArtifactsBulkAdditionRequests: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      6160,
-      __c385,
+      6176,
+      __c386,
       0,
     ) as any as S.Schema<ListSiteRestoreArtifactsBulkAdditionRequestsRequest>,
     output: __S(
-      6162,
-      __c385,
+      6178,
+      __c386,
       2,
     ) as any as S.Schema<ListSiteRestoreArtifactsBulkAdditionRequestsResponse>,
     errors: [UnknownMicrosoftGraphError],
@@ -25000,8 +25142,8 @@ export const listStaffMembers: API.PaginatedOperationMethod<
   BookingCustomerBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6208, __c388, 0) as any as S.Schema<ListStaffMembersRequest>,
-    output: __S(4945, __c309, 1) as any as S.Schema<ListStaffMembersResponse>,
+    input: __S(6224, __c389, 0) as any as S.Schema<ListStaffMembersRequest>,
+    output: __S(4961, __c310, 1) as any as S.Schema<ListStaffMembersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25028,8 +25170,8 @@ export const listTownhalls: API.PaginatedOperationMethod<
   VirtualEventTownhall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6224, __c389, 0) as any as S.Schema<ListTownhallsRequest>,
-    output: __S(4289, __c268, 1) as any as S.Schema<ListTownhallsResponse>,
+    input: __S(6240, __c390, 0) as any as S.Schema<ListTownhallsRequest>,
+    output: __S(4305, __c269, 1) as any as S.Schema<ListTownhallsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25056,8 +25198,8 @@ export const listTownhallsPresenters: API.PaginatedOperationMethod<
   VirtualEventPresenter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6240, __c390, 0) as any as S.Schema<ListTownhallsPresentersRequest>,
-    output: __S(5649, __c353, 1) as any as S.Schema<ListTownhallsPresentersResponse>,
+    input: __S(6256, __c391, 0) as any as S.Schema<ListTownhallsPresentersRequest>,
+    output: __S(5665, __c354, 1) as any as S.Schema<ListTownhallsPresentersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25084,8 +25226,8 @@ export const listTownhallsRegistrations: API.PaginatedOperationMethod<
   VirtualEventRegistration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6256, __c391, 0) as any as S.Schema<ListTownhallsRegistrationsRequest>,
-    output: __S(5777, __c361, 1) as any as S.Schema<ListTownhallsRegistrationsResponse>,
+    input: __S(6272, __c392, 0) as any as S.Schema<ListTownhallsRegistrationsRequest>,
+    output: __S(5793, __c362, 1) as any as S.Schema<ListTownhallsRegistrationsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25112,8 +25254,8 @@ export const listTownhallsRegistrationsSessions: API.PaginatedOperationMethod<
   VirtualEventSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6272, __c392, 0) as any as S.Schema<ListTownhallsRegistrationsSessionsRequest>,
-    output: __S(5809, __c363, 1) as any as S.Schema<ListTownhallsRegistrationsSessionsResponse>,
+    input: __S(6288, __c393, 0) as any as S.Schema<ListTownhallsRegistrationsSessionsRequest>,
+    output: __S(5825, __c364, 1) as any as S.Schema<ListTownhallsRegistrationsSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25140,8 +25282,8 @@ export const listTownhallsSessions: API.PaginatedOperationMethod<
   VirtualEventSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6288, __c393, 0) as any as S.Schema<ListTownhallsSessionsRequest>,
-    output: __S(5809, __c363, 1) as any as S.Schema<ListTownhallsSessionsResponse>,
+    input: __S(6304, __c394, 0) as any as S.Schema<ListTownhallsSessionsRequest>,
+    output: __S(5825, __c364, 1) as any as S.Schema<ListTownhallsSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25168,8 +25310,8 @@ export const listTownhallsSessionsAttendanceReports: API.PaginatedOperationMetho
   MeetingAttendanceReport
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6304, __c394, 0) as any as S.Schema<ListTownhallsSessionsAttendanceReportsRequest>,
-    output: __S(4817, __c301, 1) as any as S.Schema<ListTownhallsSessionsAttendanceReportsResponse>,
+    input: __S(6320, __c395, 0) as any as S.Schema<ListTownhallsSessionsAttendanceReportsRequest>,
+    output: __S(4833, __c302, 1) as any as S.Schema<ListTownhallsSessionsAttendanceReportsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25196,8 +25338,8 @@ export const listUsers: API.PaginatedOperationMethod<
   CrossTenantMigrationTask
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6320, __c395, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(6322, __c395, 2) as any as S.Schema<ListUsersResponse>,
+    input: __S(6336, __c396, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(6338, __c396, 2) as any as S.Schema<ListUsersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25224,7 +25366,7 @@ export const listWebinars: API.PaginatedOperationMethod<
   VirtualEventWebinar
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6336, __c396, 0) as any as S.Schema<ListWebinarsRequest>,
+    input: __S(6352, __c397, 0) as any as S.Schema<ListWebinarsRequest>,
     output: __S(1537, __c96, 1) as any as S.Schema<ListWebinarsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
@@ -25252,8 +25394,8 @@ export const listWebinarsPresenters: API.PaginatedOperationMethod<
   VirtualEventPresenter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6352, __c397, 0) as any as S.Schema<ListWebinarsPresentersRequest>,
-    output: __S(5649, __c353, 1) as any as S.Schema<ListWebinarsPresentersResponse>,
+    input: __S(6368, __c398, 0) as any as S.Schema<ListWebinarsPresentersRequest>,
+    output: __S(5665, __c354, 1) as any as S.Schema<ListWebinarsPresentersResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25280,8 +25422,8 @@ export const listWebinarsSessions: API.PaginatedOperationMethod<
   VirtualEventSession
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6448, __c403, 0) as any as S.Schema<ListWebinarsSessionsRequest>,
-    output: __S(5809, __c363, 1) as any as S.Schema<ListWebinarsSessionsResponse>,
+    input: __S(6464, __c404, 0) as any as S.Schema<ListWebinarsSessionsRequest>,
+    output: __S(5825, __c364, 1) as any as S.Schema<ListWebinarsSessionsResponse>,
     errors: [UnknownMicrosoftGraphError],
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
@@ -25306,8 +25448,8 @@ export const migrateCrossTenantMigrationJob: API.OperationMethod<
   MigrateCrossTenantMigrationJobError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c404, 0) as any as S.Schema<MigrateCrossTenantMigrationJobRequest>,
-  output: __S(6480, __c405, 0) as any as S.Schema<MigrateCrossTenantMigrationJobResponse>,
+  input: __S(6480, __c405, 0) as any as S.Schema<MigrateCrossTenantMigrationJobRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<MigrateCrossTenantMigrationJobResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25323,8 +25465,8 @@ export const migrateDisplayName: API.OperationMethod<
   MigrateDisplayNameError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c406, 0) as any as S.Schema<MigrateDisplayNameRequest>,
-  output: __S(6480, __c405, 0) as any as S.Schema<MigrateDisplayNameResponse>,
+  input: __S(6512, __c407, 0) as any as S.Schema<MigrateDisplayNameRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<MigrateDisplayNameResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25340,7 +25482,7 @@ export const offboard: API.OperationMethod<
   OffboardError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6512, __c407, 0) as any as S.Schema<OffboardRequest>,
+  input: __S(6528, __c408, 0) as any as S.Schema<OffboardRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<OffboardResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25357,8 +25499,8 @@ export const publishBookingBusiness: API.OperationMethod<
   PublishBookingBusinessError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c408, 0) as any as S.Schema<PublishBookingBusinessRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<PublishBookingBusinessResponse>,
+  input: __S(6544, __c409, 0) as any as S.Schema<PublishBookingBusinessRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<PublishBookingBusinessResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25374,8 +25516,8 @@ export const publishVirtualEvent: API.OperationMethod<
   PublishVirtualEventError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6544, __c409, 0) as any as S.Schema<PublishVirtualEventRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<PublishVirtualEventResponse>,
+  input: __S(6560, __c410, 0) as any as S.Schema<PublishVirtualEventRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<PublishVirtualEventResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25391,8 +25533,8 @@ export const restoreSessionBaseActivate: API.OperationMethod<
   RestoreSessionBaseActivateError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c410, 0) as any as S.Schema<RestoreSessionBaseActivateRequest>,
-  output: __S(6561, __c410, 1) as any as S.Schema<RestoreSessionBaseActivateResponse>,
+  input: __S(6576, __c411, 0) as any as S.Schema<RestoreSessionBaseActivateRequest>,
+  output: __S(6577, __c411, 1) as any as S.Schema<RestoreSessionBaseActivateResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25408,8 +25550,8 @@ export const search: API.OperationMethod<
   SearchError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6577, __c411, 1) as any as S.Schema<SearchRequest>,
-  output: __S(6581, __c411, 5) as any as S.Schema<SearchResponse>,
+  input: __S(6593, __c412, 1) as any as S.Schema<SearchRequest>,
+  output: __S(6597, __c412, 5) as any as S.Schema<SearchResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25425,8 +25567,8 @@ export const setExternalEventInformation: API.OperationMethod<
   SetExternalEventInformationError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c412, 0) as any as S.Schema<SetExternalEventInformationRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<SetExternalEventInformationResponse>,
+  input: __S(6608, __c413, 0) as any as S.Schema<SetExternalEventInformationRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<SetExternalEventInformationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25442,8 +25584,8 @@ export const unpublish: API.OperationMethod<
   UnpublishError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6608, __c413, 0) as any as S.Schema<UnpublishRequest>,
-  output: __S(8608, __c538, 0) as any as S.Schema<UnpublishResponse>,
+  input: __S(6624, __c414, 0) as any as S.Schema<UnpublishRequest>,
+  output: __S(8624, __c539, 0) as any as S.Schema<UnpublishResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25459,8 +25601,8 @@ export const updateAppointments: API.OperationMethod<
   UpdateAppointmentsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c416, 0) as any as S.Schema<UpdateAppointmentsRequest>,
-  output: __S(6657, __c416, 1) as any as S.Schema<UpdateAppointmentsResponse>,
+  input: __S(6672, __c417, 0) as any as S.Schema<UpdateAppointmentsRequest>,
+  output: __S(6673, __c417, 1) as any as S.Schema<UpdateAppointmentsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25476,8 +25618,8 @@ export const updateAttendanceRecords: API.OperationMethod<
   UpdateAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6672, __c417, 0) as any as S.Schema<UpdateAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<UpdateAttendanceRecordsResponse>,
+  input: __S(6688, __c418, 0) as any as S.Schema<UpdateAttendanceRecordsRequest>,
+  output: __S(2420, __c151, 4) as any as S.Schema<UpdateAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25493,8 +25635,8 @@ export const updateAttendanceReports: API.OperationMethod<
   UpdateAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c418, 0) as any as S.Schema<UpdateAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<UpdateAttendanceReportsResponse>,
+  input: __S(6704, __c419, 0) as any as S.Schema<UpdateAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<UpdateAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25510,8 +25652,8 @@ export const updateAttendanceReportsAttendanceRecords: API.OperationMethod<
   UpdateAttendanceReportsAttendanceRecordsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6704, __c419, 0) as any as S.Schema<UpdateAttendanceReportsAttendanceRecordsRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<UpdateAttendanceReportsAttendanceRecordsResponse>,
+  input: __S(6720, __c420, 0) as any as S.Schema<UpdateAttendanceReportsAttendanceRecordsRequest>,
+  output: __S(2420, __c151, 4) as any as S.Schema<UpdateAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25527,7 +25669,7 @@ export const updateBackupRestore: API.OperationMethod<
   UpdateBackupRestoreError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c420, 0) as any as S.Schema<UpdateBackupRestoreRequest>,
+  input: __S(6736, __c421, 0) as any as S.Schema<UpdateBackupRestoreRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<UpdateBackupRestoreResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25544,8 +25686,8 @@ export const updateBookingBusinesses: API.OperationMethod<
   UpdateBookingBusinessesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6736, __c421, 0) as any as S.Schema<UpdateBookingBusinessesRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<UpdateBookingBusinessesResponse>,
+  input: __S(6752, __c422, 0) as any as S.Schema<UpdateBookingBusinessesRequest>,
+  output: __S(2993, __c187, 1) as any as S.Schema<UpdateBookingBusinessesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25561,8 +25703,8 @@ export const updateBookingCurrencies: API.OperationMethod<
   UpdateBookingCurrenciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c422, 0) as any as S.Schema<UpdateBookingCurrenciesRequest>,
-  output: __S(3184, __c199, 0) as any as S.Schema<UpdateBookingCurrenciesResponse>,
+  input: __S(6768, __c423, 0) as any as S.Schema<UpdateBookingCurrenciesRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<UpdateBookingCurrenciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25578,8 +25720,8 @@ export const updateBrowseSessions: API.OperationMethod<
   UpdateBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6768, __c423, 0) as any as S.Schema<UpdateBrowseSessionsRequest>,
-  output: __S(3392, __c212, 0) as any as S.Schema<UpdateBrowseSessionsResponse>,
+  input: __S(6784, __c424, 0) as any as S.Schema<UpdateBrowseSessionsRequest>,
+  output: __S(3408, __c213, 0) as any as S.Schema<UpdateBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25595,8 +25737,8 @@ export const updateByDisplayName: API.OperationMethod<
   UpdateByDisplayNameError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c424, 0) as any as S.Schema<UpdateByDisplayNameRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<UpdateByDisplayNameResponse>,
+  input: __S(6800, __c425, 0) as any as S.Schema<UpdateByDisplayNameRequest>,
+  output: __S(3777, __c236, 1) as any as S.Schema<UpdateByDisplayNameResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25612,8 +25754,8 @@ export const updateByEmail: API.OperationMethod<
   UpdateByEmailError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6800, __c425, 0) as any as S.Schema<UpdateByEmailRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateByEmailResponse>,
+  input: __S(6816, __c426, 0) as any as S.Schema<UpdateByEmailRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25629,8 +25771,8 @@ export const updateByUserId: API.OperationMethod<
   UpdateByUserIdError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c428, 0) as any as S.Schema<UpdateByUserIdRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateByUserIdResponse>,
+  input: __S(6864, __c429, 0) as any as S.Schema<UpdateByUserIdRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25646,8 +25788,8 @@ export const updateCalendarView: API.OperationMethod<
   UpdateCalendarViewError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6864, __c429, 0) as any as S.Schema<UpdateCalendarViewRequest>,
-  output: __S(6865, __c429, 1) as any as S.Schema<UpdateCalendarViewResponse>,
+  input: __S(6880, __c430, 0) as any as S.Schema<UpdateCalendarViewRequest>,
+  output: __S(6881, __c430, 1) as any as S.Schema<UpdateCalendarViewResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25663,8 +25805,8 @@ export const updateCrossTenantMigrationJobs: API.OperationMethod<
   UpdateCrossTenantMigrationJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c430, 0) as any as S.Schema<UpdateCrossTenantMigrationJobsRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<UpdateCrossTenantMigrationJobsResponse>,
+  input: __S(6896, __c431, 0) as any as S.Schema<UpdateCrossTenantMigrationJobsRequest>,
+  output: __S(3777, __c236, 1) as any as S.Schema<UpdateCrossTenantMigrationJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25680,8 +25822,8 @@ export const updateCustomers: API.OperationMethod<
   UpdateCustomersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6896, __c431, 0) as any as S.Schema<UpdateCustomersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<UpdateCustomersResponse>,
+  input: __S(6912, __c432, 0) as any as S.Schema<UpdateCustomersRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateCustomersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25697,8 +25839,8 @@ export const updateCustomQuestions: API.OperationMethod<
   UpdateCustomQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c432, 0) as any as S.Schema<UpdateCustomQuestionsRequest>,
-  output: __S(4160, __c260, 0) as any as S.Schema<UpdateCustomQuestionsResponse>,
+  input: __S(6928, __c433, 0) as any as S.Schema<UpdateCustomQuestionsRequest>,
+  output: __S(4176, __c261, 0) as any as S.Schema<UpdateCustomQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25714,8 +25856,8 @@ export const updateDriveInclusionRules: API.OperationMethod<
   UpdateDriveInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6928, __c433, 0) as any as S.Schema<UpdateDriveInclusionRulesRequest>,
-  output: __S(4368, __c273, 0) as any as S.Schema<UpdateDriveInclusionRulesResponse>,
+  input: __S(6944, __c434, 0) as any as S.Schema<UpdateDriveInclusionRulesRequest>,
+  output: __S(4384, __c274, 0) as any as S.Schema<UpdateDriveInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25731,7 +25873,7 @@ export const updateDriveProtectionUnits: API.OperationMethod<
   UpdateDriveProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c434, 0) as any as S.Schema<UpdateDriveProtectionUnitsRequest>,
+  input: __S(6960, __c435, 0) as any as S.Schema<UpdateDriveProtectionUnitsRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<UpdateDriveProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25748,10 +25890,10 @@ export const updateDriveProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   UpdateDriveProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6960, __c435, 0) as any as S.Schema<UpdateDriveProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(6976, __c436, 0) as any as S.Schema<UpdateDriveProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    4752,
-    __c297,
+    4768,
+    __c298,
     0,
   ) as any as S.Schema<UpdateDriveProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -25769,8 +25911,8 @@ export const updateDriveRestoreArtifacts: API.OperationMethod<
   UpdateDriveRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c436, 0) as any as S.Schema<UpdateDriveRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<UpdateDriveRestoreArtifactsResponse>,
+  input: __S(6992, __c437, 0) as any as S.Schema<UpdateDriveRestoreArtifactsRequest>,
+  output: __S(5008, __c313, 0) as any as S.Schema<UpdateDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25787,13 +25929,13 @@ export const updateDriveRestoreArtifactsBulkAdditionRequests: API.OperationMetho
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6992,
-    __c437,
+    7008,
+    __c438,
     0,
   ) as any as S.Schema<UpdateDriveRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    5280,
-    __c330,
+    5296,
+    __c331,
     0,
   ) as any as S.Schema<UpdateDriveRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -25811,7 +25953,7 @@ export const updateEmailNotificationsSetting: API.OperationMethod<
   UpdateEmailNotificationsSettingError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7024, __c439, 0) as any as S.Schema<UpdateEmailNotificationsSettingRequest>,
+  input: __S(7040, __c440, 0) as any as S.Schema<UpdateEmailNotificationsSettingRequest>,
   output: __S(1971, __c123, 3) as any as S.Schema<UpdateEmailNotificationsSettingResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25828,8 +25970,8 @@ export const updateEvents: API.OperationMethod<
   UpdateEventsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c440, 0) as any as S.Schema<UpdateEventsRequest>,
-  output: __S(5504, __c344, 0) as any as S.Schema<UpdateEventsResponse>,
+  input: __S(7056, __c441, 0) as any as S.Schema<UpdateEventsRequest>,
+  output: __S(5520, __c345, 0) as any as S.Schema<UpdateEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25838,14 +25980,14 @@ export const updateEvents: API.OperationMethod<
 }));
 
 export type UpdateExchangeProtectionPoliciesError = MicrosoftGraphOpError;
-/** Update exchangeProtectionPolicy Update an Exchange protection policy. This method adds a mailboxprotectionunit to or removes it from the protection policy. */
+/** Update exchangeProtectionPolicy Update an Exchange protection policy. This method updates retention settings or adds a mailboxProtectionUnit to or removes it from the protection policy. */
 export const updateExchangeProtectionPolicies: API.OperationMethod<
   UpdateExchangeProtectionPoliciesRequest,
   UpdateExchangeProtectionPoliciesResponse,
   UpdateExchangeProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7056, __c441, 0) as any as S.Schema<UpdateExchangeProtectionPoliciesRequest>,
+  input: __S(7072, __c442, 0) as any as S.Schema<UpdateExchangeProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateExchangeProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25862,8 +26004,8 @@ export const updateExchangeRestoreSessions: API.OperationMethod<
   UpdateExchangeRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c442, 0) as any as S.Schema<UpdateExchangeRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<UpdateExchangeRestoreSessionsResponse>,
+  input: __S(7088, __c443, 0) as any as S.Schema<UpdateExchangeRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<UpdateExchangeRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25879,8 +26021,8 @@ export const updateGranularDriveRestoreArtifacts: API.OperationMethod<
   UpdateGranularDriveRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7088, __c443, 0) as any as S.Schema<UpdateGranularDriveRestoreArtifactsRequest>,
-  output: __S(6192, __c387, 0) as any as S.Schema<UpdateGranularDriveRestoreArtifactsResponse>,
+  input: __S(7104, __c444, 0) as any as S.Schema<UpdateGranularDriveRestoreArtifactsRequest>,
+  output: __S(6208, __c388, 0) as any as S.Schema<UpdateGranularDriveRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25896,8 +26038,8 @@ export const updateGranularMailboxRestoreArtifacts: API.OperationMethod<
   UpdateGranularMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c444, 0) as any as S.Schema<UpdateGranularMailboxRestoreArtifactsRequest>,
-  output: __S(6432, __c402, 0) as any as S.Schema<UpdateGranularMailboxRestoreArtifactsResponse>,
+  input: __S(7120, __c445, 0) as any as S.Schema<UpdateGranularMailboxRestoreArtifactsRequest>,
+  output: __S(6448, __c403, 0) as any as S.Schema<UpdateGranularMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25913,8 +26055,8 @@ export const updateGranularSiteRestoreArtifacts: API.OperationMethod<
   UpdateGranularSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7120, __c445, 0) as any as S.Schema<UpdateGranularSiteRestoreArtifactsRequest>,
-  output: __S(6640, __c415, 0) as any as S.Schema<UpdateGranularSiteRestoreArtifactsResponse>,
+  input: __S(7136, __c446, 0) as any as S.Schema<UpdateGranularSiteRestoreArtifactsRequest>,
+  output: __S(6656, __c416, 0) as any as S.Schema<UpdateGranularSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25930,8 +26072,8 @@ export const updateMailboxInclusionRules: API.OperationMethod<
   UpdateMailboxInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c446, 0) as any as S.Schema<UpdateMailboxInclusionRulesRequest>,
-  output: __S(6832, __c427, 0) as any as S.Schema<UpdateMailboxInclusionRulesResponse>,
+  input: __S(7152, __c447, 0) as any as S.Schema<UpdateMailboxInclusionRulesRequest>,
+  output: __S(6848, __c428, 0) as any as S.Schema<UpdateMailboxInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -25947,7 +26089,7 @@ export const updateMailboxProtectionUnits: API.OperationMethod<
   UpdateMailboxProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7152, __c447, 0) as any as S.Schema<UpdateMailboxProtectionUnitsRequest>,
+  input: __S(7168, __c448, 0) as any as S.Schema<UpdateMailboxProtectionUnitsRequest>,
   output: __S(2032, __c127, 0) as any as S.Schema<UpdateMailboxProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -25965,13 +26107,13 @@ export const updateMailboxProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7168,
-    __c448,
+    7184,
+    __c449,
     0,
   ) as any as S.Schema<UpdateMailboxProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    7200,
-    __c450,
+    7216,
+    __c451,
     0,
   ) as any as S.Schema<UpdateMailboxProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -25989,8 +26131,8 @@ export const updateMailboxRestoreArtifacts: API.OperationMethod<
   UpdateMailboxRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7216, __c451, 0) as any as S.Schema<UpdateMailboxRestoreArtifactsRequest>,
-  output: __S(7392, __c462, 0) as any as S.Schema<UpdateMailboxRestoreArtifactsResponse>,
+  input: __S(7232, __c452, 0) as any as S.Schema<UpdateMailboxRestoreArtifactsRequest>,
+  output: __S(7408, __c463, 0) as any as S.Schema<UpdateMailboxRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26007,13 +26149,13 @@ export const updateMailboxRestoreArtifactsBulkAdditionRequests: API.OperationMet
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7232,
-    __c452,
+    7248,
+    __c453,
     0,
   ) as any as S.Schema<UpdateMailboxRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    7584,
-    __c474,
+    7600,
+    __c475,
     0,
   ) as any as S.Schema<UpdateMailboxRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -26031,8 +26173,8 @@ export const updateMigrations: API.OperationMethod<
   UpdateMigrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7248, __c453, 0) as any as S.Schema<UpdateMigrationsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<UpdateMigrationsResponse>,
+  input: __S(7264, __c454, 0) as any as S.Schema<UpdateMigrationsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateMigrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26048,8 +26190,8 @@ export const updateOneDriveForBusinessBrowseSessions: API.OperationMethod<
   UpdateOneDriveForBusinessBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c454, 0) as any as S.Schema<UpdateOneDriveForBusinessBrowseSessionsRequest>,
-  output: __S(7776, __c486, 0) as any as S.Schema<UpdateOneDriveForBusinessBrowseSessionsResponse>,
+  input: __S(7280, __c455, 0) as any as S.Schema<UpdateOneDriveForBusinessBrowseSessionsRequest>,
+  output: __S(7792, __c487, 0) as any as S.Schema<UpdateOneDriveForBusinessBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26058,7 +26200,7 @@ export const updateOneDriveForBusinessBrowseSessions: API.OperationMethod<
 }));
 
 export type UpdateOneDriveForBusinessProtectionPoliciesError = MicrosoftGraphOpError;
-/** Update oneDriveForBusinessProtectionPolicy Update the protection policy for the OneDrive service in Microsoft 365. This method adds a driveProtectionUnit to or removes it from a oneDriveForBusinessProtectionPolicy object. */
+/** Update oneDriveForBusinessProtectionPolicy Update the protection policy for the OneDrive service in Microsoft 365. This method updates retention settings or adds a driveProtectionUnit to or removes it from a oneDriveForBusinessProtectionPolicy object. */
 export const updateOneDriveForBusinessProtectionPolicies: API.OperationMethod<
   UpdateOneDriveForBusinessProtectionPoliciesRequest,
   UpdateOneDriveForBusinessProtectionPoliciesResponse,
@@ -26066,8 +26208,8 @@ export const updateOneDriveForBusinessProtectionPolicies: API.OperationMethod<
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7280,
-    __c455,
+    7296,
+    __c456,
     0,
   ) as any as S.Schema<UpdateOneDriveForBusinessProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateOneDriveForBusinessProtectionPoliciesResponse>,
@@ -26086,8 +26228,8 @@ export const updateOneDriveForBusinessRestoreSessions: API.OperationMethod<
   UpdateOneDriveForBusinessRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c456, 0) as any as S.Schema<UpdateOneDriveForBusinessRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<UpdateOneDriveForBusinessRestoreSessionsResponse>,
+  input: __S(7312, __c457, 0) as any as S.Schema<UpdateOneDriveForBusinessRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<UpdateOneDriveForBusinessRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26103,8 +26245,8 @@ export const updatePresenters: API.OperationMethod<
   UpdatePresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7312, __c457, 0) as any as S.Schema<UpdatePresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<UpdatePresentersResponse>,
+  input: __S(7328, __c458, 0) as any as S.Schema<UpdatePresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<UpdatePresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26120,7 +26262,7 @@ export const updateProtectionPolicies: API.OperationMethod<
   UpdateProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c458, 0) as any as S.Schema<UpdateProtectionPoliciesRequest>,
+  input: __S(7344, __c459, 0) as any as S.Schema<UpdateProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -26137,8 +26279,8 @@ export const updateQuestions: API.OperationMethod<
   UpdateQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7344, __c459, 0) as any as S.Schema<UpdateQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<UpdateQuestionsResponse>,
+  input: __S(7360, __c460, 0) as any as S.Schema<UpdateQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<UpdateQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26154,8 +26296,8 @@ export const updateRegistrationConfiguration: API.OperationMethod<
   UpdateRegistrationConfigurationError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c460, 0) as any as S.Schema<UpdateRegistrationConfigurationRequest>,
-  output: __S(3264, __c204, 0) as any as S.Schema<UpdateRegistrationConfigurationResponse>,
+  input: __S(7376, __c461, 0) as any as S.Schema<UpdateRegistrationConfigurationRequest>,
+  output: __S(3280, __c205, 0) as any as S.Schema<UpdateRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26171,8 +26313,8 @@ export const updateRegistrationConfigurationQuestions: API.OperationMethod<
   UpdateRegistrationConfigurationQuestionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7408, __c463, 0) as any as S.Schema<UpdateRegistrationConfigurationQuestionsRequest>,
-  output: __S(8160, __c510, 0) as any as S.Schema<UpdateRegistrationConfigurationQuestionsResponse>,
+  input: __S(7424, __c464, 0) as any as S.Schema<UpdateRegistrationConfigurationQuestionsRequest>,
+  output: __S(8176, __c511, 0) as any as S.Schema<UpdateRegistrationConfigurationQuestionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26188,8 +26330,8 @@ export const updateRegistrations: API.OperationMethod<
   UpdateRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c464, 0) as any as S.Schema<UpdateRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateRegistrationsResponse>,
+  input: __S(7440, __c465, 0) as any as S.Schema<UpdateRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26205,8 +26347,8 @@ export const updateRegistrationsByEmail: API.OperationMethod<
   UpdateRegistrationsByEmailError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7440, __c465, 0) as any as S.Schema<UpdateRegistrationsByEmailRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateRegistrationsByEmailResponse>,
+  input: __S(7456, __c466, 0) as any as S.Schema<UpdateRegistrationsByEmailRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateRegistrationsByEmailResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26222,8 +26364,8 @@ export const updateRegistrationsByUserId: API.OperationMethod<
   UpdateRegistrationsByUserIdError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c466, 0) as any as S.Schema<UpdateRegistrationsByUserIdRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateRegistrationsByUserIdResponse>,
+  input: __S(7472, __c467, 0) as any as S.Schema<UpdateRegistrationsByUserIdRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateRegistrationsByUserIdResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26239,8 +26381,8 @@ export const updateReports: API.OperationMethod<
   UpdateReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7472, __c467, 0) as any as S.Schema<UpdateReportsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<UpdateReportsResponse>,
+  input: __S(7488, __c468, 0) as any as S.Schema<UpdateReportsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26256,8 +26398,8 @@ export const updateRestorePoints: API.OperationMethod<
   UpdateRestorePointsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c468, 0) as any as S.Schema<UpdateRestorePointsRequest>,
-  output: __S(8240, __c515, 0) as any as S.Schema<UpdateRestorePointsResponse>,
+  input: __S(7504, __c469, 0) as any as S.Schema<UpdateRestorePointsRequest>,
+  output: __S(8256, __c516, 0) as any as S.Schema<UpdateRestorePointsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26273,8 +26415,8 @@ export const updateRestoreSessions: API.OperationMethod<
   UpdateRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7504, __c469, 0) as any as S.Schema<UpdateRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<UpdateRestoreSessionsResponse>,
+  input: __S(7520, __c470, 0) as any as S.Schema<UpdateRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<UpdateRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26290,7 +26432,7 @@ export const updateServiceApps: API.OperationMethod<
   UpdateServiceAppsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c470, 0) as any as S.Schema<UpdateServiceAppsRequest>,
+  input: __S(7536, __c471, 0) as any as S.Schema<UpdateServiceAppsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<UpdateServiceAppsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -26307,8 +26449,8 @@ export const updateServices: API.OperationMethod<
   UpdateServicesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7536, __c471, 0) as any as S.Schema<UpdateServicesRequest>,
-  output: __S(7537, __c471, 1) as any as S.Schema<UpdateServicesResponse>,
+  input: __S(7552, __c472, 0) as any as S.Schema<UpdateServicesRequest>,
+  output: __S(7553, __c472, 1) as any as S.Schema<UpdateServicesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26324,8 +26466,8 @@ export const updateSessions: API.OperationMethod<
   UpdateSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c472, 0) as any as S.Schema<UpdateSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<UpdateSessionsResponse>,
+  input: __S(7568, __c473, 0) as any as S.Schema<UpdateSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<UpdateSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26341,8 +26483,8 @@ export const updateSessionsAttendanceReports: API.OperationMethod<
   UpdateSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7600, __c475, 0) as any as S.Schema<UpdateSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<UpdateSessionsAttendanceReportsResponse>,
+  input: __S(7616, __c476, 0) as any as S.Schema<UpdateSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<UpdateSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26359,13 +26501,13 @@ export const updateSessionsAttendanceReportsAttendanceRecords: API.OperationMeth
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7616,
-    __c476,
+    7632,
+    __c477,
     0,
   ) as any as S.Schema<UpdateSessionsAttendanceReportsAttendanceRecordsRequest>,
   output: __S(
-    2404,
-    __c150,
+    2420,
+    __c151,
     4,
   ) as any as S.Schema<UpdateSessionsAttendanceReportsAttendanceRecordsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -26383,8 +26525,8 @@ export const updateSharePointBrowseSessions: API.OperationMethod<
   UpdateSharePointBrowseSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7632, __c477, 0) as any as S.Schema<UpdateSharePointBrowseSessionsRequest>,
-  output: __S(8416, __c526, 0) as any as S.Schema<UpdateSharePointBrowseSessionsResponse>,
+  input: __S(7648, __c478, 0) as any as S.Schema<UpdateSharePointBrowseSessionsRequest>,
+  output: __S(8432, __c527, 0) as any as S.Schema<UpdateSharePointBrowseSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26393,14 +26535,14 @@ export const updateSharePointBrowseSessions: API.OperationMethod<
 }));
 
 export type UpdateSharePointProtectionPoliciesError = MicrosoftGraphOpError;
-/** Update sharePointProtectionPolicy Update a SharePoint protection policy. This method adds a siteprotectionunit to or removes it from the protection policy. */
+/** Update sharePointProtectionPolicy Update a SharePoint protection policy. This method updates retention settings or adds a siteProtectionUnit to or removes it from the protection policy. */
 export const updateSharePointProtectionPolicies: API.OperationMethod<
   UpdateSharePointProtectionPoliciesRequest,
   UpdateSharePointProtectionPoliciesResponse,
   UpdateSharePointProtectionPoliciesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c478, 0) as any as S.Schema<UpdateSharePointProtectionPoliciesRequest>,
+  input: __S(7664, __c479, 0) as any as S.Schema<UpdateSharePointProtectionPoliciesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateSharePointProtectionPoliciesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
@@ -26417,8 +26559,8 @@ export const updateSharePointRestoreSessions: API.OperationMethod<
   UpdateSharePointRestoreSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7664, __c479, 0) as any as S.Schema<UpdateSharePointRestoreSessionsRequest>,
-  output: __S(5968, __c373, 0) as any as S.Schema<UpdateSharePointRestoreSessionsResponse>,
+  input: __S(7680, __c480, 0) as any as S.Schema<UpdateSharePointRestoreSessionsRequest>,
+  output: __S(5984, __c374, 0) as any as S.Schema<UpdateSharePointRestoreSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26434,8 +26576,8 @@ export const updateSiteInclusionRules: API.OperationMethod<
   UpdateSiteInclusionRulesError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c480, 0) as any as S.Schema<UpdateSiteInclusionRulesRequest>,
-  output: __S(8480, __c530, 0) as any as S.Schema<UpdateSiteInclusionRulesResponse>,
+  input: __S(7696, __c481, 0) as any as S.Schema<UpdateSiteInclusionRulesRequest>,
+  output: __S(8496, __c531, 0) as any as S.Schema<UpdateSiteInclusionRulesResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26451,8 +26593,8 @@ export const updateSiteProtectionUnits: API.OperationMethod<
   UpdateSiteProtectionUnitsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7696, __c481, 0) as any as S.Schema<UpdateSiteProtectionUnitsRequest>,
-  output: __S(6400, __c400, 0) as any as S.Schema<UpdateSiteProtectionUnitsResponse>,
+  input: __S(7712, __c482, 0) as any as S.Schema<UpdateSiteProtectionUnitsRequest>,
+  output: __S(6416, __c401, 0) as any as S.Schema<UpdateSiteProtectionUnitsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26468,10 +26610,10 @@ export const updateSiteProtectionUnitsBulkAdditionJobs: API.OperationMethod<
   UpdateSiteProtectionUnitsBulkAdditionJobsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c482, 0) as any as S.Schema<UpdateSiteProtectionUnitsBulkAdditionJobsRequest>,
+  input: __S(7728, __c483, 0) as any as S.Schema<UpdateSiteProtectionUnitsBulkAdditionJobsRequest>,
   output: __S(
-    8528,
-    __c533,
+    8544,
+    __c534,
     0,
   ) as any as S.Schema<UpdateSiteProtectionUnitsBulkAdditionJobsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -26489,8 +26631,8 @@ export const updateSiteRestoreArtifacts: API.OperationMethod<
   UpdateSiteRestoreArtifactsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7728, __c483, 0) as any as S.Schema<UpdateSiteRestoreArtifactsRequest>,
-  output: __S(4992, __c312, 0) as any as S.Schema<UpdateSiteRestoreArtifactsResponse>,
+  input: __S(7744, __c484, 0) as any as S.Schema<UpdateSiteRestoreArtifactsRequest>,
+  output: __S(5008, __c313, 0) as any as S.Schema<UpdateSiteRestoreArtifactsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26507,13 +26649,13 @@ export const updateSiteRestoreArtifactsBulkAdditionRequests: API.OperationMethod
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7744,
-    __c484,
+    7760,
+    __c485,
     0,
   ) as any as S.Schema<UpdateSiteRestoreArtifactsBulkAdditionRequestsRequest>,
   output: __S(
-    8576,
-    __c536,
+    8592,
+    __c537,
     0,
   ) as any as S.Schema<UpdateSiteRestoreArtifactsBulkAdditionRequestsResponse>,
   errors: [UnknownMicrosoftGraphError],
@@ -26531,8 +26673,8 @@ export const updateSolutionsRoot: API.OperationMethod<
   UpdateSolutionsRootError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7792, __c487, 0) as any as S.Schema<UpdateSolutionsRootRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<SolutionsRoot>,
+  input: __S(7808, __c488, 0) as any as S.Schema<UpdateSolutionsRootRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<SolutionsRoot>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26548,8 +26690,8 @@ export const updateStaffMembers: API.OperationMethod<
   UpdateStaffMembersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c488, 0) as any as S.Schema<UpdateStaffMembersRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<UpdateStaffMembersResponse>,
+  input: __S(7824, __c489, 0) as any as S.Schema<UpdateStaffMembersRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateStaffMembersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26565,8 +26707,8 @@ export const updateTownhalls: API.OperationMethod<
   UpdateTownhallsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7824, __c489, 0) as any as S.Schema<UpdateTownhallsRequest>,
-  output: __S(8657, __c541, 1) as any as S.Schema<UpdateTownhallsResponse>,
+  input: __S(7840, __c490, 0) as any as S.Schema<UpdateTownhallsRequest>,
+  output: __S(8673, __c542, 1) as any as S.Schema<UpdateTownhallsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26582,8 +26724,8 @@ export const updateTownhallsPresenters: API.OperationMethod<
   UpdateTownhallsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c490, 0) as any as S.Schema<UpdateTownhallsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<UpdateTownhallsPresentersResponse>,
+  input: __S(7856, __c491, 0) as any as S.Schema<UpdateTownhallsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<UpdateTownhallsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26599,8 +26741,8 @@ export const updateTownhallsRegistrationConfiguration: API.OperationMethod<
   UpdateTownhallsRegistrationConfigurationError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7856, __c491, 0) as any as S.Schema<UpdateTownhallsRegistrationConfigurationRequest>,
-  output: __S(3264, __c204, 0) as any as S.Schema<UpdateTownhallsRegistrationConfigurationResponse>,
+  input: __S(7872, __c492, 0) as any as S.Schema<UpdateTownhallsRegistrationConfigurationRequest>,
+  output: __S(3280, __c205, 0) as any as S.Schema<UpdateTownhallsRegistrationConfigurationResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26616,8 +26758,8 @@ export const updateTownhallsRegistrations: API.OperationMethod<
   UpdateTownhallsRegistrationsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c492, 0) as any as S.Schema<UpdateTownhallsRegistrationsRequest>,
-  output: __S(8210, __c513, 2) as any as S.Schema<UpdateTownhallsRegistrationsResponse>,
+  input: __S(7888, __c493, 0) as any as S.Schema<UpdateTownhallsRegistrationsRequest>,
+  output: __S(8226, __c514, 2) as any as S.Schema<UpdateTownhallsRegistrationsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26633,8 +26775,8 @@ export const updateTownhallsSessions: API.OperationMethod<
   UpdateTownhallsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7888, __c493, 0) as any as S.Schema<UpdateTownhallsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<UpdateTownhallsSessionsResponse>,
+  input: __S(7904, __c494, 0) as any as S.Schema<UpdateTownhallsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<UpdateTownhallsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26650,8 +26792,8 @@ export const updateTownhallsSessionsAttendanceReports: API.OperationMethod<
   UpdateTownhallsSessionsAttendanceReportsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c494, 0) as any as S.Schema<UpdateTownhallsSessionsAttendanceReportsRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<UpdateTownhallsSessionsAttendanceReportsResponse>,
+  input: __S(7920, __c495, 0) as any as S.Schema<UpdateTownhallsSessionsAttendanceReportsRequest>,
+  output: __S(2624, __c164, 0) as any as S.Schema<UpdateTownhallsSessionsAttendanceReportsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26667,8 +26809,8 @@ export const updateUsers: API.OperationMethod<
   UpdateUsersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7920, __c495, 0) as any as S.Schema<UpdateUsersRequest>,
-  output: __S(8772, __c548, 4) as any as S.Schema<UpdateUsersResponse>,
+  input: __S(7936, __c496, 0) as any as S.Schema<UpdateUsersRequest>,
+  output: __S(8788, __c549, 4) as any as S.Schema<UpdateUsersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26684,8 +26826,8 @@ export const updateVirtualEvents: API.OperationMethod<
   UpdateVirtualEventsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c496, 0) as any as S.Schema<UpdateVirtualEventsRequest>,
-  output: __S(3952, __c247, 0) as any as S.Schema<UpdateVirtualEventsResponse>,
+  input: __S(7952, __c497, 0) as any as S.Schema<UpdateVirtualEventsRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateVirtualEventsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26701,8 +26843,8 @@ export const updateWebinars: API.OperationMethod<
   UpdateWebinarsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c498, 0) as any as S.Schema<UpdateWebinarsRequest>,
-  output: __S(8800, __c550, 0) as any as S.Schema<UpdateWebinarsResponse>,
+  input: __S(7984, __c499, 0) as any as S.Schema<UpdateWebinarsRequest>,
+  output: __S(8816, __c551, 0) as any as S.Schema<UpdateWebinarsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26718,8 +26860,8 @@ export const updateWebinarsPresenters: API.OperationMethod<
   UpdateWebinarsPresentersError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7984, __c499, 0) as any as S.Schema<UpdateWebinarsPresentersRequest>,
-  output: __S(8113, __c507, 1) as any as S.Schema<UpdateWebinarsPresentersResponse>,
+  input: __S(8000, __c500, 0) as any as S.Schema<UpdateWebinarsPresentersRequest>,
+  output: __S(8129, __c508, 1) as any as S.Schema<UpdateWebinarsPresentersResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26735,8 +26877,8 @@ export const updateWebinarsSessions: API.OperationMethod<
   UpdateWebinarsSessionsError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c500, 0) as any as S.Schema<UpdateWebinarsSessionsRequest>,
-  output: __S(8344, __c521, 8) as any as S.Schema<UpdateWebinarsSessionsResponse>,
+  input: __S(8016, __c501, 0) as any as S.Schema<UpdateWebinarsSessionsRequest>,
+  output: __S(8360, __c522, 8) as any as S.Schema<UpdateWebinarsSessionsResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26752,8 +26894,8 @@ export const validateCrossTenantMigrationJob: API.OperationMethod<
   ValidateCrossTenantMigrationJobError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8016, __c501, 0) as any as S.Schema<ValidateCrossTenantMigrationJobRequest>,
-  output: __S(6480, __c405, 0) as any as S.Schema<ValidateCrossTenantMigrationJobResponse>,
+  input: __S(8032, __c502, 0) as any as S.Schema<ValidateCrossTenantMigrationJobRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<ValidateCrossTenantMigrationJobResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -26769,8 +26911,8 @@ export const validateDisplayName: API.OperationMethod<
   ValidateDisplayNameError,
   MicrosoftGraphOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c502, 0) as any as S.Schema<ValidateDisplayNameRequest>,
-  output: __S(6480, __c405, 0) as any as S.Schema<ValidateDisplayNameResponse>,
+  input: __S(8048, __c503, 0) as any as S.Schema<ValidateDisplayNameRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<ValidateDisplayNameResponse>,
   errors: [UnknownMicrosoftGraphError],
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
@@ -27704,12 +27846,14 @@ function __c55(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           offboardRequestedDateTime: S.optional(S.NullOr(S.String)),
+          pendingRetentionPeriodChange: S.optional(S.NullOr(__S(2080, __c130, 0))),
           policyId: S.optional(S.NullOr(S.String)),
           protectionSources: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
@@ -28022,8 +28166,8 @@ function __c74(j: number): any {
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
           bookingAppointmentId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28045,10 +28189,10 @@ function __c74(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -28060,15 +28204,15 @@ function __c74(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "GetAppointmentsResponse" });
   }
@@ -28100,8 +28244,8 @@ function __c76(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           attendanceRecordId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28140,8 +28284,8 @@ function __c78(j: number): any {
           virtualEventId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28178,8 +28322,8 @@ function __c80(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           attendanceRecordId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28234,8 +28378,8 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(T.Http({ method: "GET", uri: "/solutions/backupRestore", code: 200 })),
       ).annotate({ identifier: "GetBackupRestoreRequest" });
   }
@@ -28258,8 +28402,8 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28287,8 +28431,8 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bookingCurrencyId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28316,8 +28460,8 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           browseSessionBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28368,8 +28512,8 @@ function __c92(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28387,8 +28531,8 @@ function __c93(j: number): any {
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           email: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28406,8 +28550,8 @@ function __c94(j: number): any {
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28430,9 +28574,9 @@ function __c95(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -28447,7 +28591,7 @@ function __c95(j: number): any {
 function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8800, __c550, 0));
+      return S.Array(__S(8816, __c551, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -28469,9 +28613,9 @@ function __c97(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -28492,8 +28636,8 @@ function __c98(j: number): any {
           bookingAppointmentId: S.String.pipe(T.Label()),
           start: S.String.pipe(T.Query()),
           end: S.String.pipe(T.Query()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28515,10 +28659,10 @@ function __c98(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -28530,15 +28674,15 @@ function __c98(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "GetCalendarViewResponse" });
   }
@@ -28637,8 +28781,8 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           crossTenantMigrationJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28673,8 +28817,8 @@ function __c106(j: number): any {
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
           bookingCustomerBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28710,8 +28854,8 @@ function __c108(j: number): any {
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
           bookingCustomQuestionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28746,8 +28890,8 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           driveProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28781,8 +28925,8 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           driveProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28799,8 +28943,8 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           driveProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28869,8 +29013,8 @@ function __c117(j: number): any {
         S.Struct({
           oneDriveForBusinessRestoreSessionId: S.String.pipe(T.Label()),
           driveRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28888,8 +29032,8 @@ function __c118(j: number): any {
         S.Struct({
           oneDriveForBusinessRestoreSessionId: S.String.pipe(T.Label()),
           driveRestoreArtifactsBulkAdditionRequestId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28943,8 +29087,8 @@ function __c121(j: number): any {
         S.Struct({
           oneDriveForBusinessRestoreSessionId: S.String.pipe(T.Label()),
           driveRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28960,8 +29104,8 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29011,8 +29155,8 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualEventId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29046,9 +29190,9 @@ function __c126(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -29067,12 +29211,14 @@ function __c127(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           offboardRequestedDateTime: S.optional(S.NullOr(S.String)),
+          pendingRetentionPeriodChange: S.optional(S.NullOr(__S(2080, __c130, 0))),
           policyId: S.optional(S.NullOr(S.String)),
           protectionSources: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
@@ -29136,10 +29282,23 @@ function __c129(j: number): any {
 function __c130(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          effectiveFromDateTime: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          targetRetentionPeriodInDays: S.optional(S.NullOr(S.Number)),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+        }),
+      ).annotate({ identifier: "RetentionPeriodChange" });
   }
 }
 function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29155,9 +29314,9 @@ function __c131(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
           joinWebUrl: S.optional(S.NullOr(S.String)),
@@ -29168,15 +29327,15 @@ function __c131(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -29198,10 +29357,10 @@ function __c131(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -29213,20 +29372,20 @@ function __c131(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "CreateAppointmentsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29241,7 +29400,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "PhysicalAddress" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29251,19 +29410,19 @@ function __c133(j: number): any {
       ).annotate({ identifier: "BookingCustomerInformationBase" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2128, __c133, 0));
+      return S.Array(__S(2144, __c134, 0));
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29275,7 +29434,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DateTimeTimeZone" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29287,7 +29446,7 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "BookingReminder" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(2208, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29302,8 +29461,8 @@ function __c137(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2112, __c132, 0))),
-          coordinates: S.optional(S.NullOr(__S(2194, __c137, 2))),
+          address: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          coordinates: S.optional(S.NullOr(__S(2210, __c138, 2))),
           displayName: S.optional(S.NullOr(S.String)),
           locationEmailAddress: S.optional(S.NullOr(S.String)),
           locationType: S.optional(S.NullOr(S.String)),
@@ -29315,14 +29474,14 @@ function __c137(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeProtectionPolicyId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29333,7 +29492,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29350,15 +29509,15 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesCountRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeProtectionPolicyId: S.String.pipe(T.Label()),
           mailboxProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29369,7 +29528,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesMailboxInclusionRulesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29387,15 +29546,15 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesMailboxInclusionRulesCountRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeProtectionPolicyId: S.String.pipe(T.Label()),
           mailboxProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29406,15 +29565,15 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesMailboxProtectionUnitsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeProtectionPolicyId: S.String.pipe(T.Label()),
           mailboxProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29427,7 +29586,7 @@ function __c143(j: number): any {
       });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29448,7 +29607,7 @@ function __c144(j: number): any {
       });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29466,14 +29625,14 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetExchangeProtectionPoliciesMailboxProtectionUnitsCountRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29484,7 +29643,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetExchangeRestoreSessionsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29501,7 +29660,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetExchangeRestoreSessionsCountRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29511,10 +29670,10 @@ function __c148(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -29529,7 +29688,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "CreateAttendanceRecordsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29541,7 +29700,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "VirtualEventExternalRegistrationInformation" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29553,7 +29712,7 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "AttendanceInterval" });
     case 1:
-      return S.Array(__S(2400, __c150, 0));
+      return S.Array(__S(2416, __c151, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29564,16 +29723,16 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "MeetingEngagement" });
     case 3:
-      return S.Array(__S(2402, __c150, 2));
+      return S.Array(__S(2418, __c151, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -29582,15 +29741,15 @@ function __c150(j: number): any {
       ).annotate({ identifier: "CreateAttendanceRecordsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessRestoreSessionId: S.String.pipe(T.Label()),
           granularDriveRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29601,7 +29760,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetGranularDriveRestoreArtifactsRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29619,15 +29778,15 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetGranularDriveRestoreArtifactsCountRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
           granularMailboxRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29638,7 +29797,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetGranularMailboxRestoreArtifactsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29656,15 +29815,15 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetGranularMailboxRestoreArtifactsCountRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
           granularMailboxRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29675,15 +29834,15 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetGranularMailboxRestoreArtifactsRestorePointRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointRestoreSessionId: S.String.pipe(T.Label()),
           granularSiteRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29694,7 +29853,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetGranularSiteRestoreArtifactsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29712,14 +29871,14 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetGranularSiteRestoreArtifactsCountRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mailboxProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29730,7 +29889,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetMailboxInclusionRulesRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29747,14 +29906,14 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetMailboxInclusionRulesCountRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mailboxProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29765,7 +29924,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetMailboxProtectionUnitsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29774,7 +29933,7 @@ function __c161(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -29788,7 +29947,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "CreateAttendanceReportsRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29799,22 +29958,7 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "VirtualEventExternalInformation" });
     case 1:
-      return S.Array(__S(2592, __c162, 0));
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
-          meetingEndDateTime: S.optional(S.NullOr(S.String)),
-          meetingStartDateTime: S.optional(S.NullOr(S.String)),
-          totalParticipantCount: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CreateAttendanceReportsResponse" });
+      return S.Array(__S(2608, __c163, 0));
   }
 }
 function __c164(j: number): any {
@@ -29822,9 +29966,24 @@ function __c164(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
+          meetingEndDateTime: S.optional(S.NullOr(S.String)),
+          meetingStartDateTime: S.optional(S.NullOr(S.String)),
+          totalParticipantCount: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "CreateAttendanceReportsResponse" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           mailboxProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29835,7 +29994,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetMailboxProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29852,7 +30011,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetMailboxProtectionUnitsBulkAdditionJobsCountRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29869,15 +30028,15 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetMailboxProtectionUnitsCountRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
           mailboxRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29888,15 +30047,15 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetMailboxRestoreArtifactsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
           mailboxRestoreArtifactsBulkAdditionRequestId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29907,7 +30066,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetMailboxRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29925,7 +30084,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetMailboxRestoreArtifactsBulkAdditionRequestsCountRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29943,15 +30102,15 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetMailboxRestoreArtifactsCountRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchangeRestoreSessionId: S.String.pipe(T.Label()),
           mailboxRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29962,25 +30121,25 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetMailboxRestoreArtifactsRestorePointRequest" });
   }
 }
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/migrations", code: 200 })),
-      ).annotate({ identifier: "GetMigrationsRequest" });
-  }
-}
 function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/migrations", code: 200 })),
+      ).annotate({ identifier: "GetMigrationsRequest" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           oneDriveForBusinessBrowseSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29991,7 +30150,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessBrowseSessionsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30001,10 +30160,10 @@ function __c174(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -30019,7 +30178,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "CreateAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30036,14 +30195,14 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessBrowseSessionsCountRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30054,7 +30213,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessProtectionPoliciesRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30071,15 +30230,15 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessProtectionPoliciesCountRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
           driveProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30092,7 +30251,7 @@ function __c178(j: number): any {
       });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30112,15 +30271,15 @@ function __c179(j: number): any {
       });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
           driveProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30133,15 +30292,15 @@ function __c180(j: number): any {
       });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
           driveProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30155,7 +30314,7 @@ function __c181(j: number): any {
       });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30176,7 +30335,7 @@ function __c182(j: number): any {
       });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30196,14 +30355,14 @@ function __c183(j: number): any {
       });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oneDriveForBusinessRestoreSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30214,16 +30373,16 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessRestoreSessionsRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          address: S.optional(S.NullOr(__S(2112, __c132, 0))),
-          bookingPageSettings: S.optional(S.NullOr(__S(2976, __c186, 0))),
-          businessHours: S.optional(__S(2995, __c187, 3)),
+          address: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          bookingPageSettings: S.optional(S.NullOr(__S(2992, __c187, 0))),
+          businessHours: S.optional(__S(3011, __c188, 3)),
           businessType: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           defaultCurrencyIso: S.optional(S.NullOr(S.String)),
@@ -30232,13 +30391,13 @@ function __c185(j: number): any {
           languageTag: S.optional(S.NullOr(S.String)),
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
           phone: S.optional(S.NullOr(S.String)),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           webSiteUrl: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/solutions/bookingBusinesses", code: 200 })),
       ).annotate({ identifier: "CreateBookingBusinessesRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30262,9 +30421,9 @@ function __c186(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          address: S.optional(S.NullOr(__S(2112, __c132, 0))),
-          bookingPageSettings: S.optional(S.NullOr(__S(2976, __c186, 0))),
-          businessHours: S.optional(__S(2995, __c187, 3)),
+          address: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          bookingPageSettings: S.optional(S.NullOr(__S(2992, __c187, 0))),
+          businessHours: S.optional(__S(3011, __c188, 3)),
           businessType: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           defaultCurrencyIso: S.optional(S.NullOr(S.String)),
@@ -30275,13 +30434,13 @@ function __c186(j: number): any {
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
           phone: S.optional(S.NullOr(S.String)),
           publicUrl: S.optional(S.NullOr(S.String)),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           webSiteUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateBookingBusinessesResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30292,34 +30451,34 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "BookingWorkTimeSlot" });
     case 1:
-      return S.Array(__S(2992, __c187, 0));
+      return S.Array(__S(3008, __c188, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           day: S.optional(S.String),
-          timeSlots: S.optional(__S(2993, __c187, 1)),
+          timeSlots: S.optional(__S(3009, __c188, 1)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "BookingWorkHours" });
     case 3:
-      return S.Array(__S(2994, __c187, 2));
+      return S.Array(__S(3010, __c188, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           availabilityType: S.optional(S.String),
-          businessHours: S.optional(__S(2995, __c187, 3)),
+          businessHours: S.optional(__S(3011, __c188, 3)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           endDate: S.optional(S.NullOr(S.String)),
           startDate: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BookingsAvailabilityWindow" });
     case 5:
-      return S.Array(__S(2996, __c187, 4));
+      return S.Array(__S(3012, __c188, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           availabilityType: S.optional(S.String),
-          businessHours: S.optional(__S(2995, __c187, 3)),
+          businessHours: S.optional(__S(3011, __c188, 3)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "BookingsAvailability" });
@@ -30327,8 +30486,8 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowStaffSelection: S.optional(S.Boolean),
-          customAvailabilities: S.optional(__S(2997, __c187, 5)),
-          generalAvailability: S.optional(S.NullOr(__S(2998, __c187, 6))),
+          customAvailabilities: S.optional(__S(3013, __c188, 5)),
+          generalAvailability: S.optional(S.NullOr(__S(3014, __c188, 6))),
           isMeetingInviteToCustomersEnabled: S.optional(S.NullOr(S.Boolean)),
           maximumAdvance: S.optional(S.String),
           minimumLeadTime: S.optional(S.String),
@@ -30339,7 +30498,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "BookingSchedulingPolicy" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30356,15 +30515,15 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetOneDriveForBusinessRestoreSessionsCountRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventId: S.String.pipe(T.Label()),
           virtualEventPresenterId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30375,7 +30534,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetPresentersRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30393,14 +30552,14 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetPresentersCountRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protectionPolicyBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30411,7 +30570,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GetProtectionPoliciesRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30428,14 +30587,14 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetProtectionPoliciesCountRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           restorePointId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30446,14 +30605,14 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protectionUnitBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30464,14 +30623,14 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitsRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protectionUnitBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30482,14 +30641,14 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitsAsDriveProtectionUnitRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protectionUnitBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30500,14 +30659,14 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitsAsMailboxProtectionUnitRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protectionUnitBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30518,7 +30677,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitsAsSiteProtectionUnitRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30530,7 +30689,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreateBookingCurrenciesRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30542,7 +30701,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CreateBookingCurrenciesResponse" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30559,15 +30718,15 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetProtectionUnitsCountRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventRegistrationQuestionBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30578,7 +30737,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetQuestionsRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30596,14 +30755,14 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetQuestionsCountRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30614,7 +30773,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetRegistrationConfigurationRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30629,15 +30788,15 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetRegistrationConfigurationResponse" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventRegistrationQuestionBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30648,7 +30807,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "GetRegistrationConfigurationQuestionsRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30666,15 +30825,15 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetRegistrationConfigurationQuestionsCountRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventRegistrationId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30685,15 +30844,15 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetRegistrationsRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           email: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30704,15 +30863,15 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetRegistrationsByEmailRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30723,7 +30882,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetRegistrationsByUserIdRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30741,7 +30900,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "GetRegistrationsCountRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30761,7 +30920,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "CreateBrowseSessionsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30779,7 +30938,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CreateBrowseSessionsResponse" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30787,8 +30946,8 @@ function __c213(j: number): any {
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventRegistrationId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30799,7 +30958,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetRegistrationsSessionsRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30818,26 +30977,26 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetRegistrationsSessionsCountRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(T.Http({ method: "GET", uri: "/solutions/backupRestore/reports", code: 200 })),
       ).annotate({ identifier: "GetReportsRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointRestoreSessionId: S.String.pipe(T.Label()),
           siteRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30848,14 +31007,14 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetRestorePointRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           restorePointId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30866,7 +31025,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetRestorePointsRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30883,14 +31042,14 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetRestorePointsCountRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           restoreSessionBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30901,7 +31060,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetRestoreSessionsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30918,14 +31077,14 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetRestoreSessionsCountRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceAppId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30936,7 +31095,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetServiceAppsRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30949,7 +31108,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetServiceAppsCountRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30965,9 +31124,9 @@ function __c223(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
           joinWebUrl: S.optional(S.NullOr(S.String)),
@@ -30978,15 +31137,15 @@ function __c223(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31008,10 +31167,10 @@ function __c223(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -31023,28 +31182,28 @@ function __c223(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "CreateCalendarViewResponse" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
           bookingServiceId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31060,12 +31219,12 @@ function __c224(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -31078,15 +31237,15 @@ function __c224(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
           webUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetServicesResponse" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31104,15 +31263,15 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetServicesCountRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31123,7 +31282,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetSessionsRequest" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31131,8 +31290,8 @@ function __c227(j: number): any {
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31143,7 +31302,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetSessionsAttendanceReportsRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31152,8 +31311,8 @@ function __c228(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           attendanceRecordId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31164,7 +31323,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetSessionsAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31184,7 +31343,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetSessionsAttendanceReportsAttendanceRecordsCountRequest" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31203,7 +31362,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetSessionsAttendanceReportsCountRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31221,14 +31380,14 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetSessionsCountRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointBrowseSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31239,7 +31398,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetSharePointBrowseSessionsRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31256,7 +31415,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetSharePointBrowseSessionsCountRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31267,16 +31426,16 @@ function __c234(j: number): any {
           createdBy: S.optional(S.String),
           createdDateTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          exchangeSettings: S.optional(S.NullOr(__S(3760, __c235, 0))),
+          exchangeSettings: S.optional(S.NullOr(__S(3776, __c236, 0))),
           jobType: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
-          resources: S.optional(__S(2080, __c130, 0)),
+          resources: S.optional(__S(2096, __c131, 0)),
           resourceType: S.optional(S.String),
           sourceTenantId: S.optional(S.String),
           status: S.optional(S.String),
           targetTenantId: S.optional(S.String),
-          workloads: S.optional(__S(2080, __c130, 0)),
+          workloads: S.optional(__S(2096, __c131, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31287,7 +31446,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateCrossTenantMigrationJobsRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31306,28 +31465,28 @@ function __c235(j: number): any {
           createdBy: S.optional(S.String),
           createdDateTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          exchangeSettings: S.optional(S.NullOr(__S(3760, __c235, 0))),
+          exchangeSettings: S.optional(S.NullOr(__S(3776, __c236, 0))),
           jobType: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
-          resources: S.optional(__S(2080, __c130, 0)),
+          resources: S.optional(__S(2096, __c131, 0)),
           resourceType: S.optional(S.String),
           sourceTenantId: S.optional(S.String),
           status: S.optional(S.String),
           targetTenantId: S.optional(S.String),
-          workloads: S.optional(__S(2080, __c130, 0)),
+          workloads: S.optional(__S(2096, __c131, 0)),
         }),
       ).annotate({ identifier: "CreateCrossTenantMigrationJobsResponse" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointProtectionPolicyId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31338,7 +31497,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31355,15 +31514,15 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesCountRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointProtectionPolicyId: S.String.pipe(T.Label()),
           siteProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31374,7 +31533,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesSiteInclusionRulesRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31392,15 +31551,15 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesSiteInclusionRulesCountRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointProtectionPolicyId: S.String.pipe(T.Label()),
           siteProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31411,15 +31570,15 @@ function __c240(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesSiteProtectionUnitsRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointProtectionPolicyId: S.String.pipe(T.Label()),
           siteProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31432,7 +31591,7 @@ function __c241(j: number): any {
       });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31453,7 +31612,7 @@ function __c242(j: number): any {
       });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31471,14 +31630,14 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetSharePointProtectionPoliciesSiteProtectionUnitsCountRequest" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointRestoreSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31489,7 +31648,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetSharePointRestoreSessionsRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31506,7 +31665,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetSharePointRestoreSessionsCountRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31524,7 +31683,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "CreateCustomersRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31535,14 +31694,14 @@ function __c247(j: number): any {
       ).annotate({ identifier: "CreateCustomersResponse" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteProtectionRuleId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31553,7 +31712,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetSiteInclusionRulesRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31570,14 +31729,14 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetSiteInclusionRulesCountRequest" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteProtectionUnitId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31588,14 +31747,14 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetSiteProtectionUnitsRequest" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteProtectionUnitsBulkAdditionJobId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31606,7 +31765,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetSiteProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31623,7 +31782,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetSiteProtectionUnitsBulkAdditionJobsCountRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31640,15 +31799,15 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetSiteProtectionUnitsCountRequest" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointRestoreSessionId: S.String.pipe(T.Label()),
           siteRestoreArtifactId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31659,15 +31818,15 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetSiteRestoreArtifactsRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sharePointRestoreSessionId: S.String.pipe(T.Label()),
           siteRestoreArtifactsBulkAdditionRequestId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31678,7 +31837,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetSiteRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31696,7 +31855,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetSiteRestoreArtifactsBulkAdditionRequestsCountRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31714,7 +31873,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetSiteRestoreArtifactsCountRequest" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31724,9 +31883,9 @@ function __c258(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -31738,7 +31897,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "AsMailboxProtectionUnitRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31747,7 +31906,7 @@ function __c259(j: number): any {
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           answerInputType: S.optional(S.NullOr(S.String)),
-          answerOptions: S.optional(__S(2160, __c135, 0)),
+          answerOptions: S.optional(__S(2176, __c136, 0)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
@@ -31761,7 +31920,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "CreateCustomQuestionsRequest" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31769,7 +31928,7 @@ function __c260(j: number): any {
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           answerInputType: S.optional(S.NullOr(S.String)),
-          answerOptions: S.optional(__S(2160, __c135, 0)),
+          answerOptions: S.optional(__S(2176, __c136, 0)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
@@ -31777,26 +31936,26 @@ function __c260(j: number): any {
       ).annotate({ identifier: "CreateCustomQuestionsResponse" });
   }
 }
-function __c261(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions", code: 200 })),
-      ).annotate({ identifier: "GetSolutionsRootRequest" });
-  }
-}
 function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+        }).pipe(T.Http({ method: "GET", uri: "/solutions", code: 200 })),
+      ).annotate({ identifier: "GetSolutionsRootRequest" });
+  }
+}
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
-          staffIds: S.optional(__S(2080, __c130, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          staffIds: S.optional(__S(2096, __c131, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -31809,44 +31968,44 @@ function __c262(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           serviceId: S.optional(S.NullOr(S.String)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
           status: S.optional(S.NullOr(S.String)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "AvailabilityItem" });
     case 2:
-      return S.Array(__S(4193, __c262, 1));
+      return S.Array(__S(4209, __c263, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          availabilityItems: S.optional(__S(4194, __c262, 2)),
+          availabilityItems: S.optional(__S(4210, __c263, 2)),
           staffId: S.optional(S.NullOr(S.String)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "StaffAvailabilityItem" });
     case 4:
-      return S.Array(__S(4195, __c262, 3));
+      return S.Array(__S(4211, __c263, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4196, __c262, 4),
+          value: __S(4212, __c263, 4),
         }),
       ).annotate({ identifier: "GetStaffAvailabilityResponse" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bookingBusinessId: S.String.pipe(T.Label()),
           bookingStaffMemberBaseId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31857,7 +32016,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetStaffMembersRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31875,7 +32034,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetStaffMembersCountRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31909,25 +32068,25 @@ function __c265(j: number): any {
       return S.suspend(() =>
         S.Struct({
           backupPolicyId: S.optional(S.String),
-          countStatistics: S.optional(__S(4241, __c265, 1)),
+          countStatistics: S.optional(__S(4257, __c266, 1)),
           displayName: S.optional(S.NullOr(S.String)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "BackupPolicyReport" });
     case 3:
-      return S.suspend(() => S.NullOr(__S(4242, __c265, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(4258, __c266, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStatisticsByPolicyResponse",
       });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -31938,7 +32097,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "GetTownhallsRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31950,9 +32109,9 @@ function __c267(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -31964,21 +32123,21 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetTownhallsByUserIdAndRoleRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8657, __c541, 1));
+      return S.Array(__S(8673, __c542, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4288, __c268, 0),
+          value: __S(4304, __c269, 0),
         }),
       ).annotate({ identifier: "GetTownhallsByUserIdAndRoleResponse" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31989,9 +32148,9 @@ function __c269(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32003,7 +32162,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetTownhallsByUserRoleRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32016,15 +32175,15 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetTownhallsCountRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventPresenterId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32035,7 +32194,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetTownhallsPresentersRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32060,7 +32219,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "CreateDriveInclusionRulesRequest" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32079,7 +32238,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateDriveInclusionRulesResponse" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32097,14 +32256,14 @@ function __c274(j: number): any {
       ).annotate({ identifier: "GetTownhallsPresentersCountRequest" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32115,15 +32274,15 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetTownhallsRegistrationConfigurationRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventRegistrationId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32134,7 +32293,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "GetTownhallsRegistrationsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32152,7 +32311,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "GetTownhallsRegistrationsCountRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32160,8 +32319,8 @@ function __c278(j: number): any {
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventRegistrationId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32172,7 +32331,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "GetTownhallsRegistrationsSessionsRequest" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32191,15 +32350,15 @@ function __c279(j: number): any {
       ).annotate({ identifier: "GetTownhallsRegistrationsSessionsCountRequest" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32210,7 +32369,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetTownhallsSessionsRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32218,8 +32377,8 @@ function __c281(j: number): any {
           virtualEventTownhallId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
           meetingAttendanceReportId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32230,7 +32389,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetTownhallsSessionsAttendanceReportsRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32249,7 +32408,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetTownhallsSessionsAttendanceReportsCountRequest" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32267,13 +32426,14 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetTownhallsSessionsCountRequest" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -32294,15 +32454,15 @@ function __c284(j: number): any {
       ).annotate({ identifier: "CreateDriveProtectionUnitsRequest" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           crossTenantMigrationJobId: S.String.pipe(T.Label()),
           crossTenantMigrationTaskId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32313,7 +32473,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetUsersRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32331,25 +32491,25 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetUsersCountRequest" });
   }
 }
-function __c287(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents", code: 200 })),
-      ).annotate({ identifier: "GetVirtualEventsRequest" });
-  }
-}
 function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents", code: 200 })),
+      ).annotate({ identifier: "GetVirtualEventsRequest" });
+  }
+}
+function __c289(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32360,7 +32520,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetWebinarsRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32373,15 +32533,15 @@ function __c289(j: number): any {
       ).annotate({ identifier: "GetWebinarsCountRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventPresenterId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32392,7 +32552,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "GetWebinarsPresentersRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32410,15 +32570,15 @@ function __c291(j: number): any {
       ).annotate({ identifier: "GetWebinarsPresentersCountRequest" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           virtualEventWebinarId: S.String.pipe(T.Label()),
           virtualEventSessionId: S.String.pipe(T.Label()),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -32429,7 +32589,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "GetWebinarsSessionsRequest" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32447,7 +32607,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "GetWebinarsSessionsCountRequest" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32458,9 +32618,9 @@ function __c294(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32472,7 +32632,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "ListAppointmentsRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32487,10 +32647,10 @@ function __c295(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -32502,53 +32662,27 @@ function __c295(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "BookingAppointment" });
     case 1:
-      return S.Array(__S(4720, __c295, 0));
+      return S.Array(__S(4736, __c296, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4721, __c295, 1),
+          value: __S(4737, __c296, 1),
         }),
       ).annotate({ identifier: "ListAppointmentsResponse" });
-  }
-}
-function __c296(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          createdDateTime: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
-          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/solutions/backupRestore/driveProtectionUnitsBulkAdditionJobs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateDriveProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
 function __c297(j: number): any {
@@ -32565,13 +32699,39 @@ function __c297(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/solutions/backupRestore/driveProtectionUnitsBulkAdditionJobs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateDriveProtectionUnitsBulkAdditionJobsRequest" });
+  }
+}
+function __c298(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          createdDateTime: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
+          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateDriveProtectionUnitsBulkAdditionJobsResponse" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32584,9 +32744,9 @@ function __c298(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32598,21 +32758,21 @@ function __c298(j: number): any {
       ).annotate({ identifier: "ListAttendanceRecordsRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2404, __c150, 4));
+      return S.Array(__S(2420, __c151, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4784, __c299, 0),
+          value: __S(4800, __c300, 0),
         }),
       ).annotate({ identifier: "ListAttendanceRecordsResponse" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32624,9 +32784,9 @@ function __c300(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32638,21 +32798,21 @@ function __c300(j: number): any {
       ).annotate({ identifier: "ListAttendanceReportsRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2608, __c163, 0));
+      return S.Array(__S(2624, __c164, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4816, __c301, 0),
+          value: __S(4832, __c302, 0),
         }),
       ).annotate({ identifier: "ListAttendanceReportsResponse" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32665,9 +32825,9 @@ function __c302(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32677,34 +32837,6 @@ function __c302(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListAttendanceReportsAttendanceRecordsRequest" });
-  }
-}
-function __c303(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/bookingBusinesses", code: 200 })),
-      ).annotate({ identifier: "ListBookingBusinessesRequest" });
-    case 1:
-      return S.Array(__S(2977, __c186, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
-          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4849, __c303, 1),
-        }),
-      ).annotate({ identifier: "ListBookingBusinessesResponse" });
   }
 }
 function __c304(j: number): any {
@@ -32717,14 +32849,14 @@ function __c304(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/bookingCurrencies", code: 200 })),
-      ).annotate({ identifier: "ListBookingCurrenciesRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/bookingBusinesses", code: 200 })),
+      ).annotate({ identifier: "ListBookingBusinessesRequest" });
     case 1:
-      return S.Array(__S(3184, __c199, 0));
+      return S.Array(__S(2993, __c187, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32732,7 +32864,7 @@ function __c304(j: number): any {
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
           value: __S(4865, __c304, 1),
         }),
-      ).annotate({ identifier: "ListBookingCurrenciesResponse" });
+      ).annotate({ identifier: "ListBookingBusinessesResponse" });
   }
 }
 function __c305(j: number): any {
@@ -32745,16 +32877,14 @@ function __c305(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/browseSessions", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListBrowseSessionsRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/bookingCurrencies", code: 200 })),
+      ).annotate({ identifier: "ListBookingCurrenciesRequest" });
     case 1:
-      return S.Array(__S(3392, __c212, 0));
+      return S.Array(__S(3200, __c200, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32762,10 +32892,40 @@ function __c305(j: number): any {
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
           value: __S(4881, __c305, 1),
         }),
-      ).annotate({ identifier: "ListBrowseSessionsResponse" });
+      ).annotate({ identifier: "ListBookingCurrenciesResponse" });
   }
 }
 function __c306(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/browseSessions", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListBrowseSessionsRequest" });
+    case 1:
+      return S.Array(__S(3408, __c213, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
+          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
+          value: __S(4897, __c306, 1),
+        }),
+      ).annotate({ identifier: "ListBrowseSessionsResponse" });
+  }
+}
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32778,9 +32938,9 @@ function __c306(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32792,7 +32952,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "ListCalendarViewRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32802,9 +32962,9 @@ function __c307(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32815,18 +32975,18 @@ function __c307(j: number): any {
         ),
       ).annotate({ identifier: "ListCrossTenantMigrationJobsRequest" });
     case 1:
-      return S.Array(__S(3761, __c235, 1));
+      return S.Array(__S(3777, __c236, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4913, __c307, 1),
+          value: __S(4929, __c308, 1),
         }),
       ).annotate({ identifier: "ListCrossTenantMigrationJobsResponse" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32837,9 +32997,9 @@ function __c308(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32851,21 +33011,21 @@ function __c308(j: number): any {
       ).annotate({ identifier: "ListCustomersRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3952, __c247, 0));
+      return S.Array(__S(3968, __c248, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4944, __c309, 0),
+          value: __S(4960, __c310, 0),
         }),
       ).annotate({ identifier: "ListCustomersResponse" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32876,9 +33036,9 @@ function __c310(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32889,18 +33049,18 @@ function __c310(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomQuestionsRequest" });
     case 1:
-      return S.Array(__S(4160, __c260, 0));
+      return S.Array(__S(4176, __c261, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(4961, __c310, 1),
+          value: __S(4977, __c311, 1),
         }),
       ).annotate({ identifier: "ListCustomQuestionsResponse" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32924,7 +33084,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "CreateDriveRestoreArtifactsRequest" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32943,7 +33103,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "CreateDriveRestoreArtifactsResponse" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32953,9 +33113,9 @@ function __c313(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({ method: "GET", uri: "/solutions/backupRestore/driveInclusionRules", code: 200 }),
@@ -32963,42 +33123,18 @@ function __c313(j: number): any {
       ).annotate({ identifier: "ListDriveInclusionRulesRequest" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4368, __c273, 0));
+      return S.Array(__S(4384, __c274, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5024, __c314, 0),
+          value: __S(5040, __c315, 0),
         }),
       ).annotate({ identifier: "ListDriveInclusionRulesResponse" });
-  }
-}
-function __c315(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/driveProtectionUnits",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListDriveProtectionUnitsRequest" });
   }
 }
 function __c316(j: number): any {
@@ -33011,9 +33147,33 @@ function __c316(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/driveProtectionUnits",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListDriveProtectionUnitsRequest" });
+  }
+}
+function __c317(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33025,21 +33185,21 @@ function __c316(j: number): any {
       ).annotate({ identifier: "ListDriveProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4752, __c297, 0));
+      return S.Array(__S(4768, __c298, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5072, __c317, 0),
+          value: __S(5088, __c318, 0),
         }),
       ).annotate({ identifier: "ListDriveProtectionUnitsBulkAdditionJobsResponse" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33050,9 +33210,9 @@ function __c318(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33064,21 +33224,21 @@ function __c318(j: number): any {
       ).annotate({ identifier: "ListDriveRestoreArtifactsRequest" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4992, __c312, 0));
+      return S.Array(__S(5008, __c313, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5104, __c319, 0),
+          value: __S(5120, __c320, 0),
         }),
       ).annotate({ identifier: "ListDriveRestoreArtifactsResponse" });
   }
 }
-function __c320(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33089,9 +33249,9 @@ function __c320(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33102,35 +33262,7 @@ function __c320(j: number): any {
         ),
       ).annotate({ identifier: "ListDriveRestoreArtifactsBulkAdditionRequestsRequest" });
     case 1:
-      return S.Array(__S(5280, __c330, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
-          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5121, __c320, 1),
-        }),
-      ).annotate({ identifier: "ListDriveRestoreArtifactsBulkAdditionRequestsResponse" });
-  }
-}
-function __c321(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents/events", code: 200 })),
-      ).annotate({ identifier: "ListEventsRequest" });
-    case 1:
-      return S.Array(__S(5504, __c344, 0));
+      return S.Array(__S(5296, __c331, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -33138,7 +33270,7 @@ function __c321(j: number): any {
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
           value: __S(5137, __c321, 1),
         }),
-      ).annotate({ identifier: "ListEventsResponse" });
+      ).annotate({ identifier: "ListDriveRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
 function __c322(j: number): any {
@@ -33151,9 +33283,37 @@ function __c322(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents/events", code: 200 })),
+      ).annotate({ identifier: "ListEventsRequest" });
+    case 1:
+      return S.Array(__S(5520, __c345, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
+          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
+          value: __S(5153, __c322, 1),
+        }),
+      ).annotate({ identifier: "ListEventsResponse" });
+  }
+}
+function __c323(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33165,7 +33325,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "ListExchangeProtectionPoliciesRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(114, __c7, 2));
@@ -33174,12 +33334,12 @@ function __c323(j: number): any {
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5168, __c323, 0),
+          value: __S(5184, __c324, 0),
         }),
       ).annotate({ identifier: "ListExchangeProtectionPoliciesResponse" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33190,9 +33350,9 @@ function __c324(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33204,43 +33364,18 @@ function __c324(j: number): any {
       ).annotate({ identifier: "ListExchangeProtectionPoliciesMailboxInclusionRulesRequest" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6832, __c427, 0));
+      return S.Array(__S(6848, __c428, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5200, __c325, 0),
+          value: __S(5216, __c326, 0),
         }),
       ).annotate({ identifier: "ListExchangeProtectionPoliciesMailboxInclusionRulesResponse" });
-  }
-}
-function __c326(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exchangeProtectionPolicyId: S.String.pipe(T.Label()),
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicyId}/mailboxProtectionUnits",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListExchangeProtectionPoliciesMailboxProtectionUnitsRequest" });
   }
 }
 function __c327(j: number): any {
@@ -33254,9 +33389,34 @@ function __c327(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicyId}/mailboxProtectionUnits",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListExchangeProtectionPoliciesMailboxProtectionUnitsRequest" });
+  }
+}
+function __c328(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exchangeProtectionPolicyId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33270,23 +33430,23 @@ function __c327(j: number): any {
       });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7200, __c450, 0));
+      return S.Array(__S(7216, __c451, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5248, __c328, 0),
+          value: __S(5264, __c329, 0),
         }),
       ).annotate({
         identifier: "ListExchangeProtectionPoliciesMailboxProtectionUnitsBulkAdditionJobsResponse",
       });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33301,13 +33461,13 @@ function __c329(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -33318,7 +33478,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "CreateDriveRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33332,18 +33492,18 @@ function __c330(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateDriveRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33355,7 +33515,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "TimePeriod" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33365,9 +33525,9 @@ function __c332(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33379,21 +33539,21 @@ function __c332(j: number): any {
       ).annotate({ identifier: "ListExchangeRestoreSessionsRequest" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5968, __c373, 0));
+      return S.Array(__S(5984, __c374, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5328, __c333, 0),
+          value: __S(5344, __c334, 0),
         }),
       ).annotate({ identifier: "ListExchangeRestoreSessionsResponse" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33404,9 +33564,9 @@ function __c334(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33417,18 +33577,18 @@ function __c334(j: number): any {
         ),
       ).annotate({ identifier: "ListGranularDriveRestoreArtifactsRequest" });
     case 1:
-      return S.Array(__S(6192, __c387, 0));
+      return S.Array(__S(6208, __c388, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5345, __c334, 1),
+          value: __S(5361, __c335, 1),
         }),
       ).annotate({ identifier: "ListGranularDriveRestoreArtifactsResponse" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33439,9 +33599,9 @@ function __c335(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33452,18 +33612,18 @@ function __c335(j: number): any {
         ),
       ).annotate({ identifier: "ListGranularMailboxRestoreArtifactsRequest" });
     case 1:
-      return S.Array(__S(6432, __c402, 0));
+      return S.Array(__S(6448, __c403, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5361, __c335, 1),
+          value: __S(5377, __c336, 1),
         }),
       ).annotate({ identifier: "ListGranularMailboxRestoreArtifactsResponse" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33474,9 +33634,9 @@ function __c336(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33487,39 +33647,15 @@ function __c336(j: number): any {
         ),
       ).annotate({ identifier: "ListGranularSiteRestoreArtifactsRequest" });
     case 1:
-      return S.Array(__S(6640, __c415, 0));
+      return S.Array(__S(6656, __c416, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5377, __c336, 1),
+          value: __S(5393, __c337, 1),
         }),
       ).annotate({ identifier: "ListGranularSiteRestoreArtifactsResponse" });
-  }
-}
-function __c337(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/mailboxInclusionRules",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListMailboxInclusionRulesRequest" });
   }
 }
 function __c338(j: number): any {
@@ -33532,18 +33668,18 @@ function __c338(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/solutions/backupRestore/mailboxProtectionUnits",
+            uri: "/solutions/backupRestore/mailboxInclusionRules",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListMailboxProtectionUnitsRequest" });
+      ).annotate({ identifier: "ListMailboxInclusionRulesRequest" });
   }
 }
 function __c339(j: number): any {
@@ -33556,9 +33692,33 @@ function __c339(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/mailboxProtectionUnits",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListMailboxProtectionUnitsRequest" });
+  }
+}
+function __c340(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33568,41 +33728,6 @@ function __c339(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListMailboxProtectionUnitsBulkAdditionJobsRequest" });
-  }
-}
-function __c340(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exchangeRestoreSessionId: S.String.pipe(T.Label()),
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSessionId}/mailboxRestoreArtifacts",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListMailboxRestoreArtifactsRequest" });
-    case 1:
-      return S.Array(__S(7392, __c462, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
-          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5441, __c340, 1),
-        }),
-      ).annotate({ identifier: "ListMailboxRestoreArtifactsResponse" });
   }
 }
 function __c341(j: number): any {
@@ -33616,9 +33741,44 @@ function __c341(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSessionId}/mailboxRestoreArtifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListMailboxRestoreArtifactsRequest" });
+    case 1:
+      return S.Array(__S(7408, __c463, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
+          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
+          value: __S(5457, __c341, 1),
+        }),
+      ).annotate({ identifier: "ListMailboxRestoreArtifactsResponse" });
+  }
+}
+function __c342(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exchangeRestoreSessionId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33629,18 +33789,18 @@ function __c341(j: number): any {
         ),
       ).annotate({ identifier: "ListMailboxRestoreArtifactsBulkAdditionRequestsRequest" });
     case 1:
-      return S.Array(__S(7584, __c474, 0));
+      return S.Array(__S(7600, __c475, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5457, __c341, 1),
+          value: __S(5473, __c342, 1),
         }),
       ).annotate({ identifier: "ListMailboxRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33650,9 +33810,9 @@ function __c342(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33663,35 +33823,15 @@ function __c342(j: number): any {
         ),
       ).annotate({ identifier: "ListOneDriveForBusinessBrowseSessionsRequest" });
     case 1:
-      return S.Array(__S(7776, __c486, 0));
+      return S.Array(__S(7792, __c487, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5473, __c342, 1),
+          value: __S(5489, __c343, 1),
         }),
       ).annotate({ identifier: "ListOneDriveForBusinessBrowseSessionsResponse" });
-  }
-}
-function __c343(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
-          isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          status: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/solutions/virtualEvents/events", code: 200 })),
-      ).annotate({ identifier: "CreateEventsRequest" });
   }
 }
 function __c344(j: number): any {
@@ -33701,20 +33841,40 @@ function __c344(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          status: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/solutions/virtualEvents/events", code: 200 })),
+      ).annotate({ identifier: "CreateEventsRequest" });
+  }
+}
+function __c345(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          displayName: S.optional(S.NullOr(S.String)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
+          isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateEventsResponse" });
   }
 }
-function __c345(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33726,7 +33886,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "ItemBody" });
   }
 }
-function __c346(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33754,7 +33914,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "VirtualEventSettings" });
   }
 }
-function __c347(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33764,9 +33924,9 @@ function __c347(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33776,33 +33936,6 @@ function __c347(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListOneDriveForBusinessProtectionPoliciesRequest" });
-  }
-}
-function __c348(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicyId}/driveInclusionRules",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "ListOneDriveForBusinessProtectionPoliciesDriveInclusionRulesRequest",
-      });
   }
 }
 function __c349(j: number): any {
@@ -33816,19 +33949,19 @@ function __c349(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicyId}/driveProtectionUnits",
+            uri: "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicyId}/driveInclusionRules",
             code: 200,
           }),
         ),
       ).annotate({
-        identifier: "ListOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRequest",
+        identifier: "ListOneDriveForBusinessProtectionPoliciesDriveInclusionRulesRequest",
       });
   }
 }
@@ -33843,9 +33976,36 @@ function __c350(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicyId}/driveProtectionUnits",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "ListOneDriveForBusinessProtectionPoliciesDriveProtectionUnitsRequest",
+      });
+  }
+}
+function __c351(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          oneDriveForBusinessProtectionPolicyId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33860,7 +34020,7 @@ function __c350(j: number): any {
       });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33870,9 +34030,9 @@ function __c351(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33884,7 +34044,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "ListOneDriveForBusinessRestoreSessionsRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33895,9 +34055,9 @@ function __c352(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33909,38 +34069,18 @@ function __c352(j: number): any {
       ).annotate({ identifier: "ListPresentersRequest" });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8113, __c507, 1));
+      return S.Array(__S(8129, __c508, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5648, __c353, 0),
+          value: __S(5664, __c354, 0),
         }),
       ).annotate({ identifier: "ListPresentersResponse" });
-  }
-}
-function __c354(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/protectionPolicies", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListProtectionPoliciesRequest" });
   }
 }
 function __c355(j: number): any {
@@ -33953,9 +34093,29 @@ function __c355(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/protectionPolicies", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListProtectionPoliciesRequest" });
+  }
+}
+function __c356(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({ method: "GET", uri: "/solutions/backupRestore/protectionUnits", code: 200 }),
@@ -33968,12 +34128,12 @@ function __c355(j: number): any {
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5681, __c355, 1),
+          value: __S(5697, __c356, 1),
         }),
       ).annotate({ identifier: "ListProtectionUnitsResponse" });
   }
 }
-function __c356(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33984,9 +34144,9 @@ function __c356(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33998,21 +34158,21 @@ function __c356(j: number): any {
       ).annotate({ identifier: "ListQuestionsRequest" });
   }
 }
-function __c357(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8160, __c510, 0));
+      return S.Array(__S(8176, __c511, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5712, __c357, 0),
+          value: __S(5728, __c358, 0),
         }),
       ).annotate({ identifier: "ListQuestionsResponse" });
   }
 }
-function __c358(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34023,9 +34183,9 @@ function __c358(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34037,7 +34197,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "ListRegistrationConfigurationQuestionsRequest" });
   }
 }
-function __c359(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34063,7 +34223,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "CreateExchangeProtectionPoliciesRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34074,9 +34234,9 @@ function __c360(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34088,21 +34248,21 @@ function __c360(j: number): any {
       ).annotate({ identifier: "ListRegistrationsRequest" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8210, __c513, 2));
+      return S.Array(__S(8226, __c514, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5776, __c361, 0),
+          value: __S(5792, __c362, 0),
         }),
       ).annotate({ identifier: "ListRegistrationsResponse" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34114,9 +34274,9 @@ function __c362(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34128,48 +34288,18 @@ function __c362(j: number): any {
       ).annotate({ identifier: "ListRegistrationsSessionsRequest" });
   }
 }
-function __c363(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8344, __c521, 8));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
-          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5808, __c363, 0),
-        }),
-      ).annotate({ identifier: "ListRegistrationsSessionsResponse" });
-  }
-}
 function __c364(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/restorePoints", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListRestorePointsRequest" });
+      return S.Array(__S(8360, __c522, 8));
     case 1:
-      return S.Array(__S(8240, __c515, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5825, __c364, 1),
+          value: __S(5824, __c364, 0),
         }),
-      ).annotate({ identifier: "ListRestorePointsResponse" });
+      ).annotate({ identifier: "ListRegistrationsSessionsResponse" });
   }
 }
 function __c365(j: number): any {
@@ -34182,14 +34312,24 @@ function __c365(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/restoreSessions", code: 200 }),
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/restorePoints", code: 200 }),
         ),
-      ).annotate({ identifier: "ListRestoreSessionsRequest" });
+      ).annotate({ identifier: "ListRestorePointsRequest" });
+    case 1:
+      return S.Array(__S(8256, __c516, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
+          odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
+          value: __S(5841, __c365, 1),
+        }),
+      ).annotate({ identifier: "ListRestorePointsResponse" });
   }
 }
 function __c366(j: number): any {
@@ -34202,9 +34342,29 @@ function __c366(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/restoreSessions", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListRestoreSessionsRequest" });
+  }
+}
+function __c367(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(T.Http({ method: "GET", uri: "/solutions/backupRestore/serviceApps", code: 200 })),
       ).annotate({ identifier: "ListServiceAppsRequest" });
@@ -34215,12 +34375,12 @@ function __c366(j: number): any {
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5857, __c366, 1),
+          value: __S(5873, __c367, 1),
         }),
       ).annotate({ identifier: "ListServiceAppsResponse" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34231,9 +34391,9 @@ function __c367(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34250,12 +34410,12 @@ function __c367(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -34268,25 +34428,25 @@ function __c367(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
           webUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BookingService" });
     case 2:
-      return S.Array(__S(5873, __c367, 1));
+      return S.Array(__S(5889, __c368, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5874, __c367, 2),
+          value: __S(5890, __c368, 2),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
 }
-function __c368(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34297,9 +34457,9 @@ function __c368(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34311,7 +34471,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "ListSessionsRequest" });
   }
 }
-function __c369(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34323,9 +34483,9 @@ function __c369(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34337,7 +34497,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "ListSessionsAttendanceReportsRequest" });
   }
 }
-function __c370(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34350,9 +34510,9 @@ function __c370(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34364,7 +34524,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "ListSessionsAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34374,9 +34534,9 @@ function __c371(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34387,18 +34547,18 @@ function __c371(j: number): any {
         ),
       ).annotate({ identifier: "ListSharePointBrowseSessionsRequest" });
     case 1:
-      return S.Array(__S(8416, __c526, 0));
+      return S.Array(__S(8432, __c527, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(5937, __c371, 1),
+          value: __S(5953, __c372, 1),
         }),
       ).annotate({ identifier: "ListSharePointBrowseSessionsResponse" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34425,7 +34585,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "CreateExchangeRestoreSessionsRequest" });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34446,7 +34606,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "CreateExchangeRestoreSessionsResponse" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34456,9 +34616,9 @@ function __c374(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34470,7 +34630,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "ListSharePointProtectionPoliciesRequest" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34481,9 +34641,9 @@ function __c375(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34495,43 +34655,18 @@ function __c375(j: number): any {
       ).annotate({ identifier: "ListSharePointProtectionPoliciesSiteInclusionRulesRequest" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8480, __c530, 0));
+      return S.Array(__S(8496, __c531, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(6016, __c376, 0),
+          value: __S(6032, __c377, 0),
         }),
       ).annotate({ identifier: "ListSharePointProtectionPoliciesSiteInclusionRulesResponse" });
-  }
-}
-function __c377(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sharePointProtectionPolicyId: S.String.pipe(T.Label()),
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicyId}/siteProtectionUnits",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSharePointProtectionPoliciesSiteProtectionUnitsRequest" });
   }
 }
 function __c378(j: number): any {
@@ -34545,9 +34680,34 @@ function __c378(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicyId}/siteProtectionUnits",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSharePointProtectionPoliciesSiteProtectionUnitsRequest" });
+  }
+}
+function __c379(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sharePointProtectionPolicyId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34561,44 +34721,20 @@ function __c378(j: number): any {
       });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8528, __c533, 0));
+      return S.Array(__S(8544, __c534, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(6064, __c379, 0),
+          value: __S(6080, __c380, 0),
         }),
       ).annotate({
         identifier: "ListSharePointProtectionPoliciesSiteProtectionUnitsBulkAdditionJobsResponse",
       });
-  }
-}
-function __c380(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/sharePointRestoreSessions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSharePointRestoreSessionsRequest" });
   }
 }
 function __c381(j: number): any {
@@ -34611,14 +34747,18 @@ function __c381(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/siteInclusionRules", code: 200 }),
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/sharePointRestoreSessions",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "ListSiteInclusionRulesRequest" });
+      ).annotate({ identifier: "ListSharePointRestoreSessionsRequest" });
   }
 }
 function __c382(j: number): any {
@@ -34631,14 +34771,14 @@ function __c382(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
-          T.Http({ method: "GET", uri: "/solutions/backupRestore/siteProtectionUnits", code: 200 }),
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/siteInclusionRules", code: 200 }),
         ),
-      ).annotate({ identifier: "ListSiteProtectionUnitsRequest" });
+      ).annotate({ identifier: "ListSiteInclusionRulesRequest" });
   }
 }
 function __c383(j: number): any {
@@ -34651,9 +34791,29 @@ function __c383(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/solutions/backupRestore/siteProtectionUnits", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSiteProtectionUnitsRequest" });
+  }
+}
+function __c384(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34663,31 +34823,6 @@ function __c383(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListSiteProtectionUnitsBulkAdditionJobsRequest" });
-  }
-}
-function __c384(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sharePointRestoreSessionId: S.String.pipe(T.Label()),
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSessionId}/siteRestoreArtifacts",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSiteRestoreArtifactsRequest" });
   }
 }
 function __c385(j: number): any {
@@ -34701,9 +34836,34 @@ function __c385(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSessionId}/siteRestoreArtifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSiteRestoreArtifactsRequest" });
+  }
+}
+function __c386(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sharePointRestoreSessionId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34714,18 +34874,18 @@ function __c385(j: number): any {
         ),
       ).annotate({ identifier: "ListSiteRestoreArtifactsBulkAdditionRequestsRequest" });
     case 1:
-      return S.Array(__S(8576, __c536, 0));
+      return S.Array(__S(8592, __c537, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(6161, __c385, 1),
+          value: __S(6177, __c386, 1),
         }),
       ).annotate({ identifier: "ListSiteRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34735,6 +34895,7 @@ function __c386(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -34753,7 +34914,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "CreateGranularDriveRestoreArtifactsRequest" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34762,6 +34923,7 @@ function __c387(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -34774,7 +34936,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "CreateGranularDriveRestoreArtifactsResponse" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34785,9 +34947,9 @@ function __c388(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34799,47 +34961,22 @@ function __c388(j: number): any {
       ).annotate({ identifier: "ListStaffMembersRequest" });
   }
 }
-function __c389(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number.pipe(T.Query("$top"))),
-          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
-          search: S.optional(S.String.pipe(T.Query("$search"))),
-          filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
-          nextLink: S.optional(S.String),
-        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents/townhalls", code: 200 })),
-      ).annotate({ identifier: "ListTownhallsRequest" });
-  }
-}
 function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          virtualEventTownhallId: S.String.pipe(T.Label()),
           top: S.optional(S.Number.pipe(T.Query("$top"))),
           skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/solutions/virtualEvents/townhalls/{virtualEventTownhallId}/presenters",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTownhallsPresentersRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents/townhalls", code: 200 })),
+      ).annotate({ identifier: "ListTownhallsRequest" });
   }
 }
 function __c391(j: number): any {
@@ -34853,9 +34990,34 @@ function __c391(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/solutions/virtualEvents/townhalls/{virtualEventTownhallId}/presenters",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTownhallsPresentersRequest" });
+  }
+}
+function __c392(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          virtualEventTownhallId: S.String.pipe(T.Label()),
+          top: S.optional(S.Number.pipe(T.Query("$top"))),
+          skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          search: S.optional(S.String.pipe(T.Query("$search"))),
+          filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34867,7 +35029,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "ListTownhallsRegistrationsRequest" });
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34879,9 +35041,9 @@ function __c392(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34893,7 +35055,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "ListTownhallsRegistrationsSessionsRequest" });
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34904,9 +35066,9 @@ function __c393(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34918,7 +35080,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "ListTownhallsSessionsRequest" });
   }
 }
-function __c394(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34930,9 +35092,9 @@ function __c394(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34944,7 +35106,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "ListTownhallsSessionsAttendanceReportsRequest" });
   }
 }
-function __c395(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34955,9 +35117,9 @@ function __c395(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -34968,18 +35130,18 @@ function __c395(j: number): any {
         ),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(8772, __c548, 4));
+      return S.Array(__S(8788, __c549, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(6321, __c395, 1),
+          value: __S(6337, __c396, 1),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c396(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34989,15 +35151,15 @@ function __c396(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(T.Http({ method: "GET", uri: "/solutions/virtualEvents/webinars", code: 200 })),
       ).annotate({ identifier: "ListWebinarsRequest" });
   }
 }
-function __c397(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35008,9 +35170,9 @@ function __c397(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -35022,7 +35184,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "ListWebinarsPresentersRequest" });
   }
 }
-function __c398(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35032,9 +35194,9 @@ function __c398(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -35046,33 +35208,35 @@ function __c398(j: number): any {
       ).annotate({ identifier: "AsSiteProtectionUnitRequest" });
   }
 }
-function __c399(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6400, __c400, 0));
+      return S.Array(__S(6416, __c401, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(6384, __c399, 0),
+          value: __S(6400, __c400, 0),
         }),
       ).annotate({ identifier: "AsSiteProtectionUnitResponse" });
   }
 }
-function __c400(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           offboardRequestedDateTime: S.optional(S.NullOr(S.String)),
+          pendingRetentionPeriodChange: S.optional(S.NullOr(__S(2080, __c130, 0))),
           policyId: S.optional(S.NullOr(S.String)),
           protectionSources: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
@@ -35083,7 +35247,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "SiteProtectionUnit" });
   }
 }
-function __c401(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35110,7 +35274,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "CreateGranularMailboxRestoreArtifactsRequest" });
   }
 }
-function __c402(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35131,7 +35295,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "CreateGranularMailboxRestoreArtifactsResponse" });
   }
 }
-function __c403(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35142,9 +35306,9 @@ function __c403(j: number): any {
           search: S.optional(S.String.pipe(T.Query("$search"))),
           filter: S.optional(S.String.pipe(T.Query("$filter"))),
           count: S.optional(S.Boolean.pipe(T.Query("$count"))),
-          orderby: S.optional(__S(2080, __c130, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
-          select: S.optional(__S(2080, __c130, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
-          expand: S.optional(__S(2080, __c130, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
+          orderby: S.optional(__S(2096, __c131, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          select: S.optional(__S(2096, __c131, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
+          expand: S.optional(__S(2096, __c131, 0).pipe(T.Query("$expand"), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -35156,7 +35320,7 @@ function __c403(j: number): any {
       ).annotate({ identifier: "ListWebinarsSessionsRequest" });
   }
 }
-function __c404(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35172,15 +35336,15 @@ function __c404(j: number): any {
       ).annotate({ identifier: "MigrateCrossTenantMigrationJobRequest" });
   }
 }
-function __c405(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.NullOr(__S(3761, __c235, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3777, __c236, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "MigrateCrossTenantMigrationJobResponse",
       });
   }
 }
-function __c406(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35196,7 +35360,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "MigrateDisplayNameRequest" });
   }
 }
-function __c407(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35212,7 +35376,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "OffboardRequest" });
   }
 }
-function __c408(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35228,7 +35392,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "PublishBookingBusinessRequest" });
   }
 }
-function __c409(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35244,7 +35408,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "PublishVirtualEventRequest" });
   }
 }
-function __c410(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35259,12 +35423,12 @@ function __c410(j: number): any {
         ),
       ).annotate({ identifier: "RestoreSessionBaseActivateRequest" });
     case 1:
-      return S.suspend(() => S.NullOr(__S(5968, __c373, 0)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(5984, __c374, 0)).pipe(T.RawResponseRoot())).annotate({
         identifier: "RestoreSessionBaseActivateResponse",
       });
   }
 }
-function __c411(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35277,11 +35441,11 @@ function __c411(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(S.String)),
-          artifactQuery: S.optional(S.NullOr(__S(6576, __c411, 0))),
+          artifactQuery: S.optional(S.NullOr(__S(6592, __c412, 0))),
           policyId: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -35299,23 +35463,23 @@ function __c411(j: number): any {
         }),
       ).annotate({ identifier: "RestorePointSearchResult" });
     case 3:
-      return S.Array(__S(6578, __c411, 2));
+      return S.Array(__S(6594, __c412, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          noResultProtectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          noResultProtectionUnitIds: S.optional(__S(2176, __c136, 0)),
           searchResponseId: S.optional(S.NullOr(S.String)),
-          searchResults: S.optional(__S(6579, __c411, 3)),
+          searchResults: S.optional(__S(6595, __c412, 3)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "RestorePointSearchResponse" });
     case 5:
-      return S.suspend(() => S.NullOr(__S(6580, __c411, 4)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(6596, __c412, 4)).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchResponse",
       });
   }
 }
-function __c412(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35332,7 +35496,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "SetExternalEventInformationRequest" });
   }
 }
-function __c413(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35348,7 +35512,7 @@ function __c413(j: number): any {
       ).annotate({ identifier: "UnpublishRequest" });
   }
 }
-function __c414(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35358,6 +35522,7 @@ function __c414(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -35376,7 +35541,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "CreateGranularSiteRestoreArtifactsRequest" });
   }
 }
-function __c415(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35385,6 +35550,7 @@ function __c415(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -35397,7 +35563,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "CreateGranularSiteRestoreArtifactsResponse" });
   }
 }
-function __c416(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35414,9 +35580,9 @@ function __c416(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
           joinWebUrl: S.optional(S.NullOr(S.String)),
@@ -35427,15 +35593,15 @@ function __c416(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -35457,10 +35623,10 @@ function __c416(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -35472,20 +35638,20 @@ function __c416(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "UpdateAppointmentsResponse" });
   }
 }
-function __c417(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35496,10 +35662,10 @@ function __c417(j: number): any {
           attendanceRecordId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -35514,7 +35680,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "UpdateAttendanceRecordsRequest" });
   }
 }
-function __c418(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35524,7 +35690,7 @@ function __c418(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -35538,7 +35704,7 @@ function __c418(j: number): any {
       ).annotate({ identifier: "UpdateAttendanceReportsRequest" });
   }
 }
-function __c419(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35549,10 +35715,10 @@ function __c419(j: number): any {
           attendanceRecordId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -35567,7 +35733,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "UpdateAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c420(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35579,7 +35745,7 @@ function __c420(j: number): any {
       ).annotate({ identifier: "UpdateBackupRestoreRequest" });
   }
 }
-function __c421(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35587,9 +35753,9 @@ function __c421(j: number): any {
           bookingBusinessId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          address: S.optional(S.NullOr(__S(2112, __c132, 0))),
-          bookingPageSettings: S.optional(S.NullOr(__S(2976, __c186, 0))),
-          businessHours: S.optional(__S(2995, __c187, 3)),
+          address: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          bookingPageSettings: S.optional(S.NullOr(__S(2992, __c187, 0))),
+          businessHours: S.optional(__S(3011, __c188, 3)),
           businessType: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           defaultCurrencyIso: S.optional(S.NullOr(S.String)),
@@ -35598,7 +35764,7 @@ function __c421(j: number): any {
           languageTag: S.optional(S.NullOr(S.String)),
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
           phone: S.optional(S.NullOr(S.String)),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           webSiteUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -35610,7 +35776,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "UpdateBookingBusinessesRequest" });
   }
 }
-function __c422(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35629,7 +35795,7 @@ function __c422(j: number): any {
       ).annotate({ identifier: "UpdateBookingCurrenciesRequest" });
   }
 }
-function __c423(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35654,7 +35820,7 @@ function __c423(j: number): any {
       ).annotate({ identifier: "UpdateBrowseSessionsRequest" });
   }
 }
-function __c424(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35665,16 +35831,16 @@ function __c424(j: number): any {
           completeAfterDateTime: S.optional(S.String),
           createdBy: S.optional(S.String),
           createdDateTime: S.optional(S.String),
-          exchangeSettings: S.optional(S.NullOr(__S(3760, __c235, 0))),
+          exchangeSettings: S.optional(S.NullOr(__S(3776, __c236, 0))),
           jobType: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
-          resources: S.optional(__S(2080, __c130, 0)),
+          resources: S.optional(__S(2096, __c131, 0)),
           resourceType: S.optional(S.String),
           sourceTenantId: S.optional(S.String),
           status: S.optional(S.String),
           targetTenantId: S.optional(S.String),
-          workloads: S.optional(__S(2080, __c130, 0)),
+          workloads: S.optional(__S(2096, __c131, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -35685,7 +35851,7 @@ function __c424(j: number): any {
       ).annotate({ identifier: "UpdateByDisplayNameRequest" });
   }
 }
-function __c425(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35695,13 +35861,13 @@ function __c425(j: number): any {
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -35714,7 +35880,7 @@ function __c425(j: number): any {
       ).annotate({ identifier: "UpdateByEmailRequest" });
   }
 }
-function __c426(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35739,7 +35905,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "CreateMailboxInclusionRulesRequest" });
   }
 }
-function __c427(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35758,7 +35924,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "CreateMailboxInclusionRulesResponse" });
   }
 }
-function __c428(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35769,13 +35935,13 @@ function __c428(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -35787,7 +35953,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "UpdateByUserIdRequest" });
   }
 }
-function __c429(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35804,9 +35970,9 @@ function __c429(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
           joinWebUrl: S.optional(S.NullOr(S.String)),
@@ -35817,15 +35983,15 @@ function __c429(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -35847,10 +36013,10 @@ function __c429(j: number): any {
           customerName: S.optional(S.NullOr(S.String)),
           customerNotes: S.optional(S.NullOr(S.String)),
           customerPhone: S.optional(S.NullOr(S.String)),
-          customers: S.optional(__S(2144, __c134, 0)),
+          customers: S.optional(__S(2160, __c135, 0)),
           customerTimeZone: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.String),
-          endDateTime: S.optional(__S(2176, __c136, 0)),
+          endDateTime: S.optional(__S(2192, __c137, 0)),
           filledAttendeesCount: S.optional(S.Number),
           isCustomerAllowedToManageBooking: S.optional(S.NullOr(S.Boolean)),
           isLocationOnline: S.optional(S.Boolean),
@@ -35862,20 +36028,20 @@ function __c429(j: number): any {
           preBuffer: S.optional(S.String),
           price: S.optional(S.Unknown),
           priceType: S.optional(S.String),
-          reminders: S.optional(__S(2193, __c137, 1)),
+          reminders: S.optional(__S(2209, __c138, 1)),
           selfServiceAppointmentId: S.optional(S.NullOr(S.String)),
           serviceId: S.optional(S.NullOr(S.String)),
-          serviceLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          serviceLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           serviceName: S.optional(S.String),
           serviceNotes: S.optional(S.NullOr(S.String)),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
-          startDateTime: S.optional(__S(2176, __c136, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
+          startDateTime: S.optional(__S(2192, __c137, 0)),
         }),
       ).annotate({ identifier: "UpdateCalendarViewResponse" });
   }
 }
-function __c430(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35887,16 +36053,16 @@ function __c430(j: number): any {
           createdBy: S.optional(S.String),
           createdDateTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          exchangeSettings: S.optional(S.NullOr(__S(3760, __c235, 0))),
+          exchangeSettings: S.optional(S.NullOr(__S(3776, __c236, 0))),
           jobType: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
-          resources: S.optional(__S(2080, __c130, 0)),
+          resources: S.optional(__S(2096, __c131, 0)),
           resourceType: S.optional(S.String),
           sourceTenantId: S.optional(S.String),
           status: S.optional(S.String),
           targetTenantId: S.optional(S.String),
-          workloads: S.optional(__S(2080, __c130, 0)),
+          workloads: S.optional(__S(2096, __c131, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -35907,7 +36073,7 @@ function __c430(j: number): any {
       ).annotate({ identifier: "UpdateCrossTenantMigrationJobsRequest" });
   }
 }
-function __c431(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35926,7 +36092,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "UpdateCustomersRequest" });
   }
 }
-function __c432(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35936,7 +36102,7 @@ function __c432(j: number): any {
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           answerInputType: S.optional(S.NullOr(S.String)),
-          answerOptions: S.optional(__S(2160, __c135, 0)),
+          answerOptions: S.optional(__S(2176, __c136, 0)),
           createdDateTime: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           lastUpdatedDateTime: S.optional(S.NullOr(S.String)),
@@ -35950,7 +36116,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "UpdateCustomQuestionsRequest" });
   }
 }
-function __c433(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35976,7 +36142,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "UpdateDriveInclusionRulesRequest" });
   }
 }
-function __c434(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35984,6 +36150,7 @@ function __c434(j: number): any {
           driveProtectionUnitId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -36004,7 +36171,7 @@ function __c434(j: number): any {
       ).annotate({ identifier: "UpdateDriveProtectionUnitsRequest" });
   }
 }
-function __c435(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36019,8 +36186,8 @@ function __c435(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36031,7 +36198,7 @@ function __c435(j: number): any {
       ).annotate({ identifier: "UpdateDriveProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
-function __c436(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36056,7 +36223,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "UpdateDriveRestoreArtifactsRequest" });
   }
 }
-function __c437(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36072,13 +36239,13 @@ function __c437(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          drives: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          drives: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36089,13 +36256,14 @@ function __c437(j: number): any {
       ).annotate({ identifier: "UpdateDriveRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c438(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -36116,7 +36284,7 @@ function __c438(j: number): any {
       ).annotate({ identifier: "CreateMailboxProtectionUnitsRequest" });
   }
 }
-function __c439(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36136,7 +36304,7 @@ function __c439(j: number): any {
       ).annotate({ identifier: "UpdateEmailNotificationsSettingRequest" });
   }
 }
-function __c440(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36144,14 +36312,14 @@ function __c440(j: number): any {
           virtualEventId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -36163,7 +36331,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "UpdateEventsRequest" });
   }
 }
-function __c441(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36190,7 +36358,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "UpdateExchangeProtectionPoliciesRequest" });
   }
 }
-function __c442(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36218,7 +36386,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "UpdateExchangeRestoreSessionsRequest" });
   }
 }
-function __c443(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36229,6 +36397,7 @@ function __c443(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -36247,7 +36416,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "UpdateGranularDriveRestoreArtifactsRequest" });
   }
 }
-function __c444(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36275,7 +36444,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "UpdateGranularMailboxRestoreArtifactsRequest" });
   }
 }
-function __c445(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36286,6 +36455,7 @@ function __c445(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           browseSessionId: S.optional(S.NullOr(S.String)),
           completionDateTime: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           restoredItemKey: S.optional(S.NullOr(S.String)),
           restoredItemPath: S.optional(S.NullOr(S.String)),
           restoredItemWebUrl: S.optional(S.NullOr(S.String)),
@@ -36304,7 +36474,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "UpdateGranularSiteRestoreArtifactsRequest" });
   }
 }
-function __c446(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36330,7 +36500,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "UpdateMailboxInclusionRulesRequest" });
   }
 }
-function __c447(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36338,6 +36508,7 @@ function __c447(j: number): any {
           mailboxProtectionUnitId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -36358,7 +36529,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "UpdateMailboxProtectionUnitsRequest" });
   }
 }
-function __c448(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36373,8 +36544,8 @@ function __c448(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36383,32 +36554,6 @@ function __c448(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateMailboxProtectionUnitsBulkAdditionJobsRequest" });
-  }
-}
-function __c449(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          createdDateTime: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
-          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/solutions/backupRestore/mailboxProtectionUnitsBulkAdditionJobs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateMailboxProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
 function __c450(j: number): any {
@@ -36425,13 +36570,39 @@ function __c450(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/solutions/backupRestore/mailboxProtectionUnitsBulkAdditionJobs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMailboxProtectionUnitsBulkAdditionJobsRequest" });
+  }
+}
+function __c451(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          createdDateTime: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
+          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateMailboxProtectionUnitsBulkAdditionJobsResponse" });
   }
 }
-function __c451(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36457,7 +36628,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "UpdateMailboxRestoreArtifactsRequest" });
   }
 }
-function __c452(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36473,13 +36644,13 @@ function __c452(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36490,7 +36661,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "UpdateMailboxRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c453(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36501,7 +36672,7 @@ function __c453(j: number): any {
       ).annotate({ identifier: "UpdateMigrationsRequest" });
   }
 }
-function __c454(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36527,7 +36698,7 @@ function __c454(j: number): any {
       ).annotate({ identifier: "UpdateOneDriveForBusinessBrowseSessionsRequest" });
   }
 }
-function __c455(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36554,7 +36725,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "UpdateOneDriveForBusinessProtectionPoliciesRequest" });
   }
 }
-function __c456(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36582,7 +36753,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "UpdateOneDriveForBusinessRestoreSessionsRequest" });
   }
 }
-function __c457(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36593,7 +36764,7 @@ function __c457(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36604,7 +36775,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "UpdatePresentersRequest" });
   }
 }
-function __c458(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36631,7 +36802,7 @@ function __c458(j: number): any {
       ).annotate({ identifier: "UpdateProtectionPoliciesRequest" });
   }
 }
-function __c459(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36652,7 +36823,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "UpdateQuestionsRequest" });
   }
 }
-function __c460(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36674,7 +36845,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "UpdateRegistrationConfigurationRequest" });
   }
 }
-function __c461(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36699,7 +36870,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "CreateMailboxRestoreArtifactsRequest" });
   }
 }
-function __c462(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36718,7 +36889,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "CreateMailboxRestoreArtifactsResponse" });
   }
 }
-function __c463(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36739,7 +36910,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "UpdateRegistrationConfigurationQuestionsRequest" });
   }
 }
-function __c464(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36750,13 +36921,13 @@ function __c464(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -36769,7 +36940,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "UpdateRegistrationsRequest" });
   }
 }
-function __c465(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36779,13 +36950,13 @@ function __c465(j: number): any {
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -36798,7 +36969,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "UpdateRegistrationsByEmailRequest" });
   }
 }
-function __c466(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36809,13 +36980,13 @@ function __c466(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -36827,7 +36998,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "UpdateRegistrationsByUserIdRequest" });
   }
 }
-function __c467(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36838,7 +37009,7 @@ function __c467(j: number): any {
       ).annotate({ identifier: "UpdateReportsRequest" });
   }
 }
-function __c468(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36859,7 +37030,7 @@ function __c468(j: number): any {
       ).annotate({ identifier: "UpdateRestorePointsRequest" });
   }
 }
-function __c469(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36887,7 +37058,7 @@ function __c469(j: number): any {
       ).annotate({ identifier: "UpdateRestoreSessionsRequest" });
   }
 }
-function __c470(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36911,7 +37082,7 @@ function __c470(j: number): any {
       ).annotate({ identifier: "UpdateServiceAppsRequest" });
   }
 }
-function __c471(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36922,12 +37093,12 @@ function __c471(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -36940,9 +37111,9 @@ function __c471(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -36958,12 +37129,12 @@ function __c471(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -36976,15 +37147,15 @@ function __c471(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
           webUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "UpdateServicesResponse" });
   }
 }
-function __c472(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37007,29 +37178,29 @@ function __c472(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -37041,7 +37212,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "UpdateSessionsRequest" });
   }
 }
-function __c473(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37056,13 +37227,13 @@ function __c473(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37073,7 +37244,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "CreateMailboxRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c474(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37087,18 +37258,18 @@ function __c474(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          directoryObjectIds: S.optional(__S(2160, __c135, 0)),
-          mailboxes: S.optional(__S(2160, __c135, 0)),
+          directoryObjectIds: S.optional(__S(2176, __c136, 0)),
+          mailboxes: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateMailboxRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
-function __c475(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37108,7 +37279,7 @@ function __c475(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -37122,7 +37293,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "UpdateSessionsAttendanceReportsRequest" });
   }
 }
-function __c476(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37133,10 +37304,10 @@ function __c476(j: number): any {
           attendanceRecordId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -37151,7 +37322,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "UpdateSessionsAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c477(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37177,7 +37348,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "UpdateSharePointBrowseSessionsRequest" });
   }
 }
-function __c478(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37204,7 +37375,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "UpdateSharePointProtectionPoliciesRequest" });
   }
 }
-function __c479(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37232,7 +37403,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "UpdateSharePointRestoreSessionsRequest" });
   }
 }
-function __c480(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37258,7 +37429,7 @@ function __c480(j: number): any {
       ).annotate({ identifier: "UpdateSiteInclusionRulesRequest" });
   }
 }
-function __c481(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37266,6 +37437,7 @@ function __c481(j: number): any {
           siteProtectionUnitId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -37286,7 +37458,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "UpdateSiteProtectionUnitsRequest" });
   }
 }
-function __c482(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37301,8 +37473,8 @@ function __c482(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37313,7 +37485,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "UpdateSiteProtectionUnitsBulkAdditionJobsRequest" });
   }
 }
-function __c483(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37338,7 +37510,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "UpdateSiteRestoreArtifactsRequest" });
   }
 }
-function __c484(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37354,13 +37526,13 @@ function __c484(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37371,7 +37543,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "UpdateSiteRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c485(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37396,7 +37568,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "CreateOneDriveForBusinessBrowseSessionsRequest" });
   }
 }
-function __c486(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37415,7 +37587,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "CreateOneDriveForBusinessBrowseSessionsResponse" });
   }
 }
-function __c487(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37425,7 +37597,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "UpdateSolutionsRootRequest" });
   }
 }
-function __c488(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37444,7 +37616,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "UpdateStaffMembersRequest" });
   }
 }
-function __c489(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37452,19 +37624,19 @@ function __c489(j: number): any {
           virtualEventTownhallId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
           audience: S.optional(S.NullOr(S.String)),
           capacity: S.optional(S.NullOr(S.Number)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
-          invitedAttendees: S.optional(__S(8656, __c541, 0)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
+          invitedAttendees: S.optional(__S(8672, __c542, 0)),
           isInviteOnly: S.optional(S.NullOr(S.Boolean)),
         }).pipe(
           T.Http({
@@ -37476,7 +37648,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsRequest" });
   }
 }
-function __c490(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37487,7 +37659,7 @@ function __c490(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37498,7 +37670,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsPresentersRequest" });
   }
 }
-function __c491(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37520,7 +37692,7 @@ function __c491(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsRegistrationConfigurationRequest" });
   }
 }
-function __c492(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37531,13 +37703,13 @@ function __c492(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -37550,7 +37722,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsRegistrationsRequest" });
   }
 }
-function __c493(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37573,29 +37745,29 @@ function __c493(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -37607,7 +37779,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsSessionsRequest" });
   }
 }
-function __c494(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37617,7 +37789,7 @@ function __c494(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -37631,7 +37803,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "UpdateTownhallsSessionsAttendanceReportsRequest" });
   }
 }
-function __c495(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37640,7 +37812,7 @@ function __c495(j: number): any {
           crossTenantMigrationTaskId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          currentStatus: S.optional(__S(8771, __c548, 3)),
+          currentStatus: S.optional(__S(8787, __c549, 3)),
           lastUpdatedDateTime: S.optional(S.String),
           taskType: S.optional(S.String),
         }).pipe(
@@ -37653,7 +37825,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "UpdateUsersRequest" });
   }
 }
-function __c496(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37664,7 +37836,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "UpdateVirtualEventsRequest" });
   }
 }
-function __c497(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37690,7 +37862,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "CreateOneDriveForBusinessProtectionPoliciesRequest" });
   }
 }
-function __c498(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37698,17 +37870,17 @@ function __c498(j: number): any {
           virtualEventWebinarId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
           audience: S.optional(S.NullOr(S.String)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37719,7 +37891,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "UpdateWebinarsRequest" });
   }
 }
-function __c499(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37730,7 +37902,7 @@ function __c499(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37741,7 +37913,7 @@ function __c499(j: number): any {
       ).annotate({ identifier: "UpdateWebinarsPresentersRequest" });
   }
 }
-function __c500(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37764,29 +37936,29 @@ function __c500(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -37798,7 +37970,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "UpdateWebinarsSessionsRequest" });
   }
 }
-function __c501(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37814,7 +37986,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "ValidateCrossTenantMigrationJobRequest" });
   }
 }
-function __c502(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37830,7 +38002,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "ValidateDisplayNameRequest" });
   }
 }
-function __c503(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37857,7 +38029,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "CreateOneDriveForBusinessRestoreSessionsRequest" });
   }
 }
-function __c504(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37878,13 +38050,17 @@ function __c504(j: number): any {
       ).annotate({ identifier: "BrowseRequest" });
   }
 }
-function __c505(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          createdDateTime: S.optional(S.NullOr(S.String)),
           itemKey: S.optional(S.NullOr(S.String)),
           itemsCount: S.optional(S.NullOr(S.Number)),
+          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           sizeInBytes: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
@@ -37893,18 +38069,18 @@ function __c505(j: number): any {
         }),
       ).annotate({ identifier: "BrowseQueryResponseItem" });
     case 1:
-      return S.Array(__S(8080, __c505, 0));
+      return S.Array(__S(8096, __c506, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           odataCount: S.optional(S.NullOr(S.Number).pipe(T.Body("@odata.count"))),
           odataNextLink: S.optional(S.NullOr(S.String).pipe(T.Body("@odata.nextLink"))),
-          value: __S(8081, __c505, 1),
+          value: __S(8097, __c506, 1),
         }),
       ).annotate({ identifier: "BrowseResponse" });
   }
 }
-function __c506(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37914,7 +38090,7 @@ function __c506(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37925,12 +38101,12 @@ function __c506(j: number): any {
       ).annotate({ identifier: "CreatePresentersRequest" });
   }
 }
-function __c507(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bio: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          bio: S.optional(S.NullOr(__S(5536, __c346, 0))),
           company: S.optional(S.NullOr(S.String)),
           jobTitle: S.optional(S.NullOr(S.String)),
           linkedInProfileWebUrl: S.optional(S.NullOr(S.String)),
@@ -37947,12 +38123,12 @@ function __c507(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }),
       ).annotate({ identifier: "CreatePresentersResponse" });
   }
 }
-function __c508(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37974,7 +38150,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "CreateProtectionPoliciesRequest" });
   }
 }
-function __c509(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37994,7 +38170,7 @@ function __c509(j: number): any {
       ).annotate({ identifier: "CreateQuestionsRequest" });
   }
 }
-function __c510(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38007,7 +38183,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "CreateQuestionsResponse" });
   }
 }
-function __c511(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38027,7 +38203,7 @@ function __c511(j: number): any {
       ).annotate({ identifier: "CreateRegistrationConfigurationQuestionsRequest" });
   }
 }
-function __c512(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38037,13 +38213,13 @@ function __c512(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -38056,21 +38232,21 @@ function __c512(j: number): any {
       ).annotate({ identifier: "CreateRegistrationsRequest" });
   }
 }
-function __c513(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           booleanValue: S.optional(S.NullOr(S.Boolean)),
           displayName: S.optional(S.NullOr(S.String)),
-          multiChoiceValues: S.optional(__S(2160, __c135, 0)),
+          multiChoiceValues: S.optional(__S(2176, __c136, 0)),
           questionId: S.optional(S.NullOr(S.String)),
           value: S.optional(S.NullOr(S.String)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "VirtualEventRegistrationQuestionAnswer" });
     case 1:
-      return S.Array(__S(8208, __c513, 0));
+      return S.Array(__S(8224, __c514, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -38078,20 +38254,20 @@ function __c513(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateRegistrationsResponse" });
   }
 }
-function __c514(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38107,7 +38283,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "CreateRestorePointsRequest" });
   }
 }
-function __c515(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38121,7 +38297,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "CreateRestorePointsResponse" });
   }
 }
-function __c516(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38144,7 +38320,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "CreateRestoreSessionsRequest" });
   }
 }
-function __c517(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38161,7 +38337,7 @@ function __c517(j: number): any {
       ).annotate({ identifier: "CreateServiceAppsRequest" });
   }
 }
-function __c518(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38171,12 +38347,12 @@ function __c518(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -38189,9 +38365,9 @@ function __c518(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -38207,12 +38383,12 @@ function __c518(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           additionalInformation: S.optional(S.NullOr(S.String)),
           createdDateTime: S.optional(S.NullOr(S.String)),
-          customQuestions: S.optional(__S(8305, __c519, 1)),
+          customQuestions: S.optional(__S(8321, __c520, 1)),
           defaultDuration: S.optional(S.String),
-          defaultLocation: S.optional(S.NullOr(__S(2195, __c137, 3))),
+          defaultLocation: S.optional(S.NullOr(__S(2211, __c138, 3))),
           defaultPrice: S.optional(S.Unknown),
           defaultPriceType: S.optional(S.String),
-          defaultReminders: S.optional(__S(2193, __c137, 1)),
+          defaultReminders: S.optional(__S(2209, __c138, 1)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           isAnonymousJoinEnabled: S.optional(S.Boolean),
@@ -38225,15 +38401,15 @@ function __c518(j: number): any {
           notes: S.optional(S.NullOr(S.String)),
           postBuffer: S.optional(S.String),
           preBuffer: S.optional(S.String),
-          schedulingPolicy: S.optional(S.NullOr(__S(2999, __c187, 7))),
+          schedulingPolicy: S.optional(S.NullOr(__S(3015, __c188, 7))),
           smsNotificationsEnabled: S.optional(S.Boolean),
-          staffMemberIds: S.optional(__S(2160, __c135, 0)),
+          staffMemberIds: S.optional(__S(2176, __c136, 0)),
           webUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateServicesResponse" });
   }
 }
-function __c519(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38244,10 +38420,10 @@ function __c519(j: number): any {
         }),
       ).annotate({ identifier: "BookingQuestionAssignment" });
     case 1:
-      return S.Array(__S(8304, __c519, 0));
+      return S.Array(__S(8320, __c520, 0));
   }
 }
-function __c520(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38269,29 +38445,29 @@ function __c520(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -38303,7 +38479,7 @@ function __c520(j: number): any {
       ).annotate({ identifier: "CreateSessionsRequest" });
   }
 }
-function __c521(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38311,9 +38487,9 @@ function __c521(j: number): any {
           conferenceId: S.optional(S.NullOr(S.String)),
           dialinUrl: S.optional(S.NullOr(S.String)),
           tollFreeNumber: S.optional(S.NullOr(S.String)),
-          tollFreeNumbers: S.optional(__S(2160, __c135, 0)),
+          tollFreeNumbers: S.optional(__S(2176, __c136, 0)),
           tollNumber: S.optional(S.NullOr(S.String)),
-          tollNumbers: S.optional(__S(2160, __c135, 0)),
+          tollNumbers: S.optional(__S(2176, __c136, 0)),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
         }),
       ).annotate({ identifier: "AudioConferencing" });
@@ -38393,35 +38569,35 @@ function __c521(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateSessionsResponse" });
   }
 }
-function __c522(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38444,7 +38620,7 @@ function __c522(j: number): any {
       ).annotate({ identifier: "BrowseSessionBaseBrowseRequest" });
   }
 }
-function __c523(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38453,7 +38629,7 @@ function __c523(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -38467,7 +38643,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "CreateSessionsAttendanceReportsRequest" });
   }
 }
-function __c524(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38477,10 +38653,10 @@ function __c524(j: number): any {
           meetingAttendanceReportId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          attendanceIntervals: S.optional(__S(2401, __c150, 1)),
+          attendanceIntervals: S.optional(__S(2417, __c151, 1)),
           emailAddress: S.optional(S.NullOr(S.String)),
-          engagements: S.optional(__S(2403, __c150, 3)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          engagements: S.optional(__S(2419, __c151, 3)),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
           registrationId: S.optional(S.NullOr(S.String)),
           role: S.optional(S.NullOr(S.String)),
@@ -38495,7 +38671,7 @@ function __c524(j: number): any {
       ).annotate({ identifier: "CreateSessionsAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c525(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38520,7 +38696,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "CreateSharePointBrowseSessionsRequest" });
   }
 }
-function __c526(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38539,7 +38715,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "CreateSharePointBrowseSessionsResponse" });
   }
 }
-function __c527(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38565,7 +38741,7 @@ function __c527(j: number): any {
       ).annotate({ identifier: "CreateSharePointProtectionPoliciesRequest" });
   }
 }
-function __c528(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38592,7 +38768,7 @@ function __c528(j: number): any {
       ).annotate({ identifier: "CreateSharePointRestoreSessionsRequest" });
   }
 }
-function __c529(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38613,7 +38789,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "CreateSiteInclusionRulesRequest" });
   }
 }
-function __c530(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38632,13 +38808,14 @@ function __c530(j: number): any {
       ).annotate({ identifier: "CreateSiteInclusionRulesResponse" });
   }
 }
-function __c531(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          backupRetentionPeriodInDays: S.optional(S.Number),
           createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           createdDateTime: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
@@ -38659,32 +38836,6 @@ function __c531(j: number): any {
       ).annotate({ identifier: "CreateSiteProtectionUnitsRequest" });
   }
 }
-function __c532(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          createdDateTime: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
-          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
-          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.String),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/solutions/backupRestore/siteProtectionUnitsBulkAdditionJobs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSiteProtectionUnitsBulkAdditionJobsRequest" });
-  }
-}
 function __c533(j: number): any {
   switch (j) {
     case 0:
@@ -38699,13 +38850,39 @@ function __c533(j: number): any {
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/solutions/backupRestore/siteProtectionUnitsBulkAdditionJobs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSiteProtectionUnitsBulkAdditionJobsRequest" });
+  }
+}
+function __c534(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          createdBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          createdDateTime: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(2067, __c129, 3))),
+          lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
+          lastModifiedDateTime: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateSiteProtectionUnitsBulkAdditionJobsResponse" });
   }
 }
-function __c534(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38729,7 +38906,7 @@ function __c534(j: number): any {
       ).annotate({ identifier: "CreateSiteRestoreArtifactsRequest" });
   }
 }
-function __c535(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38744,13 +38921,13 @@ function __c535(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -38761,7 +38938,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "CreateSiteRestoreArtifactsBulkAdditionRequestsRequest" });
   }
 }
-function __c536(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38775,18 +38952,18 @@ function __c536(j: number): any {
           error: S.optional(S.NullOr(__S(2067, __c129, 3))),
           lastModifiedBy: S.optional(S.NullOr(__S(32, __c2, 0))),
           lastModifiedDateTime: S.optional(S.NullOr(S.String)),
-          protectionTimePeriod: S.optional(S.NullOr(__S(5296, __c331, 0))),
-          protectionUnitIds: S.optional(__S(2160, __c135, 0)),
+          protectionTimePeriod: S.optional(S.NullOr(__S(5312, __c332, 0))),
+          protectionUnitIds: S.optional(__S(2176, __c136, 0)),
           restorePointPreference: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           tags: S.optional(S.NullOr(S.String)),
-          siteIds: S.optional(__S(2160, __c135, 0)),
-          siteWebUrls: S.optional(__S(2160, __c135, 0)),
+          siteIds: S.optional(__S(2176, __c136, 0)),
+          siteWebUrls: S.optional(__S(2176, __c136, 0)),
         }),
       ).annotate({ identifier: "CreateSiteRestoreArtifactsBulkAdditionRequestsResponse" });
   }
 }
-function __c537(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38802,13 +38979,13 @@ function __c537(j: number): any {
       ).annotate({ identifier: "CancelRequest" });
   }
 }
-function __c538(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelResponse" });
   }
 }
-function __c539(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38826,32 +39003,32 @@ function __c539(j: number): any {
       ).annotate({ identifier: "CreateStaffMembersRequest" });
   }
 }
-function __c540(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
           audience: S.optional(S.NullOr(S.String)),
           capacity: S.optional(S.NullOr(S.Number)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
-          invitedAttendees: S.optional(__S(8656, __c541, 0)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
+          invitedAttendees: S.optional(__S(8672, __c542, 0)),
           isInviteOnly: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "POST", uri: "/solutions/virtualEvents/townhalls", code: 200 })),
       ).annotate({ identifier: "CreateTownhallsRequest" });
   }
 }
-function __c541(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(16, __c1, 0));
@@ -38860,25 +39037,25 @@ function __c541(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
           audience: S.optional(S.NullOr(S.String)),
           capacity: S.optional(S.NullOr(S.Number)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
-          invitedAttendees: S.optional(__S(8656, __c541, 0)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
+          invitedAttendees: S.optional(__S(8672, __c542, 0)),
           isInviteOnly: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CreateTownhallsResponse" });
   }
 }
-function __c542(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38890,28 +39067,7 @@ function __c542(j: number): any {
         }),
       ).annotate({ identifier: "CommunicationsUserIdentity" });
     case 1:
-      return S.Array(__S(8672, __c542, 0));
-  }
-}
-function __c543(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          virtualEventTownhallId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          email: S.optional(S.NullOr(S.String)),
-          identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/solutions/virtualEvents/townhalls/{virtualEventTownhallId}/presenters",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTownhallsPresentersRequest" });
+      return S.Array(__S(8688, __c543, 0));
   }
 }
 function __c544(j: number): any {
@@ -38922,15 +39078,36 @@ function __c544(j: number): any {
           virtualEventTownhallId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          email: S.optional(S.NullOr(S.String)),
+          identity: S.optional(S.NullOr(__S(16, __c1, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/solutions/virtualEvents/townhalls/{virtualEventTownhallId}/presenters",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTownhallsPresentersRequest" });
+  }
+}
+function __c545(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          virtualEventTownhallId: S.String.pipe(T.Label()),
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           cancelationDateTime: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          externalRegistrationInformation: S.optional(S.NullOr(__S(2384, __c149, 0))),
+          externalRegistrationInformation: S.optional(S.NullOr(__S(2400, __c150, 0))),
           firstName: S.optional(S.NullOr(S.String)),
           lastName: S.optional(S.NullOr(S.String)),
           preferredLanguage: S.optional(S.NullOr(S.String)),
           preferredTimezone: S.optional(S.NullOr(S.String)),
           registrationDateTime: S.optional(S.NullOr(S.String)),
-          registrationQuestionAnswers: S.optional(__S(8209, __c513, 1)),
+          registrationQuestionAnswers: S.optional(__S(8225, __c514, 1)),
           status: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -38943,7 +39120,7 @@ function __c544(j: number): any {
       ).annotate({ identifier: "CreateTownhallsRegistrationsRequest" });
   }
 }
-function __c545(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38965,29 +39142,29 @@ function __c545(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -38999,7 +39176,7 @@ function __c545(j: number): any {
       ).annotate({ identifier: "CreateTownhallsSessionsRequest" });
   }
 }
-function __c546(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39008,7 +39185,7 @@ function __c546(j: number): any {
           virtualEventSessionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           meetingEndDateTime: S.optional(S.NullOr(S.String)),
           meetingStartDateTime: S.optional(S.NullOr(S.String)),
           totalParticipantCount: S.optional(S.NullOr(S.Number)),
@@ -39022,7 +39199,7 @@ function __c546(j: number): any {
       ).annotate({ identifier: "CreateTownhallsSessionsAttendanceReportsRequest" });
   }
 }
-function __c547(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39030,7 +39207,7 @@ function __c547(j: number): any {
           crossTenantMigrationJobId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          currentStatus: S.optional(__S(8771, __c548, 3)),
+          currentStatus: S.optional(__S(8787, __c549, 3)),
           lastUpdatedDateTime: S.optional(S.String),
           taskType: S.optional(S.String),
         }).pipe(
@@ -39043,7 +39220,7 @@ function __c547(j: number): any {
       ).annotate({ identifier: "CreateUsersRequest" });
   }
 }
-function __c548(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39054,11 +39231,11 @@ function __c548(j: number): any {
         }),
       ).annotate({ identifier: "Error" });
     case 1:
-      return S.Array(__S(8768, __c548, 0));
+      return S.Array(__S(8784, __c549, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(8769, __c548, 1)),
+          errors: S.optional(__S(8785, __c549, 1)),
           message: S.optional(S.String),
           service: S.optional(S.String),
           status: S.optional(S.String),
@@ -39066,39 +39243,17 @@ function __c548(j: number): any {
         }),
       ).annotate({ identifier: "CrossTenantMigrationServiceStatusDetails" });
     case 3:
-      return S.Array(__S(8770, __c548, 2));
+      return S.Array(__S(8786, __c549, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          currentStatus: S.optional(__S(8771, __c548, 3)),
+          currentStatus: S.optional(__S(8787, __c549, 3)),
           lastUpdatedDateTime: S.optional(S.String),
           taskType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateUsersResponse" });
-  }
-}
-function __c549(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
-          isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          status: S.optional(S.NullOr(S.String)),
-          audience: S.optional(S.NullOr(S.String)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/solutions/virtualEvents/webinars", code: 200 })),
-      ).annotate({ identifier: "CreateWebinarsRequest" });
   }
 }
 function __c550(j: number): any {
@@ -39108,22 +39263,44 @@ function __c550(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
-          createdBy: S.optional(S.NullOr(__S(5536, __c346, 0))),
-          description: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
           displayName: S.optional(S.NullOr(S.String)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          externalEventInformation: S.optional(__S(2593, __c162, 1)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
           isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(S.NullOr(__S(5537, __c346, 1))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           status: S.optional(S.NullOr(S.String)),
           audience: S.optional(S.NullOr(S.String)),
-          coOrganizers: S.optional(__S(8673, __c542, 1)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/solutions/virtualEvents/webinars", code: 200 })),
+      ).annotate({ identifier: "CreateWebinarsRequest" });
+  }
+}
+function __c551(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          createdBy: S.optional(S.NullOr(__S(5552, __c347, 0))),
+          description: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          displayName: S.optional(S.NullOr(S.String)),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          externalEventInformation: S.optional(__S(2609, __c163, 1)),
+          isRegistrationRequired: S.optional(S.NullOr(S.Boolean)),
+          settings: S.optional(S.NullOr(__S(5553, __c347, 1))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          status: S.optional(S.NullOr(S.String)),
+          audience: S.optional(S.NullOr(S.String)),
+          coOrganizers: S.optional(__S(8689, __c543, 1)),
         }),
       ).annotate({ identifier: "CreateWebinarsResponse" });
   }
 }
-function __c551(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39133,7 +39310,7 @@ function __c551(j: number): any {
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
           email: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(16, __c1, 0))),
-          presenterDetails: S.optional(S.NullOr(__S(8112, __c507, 0))),
+          presenterDetails: S.optional(S.NullOr(__S(8128, __c508, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -39144,7 +39321,7 @@ function __c551(j: number): any {
       ).annotate({ identifier: "CreateWebinarsPresentersRequest" });
   }
 }
-function __c552(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39166,29 +39343,29 @@ function __c552(j: number): any {
           allowTeamworkReactions: S.optional(S.NullOr(S.Boolean)),
           allowTranscription: S.optional(S.NullOr(S.Boolean)),
           allowWhiteboard: S.optional(S.NullOr(S.Boolean)),
-          audioConferencing: S.optional(S.NullOr(__S(8336, __c521, 0))),
-          chatInfo: S.optional(S.NullOr(__S(8337, __c521, 1))),
-          chatRestrictions: S.optional(S.NullOr(__S(8338, __c521, 2))),
-          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8339, __c521, 3))),
+          audioConferencing: S.optional(S.NullOr(__S(8352, __c522, 0))),
+          chatInfo: S.optional(S.NullOr(__S(8353, __c522, 1))),
+          chatRestrictions: S.optional(S.NullOr(__S(8354, __c522, 2))),
+          cloudVideoInteropInfo: S.optional(S.NullOr(__S(8355, __c522, 3))),
           expiryDateTime: S.optional(S.NullOr(S.String)),
           isEndToEndEncryptionEnabled: S.optional(S.NullOr(S.Boolean)),
           isEntryExitAnnounced: S.optional(S.NullOr(S.Boolean)),
-          joinInformation: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          joinMeetingIdSettings: S.optional(S.NullOr(__S(8340, __c521, 4))),
+          joinInformation: S.optional(S.NullOr(__S(5536, __c346, 0))),
+          joinMeetingIdSettings: S.optional(S.NullOr(__S(8356, __c522, 4))),
           joinWebUrl: S.optional(S.NullOr(S.String)),
-          lobbyBypassSettings: S.optional(S.NullOr(__S(8341, __c521, 5))),
+          lobbyBypassSettings: S.optional(S.NullOr(__S(8357, __c522, 5))),
           meetingOptionsWebUrl: S.optional(S.NullOr(S.String)),
           meetingSpokenLanguageTag: S.optional(S.NullOr(S.String)),
           meetingType: S.optional(S.NullOr(S.String)),
           recordAutomatically: S.optional(S.NullOr(S.Boolean)),
-          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8342, __c521, 6))),
+          sensitivityLabelAssignment: S.optional(S.NullOr(__S(8358, __c522, 6))),
           shareMeetingChatHistoryDefault: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.NullOr(S.String)),
           videoTeleconferenceId: S.optional(S.NullOr(S.String)),
-          watermarkProtection: S.optional(S.NullOr(__S(8343, __c521, 7))),
+          watermarkProtection: S.optional(S.NullOr(__S(8359, __c522, 7))),
           capacity: S.optional(S.NullOr(S.Number)),
-          endDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
-          startDateTime: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          endDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
+          startDateTime: S.optional(S.NullOr(__S(2192, __c137, 0))),
           videoOnDemandWebUrl: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -39200,7 +39377,7 @@ function __c552(j: number): any {
       ).annotate({ identifier: "CreateWebinarsSessionsRequest" });
   }
 }
-function __c553(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39218,7 +39395,7 @@ function __c553(j: number): any {
       ).annotate({ identifier: "CancelAppointmentsBookingAppointmentRequest" });
   }
 }
-function __c554(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39234,7 +39411,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "DeactivateRequest" });
   }
 }
-function __c555(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39250,7 +39427,7 @@ function __c555(j: number): any {
       ).annotate({ identifier: "DeactivateProtectionPolicyBaseRequest" });
   }
 }
-function __c556(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39268,7 +39445,7 @@ function __c556(j: number): any {
       ).annotate({ identifier: "DeleteAppointmentsRequest" });
   }
 }
-function __c557(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39288,7 +39465,7 @@ function __c557(j: number): any {
       ).annotate({ identifier: "DeleteAttendanceRecordsRequest" });
   }
 }
-function __c558(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39307,7 +39484,7 @@ function __c558(j: number): any {
       ).annotate({ identifier: "DeleteAttendanceReportsRequest" });
   }
 }
-function __c559(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39327,7 +39504,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "DeleteAttendanceReportsAttendanceRecordsRequest" });
   }
 }
-function __c560(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39337,7 +39514,7 @@ function __c560(j: number): any {
       ).annotate({ identifier: "DeleteBackupRestoreRequest" });
   }
 }
-function __c561(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39354,7 +39531,7 @@ function __c561(j: number): any {
       ).annotate({ identifier: "DeleteBookingBusinessesRequest" });
   }
 }
-function __c562(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39371,7 +39548,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "DeleteBookingCurrenciesRequest" });
   }
 }
-function __c563(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39388,7 +39565,7 @@ function __c563(j: number): any {
       ).annotate({ identifier: "DeleteBrowseSessionsRequest" });
   }
 }
-function __c564(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39406,7 +39583,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "CancelCalendarViewBookingAppointmentRequest" });
   }
 }
-function __c565(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39423,7 +39600,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "DeleteByDisplayNameRequest" });
   }
 }
-function __c566(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39441,7 +39618,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "DeleteByEmailRequest" });
   }
 }
-function __c567(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39459,7 +39636,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "DeleteByUserIdRequest" });
   }
 }
-function __c568(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39477,7 +39654,7 @@ function __c568(j: number): any {
       ).annotate({ identifier: "DeleteCalendarViewRequest" });
   }
 }
-function __c569(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39494,7 +39671,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "DeleteCrossTenantMigrationJobsRequest" });
   }
 }
-function __c570(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39512,7 +39689,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "DeleteCustomersRequest" });
   }
 }
-function __c571(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39530,7 +39707,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "DeleteCustomQuestionsRequest" });
   }
 }
-function __c572(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39547,7 +39724,7 @@ function __c572(j: number): any {
       ).annotate({ identifier: "DeleteDriveInclusionRulesRequest" });
   }
 }
-function __c573(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39564,7 +39741,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "DeleteDriveProtectionUnitsRequest" });
   }
 }
-function __c574(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
