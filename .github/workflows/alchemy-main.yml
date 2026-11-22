@@ -11,10 +11,8 @@
 # changed, it opens (or updates) a PR from `chore/alchemy-main`, waits for its
 # required checks and adds it to the merge queue.
 #
-# The deploy workflows install from the lockfile, so this PR is the only way
-# a new alchemy build reaches a deploy. The shared Cloudflare state store
-# follows alchemy main: when alchemy's own CI moves it to a newer version,
-# deploys fail until this PR merges. Dispatch this workflow to refresh sooner.
+# The deploy workflows also run `pnpm run alchemy:main` before deploying, so
+# a deploy uses alchemy main even between these refreshes.
 
 name: Update alchemy main
 
