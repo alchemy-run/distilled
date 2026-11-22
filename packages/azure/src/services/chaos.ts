@@ -2054,6 +2054,8 @@ export interface ListActionsRequest {
   location: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents an Action resource. */
 export interface Action {
@@ -2086,6 +2088,8 @@ export interface ListActionVersionsRequest {
   actionName: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents an Action Version resource. */
 export interface ActionVersion {
@@ -2124,6 +2128,8 @@ export interface ListCapabilitiesRequest {
   targetName: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a Capability resource. */
 export interface Capability {
@@ -2156,6 +2162,8 @@ export interface ListCapabilityTypesRequest {
   targetTypeName: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a Capability Type resource. */
 export interface CapabilityType {
@@ -2186,6 +2194,8 @@ export interface ListConnectionAllRequest {
   resourceGroupName: string;
   /** String that represents a Workspace resource name. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a connection between a workspace and a target resource. A connection provisions and tracks the trust relationship that authorizes the actor to reach the Chaos Studio data plane for the workspace and target during fault injection. */
 export interface Connection {
@@ -2216,6 +2226,8 @@ export interface ListDiscoveredResourceByWorkspaceRequest {
   resourceGroupName: string;
   /** String that represents a Workspace resource name. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a discovered resource. */
 export interface DiscoveredResource {
@@ -2246,6 +2258,8 @@ export interface ListExperimentAllRequest {
   running?: boolean | undefined;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ExperimentTagsMap = { [key: string]: string | undefined };
@@ -2298,6 +2312,8 @@ export interface ListExperimentAllExecutionsRequest {
   resourceGroupName: string;
   /** String that represents a Experiment resource name. */
   experimentName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents the execution of a Experiment. */
 export interface ExperimentExecution {
@@ -2330,8 +2346,13 @@ export interface ListExperimentsRequest {
   running?: boolean | undefined;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationAllRequest {}
+export interface ListOperationAllRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -2364,7 +2385,7 @@ export interface Operation {
 export type ListOperationAllResponseValueList = Array<Operation>;
 export interface ListOperationAllResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationAllResponseValueList | undefined;
+  value: ListOperationAllResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2377,6 +2398,8 @@ export interface ListScenarioConfigurationAllRequest {
   workspaceName: string;
   /** Name of the scenario. */
   scenarioName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents the scenario. */
 export interface ScenarioConfiguration {
@@ -2409,6 +2432,8 @@ export interface ListScenarioRunAllRequest {
   workspaceName: string;
   /** Name of the scenario. */
   scenarioName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents the scenario run. */
 export interface ScenarioRun {
@@ -2439,6 +2464,8 @@ export interface ListScenariosAllRequest {
   resourceGroupName: string;
   /** String that represents a Workspace resource name. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents the scenario. */
 export interface Scenario {
@@ -2462,7 +2489,10 @@ export interface ScenarioListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListScenarioTemplatesRequest {}
+export interface ListScenarioTemplatesRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Model that represents a built-in scenario template. A scenario template is a versioned, read-only blueprint published by Microsoft that can be used to create a scenario. Templates are the same shape as the scenarios they produce, so an action read from a template is valid input to a scenario create. The template is addressed without a version, and always describes its newest published version. Address a specific version through the child versions resource. */
 export interface ScenarioTemplate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2488,6 +2518,8 @@ export interface ScenarioTemplateListResult {
 export interface ListScenarioTemplateVersionsRequest {
   /** Name of the scenario template. */
   scenarioTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a single published version of a scenario template. A published version is immutable: corrections are shipped as a new version rather than by changing an existing one, so a scenario that records the version it was created from always resolves to the same content. */
 export interface ScenarioTemplateVersion {
@@ -2524,6 +2556,8 @@ export interface ListTargetsRequest {
   parentResourceName: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties of the target resource. */
 export type TargetPropertiesMap = { [key: string]: unknown | undefined };
@@ -2558,6 +2592,8 @@ export interface ListTargetTypesRequest {
   location: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Model that represents a Target Type resource. */
 export interface TargetType {
@@ -2586,6 +2622,8 @@ export interface ListWorkspaceAllRequest {
   subscriptionId: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -2640,6 +2678,8 @@ export interface ListWorkspaceDiscoveriesRequest {
   workspaceName: string;
   /** Opaque continuation token supplied by the returned nextLink. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A retained workspace discovery result and its accepted coverage facts. */
 export interface WorkspaceDiscovery {
@@ -2672,6 +2712,8 @@ export interface ListWorkspaceEvaluationsRequest {
   workspaceName: string;
   /** Opaque continuation token supplied by the returned nextLink. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A retained workspace evaluation of published scenario-template versions. */
 export interface WorkspaceEvaluation {
@@ -2702,6 +2744,8 @@ export interface ListWorkspacesRequest {
   resourceGroupName: string;
   /** String that sets the continuation token. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
 export type ScenarioConfigurationPropertiesInputParametersList = Array<KeyValuePair>;
@@ -3716,12 +3760,13 @@ export const GetWorkspaceEvaluation: API.OperationMethod<
 
 export type ListActionsError = AzureOpError;
 /** Get a list of Action resources for a given location. */
-export const ListActions: API.OperationMethod<
+export const ListActions: API.PaginatedOperationMethod<
   ListActionsRequest,
   ActionListResult,
   ListActionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Action
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListActionsRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<ActionListResult>,
   errors: [UnknownAzureError],
@@ -3729,16 +3774,23 @@ export const ListActions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListActionVersionsError = AzureOpError;
 /** Get a list of Action Version resources for a given location and action. */
-export const ListActionVersions: API.OperationMethod<
+export const ListActionVersions: API.PaginatedOperationMethod<
   ListActionVersionsRequest,
   ActionVersionListResult,
   ListActionVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ActionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListActionVersionsRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<ActionVersionListResult>,
   errors: [UnknownAzureError],
@@ -3746,16 +3798,23 @@ export const ListActionVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActionVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCapabilitiesError = AzureOpError;
 /** Get a list of Capability resources that extend a Target resource. */
-export const ListCapabilities: API.OperationMethod<
+export const ListCapabilities: API.PaginatedOperationMethod<
   ListCapabilitiesRequest,
   CapabilityListResult,
   ListCapabilitiesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Capability
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListCapabilitiesRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<CapabilityListResult>,
   errors: [UnknownAzureError],
@@ -3763,16 +3822,23 @@ export const ListCapabilities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCapabilities",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCapabilityTypesError = AzureOpError;
 /** Get a list of Capability Type resources for given Target Type and location. */
-export const ListCapabilityTypes: API.OperationMethod<
+export const ListCapabilityTypes: API.PaginatedOperationMethod<
   ListCapabilityTypesRequest,
   CapabilityTypeListResult,
   ListCapabilityTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CapabilityType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListCapabilityTypesRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<CapabilityTypeListResult>,
   errors: [UnknownAzureError],
@@ -3780,16 +3846,23 @@ export const ListCapabilityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCapabilityTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionAllError = AzureOpError;
 /** Get a list of connections. */
-export const ListConnectionAll: API.OperationMethod<
+export const ListConnectionAll: API.PaginatedOperationMethod<
   ListConnectionAllRequest,
   ConnectionListResult,
   ListConnectionAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListConnectionAllRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -3797,16 +3870,23 @@ export const ListConnectionAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiscoveredResourceByWorkspaceError = AzureOpError;
 /** Get a list of discovered resources for a workspace. */
-export const ListDiscoveredResourceByWorkspace: API.OperationMethod<
+export const ListDiscoveredResourceByWorkspace: API.PaginatedOperationMethod<
   ListDiscoveredResourceByWorkspaceRequest,
   DiscoveredResourceListResult,
   ListDiscoveredResourceByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DiscoveredResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListDiscoveredResourceByWorkspaceRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<DiscoveredResourceListResult>,
   errors: [UnknownAzureError],
@@ -3814,16 +3894,23 @@ export const ListDiscoveredResourceByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiscoveredResourceByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExperimentAllError = AzureOpError;
 /** Get a list of Experiment resources in a subscription. */
-export const ListExperimentAll: API.OperationMethod<
+export const ListExperimentAll: API.PaginatedOperationMethod<
   ListExperimentAllRequest,
   ExperimentListResult,
   ListExperimentAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Experiment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListExperimentAllRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
@@ -3831,16 +3918,23 @@ export const ListExperimentAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExperimentAllExecutionsError = AzureOpError;
 /** Get a list of executions of an Experiment resource. */
-export const ListExperimentAllExecutions: API.OperationMethod<
+export const ListExperimentAllExecutions: API.PaginatedOperationMethod<
   ListExperimentAllExecutionsRequest,
   ExperimentExecutionListResult,
   ListExperimentAllExecutionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExperimentExecution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListExperimentAllExecutionsRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ExperimentExecutionListResult>,
   errors: [UnknownAzureError],
@@ -3848,16 +3942,23 @@ export const ListExperimentAllExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentAllExecutions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExperimentsError = AzureOpError;
 /** Get a list of Experiment resources in a resource group. */
-export const ListExperiments: API.OperationMethod<
+export const ListExperiments: API.PaginatedOperationMethod<
   ListExperimentsRequest,
   ExperimentListResult,
   ListExperimentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Experiment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListExperimentsRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
@@ -3865,16 +3966,23 @@ export const ListExperiments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperiments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationAllError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperationAll: API.OperationMethod<
+export const ListOperationAll: API.PaginatedOperationMethod<
   ListOperationAllRequest,
   ListOperationAllResponse,
   ListOperationAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListOperationAllRequest>,
   output: __S(2308, __c72, 4) as any as S.Schema<ListOperationAllResponse>,
   errors: [UnknownAzureError],
@@ -3882,16 +3990,23 @@ export const ListOperationAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperationAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScenarioConfigurationAllError = AzureOpError;
 /** Get a list of scenario definitions. */
-export const ListScenarioConfigurationAll: API.OperationMethod<
+export const ListScenarioConfigurationAll: API.PaginatedOperationMethod<
   ListScenarioConfigurationAllRequest,
   ScenarioConfigurationListResult,
   ListScenarioConfigurationAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScenarioConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListScenarioConfigurationAllRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<ScenarioConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -3899,16 +4014,23 @@ export const ListScenarioConfigurationAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScenarioConfigurationAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScenarioRunAllError = AzureOpError;
 /** Get a list of scenario runs. */
-export const ListScenarioRunAll: API.OperationMethod<
+export const ListScenarioRunAll: API.PaginatedOperationMethod<
   ListScenarioRunAllRequest,
   ScenarioRunListResult,
   ListScenarioRunAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScenarioRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListScenarioRunAllRequest>,
   output: __S(2371, __c74, 3) as any as S.Schema<ScenarioRunListResult>,
   errors: [UnknownAzureError],
@@ -3916,16 +4038,23 @@ export const ListScenarioRunAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScenarioRunAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScenariosAllError = AzureOpError;
 /** Get a list of scenarios. */
-export const ListScenariosAll: API.OperationMethod<
+export const ListScenariosAll: API.PaginatedOperationMethod<
   ListScenariosAllRequest,
   ScenarioListResult,
   ListScenariosAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Scenario
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListScenariosAllRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<ScenarioListResult>,
   errors: [UnknownAzureError],
@@ -3933,16 +4062,23 @@ export const ListScenariosAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScenariosAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScenarioTemplatesError = AzureOpError;
 /** Get a list of the scenario templates published by Microsoft. */
-export const ListScenarioTemplates: API.OperationMethod<
+export const ListScenarioTemplates: API.PaginatedOperationMethod<
   ListScenarioTemplatesRequest,
   ScenarioTemplateListResult,
   ListScenarioTemplatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScenarioTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListScenarioTemplatesRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<ScenarioTemplateListResult>,
   errors: [UnknownAzureError],
@@ -3950,16 +4086,23 @@ export const ListScenarioTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScenarioTemplates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScenarioTemplateVersionsError = AzureOpError;
 /** Get a list of the published versions of a scenario template, including superseded ones. */
-export const ListScenarioTemplateVersions: API.OperationMethod<
+export const ListScenarioTemplateVersions: API.PaginatedOperationMethod<
   ListScenarioTemplateVersionsRequest,
   ScenarioTemplateVersionListResult,
   ListScenarioTemplateVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScenarioTemplateVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListScenarioTemplateVersionsRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<ScenarioTemplateVersionListResult>,
   errors: [UnknownAzureError],
@@ -3967,16 +4110,23 @@ export const ListScenarioTemplateVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScenarioTemplateVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTargetsError = AzureOpError;
 /** Get a list of Target resources that extend a tracked regional resource. */
-export const ListTargets: API.OperationMethod<
+export const ListTargets: API.PaginatedOperationMethod<
   ListTargetsRequest,
   TargetListResult,
   ListTargetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Target
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListTargetsRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
@@ -3984,16 +4134,23 @@ export const ListTargets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTargetTypesError = AzureOpError;
 /** Get a list of Target Type resources for given location. */
-export const ListTargetTypes: API.OperationMethod<
+export const ListTargetTypes: API.PaginatedOperationMethod<
   ListTargetTypesRequest,
   TargetTypeListResult,
   ListTargetTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TargetType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListTargetTypesRequest>,
   output: __S(2530, __c79, 2) as any as S.Schema<TargetTypeListResult>,
   errors: [UnknownAzureError],
@@ -4001,16 +4158,23 @@ export const ListTargetTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceAllError = AzureOpError;
 /** Get a list of all Workspace resources in a subscription. */
-export const ListWorkspaceAll: API.OperationMethod<
+export const ListWorkspaceAll: API.PaginatedOperationMethod<
   ListWorkspaceAllRequest,
   WorkspaceListResult,
   ListWorkspaceAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListWorkspaceAllRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -4018,16 +4182,23 @@ export const ListWorkspaceAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceDiscoveriesError = AzureOpError;
 /** Lists retained discovery results under the workspace. Each result has its canonical ID; latest is an alias and is not a separate collection entry. This operation does not extend result retention. */
-export const ListWorkspaceDiscoveries: API.OperationMethod<
+export const ListWorkspaceDiscoveries: API.PaginatedOperationMethod<
   ListWorkspaceDiscoveriesRequest,
   WorkspaceDiscoveryListResult,
   ListWorkspaceDiscoveriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspaceDiscovery
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListWorkspaceDiscoveriesRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<WorkspaceDiscoveryListResult>,
   errors: [UnknownAzureError],
@@ -4035,16 +4206,23 @@ export const ListWorkspaceDiscoveries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceDiscoveries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceEvaluationsError = AzureOpError;
 /** Lists retained GA template evaluations under the workspace. Each result has its canonical ID; latest is an alias and is not a separate collection entry. This operation does not extend retention or convert scenario-backed legacy evaluations. */
-export const ListWorkspaceEvaluations: API.OperationMethod<
+export const ListWorkspaceEvaluations: API.PaginatedOperationMethod<
   ListWorkspaceEvaluationsRequest,
   WorkspaceEvaluationListResult,
   ListWorkspaceEvaluationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspaceEvaluation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListWorkspaceEvaluationsRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<WorkspaceEvaluationListResult>,
   errors: [UnknownAzureError],
@@ -4052,16 +4230,23 @@ export const ListWorkspaceEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceEvaluations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspacesError = AzureOpError;
 /** Get a list of Workspace resources in a resource group. */
-export const ListWorkspaces: API.OperationMethod<
+export const ListWorkspaces: API.PaginatedOperationMethod<
   ListWorkspacesRequest,
   WorkspaceListResult,
   ListWorkspacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -4069,7 +4254,13 @@ export const ListWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ScenarioConfigurationsCreateOrUpdateError = AzureOpError;
 /** Create or update a scenario definition. */
@@ -6010,12 +6201,14 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListActionsRequest" });
@@ -6043,12 +6236,14 @@ function __c62(j: number): any {
           location: S.String.pipe(T.Label()),
           actionName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/actions/{actionName}/versions",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListActionVersionsRequest" });
@@ -6066,12 +6261,14 @@ function __c63(j: number): any {
           parentResourceName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCapabilitiesRequest" });
@@ -6095,12 +6292,14 @@ function __c64(j: number): any {
           location: S.String.pipe(T.Label()),
           targetTypeName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCapabilityTypesRequest" });
@@ -6123,12 +6322,14 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/connections",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionAllRequest" });
@@ -6151,12 +6352,14 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveredResources",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiscoveredResourceByWorkspaceRequest" });
@@ -6179,12 +6382,14 @@ function __c67(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           running: S.optional(S.Boolean.pipe(T.Query())),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/experiments",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExperimentAllRequest" });
@@ -6234,12 +6439,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           experimentName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExperimentAllExecutionsRequest" });
@@ -6263,12 +6470,14 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           running: S.optional(S.Boolean.pipe(T.Query())),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExperimentsRequest" });
@@ -6278,12 +6487,15 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Chaos/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationAllRequest" });
@@ -6311,7 +6523,7 @@ function __c72(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2307, __c72, 3)),
+          value: __S(2307, __c72, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationAllResponse" });
@@ -6326,12 +6538,14 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           scenarioName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScenarioConfigurationAllRequest" });
@@ -6355,12 +6569,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           scenarioName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/runs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScenarioRunAllRequest" });
@@ -6393,12 +6609,14 @@ function __c75(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScenariosAllRequest" });
@@ -6417,12 +6635,15 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Chaos/scenarioTemplates",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScenarioTemplatesRequest" });
@@ -6443,12 +6664,14 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scenarioTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScenarioTemplateVersionsRequest" });
@@ -6474,12 +6697,14 @@ function __c78(j: number): any {
           parentResourceType: S.String.pipe(T.Label()),
           parentResourceName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTargetsRequest" });
@@ -6502,12 +6727,14 @@ function __c79(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTargetTypesRequest" });
@@ -6549,12 +6776,14 @@ function __c81(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/workspaces",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceAllRequest" });
@@ -6582,12 +6811,14 @@ function __c83(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discoveries",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceDiscoveriesRequest" });
@@ -6611,12 +6842,14 @@ function __c84(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceEvaluationsRequest" });
@@ -6639,12 +6872,14 @@ function __c85(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspacesRequest" });

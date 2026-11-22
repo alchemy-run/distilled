@@ -1218,6 +1218,8 @@ export interface ListKeysRequest {
   resourceGroupName: string;
   /** The name of the vault which contains the key to be retrieved. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type KeyTagsMap = { [key: string]: string | undefined };
@@ -1256,6 +1258,8 @@ export interface ListKeyVersionsRequest {
   vaultName: string;
   /** The name of the key version to be retrieved. */
   keyName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListManagedHsmByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1264,6 +1268,8 @@ export interface ListManagedHsmByResourceGroupRequest {
   resourceGroupName: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ManagedHsmIdentity = DeleteMHSMPrivateEndpointConnectionResponseIdentity;
@@ -1304,10 +1310,14 @@ export interface ListManagedHsmBySubscriptionRequest {
   subscriptionId: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListManagedHsmDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DeletedManagedHsm {
@@ -1338,6 +1348,8 @@ export interface ListManagedHsmKeysRequest {
   resourceGroupName: string;
   /** The name of the Managed HSM Pool within the specified resource group. */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type ManagedHsmKeyTagsMap = { [key: string]: string | undefined };
@@ -1374,6 +1386,8 @@ export interface ListManagedHsmKeyVersionsRequest {
   name: string;
   /** The name of the key to be created. The value you provide may be copied globally for the purpose of running the service. The value provided should not include personally identifiable or sensitive information. */
   keyName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMHSMPrivateEndpointConnectionByResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1382,6 +1396,8 @@ export interface ListMHSMPrivateEndpointConnectionByResourceRequest {
   resourceGroupName: string;
   /** The name of the managed HSM Pool. */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type MHSMPrivateEndpointConnectionIdentity =
@@ -1481,6 +1497,8 @@ export interface ListMHSMRegionByResourceRequest {
   resourceGroupName: string;
   /** The name of the managed HSM Pool. */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The MhsmGeoReplicatedRegion items on this page */
 export type MHSMRegionsListResultValueList = Array<MHSMGeoReplicatedRegion>;
@@ -1491,7 +1509,10 @@ export interface MHSMRegionsListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Key Vault. */
@@ -1597,6 +1618,8 @@ export interface ListPrivateEndpointConnectionByResourceRequest {
   resourceGroupName: string;
   /** The name of the vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type PrivateEndpointConnectionTagsMap = { [key: string]: string | undefined };
@@ -1684,6 +1707,8 @@ export interface ListSecretsRequest {
   vaultName: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type SecretTagsMap = { [key: string]: string | undefined };
@@ -1720,6 +1745,8 @@ export interface ListVaultByResourceGroupRequest {
   resourceGroupName: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type VaultTagsMap = { [key: string]: string | undefined };
@@ -1754,10 +1781,14 @@ export interface ListVaultBySubscriptionRequest {
   subscriptionId: string;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVaultDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deleted vault information with extended details. */
 export interface DeletedVault {
@@ -1789,6 +1820,8 @@ export interface ListVaultsRequest {
   _filter: ListVaultsRequestFilter | (string & {});
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ResourceListResultValueItemTagsMap = { [key: string]: string | undefined };
@@ -2686,12 +2719,13 @@ export const GetVaultDeleted: API.OperationMethod<
 
 export type ListKeysError = AzureOpError;
 /** Lists the keys in the specified key vault. */
-export const ListKeys: API.OperationMethod<
+export const ListKeys: API.PaginatedOperationMethod<
   ListKeysRequest,
   KeyListResult,
   ListKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Key
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListKeysRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<KeyListResult>,
   errors: [UnknownAzureError],
@@ -2699,16 +2733,23 @@ export const ListKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKeyVersionsError = AzureOpError;
 /** Lists the keys in the specified key vault. */
-export const ListKeyVersions: API.OperationMethod<
+export const ListKeyVersions: API.PaginatedOperationMethod<
   ListKeyVersionsRequest,
   KeyListResult,
   ListKeyVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Key
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListKeyVersionsRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<KeyListResult>,
   errors: [UnknownAzureError],
@@ -2716,16 +2757,23 @@ export const ListKeyVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListKeyVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedHsmByResourceGroupError = AzureOpError;
 /** The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group. */
-export const ListManagedHsmByResourceGroup: API.OperationMethod<
+export const ListManagedHsmByResourceGroup: API.PaginatedOperationMethod<
   ListManagedHsmByResourceGroupRequest,
   ManagedHsmListResult,
   ListManagedHsmByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedHsm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListManagedHsmByResourceGroupRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<ManagedHsmListResult>,
   errors: [UnknownAzureError],
@@ -2733,16 +2781,23 @@ export const ListManagedHsmByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedHsmByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedHsmBySubscriptionError = AzureOpError;
 /** The List operation gets information about the managed HSM Pools associated with the subscription. */
-export const ListManagedHsmBySubscription: API.OperationMethod<
+export const ListManagedHsmBySubscription: API.PaginatedOperationMethod<
   ListManagedHsmBySubscriptionRequest,
   ManagedHsmListResult,
   ListManagedHsmBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedHsm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListManagedHsmBySubscriptionRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<ManagedHsmListResult>,
   errors: [UnknownAzureError],
@@ -2750,16 +2805,23 @@ export const ListManagedHsmBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedHsmBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedHsmDeletedError = AzureOpError;
 /** The List operation gets information about the deleted managed HSMs associated with the subscription. */
-export const ListManagedHsmDeleted: API.OperationMethod<
+export const ListManagedHsmDeleted: API.PaginatedOperationMethod<
   ListManagedHsmDeletedRequest,
   DeletedManagedHsmListResult,
   ListManagedHsmDeletedError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedManagedHsm
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListManagedHsmDeletedRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<DeletedManagedHsmListResult>,
   errors: [UnknownAzureError],
@@ -2767,16 +2829,23 @@ export const ListManagedHsmDeleted: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedHsmDeleted",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedHsmKeysError = AzureOpError;
 /** Lists the keys in the specified managed HSM. */
-export const ListManagedHsmKeys: API.OperationMethod<
+export const ListManagedHsmKeys: API.PaginatedOperationMethod<
   ListManagedHsmKeysRequest,
   ManagedHsmKeyListResult,
   ListManagedHsmKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedHsmKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListManagedHsmKeysRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<ManagedHsmKeyListResult>,
   errors: [UnknownAzureError],
@@ -2784,16 +2853,23 @@ export const ListManagedHsmKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedHsmKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedHsmKeyVersionsError = AzureOpError;
 /** Lists the keys in the specified managed HSM. */
-export const ListManagedHsmKeyVersions: API.OperationMethod<
+export const ListManagedHsmKeyVersions: API.PaginatedOperationMethod<
   ListManagedHsmKeyVersionsRequest,
   ManagedHsmKeyListResult,
   ListManagedHsmKeyVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedHsmKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListManagedHsmKeyVersionsRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<ManagedHsmKeyListResult>,
   errors: [UnknownAzureError],
@@ -2801,16 +2877,23 @@ export const ListManagedHsmKeyVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedHsmKeyVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMHSMPrivateEndpointConnectionByResourceError = AzureOpError;
 /** The List operation gets information about the private endpoint connections associated with the managed HSM Pool. */
-export const ListMHSMPrivateEndpointConnectionByResource: API.OperationMethod<
+export const ListMHSMPrivateEndpointConnectionByResource: API.PaginatedOperationMethod<
   ListMHSMPrivateEndpointConnectionByResourceRequest,
   MHSMPrivateEndpointConnectionsListResult,
   ListMHSMPrivateEndpointConnectionByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MHSMPrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListMHSMPrivateEndpointConnectionByResourceRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<MHSMPrivateEndpointConnectionsListResult>,
   errors: [UnknownAzureError],
@@ -2818,7 +2901,13 @@ export const ListMHSMPrivateEndpointConnectionByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMHSMPrivateEndpointConnectionByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMHSMPrivateLinkResourceByMHSMResourceError = AzureOpError;
 /** Gets the private link resources supported for the managed hsm pool. */
@@ -2839,12 +2928,13 @@ export const ListMHSMPrivateLinkResourceByMHSMResource: API.OperationMethod<
 
 export type ListMHSMRegionByResourceError = AzureOpError;
 /** The List operation gets information about the regions associated with the managed HSM Pool. */
-export const ListMHSMRegionByResource: API.OperationMethod<
+export const ListMHSMRegionByResource: API.PaginatedOperationMethod<
   ListMHSMRegionByResourceRequest,
   MHSMRegionsListResult,
   ListMHSMRegionByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MHSMGeoReplicatedRegion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListMHSMRegionByResourceRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<MHSMRegionsListResult>,
   errors: [UnknownAzureError],
@@ -2852,16 +2942,23 @@ export const ListMHSMRegionByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMHSMRegionByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(732, __c45, 12) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -2869,16 +2966,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByResourceError = AzureOpError;
 /** The List operation gets information about the private endpoint connections associated with the vault. */
-export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
+export const ListPrivateEndpointConnectionByResource: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByResourceRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListPrivateEndpointConnectionByResourceRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2886,7 +2990,13 @@ export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByVaultError = AzureOpError;
 /** Gets the private link resources supported for the key vault. */
@@ -2907,12 +3017,13 @@ export const ListPrivateLinkResourceByVault: API.OperationMethod<
 
 export type ListSecretsError = AzureOpError;
 /** The List operation gets information about the secrets in a vault. NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets. */
-export const ListSecrets: API.OperationMethod<
+export const ListSecrets: API.PaginatedOperationMethod<
   ListSecretsRequest,
   SecretListResult,
   ListSecretsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Secret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListSecretsRequest>,
   output: __S(802, __c50, 2) as any as S.Schema<SecretListResult>,
   errors: [UnknownAzureError],
@@ -2920,16 +3031,23 @@ export const ListSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecrets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultByResourceGroupError = AzureOpError;
 /** The List operation gets information about the vaults associated with the subscription and within the specified resource group. */
-export const ListVaultByResourceGroup: API.OperationMethod<
+export const ListVaultByResourceGroup: API.PaginatedOperationMethod<
   ListVaultByResourceGroupRequest,
   VaultListResult,
   ListVaultByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Vault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListVaultByResourceGroupRequest>,
   output: __S(833, __c52, 1) as any as S.Schema<VaultListResult>,
   errors: [UnknownAzureError],
@@ -2937,16 +3055,23 @@ export const ListVaultByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultBySubscriptionError = AzureOpError;
 /** The List operation gets information about the vaults associated with the subscription. */
-export const ListVaultBySubscription: API.OperationMethod<
+export const ListVaultBySubscription: API.PaginatedOperationMethod<
   ListVaultBySubscriptionRequest,
   VaultListResult,
   ListVaultBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Vault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListVaultBySubscriptionRequest>,
   output: __S(833, __c52, 1) as any as S.Schema<VaultListResult>,
   errors: [UnknownAzureError],
@@ -2954,16 +3079,23 @@ export const ListVaultBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultDeletedError = AzureOpError;
 /** Gets information about the deleted vaults in a subscription. */
-export const ListVaultDeleted: API.OperationMethod<
+export const ListVaultDeleted: API.PaginatedOperationMethod<
   ListVaultDeletedRequest,
   DeletedVaultListResult,
   ListVaultDeletedError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedVault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListVaultDeletedRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<DeletedVaultListResult>,
   errors: [UnknownAzureError],
@@ -2971,16 +3103,23 @@ export const ListVaultDeleted: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultDeleted",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultsError = AzureOpError;
 /** The List operation gets information about the vaults associated with the subscription. */
-export const ListVaults: API.OperationMethod<
+export const ListVaults: API.PaginatedOperationMethod<
   ListVaultsRequest,
   ResourceListResult,
   ListVaultsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListVaultsRequest>,
   output: __S(883, __c55, 3) as any as S.Schema<ResourceListResult>,
   errors: [UnknownAzureError],
@@ -2988,7 +3127,13 @@ export const ListVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: { op: "ListVaults", attributes: { "azure.resource_provider.namespace": null } },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ManagedHsmsCreateOrUpdateError = AzureOpError;
 /** Create or update a managed HSM Pool in the specified subscription. */
@@ -3735,12 +3880,14 @@ function __c25(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKeysRequest" });
@@ -3941,12 +4088,14 @@ function __c33(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKeyVersionsRequest" });
@@ -3960,12 +4109,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedHsmByResourceGroupRequest" });
@@ -3991,12 +4142,14 @@ function __c36(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedHsmBySubscriptionRequest" });
@@ -4008,12 +4161,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedHsmDeletedRequest" });
@@ -4036,12 +4191,14 @@ function __c38(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedHsmKeysRequest" });
@@ -4069,12 +4226,14 @@ function __c40(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           keyName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedHsmKeyVersionsRequest" });
@@ -4088,12 +4247,14 @@ function __c41(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMHSMPrivateEndpointConnectionByResourceRequest" });
@@ -4169,12 +4330,14 @@ function __c44(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/regions",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMHSMRegionByResourceRequest" });
@@ -4191,12 +4354,15 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.KeyVault/operations",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4326,12 +4492,14 @@ function __c48(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByResourceRequest" });
@@ -4394,12 +4562,14 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsRequest" });
@@ -4422,12 +4592,14 @@ function __c51(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultByResourceGroupRequest" });
@@ -4453,12 +4625,14 @@ function __c53(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultBySubscriptionRequest" });
@@ -4470,12 +4644,14 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultDeletedRequest" });
@@ -4498,12 +4674,14 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.String.pipe(T.Query("$filter")),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resources",
             code: 200,
             apiVersion: "2026-05-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultsRequest" });

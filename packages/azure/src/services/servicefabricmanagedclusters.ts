@@ -1814,6 +1814,8 @@ export interface ListApplicationsRequest {
   resourceGroupName: string;
   /** The name of the cluster resource. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApplicationResourceTagsMap = { [key: string]: string | undefined };
@@ -1852,6 +1854,8 @@ export interface ListApplicationTypesRequest {
   resourceGroupName: string;
   /** The name of the cluster resource. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApplicationTypeResourceTagsMap = { [key: string]: string | undefined };
@@ -1890,6 +1894,8 @@ export interface ListApplicationTypeVersionByApplicationTypesRequest {
   clusterName: string;
   /** The name of the application type name resource. */
   applicationTypeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ApplicationTypeVersionResourceTagsMap = { [key: string]: string | undefined };
@@ -1924,6 +1930,8 @@ export interface ListManagedClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedClusterTagsMap = { [key: string]: string | undefined };
@@ -1960,6 +1968,8 @@ export interface ManagedClusterListResult {
 export interface ListManagedClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterVersionRequest {
   /** The ID of the target subscription. */
@@ -1987,6 +1997,8 @@ export interface ListManagedUnsupportedVMSizesRequest {
   subscriptionId: string;
   /** The location for the unsupported VM sizes. This is different from cluster location. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The ManagedVMSize items on this page */
 export type ManagedVMSizesResultValueList = Array<ManagedVMSize>;
@@ -2004,6 +2016,8 @@ export interface ListNodeTypeByManagedClustersRequest {
   resourceGroupName: string;
   /** The name of the cluster resource. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NodeTypeTagsMap = { [key: string]: string | undefined };
@@ -2042,6 +2056,8 @@ export interface ListNodeTypeSkusRequest {
   clusterName: string;
   /** The name of the node type. */
   nodeTypeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a node type supported sku. */
 export interface NodeTypeSupportedSku {
@@ -2081,7 +2097,10 @@ export interface NodeTypeListSkuResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation supported by the Service Fabric resource provider */
 export interface AvailableOperationDisplay {
   /** The name of the provider. */
@@ -2124,6 +2143,8 @@ export interface ListServiceByApplicationsRequest {
   clusterName: string;
   /** The name of the application resource. */
   applicationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceResourceTagsMap = { [key: string]: string | undefined };
@@ -3598,12 +3619,13 @@ export const GetService: API.OperationMethod<
 
 export type ListApplicationsError = AzureOpError;
 /** Gets all managed application resources created or in the process of being created in the Service Fabric cluster resource. */
-export const ListApplications: API.OperationMethod<
+export const ListApplications: API.PaginatedOperationMethod<
   ListApplicationsRequest,
   ApplicationResourceList,
   ListApplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListApplicationsRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<ApplicationResourceList>,
   errors: [UnknownAzureError],
@@ -3611,16 +3633,23 @@ export const ListApplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationTypesError = AzureOpError;
 /** Gets all application type name resources created or in the process of being created in the Service Fabric managed cluster resource. */
-export const ListApplicationTypes: API.OperationMethod<
+export const ListApplicationTypes: API.PaginatedOperationMethod<
   ListApplicationTypesRequest,
   ApplicationTypeResourceList,
   ListApplicationTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationTypeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListApplicationTypesRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ApplicationTypeResourceList>,
   errors: [UnknownAzureError],
@@ -3628,16 +3657,23 @@ export const ListApplicationTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationTypeVersionByApplicationTypesError = AzureOpError;
 /** Gets all application type version resources created or in the process of being created in the Service Fabric managed application type name resource. */
-export const ListApplicationTypeVersionByApplicationTypes: API.OperationMethod<
+export const ListApplicationTypeVersionByApplicationTypes: API.PaginatedOperationMethod<
   ListApplicationTypeVersionByApplicationTypesRequest,
   ApplicationTypeVersionResourceList,
   ListApplicationTypeVersionByApplicationTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationTypeVersionResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1184,
     __c37,
@@ -3649,16 +3685,23 @@ export const ListApplicationTypeVersionByApplicationTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationTypeVersionByApplicationTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedClusterByResourceGroupError = AzureOpError;
 /** Gets all Service Fabric cluster resources created or in the process of being created in the resource group. */
-export const ListManagedClusterByResourceGroup: API.OperationMethod<
+export const ListManagedClusterByResourceGroup: API.PaginatedOperationMethod<
   ListManagedClusterByResourceGroupRequest,
   ManagedClusterListResult,
   ListManagedClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListManagedClusterByResourceGroupRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<ManagedClusterListResult>,
   errors: [UnknownAzureError],
@@ -3666,16 +3709,23 @@ export const ListManagedClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedClusterBySubscriptionError = AzureOpError;
 /** Gets all Service Fabric cluster resources created or in the process of being created in the subscription. */
-export const ListManagedClusterBySubscription: API.OperationMethod<
+export const ListManagedClusterBySubscription: API.PaginatedOperationMethod<
   ListManagedClusterBySubscriptionRequest,
   ManagedClusterListResult,
   ListManagedClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListManagedClusterBySubscriptionRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<ManagedClusterListResult>,
   errors: [UnknownAzureError],
@@ -3683,7 +3733,13 @@ export const ListManagedClusterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedClusterVersionError = AzureOpError;
 /** Gets the list of Service Fabric cluster code versions available for the specified location. Gets all available code versions for Service Fabric cluster resources by location. */
@@ -3721,12 +3777,13 @@ export const ListManagedClusterVersionByEnvironment: API.OperationMethod<
 
 export type ListManagedUnsupportedVMSizesError = AzureOpError;
 /** Get the lists of unsupported vm sizes for Service Fabric Managed Clusters. */
-export const ListManagedUnsupportedVMSizes: API.OperationMethod<
+export const ListManagedUnsupportedVMSizes: API.PaginatedOperationMethod<
   ListManagedUnsupportedVMSizesRequest,
   ManagedVMSizesResult,
   ListManagedUnsupportedVMSizesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedVMSize
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListManagedUnsupportedVMSizesRequest>,
   output: __S(1474, __c46, 2) as any as S.Schema<ManagedVMSizesResult>,
   errors: [UnknownAzureError],
@@ -3734,16 +3791,23 @@ export const ListManagedUnsupportedVMSizes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedUnsupportedVMSizes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodeTypeByManagedClustersError = AzureOpError;
 /** Gets all Node types of the specified managed cluster. */
-export const ListNodeTypeByManagedClusters: API.OperationMethod<
+export const ListNodeTypeByManagedClusters: API.PaginatedOperationMethod<
   ListNodeTypeByManagedClustersRequest,
   NodeTypeListResult,
   ListNodeTypeByManagedClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NodeType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListNodeTypeByManagedClustersRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<NodeTypeListResult>,
   errors: [UnknownAzureError],
@@ -3751,16 +3815,23 @@ export const ListNodeTypeByManagedClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeTypeByManagedClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodeTypeSkusError = AzureOpError;
 /** Get a Service Fabric node type supported SKUs. */
-export const ListNodeTypeSkus: API.OperationMethod<
+export const ListNodeTypeSkus: API.PaginatedOperationMethod<
   ListNodeTypeSkusRequest,
   NodeTypeListSkuResult,
   ListNodeTypeSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NodeTypeAvailableSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListNodeTypeSkusRequest>,
   output: __S(1541, __c48, 5) as any as S.Schema<NodeTypeListSkuResult>,
   errors: [UnknownAzureError],
@@ -3768,16 +3839,23 @@ export const ListNodeTypeSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeTypeSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Service Fabric resource provider API operations. Get the list of available Service Fabric resource provider API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1572, __c49, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -3785,16 +3863,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceByApplicationsError = AzureOpError;
 /** Gets all service resources created or in the process of being created in the Service Fabric managed application resource. */
-export const ListServiceByApplications: API.OperationMethod<
+export const ListServiceByApplications: API.PaginatedOperationMethod<
   ListServiceByApplicationsRequest,
   ServiceResourceList,
   ListServiceByApplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListServiceByApplicationsRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<ServiceResourceList>,
   errors: [UnknownAzureError],
@@ -3802,7 +3887,13 @@ export const ListServiceByApplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceByApplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ManagedClustersCreateOrUpdateError = AzureOpError;
 /** Create or update a Service Fabric managed cluster resource with the specified name. */
@@ -5499,12 +5590,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationsRequest" });
@@ -5527,12 +5620,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationTypesRequest" });
@@ -5556,12 +5651,14 @@ function __c37(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           applicationTypeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationTypeVersionByApplicationTypesRequest" });
@@ -5583,12 +5680,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterByResourceGroupRequest" });
@@ -5613,12 +5712,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/managedClusters",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterBySubscriptionRequest" });
@@ -5709,12 +5810,14 @@ function __c46(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedUnsupportedVMSizes",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedUnsupportedVMSizesRequest" });
@@ -5737,12 +5840,14 @@ function __c47(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodeTypeByManagedClustersRequest" });
@@ -5766,12 +5871,14 @@ function __c48(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           nodeTypeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/skus",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodeTypeSkusRequest" });
@@ -5814,12 +5921,15 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ServiceFabric/operations",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5862,12 +5972,14 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services",
             code: 200,
             apiVersion: "2026-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceByApplicationsRequest" });

@@ -1932,6 +1932,8 @@ export interface GetProxyArtifactRequest {
   artifactStoreName: string;
   /** The name of the artifact. */
   artifactName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The artifact type. */
 export type ProxyArtifactOverviewPropertiesValueArtifactType =
@@ -1969,7 +1971,7 @@ export type ProxyArtifactVersionsOverviewListResultValueList =
 /** The proxy artifact list result. */
 export interface ProxyArtifactVersionsOverviewListResult {
   /** A list of available proxy artifacts. */
-  value?: ProxyArtifactVersionsOverviewListResultValueList | undefined;
+  value: ProxyArtifactVersionsOverviewListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2255,6 +2257,8 @@ export interface ListArtifactManifestByArtifactStoreRequest {
   publisherName: string;
   /** The name of the artifact store. */
   artifactStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactManifestTagsMap = { [key: string]: string | undefined };
@@ -2280,7 +2284,7 @@ export type ArtifactManifestListResultValueList = Array<ArtifactManifest>;
 /** A list of artifact manifests. */
 export interface ArtifactManifestListResult {
   /** A list of artifact manifests. */
-  value?: ArtifactManifestListResultValueList | undefined;
+  value: ArtifactManifestListResultValueList;
   /** The URI to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2338,6 +2342,8 @@ export interface ListArtifactStoreByPublisherRequest {
   resourceGroupName: string;
   /** The name of the publisher. */
   publisherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactStoreTagsMap = { [key: string]: string | undefined };
@@ -2363,7 +2369,7 @@ export type ArtifactStoreListResultValueList = Array<ArtifactStore>;
 /** A list of artifact stores. */
 export interface ArtifactStoreListResult {
   /** A list of artifact stores. */
-  value?: ArtifactStoreListResultValueList | undefined;
+  value: ArtifactStoreListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2376,6 +2382,8 @@ export interface ListArtifactStoreNetworkFabricControllerPrivateEndPointsRequest
   publisherName: string;
   /** The name of the artifact store. */
   artifactStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Reference to another resource. */
 export type ArtifactStoreNetworkFabricControllerEndPointsNetworkFabricControllerIdsItem =
@@ -2396,7 +2404,7 @@ export type ArtifactStoreNetworkFabricControllerEndPointsListValueList =
 /** List of manual private endpoints. */
 export interface ArtifactStoreNetworkFabricControllerEndPointsList {
   /** A list of network fabric controllers. */
-  value?: ArtifactStoreNetworkFabricControllerEndPointsListValueList | undefined;
+  value: ArtifactStoreNetworkFabricControllerEndPointsListValueList;
   /** The URI to get the next set of results. */
   nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -2411,6 +2419,8 @@ export interface ListArtifactStorePrivateEndPointsRequest {
   publisherName: string;
   /** The name of the artifact store. */
   artifactStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Reference to another resource. */
 export type ArtifactStorePrivateEndPointsFormatManualPrivateEndPointConnectionsItem =
@@ -2431,7 +2441,7 @@ export type ArtifactStorePrivateEndPointsListResultValueList =
 /** List of manual private endpoints. */
 export interface ArtifactStorePrivateEndPointsListResult {
   /** A list of private endpoints. */
-  value?: ArtifactStorePrivateEndPointsListResultValueList | undefined;
+  value: ArtifactStorePrivateEndPointsListResultValueList;
   /** The URI to get the next set of results. */
   nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -2444,6 +2454,8 @@ export interface ListComponentByNetworkFunctionRequest {
   resourceGroupName: string;
   /** The name of the network function. */
   networkFunctionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The component sub resource. */
 export interface Component {
@@ -2463,7 +2475,7 @@ export type ComponentListResultValueList = Array<Component>;
 /** Response for list component API service call. */
 export interface ComponentListResult {
   /** A list of component resources in a networkFunction. */
-  value?: ComponentListResultValueList | undefined;
+  value: ComponentListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2474,6 +2486,8 @@ export interface ListConfigurationGroupSchemaByPublisherRequest {
   resourceGroupName: string;
   /** The name of the publisher. */
   publisherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupSchemaTagsMap = { [key: string]: string | undefined };
@@ -2499,7 +2513,7 @@ export type ConfigurationGroupSchemaListResultValueList = Array<ConfigurationGro
 /** A list of configuration group schema resources. */
 export interface ConfigurationGroupSchemaListResult {
   /** A list of configuration group schema. */
-  value?: ConfigurationGroupSchemaListResultValueList | undefined;
+  value: ConfigurationGroupSchemaListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2508,6 +2522,8 @@ export interface ListConfigurationGroupValueByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupValueTagsMap = { [key: string]: string | undefined };
@@ -2533,19 +2549,23 @@ export type ConfigurationGroupValueListResultValueList = Array<ConfigurationGrou
 /** Response for hybrid configurationGroups API service call. */
 export interface ConfigurationGroupValueListResult {
   /** A list of hybrid configurationGroups. */
-  value?: ConfigurationGroupValueListResultValueList | undefined;
+  value: ConfigurationGroupValueListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListConfigurationGroupValueBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionTagsMap = { [key: string]: string | undefined };
@@ -2577,13 +2597,15 @@ export type NetworkFunctionListResultValueList = Array<NetworkFunction>;
 /** Response for network function API service call. */
 export interface NetworkFunctionListResult {
   /** A list of network function resources in a subscription or resource group. */
-  value?: NetworkFunctionListResultValueList | undefined;
+  value: NetworkFunctionListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionDefinitionGroupByPublisherRequest {
   /** The ID of the target subscription. */
@@ -2592,6 +2614,8 @@ export interface ListNetworkFunctionDefinitionGroupByPublisherRequest {
   resourceGroupName: string;
   /** The name of the publisher. */
   publisherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionGroupTagsMap = { [key: string]: string | undefined };
@@ -2618,7 +2642,7 @@ export type NetworkFunctionDefinitionGroupListResultValueList =
 /** A list of network function definition group resources. */
 export interface NetworkFunctionDefinitionGroupListResult {
   /** A list of network function definition group. */
-  value?: NetworkFunctionDefinitionGroupListResultValueList | undefined;
+  value: NetworkFunctionDefinitionGroupListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2631,6 +2655,8 @@ export interface ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinition
   publisherName: string;
   /** The name of the network function definition group. */
   networkFunctionDefinitionGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionVersionTagsMap = { [key: string]: string | undefined };
@@ -2657,7 +2683,7 @@ export type NetworkFunctionDefinitionVersionListResultValueList =
 /** A list of network function definition versions. */
 export interface NetworkFunctionDefinitionVersionListResult {
   /** A list of network function definition versions. */
-  value?: NetworkFunctionDefinitionVersionListResultValueList | undefined;
+  value: NetworkFunctionDefinitionVersionListResultValueList;
   /** The URI to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2668,6 +2694,8 @@ export interface ListNetworkServiceDesignGroupByPublisherRequest {
   resourceGroupName: string;
   /** The name of the publisher. */
   publisherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignGroupTagsMap = { [key: string]: string | undefined };
@@ -2693,7 +2721,7 @@ export type NetworkServiceDesignGroupListResultValueList = Array<NetworkServiceD
 /** A list of network service design group resources. */
 export interface NetworkServiceDesignGroupListResult {
   /** A list of network service design group. */
-  value?: NetworkServiceDesignGroupListResultValueList | undefined;
+  value: NetworkServiceDesignGroupListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2706,6 +2734,8 @@ export interface ListNetworkServiceDesignVersionByNetworkServiceDesignGroupReque
   publisherName: string;
   /** The name of the network service design group. */
   networkServiceDesignGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignVersionTagsMap = { [key: string]: string | undefined };
@@ -2731,11 +2761,14 @@ export type NetworkServiceDesignVersionListResultValueList = Array<NetworkServic
 /** A list of network service design versions. */
 export interface NetworkServiceDesignVersionListResult {
   /** A list of network service design versions. */
-  value?: NetworkServiceDesignVersionListResultValueList | undefined;
+  value: NetworkServiceDesignVersionListResultValueList;
   /** The URI to get the next set of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -2768,7 +2801,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2781,6 +2814,8 @@ export interface ListProxyArtifactRequest {
   publisherName: string;
   /** The name of the artifact store. */
   artifactStoreName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -2798,7 +2833,7 @@ export type ProxyArtifactOverviewListResultValueList = Array<Resource>;
 /** The proxy artifact list result. */
 export interface ProxyArtifactOverviewListResult {
   /** A list of available proxy artifacts. */
-  value?: ProxyArtifactOverviewListResultValueList | undefined;
+  value: ProxyArtifactOverviewListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2807,6 +2842,8 @@ export interface ListPublisherByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PublisherTagsMap = { [key: string]: string | undefined };
@@ -2836,19 +2873,23 @@ export type PublisherListResultValueList = Array<Publisher>;
 /** A list of publishers. */
 export interface PublisherListResult {
   /** A list of publishers. */
-  value?: PublisherListResultValueList | undefined;
+  value: PublisherListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListPublisherBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSiteByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SiteTagsMap = { [key: string]: string | undefined };
@@ -2874,19 +2915,23 @@ export type SiteListResultValueList = Array<Site>;
 /** Response for sites API service call. */
 export interface SiteListResult {
   /** A list of sites in a resource group. */
-  value?: SiteListResultValueList | undefined;
+  value: SiteListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListSiteBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSiteNetworkServiceByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SiteNetworkServiceTagsMap = { [key: string]: string | undefined };
@@ -2918,13 +2963,15 @@ export type SiteNetworkServiceListResultValueList = Array<SiteNetworkService>;
 /** Response for site network services API service call. */
 export interface SiteNetworkServiceListResult {
   /** A list of site network services in a resource group. */
-  value?: SiteNetworkServiceListResultValueList | undefined;
+  value: SiteNetworkServiceListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListSiteNetworkServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionGroupsCreateOrUpdateRequestTagsMap = {
@@ -4561,12 +4608,13 @@ export const GetNetworkServiceDesignVersion: API.OperationMethod<
 
 export type GetProxyArtifactError = AzureOpError;
 /** Get a Artifact overview information. */
-export const GetProxyArtifact: API.OperationMethod<
+export const GetProxyArtifact: API.PaginatedOperationMethod<
   GetProxyArtifactRequest,
   ProxyArtifactVersionsOverviewListResult,
   GetProxyArtifactError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProxyArtifactVersionsListOverview
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetProxyArtifactRequest>,
   output: __S(1347, __c42, 3) as any as S.Schema<ProxyArtifactVersionsOverviewListResult>,
   errors: [UnknownAzureError],
@@ -4574,7 +4622,13 @@ export const GetProxyArtifact: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProxyArtifact",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetPublisherError = AzureOpError;
 /** Gets information about the specified publisher. */
@@ -4629,12 +4683,13 @@ export const GetSiteNetworkService: API.OperationMethod<
 
 export type ListArtifactManifestByArtifactStoreError = AzureOpError;
 /** Gets information about the artifact manifest. */
-export const ListArtifactManifestByArtifactStore: API.OperationMethod<
+export const ListArtifactManifestByArtifactStore: API.PaginatedOperationMethod<
   ListArtifactManifestByArtifactStoreRequest,
   ArtifactManifestListResult,
   ListArtifactManifestByArtifactStoreError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArtifactManifest
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListArtifactManifestByArtifactStoreRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<ArtifactManifestListResult>,
   errors: [UnknownAzureError],
@@ -4642,7 +4697,13 @@ export const ListArtifactManifestByArtifactStore: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactManifestByArtifactStore",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListArtifactManifestCredentialError = AzureOpError;
 /** List credential for publishing artifacts defined in artifact manifest. */
@@ -4663,12 +4724,13 @@ export const ListArtifactManifestCredential: API.OperationMethod<
 
 export type ListArtifactStoreByPublisherError = AzureOpError;
 /** Gets information of the ArtifactStores under publisher. */
-export const ListArtifactStoreByPublisher: API.OperationMethod<
+export const ListArtifactStoreByPublisher: API.PaginatedOperationMethod<
   ListArtifactStoreByPublisherRequest,
   ArtifactStoreListResult,
   ListArtifactStoreByPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArtifactStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListArtifactStoreByPublisherRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<ArtifactStoreListResult>,
   errors: [UnknownAzureError],
@@ -4676,16 +4738,23 @@ export const ListArtifactStoreByPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactStoreByPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListArtifactStoreNetworkFabricControllerPrivateEndPointsError = AzureOpError;
 /** List network fabric controllers to artifact stores */
-export const ListArtifactStoreNetworkFabricControllerPrivateEndPoints: API.OperationMethod<
+export const ListArtifactStoreNetworkFabricControllerPrivateEndPoints: API.PaginatedOperationMethod<
   ListArtifactStoreNetworkFabricControllerPrivateEndPointsRequest,
   ArtifactStoreNetworkFabricControllerEndPointsList,
   ListArtifactStoreNetworkFabricControllerPrivateEndPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArtifactStoreNetworkFabricControllerEndPoints
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1696,
     __c53,
@@ -4697,16 +4766,23 @@ export const ListArtifactStoreNetworkFabricControllerPrivateEndPoints: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactStoreNetworkFabricControllerPrivateEndPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListArtifactStorePrivateEndPointsError = AzureOpError;
 /** List manual private endpoints on artifact stores */
-export const ListArtifactStorePrivateEndPoints: API.OperationMethod<
+export const ListArtifactStorePrivateEndPoints: API.PaginatedOperationMethod<
   ListArtifactStorePrivateEndPointsRequest,
   ArtifactStorePrivateEndPointsListResult,
   ListArtifactStorePrivateEndPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArtifactStorePrivateEndPointsFormat
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListArtifactStorePrivateEndPointsRequest>,
   output: __S(1731, __c54, 3) as any as S.Schema<ArtifactStorePrivateEndPointsListResult>,
   errors: [UnknownAzureError],
@@ -4714,16 +4790,23 @@ export const ListArtifactStorePrivateEndPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactStorePrivateEndPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComponentByNetworkFunctionError = AzureOpError;
 /** Lists all the component resources in a network function. */
-export const ListComponentByNetworkFunction: API.OperationMethod<
+export const ListComponentByNetworkFunction: API.PaginatedOperationMethod<
   ListComponentByNetworkFunctionRequest,
   ComponentListResult,
   ListComponentByNetworkFunctionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Component
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListComponentByNetworkFunctionRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ComponentListResult>,
   errors: [UnknownAzureError],
@@ -4731,16 +4814,23 @@ export const ListComponentByNetworkFunction: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListComponentByNetworkFunction",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationGroupSchemaByPublisherError = AzureOpError;
 /** Gets information of the configuration group schemas under a publisher. */
-export const ListConfigurationGroupSchemaByPublisher: API.OperationMethod<
+export const ListConfigurationGroupSchemaByPublisher: API.PaginatedOperationMethod<
   ListConfigurationGroupSchemaByPublisherRequest,
   ConfigurationGroupSchemaListResult,
   ListConfigurationGroupSchemaByPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationGroupSchema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListConfigurationGroupSchemaByPublisherRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<ConfigurationGroupSchemaListResult>,
   errors: [UnknownAzureError],
@@ -4748,16 +4838,23 @@ export const ListConfigurationGroupSchemaByPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationGroupSchemaByPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationGroupValueByResourceGroupError = AzureOpError;
 /** Lists all the hybrid network configurationGroupValues in a resource group. */
-export const ListConfigurationGroupValueByResourceGroup: API.OperationMethod<
+export const ListConfigurationGroupValueByResourceGroup: API.PaginatedOperationMethod<
   ListConfigurationGroupValueByResourceGroupRequest,
   ConfigurationGroupValueListResult,
   ListConfigurationGroupValueByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationGroupValue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListConfigurationGroupValueByResourceGroupRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
   errors: [UnknownAzureError],
@@ -4765,16 +4862,23 @@ export const ListConfigurationGroupValueByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationGroupValueByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationGroupValueBySubscriptionError = AzureOpError;
 /** Lists all sites in the configuration group value in a subscription. */
-export const ListConfigurationGroupValueBySubscription: API.OperationMethod<
+export const ListConfigurationGroupValueBySubscription: API.PaginatedOperationMethod<
   ListConfigurationGroupValueBySubscriptionRequest,
   ConfigurationGroupValueListResult,
   ListConfigurationGroupValueBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationGroupValue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListConfigurationGroupValueBySubscriptionRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
   errors: [UnknownAzureError],
@@ -4782,16 +4886,23 @@ export const ListConfigurationGroupValueBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationGroupValueBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFunctionByResourceGroupError = AzureOpError;
 /** Lists all the network function resources in a resource group. */
-export const ListNetworkFunctionByResourceGroup: API.OperationMethod<
+export const ListNetworkFunctionByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkFunctionByResourceGroupRequest,
   NetworkFunctionListResult,
   ListNetworkFunctionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListNetworkFunctionByResourceGroupRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<NetworkFunctionListResult>,
   errors: [UnknownAzureError],
@@ -4799,16 +4910,23 @@ export const ListNetworkFunctionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFunctionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFunctionBySubscriptionError = AzureOpError;
 /** Lists all the network functions in a subscription. */
-export const ListNetworkFunctionBySubscription: API.OperationMethod<
+export const ListNetworkFunctionBySubscription: API.PaginatedOperationMethod<
   ListNetworkFunctionBySubscriptionRequest,
   NetworkFunctionListResult,
   ListNetworkFunctionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListNetworkFunctionBySubscriptionRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<NetworkFunctionListResult>,
   errors: [UnknownAzureError],
@@ -4816,16 +4934,23 @@ export const ListNetworkFunctionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFunctionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFunctionDefinitionGroupByPublisherError = AzureOpError;
 /** Gets information of the network function definition groups under a publisher. */
-export const ListNetworkFunctionDefinitionGroupByPublisher: API.OperationMethod<
+export const ListNetworkFunctionDefinitionGroupByPublisher: API.PaginatedOperationMethod<
   ListNetworkFunctionDefinitionGroupByPublisherRequest,
   NetworkFunctionDefinitionGroupListResult,
   ListNetworkFunctionDefinitionGroupByPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFunctionDefinitionGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2080,
     __c65,
@@ -4837,17 +4962,24 @@ export const ListNetworkFunctionDefinitionGroupByPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFunctionDefinitionGroupByPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupError =
   AzureOpError;
 /** Gets information about a list of network function definition versions under a network function definition group. */
-export const ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup: API.OperationMethod<
+export const ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup: API.PaginatedOperationMethod<
   ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupRequest,
   NetworkFunctionDefinitionVersionListResult,
   ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkFunctionDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2144,
     __c67,
@@ -4859,16 +4991,23 @@ export const ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGrou
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkServiceDesignGroupByPublisherError = AzureOpError;
 /** Gets information of the network service design groups under a publisher. */
-export const ListNetworkServiceDesignGroupByPublisher: API.OperationMethod<
+export const ListNetworkServiceDesignGroupByPublisher: API.PaginatedOperationMethod<
   ListNetworkServiceDesignGroupByPublisherRequest,
   NetworkServiceDesignGroupListResult,
   ListNetworkServiceDesignGroupByPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkServiceDesignGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListNetworkServiceDesignGroupByPublisherRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<NetworkServiceDesignGroupListResult>,
   errors: [UnknownAzureError],
@@ -4876,16 +5015,23 @@ export const ListNetworkServiceDesignGroupByPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkServiceDesignGroupByPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkServiceDesignVersionByNetworkServiceDesignGroupError = AzureOpError;
 /** Gets information about a list of network service design versions under a network service design group. */
-export const ListNetworkServiceDesignVersionByNetworkServiceDesignGroup: API.OperationMethod<
+export const ListNetworkServiceDesignVersionByNetworkServiceDesignGroup: API.PaginatedOperationMethod<
   ListNetworkServiceDesignVersionByNetworkServiceDesignGroupRequest,
   NetworkServiceDesignVersionListResult,
   ListNetworkServiceDesignVersionByNetworkServiceDesignGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkServiceDesignVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2208,
     __c69,
@@ -4897,16 +5043,23 @@ export const ListNetworkServiceDesignVersionByNetworkServiceDesignGroup: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkServiceDesignVersionByNetworkServiceDesignGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Gets a list of the operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2244, __c70, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -4914,16 +5067,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProxyArtifactError = AzureOpError;
 /** Lists all the available artifacts in the parent Artifact Store. */
-export const ListProxyArtifact: API.OperationMethod<
+export const ListProxyArtifact: API.PaginatedOperationMethod<
   ListProxyArtifactRequest,
   ProxyArtifactOverviewListResult,
   ListProxyArtifactError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Resource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListProxyArtifactRequest>,
   output: __S(2371, __c74, 3) as any as S.Schema<ProxyArtifactOverviewListResult>,
   errors: [UnknownAzureError],
@@ -4931,16 +5091,23 @@ export const ListProxyArtifact: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProxyArtifact",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublisherByResourceGroupError = AzureOpError;
 /** Lists all the publishers in a resource group. */
-export const ListPublisherByResourceGroup: API.OperationMethod<
+export const ListPublisherByResourceGroup: API.PaginatedOperationMethod<
   ListPublisherByResourceGroupRequest,
   PublisherListResult,
   ListPublisherByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Publisher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListPublisherByResourceGroupRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<PublisherListResult>,
   errors: [UnknownAzureError],
@@ -4948,16 +5115,23 @@ export const ListPublisherByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublisherByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublisherBySubscriptionError = AzureOpError;
 /** Lists all the publishers in a subscription. */
-export const ListPublisherBySubscription: API.OperationMethod<
+export const ListPublisherBySubscription: API.PaginatedOperationMethod<
   ListPublisherBySubscriptionRequest,
   PublisherListResult,
   ListPublisherBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Publisher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListPublisherBySubscriptionRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<PublisherListResult>,
   errors: [UnknownAzureError],
@@ -4965,16 +5139,23 @@ export const ListPublisherBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublisherBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteByResourceGroupError = AzureOpError;
 /** Lists all sites in the network service. */
-export const ListSiteByResourceGroup: API.OperationMethod<
+export const ListSiteByResourceGroup: API.PaginatedOperationMethod<
   ListSiteByResourceGroupRequest,
   SiteListResult,
   ListSiteByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Site
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
@@ -4982,16 +5163,23 @@ export const ListSiteByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteBySubscriptionError = AzureOpError;
 /** Lists all sites in the network service in a subscription. */
-export const ListSiteBySubscription: API.OperationMethod<
+export const ListSiteBySubscription: API.PaginatedOperationMethod<
   ListSiteBySubscriptionRequest,
   SiteListResult,
   ListSiteBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Site
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListSiteBySubscriptionRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
@@ -4999,16 +5187,23 @@ export const ListSiteBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteNetworkServiceByResourceGroupError = AzureOpError;
 /** Lists all site network services. */
-export const ListSiteNetworkServiceByResourceGroup: API.OperationMethod<
+export const ListSiteNetworkServiceByResourceGroup: API.PaginatedOperationMethod<
   ListSiteNetworkServiceByResourceGroupRequest,
   SiteNetworkServiceListResult,
   ListSiteNetworkServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SiteNetworkService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListSiteNetworkServiceByResourceGroupRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<SiteNetworkServiceListResult>,
   errors: [UnknownAzureError],
@@ -5016,16 +5211,23 @@ export const ListSiteNetworkServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteNetworkServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteNetworkServiceBySubscriptionError = AzureOpError;
 /** Lists all sites in the network service in a subscription. */
-export const ListSiteNetworkServiceBySubscription: API.OperationMethod<
+export const ListSiteNetworkServiceBySubscription: API.PaginatedOperationMethod<
   ListSiteNetworkServiceBySubscriptionRequest,
   SiteNetworkServiceListResult,
   ListSiteNetworkServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SiteNetworkService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListSiteNetworkServiceBySubscriptionRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<SiteNetworkServiceListResult>,
   errors: [UnknownAzureError],
@@ -5033,7 +5235,13 @@ export const ListSiteNetworkServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteNetworkServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NetworkFunctionDefinitionGroupsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a network function definition group. */
@@ -6697,12 +6905,14 @@ function __c42(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
           artifactName: S.String.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetProxyArtifactRequest" });
@@ -6721,7 +6931,7 @@ function __c42(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1346, __c42, 2)),
+          value: __S(1346, __c42, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProxyArtifactVersionsOverviewListResult" });
@@ -6915,12 +7125,14 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactManifestByArtifactStoreRequest" });
@@ -6929,7 +7141,7 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1601, __c50, 1)),
+          value: __S(1601, __c50, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactManifestListResult" });
@@ -6987,12 +7199,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactStoreByPublisherRequest" });
@@ -7001,7 +7215,7 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1665, __c52, 1)),
+          value: __S(1665, __c52, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactStoreListResult" });
@@ -7016,12 +7230,14 @@ function __c53(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listNetworkFabricControllerPrivateEndPoints",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactStoreNetworkFabricControllerPrivateEndPointsRequest" });
@@ -7036,7 +7252,7 @@ function __c53(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1698, __c53, 2)),
+          value: __S(1698, __c53, 2),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -7052,12 +7268,14 @@ function __c54(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listPrivateEndPoints",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactStorePrivateEndPointsRequest" });
@@ -7072,7 +7290,7 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1730, __c54, 2)),
+          value: __S(1730, __c54, 2),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -7087,12 +7305,14 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           networkFunctionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComponentByNetworkFunctionRequest" });
@@ -7101,7 +7321,7 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1761, __c55, 1)),
+          value: __S(1761, __c55, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComponentListResult" });
@@ -7170,12 +7390,14 @@ function __c58(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationGroupSchemaByPublisherRequest" });
@@ -7184,7 +7406,7 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1857, __c58, 1)),
+          value: __S(1857, __c58, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationGroupSchemaListResult" });
@@ -7197,12 +7419,14 @@ function __c59(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationGroupValueByResourceGroupRequest" });
@@ -7215,7 +7439,7 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1920, __c60, 0)),
+          value: __S(1920, __c60, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationGroupValueListResult" });
@@ -7227,12 +7451,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroupValues",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationGroupValueBySubscriptionRequest" });
@@ -7245,12 +7471,14 @@ function __c62(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFunctionByResourceGroupRequest" });
@@ -7263,7 +7491,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2016, __c63, 0)),
+          value: __S(2016, __c63, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionListResult" });
@@ -7275,12 +7503,14 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctions",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFunctionBySubscriptionRequest" });
@@ -7294,12 +7524,14 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFunctionDefinitionGroupByPublisherRequest" });
@@ -7312,7 +7544,7 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2112, __c66, 0)),
+          value: __S(2112, __c66, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionDefinitionGroupListResult" });
@@ -7327,12 +7559,14 @@ function __c67(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkFunctionDefinitionGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -7343,7 +7577,7 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2145, __c67, 1)),
+          value: __S(2145, __c67, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionDefinitionVersionListResult" });
@@ -7357,12 +7591,14 @@ function __c68(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkServiceDesignGroupByPublisherRequest" });
@@ -7377,12 +7613,14 @@ function __c69(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkServiceDesignGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -7393,7 +7631,7 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2209, __c69, 1)),
+          value: __S(2209, __c69, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkServiceDesignVersionListResult" });
@@ -7403,12 +7641,15 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridNetwork/operations",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7436,7 +7677,7 @@ function __c70(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2243, __c70, 3)),
+          value: __S(2243, __c70, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -7550,12 +7791,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifacts",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProxyArtifactRequest" });
@@ -7573,7 +7816,7 @@ function __c74(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2370, __c74, 2)),
+          value: __S(2370, __c74, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProxyArtifactOverviewListResult" });
@@ -7586,12 +7829,14 @@ function __c75(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublisherByResourceGroupRequest" });
@@ -7604,7 +7849,7 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2432, __c76, 0)),
+          value: __S(2432, __c76, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublisherListResult" });
@@ -7616,12 +7861,14 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/publishers",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublisherBySubscriptionRequest" });
@@ -7634,12 +7881,14 @@ function __c78(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteByResourceGroupRequest" });
@@ -7652,7 +7901,7 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2528, __c79, 0)),
+          value: __S(2528, __c79, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteListResult" });
@@ -7664,12 +7913,14 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/sites",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteBySubscriptionRequest" });
@@ -7682,12 +7933,14 @@ function __c81(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteNetworkServiceByResourceGroupRequest" });
@@ -7700,7 +7953,7 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2624, __c82, 0)),
+          value: __S(2624, __c82, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteNetworkServiceListResult" });
@@ -7712,12 +7965,14 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/siteNetworkServices",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteNetworkServiceBySubscriptionRequest" });

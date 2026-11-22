@@ -467,6 +467,8 @@ export interface ListBinaryHardeningByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Binary hardening features. */
 export interface BinaryHardeningFeatures {
@@ -533,6 +535,8 @@ export interface ListCryptoCertificateByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information on an entity (distinguished name) in a cryptographic certificate. */
 export interface CryptoCertificateEntity {
@@ -652,6 +656,8 @@ export interface ListCryptoKeyByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Different types of cryptographic keys. */
 export type CryptoKeyType = "Public" | "Private";
@@ -711,6 +717,8 @@ export interface ListCveByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Legacy component of a CVE result. */
 export interface CveComponent {
@@ -805,6 +813,8 @@ export interface ListFirmwareByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the firmware analysis workspace. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Firmware definition */
 export interface Firmware {
@@ -828,7 +838,10 @@ export interface FirmwareListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -861,7 +874,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -874,6 +887,8 @@ export interface ListPasswordHashByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Password hash properties */
 export interface PasswordHash {
@@ -925,6 +940,8 @@ export interface ListSbomComponentByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** File paths related to the component. Note, relatedFiles should be used instead of this property. */
 export type SbomComponentFilePathsList = Array<string>;
@@ -974,6 +991,8 @@ export interface ListSummaryByFirmwareRequest {
   workspaceName: string;
   /** The id of the firmware. */
   firmwareId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The object representing a firmware analysis summary resource. */
 export interface SummaryResource {
@@ -1004,6 +1023,8 @@ export interface ListUsageMetricsByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the firmware analysis workspace. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The object representing how many firmwares the user has uploaded to the workspace. */
 export interface UsageMetric {
@@ -1032,6 +1053,8 @@ export interface ListWorkspaceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -1068,6 +1091,8 @@ export interface WorkspaceListResult {
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface UpdateFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1301,12 +1326,13 @@ export const GetWorkspace: API.OperationMethod<
 
 export type ListBinaryHardeningByFirmwareError = AzureOpError;
 /** Lists binary hardening analysis results of a firmware. */
-export const ListBinaryHardeningByFirmware: API.OperationMethod<
+export const ListBinaryHardeningByFirmware: API.PaginatedOperationMethod<
   ListBinaryHardeningByFirmwareRequest,
   BinaryHardeningResourceListResult,
   ListBinaryHardeningByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BinaryHardeningResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListBinaryHardeningByFirmwareRequest>,
   output: __S(469, __c29, 5) as any as S.Schema<BinaryHardeningResourceListResult>,
   errors: [UnknownAzureError],
@@ -1314,16 +1340,23 @@ export const ListBinaryHardeningByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBinaryHardeningByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCryptoCertificateByFirmwareError = AzureOpError;
 /** Lists crypto certificate analysis results of a firmware. */
-export const ListCryptoCertificateByFirmware: API.OperationMethod<
+export const ListCryptoCertificateByFirmware: API.PaginatedOperationMethod<
   ListCryptoCertificateByFirmwareRequest,
   CryptoCertificateResourceListResult,
   ListCryptoCertificateByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CryptoCertificateResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListCryptoCertificateByFirmwareRequest>,
   output: __S(486, __c30, 6) as any as S.Schema<CryptoCertificateResourceListResult>,
   errors: [UnknownAzureError],
@@ -1331,16 +1364,23 @@ export const ListCryptoCertificateByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCryptoCertificateByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCryptoKeyByFirmwareError = AzureOpError;
 /** Lists crypto key analysis results of a firmware. */
-export const ListCryptoKeyByFirmware: API.OperationMethod<
+export const ListCryptoKeyByFirmware: API.PaginatedOperationMethod<
   ListCryptoKeyByFirmwareRequest,
   CryptoKeyResourceListResult,
   ListCryptoKeyByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CryptoKeyResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListCryptoKeyByFirmwareRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<CryptoKeyResourceListResult>,
   errors: [UnknownAzureError],
@@ -1348,16 +1388,23 @@ export const ListCryptoKeyByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCryptoKeyByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCveByFirmwareError = AzureOpError;
 /** Lists CVE analysis results of a firmware. */
-export const ListCveByFirmware: API.OperationMethod<
+export const ListCveByFirmware: API.PaginatedOperationMethod<
   ListCveByFirmwareRequest,
   CveResourceListResult,
   ListCveByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CveResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListCveByFirmwareRequest>,
   output: __S(137, __c8, 9) as any as S.Schema<CveResourceListResult>,
   errors: [UnknownAzureError],
@@ -1365,16 +1412,23 @@ export const ListCveByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCveByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirmwareByWorkspaceError = AzureOpError;
 /** Lists all of firmwares inside a workspace. */
-export const ListFirmwareByWorkspace: API.OperationMethod<
+export const ListFirmwareByWorkspace: API.PaginatedOperationMethod<
   ListFirmwareByWorkspaceRequest,
   FirmwareListResult,
   ListFirmwareByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Firmware
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListFirmwareByWorkspaceRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<FirmwareListResult>,
   errors: [UnknownAzureError],
@@ -1382,16 +1436,23 @@ export const ListFirmwareByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirmwareByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1399,16 +1460,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPasswordHashByFirmwareError = AzureOpError;
 /** Lists password hash analysis results of a firmware. */
-export const ListPasswordHashByFirmware: API.OperationMethod<
+export const ListPasswordHashByFirmware: API.PaginatedOperationMethod<
   ListPasswordHashByFirmwareRequest,
   PasswordHashResourceListResult,
   ListPasswordHashByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PasswordHashResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListPasswordHashByFirmwareRequest>,
   output: __S(180, __c11, 4) as any as S.Schema<PasswordHashResourceListResult>,
   errors: [UnknownAzureError],
@@ -1416,16 +1484,23 @@ export const ListPasswordHashByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPasswordHashByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSbomComponentByFirmwareError = AzureOpError;
 /** Lists sbom analysis results of a firmware. */
-export const ListSbomComponentByFirmware: API.OperationMethod<
+export const ListSbomComponentByFirmware: API.PaginatedOperationMethod<
   ListSbomComponentByFirmwareRequest,
   SbomComponentResourceListResult,
   ListSbomComponentByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SbomComponentResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListSbomComponentByFirmwareRequest>,
   output: __S(196, __c12, 4) as any as S.Schema<SbomComponentResourceListResult>,
   errors: [UnknownAzureError],
@@ -1433,16 +1508,23 @@ export const ListSbomComponentByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSbomComponentByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSummaryByFirmwareError = AzureOpError;
 /** Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name. */
-export const ListSummaryByFirmware: API.OperationMethod<
+export const ListSummaryByFirmware: API.PaginatedOperationMethod<
   ListSummaryByFirmwareRequest,
   SummaryResourceListResult,
   ListSummaryByFirmwareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SummaryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListSummaryByFirmwareRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<SummaryResourceListResult>,
   errors: [UnknownAzureError],
@@ -1450,16 +1532,23 @@ export const ListSummaryByFirmware: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSummaryByFirmware",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageMetricsByWorkspaceError = AzureOpError;
 /** Lists monthly usage information for a workspace. */
-export const ListUsageMetricsByWorkspace: API.OperationMethod<
+export const ListUsageMetricsByWorkspace: API.PaginatedOperationMethod<
   ListUsageMetricsByWorkspaceRequest,
   UsageMetricListResult,
   ListUsageMetricsByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsageMetric
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListUsageMetricsByWorkspaceRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<UsageMetricListResult>,
   errors: [UnknownAzureError],
@@ -1467,16 +1556,23 @@ export const ListUsageMetricsByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageMetricsByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
 /** Lists all of the firmware analysis workspaces in the specified resource group. */
-export const ListWorkspaceByResourceGroup: API.OperationMethod<
+export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceByResourceGroupRequest,
   WorkspaceListResult,
   ListWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -1484,16 +1580,23 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
 /** Lists all of the firmware analysis workspaces in the specified subscription. */
-export const ListWorkspaceBySubscription: API.OperationMethod<
+export const ListWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListWorkspaceBySubscriptionRequest,
   WorkspaceListResult,
   ListWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -1501,7 +1604,13 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateFirmwareError = AzureOpError;
 /** The operation to update firmware. */
@@ -1718,12 +1827,14 @@ function __c7(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cryptoKeys",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCryptoKeyByFirmwareRequest" });
@@ -1771,12 +1882,14 @@ function __c8(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cves",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCveByFirmwareRequest" });
@@ -1857,12 +1970,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFirmwareByWorkspaceRequest" });
@@ -1881,12 +1996,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.IoTFirmwareDefense/operations",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1914,7 +2032,7 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(163, __c10, 3)),
+          value: __S(163, __c10, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1929,12 +2047,14 @@ function __c11(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/passwordHashes",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPasswordHashByFirmwareRequest" });
@@ -1981,12 +2101,14 @@ function __c12(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/sbomComponents",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSbomComponentByFirmwareRequest" });
@@ -2031,12 +2153,14 @@ function __c13(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/summaries",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSummaryByFirmwareRequest" });
@@ -2059,12 +2183,14 @@ function __c14(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/usageMetrics",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageMetricsByWorkspaceRequest" });
@@ -2086,12 +2212,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
@@ -2116,12 +2244,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.IoTFirmwareDefense/workspaces",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
@@ -2449,12 +2579,14 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/binaryHardeningResults",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBinaryHardeningByFirmwareRequest" });
@@ -2511,12 +2643,14 @@ function __c30(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           firmwareId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cryptoCertificates",
             code: 200,
             apiVersion: "2025-08-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCryptoCertificateByFirmwareRequest" });

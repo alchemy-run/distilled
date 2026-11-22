@@ -1590,6 +1590,20 @@ export class WorkflowTriggerResetNotSupported
     AzureErrorFields,
   ).pipe(Category.withBadRequestError) {}
 
+/**
+ * Container Registry: the token server refused to exchange an Entra token
+ * for a registry token (`/oauth2/exchange`, `/oauth2/token`).
+ */
+export class ContainerRegistryTokenExchangeFailed
+  extends /*@__PURE__*/ Schema.TaggedError<ContainerRegistryTokenExchangeFailed>()(
+    "ContainerRegistryTokenExchangeFailed",
+    {
+      message: /*@__PURE__*/ Schema.optional(Schema.String),
+      code: /*@__PURE__*/ Schema.optional(Schema.String),
+      status: /*@__PURE__*/ Schema.optional(Schema.Number),
+    },
+  ).pipe(Category.withAuthError) {}
+
 export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
   TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
   MaxNumberOfGlobalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
@@ -3371,4 +3385,5 @@ export type AzureApiError =
   | RunCommandRequiresFullPrivilege
   | FluidRelayTenantCreationDisabled
   | ContainerAppsImagePullDenied
-  | WorkflowTriggerResetNotSupported;
+  | WorkflowTriggerResetNotSupported
+  | ContainerRegistryTokenExchangeFailed;

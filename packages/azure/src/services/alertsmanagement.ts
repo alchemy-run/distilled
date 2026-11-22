@@ -418,6 +418,8 @@ export interface GetAlertAllRequest {
   timeRange?: GetAlertAllRequestTimeRange | (string & {}) | undefined;
   /** Filter by custom time range in the format <start-time>/<end-time> where time is in (ISO-8601 format)'. Permissible values is within 30 days from query time. Either timeRange or customTimeRange could be used but not both. Default is none. */
   customTimeRange?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An alert created in alert management service. */
 export interface Alert {
@@ -436,7 +438,7 @@ export interface AlertsList {
   /** URL to fetch the next set of alerts. */
   nextLink?: string | undefined;
   /** List of alerts */
-  value?: AlertsListValueList | undefined;
+  value: AlertsListValueList;
 }
 export interface GetAlertByIdRequest {
   /** scope here is resourceId for which alert is created. */
@@ -843,6 +845,8 @@ export interface ListAlertProcessingRuleByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AlertProcessingRuleTagsMap = { [key: string]: string | undefined };
@@ -873,8 +877,13 @@ export interface AlertProcessingRulesList {
 export interface ListAlertProcessingRuleBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Properties of the operation */
 export interface OperationDisplay {
   /** Provider name */
@@ -907,6 +916,8 @@ export interface ListPrometheusRuleGroupByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PrometheusRuleGroupResourceTagsMap = { [key: string]: string | undefined };
@@ -932,12 +943,14 @@ export type PrometheusRuleGroupResourceCollectionValueList = Array<PrometheusRul
 /** Represents a collection of alert rule resources. */
 export interface PrometheusRuleGroupResourceCollection {
   /** the values for the alert rule resources. */
-  value?: PrometheusRuleGroupResourceCollectionValueList | undefined;
+  value: PrometheusRuleGroupResourceCollectionValueList;
   nextLink?: string | undefined;
 }
 export interface ListPrometheusRuleGroupBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSmartDetectorAlertRuleByResourceGroupRequest {
   /** The Azure subscription Id. */
@@ -946,6 +959,8 @@ export interface ListSmartDetectorAlertRuleByResourceGroupRequest {
   resourceGroupName: string;
   /** Indicates if Smart Detector should be expanded. */
   expandDetector?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The resource tags. */
 export type AlertRuleTagsMap = { [key: string]: string | undefined };
@@ -969,7 +984,7 @@ export type AlertRulesListValueList = Array<AlertRule>;
 /** List of Smart Detector alert rules. */
 export interface AlertRulesList {
   /** List of Smart Detector alert rules. */
-  value?: AlertRulesListValueList | undefined;
+  value: AlertRulesListValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -978,6 +993,8 @@ export interface ListSmartDetectorAlertRulesRequest {
   subscriptionId: string;
   /** Indicates if Smart Detector should be expanded. */
   expandDetector?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The resource tags. */
 export type PatchSmartDetectorAlertRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -1318,12 +1335,13 @@ export const DeleteSmartDetectorAlertRule: API.OperationMethod<
 
 export type GetAlertAllError = AzureOpError;
 /** List all existing alerts, where the results can be filtered on the basis of multiple parameters (e.g. time range). The results can then be sorted on the basis specific fields, with the default being lastModifiedDateTime. */
-export const GetAlertAll: API.OperationMethod<
+export const GetAlertAll: API.PaginatedOperationMethod<
   GetAlertAllRequest,
   AlertsList,
   GetAlertAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Alert
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetAlertAllRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<AlertsList>,
   errors: [UnknownAzureError],
@@ -1334,7 +1352,13 @@ export const GetAlertAll: API.OperationMethod<
     op: "GetAlertAll",
     attributes: { "url.template": "/{scope}/providers/Microsoft.AlertsManagement/alerts" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetAlertByIdError = AzureOpError;
 /** Get a specific alert. Get information related to a specific alert. If scope is a deleted resource then please use scope as parent resource of the delete resource. For example if my alert id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.AlertsManagement/alerts/{alertId}' and 'vm1' is deleted then if you want to get alert by id then use parent resource of scope. So in this example get alert by id call will look like this: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AlertsManagement/alerts/{alertId}'. */
@@ -1456,12 +1480,13 @@ export const GetSmartDetectorAlertRule: API.OperationMethod<
 
 export type ListAlertProcessingRuleByResourceGroupError = AzureOpError;
 /** List all alert processing rules in a resource group. */
-export const ListAlertProcessingRuleByResourceGroup: API.OperationMethod<
+export const ListAlertProcessingRuleByResourceGroup: API.PaginatedOperationMethod<
   ListAlertProcessingRuleByResourceGroupRequest,
   AlertProcessingRulesList,
   ListAlertProcessingRuleByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AlertProcessingRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListAlertProcessingRuleByResourceGroupRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<AlertProcessingRulesList>,
   errors: [UnknownAzureError],
@@ -1469,16 +1494,23 @@ export const ListAlertProcessingRuleByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAlertProcessingRuleByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAlertProcessingRuleBySubscriptionError = AzureOpError;
 /** List all alert processing rules in a subscription. */
-export const ListAlertProcessingRuleBySubscription: API.OperationMethod<
+export const ListAlertProcessingRuleBySubscription: API.PaginatedOperationMethod<
   ListAlertProcessingRuleBySubscriptionRequest,
   AlertProcessingRulesList,
   ListAlertProcessingRuleBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AlertProcessingRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListAlertProcessingRuleBySubscriptionRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<AlertProcessingRulesList>,
   errors: [UnknownAzureError],
@@ -1486,16 +1518,23 @@ export const ListAlertProcessingRuleBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAlertProcessingRuleBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List all operations available through Azure Alerts Management Resource Provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationsList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(228, __c14, 4) as any as S.Schema<OperationsList>,
   errors: [UnknownAzureError],
@@ -1503,16 +1542,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrometheusRuleGroupByResourceGroupError = AzureOpError;
 /** Retrieve Prometheus rule group definitions in a resource group. */
-export const ListPrometheusRuleGroupByResourceGroup: API.OperationMethod<
+export const ListPrometheusRuleGroupByResourceGroup: API.PaginatedOperationMethod<
   ListPrometheusRuleGroupByResourceGroupRequest,
   PrometheusRuleGroupResourceCollection,
   ListPrometheusRuleGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrometheusRuleGroupResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListPrometheusRuleGroupByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<PrometheusRuleGroupResourceCollection>,
   errors: [UnknownAzureError],
@@ -1520,16 +1566,23 @@ export const ListPrometheusRuleGroupByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrometheusRuleGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrometheusRuleGroupBySubscriptionError = AzureOpError;
 /** Retrieve Prometheus all rule group definitions in a subscription. */
-export const ListPrometheusRuleGroupBySubscription: API.OperationMethod<
+export const ListPrometheusRuleGroupBySubscription: API.PaginatedOperationMethod<
   ListPrometheusRuleGroupBySubscriptionRequest,
   PrometheusRuleGroupResourceCollection,
   ListPrometheusRuleGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrometheusRuleGroupResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListPrometheusRuleGroupBySubscriptionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<PrometheusRuleGroupResourceCollection>,
   errors: [UnknownAzureError],
@@ -1537,16 +1590,23 @@ export const ListPrometheusRuleGroupBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrometheusRuleGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSmartDetectorAlertRuleByResourceGroupError = AzureOpError;
 /** List all the existing Smart Detector alert rules within the subscription and resource group. */
-export const ListSmartDetectorAlertRuleByResourceGroup: API.OperationMethod<
+export const ListSmartDetectorAlertRuleByResourceGroup: API.PaginatedOperationMethod<
   ListSmartDetectorAlertRuleByResourceGroupRequest,
   AlertRulesList,
   ListSmartDetectorAlertRuleByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AlertRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListSmartDetectorAlertRuleByResourceGroupRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<AlertRulesList>,
   errors: [UnknownAzureError],
@@ -1557,16 +1617,23 @@ export const ListSmartDetectorAlertRuleByResourceGroup: API.OperationMethod<
     op: "ListSmartDetectorAlertRuleByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSmartDetectorAlertRulesError = AzureOpError;
 /** List all the existing Smart Detector alert rules within the subscription. */
-export const ListSmartDetectorAlertRules: API.OperationMethod<
+export const ListSmartDetectorAlertRules: API.PaginatedOperationMethod<
   ListSmartDetectorAlertRulesRequest,
   AlertRulesList,
   ListSmartDetectorAlertRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AlertRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListSmartDetectorAlertRulesRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<AlertRulesList>,
   errors: [UnknownAzureError],
@@ -1577,7 +1644,13 @@ export const ListSmartDetectorAlertRules: API.OperationMethod<
     op: "ListSmartDetectorAlertRules",
     attributes: { "azure.resource_provider.namespace": "microsoft.alertsManagement" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PatchSmartDetectorAlertRuleError = AzureOpError;
 /** Patch a specific Smart Detector alert rule. */
@@ -2118,12 +2191,14 @@ function __c11(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules",
             code: 200,
             apiVersion: "2021-08-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAlertProcessingRuleByResourceGroupRequest" });
@@ -2148,12 +2223,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/actionRules",
             code: 200,
             apiVersion: "2021-08-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAlertProcessingRuleBySubscriptionRequest" });
@@ -2163,12 +2240,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AlertsManagement/operations",
             code: 200,
             apiVersion: "2019-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2206,12 +2286,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/prometheusRuleGroups",
             code: 200,
             apiVersion: "2023-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrometheusRuleGroupByResourceGroupRequest" });
@@ -2224,7 +2306,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(256, __c16, 0)),
+          value: __S(256, __c16, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrometheusRuleGroupResourceCollection" });
@@ -2236,12 +2318,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/prometheusRuleGroups",
             code: 200,
             apiVersion: "2023-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrometheusRuleGroupBySubscriptionRequest" });
@@ -2255,12 +2339,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           expandDetector: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.alertsManagement/smartDetectorAlertRules",
             code: 200,
             apiVersion: "2021-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSmartDetectorAlertRuleByResourceGroupRequest" });
@@ -2273,7 +2359,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(304, __c19, 0)),
+          value: __S(304, __c19, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertRulesList" });
@@ -2286,12 +2372,14 @@ function __c20(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           expandDetector: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/microsoft.alertsManagement/smartDetectorAlertRules",
             code: 200,
             apiVersion: "2021-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSmartDetectorAlertRulesRequest" });
@@ -2572,12 +2660,14 @@ function __c32(j: number): any {
           select: S.optional(S.String.pipe(T.Query())),
           timeRange: S.optional(S.String.pipe(T.Query())),
           customTimeRange: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts",
             code: 200,
             apiVersion: "2019-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetAlertAllRequest" });
@@ -2587,7 +2677,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(513, __c32, 1)),
+          value: __S(513, __c32, 1),
         }),
       ).annotate({ identifier: "AlertsList" });
   }

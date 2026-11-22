@@ -356,6 +356,8 @@ export interface ListDeidServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DeidServiceTagsMap = { [key: string]: string | undefined };
@@ -392,8 +394,13 @@ export interface DeidServiceListResult {
 export interface ListDeidServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -426,7 +433,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -437,6 +444,8 @@ export interface ListPrivateEndpointConnectionByDeidServiceRequest {
   resourceGroupName: string;
   /** The name of the deid service */
   deidServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionResourcePropertiesGroupIdsList = Array<string>;
@@ -481,6 +490,8 @@ export interface ListPrivateLinkByDeidServiceRequest {
   resourceGroupName: string;
   /** The name of the deid service */
   deidServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -685,12 +696,13 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 
 export type ListDeidServiceByResourceGroupError = AzureOpError;
 /** List DeidService resources by resource group */
-export const ListDeidServiceByResourceGroup: API.OperationMethod<
+export const ListDeidServiceByResourceGroup: API.PaginatedOperationMethod<
   ListDeidServiceByResourceGroupRequest,
   DeidServiceListResult,
   ListDeidServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeidService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListDeidServiceByResourceGroupRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeidServiceListResult>,
   errors: [UnknownAzureError],
@@ -698,16 +710,23 @@ export const ListDeidServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeidServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeidServiceBySubscriptionError = AzureOpError;
 /** List DeidService resources by subscription ID */
-export const ListDeidServiceBySubscription: API.OperationMethod<
+export const ListDeidServiceBySubscription: API.PaginatedOperationMethod<
   ListDeidServiceBySubscriptionRequest,
   DeidServiceListResult,
   ListDeidServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeidService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListDeidServiceBySubscriptionRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeidServiceListResult>,
   errors: [UnknownAzureError],
@@ -715,16 +734,23 @@ export const ListDeidServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeidServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(164, __c20, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -732,16 +758,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByDeidServiceError = AzureOpError;
 /** List private endpoint connections on the given resource */
-export const ListPrivateEndpointConnectionByDeidService: API.OperationMethod<
+export const ListPrivateEndpointConnectionByDeidService: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByDeidServiceRequest,
   PrivateEndpointConnectionResourceListResult,
   ListPrivateEndpointConnectionByDeidServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListPrivateEndpointConnectionByDeidServiceRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<PrivateEndpointConnectionResourceListResult>,
   errors: [UnknownAzureError],
@@ -749,16 +782,23 @@ export const ListPrivateEndpointConnectionByDeidService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByDeidService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkByDeidServiceError = AzureOpError;
 /** List private links on the given resource */
-export const ListPrivateLinkByDeidService: API.OperationMethod<
+export const ListPrivateLinkByDeidService: API.PaginatedOperationMethod<
   ListPrivateLinkByDeidServiceRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkByDeidServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListPrivateLinkByDeidServiceRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -766,7 +806,13 @@ export const ListPrivateLinkByDeidService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkByDeidService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateDeidServiceError = AzureOpError;
 /** Update a DeidService */
@@ -994,12 +1040,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deidServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-09-20",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkByDeidServiceRequest" });
@@ -1191,12 +1239,14 @@ function __c17(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices",
             code: 200,
             apiVersion: "2024-09-20",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeidServiceByResourceGroupRequest" });
@@ -1221,12 +1271,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HealthDataAIServices/deidServices",
             code: 200,
             apiVersion: "2024-09-20",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeidServiceBySubscriptionRequest" });
@@ -1236,12 +1288,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HealthDataAIServices/operations",
             code: 200,
             apiVersion: "2024-09-20",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1269,7 +1324,7 @@ function __c20(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(163, __c20, 3)),
+          value: __S(163, __c20, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1283,12 +1338,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deidServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-09-20",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByDeidServiceRequest" });

@@ -417,7 +417,7 @@ export type GetBitLockerKeysResponseValueList = Array<DriveBitLockerKey>;
 /** GetBitLockerKeys response */
 export interface GetBitLockerKeysResponse {
   /** drive status */
-  value?: GetBitLockerKeysResponseValueList | undefined;
+  value: GetBitLockerKeysResponseValueList;
 }
 export interface ListJobByResourceGroupRequest {
   /** The subscription ID for the Azure user. */
@@ -428,6 +428,8 @@ export interface ListJobByResourceGroupRequest {
   _top?: number | undefined;
   /** Can be used to restrict the results to certain conditions. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Job list */
 export type ListJobsResponseValueList = Array<JobResponse>;
@@ -436,7 +438,7 @@ export interface ListJobsResponse {
   /** link to next batch of jobs */
   nextLink?: string | undefined;
   /** Job list */
-  value?: ListJobsResponseValueList | undefined;
+  value: ListJobsResponseValueList;
 }
 export interface ListJobBySubscriptionRequest {
   /** The subscription ID for the Azure user. */
@@ -445,6 +447,8 @@ export interface ListJobBySubscriptionRequest {
   _top?: number | undefined;
   /** Can be used to restrict the results to certain conditions. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLocationsRequest {}
 /** locations */
@@ -452,7 +456,7 @@ export type LocationsResponseValueList = Array<Location>;
 /** Locations response */
 export interface LocationsResponse {
   /** locations */
-  value?: LocationsResponseValueList | undefined;
+  value: LocationsResponseValueList;
 }
 export interface ListOperationsRequest {}
 /** operation display properties */
@@ -478,7 +482,7 @@ export type ListOperationsResponseValueList = Array<Operation>;
 /** List operations response */
 export interface ListOperationsResponse {
   /** operations */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
 }
 /** List of drives that comprise the job. */
 export type UpdateJobRequestPropertiesDriveListList = Array<DriveStatus>;
@@ -579,12 +583,13 @@ export const GetLocation: API.OperationMethod<
 
 export type ListBitLockerKeysError = AzureOpError;
 /** Returns the BitLocker Keys for all drives in the specified job. */
-export const ListBitLockerKeys: API.OperationMethod<
+export const ListBitLockerKeys: API.PaginatedOperationMethod<
   ListBitLockerKeysRequest,
   GetBitLockerKeysResponse,
   ListBitLockerKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DriveBitLockerKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListBitLockerKeysRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<GetBitLockerKeysResponse>,
   errors: [UnknownAzureError],
@@ -592,16 +597,18 @@ export const ListBitLockerKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBitLockerKeys",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListJobByResourceGroupError = AzureOpError;
 /** Returns all active and completed jobs in a resource group. */
-export const ListJobByResourceGroup: API.OperationMethod<
+export const ListJobByResourceGroup: API.PaginatedOperationMethod<
   ListJobByResourceGroupRequest,
   ListJobsResponse,
   ListJobByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<ListJobsResponse>,
   errors: [UnknownAzureError],
@@ -609,16 +616,23 @@ export const ListJobByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobBySubscriptionError = AzureOpError;
 /** Returns all active and completed jobs in a subscription. */
-export const ListJobBySubscription: API.OperationMethod<
+export const ListJobBySubscription: API.PaginatedOperationMethod<
   ListJobBySubscriptionRequest,
   ListJobsResponse,
   ListJobBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListJobBySubscriptionRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<ListJobsResponse>,
   errors: [UnknownAzureError],
@@ -626,16 +640,23 @@ export const ListJobBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLocationsError = AzureOpError;
 /** Returns a list of locations to which you can ship the disks associated with an import or export job. A location is a Microsoft data center region. */
-export const ListLocations: API.OperationMethod<
+export const ListLocations: API.PaginatedOperationMethod<
   ListLocationsRequest,
   LocationsResponse,
   ListLocationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Location
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListLocationsRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<LocationsResponse>,
   errors: [UnknownAzureError],
@@ -643,16 +664,18 @@ export const ListLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLocations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Returns the list of operations supported by the import/export resource provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(196, __c12, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -660,7 +683,8 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type UpdateJobError = AzureOpError;
 /** Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job. */
@@ -1012,7 +1036,7 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(114, __c7, 2)),
+          value: __S(114, __c7, 2),
         }),
       ).annotate({ identifier: "GetBitLockerKeysResponse" });
   }
@@ -1026,12 +1050,14 @@ function __c8(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs",
             code: 200,
             apiVersion: "2020-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobByResourceGroupRequest" });
@@ -1045,7 +1071,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
         }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
@@ -1058,12 +1084,14 @@ function __c10(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ImportExport/jobs",
             code: 200,
             apiVersion: "2020-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobBySubscriptionRequest" });
@@ -1087,7 +1115,7 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(177, __c11, 1)),
+          value: __S(177, __c11, 1),
         }),
       ).annotate({ identifier: "LocationsResponse" });
   }
@@ -1126,7 +1154,7 @@ function __c12(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(195, __c12, 3)),
+          value: __S(195, __c12, 3),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
