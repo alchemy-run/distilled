@@ -2232,7 +2232,7 @@ export interface PutTokenValueRequest {
   /** Token identifier tag. */
   tokenId: string;
 }
-export type PutTokenValueResponse = unknown;
+export type PutTokenValueResponse = string | Redacted.Redacted<string>;
 export interface ReceiptsPdfRequest {
   /** Identifier */
   accountId: string;
@@ -3895,7 +3895,7 @@ export const putTokenValue: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<PutTokenValueRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PutTokenValueResponse>,
+  output: __S(913, __c57, 1) as any as S.Schema<PutTokenValueResponse>,
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5731,6 +5731,14 @@ function __c57(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutTokenValueRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.String.pipe(
+          T.EnvelopePayloadRoot(),
+          T.SensitiveValue({}),
+          T.KeyDictionary(KEY_DICTIONARY),
+        ),
+      ).annotate({ identifier: "PutTokenValueResponse" });
   }
 }
 function __c58(j: number): any {
