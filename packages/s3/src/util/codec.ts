@@ -267,44 +267,53 @@ const convertArray = (n: Node, v: unknown, f: (n: Node, v: unknown) => unknown):
 
 //#region encode
 
-/** The wire form of `v`, a value of the type `n` declares. Throws {@link CodecError}. */
-export const encode = (n: Node, v: unknown): unknown => {
+/**
+ * The wire form of `v`, a value of the type `n` declares. Throws
+ * {@link CodecError}. A `binary` wire (CBOR) has a type for bytes, dates and
+ * every number: blobs stay `Uint8Array`, timestamps `Date`, and NaN and the
+ * infinities numbers.
+ */
+export const encode = (n: Node, v: unknown, binary = false): unknown => {
   const codec = codecOf(n);
-  if (codec !== undefined) return encodeCodec(codec, n, v);
+  if (codec !== undefined) return encodeCodec(codec, n, v, binary);
   switch (n._tag) {
     case "Suspend":
-      return encode(n.thunk!(), v);
+      return encode(n.thunk!(), v, binary);
     case "Objects":
-      return encodeObjects(n, v);
+      return encodeObjects(n, v, binary);
     case "Arrays":
-      return convertArray(n, v, encode);
+      return convertArray(n, v, binary ? encodeBinary : encode);
     case "Union":
-      return encodeUnion(n, v);
+      return encodeUnion(n, v, binary);
     case "Number":
       // JSON has no NaN or Infinity: AWS sends "NaN", "Infinity", "-Infinity".
-      if (typeof v === "number" && !Number.isFinite(v)) return String(v);
+      if (typeof v === "number" && !Number.isFinite(v) && !binary) return String(v);
       return primitive(n, v) ? v : fail(expected(n), v);
     default:
       return primitive(n, v) ? v : fail(expected(n), v);
   }
 };
 
+const encodeBinary = (n: Node, v: unknown): unknown => encode(n, v, true);
+
 /** The strings AWS sends for the numbers JSON cannot write. */
 const nonFinite = (v: unknown): v is "NaN" | "Infinity" | "-Infinity" =>
   v === "NaN" || v === "Infinity" || v === "-Infinity";
 
-const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
+const encodeCodec = (codec: CodecKind, n: Node, v: unknown, binary: boolean): unknown => {
   if (codec === "sensitive")
-    return encode(innerOf(n), Redacted.isRedacted(v) ? Redacted.value(v) : v);
-  if (codec === "blob") return v instanceof Uint8Array ? toBase64(v) : fail("a Uint8Array", v);
+    return encode(innerOf(n), Redacted.isRedacted(v) ? Redacted.value(v) : v, binary);
+  if (codec === "blob")
+    return v instanceof Uint8Array ? (binary ? v : toBase64(v)) : fail("a Uint8Array", v);
   if (!isValidDate(v)) return fail("a valid Date", v);
+  if (binary) return v;
   // Whole seconds: some services reject fractional epoch values (IoT
   // SiteWise GetAssetPropertyAggregates: "The date can only be in seconds.").
   if (codec === "epoch-seconds") return Math.floor(v.getTime() / 1000);
   return codec === "http-date" ? v.toUTCString() : formatDateTime(v);
 };
 
-const encodeObjects = (n: Node, v: unknown): unknown => {
+const encodeObjects = (n: Node, v: unknown, binary: boolean): unknown => {
   if (!isRecord(v)) return fail("an object", v);
   const shape = shapeOf(n);
   const out: Record<string, unknown> = {};
@@ -315,7 +324,7 @@ const encodeObjects = (n: Node, v: unknown): unknown => {
         if (!m.optional) fail("a value", x);
         continue;
       }
-      out[m.wire] = encode(m.type, x);
+      out[m.wire] = encode(m.type, x, binary);
     } catch (e) {
       throw within(e, m.name);
     }
@@ -326,7 +335,8 @@ const encodeObjects = (n: Node, v: unknown): unknown => {
       if (shape.typeKeys.has(key)) continue;
       const x = v[key];
       try {
-        out[key] = x === undefined && isOptional(index.type) ? undefined : encode(index.type, x);
+        out[key] =
+          x === undefined && isOptional(index.type) ? undefined : encode(index.type, x, binary);
       } catch (e) {
         throw within(e, key);
       }
@@ -334,18 +344,18 @@ const encodeObjects = (n: Node, v: unknown): unknown => {
   return out;
 };
 
-const encodeUnion = (n: Node, v: unknown): unknown => {
+const encodeUnion = (n: Node, v: unknown, binary: boolean): unknown => {
   const types = n.types!;
   if (isOptional(n) && types.length === 2)
-    return v === undefined ? undefined : encode(types[0]!, v);
+    return v === undefined ? undefined : encode(types[0]!, v, binary);
   // The one member that fits: encoding it alone throws what the loop would.
   const member = keyedMember(n, v);
-  if (member !== undefined) return encode(member, v);
+  if (member !== undefined) return encode(member, v, binary);
   let first: unknown;
   for (const t of types) {
     if (!fits(t, v, false)) continue;
     try {
-      return encode(t, v);
+      return encode(t, v, binary);
     } catch (e) {
       first ??= e;
     }
@@ -393,6 +403,8 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
 const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): unknown => {
   if (codec === "sensitive") return Redacted.make(decode(innerOf(n), v, exact));
   if (codec === "blob") {
+    // A binary wire (CBOR) reads bytes as bytes.
+    if (v instanceof Uint8Array) return v;
     if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
     try {
       return fromBase64(v);
@@ -401,6 +413,8 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
       return exact ? fail("a base64 string", v) : v;
     }
   }
+  // A binary wire (CBOR) reads a timestamp as a `Date`.
+  if (v instanceof Date && isValidDate(v)) return v;
   const date =
     codec === "epoch-seconds"
       ? typeof v === "number"
@@ -516,10 +530,10 @@ const encodeFailure = (ast: Node, e: unknown): ParseError =>
  * `ParseError`, without the value found when the input can hold a secret.
  */
 export const inputEncoder =
-  (ast: Node) =>
+  (ast: Node, binary = false) =>
   (input: unknown): Effect.Effect<unknown, ParseError> => {
     try {
-      return Effect.succeed(encode(ast, input));
+      return Effect.succeed(encode(ast, input, binary));
     } catch (e) {
       return Effect.fail(encodeFailure(ast, e));
     }
@@ -527,10 +541,10 @@ export const inputEncoder =
 
 /** {@link inputEncoder} as a plain function: encode failures throw `ParseError`. */
 export const inputEncoderSync =
-  (ast: Node) =>
+  (ast: Node, binary = false) =>
   (input: unknown): unknown => {
     try {
-      return encode(ast, input);
+      return encode(ast, input, binary);
     } catch (e) {
       throw encodeFailure(ast, e);
     }

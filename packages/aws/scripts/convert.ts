@@ -16,7 +16,7 @@ import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { applyTelemetryTraits } from "@distilled.cloud/dev/codegen/telemetry";
 import { AWS_EVENT_TRAIT } from "./events-spec.ts";
-import { dropForeignNamespaceShapes } from "./spec.ts";
+import { dropForeignNamespaceShapes, supportedProtocol } from "./spec.ts";
 import { awsTelemetry } from "./telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -24,20 +24,15 @@ const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
 const modelsRoot = path.join(specsRoot, "models");
 const outDir = path.join(root, ".generated-specs");
 
-// rpcv2Cbor-only services; the runtime has no CBOR protocol yet.
-const UNSUPPORTED_SERVICES = new Set([
-  "cloudwatchomni",
-  "eventbridgev2",
-  "partnercentral-revenue-measurement",
-]);
-
 const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
-const sdkIdOf = (model: { shapes?: Record<string, any> }): string => {
-  const shape = Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
-    | { traits?: { "aws.api#service"?: { sdkId?: string } } }
+const serviceOf = (model: { shapes?: Record<string, any> }) =>
+  Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
+    | { traits?: { "aws.api#service"?: { sdkId?: string } } & Record<string, unknown> }
     | undefined;
-  const sdkId = shape?.traits?.["aws.api#service"]?.sdkId;
+
+const sdkIdOf = (model: { shapes?: Record<string, any> }): string => {
+  const sdkId = serviceOf(model)?.traits?.["aws.api#service"]?.sdkId;
   if (!sdkId) throw new Error("service sdkId not found");
   return sdkId;
 };
@@ -89,8 +84,8 @@ clearModels(outDir);
 
 const services = fs.readdirSync(modelsRoot).sort();
 let written = 0;
+const skipped: string[] = [];
 for (const service of services) {
-  if (UNSUPPORTED_SERVICES.has(service)) continue;
   const base = path.join(modelsRoot, service, "service");
   if (!fs.existsSync(base)) continue;
   const versions = fs.readdirSync(base);
@@ -101,6 +96,12 @@ for (const service of services) {
   if (file === undefined) continue;
 
   const model = JSON.parse(fs.readFileSync(path.join(base, version, file), "utf8"));
+  // A service with no protocol the runtime implements (an rpcv2Json-only
+  // one, say) has no SDK yet.
+  if (supportedProtocol(serviceOf(model)?.traits) === undefined) {
+    skipped.push(service);
+    continue;
+  }
   const dropped = dropForeignNamespaceShapes(model);
   ensureErrorLists(model);
   const outName = `${moduleName(sdkIdOf(model))}.json`;
@@ -112,6 +113,9 @@ for (const service of services) {
 }
 
 console.log(`✅ ${written} AWS Smithy models → ${outDir}`);
+if (skipped.length > 0) {
+  console.log(`   skipped (no supported protocol): ${skipped.join(", ")}`);
+}
 
 // ---- Event schemas ----------------------------------------------------------
 // The Smithy models describe API calls only. What a service SENDS (an SES
