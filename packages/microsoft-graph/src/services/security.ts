@@ -18323,10 +18323,13 @@ export interface ActivityMetadata {
 export type ContentBase = ComputeRightsAndInheritanceResult;
 export type ContentCategory = "none" | "ai" | "unknownFutureValue";
 export interface CurrentLabel {
+  /** The application mode associated with the sensitivity label. The possible values are: manual, automatic, recommended, unknownFutureValue. */
   applicationMode?: ApplicationMode | (string & {}) | null | undefined;
+  /** The GUID that identifies the sensitivity label. */
   id?: string | null | undefined;
   odataType?: string | undefined;
 }
+/** Caller-supplied sensitivity labels describing the content. */
 export type ProcessContentMetadataBaseSensitivityLabelsList = Array<CurrentLabel>;
 export interface ProcessContentMetadataBase {
   /** Represents the actual content, either as text (textContent) or binary data (binaryContent). Optional if metadata alone is sufficient for policy evaluation. Do not use for contentActivities. */
@@ -18346,6 +18349,7 @@ export interface ProcessContentMetadataBase {
   modifiedDateTime?: string | undefined;
   /** Required. A descriptive name for the content (for example, file name, web page title, 'Chat Message'). */
   name?: string | undefined;
+  /** Caller-supplied sensitivity labels describing the content. */
   sensitivityLabels?: ProcessContentMetadataBaseSensitivityLabelsList | undefined;
   /** A sequence number indicating the order in which content was generated or should be processed, required when correlationId is used. */
   sequenceNumber?: number | null | undefined;

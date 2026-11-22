@@ -394,6 +394,7 @@ export interface OptionalClaim {
 export type OptionalClaimsAccessTokenList = Array<OptionalClaim>;
 /** The optional claims returned in the JWT ID token. */
 export type OptionalClaimsIdTokenList = Array<OptionalClaim>;
+/** Optional claims that control group SID resolution for Kerberos tickets. The supported claim name is groups. */
 export type OptionalClaimsKerberosTicketList = Array<OptionalClaim>;
 /** The optional claims returned in the SAML token. */
 export type OptionalClaimsSaml2TokenList = Array<OptionalClaim>;
@@ -402,6 +403,7 @@ export interface OptionalClaims {
   accessToken?: OptionalClaimsAccessTokenList | undefined;
   /** The optional claims returned in the JWT ID token. */
   idToken?: OptionalClaimsIdTokenList | undefined;
+  /** Optional claims that control group SID resolution for Kerberos tickets. The supported claim name is groups. */
   kerberosTicket?: OptionalClaimsKerberosTicketList | undefined;
   /** The optional claims returned in the SAML token. */
   saml2Token?: OptionalClaimsSaml2TokenList | undefined;

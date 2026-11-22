@@ -71,6 +71,8 @@ export interface CreateDeletedItemsRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -79,6 +81,8 @@ export interface CreateDeletedItemsRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateDeletedItemsRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -97,6 +101,8 @@ export interface CreateDeletedItemsRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -105,6 +111,8 @@ export interface CreateDeletedItemsRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateDeletedItemsRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -126,6 +134,8 @@ export interface CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequest
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -134,6 +144,8 @@ export interface CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequest
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -157,6 +169,8 @@ export interface CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromRespons
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -165,6 +179,8 @@ export interface CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromRespons
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -188,6 +204,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -196,6 +214,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateEntitlementManagementDeletedItemsRoleDefinitionsRequestResourceScopesList
@@ -219,6 +239,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsResponse 
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -227,6 +249,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsResponse 
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateEntitlementManagementDeletedItemsRoleDefinitionsResponseResourceScopesList
@@ -252,6 +276,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -260,6 +286,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -283,6 +311,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -291,6 +321,8 @@ export interface CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateEntitlementManagementDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -646,6 +678,8 @@ export interface CreateEntitlementManagementRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -654,6 +688,8 @@ export interface CreateEntitlementManagementRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateEntitlementManagementRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -674,6 +710,8 @@ export interface CreateEntitlementManagementRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -682,6 +720,8 @@ export interface CreateEntitlementManagementRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateEntitlementManagementRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -869,6 +909,8 @@ export interface CreateInheritsPermissionsFromRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -877,6 +919,8 @@ export interface CreateInheritsPermissionsFromRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateInheritsPermissionsFromRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -894,6 +938,8 @@ export interface CreateInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -902,6 +948,8 @@ export interface CreateInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateInheritsPermissionsFromResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -1187,6 +1235,8 @@ export interface CreateRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -1195,6 +1245,8 @@ export interface CreateRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -1212,6 +1264,8 @@ export interface CreateRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -1220,6 +1274,8 @@ export interface CreateRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: CreateRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -1240,6 +1296,8 @@ export interface CreateRoleDefinitionsInheritsPermissionsFromRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -1248,6 +1306,8 @@ export interface CreateRoleDefinitionsInheritsPermissionsFromRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -1270,6 +1330,8 @@ export interface CreateRoleDefinitionsInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -1278,6 +1340,8 @@ export interface CreateRoleDefinitionsInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | CreateRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -2207,6 +2271,8 @@ export interface GetDeletedItemsRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2215,6 +2281,8 @@ export interface GetDeletedItemsRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetDeletedItemsRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -2253,6 +2321,8 @@ export interface GetDeletedItemsRoleDefinitionsInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2261,6 +2331,8 @@ export interface GetDeletedItemsRoleDefinitionsInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -2359,6 +2431,8 @@ export interface GetEntitlementManagementDeletedItemsRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2367,6 +2441,8 @@ export interface GetEntitlementManagementDeletedItemsRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementDeletedItemsRoleDefinitionsResponseResourceScopesList
@@ -2415,6 +2491,8 @@ export interface GetEntitlementManagementDeletedItemsRoleDefinitionsInheritsPerm
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2423,6 +2501,8 @@ export interface GetEntitlementManagementDeletedItemsRoleDefinitionsInheritsPerm
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -2671,6 +2751,8 @@ export interface GetEntitlementManagementRoleAssignmentScheduleInstancesRoleDefi
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2679,6 +2761,8 @@ export interface GetEntitlementManagementRoleAssignmentScheduleInstancesRoleDefi
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleAssignmentScheduleInstancesRoleDefinitionResponseResourceScopesList
@@ -2884,6 +2968,8 @@ export interface GetEntitlementManagementRoleAssignmentScheduleRequestsRoleDefin
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -2892,6 +2978,8 @@ export interface GetEntitlementManagementRoleAssignmentScheduleRequestsRoleDefin
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleAssignmentScheduleRequestsRoleDefinitionResponseResourceScopesList
@@ -3038,6 +3126,8 @@ export interface GetEntitlementManagementRoleAssignmentSchedulesRoleDefinitionRe
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3046,6 +3136,8 @@ export interface GetEntitlementManagementRoleAssignmentSchedulesRoleDefinitionRe
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleAssignmentSchedulesRoleDefinitionResponseResourceScopesList
@@ -3085,6 +3177,8 @@ export interface GetEntitlementManagementRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3093,6 +3187,8 @@ export interface GetEntitlementManagementRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetEntitlementManagementRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -3246,6 +3342,8 @@ export interface GetEntitlementManagementRoleEligibilityScheduleInstancesRoleDef
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3254,6 +3352,8 @@ export interface GetEntitlementManagementRoleEligibilityScheduleInstancesRoleDef
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleEligibilityScheduleInstancesRoleDefinitionResponseResourceScopesList
@@ -3420,6 +3520,8 @@ export interface GetEntitlementManagementRoleEligibilityScheduleRequestsRoleDefi
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3428,6 +3530,8 @@ export interface GetEntitlementManagementRoleEligibilityScheduleRequestsRoleDefi
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleEligibilityScheduleRequestsRoleDefinitionResponseResourceScopesList
@@ -3613,6 +3717,8 @@ export interface GetEntitlementManagementRoleEligibilitySchedulesRoleDefinitionR
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3621,6 +3727,8 @@ export interface GetEntitlementManagementRoleEligibilitySchedulesRoleDefinitionR
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetEntitlementManagementRoleEligibilitySchedulesRoleDefinitionResponseResourceScopesList
@@ -3654,6 +3762,8 @@ export interface GetInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3662,6 +3772,8 @@ export interface GetInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetInheritsPermissionsFromResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -3974,6 +4086,8 @@ export interface GetRoleAssignmentScheduleInstancesRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -3982,6 +4096,8 @@ export interface GetRoleAssignmentScheduleInstancesRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetRoleAssignmentScheduleInstancesRoleDefinitionResponseResourceScopesList
@@ -4157,6 +4273,8 @@ export interface GetRoleAssignmentScheduleRequestsRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4165,6 +4283,8 @@ export interface GetRoleAssignmentScheduleRequestsRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetRoleAssignmentScheduleRequestsRoleDefinitionResponseResourceScopesList
@@ -4366,6 +4486,8 @@ export interface GetRoleAssignmentSchedulesRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4374,6 +4496,8 @@ export interface GetRoleAssignmentSchedulesRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleAssignmentSchedulesRoleDefinitionResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -4443,6 +4567,8 @@ export interface GetRoleAssignmentsRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4451,6 +4577,8 @@ export interface GetRoleAssignmentsRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleAssignmentsRoleDefinitionResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -4478,6 +4606,8 @@ export interface GetRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4486,6 +4616,8 @@ export interface GetRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleDefinitionResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -4513,6 +4645,8 @@ export interface GetRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4521,6 +4655,8 @@ export interface GetRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -4558,6 +4694,8 @@ export interface GetRoleDefinitionsInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4566,6 +4704,8 @@ export interface GetRoleDefinitionsInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -4697,6 +4837,8 @@ export interface GetRoleEligibilityScheduleInstancesRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4705,6 +4847,8 @@ export interface GetRoleEligibilityScheduleInstancesRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetRoleEligibilityScheduleInstancesRoleDefinitionResponseResourceScopesList
@@ -4845,6 +4989,8 @@ export interface GetRoleEligibilityScheduleRequestsRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -4853,6 +4999,8 @@ export interface GetRoleEligibilityScheduleRequestsRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | GetRoleEligibilityScheduleRequestsRoleDefinitionResponseResourceScopesList
@@ -5015,6 +5163,8 @@ export interface GetRoleEligibilitySchedulesRoleDefinitionResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -5023,6 +5173,8 @@ export interface GetRoleEligibilitySchedulesRoleDefinitionResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: GetRoleEligibilitySchedulesRoleDefinitionResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -5113,6 +5265,8 @@ export interface UnifiedRoleDefinition {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -5121,6 +5275,8 @@ export interface UnifiedRoleDefinition {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UnifiedRoleDefinitionResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -6253,6 +6409,8 @@ export interface UpdateDeletedItemsRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6261,6 +6419,8 @@ export interface UpdateDeletedItemsRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateDeletedItemsRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -6279,6 +6439,8 @@ export interface UpdateDeletedItemsRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6287,6 +6449,8 @@ export interface UpdateDeletedItemsRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateDeletedItemsRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -6310,6 +6474,8 @@ export interface UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequest
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6318,6 +6484,8 @@ export interface UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequest
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -6341,6 +6509,8 @@ export interface UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromRespons
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6349,6 +6519,8 @@ export interface UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromRespons
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -6404,6 +6576,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6412,6 +6586,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateEntitlementManagementDeletedItemsRoleDefinitionsRequestResourceScopesList
@@ -6435,6 +6611,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsResponse 
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6443,6 +6621,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsResponse 
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateEntitlementManagementDeletedItemsRoleDefinitionsResponseResourceScopesList
@@ -6470,6 +6650,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6478,6 +6660,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -6501,6 +6685,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6509,6 +6695,8 @@ export interface UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsP
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateEntitlementManagementDeletedItemsRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -6763,6 +6951,8 @@ export interface UpdateEntitlementManagementRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6771,6 +6961,8 @@ export interface UpdateEntitlementManagementRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateEntitlementManagementRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -6791,6 +6983,8 @@ export interface UpdateEntitlementManagementRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -6799,6 +6993,8 @@ export interface UpdateEntitlementManagementRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateEntitlementManagementRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -6994,6 +7190,8 @@ export interface UpdateInheritsPermissionsFromRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7002,6 +7200,8 @@ export interface UpdateInheritsPermissionsFromRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateInheritsPermissionsFromRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -7019,6 +7219,8 @@ export interface UpdateInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7027,6 +7229,8 @@ export interface UpdateInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateInheritsPermissionsFromResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -7358,6 +7562,8 @@ export interface UpdateRoleDefinitionsRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7366,6 +7572,8 @@ export interface UpdateRoleDefinitionsRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateRoleDefinitionsRequestResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -7383,6 +7591,8 @@ export interface UpdateRoleDefinitionsResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7391,6 +7601,8 @@ export interface UpdateRoleDefinitionsResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?: UpdateRoleDefinitionsResponseResourceScopesList | undefined;
   /** List of permissions included in the role. Read-only when isBuiltIn is true. Required. */
@@ -7413,6 +7625,8 @@ export interface UpdateRoleDefinitionsInheritsPermissionsFromRequest {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7421,6 +7635,8 @@ export interface UpdateRoleDefinitionsInheritsPermissionsFromRequest {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateRoleDefinitionsInheritsPermissionsFromRequestResourceScopesList
@@ -7443,6 +7659,8 @@ export interface UpdateRoleDefinitionsInheritsPermissionsFromResponse {
   /** The unique identifier for an entity. Read-only. */
   id?: string | undefined;
   odataType?: string | undefined;
+  /** The date and time when the custom role definition was deleted. The value is null for active and restored role definitions. Read-only. */
+  deletedDateTime?: string | null | undefined;
   /** The description for the unifiedRoleDefinition. Read-only when isBuiltIn is true. */
   description?: string | null | undefined;
   /** The display name for the unifiedRoleDefinition. Read-only when isBuiltIn is true. Required. Supports $filter (eq, in). */
@@ -7451,6 +7669,8 @@ export interface UpdateRoleDefinitionsInheritsPermissionsFromResponse {
   isBuiltIn?: boolean | null | undefined;
   /** Flag indicating whether the role is enabled for assignment. If false the role is not available for assignment. Read-only when isBuiltIn is true. */
   isEnabled?: boolean | null | undefined;
+  /** Flag indicating whether the role is privileged. Microsoft Entra ID defines a role as privileged if it contains at least one sensitive resource action in the allowedResourceActions collection of rolePermissions. Applies only to actions in the microsoft.directory resource namespace. Nullable. A value of null indicates that the privileged classification is unavailable, not that the role is nonprivileged. Read-only. Supports $filter (eq). */
+  isPrivileged?: boolean | null | undefined;
   /** List of the scopes or permissions the role definition applies to. Currently only / is supported. Read-only when isBuiltIn is true. DO NOT USE. This will be deprecated soon. Attach scope to role assignment. */
   resourceScopes?:
     | UpdateRoleDefinitionsInheritsPermissionsFromResponseResourceScopesList
@@ -11941,7 +12161,7 @@ export const getTargetSchedule: API.OperationMethod<
 }));
 
 export type ListDeletedItemsRoleDefinitionsError = MicrosoftGraphOpError;
-/** List roleDefinitions List custom unifiedRoleDefinition objects that have been soft-deleted from Microsoft Entra directory role management. Built-in role definitions can't be deleted and aren't returned. */
+/** List deleted roleDefinitions List custom unifiedRoleDefinition objects that have been soft-deleted from Microsoft Entra directory role management. Built-in role definitions can't be deleted and aren't returned. */
 export const listDeletedItemsRoleDefinitions: API.PaginatedOperationMethod<
   ListDeletedItemsRoleDefinitionsRequest,
   ListDeletedItemsRoleDefinitionsResponse,
@@ -14807,10 +15027,12 @@ function __c40(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -15681,10 +15903,12 @@ function __c86(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17274,10 +17498,12 @@ function __c164(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17301,10 +17527,12 @@ function __c165(j: number): any {
           unifiedRoleDefinitionId1: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17368,10 +17596,12 @@ function __c169(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17395,10 +17625,12 @@ function __c170(j: number): any {
           unifiedRoleDefinitionId1: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17590,10 +17822,12 @@ function __c177(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17709,10 +17943,12 @@ function __c181(j: number): any {
           unifiedRoleDefinitionId1: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17734,10 +17970,12 @@ function __c182(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -17988,10 +18226,12 @@ function __c193(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18014,10 +18254,12 @@ function __c194(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18041,10 +18283,12 @@ function __c195(j: number): any {
           unifiedRoleDefinitionId1: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18442,10 +18686,12 @@ function __c215(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18486,10 +18732,12 @@ function __c217(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18686,10 +18934,12 @@ function __c228(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -18883,10 +19133,12 @@ function __c239(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),
@@ -19236,10 +19488,12 @@ function __c256(j: number): any {
           unifiedRoleDefinitionId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           odataType: S.optional(S.String.pipe(T.Body("@odata.type"))),
+          deletedDateTime: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           isBuiltIn: S.optional(S.NullOr(S.Boolean)),
           isEnabled: S.optional(S.NullOr(S.Boolean)),
+          isPrivileged: S.optional(S.NullOr(S.Boolean)),
           resourceScopes: S.optional(__S(1728, __c216, 0)),
           rolePermissions: S.optional(__S(1738, __c217, 2)),
           templateId: S.optional(S.NullOr(S.String)),

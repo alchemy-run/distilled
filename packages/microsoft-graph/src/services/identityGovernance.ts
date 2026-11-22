@@ -90525,7 +90525,7 @@ export const getDefinitionsInstancesStagesDecisionsInsightsCount: API.OperationM
 }));
 
 export type GetDeletedItemsError = MicrosoftGraphOpError;
-/** Get deletedItems from identityGovernance Deleted workflows in your lifecycle workflows instance. */
+/** Get deletedItems from identityGovernance Deleted workflows and lifecycle policies in your lifecycle workflows instance. */
 export const getDeletedItems: API.OperationMethod<
   GetDeletedItemsRequest,
   GetDeletedItemsResponse,
