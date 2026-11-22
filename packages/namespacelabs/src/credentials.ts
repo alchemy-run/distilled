@@ -60,9 +60,6 @@ export class Credentials
     "NamespaceLabsCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const optionalString = (name: string) =>
   EffectConfig.option(EffectConfig.String(name)).pipe(EffectConfig.map(Option.getOrUndefined));
 

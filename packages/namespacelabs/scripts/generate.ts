@@ -39,8 +39,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NamespaceLabsOpContext",
     commonErrorType: "NamespaceLabsOpError",
-    // UnknownNamespaceLabsError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "NamespaceLabsServiceErrors",
     protocol: "NamespaceLabsProtocol",
     retry: "Retry.Retry",

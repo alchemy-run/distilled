@@ -86,8 +86,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "CoinflowOpContext",
     commonErrorType: "CoinflowOpError",
-    // UnknownCoinflowError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "CoinflowServiceErrors",
     protocol: "CoinflowProtocol",
     retry: "Retry.Retry",

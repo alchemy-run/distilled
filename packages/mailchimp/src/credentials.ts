@@ -29,9 +29,6 @@ export class Credentials
     "MailchimpCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** The data-centre suffix of an API key (`abc123-us21` -> `us21`). */
 export const serverPrefixFromApiKey = (apiKey: string): string | undefined => {
   const dash = apiKey.lastIndexOf("-");

@@ -111,9 +111,6 @@ const marketingSpec: SdkSpec = {
   operationDecl: {
     contextType: "MailchimpOpContext",
     commonErrorType: "MailchimpOpError",
-    // MailchimpApiError and UnknownMailchimpError are declared on the
-    // protocol, whose type adds them.
-    commonErrorClasses: [],
     serviceErrors: "MailchimpServiceErrors",
     protocol: "MailchimpProtocol",
     retry: "Retry.Retry",
@@ -133,9 +130,6 @@ const transactionalSpec: SdkSpec = {
   operationDecl: {
     contextType: "MailchimpTransactionalOpContext",
     commonErrorType: "MailchimpTransactionalOpError",
-    // MailchimpTransactionalError and UnknownMailchimpError are declared on
-    // the protocol, whose type adds them.
-    commonErrorClasses: [],
     serviceErrors: "MailchimpServiceErrors",
     protocol: "MailchimpTransactionalProtocol",
     retry: "Retry.Retry",

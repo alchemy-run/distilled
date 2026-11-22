@@ -1,31 +1,14 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  type RestErrorEnvelope,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import {
   UnknownNamespaceLabsError,
   NamespaceLabsParseError,
   type NamespaceLabsServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Namespace's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link NamespaceLabsParseError}), a failed response that
- * neither the operation nor the service declares
- * ({@link UnknownNamespaceLabsError}), and core's REST errors (a bad path
- * label, a request that can't be built, the transport).
- */
-export type NamespaceLabsProtocolError =
-  | RestProtocolError
-  | NamespaceLabsParseError
-  | UnknownNamespaceLabsError;
 
 /**
  * What every generated Namespace operation fails with besides its own
@@ -36,8 +19,7 @@ export type NamespaceLabsProtocolError =
  */
 export type NamespaceLabsOpError =
   | NamespaceLabsServiceError
-  | NamespaceLabsProtocolError
-  | CredentialsError;
+  | ErrorOf<typeof NamespaceLabsProtocol>;
 
 export type NamespaceLabsOpContext = Credentials | HttpClient.HttpClient;
 
@@ -84,12 +66,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 const errorDetails = (body: unknown): unknown =>
   body !== null && typeof body === "object" ? (body as Record<string, unknown>).details : undefined;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const NamespaceLabsProtocol: Protocol<
-  NamespaceLabsProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const NamespaceLabsProtocol = /*@__PURE__*/ restProtocol({
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
