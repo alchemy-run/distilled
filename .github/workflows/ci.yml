@@ -201,6 +201,12 @@ jobs:
       - name: Check spec mirrors
         run: pnpm specs:check
 
+      # A full generate rewrites each services barrel from exactly the models
+      # it generated; a module the spec dropped falls out of the barrel. This
+      # fails on such a file, so a dead service can't ship frozen.
+      - name: Check generated service modules
+        run: pnpm services:check
+
   website:
     name: Website (typecheck & static build)
     runs-on: blacksmith-4vcpu-ubuntu-2404

@@ -20,6 +20,7 @@ export const fromSSO = (profileName: string = "default") =>
           // The resolved credentials carry the profile's own region -- see
           // `loadProfileCredentials` in auth.ts.
           auth.loadProfileCredentials(profileName),
+          { provider: "sso" },
         ),
       ),
     ),

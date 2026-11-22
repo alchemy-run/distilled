@@ -26,7 +26,7 @@ const TELEMETRY = {
 export interface DeleteNodesByNodeFirewallRulesByPosRequest {
   digest?: string | undefined;
   node: string;
-  pos?: number | undefined;
+  pos: number;
 }
 export type DeleteNodesByNodeFirewallRulesByPosResponse = null;
 export interface GetNodesByNodeFirewallRequest {
@@ -157,7 +157,7 @@ export type GetNodesByNodeFirewallRulesResult = Array<GetNodesByNodeFirewallRule
 export type GetNodesByNodeFirewallRulesResponse = GetNodesByNodeFirewallRulesResult;
 export interface GetNodesByNodeFirewallRulesByPosRequest {
   node: string;
-  pos?: number | undefined;
+  pos: number;
 }
 export type GetNodesByNodeFirewallRulesByPosResultLog =
   | "emerg"
@@ -323,7 +323,7 @@ export interface PutNodesByNodeFirewallRulesByPosRequest {
   macro?: string | undefined;
   moveto?: number | undefined;
   node: string;
-  pos?: number | undefined;
+  pos: number;
   proto?: string | undefined;
   source?: string | undefined;
   sport?: string | undefined;
@@ -491,7 +491,7 @@ function __c0(j: number): any {
         S.Struct({
           digest: S.optional(S.String.pipe(T.Query())),
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/nodes/{node}/firewall/rules/{pos}", code: 200 })),
       ).annotate({ identifier: "DeleteNodesByNodeFirewallRulesByPosRequest" });
   }
@@ -633,7 +633,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/firewall/rules/{pos}", code: 200 })),
       ).annotate({ identifier: "GetNodesByNodeFirewallRulesByPosRequest" });
     case 1:
@@ -716,7 +716,7 @@ function __c10(j: number): any {
           macro: S.optional(S.String),
           moveto: S.optional(S.Number),
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           proto: S.optional(S.String),
           source: S.optional(S.String),
           sport: S.optional(S.String),
