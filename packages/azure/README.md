@@ -52,7 +52,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Azure.fromManagedIdentity(), // inside Functions, Container Apps, VMs, AKS
-  Azure.AzureProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
