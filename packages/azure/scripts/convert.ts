@@ -9,6 +9,7 @@
  *         specs/spec-mirror-azure/specs/specification/<service>/data-plane/
  *         <group>[/<sub>]/stable/<version>/*.json
  * Output: .generated-specs/<service>.json, .generated-specs/<service>-<group>.json
+ *         (+ manual-specs/<module>.json copied in, see "Manual specs")
  *
  * Ported from distilled v0's `packages/azure/scripts/generate.ts` (the
  * spec-side half). The pipeline per spec file:
@@ -41,7 +42,12 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { ERROR_BODIES_TRAIT } from "@distilled.cloud/dev/codegen/generator";
-import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import {
+  clearModels,
+  modelExists,
+  writeModel,
+  writeModelText,
+} from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
@@ -2013,6 +2019,35 @@ function stampPageable(model: SmithyModel, facts: readonly PageableOp[]): void {
 // Main
 // ============================================================================
 
+// ============================================================================
+// Manual specs
+// ============================================================================
+//
+// manual-specs/<module>.json are hand-authored Smithy models for Azure APIs
+// that publish no Swagger (Service Bus / Event Hubs messaging, the Cosmos DB
+// SQL API, Kudu). They join `.generated-specs` before finalizeConvert, so
+// `patches/<module>/` applies to them like to any converted model, and
+// generate compiles them through the same path. A manual model must not
+// shadow a converted one: if Azure publishes the spec, delete the manual one.
+
+const manualSpecsDir = path.join(rootDir, "manual-specs");
+
+function copyManualSpecs(): number {
+  if (!isDir(manualSpecsDir)) return 0;
+  let count = 0;
+  for (const file of fs.readdirSync(manualSpecsDir).sort()) {
+    if (!file.endsWith(".json")) continue;
+    const target = path.join(outDir, file);
+    if (modelExists(target)) {
+      throw new Error(`manual-specs/${file} shadows a converted model — rename or delete it`);
+    }
+    writeModelText(target, fs.readFileSync(path.join(manualSpecsDir, file), "utf8"));
+    console.log(`📦 ${file} (manual)`);
+    count++;
+  }
+  return count;
+}
+
 async function main() {
   const started = Date.now();
   console.log("🛠️  azure specs → smithy");
@@ -2204,11 +2239,15 @@ async function main() {
   }
   for (const s of skipped) console.log(`   ⏭  ${s.label}: ${s.reason}`);
 
+  const manualCount = copyManualSpecs();
+
   console.log(`\n${"=".repeat(60)}`);
   console.log(`Azure spec conversion complete.`);
   console.log(`  Specs processed: ${specSuccessCount}/${specs.length + dataPlaneFiles}`);
   console.log(`  Errors: ${specErrorCount}`);
-  console.log(`  Service models: ${serviceCount} ARM + ${dataPlaneCount} data-plane`);
+  console.log(
+    `  Service models: ${serviceCount} ARM + ${dataPlaneCount} data-plane + ${manualCount} manual`,
+  );
   console.log(`  Total operations: ${totalOps} ARM + ${dataPlaneOps} data-plane`);
   console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
   console.log(

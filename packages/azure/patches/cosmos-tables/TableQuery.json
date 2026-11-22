@@ -1,0 +1,25 @@
+{
+  "description": "Attach the observed Table service errors to TableQuery. Expose the x-ms-continuation-NextTableName response header so callers can page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableQuery/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableQueryResponse/members/xMsContinuationNextTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-continuation-NextTableName",
+          "smithy.api#documentation": "Continuation token: pass it as `NextTableName` to read the next page. Absent on the last page."
+        }
+      }
+    }
+  ]
+}
