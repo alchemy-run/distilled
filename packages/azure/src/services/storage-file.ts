@@ -6730,9 +6730,13 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "GetShareAccessPolicyRequest" });
     case 1:
-      return S.suspend(() => __S(610, __c38, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetShareAccessPolicyResponse",
-      });
+      return S.suspend(() =>
+        __S(610, __c38, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("SignedIdentifiers"),
+          T.XmlItemName("SignedIdentifier"),
+        ),
+      ).annotate({ identifier: "GetShareAccessPolicyResponse" });
   }
 }
 function __c38(j: number): any {

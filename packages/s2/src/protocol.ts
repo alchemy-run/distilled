@@ -1,5 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * S2Protocol -- the shared bearer-REST protocol instantiated for S2 (s2.dev).
@@ -44,9 +45,6 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  */
 const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
-/** The basin becomes a label of the host name, so it must be one DNS label. */
-const DNS_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
-
 /** The route's base URL; credentials without a usable basin refuse a basin route. */
 const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
@@ -59,15 +57,9 @@ const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, C
       }),
     );
   }
-  if (!DNS_LABEL.test(creds.basin)) {
-    return Effect.fail(
-      new ConfigError({
-        message:
-          `S2 basin ${JSON.stringify(creds.basin)} is not a valid basin name ` +
-          `(letters, digits and hyphens, at most 63 characters)`,
-      }),
-    );
-  }
+  // The basin becomes a label of the host name.
+  const invalid = invalidHostLabelConfig("S2 basin", creds.basin);
+  if (invalid !== undefined) return Effect.fail(invalid);
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 

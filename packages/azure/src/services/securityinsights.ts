@@ -862,9 +862,9 @@ export interface AutomationRulesCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the workspace. */
+  /** The name of the monitor workspace. */
   workspaceName: string;
-  /** The automation rule ID. */
+  /** Automation rule ID */
   automationRuleId: string;
   /** Automation rule properties */
   properties: AutomationRulePropertiesInput;
