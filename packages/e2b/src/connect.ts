@@ -140,6 +140,8 @@ export type ConnectStreamError =
 
 const END_STREAM_FLAG = 0x02;
 const HEADER_BYTES = 5;
+/** Largest envelope payload a stream may announce (16 MiB). */
+const MAX_ENVELOPE_BYTES = 16 * 1024 * 1024;
 
 /** One decoded envelope: a message, or the end-of-stream trailer. */
 export type Envelope =
@@ -197,6 +199,36 @@ export const takeEnvelopes = (
     data = data.slice(HEADER_BYTES + length);
   }
   return [data, envelopes];
+};
+
+/** The payload length the next envelope in `buffer` announces, if it is over the limit. */
+const oversizedEnvelope = (buffer: Uint8Array): number | undefined => {
+  if (buffer.length < HEADER_BYTES) return undefined;
+  const length = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength).getUint32(
+    1,
+    false,
+  );
+  return length > MAX_ENVELOPE_BYTES ? length : undefined;
+};
+
+/** {@link takeEnvelopes}, failing once the next envelope announces more than the limit. */
+const takeEnvelopesBounded = (
+  buffer: Uint8Array,
+  chunk: Uint8Array,
+): Effect.Effect<
+  readonly [remainder: Uint8Array, envelopes: ReadonlyArray<Envelope>],
+  E2BParseError
+> => {
+  const [remainder, envelopes] = takeEnvelopes(buffer, chunk);
+  const length = oversizedEnvelope(remainder);
+  return length === undefined
+    ? Effect.succeed([remainder, envelopes] as const)
+    : Effect.fail(
+        new E2BParseError({
+          body: undefined,
+          cause: `envd stream envelope of ${length} bytes is over the ${MAX_ENVELOPE_BYTES}-byte limit`,
+        }),
+      );
 };
 
 /**
@@ -312,7 +344,7 @@ export const serverStream = (
         );
       }
       return response.stream.pipe(
-        Stream.mapAccum(() => new Uint8Array(0), takeEnvelopes),
+        Stream.mapAccumEffect(() => new Uint8Array(0), takeEnvelopesBounded),
         Stream.mapEffect((envelope) => {
           if (envelope._tag === "Message") {
             return Effect.succeed([envelope.json] as ReadonlyArray<unknown>);
