@@ -1,10 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * DaytonaProtocol -- the shared bearer-REST protocol instantiated for Daytona.
  *
@@ -31,23 +27,9 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { ANALYTICS_PREFIX, TOOLBOX_ROOTS } from "./endpoints.ts";
 import { UnknownDaytonaError, DaytonaParseError, type DaytonaServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Daytona's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link DaytonaParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownDaytonaError}), a toolbox
- * route without a sandbox in the credentials (`ConfigError`), and core's REST
- * errors (a bad path label, a request that can't be built, the transport).
- */
-export type DaytonaProtocolError =
-  | RestProtocolError
-  | DaytonaParseError
-  | UnknownDaytonaError
-  | ConfigError;
 
 /**
  * What every generated Daytona operation fails with besides its own errors:
@@ -56,7 +38,7 @@ export type DaytonaProtocolError =
  * `API.OperationMethod<I, O, DaytonaOpError, DaytonaOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type DaytonaOpError = DaytonaServiceError | DaytonaProtocolError | CredentialsError;
+export type DaytonaOpError = DaytonaServiceError | ErrorOf<typeof DaytonaProtocol>;
 
 /** Context (requirements) shared by every generated Daytona operation. */
 export type DaytonaOpContext = Credentials | HttpClient.HttpClient;
@@ -131,16 +113,13 @@ export const stripNulls = (value: unknown): unknown => {
   return value;
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const DaytonaProtocol: Protocol<DaytonaProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the CALLING fiber per request; the Credentials service holds
-    // an effect, so a key rotated between calls is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-    headers: requestHeaders,
-    transformResponse: stripNulls,
-    unknownError: (info) => new UnknownDaytonaError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new DaytonaParseError({ body, cause }),
-  });
+export const DaytonaProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a key rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+  headers: requestHeaders,
+  transformResponse: stripNulls,
+  unknownError: (info) => new UnknownDaytonaError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new DaytonaParseError({ body, cause }),
+});

@@ -64,8 +64,6 @@ const datadogSpec: SdkSpec = {
   operationDecl: {
     contextType: "DatadogOpContext",
     commonErrorType: "DatadogOpError",
-    // UnknownDatadogError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "DatadogServiceErrors",
     protocol: "DatadogProtocol",
     retry: "Retry.Retry",

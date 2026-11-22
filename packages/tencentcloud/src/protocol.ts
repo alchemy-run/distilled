@@ -1,11 +1,12 @@
-import type { CryptoError } from "@distilled.cloud/core/crypto";
 import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   getAnn,
@@ -48,12 +49,11 @@ import { headerSymbol } from "@distilled.cloud/core/trait";
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   TencentCloudParseError,
   type TencentCloudServiceError,
@@ -65,23 +65,6 @@ import { sign } from "./signer.ts";
 import { actionSymbol, type ActionTrait } from "./traits.ts";
 
 /**
- * The errors declared on Tencent Cloud's protocol: what the code that
- * builds requests and reads responses fails with. A response that does not
- * match its schema or has no envelope ({@link TencentCloudParseError}), a
- * failure that neither the operation nor the service declares
- * ({@link UnknownTencentCloudError}, and `InternalServerError` for a 5xx),
- * a signature that can't be computed (`CryptoError`), an operation without
- * its `Action` trait (`SdkError`), and a body read (`HttpClientError`).
- */
-export type TencentCloudProtocolError =
-  | TencentCloudParseError
-  | UnknownTencentCloudError
-  | InternalServerError
-  | CryptoError
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Tencent Cloud operation fails with besides its own
  * errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with. Generated service files annotate operations with
@@ -89,10 +72,7 @@ export type TencentCloudProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type TencentCloudOpError =
-  | TencentCloudServiceError
-  | TencentCloudProtocolError
-  | CredentialsError;
+export type TencentCloudOpError = TencentCloudServiceError | ErrorOf<typeof TencentCloudProtocol>;
 
 /** Context (requirements) shared by every generated Tencent Cloud operation. */
 export type TencentCloudOpContext = Credentials | HttpClient.HttpClient;
@@ -289,12 +269,10 @@ const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const TencentCloudProtocol: Protocol<
-  TencentCloudProtocolError | CredentialsError,
-  Credentials
-> = {
+const tencentCloudProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const TencentCloudProtocol: ProtocolOf<typeof tencentCloudProtocolMethods> =
+  tencentCloudProtocolMethods;

@@ -41,9 +41,6 @@ export class Credentials
     "Mongodb-atlasCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 export interface ClientCredentialsConfig {
   readonly clientId: string;
   readonly clientSecret: Redacted.Redacted<string>;

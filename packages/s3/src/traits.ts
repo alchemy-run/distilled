@@ -27,7 +27,7 @@ import { blob, timestamp } from "./lite.ts";
 
 /**
  * One of this package's modules, loaded on first use. A failed load is an
- * {@link SdkError}, which the protocol declares (`AwsProtocolError`).
+ * {@link SdkError}, which the protocol declares.
  */
 const loadOwnModule: <A>(load: () => PromiseLike<A>) => Effect.Effect<A, SdkError> = loadModule;
 

@@ -88,8 +88,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "SlackOpContext",
     commonErrorType: "SlackOpError",
-    // SlackError and SlackRateLimited are in the service's list.
-    commonErrorClasses: [],
     serviceErrors: "SlackServiceErrors",
     protocol: "SlackProtocol",
     retry: "Retry.Retry",

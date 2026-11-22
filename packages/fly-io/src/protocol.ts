@@ -1,10 +1,15 @@
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
-  type InvalidInput,
   type UnknownErrorProps,
 } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -17,10 +22,8 @@ import {
   unwrapRedactedDeep,
   validateSuccess,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), and Sprites REST. The
  * GraphQL API is a Query SDK (`./GraphQL`, src/graphql-transport.ts).
@@ -56,7 +59,6 @@ import {
   DEFAULT_FLY_API_BASE_URL,
   DEFAULT_SPRITES_API_BASE_URL,
   type Config,
-  type CredentialsError,
 } from "./credentials.ts";
 import {
   ConfigError as FlyConfigError,
@@ -68,23 +70,15 @@ import {
 import { httpSymbol, type HttpTrait } from "./traits.ts";
 
 /**
- * The errors declared on the Machines and MPG protocols: what the code that
- * builds requests and reads responses fails with. A response that does not
- * match its schema ({@link FlyIoParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownFlyIoError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type FlyIoProtocolError = RestProtocolError | FlyIoParseError | UnknownFlyIoError;
-
-/**
  * What every generated Machines and MPG operation fails with besides its
  * own errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, FlyIoOpError, FlyIoOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type FlyIoOpError = FlyIoServiceError | FlyIoProtocolError | CredentialsError;
+export type FlyIoOpError =
+  | FlyIoServiceError
+  | ErrorOf<typeof FlyIoProtocol | typeof FlyApiProtocol>;
 
 /** Context (requirements) shared by Machines / MPG operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
@@ -93,36 +87,11 @@ export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
 type CoreStatusError = InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>;
 
 /**
- * The errors declared on the Sprites protocol. A response that does not
- * match its schema ({@link FlyIoParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownFlyIoError}, and
- * `InternalServerError` for a 5xx), {@link SpritesNotEnabled} for an
- * organization without Sprites, a bad path label (`InvalidInput`), a
- * request that can't be built (`SdkError`), and the transport or a body
- * read (`HttpClientError`).
- *
- * Minting the Sprites bearer is the protocol's own request, sent while it
- * builds an operation's request, so its failures are declared here too: no
- * organization slug (`ConfigError`), and core's class for the mint's failed
- * status.
- */
-export type SpritesProtocolError =
-  | FlyIoParseError
-  | UnknownFlyIoError
-  | InternalServerError
-  | SpritesNotEnabled
-  | FlyConfigError
-  | CoreStatusError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Sprites operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with.
  */
-export type SpritesOpError = FlyIoServiceError | SpritesProtocolError | CredentialsError;
+export type SpritesOpError = FlyIoServiceError | ErrorOf<typeof SpritesProtocol>;
 export type SpritesOpContext = FlyIoOpContext;
 
 const flyErrorEnvelope = (body: unknown) => {
@@ -171,9 +140,7 @@ const FlyIoProtocolRest = /*@__PURE__*/ restProtocol({
   parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const FlyIoProtocol: Protocol<FlyIoProtocolError | CredentialsError, Credentials> = {
+const flyIoProtocolMethods = {
   encode: (args) =>
     Effect.gen(function* () {
       const request = yield* FlyIoProtocolRest.encode(args);
@@ -186,20 +153,21 @@ export const FlyIoProtocol: Protocol<FlyIoProtocolError | CredentialsError, Cred
     }),
   // Read on each call, so a bundle without Machines operations drops both.
   decode: (args) => FlyIoProtocolRest.decode(args),
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const FlyIoProtocol: ProtocolOf<typeof flyIoProtocolMethods> = flyIoProtocolMethods;
 
 /** MPG UI-EX REST at `https://api.fly.io` with the Machines bearer token. */
-export const FlyApiProtocol: Protocol<FlyIoProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    credentials: resolveFlyCreds,
-    baseUrl: () => DEFAULT_FLY_API_BASE_URL,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope: flyErrorEnvelope,
-    unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
-  });
+export const FlyApiProtocol = /*@__PURE__*/ restProtocol({
+  credentials: resolveFlyCreds,
+  baseUrl: () => DEFAULT_FLY_API_BASE_URL,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope: flyErrorEnvelope,
+  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
+});
 
 const parseMaybeNdjson = (body: unknown): unknown => {
   if (typeof body !== "string") return body;
@@ -605,12 +573,10 @@ const decodeSpritesResponse = ({ response, outputAst, errors: errorClasses }: De
     );
   });
 
-/** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
-// The annotation is the check, as on {@link FlyIoProtocol}.
-export const SpritesProtocol: Protocol<
-  SpritesProtocolError | CredentialsError,
-  Credentials | HttpClient.HttpClient
-> = {
+const spritesProtocolMethods = {
   encode: encodeSpritesRequest,
   decode: decodeSpritesResponse,
-};
+} satisfies Protocol<unknown, unknown>;
+
+/** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
+export const SpritesProtocol: ProtocolOf<typeof spritesProtocolMethods> = spritesProtocolMethods;

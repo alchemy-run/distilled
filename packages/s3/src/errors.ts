@@ -1,12 +1,12 @@
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
 import { UnknownErrorFields } from "@distilled.cloud/core/unknown-error";
 import * as Category from "./category.ts";
-import type * as Credentials from "./credentials.ts";
 // Imported from the leaf module, not `traits.ts`: that one imports every
 // protocol, and each protocol imports this file, so the annotation would not
 // yet exist when these classes are built. See error-message.ts.
 import * as T from "./error-message.ts";
-import type { AwsProtocolError } from "./protocol.ts";
+import type { AwsProtocol } from "./protocol.ts";
 
 /**
  * The canonical message member every error class carries.
@@ -242,10 +242,10 @@ export type CommonAwsError = AwsServiceError;
 /**
  * What every AWS operation fails with besides its own errors: the errors
  * its service declares ({@link AwsServiceError}), the errors the protocol
- * declares (`AwsProtocolError`: a response it can't read, an error code no
- * class answers to, an input it refuses, an endpoint or a signature it
- * can't build, a failed request), and what the provided `Credentials`,
- * `Region` and `Endpoint` layers fail with (`ProviderError`: nothing, for
- * keys given directly; see `ProviderErrors`).
+ * declares (read from `AwsProtocol`'s type: a response it can't read, an
+ * error code no class answers to, an input it refuses, an endpoint or a
+ * signature it can't build, a failed request, and what the provided
+ * `Credentials`, `Region` and `Endpoint` layers fail with: nothing, for keys
+ * given directly; see `ProviderErrors`).
  */
-export type CommonErrors = AwsServiceError | AwsProtocolError | Credentials.ProviderError;
+export type CommonErrors = AwsServiceError | ErrorOf<typeof AwsProtocol>;

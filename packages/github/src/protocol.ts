@@ -1,11 +1,10 @@
 import { TooManyRequests } from "@distilled.cloud/core/errors";
-import type { Operation, Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf, Operation, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import {
   restProtocol,
   type RestErrorEnvelope,
   type RestErrorInfo,
-  type RestProtocolError,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
@@ -50,28 +49,13 @@ import { UnknownGithubError, GithubParseError, type GithubServiceError } from ".
 export const API_VERSION = "2022-11-28";
 
 /**
- * The errors declared on GitHub's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link GithubParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownGithubError}), a
- * rate-limited 403 or 429 (`TooManyRequests`, see {@link rateLimited}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type GithubProtocolError =
-  | RestProtocolError
-  | GithubParseError
-  | UnknownGithubError
-  | TooManyRequests;
-
-/**
  * What every generated GitHub operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, GithubOpError, GithubOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type GithubOpError = GithubServiceError | GithubProtocolError | CredentialsError;
+export type GithubOpError = GithubServiceError | ErrorOf<typeof GithubProtocol>;
 
 /** Context (requirements) shared by every generated GitHub operation. */
 export type GithubOpContext = Credentials | HttpClient.HttpClient;
@@ -232,10 +216,10 @@ const retryFreshToken = <A, E, R>(
   return attempt;
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const GithubProtocol: Protocol<GithubProtocolError | CredentialsError, Credentials> = {
+const githubProtocolMethods = {
   ...RestProtocol,
   // The REST protocol always has `call`.
   call: (op, input) => paced(op, retryFreshToken(RestProtocol.call!(op, input))),
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const GithubProtocol: ProtocolOf<typeof githubProtocolMethods> = githubProtocolMethods;

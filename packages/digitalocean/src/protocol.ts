@@ -1,6 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  type RestProtocolError,
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
@@ -34,27 +33,12 @@ import {
   DEFAULT_INFERENCE_BASE_URL,
   FunctionsCredentials,
   type Config,
-  type CredentialsError,
-  type FunctionsCredentialsError,
 } from "./credentials.ts";
 import {
   UnknownDigitalOceanError,
   DigitalOceanParseError,
   type DigitalOceanServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on DigitalOcean's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link DigitalOceanParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownDigitalOceanError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type DigitalOceanProtocolError =
-  | RestProtocolError
-  | DigitalOceanParseError
-  | UnknownDigitalOceanError;
 
 /**
  * What every generated DigitalOcean operation fails with besides its own
@@ -66,9 +50,7 @@ export type DigitalOceanProtocolError =
  */
 export type DigitalOceanOpError =
   | DigitalOceanServiceError
-  | DigitalOceanProtocolError
-  | CredentialsError
-  | FunctionsCredentialsError;
+  | ErrorOf<typeof DigitalOceanProtocol | typeof FunctionsProtocol>;
 
 /** Context (requirements) shared by every generated DigitalOcean operation. */
 export type DigitalOceanOpContext = Credentials | HttpClient.HttpClient;
@@ -117,10 +99,7 @@ const baseUrlFor = (
 
 // The annotations are the check: everything a protocol fails with, besides
 // the errors an operation and the service declare, must be listed there.
-export const DigitalOceanProtocol: Protocol<
-  DigitalOceanProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const DigitalOceanProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),
@@ -151,10 +130,7 @@ const functionsErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined =>
  * signed with HTTP basic auth: a namespace access key (`<id>:<secret>`) or
  * the namespace's own `<uuid>:<key>`.
  */
-export const FunctionsProtocol: Protocol<
-  DigitalOceanProtocolError | FunctionsCredentialsError,
-  FunctionsCredentials
-> = /*@__PURE__*/ restProtocol({
+export const FunctionsProtocol = /*@__PURE__*/ restProtocol({
   credentials: /*@__PURE__*/ Effect.flatten(FunctionsCredentials),
   baseUrl: (creds) => creds.apiHost,
   headers: (creds) => ({

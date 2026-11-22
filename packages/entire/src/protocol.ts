@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * Entire protocols -- the shared bearer-REST protocol instantiated once per
@@ -24,17 +23,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { EntireParseError, UnknownEntireError, type EntireServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Entire's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link EntireParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownEntireError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
- */
-export type EntireProtocolError = RestProtocolError | EntireParseError | UnknownEntireError;
 
 /**
  * What every generated Entire operation fails with besides its own errors: the
@@ -43,7 +33,9 @@ export type EntireProtocolError = RestProtocolError | EntireParseError | Unknown
  * `API.OperationMethod<I, O, EntireOpError, EntireOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type EntireOpError = EntireServiceError | EntireProtocolError | CredentialsError;
+export type EntireOpError =
+  | EntireServiceError
+  | ErrorOf<typeof EntireCoreProtocol | typeof EntireCellProtocol>;
 
 /** Context (requirements) shared by every generated Entire operation. */
 export type EntireOpContext = Credentials | HttpClient.HttpClient;
@@ -80,12 +72,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // A failed status becomes the class the service declares for it
 // (`EntireServiceErrors`: core's status classes, and Entire's own for 410,
 // 412, 413, 421 and 428).
-//
-// The annotation is the check: everything a protocol fails with, besides the
-// errors an operation and the service declare, must be listed here.
-const make = (
-  baseUrl: (creds: Config) => string,
-): Protocol<EntireProtocolError | CredentialsError, Credentials> =>
+const make = (baseUrl: (creds: Config) => string) =>
   restProtocol({
     // Resolved on the CALLING fiber per request; the Credentials service holds
     // an effect, so a token refreshed between calls is picked up.
@@ -100,9 +87,7 @@ const make = (
   });
 
 /** The Core control-plane protocol (`coreBaseUrl`). */
-export const EntireCoreProtocol: Protocol<EntireProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ make((creds) => creds.coreBaseUrl);
+export const EntireCoreProtocol = /*@__PURE__*/ make((creds) => creds.coreBaseUrl);
 
 /** The regional cell protocol (`apiBaseUrl`). */
-export const EntireCellProtocol: Protocol<EntireProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ make((creds) => creds.apiBaseUrl);
+export const EntireCellProtocol = /*@__PURE__*/ make((creds) => creds.apiBaseUrl);

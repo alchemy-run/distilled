@@ -50,9 +50,6 @@ export class Credentials
     "StarburstGalaxyCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** A Galaxy service account's OAuth client credentials. */
 export interface ClientCredentials {
   /** The account domain (`yourco.galaxy.starburst.io`) or its `https://` origin. */

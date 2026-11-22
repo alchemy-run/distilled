@@ -34,9 +34,6 @@ export class Credentials
     "NpmCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const trimSlash = (url: string): string => url.replace(/\/+$/, "");
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({

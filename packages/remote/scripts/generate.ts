@@ -64,8 +64,6 @@ const remoteSpec: SdkSpec = {
   operationDecl: {
     contextType: "RemoteOpContext",
     commonErrorType: "RemoteOpError",
-    // UnknownRemoteError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "RemoteServiceErrors",
     protocol: "RemoteProtocol",
     retry: "Retry.Retry",

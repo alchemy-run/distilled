@@ -1,10 +1,9 @@
 import * as Signer from "@distilled.cloud/aws4signer";
 import { UnsignableBody } from "@distilled.cloud/aws4signer/AwsClient";
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
-  type RestProtocolError,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -30,28 +29,12 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { type Auth, Credentials, type CredentialsError } from "./credentials.ts";
+import { type Auth, Credentials } from "./credentials.ts";
 import {
   OpenSearchParseError,
   UnknownOpenSearchError,
   type OpenSearchServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on OpenSearch's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link OpenSearchParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownOpenSearchError}),
- * a request SigV4 can't sign (`SigningError`, and `UnsignableBody` for a
- * stream or form-data body), and core's REST errors (a bad path label, a
- * request that can't be built, the transport).
- */
-export type OpenSearchProtocolError =
-  | RestProtocolError
-  | OpenSearchParseError
-  | UnknownOpenSearchError
-  | Signer.SigningError
-  | UnsignableBody;
 
 /**
  * What every generated OpenSearch operation fails with besides its own
@@ -61,7 +44,7 @@ export type OpenSearchProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type OpenSearchOpError = OpenSearchServiceError | OpenSearchProtocolError | CredentialsError;
+export type OpenSearchOpError = OpenSearchServiceError | ErrorOf<typeof OpenSearchProtocol>;
 
 /** Context (requirements) shared by every generated OpenSearch operation. */
 export type OpenSearchOpContext = Credentials | HttpClient.HttpClient;
@@ -178,20 +161,20 @@ const signSigV4 = (
     );
   });
 
+const openSearchProtocolMethods = {
+  encode: (args) =>
+    Effect.gen(function* () {
+      const request = yield* OpenSearchRestProtocol.encode(args);
+      const creds = yield* resolveCredentials;
+      if (creds.auth.type !== "sigv4") return request;
+      return yield* signSigV4(request, creds.auth);
+    }),
+  decode: OpenSearchRestProtocol.decode,
+} satisfies Protocol<unknown, unknown>;
+
 /**
  * The REST protocol, with requests signed when the credentials are `sigv4`.
  * Only `encode`/`decode` are exposed, so every call goes through signing.
  */
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const OpenSearchProtocol: Protocol<OpenSearchProtocolError | CredentialsError, Credentials> =
-  {
-    encode: (args) =>
-      Effect.gen(function* () {
-        const request = yield* OpenSearchRestProtocol.encode(args);
-        const creds = yield* resolveCredentials;
-        if (creds.auth.type !== "sigv4") return request;
-        return yield* signSigV4(request, creds.auth);
-      }),
-    decode: OpenSearchRestProtocol.decode,
-  };
+export const OpenSearchProtocol: ProtocolOf<typeof openSearchProtocolMethods> =
+  openSearchProtocolMethods;

@@ -26,9 +26,6 @@ export class Credentials
     "PorkbunCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => ({
   "X-API-Key": Redacted.value(config.apiKey),

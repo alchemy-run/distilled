@@ -1,10 +1,9 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorInfo,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * E2B protocols -- the shared REST protocol instantiated once per E2B host.
@@ -37,21 +36,10 @@ import {
   envdBaseUrlFor,
   SandboxConnection,
   VolumeConnection,
-  type CredentialsError,
   type SandboxConnectionConfig,
   type VolumeConnectionConfig,
 } from "./credentials.ts";
 import { E2BParseError, UnknownE2BError, type E2BServiceError } from "./errors.ts";
-
-/**
- * The errors declared on E2B's protocols: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link E2BParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownE2BError}), an envd or volume-content
- * call with no sandbox or volume in scope (`ConfigError`), and core's REST
- * errors (a bad path label, a request that can't be built, the transport).
- */
-export type E2BProtocolError = RestProtocolError | E2BParseError | UnknownE2BError | ConfigError;
 
 /**
  * What every generated E2B operation fails with besides its own errors: the
@@ -60,7 +48,9 @@ export type E2BProtocolError = RestProtocolError | E2BParseError | UnknownE2BErr
  * `API.OperationMethod<I, O, E2BOpError, E2BOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type E2BOpError = E2BServiceError | E2BProtocolError | CredentialsError;
+export type E2BOpError =
+  | E2BServiceError
+  | ErrorOf<typeof E2BProtocol | typeof EnvdProtocol | typeof VolumeContentProtocol>;
 
 /** Context (requirements) of a control-plane operation. */
 export type E2BOpContext = Credentials | HttpClient.HttpClient;
@@ -78,24 +68,23 @@ const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
 
 // The annotations are the check: everything a protocol fails with, besides
 // the errors an operation and the service declare, must be listed there.
-export const E2BProtocol: Protocol<E2BProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the CALLING fiber per request, so a key rotated between calls
-    // is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => {
-      const headers: Record<string, string> = {};
-      if (creds.apiKey !== undefined) headers["X-API-Key"] = Redacted.value(creds.apiKey);
-      if (creds.accessToken !== undefined) {
-        headers.Authorization = `Bearer ${Redacted.value(creds.accessToken)}`;
-      }
-      if (creds.teamId !== undefined && creds.teamId !== "") headers["X-Team-ID"] = creds.teamId;
-      return headers;
-    },
-    unknownError,
-    parseError,
-  });
+export const E2BProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request, so a key rotated between calls
+  // is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => {
+    const headers: Record<string, string> = {};
+    if (creds.apiKey !== undefined) headers["X-API-Key"] = Redacted.value(creds.apiKey);
+    if (creds.accessToken !== undefined) {
+      headers.Authorization = `Bearer ${Redacted.value(creds.accessToken)}`;
+    }
+    if (creds.teamId !== undefined && creds.teamId !== "") headers["X-Team-ID"] = creds.teamId;
+    return headers;
+  },
+  unknownError,
+  parseError,
+});
 
 const missingSandbox = /*@__PURE__*/ Effect.fail(
   new ConfigError({
@@ -110,7 +99,7 @@ const resolveSandbox: Effect.Effect<SandboxConnectionConfig, ConfigError> =
     option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
   );
 
-export const EnvdProtocol: Protocol<E2BProtocolError> = /*@__PURE__*/ restProtocol({
+export const EnvdProtocol = /*@__PURE__*/ restProtocol({
   credentials: resolveSandbox,
   baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
   headers: (sandbox) => {
@@ -146,7 +135,7 @@ const resolveVolume: Effect.Effect<VolumeConnectionConfig, ConfigError> =
     option._tag === "Some" ? Effect.succeed(option.value) : missingVolume,
   );
 
-export const VolumeContentProtocol: Protocol<E2BProtocolError> = /*@__PURE__*/ restProtocol({
+export const VolumeContentProtocol = /*@__PURE__*/ restProtocol({
   credentials: resolveVolume,
   baseUrl: (volume) => apiBaseUrlFor(volume.domain ?? DEFAULT_DOMAIN),
   headers: (volume) => ({ Authorization: `Bearer ${Redacted.value(volume.token)}` }),

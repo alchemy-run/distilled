@@ -32,9 +32,6 @@ export class Credentials
     "NetBirdCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const LOOPBACK = new Set(["127.0.0.1", "localhost", "[::1]"]);
 
 /**

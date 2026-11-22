@@ -1,5 +1,11 @@
 import { InternalServerError } from "@distilled.cloud/core/errors";
-import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
@@ -47,13 +53,12 @@ import { httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   AcmeParseError,
   DirectoryMissingResource,
@@ -64,25 +69,6 @@ import {
 import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } from "./jose.ts";
 
 /**
- * The errors declared on ACME's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link AcmeParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownAcmeError}, and
- * `InternalServerError` for a 5xx), an account key that can't sign or an
- * operation without a resource URL ({@link JoseError}), a directory without
- * the resource ({@link DirectoryMissingResource}), and the transport or a
- * body read (`HttpClientError`): the protocol fetches the directory and
- * nonces itself.
- */
-export type AcmeProtocolError =
-  | AcmeParseError
-  | UnknownAcmeError
-  | InternalServerError
-  | JoseError
-  | DirectoryMissingResource
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated ACME operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with. Generated service files annotate operations with
@@ -91,8 +77,7 @@ export type AcmeProtocolError =
  */
 export type AcmeOpError =
   | AcmeServiceError
-  | AcmeProtocolError
-  | CredentialsError
+  | ErrorOf<typeof AcmeProtocol>
   // Not the protocol's: core fails a call with it when the operation can't
   // be loaded (`API.make`), and its type does not say so yet.
   | SdkError;
@@ -492,15 +477,12 @@ const parseJson = (text: string) =>
     catch: () => parseError("Invalid JSON response"),
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const AcmeProtocol: Protocol<
-  AcmeProtocolError | CredentialsError,
-  Credentials | HttpClient.HttpClient
-> = {
+const acmeProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const AcmeProtocol: ProtocolOf<typeof acmeProtocolMethods> = acmeProtocolMethods;
 
 /** Forget cached directories and nonces (tests, CA switches). */
 export const resetProtocolCaches = (): void => {

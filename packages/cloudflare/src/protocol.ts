@@ -13,8 +13,10 @@ import type {
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Operation,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -131,25 +133,6 @@ const envelopeErrorMessage = (
 };
 
 /**
- * The errors declared on Cloudflare's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link CloudflareParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownCloudflareError},
- * {@link CloudflareHttpError}, and `InternalServerError` for a 5xx or an
- * "internal error" code 1000), a bad path or host label (`InvalidInput`), a
- * request that can't be built (`SdkError`), and the transport or a body read
- * (`HttpClientError`).
- */
-export type CloudflareProtocolError =
-  | CloudflareParseError
-  | UnknownCloudflareError
-  | CloudflareHttpError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Cloudflare operation fails with besides its own
  * errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with. Generated service files annotate operations with
@@ -157,7 +140,9 @@ export type CloudflareProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type CloudflareOpError = CloudflareServiceError | CloudflareProtocolError | CredentialsError;
+export type CloudflareOpError =
+  | CloudflareServiceError
+  | ErrorOf<typeof CloudflareProtocol | typeof CloudflarePaginatedProtocol>;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -748,20 +733,20 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       });
     });
 
-  return {
+  const methods = {
     encode,
     decode: ({ response, outputAst, errors }: DecodeArgs) =>
       Effect.withFiber((fiber) =>
         decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
       ),
     call,
-  };
+  } satisfies Protocol<unknown, unknown>;
+  // Typed from the methods above: what they fail with, what they read.
+  const protocol: ProtocolOf<typeof methods> = methods;
+  return protocol;
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const CloudflareProtocol: Protocol<CloudflareProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ makeProtocol({ resultInfo: false });
+export const CloudflareProtocol = /*@__PURE__*/ makeProtocol({ resultInfo: false });
 
 /**
  * Protocol for paginated operations: identical to {@link CloudflareProtocol}
@@ -769,7 +754,4 @@ export const CloudflareProtocol: Protocol<CloudflareProtocolError | CredentialsE
  * the member marked `T.ResultInfo()`, camelCased) so `.pages()` / `.items()`
  * can advance and callers can read totals.
  */
-export const CloudflarePaginatedProtocol: Protocol<
-  CloudflareProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ makeProtocol({ resultInfo: true });
+export const CloudflarePaginatedProtocol = /*@__PURE__*/ makeProtocol({ resultInfo: true });

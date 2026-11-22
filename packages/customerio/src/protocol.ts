@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * CustomerioProtocol -- hand-written.
@@ -26,25 +25,12 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   UnknownCustomerioError,
   CustomerioParseError,
   type CustomerioServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Customer.io's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link CustomerioParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownCustomerioError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type CustomerioProtocolError =
-  | RestProtocolError
-  | CustomerioParseError
-  | UnknownCustomerioError;
 
 /**
  * What every generated Customer.io operation fails with besides its own
@@ -54,7 +40,7 @@ export type CustomerioProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type CustomerioOpError = CustomerioServiceError | CustomerioProtocolError | CredentialsError;
+export type CustomerioOpError = CustomerioServiceError | ErrorOf<typeof CustomerioProtocol>;
 
 /** Context (requirements) shared by every generated Customer.io operation. */
 export type CustomerioOpContext = Credentials | HttpClient.HttpClient;
@@ -99,18 +85,15 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const CustomerioProtocol: Protocol<CustomerioProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: (info) => new UnknownCustomerioError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new CustomerioParseError({ body, cause }),
-  });
+export const CustomerioProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownCustomerioError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new CustomerioParseError({ body, cause }),
+});

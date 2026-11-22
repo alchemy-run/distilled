@@ -66,8 +66,6 @@ const mercurySpec: SdkSpec = {
   operationDecl: {
     contextType: "MercuryOpContext",
     commonErrorType: "MercuryOpError",
-    // UnknownMercuryError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "MercuryServiceErrors",
     protocol: "MercuryProtocol",
     retry: "Retry.Retry",

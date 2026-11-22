@@ -115,8 +115,6 @@ const onepasswordSpec = (api: Api): SdkSpec => ({
   operationDecl: {
     contextType: api.contextType,
     commonErrorType: "OnepasswordOpError",
-    // UnknownOnepasswordError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "OnepasswordServiceErrors",
     protocol: api.protocol,
     retry: "Retry.Retry",

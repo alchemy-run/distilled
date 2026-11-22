@@ -88,8 +88,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "PrismaOpContext",
     commonErrorType: "PrismaOpError",
-    // UnknownPrismaError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "PrismaServiceErrors",
     protocol: "PrismaProtocol",
     retry: "Retry.Retry",

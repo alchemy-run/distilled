@@ -5,8 +5,10 @@ import type {
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Operation,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -90,30 +92,13 @@ const stripeHeaders = (creds: Config, apiVersion: string): Record<string, string
 // =============================================================================
 
 /**
- * The errors declared on Stripe's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link StripeParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownStripeError}, and
- * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), a
- * request that can't be built (`SdkError`), and the transport or a body
- * read (`HttpClientError`).
- */
-export type StripeProtocolError =
-  | StripeParseError
-  | UnknownStripeError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Stripe operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, StripeOpError, StripeOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type StripeOpError = StripeServiceError | StripeProtocolError | CredentialsError;
+export type StripeOpError = StripeServiceError | ErrorOf<typeof StripeProtocol>;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -402,13 +387,13 @@ const call = (op: Operation, input: unknown) =>
     });
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const StripeProtocol: Protocol<StripeProtocolError | CredentialsError, Credentials> = {
+const stripeProtocolMethods = {
   encode,
   decode: ({ response, outputAst, errors }: DecodeArgs) =>
     Effect.withFiber((fiber) =>
       decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
     ),
   call,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const StripeProtocol: ProtocolOf<typeof stripeProtocolMethods> = stripeProtocolMethods;

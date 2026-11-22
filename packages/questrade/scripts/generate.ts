@@ -43,8 +43,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "QuestradeOpContext",
     commonErrorType: "QuestradeOpError",
-    // UnknownQuestradeError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "QuestradeServiceErrors",
     protocol: "QuestradeProtocol",
     retry: "Retry.Retry",

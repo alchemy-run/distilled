@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * OvhProtocol -- hand-written.
@@ -23,17 +22,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownOvhError, OvhParseError, type OvhServiceError } from "./errors.ts";
-
-/**
- * The errors declared on OVH's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link OvhParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownOvhError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
- */
-export type OvhProtocolError = RestProtocolError | OvhParseError | UnknownOvhError;
 
 /**
  * What every generated OVH operation fails with besides its own errors: the
@@ -42,7 +32,7 @@ export type OvhProtocolError = RestProtocolError | OvhParseError | UnknownOvhErr
  * `API.OperationMethod<I, O, OvhOpError, OvhOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type OvhOpError = OvhServiceError | OvhProtocolError | CredentialsError;
+export type OvhOpError = OvhServiceError | ErrorOf<typeof OvhProtocol>;
 
 /** Context (requirements) shared by every generated OVH operation. */
 export type OvhOpContext = Credentials | HttpClient.HttpClient;
@@ -65,18 +55,15 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const OvhProtocol: Protocol<OvhProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: (info) => new UnknownOvhError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new OvhParseError({ body, cause }),
-  });
+export const OvhProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownOvhError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new OvhParseError({ body, cause }),
+});

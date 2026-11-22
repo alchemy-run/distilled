@@ -34,9 +34,6 @@ export class Credentials
     "AnthropicCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("ANTHROPIC_API_KEY"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("ANTHROPIC_BASE_URL").pipe(

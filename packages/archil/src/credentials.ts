@@ -53,9 +53,6 @@ export class Credentials
     "ArchilCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const resolveBaseUrl = (
   region: Region | undefined,
   apiBaseUrl: string | undefined,

@@ -1,4 +1,4 @@
-import type { DecodeArgs, Protocol } from "@distilled.cloud/core/protocol";
+import type { DecodeArgs, ErrorOf, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
@@ -13,7 +13,6 @@ import {
   rawResponseSymbol,
   validateSuccess,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -21,7 +20,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   TailscaleParseError,
   UnknownTailscaleError,
@@ -29,24 +28,11 @@ import {
 } from "./errors.ts";
 
 /**
- * The errors declared on Tailscale's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link TailscaleParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownTailscaleError}),
- * and core's REST errors (a bad path label, a request that can't be built,
- * the transport).
- */
-export type TailscaleProtocolError =
-  | RestProtocolError
-  | TailscaleParseError
-  | UnknownTailscaleError;
-
-/**
  * What every generated Tailscale operation fails with besides its own
  * errors: the service's errors, the protocol's, and what resolving the
  * credentials fails with.
  */
-export type TailscaleOpError = TailscaleServiceError | TailscaleProtocolError | CredentialsError;
+export type TailscaleOpError = TailscaleServiceError | ErrorOf<typeof TailscaleProtocol>;
 
 export type TailscaleOpContext = Credentials | HttpClient.HttpClient;
 
@@ -97,14 +83,7 @@ const TailscaleProtocolRest = /*@__PURE__*/ restProtocol({
   parseError: ({ body, cause }) => new TailscaleParseError({ body, cause }),
 });
 
-/**
- * Core's REST protocol, plus two things the Tailscale API does differently on
- * a 2xx: policy files are HuJSON text, and an empty list can arrive as the
- * JSON `null` (a Go nil slice), which decodes as `[]`.
- */
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const TailscaleProtocol: Protocol<TailscaleProtocolError | CredentialsError, Credentials> = {
+const tailscaleProtocolMethods = {
   encode: TailscaleProtocolRest.encode,
   decode: (args: DecodeArgs) => {
     if (args.response.status < 200 || args.response.status >= 300) {
@@ -123,4 +102,12 @@ export const TailscaleProtocol: Protocol<TailscaleProtocolError | CredentialsErr
     }
     return TailscaleProtocolRest.decode(args);
   },
-};
+} satisfies Protocol<unknown, unknown>;
+
+/**
+ * Core's REST protocol, plus two things the Tailscale API does differently on
+ * a 2xx: policy files are HuJSON text, and an empty list can arrive as the
+ * JSON `null` (a Go nil slice), which decodes as `[]`.
+ */
+export const TailscaleProtocol: ProtocolOf<typeof tailscaleProtocolMethods> =
+  tailscaleProtocolMethods;

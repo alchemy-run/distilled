@@ -24,9 +24,6 @@ export class Credentials
     "GoogleWorkspaceCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   accessToken: /*@__PURE__*/ EffectConfig.String("GOOGLE_ACCESS_TOKEN"),
   project: /*@__PURE__*/ EffectConfig.option(

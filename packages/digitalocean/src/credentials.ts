@@ -36,9 +36,6 @@ export class Credentials
     "DigitalOceanCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** Layer from a redacted API token + optional base URLs. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
@@ -111,9 +108,6 @@ export class FunctionsCredentials
     FunctionsCredentials,
     Effect.Effect<FunctionsConfig, ConfigError>
   >()("DigitalOceanFunctionsCredentials") {}
-
-/** What resolving the credentials can fail with: declared on {@link FunctionsCredentials}. */
-export type FunctionsCredentialsError = Effect.Error<(typeof FunctionsCredentials)["Service"]>;
 
 /** Layer for one namespace's OpenWhisk API. */
 export const fromFunctionsKey = (config: FunctionsConfig): Layer.Layer<FunctionsCredentials> =>

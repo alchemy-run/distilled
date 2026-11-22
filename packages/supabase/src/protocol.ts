@@ -1,10 +1,12 @@
-import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -18,7 +20,6 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol -- hand-written.
@@ -52,33 +53,15 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientRequestModule from "effect/http/HttpClientRequest";
-import { Credentials, formatHeaders, type CredentialsError } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import {
   FreeProjectLimitReached,
   SupabaseParseError,
   type SupabaseServiceError,
   UnknownSupabaseError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Supabase's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link SupabaseParseError}), a failed response that neither
- * the operation nor the service declares ({@link UnknownSupabaseError}, and
- * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), a
- * request that can't be built (`SdkError`), and a body read
- * (`HttpClientError`).
- */
-export type SupabaseProtocolError =
-  | SupabaseParseError
-  | UnknownSupabaseError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
 
 /**
  * What every generated Supabase operation fails with besides its own
@@ -88,7 +71,7 @@ export type SupabaseProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type SupabaseOpError = SupabaseServiceError | SupabaseProtocolError | CredentialsError;
+export type SupabaseOpError = SupabaseServiceError | ErrorOf<typeof SupabaseProtocol>;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -247,9 +230,9 @@ const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const SupabaseProtocol: Protocol<SupabaseProtocolError | CredentialsError, Credentials> = {
+const supabaseProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const SupabaseProtocol: ProtocolOf<typeof supabaseProtocolMethods> = supabaseProtocolMethods;

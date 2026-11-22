@@ -58,9 +58,6 @@ export class Credentials
     "Fly-ioCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.String("FLY_API_TOKEN").pipe(
     /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.String("FLY_IO_API_KEY")),
