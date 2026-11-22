@@ -116,6 +116,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./Upload": {
+      "types": "./lib/upload.d.ts",
+      "bun": "./src/upload.ts",
+      "worker": "./src/upload.ts",
+      "default": "./lib/upload.js"
+    },
     "./client/*": {
       "types": "./lib/client/*.d.ts",
       "bun": "./src/client/*.ts",
