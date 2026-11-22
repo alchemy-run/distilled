@@ -1,0 +1,320 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the `x-ms-error-code` response header (sent with every Storage error, XML or JSON body): Blob service error codes (Microsoft Learn, \"Blob Storage error codes\" and \"Common REST API error codes\"). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#BlobNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Storage: the blob does not exist. Code `BlobNotFound`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "BlobNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#BlobAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: the blob already exists (a conditional create). Code `BlobAlreadyExists`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "BlobAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#ContainerAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: the container already exists. Code `ContainerAlreadyExists`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ContainerAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageResourceAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage (File): the directory or file already exists. Code `ResourceAlreadyExists`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ResourceAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageBeingDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: the container, queue, share or filesystem is still being deleted, so a create with the same name fails; retry after a delay. Codes `ContainerBeingDeleted`, `QueueBeingDeleted`, `ShareBeingDeleted`, `FilesystemBeingDeleted`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ContainerBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "QueueBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "ShareBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "FilesystemBeingDeleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageLeaseConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: a lease blocks the operation, or the request names the wrong lease. Codes `LeaseAlreadyPresent`, `LeaseIdMissing`, `LeaseIdMismatchWithBlobOperation`, `LeaseIdMismatchWithContainerOperation`, `LeaseNotPresentWithBlobOperation`, `LeaseNotPresentWithContainerOperation`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseAlreadyPresent"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseIdMissing"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseIdMismatchWithBlobOperation"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseIdMismatchWithContainerOperation"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseNotPresentWithBlobOperation"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "LeaseNotPresentWithContainerOperation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageAuthenticationFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Storage: the request carries no valid credential (missing, malformed or expired token, bad SAS signature). Codes `AuthenticationFailed`, `NoAuthenticationInformation`, `InvalidAuthenticationInfo`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "AuthenticationFailed"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "NoAuthenticationInformation"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "InvalidAuthenticationInfo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageAuthorizationFailure",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Storage: the account refuses the request regardless of role (network rules, disabled shared-key or SAS access). Codes `AuthorizationFailure`, `KeyBasedAuthenticationNotPermitted`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "AuthorizationFailure"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "KeyBasedAuthenticationNotPermitted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageNoPendingCopyOperation",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: Abort Copy Blob found no pending copy to abort. Code `NoPendingCopyOperation`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "NoPendingCopyOperation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageImmutabilityNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Storage: a blob legal hold or immutability policy operation on a container without version-level immutability. Code `ImmutableStorageWithVersioningIsNotEnabled`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ImmutableStorageWithVersioningIsNotEnabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageHierarchicalNamespaceNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Storage: the operation (e.g. Set Blob Expiry) needs an account with a hierarchical namespace. Code `HierarchicalNamespaceNotEnabled`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "HierarchicalNamespaceNotEnabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_blob#StorageBlob/errors",
+      "value": [
+        {
+          "target": "com.azure.storage_blob#BlobNotFound"
+        },
+        {
+          "target": "com.azure.storage_blob#BlobAlreadyExists"
+        },
+        {
+          "target": "com.azure.storage_blob#ContainerAlreadyExists"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageResourceAlreadyExists"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageBeingDeleted"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageLeaseConflict"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageAuthenticationFailed"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageAuthorizationFailure"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageNoPendingCopyOperation"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageImmutabilityNotEnabled"
+        },
+        {
+          "target": "com.azure.storage_blob#StorageHierarchicalNamespaceNotEnabled"
+        }
+      ]
+    }
+  ]
+}
