@@ -1,0 +1,15 @@
+{
+  "description": "The rooms PATCH operations consume `application/merge-patch+json` (the spec's consumes).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#RoomsUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#ParticipantsUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    }
+  ]
+}

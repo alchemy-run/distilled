@@ -20,6 +20,7 @@ import type {
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
+  encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
@@ -310,7 +311,9 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined | Invali
     if (!hasPropAnn(prop, labelSymbol)) continue;
     const value = values[String(prop.name)];
     if (value === undefined) continue;
-    host = host.replace(`{${nameOf(prop, labelSymbol)}}`, () => encodeURIComponent(String(value)));
+    const label = encodeLabel(String(prop.name), value);
+    if (label instanceof InvalidInput) return label;
+    host = host.replace(`{${nameOf(prop, labelSymbol)}}`, () => label);
   }
   const unset = /\{([^}]+)\}/.exec(host);
   if (unset) {

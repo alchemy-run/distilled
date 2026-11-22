@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -754,6 +754,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -779,13 +781,15 @@ export type ClusterListResultValueList = Array<Cluster>;
 /** A list of clusters. */
 export interface ClusterListResult {
   /** The list of clusters */
-  value?: ClusterListResultValueList | undefined;
+  value: ClusterListResultValueList;
   /** The link used to get the next page of cluster list. */
   nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -794,6 +798,8 @@ export interface ListConfigurationByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents configuration details for coordinator and node. */
 export interface Configuration {
@@ -813,7 +819,7 @@ export type ClusterConfigurationListResultValueList = Array<Configuration>;
 /** A list of cluster configurations. */
 export interface ClusterConfigurationListResult {
   /** The list of cluster configurations. */
-  value?: ClusterConfigurationListResultValueList | undefined;
+  value: ClusterConfigurationListResultValueList;
   /** Link to retrieve next page of results. */
   nextLink?: string | undefined;
 }
@@ -826,6 +832,8 @@ export interface ListConfigurationByServerRequest {
   clusterName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a configuration. */
 export interface ServerConfiguration {
@@ -845,7 +853,7 @@ export type ServerConfigurationListResultValueList = Array<ServerConfiguration>;
 /** A list of server configurations. */
 export interface ServerConfigurationListResult {
   /** The list of server configurations. */
-  value?: ServerConfigurationListResultValueList | undefined;
+  value: ServerConfigurationListResultValueList;
   /** Link to retrieve next page of results. */
   nextLink?: string | undefined;
 }
@@ -875,7 +883,7 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** A list of firewall rules. */
 export interface FirewallRuleListResult {
   /** The list of firewall rules in a cluster. */
-  value?: FirewallRuleListResultValueList | undefined;
+  value: FirewallRuleListResultValueList;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
@@ -911,7 +919,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** A list of resource provider operations. */
 export interface OperationListResult {
   /** Collection of available operation details. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -942,7 +950,7 @@ export type PrivateEndpointConnectionListResultValueList =
 /** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
 }
 export interface ListPrivateLinkResourceByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -970,7 +978,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceLi
 /** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
 }
 export interface ListRoleByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -998,7 +1006,7 @@ export type RoleListResultValueList = Array<Role>;
 /** A list of roles. */
 export interface RoleListResult {
   /** The list of roles in a cluster. */
-  value?: RoleListResultValueList | undefined;
+  value: RoleListResultValueList;
 }
 export interface ListServerByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1026,7 +1034,7 @@ export type ClusterServerListResultValueList = Array<ClusterServer>;
 /** A list of servers in a cluster. */
 export interface ClusterServerListResult {
   /** The list of servers in a cluster. */
-  value?: ClusterServerListResultValueList | undefined;
+  value: ClusterServerListResultValueList;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -1226,8 +1234,7 @@ export const CheckClusterNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckClusterNameAvailabilityRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<NameAvailability>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1244,8 +1251,7 @@ export const ClustersPromoteReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ClustersPromoteReadReplicaRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ClustersPromoteReadReplicaResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1262,8 +1268,7 @@ export const CreateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(185, __c23, 1) as any as S.Schema<CreateClusterRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<CreateClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1280,8 +1285,7 @@ export const CreateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(313, __c39, 1) as any as S.Schema<CreateRoleRequest>,
   output: __S(314, __c39, 2) as any as S.Schema<CreateRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1298,8 +1302,7 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1316,8 +1319,7 @@ export const DeleteFirewallRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1334,8 +1336,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1352,8 +1353,7 @@ export const DeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1370,8 +1370,7 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(409, __c51, 1) as any as S.Schema<FirewallRulesCreateOrUpdateRequest>,
   output: __S(410, __c51, 2) as any as S.Schema<FirewallRulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1388,8 +1387,7 @@ export const GetCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetClusterRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<GetClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1406,8 +1404,7 @@ export const GetConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetConfigurationRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<GetConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1424,8 +1421,7 @@ export const GetConfigurationCoordinator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetConfigurationCoordinatorRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<GetConfigurationCoordinatorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,8 +1438,7 @@ export const GetConfigurationNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetConfigurationNodeRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<GetConfigurationNodeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1460,8 +1455,7 @@ export const GetFirewallRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetFirewallRuleRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<GetFirewallRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,8 +1472,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1496,8 +1489,7 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1514,8 +1506,7 @@ export const GetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<GetRoleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1532,8 +1523,7 @@ export const GetServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetServerRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GetServerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1542,183 +1532,213 @@ export const GetServer: API.OperationMethod<
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** Lists all clusters in a resource group. */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterListResult,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<ClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClustersError = AzureOpError;
 /** Lists all clusters in a subscription. */
-export const ListClusters: API.OperationMethod<
+export const ListClusters: API.PaginatedOperationMethod<
   ListClustersRequest,
   ClusterListResult,
   ListClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListClustersRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<ClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationByClusterError = AzureOpError;
 /** List all the configurations of a cluster. */
-export const ListConfigurationByCluster: API.OperationMethod<
+export const ListConfigurationByCluster: API.PaginatedOperationMethod<
   ListConfigurationByClusterRequest,
   ClusterConfigurationListResult,
   ListConfigurationByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Configuration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ListConfigurationByClusterRequest>,
   output: __S(234, __c29, 2) as any as S.Schema<ClusterConfigurationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationByServerError = AzureOpError;
 /** List all the configurations of a server in cluster. */
-export const ListConfigurationByServer: API.OperationMethod<
+export const ListConfigurationByServer: API.PaginatedOperationMethod<
   ListConfigurationByServerRequest,
   ServerConfigurationListResult,
   ListConfigurationByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServerConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListConfigurationByServerRequest>,
   output: __S(242, __c30, 2) as any as S.Schema<ServerConfigurationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirewallRuleByClusterError = AzureOpError;
 /** Lists all the firewall rules on cluster. */
-export const ListFirewallRuleByCluster: API.OperationMethod<
+export const ListFirewallRuleByCluster: API.PaginatedOperationMethod<
   ListFirewallRuleByClusterRequest,
   FirewallRuleListResult,
   ListFirewallRuleByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FirewallRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListFirewallRuleByClusterRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<FirewallRuleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRuleByCluster",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(261, __c32, 5) as any as S.Schema<OperationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByClusterError = AzureOpError;
 /** Gets list of private endpoint connections on a cluster. */
-export const ListPrivateEndpointConnectionByCluster: API.OperationMethod<
+export const ListPrivateEndpointConnectionByCluster: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByClusterRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ListPrivateEndpointConnectionByClusterRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByCluster",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByClusterError = AzureOpError;
 /** Gets the private link resources for cluster. */
-export const ListPrivateLinkResourceByCluster: API.OperationMethod<
+export const ListPrivateLinkResourceByCluster: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByClusterRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResourceListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListPrivateLinkResourceByClusterRequest>,
   output: __S(274, __c34, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByCluster",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListRoleByClusterError = AzureOpError;
 /** List all the roles in a given cluster. */
-export const ListRoleByCluster: API.OperationMethod<
+export const ListRoleByCluster: API.PaginatedOperationMethod<
   ListRoleByClusterRequest,
   RoleListResult,
   ListRoleByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Role
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListRoleByClusterRequest>,
   output: __S(282, __c35, 2) as any as S.Schema<RoleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoleByCluster",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListServerByClusterError = AzureOpError;
 /** Lists servers of a cluster. */
-export const ListServerByCluster: API.OperationMethod<
+export const ListServerByCluster: API.PaginatedOperationMethod<
   ListServerByClusterRequest,
   ClusterServerListResult,
   ListServerByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClusterServer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<ListServerByClusterRequest>,
   output: __S(290, __c36, 2) as any as S.Schema<ClusterServerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerByCluster",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
 /** Approves or Rejects a private endpoint connection with a given name. */
@@ -1730,8 +1750,7 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(298, __c37, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(299, __c37, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,8 +1767,7 @@ export const RestartCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<RestartClusterRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<RestartClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1766,8 +1784,7 @@ export const StartCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<StartClusterRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<StartClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1784,8 +1801,7 @@ export const StopCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<StopClusterRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<StopClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1802,8 +1818,7 @@ export const UpdateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(345, __c43, 1) as any as S.Schema<UpdateClusterRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<UpdateClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1820,8 +1835,7 @@ export const UpdateConfigurationOnCoordinator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<UpdateConfigurationOnCoordinatorRequest>,
   output: __S(361, __c45, 1) as any as S.Schema<UpdateConfigurationOnCoordinatorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1838,8 +1852,7 @@ export const UpdateConfigurationOnNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<UpdateConfigurationOnNodeRequest>,
   output: __S(361, __c45, 1) as any as S.Schema<UpdateConfigurationOnNodeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2248,12 +2261,14 @@ function __c20(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2",
             code: 200,
             apiVersion: "2022-11-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -2266,7 +2281,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(168, __c21, 0)),
+          value: __S(168, __c21, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterListResult" });
@@ -2278,12 +2293,14 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2",
             code: 200,
             apiVersion: "2022-11-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClustersRequest" });
@@ -2476,12 +2493,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations",
             code: 200,
             apiVersion: "2022-11-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationByClusterRequest" });
@@ -2490,7 +2509,7 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(233, __c29, 1)),
+          value: __S(233, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterConfigurationListResult" });
@@ -2505,12 +2524,14 @@ function __c30(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}/configurations",
             code: 200,
             apiVersion: "2022-11-08",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationByServerRequest" });
@@ -2519,7 +2540,7 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(241, __c30, 1)),
+          value: __S(241, __c30, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerConfigurationListResult" });
@@ -2547,7 +2568,7 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(249, __c31, 1)),
+          value: __S(249, __c31, 1),
         }),
       ).annotate({ identifier: "FirewallRuleListResult" });
   }
@@ -2591,7 +2612,7 @@ function __c32(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(260, __c32, 4)),
+          value: __S(260, __c32, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -2619,7 +2640,7 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(265, __c33, 1)),
+          value: __S(265, __c33, 1),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
@@ -2646,7 +2667,7 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(273, __c34, 1)),
+          value: __S(273, __c34, 1),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
@@ -2673,7 +2694,7 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(281, __c35, 1)),
+          value: __S(281, __c35, 1),
         }),
       ).annotate({ identifier: "RoleListResult" });
   }
@@ -2700,7 +2721,7 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(289, __c36, 1)),
+          value: __S(289, __c36, 1),
         }),
       ).annotate({ identifier: "ClusterServerListResult" });
   }

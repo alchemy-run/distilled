@@ -1,0 +1,15 @@
+{
+  "description": "Topic publish endpoint is /api/events (the spec's x-ms-paths key is only the '?overload=' discriminator, so the converted uri lost the path), and a CloudEvents batch must be sent as application/cloudevents-batch+json (the spec's consumes), not application/json.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.eventgrid_data#PublishCloudEventEvents/traits/smithy.api#http/uri",
+      "value": "/api/events"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid_data#PublishCloudEventEvents/traits/smithy.api#http/jsonContentType",
+      "value": "application/cloudevents-batch+json; charset=utf-8"
+    }
+  ]
+}

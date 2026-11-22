@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2215,6 +2215,8 @@ export interface ListCacheRulesRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents a cache rule for a container registry. */
 export interface CacheRule {
@@ -2234,7 +2236,7 @@ export type CacheRulesListResultValueList = Array<CacheRule>;
 /** The result of a request to list cache rules for a container registry. */
 export interface CacheRulesListResult {
   /** The list of cache rules. Since this list may be incomplete, the nextLink field should be used to request the next list of cache rules. */
-  value?: CacheRulesListResultValueList | undefined;
+  value: CacheRulesListResultValueList;
   /** The URI that can be used to request the next list of cache rules. */
   nextLink?: string | undefined;
 }
@@ -2247,6 +2249,8 @@ export interface ListConnectedRegistriesRequest {
   registryName: string;
   /** An OData filter expression that describes a subset of connectedRegistries to return. The parameters that can be filtered are parent.id (the resource id of the connectedRegistry parent), mode, and connectionState. The supported operator is eq. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents a connected registry for a container registry. */
 export interface ConnectedRegistry {
@@ -2266,7 +2270,7 @@ export type ConnectedRegistryListResultValueList = Array<ConnectedRegistry>;
 /** The result of a request to list connected registries for a container registry. */
 export interface ConnectedRegistryListResult {
   /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
-  value?: ConnectedRegistryListResultValueList | undefined;
+  value: ConnectedRegistryListResultValueList;
   /** The URI that can be used to request the next list of connected registries. */
   nextLink?: string | undefined;
 }
@@ -2277,6 +2281,8 @@ export interface ListCredentialSetsRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents a credential set resource for a container registry. */
 export interface CredentialSet {
@@ -2298,11 +2304,14 @@ export type CredentialSetListResultValueList = Array<CredentialSet>;
 /** The result of a request to list credential sets for a container registry. */
 export interface CredentialSetListResult {
   /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
-  value?: CredentialSetListResultValueList | undefined;
+  value: CredentialSetListResultValueList;
   /** The URI that can be used to request the next list of credential sets. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The display information for a container registry operation. */
 export interface OperationDisplayDefinition {
   /** The resource provider name: Microsoft.ContainerRegistry. */
@@ -2376,7 +2385,7 @@ export type OperationListResultValueList = Array<OperationDefinition>;
 /** The result of a request to list container registry operations. */
 export interface OperationListResult {
   /** The list of container registry operations. Since this list may be incomplete, the nextLink field should be used to request the next list of operations. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The URI that can be used to request the next list of container registry operations. */
   nextLink?: string | undefined;
 }
@@ -2387,19 +2396,23 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of private endpoint connections. Since this list may be incomplete, the nextLink field should be used to request the next list of private endpoint connections. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** The result of a request to list private endpoint connections for a container registry. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. Since this list may be incomplete, the nextLink field should be used to request the next list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** The URI that can be used to request the next list of private endpoint connections. */
   nextLink?: string | undefined;
 }
 export interface ListRegistriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RegistryTagsMap = { [key: string]: string | undefined };
@@ -2429,7 +2442,7 @@ export type RegistryListResultValueList = Array<Registry>;
 /** The result of a request to list container registries. */
 export interface RegistryListResult {
   /** The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries. */
-  value?: RegistryListResultValueList | undefined;
+  value: RegistryListResultValueList;
   /** The URI that can be used to request the next list of container registries. */
   nextLink?: string | undefined;
 }
@@ -2438,6 +2451,8 @@ export interface ListRegistryByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistryCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2472,6 +2487,8 @@ export interface ListRegistryPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource. */
 export interface PrivateLinkResourceListResultValueItem {
@@ -2491,7 +2508,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceLi
 /** The result of a request to list private link resources for a container registry. */
 export interface PrivateLinkResourceListResult {
   /** The list of private link resources. Since this list may be incomplete, the nextLink field should be used to request the next list of private link resources. */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** The URI that can be used to request the next list of private link resources. */
   nextLink?: string | undefined;
 }
@@ -2530,6 +2547,8 @@ export interface ListReplicationsRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ReplicationTagsMap = { [key: string]: string | undefined };
@@ -2555,7 +2574,7 @@ export type ReplicationListResultValueList = Array<Replication>;
 /** The result of a request to list replications for a container registry. */
 export interface ReplicationListResult {
   /** The list of replications. Since this list may be incomplete, the nextLink field should be used to request the next list of replications. */
-  value?: ReplicationListResultValueList | undefined;
+  value: ReplicationListResultValueList;
   /** The URI that can be used to request the next list of replications. */
   nextLink?: string | undefined;
 }
@@ -2570,6 +2589,8 @@ export interface ListRunsRequest {
   _filter?: string | undefined;
   /** $top is supported for get list of runs, which limits the maximum number of runs to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Run resource properties */
 export interface Run {
@@ -2587,7 +2608,7 @@ export type RunListResultValueList = Array<Run>;
 /** Collection of runs. */
 export interface RunListResult {
   /** The collection value. */
-  value?: RunListResultValueList | undefined;
+  value: RunListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -2598,6 +2619,8 @@ export interface ListScopeMapsRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents a scope map for a container registry. */
 export interface ScopeMap {
@@ -2617,7 +2640,7 @@ export type ScopeMapListResultValueList = Array<ScopeMap>;
 /** The result of a request to list scope maps for a container registry. */
 export interface ScopeMapListResult {
   /** The list of scope maps. Since this list may be incomplete, the nextLink field should be used to request the next list of scope maps. */
-  value?: ScopeMapListResultValueList | undefined;
+  value: ScopeMapListResultValueList;
   /** The URI that can be used to request the next list of scope maps. */
   nextLink?: string | undefined;
 }
@@ -2628,6 +2651,8 @@ export interface ListTasksRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type TaskTagsMap = { [key: string]: string | undefined };
@@ -2653,7 +2678,7 @@ export type TaskListResultValueList = Array<Task>;
 /** The collection of tasks. */
 export interface TaskListResult {
   /** The collection value. */
-  value?: TaskListResultValueList | undefined;
+  value: TaskListResultValueList;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string | undefined;
 }
@@ -2664,6 +2689,8 @@ export interface ListTokensRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An object that represents a token for a container registry. */
 export interface Token {
@@ -2683,7 +2710,7 @@ export type TokenListResultValueList = Array<Token>;
 /** The result of a request to list tokens for a container registry. */
 export interface TokenListResult {
   /** The list of tokens. Since this list may be incomplete, the nextLink field should be used to request the next list of tokens. */
-  value?: TokenListResultValueList | undefined;
+  value: TokenListResultValueList;
   /** The URI that can be used to request the next list of tokens. */
   nextLink?: string | undefined;
 }
@@ -2696,6 +2723,8 @@ export interface ListWebhookEventsRequest {
   registryName: string;
   /** The name of the webhook. */
   webhookName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The target of the event. */
 export interface Target {
@@ -2804,7 +2833,7 @@ export type EventListResultValueList = Array<Event>;
 /** The result of a request to list events for a webhook. */
 export interface EventListResult {
   /** The list of events. Since this list may be incomplete, the nextLink field should be used to request the next list of events. */
-  value?: EventListResultValueList | undefined;
+  value: EventListResultValueList;
   /** The URI that can be used to request the next list of events. */
   nextLink?: string | undefined;
 }
@@ -2815,6 +2844,8 @@ export interface ListWebhooksRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WebhookTagsMap = { [key: string]: string | undefined };
@@ -2840,7 +2871,7 @@ export type WebhookListResultValueList = Array<Webhook>;
 /** The result of a request to list webhooks for a container registry. */
 export interface WebhookListResult {
   /** The list of webhooks. Since this list may be incomplete, the nextLink field should be used to request the next list of webhooks. */
-  value?: WebhookListResultValueList | undefined;
+  value: WebhookListResultValueList;
   /** The URI that can be used to request the next list of webhooks. */
   nextLink?: string | undefined;
 }
@@ -3676,8 +3707,7 @@ export const CancelRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelRunRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelRunResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3694,8 +3724,7 @@ export const CheckRegistryNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CheckRegistryNameAvailabilityRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<RegistryNameStatus>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3712,8 +3741,7 @@ export const CreateCacheRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(257, __c16, 1) as any as S.Schema<CreateCacheRuleRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<CreateCacheRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3730,8 +3758,7 @@ export const CreateConnectedRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(579, __c36, 3) as any as S.Schema<CreateConnectedRegistryRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<CreateConnectedRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3748,8 +3775,7 @@ export const CreateCredentialSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(881, __c55, 1) as any as S.Schema<CreateCredentialSetRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CreateCredentialSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3766,8 +3792,7 @@ export const CreateRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c72, 1) as any as S.Schema<CreateRegistryRequest>,
   output: __S(1284, __c80, 4) as any as S.Schema<CreateRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3784,8 +3809,7 @@ export const CreateReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1457, __c91, 1) as any as S.Schema<CreateReplicationRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<CreateReplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3802,8 +3826,7 @@ export const CreateScopeMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1665, __c104, 1) as any as S.Schema<CreateScopeMapRequest>,
   output: __S(1696, __c106, 0) as any as S.Schema<CreateScopeMapResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3820,8 +3843,7 @@ export const CreateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1733, __c108, 5) as any as S.Schema<CreateTaskRequest>,
   output: __S(1807, __c112, 15) as any as S.Schema<CreateTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3838,8 +3860,7 @@ export const CreateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1809, __c113, 1) as any as S.Schema<CreateTokenRequest>,
   output: __S(1859, __c116, 3) as any as S.Schema<CreateTokenResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3856,8 +3877,7 @@ export const CreateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<CreateWebhookRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3874,8 +3894,7 @@ export const DeactivateConnectedRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeactivateConnectedRegistryRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeactivateConnectedRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3892,8 +3911,7 @@ export const DeleteCacheRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteCacheRuleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteCacheRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3910,8 +3928,7 @@ export const DeleteConnectedRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteConnectedRegistryRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteConnectedRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3928,8 +3945,7 @@ export const DeleteCredentialSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteCredentialSetRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteCredentialSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3946,8 +3962,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,8 +3979,7 @@ export const DeleteRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteRegistryRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3982,8 +3996,7 @@ export const DeleteReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteReplicationRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteReplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4000,8 +4013,7 @@ export const DeleteScopeMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteScopeMapRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteScopeMapResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4018,8 +4030,7 @@ export const DeleteTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4036,8 +4047,7 @@ export const DeleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteTokenResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4054,8 +4064,7 @@ export const DeleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4072,8 +4081,7 @@ export const GenerateRegistryCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GenerateRegistryCredentialsRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<GenerateCredentialsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4090,8 +4098,7 @@ export const GetCacheRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetCacheRuleRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<GetCacheRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4108,8 +4115,7 @@ export const GetConnectedRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetConnectedRegistryRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<GetConnectedRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4126,8 +4132,7 @@ export const GetCredentialSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetCredentialSetRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<GetCredentialSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4144,8 +4149,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4162,8 +4166,7 @@ export const GetRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetRegistryRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<GetRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4180,8 +4183,7 @@ export const GetRegistryPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetRegistryPrivateLinkResourceRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<GetRegistryPrivateLinkResourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4198,8 +4200,7 @@ export const GetReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetReplicationRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<GetReplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4216,8 +4217,7 @@ export const GetRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetRunRequest>,
   output: __S(678, __c42, 6) as any as S.Schema<GetRunResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4234,8 +4234,7 @@ export const GetRunLogSasUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetRunLogSasUrlRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<RunGetLogResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4252,8 +4251,7 @@ export const GetScopeMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetScopeMapRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<GetScopeMapResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4270,8 +4268,7 @@ export const GetTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(1807, __c112, 15) as any as S.Schema<GetTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4288,8 +4285,7 @@ export const GetTaskDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetTaskDetailsRequest>,
   output: __S(1807, __c112, 15) as any as S.Schema<GetTaskDetailsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4306,8 +4302,7 @@ export const GetToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<GetTokenResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,8 +4319,7 @@ export const GetWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(816, __c51, 0) as any as S.Schema<GetWebhookResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4342,8 +4336,7 @@ export const GetWebhookCallbackConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetWebhookCallbackConfigRequest>,
   output: __S(833, __c52, 1) as any as S.Schema<CallbackConfig>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4360,8 +4353,7 @@ export const ImportRegistryImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(850, __c53, 2) as any as S.Schema<ImportRegistryImageRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<ImportRegistryImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4370,129 +4362,171 @@ export const ImportRegistryImage: API.OperationMethod<
 
 export type ListCacheRulesError = AzureOpError;
 /** Lists all cache rule resources for the specified container registry. */
-export const ListCacheRules: API.OperationMethod<
+export const ListCacheRules: API.PaginatedOperationMethod<
   ListCacheRulesRequest,
   CacheRulesListResult,
   ListCacheRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CacheRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListCacheRulesRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<CacheRulesListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCacheRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectedRegistriesError = AzureOpError;
 /** Lists all connected registries for the specified container registry. */
-export const ListConnectedRegistries: API.OperationMethod<
+export const ListConnectedRegistries: API.PaginatedOperationMethod<
   ListConnectedRegistriesRequest,
   ConnectedRegistryListResult,
   ListConnectedRegistriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectedRegistry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListConnectedRegistriesRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<ConnectedRegistryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectedRegistries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCredentialSetsError = AzureOpError;
 /** Lists all credential set resources for the specified container registry. */
-export const ListCredentialSets: API.OperationMethod<
+export const ListCredentialSets: API.PaginatedOperationMethod<
   ListCredentialSetsRequest,
   CredentialSetListResult,
   ListCredentialSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CredentialSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListCredentialSetsRequest>,
   output: __S(978, __c61, 2) as any as S.Schema<CredentialSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCredentialSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1002, __c62, 10) as any as S.Schema<OperationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** List all private endpoint connections in a container registry. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistriesError = AzureOpError;
 /** Lists all the container registries under the specified subscription. */
-export const ListRegistries: API.OperationMethod<
+export const ListRegistries: API.PaginatedOperationMethod<
   ListRegistriesRequest,
   RegistryListResult,
   ListRegistriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListRegistriesRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<RegistryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryByResourceGroupError = AzureOpError;
 /** Lists all the container registries under the specified resource group. */
-export const ListRegistryByResourceGroup: API.OperationMethod<
+export const ListRegistryByResourceGroup: API.PaginatedOperationMethod<
   ListRegistryByResourceGroupRequest,
   RegistryListResult,
   ListRegistryByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListRegistryByResourceGroupRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<RegistryListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryCredentialsError = AzureOpError;
 /** Lists the login credentials for the specified container registry. */
@@ -4504,8 +4538,7 @@ export const ListRegistryCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4514,21 +4547,27 @@ export const ListRegistryCredentials: API.OperationMethod<
 
 export type ListRegistryPrivateLinkResourcesError = AzureOpError;
 /** Lists the private link resources for a container registry. */
-export const ListRegistryPrivateLinkResources: API.OperationMethod<
+export const ListRegistryPrivateLinkResources: API.PaginatedOperationMethod<
   ListRegistryPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListRegistryPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResourceListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListRegistryPrivateLinkResourcesRequest>,
   output: __S(1106, __c69, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryUsagesError = AzureOpError;
 /** Gets the quota usages for the specified container registry. */
@@ -4540,8 +4579,7 @@ export const ListRegistryUsages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListRegistryUsagesRequest>,
   output: __S(1123, __c70, 3) as any as S.Schema<RegistryUsageListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4550,129 +4588,171 @@ export const ListRegistryUsages: API.OperationMethod<
 
 export type ListReplicationsError = AzureOpError;
 /** Lists all the replications for the specified container registry. */
-export const ListReplications: API.OperationMethod<
+export const ListReplications: API.PaginatedOperationMethod<
   ListReplicationsRequest,
   ReplicationListResult,
   ListReplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Replication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListReplicationsRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ReplicationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRunsError = AzureOpError;
 /** Gets all the runs for a registry. */
-export const ListRuns: API.OperationMethod<
+export const ListRuns: API.PaginatedOperationMethod<
   ListRunsRequest,
   RunListResult,
   ListRunsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Run
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListRunsRequest>,
   output: __S(1298, __c81, 2) as any as S.Schema<RunListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRuns",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScopeMapsError = AzureOpError;
 /** Lists all the scope maps for the specified container registry. */
-export const ListScopeMaps: API.OperationMethod<
+export const ListScopeMaps: API.PaginatedOperationMethod<
   ListScopeMapsRequest,
   ScopeMapListResult,
   ListScopeMapsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScopeMap
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListScopeMapsRequest>,
   output: __S(1314, __c82, 2) as any as S.Schema<ScopeMapListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScopeMaps",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTasksError = AzureOpError;
 /** Lists all the tasks for a specified container registry. */
-export const ListTasks: API.OperationMethod<
+export const ListTasks: API.PaginatedOperationMethod<
   ListTasksRequest,
   TaskListResult,
   ListTasksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Task
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<TaskListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTasks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTokensError = AzureOpError;
 /** Lists all the tokens for the specified container registry. */
-export const ListTokens: API.OperationMethod<
+export const ListTokens: API.PaginatedOperationMethod<
   ListTokensRequest,
   TokenListResult,
   ListTokensError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Token
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(1346, __c84, 2) as any as S.Schema<TokenListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTokens",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebhookEventsError = AzureOpError;
 /** Lists recent events for the specified webhook. */
-export const ListWebhookEvents: API.OperationMethod<
+export const ListWebhookEvents: API.PaginatedOperationMethod<
   ListWebhookEventsRequest,
   EventListResult,
   ListWebhookEventsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ListWebhookEventsRequest>,
   output: __S(1370, __c85, 10) as any as S.Schema<EventListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhookEvents",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebhooksError = AzureOpError;
 /** Lists all the webhooks for the specified container registry. */
-export const ListWebhooks: API.OperationMethod<
+export const ListWebhooks: API.PaginatedOperationMethod<
   ListWebhooksRequest,
   WebhookListResult,
   ListWebhooksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Webhook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(1378, __c86, 2) as any as S.Schema<WebhookListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhooks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PingWebhookError = AzureOpError;
 /** Triggers a ping event to be sent to the webhook. */
@@ -4684,8 +4764,7 @@ export const PingWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<PingWebhookRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<EventInfo>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4702,8 +4781,7 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4720,8 +4798,7 @@ export const RegenerateRegistryCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<RegenerateRegistryCredentialRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4738,8 +4815,7 @@ export const RegistriesGetBuildSourceUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<RegistriesGetBuildSourceUploadUrlRequest>,
   output: __S(1441, __c90, 1) as any as S.Schema<SourceUploadDefinition>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4756,8 +4832,7 @@ export const RunRegistriesSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1509, __c94, 5) as any as S.Schema<RunRegistriesScheduleRequest>,
   output: __S(678, __c42, 6) as any as S.Schema<RunRegistriesScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4774,8 +4849,7 @@ export const UpdateCacheRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1521, __c95, 1) as any as S.Schema<UpdateCacheRuleRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<UpdateCacheRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4792,8 +4866,7 @@ export const UpdateConnectedRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1538, __c96, 2) as any as S.Schema<UpdateConnectedRegistryRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<UpdateConnectedRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4810,8 +4883,7 @@ export const UpdateCredentialSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1553, __c97, 1) as any as S.Schema<UpdateCredentialSetRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<UpdateCredentialSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4828,8 +4900,7 @@ export const UpdateRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1569, __c98, 1) as any as S.Schema<UpdateRegistryRequest>,
   output: __S(1284, __c80, 4) as any as S.Schema<UpdateRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4846,8 +4917,7 @@ export const UpdateReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1585, __c99, 1) as any as S.Schema<UpdateReplicationRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<UpdateReplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4864,8 +4934,7 @@ export const UpdateRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<UpdateRunRequest>,
   output: __S(678, __c42, 6) as any as S.Schema<UpdateRunResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4882,8 +4951,7 @@ export const UpdateScopeMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1617, __c101, 1) as any as S.Schema<UpdateScopeMapRequest>,
   output: __S(1696, __c106, 0) as any as S.Schema<UpdateScopeMapResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4900,8 +4968,7 @@ export const UpdateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1646, __c102, 14) as any as S.Schema<UpdateTaskRequest>,
   output: __S(1807, __c112, 15) as any as S.Schema<UpdateTaskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4918,8 +4985,7 @@ export const UpdateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1649, __c103, 1) as any as S.Schema<UpdateTokenRequest>,
   output: __S(1859, __c116, 3) as any as S.Schema<UpdateTokenResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4936,8 +5002,7 @@ export const UpdateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1713, __c107, 1) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6142,12 +6207,14 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCacheRulesRequest" });
@@ -6156,7 +6223,7 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(865, __c54, 1)),
+          value: __S(865, __c54, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CacheRulesListResult" });
@@ -6284,12 +6351,14 @@ function __c60(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectedRegistriesRequest" });
@@ -6298,7 +6367,7 @@ function __c60(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(961, __c60, 1)),
+          value: __S(961, __c60, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectedRegistryListResult" });
@@ -6312,12 +6381,14 @@ function __c61(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCredentialSetsRequest" });
@@ -6326,7 +6397,7 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(977, __c61, 1)),
+          value: __S(977, __c61, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CredentialSetListResult" });
@@ -6336,12 +6407,15 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ContainerRegistry/operations",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6405,7 +6479,7 @@ function __c62(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1001, __c62, 9)),
+          value: __S(1001, __c62, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -6419,19 +6493,21 @@ function __c63(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1216, __c76, 0)),
+          value: __S(1216, __c76, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -6443,12 +6519,14 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistriesRequest" });
@@ -6461,7 +6539,7 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1040, __c65, 0)),
+          value: __S(1040, __c65, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryListResult" });
@@ -6474,12 +6552,14 @@ function __c66(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryByResourceGroupRequest" });
@@ -6532,12 +6612,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryPrivateLinkResourcesRequest" });
@@ -6546,7 +6628,7 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1105, __c69, 1)),
+          value: __S(1105, __c69, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -6596,12 +6678,14 @@ function __c71(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReplicationsRequest" });
@@ -6610,7 +6694,7 @@ function __c71(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1137, __c71, 1)),
+          value: __S(1137, __c71, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationListResult" });
@@ -6876,12 +6960,14 @@ function __c81(j: number): any {
           registryName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
             code: 200,
             apiVersion: "2019-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRunsRequest" });
@@ -6890,7 +6976,7 @@ function __c81(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1297, __c81, 1)),
+          value: __S(1297, __c81, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunListResult" });
@@ -6904,12 +6990,14 @@ function __c82(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScopeMapsRequest" });
@@ -6918,7 +7006,7 @@ function __c82(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1313, __c82, 1)),
+          value: __S(1313, __c82, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScopeMapListResult" });
@@ -6932,12 +7020,14 @@ function __c83(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
             code: 200,
             apiVersion: "2019-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTasksRequest" });
@@ -6946,7 +7036,7 @@ function __c83(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1329, __c83, 1)),
+          value: __S(1329, __c83, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskListResult" });
@@ -6960,12 +7050,14 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTokensRequest" });
@@ -6974,7 +7066,7 @@ function __c84(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1345, __c84, 1)),
+          value: __S(1345, __c84, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokenListResult" });
@@ -6989,12 +7081,14 @@ function __c85(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           webhookName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebhookEventsRequest" });
@@ -7080,7 +7174,7 @@ function __c85(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1369, __c85, 9)),
+          value: __S(1369, __c85, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventListResult" });
@@ -7094,12 +7188,14 @@ function __c86(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebhooksRequest" });
@@ -7108,7 +7204,7 @@ function __c86(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1377, __c86, 1)),
+          value: __S(1377, __c86, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookListResult" });

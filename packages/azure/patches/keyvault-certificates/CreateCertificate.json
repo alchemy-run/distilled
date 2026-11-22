@@ -1,0 +1,15 @@
+{
+  "description": "CreateCertificate answers 202 Accepted with the pending CertificateOperation (id, csr, status, request_id), but the spec's 202 response is converted to a Unit output, so the generated type is `{}`. Type the output as CertificateOperation (seen live: `{ id: \".../certificates/<name>/pending\", issuer, csr, status: \"inProgress\", ... }`).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_certificates#CreateCertificate/output/target",
+      "value": "com.azure.keyvault_certificates#CertificateOperation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_certificates#CreateCertificate/traits/smithy.api#http/code",
+      "value": 202
+    }
+  ]
+}

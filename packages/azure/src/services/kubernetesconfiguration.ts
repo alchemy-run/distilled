@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1149,6 +1149,8 @@ export interface ListExtensionsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The identity type. */
 export type ExtensionIdentityType = "SystemAssigned";
@@ -1202,6 +1204,8 @@ export interface ListFluxConfigurationsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Flux Configuration object returned in Get & Put response. */
 export interface FluxConfiguration {
@@ -1225,7 +1229,10 @@ export interface FluxConfigurationsList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
   /** Resource provider: Microsoft KubernetesConfiguration. */
@@ -1252,7 +1259,7 @@ export interface ResourceProviderOperation {
 export type ListOperationsResponseValueList = Array<ResourceProviderOperation>;
 export interface ListOperationsResponse {
   /** List of operations supported by this resource provider. */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to the next set of results, if any. */
   nextLink?: string | undefined;
 }
@@ -1267,12 +1274,14 @@ export interface ListOperationStatusRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of async operations in progress, in the cluster. */
 export type ListOperationStatusResponseValueList = Array<OperationStatusResult>;
 export interface ListOperationStatusResponse {
   /** List of async operations in progress, in the cluster. */
-  value?: ListOperationStatusResponseValueList | undefined;
+  value: ListOperationStatusResponseValueList;
   /** URL to get the next set of Operation Result objects, if any. */
   nextLink?: string | undefined;
 }
@@ -1287,6 +1296,8 @@ export interface ListSourceControlConfigurationsRequest {
   clusterResourceName: string;
   /** The name of the kubernetes cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The provisioning state of the resource provider. */
 export type SourceControlConfigurationPropertiesProvisioningState =
@@ -1369,7 +1380,7 @@ export type SourceControlConfigurationListValueList = Array<SourceControlConfigu
 /** Result of the request to list Source Control Configurations. It contains a list of SourceControlConfiguration objects and a URL link to get the next set of results. */
 export interface SourceControlConfigurationList {
   /** List of Source Control Configurations within a Kubernetes cluster. */
-  value?: SourceControlConfigurationListValueList | undefined;
+  value: SourceControlConfigurationListValueList;
   /** URL to get the next set of configuration objects, if any. */
   nextLink?: string | undefined;
 }
@@ -1784,8 +1795,7 @@ export const CreateExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3, __c0, 3) as any as S.Schema<CreateExtensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExtensionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1802,8 +1812,7 @@ export const DeleteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteExtensionRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteExtensionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1820,8 +1829,7 @@ export const DeleteFluxConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteFluxConfigurationRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteFluxConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1838,8 +1846,7 @@ export const DeleteSourceControlConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteSourceControlConfigurationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteSourceControlConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1856,8 +1863,7 @@ export const FluxConfigurationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(643, __c20, 3) as any as S.Schema<FluxConfigurationsCreateOrUpdateRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<FluxConfigurationsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1874,8 +1880,7 @@ export const GetExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetExtensionRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<GetExtensionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1892,8 +1897,7 @@ export const GetFluxConfigOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetFluxConfigOperationStatusRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<OperationStatusResult_2>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1910,8 +1914,7 @@ export const GetFluxConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetFluxConfigurationRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<GetFluxConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1928,8 +1931,7 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<OperationStatusResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1946,8 +1948,7 @@ export const GetSourceControlConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetSourceControlConfigurationRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<GetSourceControlConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1956,93 +1957,123 @@ export const GetSourceControlConfiguration: API.OperationMethod<
 
 export type ListExtensionsError = AzureOpError;
 /** List all Extensions in the cluster. */
-export const ListExtensions: API.OperationMethod<
+export const ListExtensions: API.PaginatedOperationMethod<
   ListExtensionsRequest,
   ExtensionsList,
   ListExtensionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Extension
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListExtensionsRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<ExtensionsList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFluxConfigurationsError = AzureOpError;
 /** List all Flux Configurations. */
-export const ListFluxConfigurations: API.OperationMethod<
+export const ListFluxConfigurations: API.PaginatedOperationMethod<
   ListFluxConfigurationsRequest,
   FluxConfigurationsList,
   ListFluxConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FluxConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListFluxConfigurationsRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<FluxConfigurationsList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFluxConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List all the available operations the KubernetesConfiguration resource provider supports. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceProviderOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(388, __c12, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationStatusError = AzureOpError;
 /** List Async Operations, currently in progress, in a cluster */
-export const ListOperationStatus: API.OperationMethod<
+export const ListOperationStatus: API.PaginatedOperationMethod<
   ListOperationStatusRequest,
   ListOperationStatusResponse,
   ListOperationStatusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationStatusResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListOperationStatusRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<ListOperationStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperationStatus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlConfigurationsError = AzureOpError;
 /** List all Source Control Configurations. */
-export const ListSourceControlConfigurations: API.OperationMethod<
+export const ListSourceControlConfigurations: API.PaginatedOperationMethod<
   ListSourceControlConfigurationsRequest,
   SourceControlConfigurationList,
   ListSourceControlConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListSourceControlConfigurationsRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<SourceControlConfigurationList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SourceControlConfigurationsCreateOrUpdateError = AzureOpError;
 /** Create a new Kubernetes Source Control Configuration. */
@@ -2054,8 +2085,7 @@ export const SourceControlConfigurationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<SourceControlConfigurationsCreateOrUpdateRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<SourceControlConfigurationsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2072,8 +2102,7 @@ export const UpdateExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c16, 1) as any as S.Schema<UpdateExtensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateExtensionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2090,8 +2119,7 @@ export const UpdateFluxConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(551, __c17, 7) as any as S.Schema<UpdateFluxConfigurationRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<UpdateFluxConfigurationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2406,12 +2434,14 @@ function __c10(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions",
             code: 200,
             apiVersion: "2025-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionsRequest" });
@@ -2436,12 +2466,14 @@ function __c11(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFluxConfigurationsRequest" });
@@ -2460,12 +2492,15 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.KubernetesConfiguration/operations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2492,7 +2527,7 @@ function __c12(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(387, __c12, 3)),
+          value: __S(387, __c12, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2508,12 +2543,14 @@ function __c13(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/operations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationStatusRequest" });
@@ -2522,7 +2559,7 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(417, __c13, 1)),
+          value: __S(417, __c13, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationStatusResponse" });
@@ -2538,12 +2575,14 @@ function __c14(j: number): any {
           clusterRp: S.String.pipe(T.Label()),
           clusterResourceName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations",
             code: 200,
             apiVersion: "2023-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlConfigurationsRequest" });
@@ -2552,7 +2591,7 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(449, __c14, 1)),
+          value: __S(449, __c14, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceControlConfigurationList" });

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1542,6 +1542,8 @@ export interface ListConnectorRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of connector record */
 export interface ConnectorResource {
@@ -1568,6 +1570,8 @@ export interface ListConnectorsSuccessResponse {
 export interface ListMarketplaceAgreementsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The ConfluentAgreementResource items on this page */
 export type ConfluentAgreementResourceListResponseValueList = Array<ConfluentAgreementResource>;
@@ -1583,6 +1587,8 @@ export interface ListOrganizationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationResourceTagsMap = { [key: string]: string | undefined };
@@ -1615,6 +1621,8 @@ export interface OrganizationResourceListResult {
 export interface ListOrganizationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOrganizationClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1629,6 +1637,8 @@ export interface ListOrganizationClustersRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of cluster record */
 export interface SCClusterRecord {
@@ -1665,6 +1675,8 @@ export interface ListOrganizationEnvironmentsRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details about environment name, metadata and environment id of an environment */
 export interface SCEnvironmentRecord {
@@ -1690,7 +1702,10 @@ export interface GetEnvironmentsResponse {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOrganizationOperationsRequest {}
+export interface ListOrganizationOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Confluent */
@@ -1779,6 +1794,8 @@ export interface ListOrganizationSchemaRegistryClustersRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SchemaRegistryClusterRecord items on this page */
 export type ListSchemaRegistryClustersResponseValueList = Array<SchemaRegistryClusterRecord>;
@@ -1804,6 +1821,8 @@ export interface ListTopicsRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of topic record */
 export interface TopicRecord {
@@ -1924,8 +1943,7 @@ export const AccessListRoleBindingNameList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccessListRoleBindingNameListRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AccessRoleBindingNameListSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1942,8 +1960,7 @@ export const ClusterCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ClusterCreateOrUpdateRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<ClusterCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1960,8 +1977,7 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ConnectorCreateOrUpdateRequest>,
   output: __S(378, __c23, 10) as any as S.Schema<ConnectorCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1978,8 +1994,7 @@ export const CreateAccessRoleBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<CreateAccessRoleBindingRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<RoleBindingRecord>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1996,8 +2011,7 @@ export const CreateMarketplaceAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<CreateMarketplaceAgreementRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<ConfluentAgreementResource>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2014,8 +2028,7 @@ export const CreateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<CreateOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2032,8 +2045,7 @@ export const CreateOrganizationAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
   output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2050,8 +2062,7 @@ export const CreateTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<CreateTopicRequest>,
   output: __S(997, __c62, 5) as any as S.Schema<CreateTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2068,8 +2079,7 @@ export const DeleteAccessRoleBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteAccessRoleBindingRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<DeleteAccessRoleBindingResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2086,8 +2096,7 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2104,8 +2113,7 @@ export const DeleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteConnectorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2122,8 +2130,7 @@ export const DeleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2140,8 +2147,7 @@ export const DeleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2158,8 +2164,7 @@ export const DeleteOrganizationClusterAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2176,8 +2181,7 @@ export const DeleteTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteTopicRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2194,8 +2198,7 @@ export const EnvironmentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<EnvironmentCreateOrUpdateRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<EnvironmentCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2212,8 +2215,7 @@ export const GetConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(378, __c23, 10) as any as S.Schema<GetConnectorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,8 +2232,7 @@ export const GetOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<GetOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2248,8 +2249,7 @@ export const GetOrganizationClusterAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetOrganizationClusterAPIKeyRequest>,
   output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2266,8 +2266,7 @@ export const GetOrganizationClusterById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetOrganizationClusterByIdRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<GetOrganizationClusterByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2284,8 +2283,7 @@ export const GetOrganizationEnvironmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetOrganizationEnvironmentByIdRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<GetOrganizationEnvironmentByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2302,8 +2300,7 @@ export const GetOrganizationSchemaRegistryClusterById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetOrganizationSchemaRegistryClusterByIdRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<SchemaRegistryClusterRecord>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2320,8 +2317,7 @@ export const GetTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetTopicRequest>,
   output: __S(997, __c62, 5) as any as S.Schema<GetTopicResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2338,8 +2334,7 @@ export const InviteAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c28, 1) as any as S.Schema<InviteAccessUserRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<InvitationRecord>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2356,8 +2351,7 @@ export const ListAccessClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListAccessClustersRequest>,
   output: __S(486, __c30, 6) as any as S.Schema<AccessListClusterSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2374,8 +2368,7 @@ export const ListAccessEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListAccessEnvironmentsRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<AccessListEnvironmentsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2392,8 +2385,7 @@ export const ListAccessInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListAccessInvitationsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<AccessListInvitationsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2410,8 +2402,7 @@ export const ListAccessRoleBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListAccessRoleBindingsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<AccessListRoleBindingsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2428,8 +2419,7 @@ export const ListAccessServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListAccessServiceAccountsRequest>,
   output: __S(547, __c34, 3) as any as S.Schema<AccessListServiceAccountsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2446,8 +2436,7 @@ export const ListAccessUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListAccessUsersRequest>,
   output: __S(563, __c35, 3) as any as S.Schema<AccessListUsersSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,129 +2445,171 @@ export const ListAccessUsers: API.OperationMethod<
 
 export type ListConnectorError = AzureOpError;
 /** Lists all the connectors in a cluster */
-export const ListConnector: API.OperationMethod<
+export const ListConnector: API.PaginatedOperationMethod<
   ListConnectorRequest,
   ListConnectorsSuccessResponse,
   ListConnectorError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<ListConnectorsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnector",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceAgreementsError = AzureOpError;
 /** List Confluent marketplace agreements in the subscription. List Confluent marketplace agreements in the subscription. */
-export const ListMarketplaceAgreements: API.OperationMethod<
+export const ListMarketplaceAgreements: API.PaginatedOperationMethod<
   ListMarketplaceAgreementsRequest,
   ConfluentAgreementResourceListResponse,
   ListMarketplaceAgreementsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfluentAgreementResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<ConfluentAgreementResourceListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceAgreements",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationByResourceGroupError = AzureOpError;
 /** List all Organizations under the specified resource group. */
-export const ListOrganizationByResourceGroup: API.OperationMethod<
+export const ListOrganizationByResourceGroup: API.PaginatedOperationMethod<
   ListOrganizationByResourceGroupRequest,
   OrganizationResourceListResult,
   ListOrganizationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListOrganizationByResourceGroupRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationBySubscriptionError = AzureOpError;
 /** List all organizations under the specified subscription. */
-export const ListOrganizationBySubscription: API.OperationMethod<
+export const ListOrganizationBySubscription: API.PaginatedOperationMethod<
   ListOrganizationBySubscriptionRequest,
   OrganizationResourceListResult,
   ListOrganizationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListOrganizationBySubscriptionRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationClustersError = AzureOpError;
 /** Lists of all the clusters in a environment */
-export const ListOrganizationClusters: API.OperationMethod<
+export const ListOrganizationClusters: API.PaginatedOperationMethod<
   ListOrganizationClustersRequest,
   ListClustersSuccessResponse,
   ListOrganizationClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SCClusterRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListOrganizationClustersRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<ListClustersSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationEnvironmentsError = AzureOpError;
 /** Lists of all the environments in a organization */
-export const ListOrganizationEnvironments: API.OperationMethod<
+export const ListOrganizationEnvironments: API.PaginatedOperationMethod<
   ListOrganizationEnvironmentsRequest,
   GetEnvironmentsResponse,
   ListOrganizationEnvironmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SCEnvironmentRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListOrganizationEnvironmentsRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<GetEnvironmentsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationEnvironments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOrganizationOperations: API.OperationMethod<
+export const ListOrganizationOperations: API.PaginatedOperationMethod<
   ListOrganizationOperationsRequest,
   OperationListResult,
   ListOrganizationOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListOrganizationOperationsRequest>,
   output: __S(740, __c46, 4) as any as S.Schema<OperationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationRegionsError = AzureOpError;
 /** cloud provider regions available for creating Schema Registry clusters. */
@@ -2590,8 +2621,7 @@ export const ListOrganizationRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListOrganizationRegionsRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<ListRegionsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2600,39 +2630,51 @@ export const ListOrganizationRegions: API.OperationMethod<
 
 export type ListOrganizationSchemaRegistryClustersError = AzureOpError;
 /** Get schema registry clusters */
-export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
+export const ListOrganizationSchemaRegistryClusters: API.PaginatedOperationMethod<
   ListOrganizationSchemaRegistryClustersRequest,
   ListSchemaRegistryClustersResponse,
   ListOrganizationSchemaRegistryClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchemaRegistryClusterRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListOrganizationSchemaRegistryClustersRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<ListSchemaRegistryClustersResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationSchemaRegistryClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopicsError = AzureOpError;
 /** Lists of all the topics in a clusters */
-export const ListTopics: API.OperationMethod<
+export const ListTopics: API.PaginatedOperationMethod<
   ListTopicsRequest,
   ListTopicsSuccessResponse,
   ListTopicsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TopicRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListTopicsRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<ListTopicsSuccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateOrganizationError = AzureOpError;
 /** Update Organization resource */
@@ -2644,8 +2686,7 @@ export const UpdateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<UpdateOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,8 +2703,7 @@ export const ValidateValidationOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ValidateValidationOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<ValidateValidationOrganizationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2680,8 +2720,7 @@ export const ValidateValidationOrganizationV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ValidateValidationOrganizationV2Request>,
   output: __S(865, __c54, 1) as any as S.Schema<ValidationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3735,12 +3774,14 @@ function __c39(j: number): any {
           clusterId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/connectors",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectorRequest" });
@@ -3761,12 +3802,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceAgreementsRequest" });
@@ -3788,12 +3831,14 @@ function __c41(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationByResourceGroupRequest" });
@@ -3818,12 +3863,14 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationBySubscriptionRequest" });
@@ -3840,12 +3887,14 @@ function __c44(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationClustersRequest" });
@@ -3870,12 +3919,14 @@ function __c45(j: number): any {
           organizationName: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationEnvironmentsRequest" });
@@ -3894,12 +3945,15 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Confluent/operations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationOperationsRequest" });
@@ -3994,12 +4048,14 @@ function __c48(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationSchemaRegistryClustersRequest" });
@@ -4026,12 +4082,14 @@ function __c49(j: number): any {
           clusterId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/topics",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopicsRequest" });

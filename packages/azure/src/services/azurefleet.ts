@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1302,6 +1302,8 @@ export interface ListFleetByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FleetTagsMap = { [key: string]: string | undefined };
@@ -1346,6 +1348,8 @@ export interface FleetListResult {
 export interface ListFleetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFleetVirtualMachinesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1358,6 +1362,8 @@ export interface ListFleetVirtualMachinesRequest {
   _filter?: string | undefined;
   /** Skip token for pagination. Uses the token from a previous response to fetch the next page of results. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Virtual Machine operation status values. */
 export type VMOperationStatus = "Launching" | "Creating" | "Failed" | "Succeeded";
@@ -1427,6 +1433,8 @@ export interface ListFleetVirtualMachineScaleSetsRequest {
   resourceGroupName: string;
   /** The name of the Fleet */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An AzureFleet's virtualMachineScaleSet */
 export interface VirtualMachineScaleSet {
@@ -1450,7 +1458,10 @@ export interface VirtualMachineScaleSetListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1483,7 +1494,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1582,8 +1593,7 @@ export const DeleteFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteFleetRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DeleteFleetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,8 +1610,7 @@ export const FleetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c1, 2) as any as S.Schema<FleetsCreateOrUpdateRequest>,
   output: __S(35, __c1, 3) as any as S.Schema<FleetsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1618,8 +1627,7 @@ export const GetFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetFleetRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<GetFleetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1628,93 +1636,123 @@ export const GetFleet: API.OperationMethod<
 
 export type ListFleetByResourceGroupError = AzureOpError;
 /** List Fleet resources by resource group */
-export const ListFleetByResourceGroup: API.OperationMethod<
+export const ListFleetByResourceGroup: API.PaginatedOperationMethod<
   ListFleetByResourceGroupRequest,
   FleetListResult,
   ListFleetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Fleet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListFleetByResourceGroupRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<FleetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFleetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFleetBySubscriptionError = AzureOpError;
 /** List Fleet resources by subscription ID */
-export const ListFleetBySubscription: API.OperationMethod<
+export const ListFleetBySubscription: API.PaginatedOperationMethod<
   ListFleetBySubscriptionRequest,
   FleetListResult,
   ListFleetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Fleet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListFleetBySubscriptionRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<FleetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFleetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFleetVirtualMachinesError = AzureOpError;
 /** List VirtualMachine resources of a Launch mode Fleet. */
-export const ListFleetVirtualMachines: API.OperationMethod<
+export const ListFleetVirtualMachines: API.PaginatedOperationMethod<
   ListFleetVirtualMachinesRequest,
   VirtualMachineListResult,
   ListFleetVirtualMachinesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListFleetVirtualMachinesRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<VirtualMachineListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFleetVirtualMachines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFleetVirtualMachineScaleSetsError = AzureOpError;
 /** List VirtualMachineScaleSet resources by Fleet */
-export const ListFleetVirtualMachineScaleSets: API.OperationMethod<
+export const ListFleetVirtualMachineScaleSets: API.PaginatedOperationMethod<
   ListFleetVirtualMachineScaleSetsRequest,
   VirtualMachineScaleSetListResult,
   ListFleetVirtualMachineScaleSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachineScaleSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListFleetVirtualMachineScaleSetsRequest>,
   output: __S(419, __c13, 3) as any as S.Schema<VirtualMachineScaleSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFleetVirtualMachineScaleSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateFleetError = AzureOpError;
 /** Update a Fleet */
@@ -1726,8 +1764,7 @@ export const UpdateFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(483, __c15, 3) as any as S.Schema<UpdateFleetRequest>,
   output: __S(484, __c15, 4) as any as S.Schema<UpdateFleetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2618,12 +2655,14 @@ function __c8(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFleetByResourceGroupRequest" });
@@ -2648,12 +2687,14 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFleetBySubscriptionRequest" });
@@ -2669,12 +2710,14 @@ function __c11(j: number): any {
           name: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachines",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFleetVirtualMachinesRequest" });
@@ -2741,12 +2784,14 @@ function __c13(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFleetVirtualMachineScaleSetsRequest" });
@@ -2775,12 +2820,15 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureFleet/operations",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2808,7 +2856,7 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(451, __c14, 3)),
+          value: __S(451, __c14, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
