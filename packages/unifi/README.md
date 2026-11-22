@@ -106,7 +106,7 @@ resolved by the calls that need it):
 
 - `ApiKeyFromEnv`: `UNIFI_API_KEY`.
 - `ConsoleFromEnv`: `UNIFI_CONSOLE_HOST` (local, a host or origin) or else `UNIFI_CONSOLE_ID`
-  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
+  (cloud connector).
 
 ## Not covered
 

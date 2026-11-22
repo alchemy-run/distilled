@@ -29,7 +29,10 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-/** Origin of the UniFi cloud: Site Manager, Mobility, Carrier Fabric and the connector. */
+/**
+ * Origin of the UniFi cloud: Site Manager, Mobility, Carrier Fabric and the
+ * connector. The only one Ubiquiti publishes (every spec's `servers`).
+ */
 export const DEFAULT_CLOUD_BASE_URL = "https://api.ui.com";
 
 /** The console-hosted applications, as they appear in `/proxy/<app>/integration`. */
@@ -44,7 +47,7 @@ export type ConsoleLocation =
    */
   | { readonly _tag: "Local"; readonly host: string }
   /** Through the cloud connector, by the console's ID (Site Manager `listHosts`). */
-  | { readonly _tag: "Remote"; readonly consoleId: string; readonly apiBaseUrl?: string };
+  | { readonly _tag: "Remote"; readonly consoleId: string };
 
 /** What a console-hosted call needs: the key and where the console is. */
 export interface ConsoleConfig {
@@ -70,7 +73,7 @@ export const consoleBaseUrl = (
     const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
     return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
   }
-  const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
+  const origin = DEFAULT_CLOUD_BASE_URL;
   const encoded = encodeLabel("consoleId", location.consoleId);
   if (encoded instanceof InvalidInput) {
     return new ConfigError({
@@ -108,18 +111,10 @@ export const localConsole = (host: string): Layer.Layer<Console> =>
 
 /**
  * Layer for a console behind the cloud connector, by its ID (`id` in Site
- * Manager's `listHosts`). Use with a Site Manager key. `apiBaseUrl` replaces
- * `https://api.ui.com`.
+ * Manager's `listHosts`). Use with a Site Manager key.
  */
-export const remoteConsole = (consoleId: string, apiBaseUrl?: string): Layer.Layer<Console> =>
-  Layer.succeed(
-    Console,
-    Effect.succeed({
-      _tag: "Remote",
-      consoleId,
-      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-    }),
-  );
+export const remoteConsole = (consoleId: string): Layer.Layer<Console> =>
+  Layer.succeed(Console, Effect.succeed({ _tag: "Remote", consoleId }));
 
 /** Reads `UNIFI_API_KEY`. */
 export const ApiKeyFromEnv: Layer.Layer<ApiKey> = /*@__PURE__*/ Layer.succeed(
@@ -135,7 +130,7 @@ export const ApiKeyFromEnv: Layer.Layer<ApiKey> = /*@__PURE__*/ Layer.succeed(
 
 /**
  * Reads where the console is: `UNIFI_CONSOLE_HOST` (local) or, failing that,
- * `UNIFI_CONSOLE_ID` (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
+ * `UNIFI_CONSOLE_ID` (cloud connector).
  */
 export const ConsoleFromEnv: Layer.Layer<Console> = /*@__PURE__*/ Layer.succeed(
   Console,
@@ -148,12 +143,7 @@ export const ConsoleFromEnv: Layer.Layer<Console> = /*@__PURE__*/ Layer.succeed(
         message: "UNIFI_CONSOLE_HOST (local) or UNIFI_CONSOLE_ID (cloud connector) is required",
       });
     }
-    const apiBaseUrl = process.env.UNIFI_CLOUD_API_BASE_URL;
-    return {
-      _tag: "Remote",
-      consoleId,
-      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-    } as const;
+    return { _tag: "Remote", consoleId } as const;
   }),
 );
 
