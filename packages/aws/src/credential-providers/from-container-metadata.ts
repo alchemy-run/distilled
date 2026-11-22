@@ -10,6 +10,8 @@ import {
   ENV_CMDS_AUTH_TOKEN,
   ENV_CMDS_FULL_URI,
   ENV_CMDS_RELATIVE_URI,
+  isEcsHostUrl,
+  notEcsHostMessage,
 } from "./from-http.ts";
 import { DEFAULT_TIMEOUT_MS, getHttpCredentials } from "./metadata-credentials.ts";
 
@@ -35,6 +37,11 @@ export const containerMetadataSource = (
               message: `${relative} is not a valid container metadata service path`,
               tryNextLink: false,
             }),
+          );
+        }
+        if (!isEcsHostUrl(url)) {
+          return Effect.fail(
+            new CredentialSourceError({ message: notEcsHostMessage(relative), tryNextLink: false }),
           );
         }
       } else if (full) {
