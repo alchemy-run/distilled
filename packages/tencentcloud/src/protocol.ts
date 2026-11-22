@@ -1,6 +1,13 @@
-import * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
@@ -9,7 +16,11 @@ import {
   matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
+import {
+  declaredStatusClass,
+  unwrapRedactedDeep,
+  validateSuccess,
+} from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import { headerSymbol } from "@distilled.cloud/core/trait";
@@ -30,40 +41,38 @@ import { headerSymbol } from "@distilled.cloud/core/trait";
  *             `Response.Error` makes the call fail: a per-operation typed
  *             error first (patched matcher classes), then the common code's
  *             class (errors.ts), else UnknownTencentCloudError. A response
- *             without the envelope fails by HTTP status.
+ *             without the envelope fails by HTTP status. The common codes'
+ *             classes and core's status classes are the service's errors
+ *             (`TencentCloudServiceErrors`): the protocol builds one only
+ *             from the classes the operation lists.
  */
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
-  type DefaultErrors,
   TencentCloudParseError,
+  type TencentCloudServiceError,
   UnknownTencentCloudError,
-  envelopeError,
+  envelopeErrorWith,
 } from "./errors.ts";
 import { Region } from "./region.ts";
 import { sign } from "./signer.ts";
 import { actionSymbol, type ActionTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Tencent Cloud operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * TencentCloudOpError, TencentCloudOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated Tencent Cloud operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, TencentCloudOpError, TencentCloudOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type TencentCloudOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | SdkError;
+export type TencentCloudOpError = TencentCloudServiceError | ErrorOf<typeof TencentCloudProtocol>;
 
 /** Context (requirements) shared by every generated Tencent Cloud operation. */
 export type TencentCloudOpContext = Credentials | HttpClient.HttpClient;
@@ -71,11 +80,20 @@ export type TencentCloudOpContext = Credentials | HttpClient.HttpClient;
 /** The `Content-Type` every request sends, and signs. */
 export const CONTENT_TYPE = "application/json; charset=utf-8";
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// failures are real typed errors that an operation re-surfaces via its error
-// union. Fail with the instance and erase the error type here; `API.make`'s
-// signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * An instance of `cls`, a class of the service's errors, built from the
+ * operation's own list: `undefined` when the operation does not list the
+ * class (every generated operation lists `TencentCloudServiceErrors`).
+ */
+const declaredError = <Props>(
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: new (props: Props) => unknown,
+  props: Props,
+): DeclaredError | undefined => {
+  const known: unknown = cls;
+  const Declared = errors.find((declared) => declared === known);
+  return Declared === undefined ? undefined : new Declared(props);
+};
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value);
@@ -108,12 +126,10 @@ const planFor = (inputAst: AST.AST): EncodePlan => {
   return plan;
 };
 
-// The protocol layer is memoized per process by `API.make`, so the build
+// The protocol is one module-level value shared by every operation, so it
 // must not capture credentials -- `encode` resolves Credentials (and the
-// optional Region) from the calling fiber's context on every request. Like
-// the error channel above, the requirement is erased at this boundary and
-// reintroduced for callers by the generated `TencentCloudOpContext`.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// optional Region) from the calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const plan = planFor(inputAst);
     if (plan.action === undefined) {
@@ -123,7 +139,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     }
     const { service, version, action } = plan.action;
     const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
+    const creds = yield* resolveCredentials;
 
     const headers: Record<string, string> = {};
     const body: Record<string, unknown> = {};
@@ -167,17 +183,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     );
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
-    const text = yield* response.text.pipe(Effect.catch(fail));
+    const text = yield* response.text;
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
@@ -200,36 +208,44 @@ const decode = ({
       const message = typeof error.Message === "string" ? error.Message : code;
       const requestId = typeof envelope!.RequestId === "string" ? envelope!.RequestId : undefined;
       const typed = matchTypedError(errorClasses, status, [{ message }], { body: json, headers });
-      if (typed !== undefined) return yield* fail(typed);
-      return yield* fail(envelopeError({ code, message, requestId }, status, json));
+      if (typed !== undefined) return yield* Effect.fail(typed);
+      return yield* Effect.fail(
+        envelopeErrorWith(
+          (cls, props) => declaredError(errorClasses, cls, props),
+          { code, message, requestId },
+          status,
+          json,
+        ),
+      );
     }
 
     if (status < 200 || status >= 300) {
       const message = nonJson ? text.trim().slice(0, 500) : `HTTP ${status}`;
-      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      // Core's class for the status, which the service declares.
+      const StatusErrorClass = declaredStatusClass(status, errorClasses);
       if (StatusErrorClass !== undefined) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
-          } as any),
+          }),
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownTencentCloudError({ message, status, body: json ?? text.slice(0, 2000) }),
       );
     }
 
     if (envelope === undefined) {
-      return yield* fail(
+      return yield* Effect.fail(
         new TencentCloudParseError({
           body: json ?? text.slice(0, 2000),
           cause: "The response has no `Response` envelope",
@@ -250,14 +266,13 @@ const decode = ({
         nonJson: false,
       },
       (info) => new TencentCloudParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const TencentCloudProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials and CryptoError channels (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const tencentCloudProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const TencentCloudProtocol: ProtocolOf<typeof tencentCloudProtocolMethods> =
+  tencentCloudProtocolMethods;

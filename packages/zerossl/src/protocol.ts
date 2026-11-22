@@ -1,12 +1,14 @@
-import * as API from "@distilled.cloud/core/api";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-  type InvalidInput,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import {
+  declaredStatusClass,
   hasSensitiveMember,
   unwrapRedactedDeep,
   wrapSensitive,
@@ -18,7 +20,8 @@ import {
  * the account's access key in the `Authorization: ApiKey` header. Failures
  * arrive as `{ success: false, error: { code, type, info? } }`, usually with
  * HTTP 200, so the decoder inspects the envelope and matches `error.type`
- * against the operation's typed error classes before trusting the status.
+ * against the operation's typed error classes before trusting the status
+ * (core's class for it, which the service declares: `ZeroSslServiceErrors`).
  */
 import {
   failUnlessLenient,
@@ -26,33 +29,27 @@ import {
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownZeroSslError, ZeroSslParseError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownZeroSslError, ZeroSslParseError, type ZeroSslServiceError } from "./errors.ts";
 
-export type ZeroSslOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+/**
+ * What every generated ZeroSSL operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with.
+ */
+export type ZeroSslOpError = ZeroSslServiceError | ErrorOf<typeof ZeroSslProtocol>;
 
 export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
 const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
-  return yield* resolve as Effect.Effect<Config>;
+  return yield* resolve;
 });
 
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const creds = yield* resolveCredentials;
     return yield* buildRequest({
@@ -75,15 +72,7 @@ interface ErrorEnvelope {
   };
 }
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
     const text = yield* response.text;
     const status = response.status;
@@ -114,15 +103,10 @@ const decode = ({
         [{ code: envelope.error?.code, message: type ?? message }],
         { body: json === undefined ? text : json, headers },
       );
-      if (typed !== undefined) return yield* fail(typed);
-      const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
+      if (typed !== undefined) return yield* Effect.fail(typed);
+      const StatusClass = declaredStatusClass(status, errorClasses);
       if (status >= 400 && StatusClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -130,14 +114,14 @@ const decode = ({
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownZeroSslError({
           status,
           code: envelope.error?.code,
@@ -150,7 +134,7 @@ const decode = ({
     if (!isObject(json)) {
       // Lenient mode returns a non-object body as read.
       if (!(yield* isValidating)) return json;
-      return yield* fail(parseError("Expected a JSON object"));
+      return yield* Effect.fail(parseError("Expected a JSON object"));
     }
     // The EAB documentation uses 1/0; the live API also returns true/false.
     const body =
@@ -171,12 +155,9 @@ const parseError = (cause: string) =>
     cause,
   });
 
-const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
+const zeroSslProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
 
-export const ZeroSslProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decode(args) as Effect.Effect<unknown>,
-  }),
-);
+export const ZeroSslProtocol: ProtocolOf<typeof zeroSslProtocolMethods> = zeroSslProtocolMethods;

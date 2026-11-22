@@ -63,7 +63,7 @@ const coinbaseSpec: SdkSpec = {
   operationDecl: {
     contextType: "CoinbaseOpContext",
     commonErrorType: "CoinbaseOpError",
-    commonErrorClasses: ["UnknownCoinbaseError"],
+    serviceErrors: "CoinbaseServiceErrors",
     protocol: "CoinbaseProtocol",
     retry: "Retry.Retry",
   },

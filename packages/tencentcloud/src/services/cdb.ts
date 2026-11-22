@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTencentCloudError } from "../errors.ts";
+import { TencentCloudServiceErrors } from "../errors.ts";
 import {
   TencentCloudProtocol,
   type TencentCloudOpError,
@@ -3491,7 +3491,8 @@ export const addTimeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddTimeWindowRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<AddTimeWindowResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3507,7 +3508,8 @@ export const adjustCdbProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<AdjustCdbProxyRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AdjustCdbProxyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3523,7 +3525,8 @@ export const adjustCdbProxyAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<AdjustCdbProxyAddressRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AdjustCdbProxyAddressResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3539,7 +3542,8 @@ export const analyzeAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3746, __c117, 2) as any as S.Schema<AnalyzeAuditLogsRequest>,
   output: __S(3751, __c117, 7) as any as S.Schema<AnalyzeAuditLogsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3555,7 +3559,8 @@ export const associateSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<AssociateSecurityGroupsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<AssociateSecurityGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3571,7 +3576,8 @@ export const balanceRoGroupLoad: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<BalanceRoGroupLoadRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<BalanceRoGroupLoadResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3587,7 +3593,8 @@ export const checkMigrateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4962, __c155, 2) as any as S.Schema<CheckMigrateClusterRequest>,
   output: __S(4965, __c155, 5) as any as S.Schema<CheckMigrateClusterResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3603,7 +3610,8 @@ export const closeAuditService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<CloseAuditServiceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CloseAuditServiceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3619,7 +3627,8 @@ export const closeCDBProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<CloseCDBProxyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CloseCDBProxyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3635,7 +3644,8 @@ export const closeCdbProxyAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<CloseCdbProxyAddressRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CloseCdbProxyAddressResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3651,7 +3661,8 @@ export const closeSSL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CloseSSLRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CloseSSLResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3667,7 +3678,8 @@ export const closeWanService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CloseWanServiceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CloseWanServiceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3683,7 +3695,8 @@ export const createAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(932, __c29, 4) as any as S.Schema<CreateAccountsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateAccountsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3699,7 +3712,8 @@ export const createAuditLogFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateAuditLogFileRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<CreateAuditLogFileResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3715,7 +3729,8 @@ export const createAuditPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<CreateAuditPolicyRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<CreateAuditPolicyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3731,7 +3746,8 @@ export const createAuditRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CreateAuditRuleRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<CreateAuditRuleResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3747,7 +3763,8 @@ export const createAuditRuleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CreateAuditRuleTemplateRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<CreateAuditRuleTemplateResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3763,7 +3780,8 @@ export const createBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2818, __c88, 2) as any as S.Schema<CreateBackupRequest>,
   output: __S(2819, __c88, 3) as any as S.Schema<CreateBackupResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3779,7 +3797,8 @@ export const createCdbProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<CreateCdbProxyRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateCdbProxyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3795,7 +3814,8 @@ export const createCdbProxyAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreateCdbProxyAddressRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateCdbProxyAddressResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3811,7 +3831,8 @@ export const createCloneInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateCloneInstanceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateCloneInstanceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3827,7 +3848,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3843,7 +3865,8 @@ export const createDBImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<CreateDBImportJobRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateDBImportJobResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3859,7 +3882,8 @@ export const createDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CreateDBInstanceRequest>,
   output: __S(3426, __c107, 2) as any as S.Schema<CreateDBInstanceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3875,7 +3899,8 @@ export const createDBInstanceHour: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<CreateDBInstanceHourRequest>,
   output: __S(3426, __c107, 2) as any as S.Schema<CreateDBInstanceHourResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3891,7 +3916,8 @@ export const createDeployGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<CreateDeployGroupRequest>,
   output: __S(3553, __c111, 1) as any as S.Schema<CreateDeployGroupResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3907,7 +3933,8 @@ export const createParamTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<CreateParamTemplateRequest>,
   output: __S(3585, __c112, 1) as any as S.Schema<CreateParamTemplateResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3923,7 +3950,8 @@ export const createRoInstanceIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<CreateRoInstanceIpRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<CreateRoInstanceIpResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3939,7 +3967,8 @@ export const createRotationPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CreateRotationPasswordRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CreateRotationPasswordResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3955,7 +3984,8 @@ export const deleteAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3714, __c116, 2) as any as S.Schema<DeleteAccountsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteAccountsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3971,7 +4001,8 @@ export const deleteAuditLogFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<DeleteAuditLogFileRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAuditLogFileResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3987,7 +4018,8 @@ export const deleteAuditPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<DeleteAuditPolicyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAuditPolicyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4003,7 +4035,8 @@ export const deleteAuditRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<DeleteAuditRuleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAuditRuleResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4019,7 +4052,8 @@ export const deleteAuditRuleTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<DeleteAuditRuleTemplatesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteAuditRuleTemplatesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4035,7 +4069,8 @@ export const deleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteBackupResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4051,7 +4086,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4067,7 +4103,8 @@ export const deleteDeployGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<DeleteDeployGroupsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteDeployGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4083,7 +4120,8 @@ export const deleteParamTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<DeleteParamTemplateRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteParamTemplateResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4099,7 +4137,8 @@ export const deleteRotationPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<DeleteRotationPasswordRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteRotationPasswordResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4115,7 +4154,8 @@ export const deleteTimeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<DeleteTimeWindowRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteTimeWindowResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4131,7 +4171,8 @@ export const describeAccountPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DescribeAccountPrivilegesRequest>,
   output: __S(4161, __c130, 1) as any as S.Schema<DescribeAccountPrivilegesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4147,7 +4188,8 @@ export const describeAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DescribeAccountsRequest>,
   output: __S(4195, __c131, 3) as any as S.Schema<DescribeAccountsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4163,7 +4205,8 @@ export const describeAsyncRequestInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DescribeAsyncRequestInfoRequest>,
   output: __S(4225, __c132, 1) as any as S.Schema<DescribeAsyncRequestInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4179,7 +4222,8 @@ export const describeAuditConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DescribeAuditConfigRequest>,
   output: __S(4257, __c133, 1) as any as S.Schema<DescribeAuditConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4195,7 +4239,8 @@ export const describeAuditInstanceList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4290, __c134, 2) as any as S.Schema<DescribeAuditInstanceListRequest>,
   output: __S(4296, __c134, 8) as any as S.Schema<DescribeAuditInstanceListResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4211,7 +4256,8 @@ export const describeAuditLogFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DescribeAuditLogFilesRequest>,
   output: __S(4355, __c136, 3) as any as S.Schema<DescribeAuditLogFilesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4227,7 +4273,8 @@ export const describeAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<DescribeAuditLogsRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<DescribeAuditLogsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4243,7 +4290,8 @@ export const describeAuditPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<DescribeAuditPoliciesRequest>,
   output: __S(4419, __c138, 3) as any as S.Schema<DescribeAuditPoliciesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4259,7 +4307,8 @@ export const describeAuditRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DescribeAuditRulesRequest>,
   output: __S(4451, __c139, 3) as any as S.Schema<DescribeAuditRulesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4275,7 +4324,8 @@ export const describeAuditRuleTemplateModifyHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DescribeAuditRuleTemplateModifyHistoryRequest>,
   output: __S(4484, __c140, 4) as any as S.Schema<DescribeAuditRuleTemplateModifyHistoryResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4291,7 +4341,8 @@ export const describeAuditRuleTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DescribeAuditRuleTemplatesRequest>,
   output: __S(4547, __c142, 3) as any as S.Schema<DescribeAuditRuleTemplatesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4307,7 +4358,8 @@ export const describeBackupConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DescribeBackupConfigRequest>,
   output: __S(4577, __c143, 1) as any as S.Schema<DescribeBackupConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4323,7 +4375,8 @@ export const describeBackupDecryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DescribeBackupDecryptionKeyRequest>,
   output: __S(4641, __c145, 1) as any as S.Schema<DescribeBackupDecryptionKeyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4339,7 +4392,8 @@ export const describeBackupDownloadRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DescribeBackupDownloadRestrictionRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<DescribeBackupDownloadRestrictionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4355,7 +4409,8 @@ export const describeBackupEncryptionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DescribeBackupEncryptionStatusRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<DescribeBackupEncryptionStatusResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4371,7 +4426,8 @@ export const describeBackupOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<DescribeBackupOverviewRequest>,
   output: __S(4769, __c149, 1) as any as S.Schema<DescribeBackupOverviewResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4387,7 +4443,8 @@ export const describeBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DescribeBackupsRequest>,
   output: __S(4803, __c150, 3) as any as S.Schema<DescribeBackupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4403,7 +4460,8 @@ export const describeBackupSummaries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DescribeBackupSummariesRequest>,
   output: __S(4867, __c152, 3) as any as S.Schema<DescribeBackupSummariesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4419,7 +4477,8 @@ export const describeBinlogBackupOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DescribeBinlogBackupOverviewRequest>,
   output: __S(4897, __c153, 1) as any as S.Schema<DescribeBinlogBackupOverviewResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4435,7 +4494,8 @@ export const describeBinlogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DescribeBinlogsRequest>,
   output: __S(4931, __c154, 3) as any as S.Schema<DescribeBinlogsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4451,7 +4511,8 @@ export const describeCdbProxyInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DescribeCdbProxyInfoRequest>,
   output: __S(5063, __c158, 7) as any as S.Schema<DescribeCdbProxyInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4467,7 +4528,8 @@ export const describeCdbZoneConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DescribeCdbZoneConfigRequest>,
   output: __S(5101, __c159, 13) as any as S.Schema<DescribeCdbZoneConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4483,7 +4545,8 @@ export const describeCloneList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DescribeCloneListRequest>,
   output: __S(5123, __c160, 3) as any as S.Schema<DescribeCloneListResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4499,7 +4562,8 @@ export const describeClusterInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DescribeClusterInfoRequest>,
   output: __S(5157, __c161, 5) as any as S.Schema<DescribeClusterInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4515,7 +4579,8 @@ export const describeCpuExpandHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DescribeCpuExpandHistoryRequest>,
   output: __S(5187, __c162, 3) as any as S.Schema<DescribeCpuExpandHistoryResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4531,7 +4596,8 @@ export const describeCPUExpandStrategyInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DescribeCPUExpandStrategyInfoRequest>,
   output: __S(5217, __c163, 1) as any as S.Schema<DescribeCPUExpandStrategyInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4547,7 +4613,8 @@ export const describeDataBackupOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DescribeDataBackupOverviewRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<DescribeDataBackupOverviewResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4563,7 +4630,8 @@ export const describeDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DescribeDatabasesRequest>,
   output: __S(5315, __c166, 3) as any as S.Schema<DescribeDatabasesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4579,7 +4647,8 @@ export const describeDBFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DescribeDBFeaturesRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<DescribeDBFeaturesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4595,7 +4664,8 @@ export const describeDBImportRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DescribeDBImportRecordsRequest>,
   output: __S(5379, __c168, 3) as any as S.Schema<DescribeDBImportRecordsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4611,7 +4681,8 @@ export const describeDBInstanceCharset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DescribeDBInstanceCharsetRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<DescribeDBInstanceCharsetResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4627,7 +4698,8 @@ export const describeDBInstanceConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DescribeDBInstanceConfigRequest>,
   output: __S(5475, __c171, 3) as any as S.Schema<DescribeDBInstanceConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4643,7 +4715,8 @@ export const describeDBInstanceGTID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DescribeDBInstanceGTIDRequest>,
   output: __S(5505, __c172, 1) as any as S.Schema<DescribeDBInstanceGTIDResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4659,7 +4732,8 @@ export const describeDBInstanceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DescribeDBInstanceInfoRequest>,
   output: __S(5537, __c173, 1) as any as S.Schema<DescribeDBInstanceInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4675,7 +4749,8 @@ export const describeDBInstanceLogToCLS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DescribeDBInstanceLogToCLSRequest>,
   output: __S(5570, __c174, 2) as any as S.Schema<DescribeDBInstanceLogToCLSResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4691,7 +4766,8 @@ export const describeDBInstanceRebootTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DescribeDBInstanceRebootTimeRequest>,
   output: __S(5603, __c175, 3) as any as S.Schema<DescribeDBInstanceRebootTimeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4707,7 +4783,8 @@ export const describeDBInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5634, __c176, 2) as any as S.Schema<DescribeDBInstancesRequest>,
   output: __S(5648, __c176, 16) as any as S.Schema<DescribeDBInstancesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4723,7 +4800,8 @@ export const describeDBPrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DescribeDBPriceRequest>,
   output: __S(5729, __c179, 1) as any as S.Schema<DescribeDBPriceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4739,7 +4817,8 @@ export const describeDBSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
   output: __S(5761, __c180, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4755,7 +4834,8 @@ export const describeDBSwitchRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DescribeDBSwitchRecordsRequest>,
   output: __S(5827, __c182, 3) as any as S.Schema<DescribeDBSwitchRecordsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4771,7 +4851,8 @@ export const describeDefaultParams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DescribeDefaultParamsRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<DescribeDefaultParamsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4787,7 +4868,8 @@ export const describeDeployGroupList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DescribeDeployGroupListRequest>,
   output: __S(5987, __c187, 3) as any as S.Schema<DescribeDeployGroupListResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4803,7 +4885,8 @@ export const describeDeviceMonitorInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DescribeDeviceMonitorInfoRequest>,
   output: __S(6023, __c188, 7) as any as S.Schema<DescribeDeviceMonitorInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4819,7 +4902,8 @@ export const describeErrorLogData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DescribeErrorLogDataRequest>,
   output: __S(6051, __c189, 3) as any as S.Schema<DescribeErrorLogDataResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4835,7 +4919,8 @@ export const describeInstanceAlarmEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DescribeInstanceAlarmEventsRequest>,
   output: __S(6083, __c190, 3) as any as S.Schema<DescribeInstanceAlarmEventsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4851,7 +4936,8 @@ export const describeInstanceParamRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DescribeInstanceParamRecordsRequest>,
   output: __S(6115, __c191, 3) as any as S.Schema<DescribeInstanceParamRecordsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4867,7 +4953,8 @@ export const describeInstanceParams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<DescribeInstanceParamsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4883,7 +4970,8 @@ export const describeInstancePasswordComplexity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<DescribeInstancePasswordComplexityRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<DescribeInstancePasswordComplexityResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4899,7 +4987,8 @@ export const describeInstanceUpgradeCheckJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DescribeInstanceUpgradeCheckJobRequest>,
   output: __S(6209, __c194, 1) as any as S.Schema<DescribeInstanceUpgradeCheckJobResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4915,7 +5004,8 @@ export const describeInstanceUpgradeType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6241, __c195, 1) as any as S.Schema<DescribeInstanceUpgradeTypeRequest>,
   output: __S(6242, __c195, 2) as any as S.Schema<DescribeInstanceUpgradeTypeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4931,7 +5021,8 @@ export const describeLocalBinlogConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DescribeLocalBinlogConfigRequest>,
   output: __S(6306, __c197, 2) as any as S.Schema<DescribeLocalBinlogConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4947,7 +5038,8 @@ export const describeParamTemplateInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DescribeParamTemplateInfoRequest>,
   output: __S(6337, __c198, 1) as any as S.Schema<DescribeParamTemplateInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4963,7 +5055,8 @@ export const describeParamTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DescribeParamTemplatesRequest>,
   output: __S(6371, __c199, 3) as any as S.Schema<DescribeParamTemplatesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4979,7 +5072,8 @@ export const describeProjectSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
   output: __S(6401, __c200, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4995,7 +5089,8 @@ export const describeProxyCustomConf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DescribeProxyCustomConfRequest>,
   output: __S(6436, __c201, 4) as any as S.Schema<DescribeProxyCustomConfResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5011,7 +5106,8 @@ export const describeProxySupportParam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DescribeProxySupportParamRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<DescribeProxySupportParamResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5027,7 +5123,8 @@ export const describeRemoteBackupConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DescribeRemoteBackupConfigRequest>,
   output: __S(6497, __c203, 1) as any as S.Schema<DescribeRemoteBackupConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5043,7 +5140,8 @@ export const describeRoGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<DescribeRoGroupsRequest>,
   output: __S(6529, __c204, 1) as any as S.Schema<DescribeRoGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5059,7 +5157,8 @@ export const describeRollbackRangeTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<DescribeRollbackRangeTimeRequest>,
   output: __S(6565, __c205, 5) as any as S.Schema<DescribeRollbackRangeTimeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5075,7 +5174,8 @@ export const describeRollbackTaskDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DescribeRollbackTaskDetailRequest>,
   output: __S(6595, __c206, 3) as any as S.Schema<DescribeRollbackTaskDetailResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5091,7 +5191,8 @@ export const describeRoMinScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DescribeRoMinScaleRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<DescribeRoMinScaleResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5107,7 +5208,8 @@ export const describeSlowLogData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DescribeSlowLogDataRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<DescribeSlowLogDataResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5123,7 +5225,8 @@ export const describeSlowLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DescribeSlowLogsRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<DescribeSlowLogsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5139,7 +5242,8 @@ export const describeSSLStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DescribeSSLStatusRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<DescribeSSLStatusResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5155,7 +5259,8 @@ export const describeSupportedPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DescribeSupportedPrivilegesRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<DescribeSupportedPrivilegesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5171,7 +5276,8 @@ export const describeTableColumns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DescribeTableColumnsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<DescribeTableColumnsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5187,7 +5293,8 @@ export const describeTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DescribeTablesRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<DescribeTablesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5203,7 +5310,8 @@ export const describeTagsOfInstanceIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DescribeTagsOfInstanceIdsRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<DescribeTagsOfInstanceIdsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5219,7 +5327,8 @@ export const describeTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DescribeTasksRequest>,
   output: __S(517, __c16, 5) as any as S.Schema<DescribeTasksResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5235,7 +5344,8 @@ export const describeTimeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DescribeTimeWindowRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DescribeTimeWindowResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5251,7 +5361,8 @@ export const describeUploadedFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DescribeUploadedFilesRequest>,
   output: __S(612, __c19, 4) as any as S.Schema<DescribeUploadedFilesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5267,7 +5378,8 @@ export const disassociateSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5283,7 +5395,8 @@ export const inquiryPriceUpgradeInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<InquiryPriceUpgradeInstancesRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<InquiryPriceUpgradeInstancesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5299,7 +5412,8 @@ export const isolateDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<IsolateDBInstanceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<IsolateDBInstanceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5315,7 +5429,8 @@ export const modifyAccountDescription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ModifyAccountDescriptionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyAccountDescriptionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5331,7 +5446,8 @@ export const modifyAccountHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ModifyAccountHostRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyAccountHostResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5347,7 +5463,8 @@ export const modifyAccountMaxUserConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ModifyAccountMaxUserConnectionsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyAccountMaxUserConnectionsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5363,7 +5480,8 @@ export const modifyAccountPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ModifyAccountPasswordRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyAccountPasswordResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5379,7 +5497,8 @@ export const modifyAccountPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ModifyAccountPrivilegesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyAccountPrivilegesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5395,7 +5514,8 @@ export const modifyAuditConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ModifyAuditConfigRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyAuditConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5411,7 +5531,8 @@ export const modifyAuditRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ModifyAuditRuleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyAuditRuleResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5427,7 +5548,8 @@ export const modifyAuditRuleTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ModifyAuditRuleTemplatesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyAuditRuleTemplatesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5443,7 +5565,8 @@ export const modifyAuditService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ModifyAuditServiceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyAuditServiceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5459,7 +5582,8 @@ export const modifyAutoRenewFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ModifyAutoRenewFlagRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyAutoRenewFlagResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5475,7 +5599,8 @@ export const modifyBackupConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ModifyBackupConfigRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyBackupConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5491,7 +5616,8 @@ export const modifyBackupDownloadRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ModifyBackupDownloadRestrictionRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyBackupDownloadRestrictionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5507,7 +5633,8 @@ export const modifyBackupEncryptionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ModifyBackupEncryptionStatusRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyBackupEncryptionStatusResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5523,7 +5650,8 @@ export const modifyCdbProxyAddressDesc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ModifyCdbProxyAddressDescRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCdbProxyAddressDescResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5539,7 +5667,8 @@ export const modifyCdbProxyAddressVipAndVPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ModifyCdbProxyAddressVipAndVPortRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCdbProxyAddressVipAndVPortResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5555,7 +5684,8 @@ export const modifyCdbProxyParam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ModifyCdbProxyParamRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCdbProxyParamResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5571,7 +5701,8 @@ export const modifyDBInstanceLogToCLS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ModifyDBInstanceLogToCLSRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceLogToCLSResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5587,7 +5718,8 @@ export const modifyDBInstanceModes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ModifyDBInstanceModesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyDBInstanceModesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5603,7 +5735,8 @@ export const modifyDBInstanceName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ModifyDBInstanceNameRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceNameResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5619,7 +5752,8 @@ export const modifyDBInstanceProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ModifyDBInstanceProjectRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceProjectResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5635,7 +5769,8 @@ export const modifyDBInstanceReadOnlyStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ModifyDBInstanceReadOnlyStatusRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceReadOnlyStatusResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5651,7 +5786,8 @@ export const modifyDBInstanceSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5667,7 +5803,8 @@ export const modifyDBInstanceVipVport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ModifyDBInstanceVipVportRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyDBInstanceVipVportResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5683,7 +5820,8 @@ export const modifyInstanceChargeType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1601, __c50, 1) as any as S.Schema<ModifyInstanceChargeTypeRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<ModifyInstanceChargeTypeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5699,7 +5837,8 @@ export const modifyInstanceDestroyProtect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ModifyInstanceDestroyProtectRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyInstanceDestroyProtectResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5715,7 +5854,8 @@ export const modifyInstanceParam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ModifyInstanceParamRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyInstanceParamResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5731,7 +5871,8 @@ export const modifyInstancePasswordComplexity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ModifyInstancePasswordComplexityRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyInstancePasswordComplexityResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5747,7 +5888,8 @@ export const modifyInstanceTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ModifyInstanceTagRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyInstanceTagResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5763,7 +5905,8 @@ export const modifyLocalBinlogConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ModifyLocalBinlogConfigRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyLocalBinlogConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5779,7 +5922,8 @@ export const modifyNameOrDescByDpId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ModifyNameOrDescByDpIdRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyNameOrDescByDpIdResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,7 +5939,8 @@ export const modifyParamTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ModifyParamTemplateRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyParamTemplateResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5811,7 +5956,8 @@ export const modifyProtectMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ModifyProtectModeRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyProtectModeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5827,7 +5973,8 @@ export const modifyRemoteBackupConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ModifyRemoteBackupConfigRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyRemoteBackupConfigResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5843,7 +5990,8 @@ export const modifyRoGroupInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1955, __c61, 3) as any as S.Schema<ModifyRoGroupInfoRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyRoGroupInfoResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5859,7 +6007,8 @@ export const modifyRoGroupVipVport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ModifyRoGroupVipVportRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyRoGroupVipVportResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5875,7 +6024,8 @@ export const modifyTimeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ModifyTimeWindowRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyTimeWindowResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5891,7 +6041,8 @@ export const offlineIsolatedInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<OfflineIsolatedInstancesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<OfflineIsolatedInstancesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5907,7 +6058,8 @@ export const openAuditService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<OpenAuditServiceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<OpenAuditServiceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5923,7 +6075,8 @@ export const openDBInstanceEncryption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<OpenDBInstanceEncryptionRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<OpenDBInstanceEncryptionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5939,7 +6092,8 @@ export const openDBInstanceGTID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<OpenDBInstanceGTIDRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OpenDBInstanceGTIDResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5955,7 +6109,8 @@ export const openSSL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<OpenSSLRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OpenSSLResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5971,7 +6126,8 @@ export const openWanService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<OpenWanServiceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OpenWanServiceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5987,7 +6143,8 @@ export const releaseIsolatedDBInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ReleaseIsolatedDBInstancesRequest>,
   output: __S(2307, __c72, 3) as any as S.Schema<ReleaseIsolatedDBInstancesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6003,7 +6160,8 @@ export const reloadBalanceProxyNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ReloadBalanceProxyNodeRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ReloadBalanceProxyNodeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6019,7 +6177,8 @@ export const renewDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<RenewDBInstanceRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<RenewDBInstanceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6035,7 +6194,8 @@ export const resetPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ResetPasswordResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6051,7 +6211,8 @@ export const resetRootAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ResetRootAccountRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ResetRootAccountResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6067,7 +6228,8 @@ export const restartDBInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<RestartDBInstancesRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RestartDBInstancesResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6083,7 +6245,8 @@ export const startBatchRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<StartBatchRollbackRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StartBatchRollbackResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6099,7 +6262,8 @@ export const startCpuExpand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<StartCpuExpandRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StartCpuExpandResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6115,7 +6279,8 @@ export const startReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<StartReplicationRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StartReplicationResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6131,7 +6296,8 @@ export const stopCpuExpand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<StopCpuExpandRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StopCpuExpandResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6147,7 +6313,8 @@ export const stopDBImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<StopDBImportJobRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<StopDBImportJobResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6163,7 +6330,8 @@ export const stopReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<StopReplicationRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StopReplicationResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6179,7 +6347,8 @@ export const stopRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<StopRollbackRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StopRollbackResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6195,7 +6364,8 @@ export const submitInstanceUpgradeCheckJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<SubmitInstanceUpgradeCheckJobRequest>,
   output: __S(2785, __c87, 1) as any as S.Schema<SubmitInstanceUpgradeCheckJobResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6211,7 +6381,8 @@ export const switchCDBProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<SwitchCDBProxyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<SwitchCDBProxyResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6227,7 +6398,8 @@ export const switchDBInstanceMasterSlave: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<SwitchDBInstanceMasterSlaveRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<SwitchDBInstanceMasterSlaveResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6243,7 +6415,8 @@ export const switchDrInstanceToMaster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<SwitchDrInstanceToMasterRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<SwitchDrInstanceToMasterResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6259,7 +6432,8 @@ export const switchForUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<SwitchForUpgradeRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<SwitchForUpgradeResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6275,7 +6449,8 @@ export const upgradeCDBProxyVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<UpgradeCDBProxyVersionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpgradeCDBProxyVersionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6291,7 +6466,8 @@ export const upgradeDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<UpgradeDBInstanceRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<UpgradeDBInstanceResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6307,7 +6483,8 @@ export const upgradeDBInstanceEngineVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3042, __c95, 2) as any as S.Schema<UpgradeDBInstanceEngineVersionRequest>,
   output: __S(3043, __c95, 3) as any as S.Schema<UpgradeDBInstanceEngineVersionResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6323,7 +6500,8 @@ export const upgradeRoGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<UpgradeRoGroupRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UpgradeRoGroupResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6339,7 +6517,8 @@ export const verifyRootAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<VerifyRootAccountRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<VerifyRootAccountResponse>,
-  errors: [UnknownTencentCloudError],
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownBoxdError } from "../errors.ts";
+import { BoxdServiceErrors } from "../errors.ts";
 import { BoxdProtocol, type BoxdOpError, type BoxdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2179,7 +2179,8 @@ export const addCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddCustomDomainRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AddCustomDomainResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2195,7 +2196,8 @@ export const addTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<AddTeamMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<AddTeamMemberResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2211,7 +2213,8 @@ export const attachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<AttachDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<AttachDiskResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2227,7 +2230,8 @@ export const clearBackupSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ClearBackupScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClearBackupScheduleResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2243,7 +2247,8 @@ export const clearOrgDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ClearOrgDomainRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClearOrgDomainResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2260,7 +2265,8 @@ export const computerAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1565, __c97, 13) as any as S.Schema<ComputerActionRequest>,
   output: __S(1567, __c97, 15) as any as S.Schema<ComputerActionResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2277,7 +2283,8 @@ export const copyPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<CopyPathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CopyPathResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2294,7 +2301,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(1953, __c122, 1) as any as S.Schema<CreateApiKeyResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2310,7 +2318,8 @@ export const createBillingPortalSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<CreateBillingPortalSessionRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<CreateBillingPortalSessionResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2326,7 +2335,8 @@ export const createCheckoutSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<CreateCheckoutSessionRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<CreateCheckoutSessionResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2343,7 +2353,8 @@ export const createCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateCheckpointRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<CreateCheckpointResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,7 +2371,8 @@ export const createDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateDiskRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<CreateDiskResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2376,7 +2388,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<CreateNetworkResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2393,7 +2406,8 @@ export const createOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateOrgRequest>,
   output: __S(609, __c38, 1) as any as S.Schema<CreateOrgResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2409,7 +2423,8 @@ export const createProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<CreateProxyRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<CreateProxyResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2426,7 +2441,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2442,7 +2458,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CreateTeamRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<CreateTeamResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2458,7 +2475,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<CreateTokenRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<CreateTokenResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2474,7 +2492,8 @@ export const createVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(786, __c49, 2) as any as S.Schema<CreateVmRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CreateVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2490,7 +2509,8 @@ export const createVmFromSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<CreateVmFromSnapshotRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CreateVmFromSnapshotResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,7 +2526,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,7 +2544,8 @@ export const deleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteBackupResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2539,7 +2561,8 @@ export const deleteCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteCheckpointRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteCheckpointResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2555,7 +2578,8 @@ export const deletePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DeletePathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeletePathResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2571,7 +2595,8 @@ export const deleteProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteProxyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteProxyResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2612,8 @@ export const deleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2603,7 +2629,8 @@ export const destroyDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DestroyDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyDiskResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2619,7 +2646,8 @@ export const destroyTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<DestroyTeamRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyTeamResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2635,7 +2663,8 @@ export const destroyVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DestroyVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2651,7 +2680,8 @@ export const detachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<DetachDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DetachDiskResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2667,7 +2697,8 @@ export const downloadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<DownloadFileRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DownloadFileResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2684,7 +2715,8 @@ export const downloadFileStream: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<DownloadFileStreamRequest>,
   output: __S(1155, __c72, 3) as any as S.Schema<DownloadFileStreamStream>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2700,7 +2732,8 @@ export const exposePort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ExposePortRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<ExposePortResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2717,7 +2750,8 @@ export const findElsewhere: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<FindElsewhereRequest>,
   output: __S(1203, __c75, 3) as any as S.Schema<FindElsewhereResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2733,7 +2767,8 @@ export const forkVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ForkVmRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ForkVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2750,7 +2785,8 @@ export const fsList: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<FsListRequest>,
   output: __S(1236, __c77, 4) as any as S.Schema<FsListStream>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2767,7 +2803,8 @@ export const fsMkdir: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<FsMkdirRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsMkdirResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2784,7 +2821,8 @@ export const fsRead: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<FsReadRequest>,
   output: __S(1283, __c80, 3) as any as S.Schema<FsReadStream>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2801,7 +2839,8 @@ export const fsRealpath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<FsRealpathRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<FsRealpathResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2818,7 +2857,8 @@ export const fsRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<FsRemoveRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsRemoveResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2834,7 +2874,8 @@ export const fsRename: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<FsRenameRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsRenameResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2850,7 +2891,8 @@ export const fsStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<FsStatRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<FsStatResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2866,7 +2908,8 @@ export const getBackupSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<GetBackupScheduleRequest>,
   output: __S(1377, __c86, 1) as any as S.Schema<GetBackupScheduleResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2883,7 +2926,8 @@ export const getBilling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetBillingRequest>,
   output: __S(1393, __c87, 1) as any as S.Schema<GetBillingResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2899,7 +2943,8 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetConfigRequest>,
   output: __S(1425, __c89, 1) as any as S.Schema<GetConfigResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2915,7 +2960,8 @@ export const getOrgBackupsDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetOrgBackupsDefaultRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<GetOrgBackupsDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2932,7 +2978,8 @@ export const getOrgBilling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetOrgBillingRequest>,
   output: __S(1475, __c92, 3) as any as S.Schema<GetOrgBillingResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2948,7 +2995,8 @@ export const getOrgBotProtectionDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetOrgBotProtectionDefaultRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<GetOrgBotProtectionDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2964,7 +3012,8 @@ export const getOrgDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetOrgDomainRequest>,
   output: __S(1521, __c95, 1) as any as S.Schema<GetOrgDomainResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2980,7 +3029,8 @@ export const getOrgIdleIgnoreOutboundDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultRequest>,
   output: __S(1537, __c96, 1) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2996,7 +3046,8 @@ export const getOrgMachineDefaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetOrgMachineDefaultsRequest>,
   output: __S(1571, __c98, 3) as any as S.Schema<GetOrgMachineDefaultsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3013,7 +3064,8 @@ export const getOrgMachineLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetOrgMachineLimitRequest>,
   output: __S(1585, __c99, 1) as any as S.Schema<GetOrgMachineLimitResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3029,7 +3081,8 @@ export const getOrgMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetOrgMembersRequest>,
   output: __S(1605, __c100, 5) as any as S.Schema<GetOrgMembersResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3045,7 +3098,8 @@ export const getOrgRdpDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetOrgRdpDefaultRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<GetOrgRdpDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3062,7 +3116,8 @@ export const getOrgUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetOrgUsageRequest>,
   output: __S(1634, __c102, 2) as any as S.Schema<GetOrgUsageResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3078,7 +3133,8 @@ export const getSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<GetSnapshotResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3094,7 +3150,8 @@ export const getTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetTeamRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<GetTeamResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3107,7 +3164,8 @@ export const getVm: API.OperationMethod<GetVmRequest, GetVmResponse2, GetVmError
   /*@__PURE__*/ API.make(() => ({
     input: __S(1712, __c107, 0) as any as S.Schema<GetVmRequest>,
     output: __S(869, __c54, 5) as any as S.Schema<GetVmResponse2>,
-    errors: [UnknownBoxdError],
+    errors: [],
+    serviceErrors: BoxdServiceErrors,
     protocol: BoxdProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3123,7 +3181,8 @@ export const getVmUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetVmUsageRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<GetVmUsageResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3139,7 +3198,8 @@ export const hibernateVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<HibernateVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<HibernateVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3156,7 +3216,8 @@ export const inviteOrgMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<InviteOrgMemberRequest>,
   output: __S(1777, __c111, 1) as any as S.Schema<InviteOrgMemberResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3173,7 +3234,8 @@ export const linkSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<LinkSshKeyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<LinkSshKeyResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3189,7 +3251,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(1811, __c113, 3) as any as S.Schema<ListApiKeysResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3205,7 +3268,8 @@ export const listBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ListBackupsRequest>,
   output: __S(1827, __c114, 3) as any as S.Schema<ListBackupsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3221,7 +3285,8 @@ export const listBillingActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListBillingActivityRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<ListBillingActivityResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3237,7 +3302,8 @@ export const listCheckpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListCheckpointsRequest>,
   output: __S(1859, __c116, 3) as any as S.Schema<ListCheckpointsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3253,7 +3319,8 @@ export const listCustomDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListCustomDomainsRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<ListCustomDomainsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3270,7 +3337,8 @@ export const listDir: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<ListDirRequest>,
   output: __S(1891, __c118, 3) as any as S.Schema<ListDirResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3286,7 +3354,8 @@ export const listDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<ListDisksRequest>,
   output: __S(1909, __c119, 5) as any as S.Schema<ListDisksResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3302,7 +3371,8 @@ export const listExposedPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListExposedPortsRequest>,
   output: __S(1938, __c121, 2) as any as S.Schema<ListExposedPortsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3318,7 +3388,8 @@ export const listNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListNetworksRequest>,
   output: __S(1971, __c123, 3) as any as S.Schema<ListNetworksResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3335,7 +3406,8 @@ export const listOrgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListOrgsRequest>,
   output: __S(1987, __c124, 3) as any as S.Schema<ListOrgsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3351,7 +3423,8 @@ export const listProxies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListProxiesRequest>,
   output: __S(2003, __c125, 3) as any as S.Schema<ListProxiesResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3368,7 +3441,8 @@ export const listProxyNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListProxyNodesRequest>,
   output: __S(2019, __c126, 3) as any as S.Schema<ListProxyNodesResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3385,7 +3459,8 @@ export const listRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListRegionsRequest>,
   output: __S(2035, __c127, 3) as any as S.Schema<ListRegionsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3401,7 +3476,8 @@ export const listSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListSnapshotsRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<ListSnapshotsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3418,7 +3494,8 @@ export const listTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListTeamsRequest>,
   output: __S(2066, __c129, 2) as any as S.Schema<ListTeamsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3434,7 +3511,8 @@ export const listTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(2083, __c130, 3) as any as S.Schema<ListTokensResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3450,7 +3528,8 @@ export const listVars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<ListVarsRequest>,
   output: __S(2099, __c131, 3) as any as S.Schema<ListVarsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3466,7 +3545,8 @@ export const listVms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<ListVmsRequest>,
   output: __S(2114, __c132, 2) as any as S.Schema<ListVmsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3479,7 +3559,8 @@ export const mkdir: API.OperationMethod<MkdirRequest, MkdirResponse, MkdirError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(2144, __c134, 0) as any as S.Schema<MkdirRequest>,
     output: __S(48, __c3, 0) as any as S.Schema<MkdirResponse>,
-    errors: [UnknownBoxdError],
+    errors: [],
+    serviceErrors: BoxdServiceErrors,
     protocol: BoxdProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3495,7 +3576,8 @@ export const rebootVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<RebootVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RebootVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3511,7 +3593,8 @@ export const removeCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<RemoveCustomDomainRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveCustomDomainResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3528,7 +3611,8 @@ export const removeOrgMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<RemoveOrgMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveOrgMemberResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3544,7 +3628,8 @@ export const removeTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<RemoveTeamMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveTeamMemberResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3560,7 +3645,8 @@ export const removeVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<RemoveVarRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<RemoveVarResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3576,7 +3662,8 @@ export const renameOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<RenameOrgRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenameOrgResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3592,7 +3679,8 @@ export const renamePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<RenamePathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenamePathResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3608,7 +3696,8 @@ export const renameTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<RenameTeamRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenameTeamResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3624,7 +3713,8 @@ export const renameVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<RenameVmRequest>,
   output: __S(2320, __c145, 0) as any as S.Schema<RenameVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3640,7 +3730,8 @@ export const requestOrgMachineLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<RequestOrgMachineLimitRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<RequestOrgMachineLimitResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3656,7 +3747,8 @@ export const requestOrgRegion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<RequestOrgRegionRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<RequestOrgRegionResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3672,7 +3764,8 @@ export const resetRdpPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<ResetRdpPasswordRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<ResetRdpPasswordResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3689,7 +3782,8 @@ export const resizeVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<ResizeVmRequest>,
   output: __S(2401, __c150, 1) as any as S.Schema<ResizeVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3706,7 +3800,8 @@ export const restoreBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<RestoreBackupRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RestoreBackupResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3722,7 +3817,8 @@ export const restoreCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<RestoreCheckpointRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RestoreCheckpointResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3738,7 +3834,8 @@ export const resumeVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<ResumeVmRequest>,
   output: __S(2449, __c153, 1) as any as S.Schema<ResumeVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3754,7 +3851,8 @@ export const revokeOrgInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<RevokeOrgInviteRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RevokeOrgInviteResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3770,7 +3868,8 @@ export const revokeToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<RevokeTokenRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RevokeTokenResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3786,7 +3885,8 @@ export const setAutoHibernateTimeout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<SetAutoHibernateTimeoutRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetAutoHibernateTimeoutResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3802,7 +3902,8 @@ export const setAutoSuspendTimeout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<SetAutoSuspendTimeoutRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetAutoSuspendTimeoutResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3819,7 +3920,8 @@ export const setBackupSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<SetBackupScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetBackupScheduleResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3835,7 +3937,8 @@ export const setBotProtection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<SetBotProtectionRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetBotProtectionResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3851,7 +3954,8 @@ export const setDeleteAfter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<SetDeleteAfterRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<SetDeleteAfterResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3867,7 +3971,8 @@ export const setIdleIgnoreOutbound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<SetIdleIgnoreOutboundRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetIdleIgnoreOutboundResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3884,7 +3989,8 @@ export const setOrgBackupsDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<SetOrgBackupsDefaultRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<SetOrgBackupsDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3901,7 +4007,8 @@ export const setOrgBotProtectionDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<SetOrgBotProtectionDefaultRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<SetOrgBotProtectionDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3918,7 +4025,8 @@ export const setOrgDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<SetOrgDomainRequest>,
   output: __S(1521, __c95, 1) as any as S.Schema<SetOrgDomainResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3935,7 +4043,8 @@ export const setOrgIdleIgnoreOutboundDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3952,7 +4061,8 @@ export const setOrgMachineDefaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<SetOrgMachineDefaultsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetOrgMachineDefaultsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3969,7 +4079,8 @@ export const setOrgMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<SetOrgMemberRoleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetOrgMemberRoleResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3985,7 +4096,8 @@ export const setOrgRdpDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<SetOrgRdpDefaultRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<SetOrgRdpDefaultResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4001,7 +4113,8 @@ export const setProxyPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<SetProxyPortRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetProxyPortResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4017,7 +4130,8 @@ export const setRdp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<SetRdpRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetRdpResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4033,7 +4147,8 @@ export const setSecretScope: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<SetSecretScopeRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<SetSecretScopeResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4049,7 +4164,8 @@ export const setSsh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<SetSshRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetSshResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4066,7 +4182,8 @@ export const setTeamDefaultSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<SetTeamDefaultSnapshotRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetTeamDefaultSnapshotResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4082,7 +4199,8 @@ export const setTeamMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<SetTeamMemberRoleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetTeamMemberRoleResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4099,7 +4217,8 @@ export const setVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<SetVarRequest>,
   output: __S(2240, __c140, 0) as any as S.Schema<SetVarResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4116,7 +4235,8 @@ export const setVmEgressAllow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<SetVmEgressAllowRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<SetVmEgressAllowResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4133,7 +4253,8 @@ export const setVmNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<SetVmNetworksRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<SetVmNetworksResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4150,7 +4271,8 @@ export const shareVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ShareVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ShareVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4166,7 +4288,8 @@ export const startVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<StartVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StartVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4182,7 +4305,8 @@ export const stopVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<StopVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StopVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4198,7 +4322,8 @@ export const streamLogs: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<StreamLogsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<StreamLogsStream>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4215,7 +4340,8 @@ export const suggestVmName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<SuggestVmNameRequest>,
   output: __S(2320, __c145, 0) as any as S.Schema<SuggestVmNameResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4231,7 +4357,8 @@ export const suspendVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<SuspendVmRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<SuspendVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4248,7 +4375,8 @@ export const triggerBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<TriggerBackupRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<TriggerBackupResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4264,7 +4392,8 @@ export const unexposePort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UnexposePortRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<UnexposePortResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4280,7 +4409,8 @@ export const unshareVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UnshareVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<UnshareVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4297,7 +4427,8 @@ export const updateMachineSpec: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdateMachineSpecRequest>,
   output: __S(627, __c39, 3) as any as S.Schema<UpdateMachineSpecResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4314,7 +4445,8 @@ export const updateVmLabels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<UpdateVmLabelsRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<UpdateVmLabelsResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4330,7 +4462,8 @@ export const uploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<UploadFileRequest>,
   output: __S(657, __c41, 1) as any as S.Schema<UploadFileResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4346,7 +4479,8 @@ export const wakeVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<WakeVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<WakeVmResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4362,7 +4496,8 @@ export const whoami: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<WhoamiRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<WhoamiResponse>,
-  errors: [UnknownBoxdError],
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

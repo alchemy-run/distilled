@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTechnitiumError } from "../errors.ts";
+import { TechnitiumServiceErrors } from "../errors.ts";
 import {
   TechnitiumProtocol,
   type TechnitiumOpError,
@@ -519,7 +519,8 @@ export const forceUpdateBlockLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ForceUpdateBlockListsRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ForceUpdateBlockListsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ForceUpdateBlockLists",
@@ -535,7 +536,8 @@ export const getDnsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetDnsSettingsRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<GetDnsSettingsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetDnsSettings",
@@ -551,7 +553,8 @@ export const getTsigKeyNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetTsigKeyNamesRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<GetTsigKeyNamesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetTsigKeyNames",
@@ -567,7 +570,8 @@ export const setDnsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<SetDnsSettingsRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<SetDnsSettingsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetDnsSettings",
@@ -583,7 +587,8 @@ export const temporarilyDisableBlockLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<TemporarilyDisableBlockListsRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<TemporarilyDisableBlockListsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "TemporarilyDisableBlockLists",

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTechnitiumError } from "../errors.ts";
+import { TechnitiumServiceErrors } from "../errors.ts";
 import {
   TechnitiumProtocol,
   type TechnitiumOpError,
@@ -196,7 +196,8 @@ export const deleteCachedZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteCachedZoneRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteCachedZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteCachedZone",
@@ -212,7 +213,8 @@ export const flushDnsCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<FlushDnsCacheRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<FlushDnsCacheResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "FlushDnsCache",
@@ -228,7 +230,8 @@ export const listCachedZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ListCachedZonesRequest>,
   output: __S(60, __c3, 12) as any as S.Schema<ListCachedZonesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListCachedZones",

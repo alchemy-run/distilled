@@ -50,7 +50,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "BoxdOpContext",
     commonErrorType: "BoxdOpError",
-    commonErrorClasses: ["UnknownBoxdError"],
+    serviceErrors: "BoxdServiceErrors",
     protocol: "BoxdProtocol",
     retry: "Retry.Retry",
   },

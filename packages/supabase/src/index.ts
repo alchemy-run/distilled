@@ -46,6 +46,8 @@ export {
   UnknownSupabaseError,
   FreeProjectLimitReached,
   SupabaseParseError,
+  SupabaseServiceErrors,
+  type SupabaseServiceError,
   type ClientErrors,
   type DefaultErrors,
 } from "./errors.ts";

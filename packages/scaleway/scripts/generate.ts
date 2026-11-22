@@ -122,7 +122,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ScalewayOpContext",
     commonErrorType: "ScalewayOpError",
-    commonErrorClasses: ["UnknownScalewayError"],
+    serviceErrors: "ScalewayServiceErrors",
     protocol: "ScalewayProtocol",
     retry: "Retry.Retry",
   },
