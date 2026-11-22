@@ -558,16 +558,15 @@ export interface SdkSpec {
     /** Base of the per-op error union alias (e.g. `CloudflareOpError`). */
     readonly commonErrorType: string;
     /**
-     * Error classes appended to every op's `errors: [...]` list. For an SDK
-     * on a protocol layer, whose type states no errors. Leave it out with a
-     * typed protocol: its errors reach every operation through its type.
+     * Error classes appended to every op's `errors: [...]` list. Leave it
+     * out: a service's errors go in `serviceErrors`, and a protocol's errors
+     * reach every operation through its type.
      */
     readonly commonErrorClasses?: readonly string[];
     /**
      * The errors declared on the service: the name of a list of error
      * classes that `../errors.ts` exports. Every operation gets it as its
-     * `serviceErrors`, next to its own `errors`. For an SDK whose protocol
-     * is a typed protocol (core/protocol).
+     * `serviceErrors`, next to its own `errors`.
      */
     readonly serviceErrors?: string;
     readonly protocol: string;

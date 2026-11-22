@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * OVH credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). OVH REST accepts an OAuth2 access token as
  * `Authorization: Bearer <token>` (`OVH_ACCESS_TOKEN`); callers hand an
  * already-fetched token. Application-key request signing is not modelled

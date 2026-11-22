@@ -23,7 +23,7 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  * MongodbAtlasProtocol -- hand-written.
  *
  * Atlas speaks bearer-authenticated JSON REST with one wrinkle the shared
- * `makeRestProtocol` factory can't express: every operation must send a
+ * `restProtocol` factory can't express: every operation must send a
  * date-versioned `Accept` header (`application/vnd.atlas.YYYY-MM-DD+json`) --
  * plain `application/json` draws a 406 from the live API. The version is
  * per-operation data, carried as an `accept` extension on the `Http` trait

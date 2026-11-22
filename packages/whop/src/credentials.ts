@@ -2,7 +2,7 @@
  * Whop credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ apiKey, apiBaseUrl, apiVersionDate }`
- * per request; the protocol layer formats the `Authorization: Bearer
+ * per request; the protocol formats the `Authorization: Bearer
  * <apiKey>` and `Api-Version-Date` headers from it.
  *
  * `apiKey` is whatever Whop's bearer scheme accepts:

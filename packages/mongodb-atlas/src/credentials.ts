@@ -9,7 +9,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * client_credentials).
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials; the protocol layer resolves it per request on the calling
+ * credentials; the protocol resolves it per request on the calling
  * fiber. Unlike v0 (which fetched once and ignored `expires_in`), the token
  * is cached and transparently re-fetched shortly before expiry, so
  * long-running programs keep working past the ~1h token lifetime.

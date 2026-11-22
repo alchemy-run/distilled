@@ -11,7 +11,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *   Partnership  `PartnershipCredentials` partner bearer token
  *
  * Each service holds an *effect* that resolves the current credentials; the
- * protocol layer resolves it per request on the calling fiber.
+ * protocol resolves it per request on the calling fiber.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

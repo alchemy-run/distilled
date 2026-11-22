@@ -2,7 +2,7 @@
  * STACKIT credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, region }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it
+ * protocol formats the `Authorization: Bearer <token>` header from it
  * and rewrites each operation's spec `servers` URL for the region. The token
  * is a STACKIT service-account access token -- the same value the official
  * Go SDK, CLI and Terraform provider read from
