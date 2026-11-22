@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -55,6 +56,18 @@ export const resolveConfig = (options: Options): Config => {
   };
 };
 
+/**
+ * {@link resolveConfig}, failing with `ConfigError` when the region is not
+ * one DNS label: it becomes a label of the compute and storage host names.
+ */
+const resolveChecked = (options: Options): Effect.Effect<Config, ConfigError> => {
+  const invalid =
+    options.region === undefined
+      ? undefined
+      : invalidHostLabelConfig("Namespace region", options.region);
+  return invalid === undefined ? Effect.succeed(resolveConfig(options)) : Effect.fail(invalid);
+};
+
 export class Credentials
   extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "NamespaceLabsCredentials",
@@ -92,8 +105,8 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
     token: /*@__PURE__*/ EffectConfig.Redacted("NSC_TOKEN"),
     hosts: hostsConfig,
   }).pipe(
-    /*@__PURE__*/ Effect.map(({ token, hosts }) => resolveConfig({ token, ...hosts })),
     /*@__PURE__*/ Effect.mapError(configError("NSC_TOKEN environment variable is required")),
+    /*@__PURE__*/ Effect.flatMap(({ token, hosts }) => resolveChecked({ token, ...hosts })),
   ),
 );
 
@@ -137,7 +150,7 @@ export const CredentialsFromTokenFile: Layer.Layer<Credentials, never, FileSyste
       }).pipe(
         Effect.mapError(configError("Namespace host configuration could not be read")),
         Effect.flatMap(({ path, hosts }) =>
-          Effect.map(readTokenFile(fs, path), (token) => resolveConfig({ token, ...hosts })),
+          Effect.flatMap(readTokenFile(fs, path), (token) => resolveChecked({ token, ...hosts })),
         ),
       ),
     ),
@@ -145,7 +158,7 @@ export const CredentialsFromTokenFile: Layer.Layer<Credentials, never, FileSyste
 
 /** Convenience layer from a tenant token, an optional region and host overrides. */
 export const credentials = (options: Options): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, Effect.succeed(resolveConfig(options)));
+  Layer.succeed(Credentials, resolveChecked(options));
 
 /** Convenience layer from a tenant token alone. */
 export const fromToken = (token: Redacted.Redacted<string>): Layer.Layer<Credentials> =>
@@ -159,6 +172,6 @@ export const fromTokenFile = (
   Layer.effect(
     Credentials,
     Effect.map(FileSystem.FileSystem, (fs) =>
-      Effect.map(readTokenFile(fs, path), (token) => resolveConfig({ token, ...hosts })),
+      Effect.flatMap(readTokenFile(fs, path), (token) => resolveChecked({ token, ...hosts })),
     ),
   );

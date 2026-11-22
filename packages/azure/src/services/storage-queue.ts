@@ -1258,9 +1258,13 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "GetQueueAccessPolicyRequest" });
     case 1:
-      return S.suspend(() => __S(18, __c2, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetQueueAccessPolicyResponse",
-      });
+      return S.suspend(() =>
+        __S(18, __c2, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("SignedIdentifiers"),
+          T.XmlItemName("SignedIdentifier"),
+        ),
+      ).annotate({ identifier: "GetQueueAccessPolicyResponse" });
   }
 }
 function __c2(j: number): any {
@@ -1581,9 +1585,13 @@ function __c9(j: number): any {
     case 2:
       return S.Array(__S(73, __c9, 1));
     case 3:
-      return S.suspend(() => __S(74, __c9, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "MessagesDequeueResponse",
-      });
+      return S.suspend(() =>
+        __S(74, __c9, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("QueueMessagesList"),
+          T.XmlItemName("QueueMessage"),
+        ),
+      ).annotate({ identifier: "MessagesDequeueResponse" });
   }
 }
 function __c10(j: number): any {
@@ -1626,9 +1634,13 @@ function __c10(j: number): any {
     case 2:
       return S.Array(__S(81, __c10, 1));
     case 3:
-      return S.suspend(() => __S(82, __c10, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "MessagesEnqueueResponse",
-      });
+      return S.suspend(() =>
+        __S(82, __c10, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("QueueMessagesList"),
+          T.XmlItemName("QueueMessage"),
+        ),
+      ).annotate({ identifier: "MessagesEnqueueResponse" });
   }
 }
 function __c11(j: number): any {
@@ -1669,9 +1681,13 @@ function __c11(j: number): any {
     case 2:
       return S.Array(__S(89, __c11, 1));
     case 3:
-      return S.suspend(() => __S(90, __c11, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "MessagesPeekResponse",
-      });
+      return S.suspend(() =>
+        __S(90, __c11, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("QueueMessagesList"),
+          T.XmlItemName("QueueMessage"),
+        ),
+      ).annotate({ identifier: "MessagesPeekResponse" });
   }
 }
 function __c12(j: number): any {
