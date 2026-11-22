@@ -12,7 +12,9 @@
  * process alive. {@link unixSocket} sends them over a Unix domain socket
  * instead (a gRPC server on a local socket, such as Modal's
  * `unix:/run/modal.sock` inside its containers). The response body is an
- * Effect `Stream` fed by the HTTP/2 stream as data arrives; the trailers
+ * Effect `Stream` fed by the HTTP/2 stream as data arrives, up to 1 MiB ahead
+ * of the reader; past that the HTTP/2 stream stops reading until the reader
+ * catches up, so the server waits. The trailers
  * settle when it ends, and fail when the stream fails or closes first. `node:http2` is found on first use (no static
  * import), so the module loads in any runtime and only a call needs Node.
  */
@@ -112,6 +114,16 @@ const bodyOf = (request: HttpClientRequest.HttpClientRequest): Uint8Array | unde
   request.body._tag === "Uint8Array" ? request.body.body : undefined;
 
 /**
+ * Body bytes received and not yet taken by the reader, past which the HTTP/2
+ * stream stops reading (so flow control holds the server back), and at or
+ * below which it reads again. grpc-js pauses and resumes the same way, and
+ * 1 MiB is grpc-java's default flow-control window. Node's own 64 KiB buffer
+ * halves the speed of a reader that takes the body in bursts.
+ */
+const HIGH_WATER = 1024 * 1024;
+const LOW_WATER = HIGH_WATER / 4;
+
+/**
  * An `HttpClient` that sends each request as an HTTP/2 stream, to the
  * request's origin or to `socketPath`.
  */
@@ -173,8 +185,11 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
           Deferred.doneUnsafe(trailers, Effect.fail(cause));
         };
         stream.on("trailers", (incoming) => (received = plain(incoming)));
+        let buffered = 0;
         stream.on("data", (chunk: Uint8Array) => {
+          buffered += chunk.length;
           Queue.offerUnsafe(chunks, new Uint8Array(chunk));
+          if (buffered >= HIGH_WATER) stream.pause();
         });
         stream.on("end", () => {
           ended = true;
@@ -200,6 +215,12 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
             return;
           }
           const body = Stream.fromQueue(chunks).pipe(
+            Stream.tap((chunk) =>
+              Effect.sync(() => {
+                buffered -= chunk.length;
+                if (buffered <= LOW_WATER && stream.isPaused()) stream.resume();
+              }),
+            ),
             // A reader that stops early lets the stream go.
             Stream.ensuring(
               Effect.sync(() => {
