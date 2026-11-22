@@ -728,6 +728,10 @@ export class InvalidInput
  * percent-encoded or not, so no encoding can carry one
  * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
  * `/`, so each of its segments counts.
+ *
+ * Also refuses a value with a lone UTF-16 surrogate (`"\ud800"`):
+ * `encodeURIComponent` throws `URIError` on it, and no encoding keeps the
+ * name as written.
  */
 export const invalidLabel = (
   member: string,
@@ -735,6 +739,12 @@ export const invalidLabel = (
   greedy?: boolean,
 ): InvalidInput | undefined => {
   const text = String(value);
+  if (!text.isWellFormed()) {
+    return new InvalidInput({
+      member,
+      message: `Input member ${member} cannot be ${JSON.stringify(text)}: it has a lone UTF-16 surrogate, which a URL cannot carry`,
+    });
+  }
   return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
     ? new InvalidInput({
         member,
@@ -756,7 +766,8 @@ export const invalidLabel = (
  * walk the input value.
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
- * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
+ * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
+ * or has a lone UTF-16 surrogate.
  * Fails with {@link SdkError} when the input schema is missing the `Http()`
  * trait (a codegen bug the generator refuses).
  */
