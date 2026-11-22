@@ -30,6 +30,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -49,6 +50,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -540,16 +542,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -557,6 +555,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -820,15 +819,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1233,7 +1236,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1680,6 +1683,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2199,6 +2210,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -2605,6 +2618,31 @@ export interface GetHistoryRequest {
 export type CustomersGetHistoryResponse200HistoryList = Array<PaymentHistory>;
 export interface CustomersGetHistoryResponse200 {
   history: CustomersGetHistoryResponse200HistoryList;
+}
+export interface AdditionalVerification {
+  name: string;
+  link: string;
+  reference: string;
+  vendor: VerificationVendor;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
+}
+/** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+export type VerificationRequiredResponseAdditionalVerificationLinksList =
+  Array<AdditionalVerification>;
+/** List of reasons as to why the verification was rejected. */
+export type VerificationRequiredResponseRejectionReasonsList = Array<string>;
+export interface VerificationRequiredResponse {
+  verification: Verification;
+  /** Link which can be hosted in an iframe or redirect the user to complete verification. */
+  verificationLink?: string | undefined;
+  /** Link where the user will be redirected to upon successful verification. */
+  redirectLink?: string | undefined;
+  /** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+  additionalVerificationLinks?:
+    | VerificationRequiredResponseAdditionalVerificationLinksList
+    | undefined;
+  /** List of reasons as to why the verification was rejected. */
+  rejectionReasons?: VerificationRequiredResponseRejectionReasonsList | undefined;
 }
 export type AddBankAccountError = CoinflowOpError;
 /** Add Bank Account Adds a bank account for a given customer */
