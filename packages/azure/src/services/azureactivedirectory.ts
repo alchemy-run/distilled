@@ -265,6 +265,8 @@ export interface ListPrivateEndpointConnectionByPolicyNameRequest {
   resourceGroupName: string;
   /** The name of the private link policy in Azure AD. */
   policyName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Private endpoint connection resource. */
 export interface PrivateEndpointConnection {
@@ -282,7 +284,7 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private link resources */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private link resources */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** URL to next page of results */
   nextLink?: string | undefined;
 }
@@ -291,6 +293,8 @@ export interface ListPrivateLinkForAzureAdRequest {
   subscriptionId: string;
   /** Name of an Azure resource group. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of tenantIds. */
 export type PrivateLinkPolicyTenantsList = Array<string>;
@@ -324,13 +328,15 @@ export type PrivateLinkPolicyListResultValueList = Array<PrivateLinkPolicy>;
 /** A list of private link policies */
 export interface PrivateLinkPolicyListResult {
   /** Array of private link policies */
-  value?: PrivateLinkPolicyListResultValueList | undefined;
+  value: PrivateLinkPolicyListResultValueList;
   /** The link used to get the next page of operations. */
   nextLink?: string | undefined;
 }
 export interface ListPrivateLinkForAzureAdBySubscriptionRequest {
   /** Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByPrivateLinkPolicyRequest {
   /** Azure subscription ID. */
@@ -339,6 +345,8 @@ export interface ListPrivateLinkResourceByPrivateLinkPolicyRequest {
   resourceGroupName: string;
   /** The name of the private link policy in Azure AD. */
   policyName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
@@ -356,7 +364,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** The link used to get the next page of operations. */
   nextLink?: string | undefined;
 }
@@ -519,12 +527,13 @@ export const GetPrivateLinkResource: API.OperationMethod<
 
 export type ListPrivateEndpointConnectionByPolicyNameError = AzureOpError;
 /** Lists all Private Endpoint Connections for the given policy. */
-export const ListPrivateEndpointConnectionByPolicyName: API.OperationMethod<
+export const ListPrivateEndpointConnectionByPolicyName: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByPolicyNameRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByPolicyNameError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListPrivateEndpointConnectionByPolicyNameRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -532,16 +541,23 @@ export const ListPrivateEndpointConnectionByPolicyName: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByPolicyName",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkForAzureAdError = AzureOpError;
 /** Operation to return the list of Private Link Policies For AzureAD scoped to the resourceGroup. */
-export const ListPrivateLinkForAzureAd: API.OperationMethod<
+export const ListPrivateLinkForAzureAd: API.PaginatedOperationMethod<
   ListPrivateLinkForAzureAdRequest,
   PrivateLinkPolicyListResult,
   ListPrivateLinkForAzureAdError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListPrivateLinkForAzureAdRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<PrivateLinkPolicyListResult>,
   errors: [UnknownAzureError],
@@ -549,16 +565,23 @@ export const ListPrivateLinkForAzureAd: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkForAzureAd",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkForAzureAdBySubscriptionError = AzureOpError;
 /** Lists all Private Link Policies For AzureAD in the given subscription. */
-export const ListPrivateLinkForAzureAdBySubscription: API.OperationMethod<
+export const ListPrivateLinkForAzureAdBySubscription: API.PaginatedOperationMethod<
   ListPrivateLinkForAzureAdBySubscriptionRequest,
   PrivateLinkPolicyListResult,
   ListPrivateLinkForAzureAdBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListPrivateLinkForAzureAdBySubscriptionRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<PrivateLinkPolicyListResult>,
   errors: [UnknownAzureError],
@@ -566,16 +589,23 @@ export const ListPrivateLinkForAzureAdBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkForAzureAdBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByPrivateLinkPolicyError = AzureOpError;
 /** Gets the private link resources that need to be created for a policy of AzureAD. */
-export const ListPrivateLinkResourceByPrivateLinkPolicy: API.OperationMethod<
+export const ListPrivateLinkResourceByPrivateLinkPolicy: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByPrivateLinkPolicyRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByPrivateLinkPolicyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListPrivateLinkResourceByPrivateLinkPolicyRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -583,7 +613,13 @@ export const ListPrivateLinkResourceByPrivateLinkPolicy: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByPrivateLinkPolicy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdatePrivateLinkForAzureAdError = AzureOpError;
 /** Updates private link policy tags with specified values. */
@@ -739,12 +775,14 @@ function __c6(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.aadiam/privateLinkForAzureAd/{policyName}/privateLinkResources",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByPrivateLinkPolicyRequest" });
@@ -753,7 +791,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(49, __c6, 1)),
+          value: __S(49, __c6, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -913,12 +951,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.aadiam/privateLinkForAzureAd/{policyName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByPolicyNameRequest" });
@@ -927,7 +967,7 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(121, __c15, 1)),
+          value: __S(121, __c15, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -940,12 +980,14 @@ function __c16(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.aadiam/privateLinkForAzureAd",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkForAzureAdRequest" });
@@ -958,7 +1000,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(136, __c17, 0)),
+          value: __S(136, __c17, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkPolicyListResult" });
@@ -970,12 +1012,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/microsoft.aadiam/privateLinkForAzureAd",
             code: 200,
             apiVersion: "2020-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkForAzureAdBySubscriptionRequest" });

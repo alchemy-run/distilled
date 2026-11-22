@@ -1,0 +1,10 @@
+{
+  "description": "The POST carries no body; send a zero-length one (`Content-Length: 0`) so the registry does not answer 411.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobStartUpload/traits/smithy.api#http/emptyBody",
+      "value": true
+    }
+  ]
+}

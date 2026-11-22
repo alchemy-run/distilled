@@ -7,11 +7,7 @@ import {
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  validateSuccess,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -273,24 +269,12 @@ const CoinbaseErrorResponse = /*@__PURE__*/ Schema.Struct({
  * 3. Standard HTTP status codes mapped from core (400, 401, 403, 404, etc.)
  * 4. Coinbase-specific HTTP status codes (402)
  * 5. Falls back to UnknownCoinbaseError for unrecognized errors
- *
- * Error bodies carrying `isValid`/`success` keys are policy-validation
- * results delivered with an error status -- treated as success values
- * (`Effect.succeed`) like the v0 client did.
  */
 const matchError = (
   status: number,
   errorBody: unknown,
   headers?: Record<string, string | undefined>,
-): Effect.Effect<unknown> => {
-  if (
-    errorBody &&
-    typeof errorBody === "object" &&
-    ("isValid" in errorBody || "success" in errorBody)
-  ) {
-    return Effect.succeed(errorBody);
-  }
-
+): Effect.Effect<never> => {
   // A body that is not Coinbase's error shape (a proxy page, an empty body)
   // still maps by HTTP status below.
   const parsed = Option.getOrUndefined(
@@ -436,11 +420,11 @@ const decode = ({
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
-    if (status >= 400) {
-      const result = yield* matchError(status, json, headers);
-      // isValid/success bodies are success values delivered with an error
-      // status -- map them onto the output schema like a normal response.
-      return wrapSensitive(outputAst, mapKeys(outputAst, result, "decode"));
+    // Only a 2xx status succeeds. x402 verify/settle return a 2xx with
+    // `isValid: false` / `success: false` as a result; their 400 rejection
+    // bodies carry the same keys and are errors.
+    if (status < 200 || status >= 300) {
+      return yield* matchError(status, json, headers);
     }
 
     // No envelope: the response body IS the payload, mapped onto the output

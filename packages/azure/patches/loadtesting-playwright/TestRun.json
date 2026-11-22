@@ -1,0 +1,10 @@
+{
+  "description": "The service answers a test run's ID as `runId`, not the spec's `id` (live-verified on TestRunsCreateOrUpdate and ListTestRuns at https://{region}.reporting.api.playwright.microsoft.com), so a decoded run had no ID.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.azure.loadtesting_playwright#TestRun/members/id",
+      "path": "/shapes/com.azure.loadtesting_playwright#TestRun/members/runId"
+    }
+  ]
+}

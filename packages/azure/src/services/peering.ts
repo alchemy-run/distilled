@@ -694,6 +694,8 @@ export interface ListCdnPeeringPrefixesRequest {
   subscriptionId: string;
   /** The peering location. */
   peeringLocation: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties that define a CDN peering prefix */
 export interface CdnPeeringPrefixProperties {
@@ -737,6 +739,8 @@ export interface ListConnectionMonitorTestByPeeringServiceRequest {
   resourceGroupName: string;
   /** The name of the peering. */
   peeringServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Connection Monitor Test class. */
 export interface ConnectionMonitorTest {
@@ -782,6 +786,8 @@ export interface ListLegacyPeeringsRequest {
   asn?: number | undefined;
   /** The direct peering type. */
   directPeeringType?: ListLegacyPeeringsRequestDirectPeeringType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PeeringTagsMap = { [key: string]: string | undefined };
@@ -815,7 +821,10 @@ export interface PeeringListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The information related to the operation. */
 export interface OperationDisplayInfo {
   /** The name of the resource provider. */
@@ -883,13 +892,15 @@ export type OperationListResultValueList = Array<Operation>;
 /** The paginated list of peering API operations. */
 export interface OperationListResult {
   /** The list of peering API operations. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The link to fetch the next page of peering API operations. */
   nextLink?: string | undefined;
 }
 export interface ListPeerAsnBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The essential information related to the peer's ASN. */
 export interface PeerAsn {
@@ -918,10 +929,14 @@ export interface ListPeeringByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPeeringBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListPeeringLocationsRequestKind = "Direct" | "Exchange";
 export type ListPeeringLocationsRequestDirectPeeringType =
@@ -941,6 +956,8 @@ export interface ListPeeringLocationsRequest {
   kind: ListPeeringLocationsRequestKind | (string & {});
   /** The type of direct peering. */
   directPeeringType?: ListPeeringLocationsRequestDirectPeeringType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties that define a direct peering facility. */
 export interface DirectPeeringFacility {
@@ -1039,6 +1056,8 @@ export interface ListPeeringServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PeeringServiceTagsMap = { [key: string]: string | undefined };
@@ -1073,10 +1092,14 @@ export interface PeeringServiceListResult {
 export interface ListPeeringServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPeeringServiceCountriesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface PeeringServiceCountry {
@@ -1103,6 +1126,8 @@ export interface ListPeeringServiceLocationsRequest {
   subscriptionId: string;
   /** The country of interest, in which the locations are to be present. */
   country?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties that define connectivity to the Peering Service Location. */
 export interface PeeringServiceLocationProperties {
@@ -1138,6 +1163,8 @@ export interface PeeringServiceLocationListResult {
 export interface ListPeeringServiceProvidersRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of locations at which the service provider peers with Microsoft. */
 export type PeeringServiceProviderPropertiesPeeringLocationsList = Array<string>;
@@ -1179,6 +1206,8 @@ export interface ListPrefixByPeeringServiceRequest {
   peeringServiceName: string;
   /** The properties to be expanded. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The peering service prefix class. */
 export interface PeeringServicePrefix {
@@ -1219,6 +1248,8 @@ export interface ListReceivedRouteByPeeringRequest {
   rpkiValidationState?: string | undefined;
   /** The optional page continuation token that is used in the event of paginated result. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties that define a received route. */
 export interface PeeringReceivedRoute {
@@ -1253,6 +1284,8 @@ export interface ListRegisteredAsnByPeeringRequest {
   resourceGroupName: string;
   /** The name of the peering. */
   peeringName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The customer's ASN that is registered by the peering service provider. */
 export interface PeeringRegisteredAsn {
@@ -1283,6 +1316,8 @@ export interface ListRegisteredPrefixByPeeringRequest {
   resourceGroupName: string;
   /** The name of the peering. */
   peeringName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The customer's prefix that is registered by the peering service provider. */
 export interface PeeringRegisteredPrefix {
@@ -1315,6 +1350,8 @@ export interface ListRpUnbilledPrefixesRequest {
   peeringName: string;
   /** Flag to enable consolidation prefixes */
   consolidate?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Routing Preference unbilled prefix */
 export interface RpUnbilledPrefix {
@@ -1999,12 +2036,13 @@ export const InvokeLookingGlass: API.OperationMethod<
 
 export type ListCdnPeeringPrefixesError = AzureOpError;
 /** Lists all of the advertised prefixes for the specified peering location */
-export const ListCdnPeeringPrefixes: API.OperationMethod<
+export const ListCdnPeeringPrefixes: API.PaginatedOperationMethod<
   ListCdnPeeringPrefixesRequest,
   CdnPeeringPrefixListResult,
   ListCdnPeeringPrefixesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CdnPeeringPrefix
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListCdnPeeringPrefixesRequest>,
   output: __S(308, __c19, 4) as any as S.Schema<CdnPeeringPrefixListResult>,
   errors: [UnknownAzureError],
@@ -2012,16 +2050,23 @@ export const ListCdnPeeringPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCdnPeeringPrefixes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionMonitorTestByPeeringServiceError = AzureOpError;
 /** Lists all connection monitor tests under the given subscription, resource group and peering service. */
-export const ListConnectionMonitorTestByPeeringService: API.OperationMethod<
+export const ListConnectionMonitorTestByPeeringService: API.PaginatedOperationMethod<
   ListConnectionMonitorTestByPeeringServiceRequest,
   ConnectionMonitorTestListResult,
   ListConnectionMonitorTestByPeeringServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectionMonitorTest
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListConnectionMonitorTestByPeeringServiceRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<ConnectionMonitorTestListResult>,
   errors: [UnknownAzureError],
@@ -2029,16 +2074,23 @@ export const ListConnectionMonitorTestByPeeringService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionMonitorTestByPeeringService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLegacyPeeringsError = AzureOpError;
 /** Lists all of the legacy peerings under the given subscription matching the specified kind and location. */
-export const ListLegacyPeerings: API.OperationMethod<
+export const ListLegacyPeerings: API.PaginatedOperationMethod<
   ListLegacyPeeringsRequest,
   PeeringListResult,
   ListLegacyPeeringsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Peering2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListLegacyPeeringsRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<PeeringListResult>,
   errors: [UnknownAzureError],
@@ -2046,16 +2098,23 @@ export const ListLegacyPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLegacyPeerings",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(410, __c25, 10) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -2063,16 +2122,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeerAsnBySubscriptionError = AzureOpError;
 /** Lists all of the peer ASNs under the given subscription. */
-export const ListPeerAsnBySubscription: API.OperationMethod<
+export const ListPeerAsnBySubscription: API.PaginatedOperationMethod<
   ListPeerAsnBySubscriptionRequest,
   PeerAsnListResult,
   ListPeerAsnBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeerAsn
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListPeerAsnBySubscriptionRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<PeerAsnListResult>,
   errors: [UnknownAzureError],
@@ -2080,16 +2146,23 @@ export const ListPeerAsnBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeerAsnBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringByResourceGroupError = AzureOpError;
 /** Lists all of the peerings under the given subscription and resource group. */
-export const ListPeeringByResourceGroup: API.OperationMethod<
+export const ListPeeringByResourceGroup: API.PaginatedOperationMethod<
   ListPeeringByResourceGroupRequest,
   PeeringListResult,
   ListPeeringByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Peering2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListPeeringByResourceGroupRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<PeeringListResult>,
   errors: [UnknownAzureError],
@@ -2097,16 +2170,23 @@ export const ListPeeringByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringBySubscriptionError = AzureOpError;
 /** Lists all of the peerings under the given subscription. */
-export const ListPeeringBySubscription: API.OperationMethod<
+export const ListPeeringBySubscription: API.PaginatedOperationMethod<
   ListPeeringBySubscriptionRequest,
   PeeringListResult,
   ListPeeringBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Peering2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListPeeringBySubscriptionRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<PeeringListResult>,
   errors: [UnknownAzureError],
@@ -2114,16 +2194,23 @@ export const ListPeeringBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringLocationsError = AzureOpError;
 /** Lists all of the available peering locations for the specified kind of peering. */
-export const ListPeeringLocations: API.OperationMethod<
+export const ListPeeringLocations: API.PaginatedOperationMethod<
   ListPeeringLocationsRequest,
   PeeringLocationListResult,
   ListPeeringLocationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListPeeringLocationsRequest>,
   output: __S(476, __c29, 12) as any as S.Schema<PeeringLocationListResult>,
   errors: [UnknownAzureError],
@@ -2131,16 +2218,23 @@ export const ListPeeringLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringLocations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringServiceByResourceGroupError = AzureOpError;
 /** Lists all of the peering services under the given subscription and resource group. */
-export const ListPeeringServiceByResourceGroup: API.OperationMethod<
+export const ListPeeringServiceByResourceGroup: API.PaginatedOperationMethod<
   ListPeeringServiceByResourceGroupRequest,
   PeeringServiceListResult,
   ListPeeringServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListPeeringServiceByResourceGroupRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<PeeringServiceListResult>,
   errors: [UnknownAzureError],
@@ -2148,16 +2242,23 @@ export const ListPeeringServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringServiceBySubscriptionError = AzureOpError;
 /** Lists all of the peerings under the given subscription. */
-export const ListPeeringServiceBySubscription: API.OperationMethod<
+export const ListPeeringServiceBySubscription: API.PaginatedOperationMethod<
   ListPeeringServiceBySubscriptionRequest,
   PeeringServiceListResult,
   ListPeeringServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListPeeringServiceBySubscriptionRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<PeeringServiceListResult>,
   errors: [UnknownAzureError],
@@ -2165,16 +2266,23 @@ export const ListPeeringServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringServiceCountriesError = AzureOpError;
 /** Lists all of the available countries for peering service. */
-export const ListPeeringServiceCountries: API.OperationMethod<
+export const ListPeeringServiceCountries: API.PaginatedOperationMethod<
   ListPeeringServiceCountriesRequest,
   PeeringServiceCountryListResult,
   ListPeeringServiceCountriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringServiceCountry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListPeeringServiceCountriesRequest>,
   output: __S(531, __c33, 3) as any as S.Schema<PeeringServiceCountryListResult>,
   errors: [UnknownAzureError],
@@ -2182,16 +2290,23 @@ export const ListPeeringServiceCountries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringServiceCountries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringServiceLocationsError = AzureOpError;
 /** Lists all of the available locations for peering service. */
-export const ListPeeringServiceLocations: API.OperationMethod<
+export const ListPeeringServiceLocations: API.PaginatedOperationMethod<
   ListPeeringServiceLocationsRequest,
   PeeringServiceLocationListResult,
   ListPeeringServiceLocationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringServiceLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListPeeringServiceLocationsRequest>,
   output: __S(548, __c34, 4) as any as S.Schema<PeeringServiceLocationListResult>,
   errors: [UnknownAzureError],
@@ -2199,16 +2314,23 @@ export const ListPeeringServiceLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringServiceLocations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPeeringServiceProvidersError = AzureOpError;
 /** Lists all of the available peering service locations for the specified kind of peering. */
-export const ListPeeringServiceProviders: API.OperationMethod<
+export const ListPeeringServiceProviders: API.PaginatedOperationMethod<
   ListPeeringServiceProvidersRequest,
   PeeringServiceProviderListResult,
   ListPeeringServiceProvidersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringServiceProvider
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListPeeringServiceProvidersRequest>,
   output: __S(564, __c35, 4) as any as S.Schema<PeeringServiceProviderListResult>,
   errors: [UnknownAzureError],
@@ -2216,16 +2338,23 @@ export const ListPeeringServiceProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringServiceProviders",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrefixByPeeringServiceError = AzureOpError;
 /** Lists all prefixes under the given subscription, resource group and peering service. */
-export const ListPrefixByPeeringService: API.OperationMethod<
+export const ListPrefixByPeeringService: API.PaginatedOperationMethod<
   ListPrefixByPeeringServiceRequest,
   PeeringServicePrefixListResult,
   ListPrefixByPeeringServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringServicePrefix
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListPrefixByPeeringServiceRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<PeeringServicePrefixListResult>,
   errors: [UnknownAzureError],
@@ -2233,16 +2362,23 @@ export const ListPrefixByPeeringService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrefixByPeeringService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReceivedRouteByPeeringError = AzureOpError;
 /** Lists the prefixes received over the specified peering under the given subscription and resource group. */
-export const ListReceivedRouteByPeering: API.OperationMethod<
+export const ListReceivedRouteByPeering: API.PaginatedOperationMethod<
   ListReceivedRouteByPeeringRequest,
   PeeringReceivedRouteListResult,
   ListReceivedRouteByPeeringError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringReceivedRoute
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListReceivedRouteByPeeringRequest>,
   output: __S(611, __c38, 3) as any as S.Schema<PeeringReceivedRouteListResult>,
   errors: [UnknownAzureError],
@@ -2250,16 +2386,23 @@ export const ListReceivedRouteByPeering: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReceivedRouteByPeering",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegisteredAsnByPeeringError = AzureOpError;
 /** Lists all registered ASNs under the given subscription, resource group and peering. */
-export const ListRegisteredAsnByPeering: API.OperationMethod<
+export const ListRegisteredAsnByPeering: API.PaginatedOperationMethod<
   ListRegisteredAsnByPeeringRequest,
   PeeringRegisteredAsnListResult,
   ListRegisteredAsnByPeeringError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringRegisteredAsn
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListRegisteredAsnByPeeringRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<PeeringRegisteredAsnListResult>,
   errors: [UnknownAzureError],
@@ -2267,16 +2410,23 @@ export const ListRegisteredAsnByPeering: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegisteredAsnByPeering",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegisteredPrefixByPeeringError = AzureOpError;
 /** Lists all registered prefixes under the given subscription, resource group and peering. */
-export const ListRegisteredPrefixByPeering: API.OperationMethod<
+export const ListRegisteredPrefixByPeering: API.PaginatedOperationMethod<
   ListRegisteredPrefixByPeeringRequest,
   PeeringRegisteredPrefixListResult,
   ListRegisteredPrefixByPeeringError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PeeringRegisteredPrefix
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListRegisteredPrefixByPeeringRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<PeeringRegisteredPrefixListResult>,
   errors: [UnknownAzureError],
@@ -2284,16 +2434,23 @@ export const ListRegisteredPrefixByPeering: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegisteredPrefixByPeering",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRpUnbilledPrefixesError = AzureOpError;
 /** Lists all of the RP unbilled prefixes for the specified peering */
-export const ListRpUnbilledPrefixes: API.OperationMethod<
+export const ListRpUnbilledPrefixes: API.PaginatedOperationMethod<
   ListRpUnbilledPrefixesRequest,
   RpUnbilledPrefixListResult,
   ListRpUnbilledPrefixesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RpUnbilledPrefix
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListRpUnbilledPrefixesRequest>,
   output: __S(659, __c41, 3) as any as S.Schema<RpUnbilledPrefixListResult>,
   errors: [UnknownAzureError],
@@ -2301,7 +2458,13 @@ export const ListRpUnbilledPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRpUnbilledPrefixes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PeerAsnsCreateOrUpdateError = AzureOpError;
 /** Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription. */
@@ -3007,12 +3170,14 @@ function __c19(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           peeringLocation: S.String.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/cdnPeeringPrefixes",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCdnPeeringPrefixesRequest" });
@@ -3055,12 +3220,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           peeringServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionMonitorTestByPeeringServiceRequest" });
@@ -3085,12 +3252,14 @@ function __c21(j: number): any {
           kind: S.String.pipe(T.Query()),
           asn: S.optional(S.Number.pipe(T.Query())),
           directPeeringType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLegacyPeeringsRequest" });
@@ -3141,12 +3310,15 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Peering/operations",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3208,7 +3380,7 @@ function __c25(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(409, __c25, 9)),
+          value: __S(409, __c25, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -3220,12 +3392,14 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeerAsnBySubscriptionRequest" });
@@ -3247,12 +3421,14 @@ function __c27(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringByResourceGroupRequest" });
@@ -3264,12 +3440,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerings",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringBySubscriptionRequest" });
@@ -3283,12 +3461,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           kind: S.String.pipe(T.Query()),
           directPeeringType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringLocations",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringLocationsRequest" });
@@ -3379,12 +3559,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringServiceByResourceGroupRequest" });
@@ -3409,12 +3591,14 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServices",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringServiceBySubscriptionRequest" });
@@ -3426,12 +3610,14 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceCountries",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringServiceCountriesRequest" });
@@ -3462,12 +3648,14 @@ function __c34(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           country: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceLocations",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringServiceLocationsRequest" });
@@ -3506,12 +3694,14 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceProviders",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPeeringServiceProvidersRequest" });
@@ -3570,12 +3760,14 @@ function __c37(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           peeringServiceName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrefixByPeeringServiceRequest" });
@@ -3603,12 +3795,14 @@ function __c38(j: number): any {
           originAsValidationState: S.optional(S.String.pipe(T.Query())),
           rpkiValidationState: S.optional(S.String.pipe(T.Query())),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/receivedRoutes",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReceivedRouteByPeeringRequest" });
@@ -3643,12 +3837,14 @@ function __c39(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           peeringName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegisteredAsnByPeeringRequest" });
@@ -3671,12 +3867,14 @@ function __c40(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           peeringName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegisteredPrefixByPeeringRequest" });
@@ -3700,12 +3898,14 @@ function __c41(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           peeringName: S.String.pipe(T.Label()),
           consolidate: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/rpUnbilledPrefixes",
             code: 200,
             apiVersion: "2025-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRpUnbilledPrefixesRequest" });

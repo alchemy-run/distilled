@@ -2534,6 +2534,8 @@ export interface ListAccountByResourceGroupRequest {
   resourceGroupName: string;
   /** Continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountTagsMap = { [key: string]: string | undefined };
@@ -2570,10 +2572,14 @@ export interface ListAccountBySubscriptionRequest {
   subscriptionId: string;
   /** Continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConsumerInvitationInvitationsRequest {
   /** The continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A consumer Invitation data transfer object. */
 export interface ConsumerInvitation {
@@ -2608,6 +2614,8 @@ export interface ListConsumerSourceDataSetByShareSubscriptionRequest {
   shareSubscriptionName: string;
   /** Continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Type of data set */
 export type ConsumerSourceDataSetPropertiesDataSetType =
@@ -2675,6 +2683,8 @@ export interface ListDataSetByShareRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type DataSetListValueList = Array<DataSet>;
@@ -2700,6 +2710,8 @@ export interface ListDataSetMappingByShareSubscriptionRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type DataSetMappingListValueList = Array<DataSetMapping>;
@@ -2725,6 +2737,8 @@ export interface ListInvitationByShareRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Invitation data transfer object. */
 export interface Invitation {
@@ -2748,7 +2762,10 @@ export interface InvitationList {
   /** Collection of items of type DataTransferObjects. */
   value: InvitationListValueList;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Properties on operations */
 export interface OperationModelProperties {
   /** Description of the operation for display purposes */
@@ -2860,6 +2877,8 @@ export interface ListProviderShareSubscriptionByShareRequest {
   shareName: string;
   /** Continuation Token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A provider side share subscription data transfer object. */
 export interface ProviderShareSubscription {
@@ -2896,6 +2915,8 @@ export interface ListShareByAccountRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A share data transfer object. */
 export interface Share {
@@ -2932,6 +2953,8 @@ export interface ListShareSubscriptionByAccountRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A share subscription data transfer object. */
 export interface ShareSubscription {
@@ -2966,6 +2989,8 @@ export interface ListShareSubscriptionSourceShareSynchronizationSettingsRequest 
   shareSubscriptionName: string;
   /** Continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Kind of synchronization setting on share. */
 export type ScheduledSourceSynchronizationSettingKind = "ScheduleBased";
@@ -3014,6 +3039,8 @@ export interface ListShareSubscriptionSynchronizationDetailsRequest {
   _orderby?: string | undefined;
   /** Synchronization id */
   synchronizationId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Type of the data set */
 export type SynchronizationDetailsDataSetType =
@@ -3088,6 +3115,8 @@ export interface ListShareSubscriptionSynchronizationsRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type ShareSubscriptionSynchronizationListValueList = Array<ShareSubscriptionSynchronization>;
@@ -3131,6 +3160,8 @@ export interface ListShareSynchronizationDetailsRequest {
   status?: string | undefined;
   /** Synchronization id */
   synchronizationId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListShareSynchronizationsRequest {
   /** The subscription identifier */
@@ -3147,6 +3178,8 @@ export interface ListShareSynchronizationsRequest {
   _filter?: string | undefined;
   /** Sorts the results using OData syntax. */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Synchronization mode */
 export type ShareSynchronizationSynchronizationMode = "Incremental" | "FullSync";
@@ -3193,6 +3226,8 @@ export interface ListSynchronizationSettingsByShareRequest {
   shareName: string;
   /** continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type SynchronizationSettingListValueList = Array<ScheduledSynchronizationSetting>;
@@ -3214,6 +3249,8 @@ export interface ListTriggerByShareSubscriptionRequest {
   shareSubscriptionName: string;
   /** Continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Collection of items of type DataTransferObjects. */
 export type TriggerListValueList = Array<ScheduledTrigger>;
@@ -3859,12 +3896,13 @@ export const GetTrigger: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** List Accounts in a resource group List Accounts in ResourceGroup */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   AccountList,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
@@ -3872,16 +3910,23 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** List Accounts in a subscription List Accounts in Subscription */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   AccountList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<AccountList>,
   errors: [UnknownAzureError],
@@ -3889,16 +3934,23 @@ export const ListAccountBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConsumerInvitationInvitationsError = AzureOpError;
 /** List the invitations Lists invitations */
-export const ListConsumerInvitationInvitations: API.OperationMethod<
+export const ListConsumerInvitationInvitations: API.PaginatedOperationMethod<
   ListConsumerInvitationInvitationsRequest,
   ConsumerInvitationList,
   ListConsumerInvitationInvitationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConsumerInvitation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListConsumerInvitationInvitationsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ConsumerInvitationList>,
   errors: [UnknownAzureError],
@@ -3906,16 +3958,23 @@ export const ListConsumerInvitationInvitations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConsumerInvitationInvitations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConsumerSourceDataSetByShareSubscriptionError = AzureOpError;
 /** Get source dataSets of a shareSubscription. Get source dataSets of a shareSubscription */
-export const ListConsumerSourceDataSetByShareSubscription: API.OperationMethod<
+export const ListConsumerSourceDataSetByShareSubscription: API.PaginatedOperationMethod<
   ListConsumerSourceDataSetByShareSubscriptionRequest,
   ConsumerSourceDataSetList,
   ListConsumerSourceDataSetByShareSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConsumerSourceDataSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1184,
     __c37,
@@ -3927,16 +3986,23 @@ export const ListConsumerSourceDataSetByShareSubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConsumerSourceDataSetByShareSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataSetByShareError = AzureOpError;
 /** List DataSets in a share. List DataSets in a share */
-export const ListDataSetByShare: API.OperationMethod<
+export const ListDataSetByShare: API.PaginatedOperationMethod<
   ListDataSetByShareRequest,
   DataSetList,
   ListDataSetByShareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListDataSetByShareRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<DataSetList>,
   errors: [UnknownAzureError],
@@ -3944,16 +4010,23 @@ export const ListDataSetByShare: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataSetByShare",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataSetMappingByShareSubscriptionError = AzureOpError;
 /** List DataSetMappings in a share subscription. List DataSetMappings in a share subscription */
-export const ListDataSetMappingByShareSubscription: API.OperationMethod<
+export const ListDataSetMappingByShareSubscription: API.PaginatedOperationMethod<
   ListDataSetMappingByShareSubscriptionRequest,
   DataSetMappingList,
   ListDataSetMappingByShareSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataSetMapping
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListDataSetMappingByShareSubscriptionRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<DataSetMappingList>,
   errors: [UnknownAzureError],
@@ -3961,16 +4034,23 @@ export const ListDataSetMappingByShareSubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataSetMappingByShareSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInvitationByShareError = AzureOpError;
 /** List all Invitations in a share. List invitations in a share */
-export const ListInvitationByShare: API.OperationMethod<
+export const ListInvitationByShare: API.PaginatedOperationMethod<
   ListInvitationByShareRequest,
   InvitationList,
   ListInvitationByShareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Invitation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListInvitationByShareRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<InvitationList>,
   errors: [UnknownAzureError],
@@ -3978,16 +4058,23 @@ export const ListInvitationByShare: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInvitationByShare",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the available operations List of available operations */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1324, __c41, 12) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -3995,16 +4082,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProviderShareSubscriptionByShareError = AzureOpError;
 /** List of available share subscriptions to a provider share. List share subscriptions in a provider share */
-export const ListProviderShareSubscriptionByShare: API.OperationMethod<
+export const ListProviderShareSubscriptionByShare: API.PaginatedOperationMethod<
   ListProviderShareSubscriptionByShareRequest,
   ProviderShareSubscriptionList,
   ListProviderShareSubscriptionByShareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProviderShareSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListProviderShareSubscriptionByShareRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<ProviderShareSubscriptionList>,
   errors: [UnknownAzureError],
@@ -4012,16 +4106,23 @@ export const ListProviderShareSubscriptionByShare: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProviderShareSubscriptionByShare",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareByAccountError = AzureOpError;
 /** List of available shares under an account. List shares in an account */
-export const ListShareByAccount: API.OperationMethod<
+export const ListShareByAccount: API.PaginatedOperationMethod<
   ListShareByAccountRequest,
   ShareList,
   ListShareByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Share
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ListShareByAccountRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<ShareList>,
   errors: [UnknownAzureError],
@@ -4029,16 +4130,23 @@ export const ListShareByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSubscriptionByAccountError = AzureOpError;
 /** List of available share subscriptions under an account. List share subscriptions in an account */
-export const ListShareSubscriptionByAccount: API.OperationMethod<
+export const ListShareSubscriptionByAccount: API.PaginatedOperationMethod<
   ListShareSubscriptionByAccountRequest,
   ShareSubscriptionList,
   ListShareSubscriptionByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ShareSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListShareSubscriptionByAccountRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<ShareSubscriptionList>,
   errors: [UnknownAzureError],
@@ -4046,16 +4154,23 @@ export const ListShareSubscriptionByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSubscriptionByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSubscriptionSourceShareSynchronizationSettingsError = AzureOpError;
 /** Get source share synchronization settings for a shareSubscription. Get synchronization settings set on a share */
-export const ListShareSubscriptionSourceShareSynchronizationSettings: API.OperationMethod<
+export const ListShareSubscriptionSourceShareSynchronizationSettings: API.PaginatedOperationMethod<
   ListShareSubscriptionSourceShareSynchronizationSettingsRequest,
   SourceShareSynchronizationSettingList,
   ListShareSubscriptionSourceShareSynchronizationSettingsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScheduledSourceSynchronizationSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1440,
     __c45,
@@ -4067,16 +4182,23 @@ export const ListShareSubscriptionSourceShareSynchronizationSettings: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSubscriptionSourceShareSynchronizationSettings",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSubscriptionSynchronizationDetailsError = AzureOpError;
 /** List data set level details for a share subscription synchronization List synchronization details */
-export const ListShareSubscriptionSynchronizationDetails: API.OperationMethod<
+export const ListShareSubscriptionSynchronizationDetails: API.PaginatedOperationMethod<
   ListShareSubscriptionSynchronizationDetailsRequest,
   SynchronizationDetailsList,
   ListShareSubscriptionSynchronizationDetailsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SynchronizationDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListShareSubscriptionSynchronizationDetailsRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<SynchronizationDetailsList>,
   errors: [UnknownAzureError],
@@ -4084,16 +4206,23 @@ export const ListShareSubscriptionSynchronizationDetails: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSubscriptionSynchronizationDetails",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSubscriptionSynchronizationsError = AzureOpError;
 /** List Synchronizations in a share subscription. List synchronizations of a share subscription */
-export const ListShareSubscriptionSynchronizations: API.OperationMethod<
+export const ListShareSubscriptionSynchronizations: API.PaginatedOperationMethod<
   ListShareSubscriptionSynchronizationsRequest,
   ShareSubscriptionSynchronizationList,
   ListShareSubscriptionSynchronizationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ShareSubscriptionSynchronization
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListShareSubscriptionSynchronizationsRequest>,
   output: __S(1634, __c51, 2) as any as S.Schema<ShareSubscriptionSynchronizationList>,
   errors: [UnknownAzureError],
@@ -4101,16 +4230,23 @@ export const ListShareSubscriptionSynchronizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSubscriptionSynchronizations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSynchronizationDetailsError = AzureOpError;
 /** List data set level details for a share synchronization List synchronization details */
-export const ListShareSynchronizationDetails: API.OperationMethod<
+export const ListShareSynchronizationDetails: API.PaginatedOperationMethod<
   ListShareSynchronizationDetailsRequest,
   SynchronizationDetailsList,
   ListShareSynchronizationDetailsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SynchronizationDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListShareSynchronizationDetailsRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<SynchronizationDetailsList>,
   errors: [UnknownAzureError],
@@ -4118,16 +4254,23 @@ export const ListShareSynchronizationDetails: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSynchronizationDetails",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareSynchronizationsError = AzureOpError;
 /** List Synchronizations in a share List synchronizations of a share */
-export const ListShareSynchronizations: API.OperationMethod<
+export const ListShareSynchronizations: API.PaginatedOperationMethod<
   ListShareSynchronizationsRequest,
   ShareSynchronizationList,
   ListShareSynchronizationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ShareSynchronization
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListShareSynchronizationsRequest>,
   output: __S(1699, __c53, 3) as any as S.Schema<ShareSynchronizationList>,
   errors: [UnknownAzureError],
@@ -4135,16 +4278,23 @@ export const ListShareSynchronizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareSynchronizations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSynchronizationSettingsByShareError = AzureOpError;
 /** List synchronizationSettings in a share. List synchronizationSettings in a share */
-export const ListSynchronizationSettingsByShare: API.OperationMethod<
+export const ListSynchronizationSettingsByShare: API.PaginatedOperationMethod<
   ListSynchronizationSettingsByShareRequest,
   SynchronizationSettingList,
   ListSynchronizationSettingsByShareError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScheduledSynchronizationSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListSynchronizationSettingsByShareRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<SynchronizationSettingList>,
   errors: [UnknownAzureError],
@@ -4152,16 +4302,23 @@ export const ListSynchronizationSettingsByShare: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSynchronizationSettingsByShare",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTriggerByShareSubscriptionError = AzureOpError;
 /** List Triggers in a share subscription. List Triggers in a share subscription */
-export const ListTriggerByShareSubscription: API.OperationMethod<
+export const ListTriggerByShareSubscription: API.PaginatedOperationMethod<
   ListTriggerByShareSubscriptionRequest,
   TriggerList,
   ListTriggerByShareSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScheduledTrigger
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListTriggerByShareSubscriptionRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<TriggerList>,
   errors: [UnknownAzureError],
@@ -4169,7 +4326,13 @@ export const ListTriggerByShareSubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTriggerByShareSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ProviderShareSubscriptionsAdjustError = AzureOpError;
 /** Adjust the expiration date of a share subscription in a provider share. Adjust a share subscription's expiration date in a provider share */
@@ -4908,12 +5071,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -4939,12 +5104,14 @@ function __c31(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataShare/accounts",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -5553,12 +5720,14 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataShare/listInvitations",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConsumerInvitationInvitationsRequest" });
@@ -5583,12 +5752,14 @@ function __c37(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/consumerSourceDataSets",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConsumerSourceDataSetByShareSubscriptionRequest" });
@@ -5635,12 +5806,14 @@ function __c38(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/dataSets",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataSetByShareRequest" });
@@ -5667,12 +5840,14 @@ function __c39(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/dataSetMappings",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataSetMappingByShareSubscriptionRequest" });
@@ -5699,12 +5874,14 @@ function __c40(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/invitations",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInvitationByShareRequest" });
@@ -5723,12 +5900,15 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataShare/operations",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5822,12 +6002,14 @@ function __c42(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/providerShareSubscriptions",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProviderShareSubscriptionByShareRequest" });
@@ -5853,12 +6035,14 @@ function __c43(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareByAccountRequest" });
@@ -5884,12 +6068,14 @@ function __c44(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSubscriptionByAccountRequest" });
@@ -5914,12 +6100,14 @@ function __c45(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/listSourceShareSynchronizationSettings",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSubscriptionSourceShareSynchronizationSettingsRequest" });
@@ -6426,12 +6614,14 @@ function __c49(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           synchronizationId: S.String,
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/listSynchronizationDetails",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSubscriptionSynchronizationDetailsRequest" });
@@ -6482,12 +6672,14 @@ function __c51(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/listSynchronizations",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSubscriptionSynchronizationsRequest" });
@@ -6523,12 +6715,14 @@ function __c52(j: number): any {
           startTime: S.optional(S.String),
           status: S.optional(S.String),
           synchronizationId: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/listSynchronizationDetails",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSynchronizationDetailsRequest" });
@@ -6546,12 +6740,14 @@ function __c53(j: number): any {
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/listSynchronizations",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareSynchronizationsRequest" });
@@ -6591,12 +6787,14 @@ function __c54(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shares/{shareName}/synchronizationSettings",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSynchronizationSettingsByShareRequest" });
@@ -6621,12 +6819,14 @@ function __c55(j: number): any {
           accountName: S.String.pipe(T.Label()),
           shareSubscriptionName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataShare/accounts/{accountName}/shareSubscriptions/{shareSubscriptionName}/triggers",
             code: 200,
             apiVersion: "2021-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTriggerByShareSubscriptionRequest" });

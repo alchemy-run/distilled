@@ -932,6 +932,8 @@ export interface ListConfigurationNamesRequest {
   _filter?: string | undefined;
   /** OData skipToken option for pagination. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The authentication type. */
 export type AuthType =
@@ -979,7 +981,7 @@ export type ConfigurationNameResultValueList = Array<ConfigurationNameItem>;
 /** Configuration Name list which will be set based on different target resource, client type, auth type. */
 export interface ConfigurationNameResult {
   /** Expected configuration names for each target service. */
-  value?: ConfigurationNameResultValueList | undefined;
+  value: ConfigurationNameResultValueList;
   /** Link to next page of resources. */
   nextLink?: string | undefined;
 }
@@ -990,6 +992,8 @@ export interface ListConnectorRequest {
   resourceGroupName: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Linker of source and target resource */
 export interface LinkerResource {
@@ -1011,7 +1015,7 @@ export interface ResourceList {
   /** The Linker used to get the next page of Linker list. */
   nextLink?: string | null | undefined;
   /** The list of Linkers. */
-  value?: ResourceListValueList | undefined;
+  value: ResourceListValueList;
 }
 export interface ListConnectorDryrunRequest {
   /** The ID of the target subscription. */
@@ -1020,6 +1024,8 @@ export interface ListConnectorDryrunRequest {
   resourceGroupName: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** a dryrun job resource */
 export interface DryrunResource {
@@ -1041,11 +1047,13 @@ export interface DryrunList {
   /** The link used to get the next page of dryrun list. */
   nextLink?: string | null | undefined;
   /** The list of dryrun. */
-  value?: DryrunListValueList | undefined;
+  value: DryrunListValueList;
 }
 export interface ListLinkerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLinkerConfigurationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -1056,6 +1064,8 @@ export interface ListLinkerConfigurationsRequest {
 export interface ListLinkerDaprConfigurationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface DaprConfigurationProperties {
   /** Supported target resource type, extract from resource id, uppercase */
@@ -1073,15 +1083,20 @@ export type DaprConfigurationListValueList = Array<DaprConfigurationResource>;
 /** Dapr configuration list supported by Service Connector */
 export interface DaprConfigurationList {
   /** The list of dapr configurations */
-  value?: DaprConfigurationListValueList | undefined;
+  value: DaprConfigurationListValueList;
   /** Link to next page of resources. */
   nextLink?: string | undefined;
 }
 export interface ListLinkerDryrunRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1114,7 +1129,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1543,12 +1558,13 @@ export const LinkerCreateOrUpdate: API.OperationMethod<
 
 export type ListConfigurationNamesError = AzureOpError;
 /** Lists the configuration names generated by Service Connector for all target, client types, auth types. */
-export const ListConfigurationNames: API.OperationMethod<
+export const ListConfigurationNames: API.PaginatedOperationMethod<
   ListConfigurationNamesRequest,
   ConfigurationNameResult,
   ListConfigurationNamesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationNameItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListConfigurationNamesRequest>,
   output: __S(518, __c16, 6) as any as S.Schema<ConfigurationNameResult>,
   errors: [UnknownAzureError],
@@ -1556,16 +1572,23 @@ export const ListConfigurationNames: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationNames",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectorError = AzureOpError;
 /** Returns list of connector which connects to the resource, which supports to config the target service during the resource provision. */
-export const ListConnector: API.OperationMethod<
+export const ListConnector: API.PaginatedOperationMethod<
   ListConnectorRequest,
   ResourceList,
   ListConnectorError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LinkerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ResourceList>,
   errors: [UnknownAzureError],
@@ -1573,16 +1596,23 @@ export const ListConnector: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnector",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectorDryrunError = AzureOpError;
 /** list dryrun jobs */
-export const ListConnectorDryrun: API.OperationMethod<
+export const ListConnectorDryrun: API.PaginatedOperationMethod<
   ListConnectorDryrunRequest,
   DryrunList,
   ListConnectorDryrunError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DryrunResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListConnectorDryrunRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<DryrunList>,
   errors: [UnknownAzureError],
@@ -1590,16 +1620,23 @@ export const ListConnectorDryrun: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectorDryrun",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLinkerError = AzureOpError;
 /** Returns list of Linkers which connects to the resource. which supports to config both application and target service during the resource provision. */
-export const ListLinker: API.OperationMethod<
+export const ListLinker: API.PaginatedOperationMethod<
   ListLinkerRequest,
   ResourceList,
   ListLinkerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LinkerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListLinkerRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ResourceList>,
   errors: [UnknownAzureError],
@@ -1610,7 +1647,13 @@ export const ListLinker: API.OperationMethod<
     op: "ListLinker",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLinkerConfigurationsError = AzureOpError;
 /** list source configurations for a Linker. */
@@ -1637,12 +1680,13 @@ export const ListLinkerConfigurations: API.OperationMethod<
 
 export type ListLinkerDaprConfigurationsError = AzureOpError;
 /** List the dapr configuration supported by Service Connector. */
-export const ListLinkerDaprConfigurations: API.OperationMethod<
+export const ListLinkerDaprConfigurations: API.PaginatedOperationMethod<
   ListLinkerDaprConfigurationsRequest,
   DaprConfigurationList,
   ListLinkerDaprConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DaprConfigurationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListLinkerDaprConfigurationsRequest>,
   output: __S(740, __c23, 4) as any as S.Schema<DaprConfigurationList>,
   errors: [UnknownAzureError],
@@ -1655,16 +1699,23 @@ export const ListLinkerDaprConfigurations: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/daprConfigurations",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLinkerDryrunError = AzureOpError;
 /** list dryrun jobs */
-export const ListLinkerDryrun: API.OperationMethod<
+export const ListLinkerDryrun: API.PaginatedOperationMethod<
   ListLinkerDryrunRequest,
   DryrunList,
   ListLinkerDryrunError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DryrunResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListLinkerDryrunRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<DryrunList>,
   errors: [UnknownAzureError],
@@ -1675,16 +1726,23 @@ export const ListLinkerDryrun: API.OperationMethod<
     op: "ListLinkerDryrun",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the available ServiceLinker REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1692,7 +1750,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateConnectorError = AzureOpError;
 /** Operation to update an existing Connector. */
@@ -2356,12 +2420,14 @@ function __c16(j: number): any {
         S.Struct({
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ServiceLinker/configurationNames",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationNamesRequest" });
@@ -2397,7 +2463,7 @@ function __c16(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(517, __c16, 5)),
+          value: __S(517, __c16, 5),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationNameResult" });
@@ -2411,12 +2477,14 @@ function __c17(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectorRequest" });
@@ -2430,7 +2498,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.NullOr(S.String)),
-          value: S.optional(__S(576, __c18, 0)),
+          value: __S(576, __c18, 0),
         }),
       ).annotate({ identifier: "ResourceList" });
   }
@@ -2443,12 +2511,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectorDryrunRequest" });
@@ -2462,7 +2532,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.NullOr(S.String)),
-          value: S.optional(__S(640, __c20, 0)),
+          value: __S(640, __c20, 0),
         }),
       ).annotate({ identifier: "DryrunList" });
   }
@@ -2473,12 +2543,14 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLinkerRequest" });
@@ -2508,12 +2580,14 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/daprConfigurations",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLinkerDaprConfigurationsRequest" });
@@ -2536,7 +2610,7 @@ function __c23(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(739, __c23, 3)),
+          value: __S(739, __c23, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DaprConfigurationList" });
@@ -2567,12 +2641,14 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLinkerDryrunRequest" });
@@ -2582,12 +2658,15 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ServiceLinker/operations",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2615,7 +2694,7 @@ function __c26(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(835, __c26, 3)),
+          value: __S(835, __c26, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
