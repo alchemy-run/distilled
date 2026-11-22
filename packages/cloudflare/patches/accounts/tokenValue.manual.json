@@ -1,0 +1,10 @@
+{
+  "description": "The Account Owned API token value that createToken returns is a secret: mark CreateTokenResponse.value sensitive so it decodes as Redacted. The docs type it as the shared TokenValue model, a string documented as 'The token value'.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.accounts#CreateTokenResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
