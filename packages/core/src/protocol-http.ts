@@ -792,6 +792,9 @@ export const encodeLabel = (
  * The schema is read once per input schema (see `planFor`); later calls only
  * walk the input value.
  *
+ * An optional label left out of the input is an empty segment, like `""`
+ * (Azure Key Vault's `/secrets/{name}/{version}` -> `/secrets/db/`).
+ *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
  * is `""` and the schema marks it required, or has a lone UTF-16 surrogate.
@@ -837,7 +840,13 @@ const requestOrInvalid = ({
   for (let i = 0; i < members.length; i++) {
     const m = members[i]!;
     const value = inputObj[m.key];
-    if (value === undefined) continue;
+    if (value === undefined) {
+      // An omitted optional label is an empty segment, the same as `""`.
+      if (m.bind === "label" && m.optional) {
+        uri = uri.replace(m.greedy ? `{${m.name}+}` : `{${m.name}}`, "");
+      }
+      continue;
+    }
     switch (m.bind) {
       case "label": {
         const encoded = encodeLabel(m.key, value, m.greedy, m.optional);
