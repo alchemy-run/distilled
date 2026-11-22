@@ -1,7 +1,10 @@
 {
   "version": "1.0",
   "maven": {
-    "dependencies": ["software.amazon.smithy:smithy-aws-protocol-tests:1.75.0"]
+    "dependencies": [
+      "software.amazon.smithy:smithy-aws-protocol-tests:1.75.0",
+      "software.amazon.smithy:smithy-protocol-tests:1.75.0"
+    ]
   },
   "projections": {
     "flat": {
