@@ -79,10 +79,6 @@ const blobStreams = /*@__PURE__*/ new WeakSet<object>();
 export const isOneShotBody = (body: unknown): boolean =>
   isStreamBody(body) && !blobStreams.has(body);
 
-/** Whether `body` is a web stream made from a `Blob`. */
-export const isBlobStream = (body: unknown): boolean =>
-  typeof body === "object" && body !== null && blobStreams.has(body);
-
 /**
  * Convert various streaming input types to a format suitable for fetch.
  * Handles strings, Uint8Array, ArrayBuffer, Blob, ReadableStream, and Effect Stream.
