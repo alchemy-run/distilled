@@ -5,7 +5,7 @@ name: Benchmarks
 #
 # `benches/sdks/ci.ts` measures a fixed panel of SDKs (benches/sdks/ci.json)
 # plus the SDKs the PR changes: 1-auth + 1-operation bundle size for every
-# protocol, and for the small SDKs import heap, live objects, import time,
+# protocol, and for the `runtime` SDKs import heap, live objects, import time,
 # first call, added call latency and download size. Offline, like every
 # bench: each call hits a canned in-memory response.
 #

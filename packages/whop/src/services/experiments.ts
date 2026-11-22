@@ -631,7 +631,9 @@ function __c2(j: number): any {
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
           duration_days: S.optional(S.NullOr(S.Number)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/experiments/{id}/activate", code: 200 })),
       ).annotate({ identifier: "ActivateExperimentRequest" });
   }
@@ -743,7 +745,9 @@ function __c5(j: number): any {
           related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
           targeting_rules: S.optional(__S(68, __c4, 4)),
           variants: S.optional(__S(81, __c5, 1)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/experiments", code: 200 })),
       ).annotate({ identifier: "CreateExperimentRequest" });
   }
@@ -757,7 +761,9 @@ function __c6(j: number): any {
           account_id: S.optional(S.String.pipe(T.Query())),
           findings: S.String,
           winning_arm: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/experiments/{id}/end", code: 200 })),
       ).annotate({ identifier: "EndExperimentRequest" });
   }
@@ -843,7 +849,9 @@ function __c10(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/experiments/{id}/pause", code: 200 })),
       ).annotate({ identifier: "PauseExperimentRequest" });
   }

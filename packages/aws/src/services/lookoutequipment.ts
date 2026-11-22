@@ -153,7 +153,7 @@ export interface CreateDatasetRequest {
   DatasetName: string;
   DatasetSchema?: DatasetSchema | undefined;
   ServerSideKmsKeyId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type DatasetArn = string;
@@ -208,7 +208,7 @@ export interface CreateInferenceSchedulerRequest {
   DataOutputConfiguration: InferenceOutputConfiguration;
   RoleArn: string;
   ServerSideKmsKeyId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type InferenceSchedulerArn = string;
@@ -242,7 +242,7 @@ export interface CreateLabelRequest {
   FaultCode?: string | undefined;
   Notes?: string | undefined;
   Equipment?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type LabelId = string;
 export interface CreateLabelResponse {
@@ -252,7 +252,7 @@ export type FaultCodes = string[];
 export interface CreateLabelGroupRequest {
   LabelGroupName: string;
   FaultCodes?: string[] | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type LabelGroupArn = string;
@@ -299,7 +299,7 @@ export interface CreateModelRequest {
   DatasetName: string;
   DatasetSchema?: DatasetSchema | undefined;
   LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   TrainingDataStartTime?: Date | undefined;
   TrainingDataEndTime?: Date | undefined;
   EvaluationDataStartTime?: Date | undefined;
@@ -331,7 +331,7 @@ export interface CreateRetrainingSchedulerRequest {
   RetrainingFrequency: string;
   LookbackWindow: string;
   PromoteMode?: ModelPromoteMode | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type RetrainingSchedulerStatus =
   | "PENDING"
@@ -657,7 +657,7 @@ export interface DescribeRetrainingSchedulerResponse {
 export interface ImportDatasetRequest {
   SourceDatasetArn: string;
   DatasetName?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ServerSideKmsKeyId?: string | undefined;
   Tags?: Tag[] | undefined;
 }
@@ -677,7 +677,7 @@ export interface ImportModelVersionRequest {
   ModelName?: string | undefined;
   DatasetName: string;
   LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   RoleArn?: string | undefined;
   ServerSideKmsKeyId?: string | undefined;
   Tags?: Tag[] | undefined;
@@ -978,7 +978,7 @@ export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
   PolicyRevisionId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   ResourceArn?: string | undefined;
@@ -988,7 +988,7 @@ export interface StartDataIngestionJobRequest {
   DatasetName: string;
   IngestionInputConfiguration: IngestionInputConfiguration;
   RoleArn: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface StartDataIngestionJobResponse {
   JobId?: string | undefined;
@@ -2820,7 +2820,7 @@ function __c0(j: number): any {
         S.Struct({
           LabelGroupName: S.String,
           FaultCodes: S.optional(__S(16, __c1, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLabelGroupRequest" });
@@ -2845,7 +2845,7 @@ function __c2(j: number): any {
           DatasetName: S.String,
           DatasetSchema: S.optional(__S(896, __c56, 0)),
           LabelsInputConfiguration: S.optional(__S(64, __c4, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           TrainingDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TrainingDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EvaluationDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2893,7 +2893,7 @@ function __c5(j: number): any {
           RetrainingFrequency: S.String,
           LookbackWindow: S.String,
           PromoteMode: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRetrainingSchedulerRequest" });
   }
@@ -3360,7 +3360,7 @@ function __c27(j: number): any {
         S.Struct({
           SourceDatasetArn: S.String,
           DatasetName: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ServerSideKmsKeyId: S.optional(S.String),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3385,7 +3385,7 @@ function __c28(j: number): any {
           ModelName: S.optional(S.String),
           DatasetName: S.String,
           LabelsInputConfiguration: S.optional(__S(64, __c4, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           RoleArn: S.optional(S.String),
           ServerSideKmsKeyId: S.optional(S.String),
           Tags: S.optional(__S(913, __c57, 1)),
@@ -3854,7 +3854,7 @@ function __c41(j: number): any {
           ResourceArn: S.String,
           ResourcePolicy: S.String,
           PolicyRevisionId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutResourcePolicyRequest" });
     case 1:
@@ -3871,7 +3871,7 @@ function __c42(j: number): any {
           DatasetName: S.String,
           IngestionInputConfiguration: __S(289, __c18, 1),
           RoleArn: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartDataIngestionJobRequest" });
     case 1:
@@ -4035,7 +4035,7 @@ function __c55(j: number): any {
           DatasetName: S.String,
           DatasetSchema: S.optional(__S(896, __c56, 0)),
           ServerSideKmsKeyId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDatasetRequest" });
@@ -4080,7 +4080,7 @@ function __c58(j: number): any {
           DataOutputConfiguration: __S(960, __c60, 0),
           RoleArn: S.String,
           ServerSideKmsKeyId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateInferenceSchedulerRequest" });
@@ -4142,7 +4142,7 @@ function __c62(j: number): any {
           FaultCode: S.optional(S.String),
           Notes: S.optional(S.String),
           Equipment: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLabelRequest" });
     case 1:

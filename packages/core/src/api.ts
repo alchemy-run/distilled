@@ -15,7 +15,7 @@ import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
-import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
+import { getAnn, getProps, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
 import type { Protocol as TypedProtocol } from "./protocol.ts";
@@ -33,6 +33,7 @@ import {
 import { SdkError } from "./sdk-error.ts";
 import * as Send from "./send.ts";
 import * as Telemetry from "./telemetry.ts";
+import { idempotencyTokenSymbol } from "./trait.ts";
 
 //#region Protocol
 
@@ -545,7 +546,52 @@ interface Prepared extends PreparedOperation {
   service?: ProtocolMethods;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
+  /** Input members marked `T.IdempotencyToken()`, with their format; read on the first call. */
+  idempotencyTokens?: ReadonlyArray<readonly [name: string, format: unknown]>;
 }
+
+/** A UUIDv7 (RFC 9562): 48-bit Unix milliseconds, then version, variant and random bits. */
+const uuidv7 = (): string => {
+  const b = globalThis.crypto.getRandomValues(new Uint8Array(16));
+  const ms = Date.now();
+  const high = Math.floor(ms / 2 ** 32);
+  const low = ms % 2 ** 32;
+  b[0] = high >>> 8;
+  b[1] = high & 0xff;
+  b[2] = low >>> 24;
+  b[3] = (low >>> 16) & 0xff;
+  b[4] = (low >>> 8) & 0xff;
+  b[5] = low & 0xff;
+  b[6] = (b[6]! & 0x0f) | 0x70;
+  b[8] = (b[8]! & 0x3f) | 0x80;
+  let hex = "";
+  for (const x of b) hex += x.toString(16).padStart(2, "0");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+};
+
+/**
+ * `input` with each missing idempotency token set to a new UUID. Called once
+ * per call, outside the retry, so every attempt sends the same token; the
+ * caller's own value and object are left as they are.
+ */
+const withIdempotencyTokens = (p: Prepared, input: unknown): unknown => {
+  const tokens = (p.idempotencyTokens ??= getProps(p.inputAst).flatMap((prop) => {
+    const format = getAnn(prop.type, idempotencyTokenSymbol);
+    return typeof prop.name === "string" && format !== undefined
+      ? [[prop.name, format] as const]
+      : [];
+  }));
+  if (tokens.length === 0 || input === null || typeof input !== "object") return input;
+  let filled: Record<string, unknown> | undefined;
+  for (const [name, format] of tokens) {
+    if ((input as Record<string, unknown>)[name] === undefined) {
+      filled ??= { ...(input as Record<string, unknown>) };
+      // `globalThis.crypto`, not `node:crypto`, so this runs in browsers too.
+      filled[name] = format === "uuidv7" ? uuidv7() : globalThis.crypto.randomUUID();
+    }
+  }
+  return filled ?? input;
+};
 
 const infoOf = (p: Prepared): Telemetry.OperationInfo =>
   (p.info ??= Telemetry.operationInfo(
@@ -626,7 +672,11 @@ export const encodeRequest = <I, O, E, R>(
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
     const encode = (service: ProtocolMethods) =>
-      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+      service.encode({
+        input: withIdempotencyTokens(prepared, input),
+        inputAst: prepared.inputAst,
+        config: prepared.cfg,
+      });
     if (prepared.service !== undefined) return encode(prepared.service);
     return Effect.flatMap(protocolOf(prepared), encode);
   });
@@ -662,19 +712,23 @@ const callUntraced = (
   // Warm path: the operation is prepared and its protocol built, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
-  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg, debug);
+  if (p?.service !== undefined) {
+    return applyRetry(runWith(p, p.service, withIdempotencyTokens(p, input)), p.cfg, debug);
+  }
   return Effect.suspend(() => {
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const call = Effect.flatMap(
+    const callInput = withIdempotencyTokens(prepared, input);
+    // The retry wraps only `runWith`, as on the warm path, so a protocol's
+    // `call` runs once per call.
+    return Effect.flatMap(
       debug === undefined
         ? protocolOf(prepared)
         : debug.phase("distilled.setup", protocolOf(prepared), {
             "distilled.setup.first_call": true,
           }),
-      (service) => runWith(prepared, service, input),
+      (service) => applyRetry(runWith(prepared, service, callInput), prepared.cfg, debug),
     );
-    return applyRetry(call, prepared.cfg, debug);
   });
 };
 

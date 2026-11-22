@@ -382,7 +382,9 @@ function __c1(j: number): any {
           to_chain: S.optional(S.NullOr(S.Unknown)),
           to_token: S.String,
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/swaps", code: 200 })),
       ).annotate({ identifier: "CreateSwapRequest" });
     case 1:
@@ -427,7 +429,9 @@ function __c2(j: number): any {
           to_address: S.optional(S.NullOr(S.String)),
           to_chain: S.optional(S.NullOr(S.Unknown)),
           to_token: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/swaps/quote", code: 200 })),
       ).annotate({ identifier: "CreateSwapQuoteRequest" });
     case 2:

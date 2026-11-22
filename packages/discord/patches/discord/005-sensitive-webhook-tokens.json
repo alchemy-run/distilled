@@ -1,0 +1,77 @@
+{
+  "description": "Mark Discord's webhook and interaction tokens sensitive. GuildIncomingWebhookResponse.token is the credential that lets anyone post as the webhook (GET/POST /webhooks/{id}/{token} need no other auth), and the `webhook_token` / `interaction_token` path members are the same credential on the way in (an interaction token authorizes the callback and followups for 15 minutes). Sensitive members come back `Redacted` and are accepted as `string | Redacted<string>`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GuildIncomingWebhookResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateInteractionResponseRequest/members/interaction_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetWebhookByTokenRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteWebhookRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateWebhookByTokenRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteWebhookByTokenRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteGithubCompatibleWebhookRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetOriginalWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateOriginalWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteOriginalWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteWebhookMessageRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteSlackCompatibleWebhookRequest/members/webhook_token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

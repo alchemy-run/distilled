@@ -22,6 +22,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import * as Semaphore from "effect/Semaphore";
 
 // ---------------------------------------------------------------------------
 // Connect -- access token for a self-hosted Connect server
@@ -307,29 +308,42 @@ const cachedAccessToken = (
   load: Effect.Effect<OAuthConfig, ConfigError>,
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
 ): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, ConfigError>) => {
+  // Concurrent calls on a cold or stale cache share one exchange.
+  const lock = Semaphore.makeUnsafe(1);
   let cached: UsersConfig | undefined;
   let refreshAt = 0;
+  const fresh = () => cached !== undefined && Date.now() < refreshAt;
 
   return (client) =>
-    Effect.suspend(() => {
-      if (cached !== undefined && Date.now() < refreshAt) {
-        return Effect.succeed(cached);
-      }
-      return Effect.gen(function* () {
-        const config = yield* load;
-        const token = yield* exchange(config).pipe(
-          Effect.provideService(HttpClient.HttpClient, client),
-        );
-        cached = { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl };
-        refreshAt =
-          Date.now() +
-          Math.max(
-            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-            TOKEN_REFRESH_WINDOW_MS,
-          );
-        return cached;
-      });
-    });
+    Effect.suspend(() =>
+      fresh()
+        ? Effect.succeed(cached!)
+        : Semaphore.withPermit(
+            lock,
+            Effect.suspend(() =>
+              fresh()
+                ? Effect.succeed(cached!)
+                : Effect.gen(function* () {
+                    const config = yield* load;
+                    const token = yield* exchange(config).pipe(
+                      Effect.provideService(HttpClient.HttpClient, client),
+                    );
+                    const next: UsersConfig = {
+                      accessToken: token.accessToken,
+                      apiBaseUrl: config.apiBaseUrl,
+                    };
+                    cached = next;
+                    refreshAt =
+                      Date.now() +
+                      Math.max(
+                        token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+                        TOKEN_REFRESH_WINDOW_MS,
+                      );
+                    return next;
+                  }),
+            ),
+          ),
+    );
 };
 
 /** A layer whose token cache exchanges through the `HttpClient` it is built with. */

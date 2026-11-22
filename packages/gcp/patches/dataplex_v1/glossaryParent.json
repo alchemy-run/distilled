@@ -1,0 +1,25 @@
+{
+  "description": "glossaries.categories.create and glossaries.terms.create take the glossary to create in as the path `parent`, and the new category or term as the body. The body has its own Required `parent`: \"The immediate parent of the GlossaryCategory in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory\". Flattening the body into the input gave both the same member name, and the path parameter won, so a category or term could not be created under a category. This patch renames the path member to `glossary`.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesCategoriesRequest/members/parent",
+      "path": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesCategoriesRequest/members/glossary"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesCategories/traits/smithy.api#http/uri",
+      "value": "v1/{+glossary}/categories"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesTermsRequest/members/parent",
+      "path": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesTermsRequest/members/glossary"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsGlossariesTerms/traits/smithy.api#http/uri",
+      "value": "v1/{+glossary}/terms"
+    }
+  ]
+}

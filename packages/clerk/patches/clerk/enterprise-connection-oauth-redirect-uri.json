@@ -1,0 +1,16 @@
+{
+  "description": "Add redirect_uri to EnterpriseConnection.oauth_config. The spec omits it, but Clerk returns it on OIDC enterprise connections (GET/POST/PATCH /enterprise_connections): it is the callback URL the admin must register with their identity provider, so a caller configuring OIDC SSO needs it. @clerk/backend's EnterpriseConnection class also drops it, which is why callers have read it from the raw JSON. Optional and nullable, like the sibling client_id and discovery_url members. Not yet confirmed with a live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.api#EnterpriseConnectionOauthConfig/members/redirect_uri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The OAuth callback URL to register with the identity provider",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    }
+  ]
+}

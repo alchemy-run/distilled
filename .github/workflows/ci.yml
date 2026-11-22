@@ -147,11 +147,14 @@ jobs:
 
   # The effect peer range's floor, Node 22.19.0 / 22 / 26, Bun and workerd.
   # The newest effect runs nightly (compat.yml) and before a release.
+  # The tests run only in the merge queue. Elsewhere the jobs still report and
+  # pass at once: the queue requires them on the PR too, before it enqueues.
   compat:
     name: Compatibility
     uses: ./.github/workflows/compat-tests.yml
     with:
       effect-latest: false
+      skip: ${{ github.event_name != 'merge_group' }}
 
   typecheck-stacks:
     name: Typecheck (deployment stacks)
