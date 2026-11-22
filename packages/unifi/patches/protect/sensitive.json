@@ -1,0 +1,50 @@
+{
+  "description": "Mark the camera stream and talkback URLs sensitive so they decode as Redacted. Each is a bearer URL: the RTSPS stream URLs carry a per-stream token as their path (the spec's own example is `rtsps://192.168.1.1:7441/5nPr7RCmueGTKMP7?enableSrtp`), and whoever holds one can watch the camera without an API key. The talkback session `url` is the same kind of capability URL. Their names do not match convert's default sensitive patterns. Source: the schemas and examples in the published Protect 7.4.102 OpenAPI document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#CreatedRtspsStreams/members/high/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#CreatedRtspsStreams/members/medium/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#CreatedRtspsStreams/members/low/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#CreatedRtspsStreams/members/package/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#ExistingRtspsStreams/members/high/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#ExistingRtspsStreams/members/medium/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#ExistingRtspsStreams/members/low/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#ExistingRtspsStreams/members/package/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.protect#TalkbackSession/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

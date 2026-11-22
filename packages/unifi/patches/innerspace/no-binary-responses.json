@@ -1,0 +1,7 @@
+{
+  "description": "Drop `GET /v1/assets/{planId}/{filename}`. The spec declares the 200 body as `image/jpeg` or `image/png` (`type: string, format: binary`). The converter reads only JSON or `application/octet-stream` bodies, so the operation would generate an empty `{}` output and the REST protocol would decode the image bytes as text. A method that returns corrupt data is worse than none. Source: the operation's `responses.200.content` in the published InnerSpace 1.3.23 OpenAPI document.",
+  "patches": [
+    { "op": "remove", "path": "/shapes/com.ui.innerspace#UniFiInnerSpace/operations/5" },
+    { "op": "remove", "path": "/shapes/com.ui.innerspace#GetV1AssetsPlanIdFilename" }
+  ]
+}
