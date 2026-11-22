@@ -30,6 +30,9 @@ const awsQueryProtocol = /*@__PURE__*/ lazyProtocol(() =>
 const ec2QueryProtocol = /*@__PURE__*/ lazyProtocol(() =>
   import("./protocols/ec2-query.ts").then((m) => m.ec2QueryProtocol),
 );
+const rpcv2CborProtocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/rpcv2-cbor.ts").then((m) => m.rpcv2CborProtocol),
+);
 
 /** Legacy Signature Version 2 auth (SimpleDB); see `AwsAuthSigv2Trait`. */
 export const AwsAuthSigv2 = (trait: { name: string }) =>
@@ -75,6 +78,30 @@ export const AwsProtocolsAwsQuery = () =>
 export const awsProtocolsEc2QuerySymbol = "distilled-aws/aws.protocols#ec2Query" as const;
 export const AwsProtocolsEc2Query = () =>
   makeProtocolAnnotation(awsProtocolsEc2QuerySymbol, ec2QueryProtocol);
+
+/** smithy.protocols#rpcv2Cbor */
+export const smithyProtocolsRpcv2CborSymbol = "distilled-aws/smithy.protocols#rpcv2Cbor" as const;
+export interface SmithyProtocolsRpcv2CborTrait {
+  http?: string[];
+  eventStreamHttp?: string[];
+  /** `aws.protocols#awsQueryCompatible`: the service was an awsQuery one. */
+  awsQueryCompatible?: boolean;
+}
+export const SmithyProtocolsRpcv2Cbor = (trait?: SmithyProtocolsRpcv2CborTrait) =>
+  makeProtocolAnnotation(smithyProtocolsRpcv2CborSymbol, rpcv2CborProtocol, {
+    ...trait,
+    // CBOR bodies are binary: never read one as text.
+    binaryBody: true,
+  });
+
+/**
+ * The operation has no input (`smithy.api#Unit`); its generated input is an
+ * empty structure. rpcv2Cbor sends no body for it, and an empty map for an
+ * input structure with no members.
+ */
+export const unitInputSymbol = "distilled-aws/unitInput" as const;
+export const UnitInput = () => makeAnnotation(unitInputSymbol, true);
+export const hasUnitInput = (ast: AST.AST): boolean => hasAnnotation(ast, unitInputSymbol);
 
 export const hasRestJson1Protocol = (ast: AST.AST): boolean =>
   hasAnnotation(ast, awsProtocolsRestJson1Symbol);
