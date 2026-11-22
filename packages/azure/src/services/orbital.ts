@@ -847,6 +847,8 @@ export interface ListAvailableGroundStationByCapabilityRequest {
   subscriptionId: string;
   /** Ground Station Capability. */
   capability: ListAvailableGroundStationByCapabilityRequestCapability | (string & {});
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Release Status of a ground station. */
 export type AvailableGroundStationPropertiesReleaseMode = "Preview" | "GA";
@@ -883,7 +885,7 @@ export type AvailableGroundStationListResultValueList = Array<AvailableGroundSta
 /** Response for the AvailableGroundStations API service call. */
 export interface AvailableGroundStationListResult {
   /** A list of ground station resources. */
-  value?: AvailableGroundStationListResultValueList | undefined;
+  value: AvailableGroundStationListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -892,6 +894,8 @@ export interface ListContactProfileBySubscriptionRequest {
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ContactProfileTagsMap = { [key: string]: string | undefined };
@@ -917,7 +921,7 @@ export type ContactProfileListResultValueList = Array<ContactProfile>;
 /** Response for the ListContactProfiles API service call. */
 export interface ContactProfileListResult {
   /** A list of contact profile resources in a resource group. */
-  value?: ContactProfileListResultValueList | undefined;
+  value: ContactProfileListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -928,6 +932,8 @@ export interface ListContactProfilesRequest {
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListContactsRequest {
   /** The ID of the target subscription. */
@@ -938,6 +944,8 @@ export interface ListContactsRequest {
   spacecraftName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Customer creates a contact resource for a spacecraft resource. */
 export interface Contact {
@@ -956,7 +964,7 @@ export type ContactListResultValueList = Array<Contact>;
 /** Response for the ListContacts API service call. */
 export interface ContactListResult {
   /** A list of contact resources in a resource group. */
-  value?: ContactListResultValueList | undefined;
+  value: ContactListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -965,6 +973,8 @@ export interface ListEdgeSiteBySubscriptionRequest {
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EdgeSiteTagsMap = { [key: string]: string | undefined };
@@ -990,7 +1000,7 @@ export type EdgeSiteListResultValueList = Array<EdgeSite>;
 /** Response for an API service call that lists Edge Sites. */
 export interface EdgeSiteListResult {
   /** A list of edge site resources. */
-  value?: EdgeSiteListResultValueList | undefined;
+  value: EdgeSiteListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1001,6 +1011,8 @@ export interface ListEdgeSiteL2ConnectionsRequest {
   resourceGroupName: string;
   /** Edge site name. */
   edgeSiteName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceIdListResultValueItem {
   /** The Azure Resource ID. */
@@ -1011,7 +1023,7 @@ export type ResourceIdListResultValueList = Array<ResourceIdListResultValueItem>
 /** Response for an API service call that lists the resource IDs of resources associated with another resource. */
 export interface ResourceIdListResult {
   /** A list of Azure Resource IDs. */
-  value?: ResourceIdListResultValueList | undefined;
+  value: ResourceIdListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1022,10 +1034,14 @@ export interface ListEdgeSitesRequest {
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGlobalCommunicationsSiteBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a location outside of Azure. */
 export interface LocationData {
@@ -1078,7 +1094,7 @@ export type GlobalCommunicationsSiteListResultValueList = Array<GlobalCommunicat
 /** Response for an API service call that lists Global Communications Sites. */
 export interface GlobalCommunicationsSiteListResult {
   /** A list of global communications sites. */
-  value?: GlobalCommunicationsSiteListResultValueList | undefined;
+  value: GlobalCommunicationsSiteListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1087,6 +1103,8 @@ export interface ListGroundStationBySubscriptionRequest {
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GroundStationTagsMap = { [key: string]: string | undefined };
@@ -1112,7 +1130,7 @@ export type GroundStationListResultValueList = Array<GroundStation>;
 /** Response for the ListGroundStations API service call. */
 export interface GroundStationListResult {
   /** A list of ground station resources. */
-  value?: GroundStationListResultValueList | undefined;
+  value: GroundStationListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1123,6 +1141,8 @@ export interface ListGroundStationL2ConnectionsRequest {
   resourceGroupName: string;
   /** Ground Station name. */
   groundStationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGroundStationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1131,12 +1151,16 @@ export interface ListGroundStationsRequest {
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListL2ConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type L2ConnectionTagsMap = { [key: string]: string | undefined };
@@ -1162,7 +1186,7 @@ export type L2ConnectionListResultValueList = Array<L2Connection>;
 /** Response for an API service call that lists L2 Connections. */
 export interface L2ConnectionListResult {
   /** A list of L2 Connection resources. */
-  value?: L2ConnectionListResultValueList | undefined;
+  value: L2ConnectionListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1173,6 +1197,8 @@ export interface ListL2ConnectionsRequest {
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
@@ -1207,7 +1233,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1226,6 +1252,8 @@ export interface ListSpacecraftAvailableContactsRequest {
   startTime: string;
   /** End time of a contact (ISO 8601 UTC standard). */
   endTime: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contact Instance Properties. */
 export interface ContactInstanceProperties {
@@ -1262,7 +1290,7 @@ export type AvailableContactsListResultValueList = Array<AvailableContacts>;
 /** Response for the ListAvailableContacts API service call. */
 export interface AvailableContactsListResult {
   /** A list of available contacts. */
-  value?: AvailableContactsListResultValueList | undefined;
+  value: AvailableContactsListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
   /** URL for determining when an operation has completed. */
@@ -1273,6 +1301,8 @@ export interface ListSpacecraftBySubscriptionRequest {
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SpacecraftTagsMap = { [key: string]: string | undefined };
@@ -1298,7 +1328,7 @@ export type SpacecraftListResultValueList = Array<Spacecraft>;
 /** Response for the ListSpacecrafts API service call. */
 export interface SpacecraftListResult {
   /** A list of spacecraft resources in a resource group. */
-  value?: SpacecraftListResultValueList | undefined;
+  value: SpacecraftListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1309,6 +1339,8 @@ export interface ListSpacecraftsRequest {
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SpacecraftsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1848,12 +1880,13 @@ export const L2ConnectionsCreateOrUpdate: API.OperationMethod<
 
 export type ListAvailableGroundStationByCapabilityError = AzureOpError;
 /** Returns list of available ground stations. */
-export const ListAvailableGroundStationByCapability: API.OperationMethod<
+export const ListAvailableGroundStationByCapability: API.PaginatedOperationMethod<
   ListAvailableGroundStationByCapabilityRequest,
   AvailableGroundStationListResult,
   ListAvailableGroundStationByCapabilityError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AvailableGroundStation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListAvailableGroundStationByCapabilityRequest>,
   output: __S(340, __c21, 4) as any as S.Schema<AvailableGroundStationListResult>,
   errors: [UnknownAzureError],
@@ -1861,16 +1894,23 @@ export const ListAvailableGroundStationByCapability: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailableGroundStationByCapability",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContactProfileBySubscriptionError = AzureOpError;
 /** Returns list of contact profiles by Subscription. */
-export const ListContactProfileBySubscription: API.OperationMethod<
+export const ListContactProfileBySubscription: API.PaginatedOperationMethod<
   ListContactProfileBySubscriptionRequest,
   ContactProfileListResult,
   ListContactProfileBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ContactProfile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListContactProfileBySubscriptionRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<ContactProfileListResult>,
   errors: [UnknownAzureError],
@@ -1878,16 +1918,23 @@ export const ListContactProfileBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContactProfileBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContactProfilesError = AzureOpError;
 /** Returns list of contact profiles by Resource Group. */
-export const ListContactProfiles: API.OperationMethod<
+export const ListContactProfiles: API.PaginatedOperationMethod<
   ListContactProfilesRequest,
   ContactProfileListResult,
   ListContactProfilesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ContactProfile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListContactProfilesRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<ContactProfileListResult>,
   errors: [UnknownAzureError],
@@ -1895,16 +1942,23 @@ export const ListContactProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContactProfiles",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContactsError = AzureOpError;
 /** Returns list of contacts by spacecraftName. */
-export const ListContacts: API.OperationMethod<
+export const ListContacts: API.PaginatedOperationMethod<
   ListContactsRequest,
   ContactListResult,
   ListContactsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Contact
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListContactsRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<ContactListResult>,
   errors: [UnknownAzureError],
@@ -1912,16 +1966,23 @@ export const ListContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContacts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeSiteBySubscriptionError = AzureOpError;
 /** Returns a list of edge sites for a subscription. */
-export const ListEdgeSiteBySubscription: API.OperationMethod<
+export const ListEdgeSiteBySubscription: API.PaginatedOperationMethod<
   ListEdgeSiteBySubscriptionRequest,
   EdgeSiteListResult,
   ListEdgeSiteBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeSite
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListEdgeSiteBySubscriptionRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<EdgeSiteListResult>,
   errors: [UnknownAzureError],
@@ -1929,16 +1990,23 @@ export const ListEdgeSiteBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeSiteBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeSiteL2ConnectionsError = AzureOpError;
 /** Returns a list of L2 Connections attached to an edge site. */
-export const ListEdgeSiteL2Connections: API.OperationMethod<
+export const ListEdgeSiteL2Connections: API.PaginatedOperationMethod<
   ListEdgeSiteL2ConnectionsRequest,
   ResourceIdListResult,
   ListEdgeSiteL2ConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceIdListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListEdgeSiteL2ConnectionsRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<ResourceIdListResult>,
   errors: [UnknownAzureError],
@@ -1946,16 +2014,23 @@ export const ListEdgeSiteL2Connections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeSiteL2Connections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeSitesError = AzureOpError;
 /** Returns a list of edge sites for a resource group. */
-export const ListEdgeSites: API.OperationMethod<
+export const ListEdgeSites: API.PaginatedOperationMethod<
   ListEdgeSitesRequest,
   EdgeSiteListResult,
   ListEdgeSitesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeSite
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListEdgeSitesRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<EdgeSiteListResult>,
   errors: [UnknownAzureError],
@@ -1963,16 +2038,23 @@ export const ListEdgeSites: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeSites",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGlobalCommunicationsSiteBySubscriptionError = AzureOpError;
 /** Returns a list of the global communications sites that a subscription is authorized to use. */
-export const ListGlobalCommunicationsSiteBySubscription: API.OperationMethod<
+export const ListGlobalCommunicationsSiteBySubscription: API.PaginatedOperationMethod<
   ListGlobalCommunicationsSiteBySubscriptionRequest,
   GlobalCommunicationsSiteListResult,
   ListGlobalCommunicationsSiteBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GlobalCommunicationsSite
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListGlobalCommunicationsSiteBySubscriptionRequest>,
   output: __S(535, __c33, 7) as any as S.Schema<GlobalCommunicationsSiteListResult>,
   errors: [UnknownAzureError],
@@ -1980,16 +2062,23 @@ export const ListGlobalCommunicationsSiteBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalCommunicationsSiteBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroundStationBySubscriptionError = AzureOpError;
 /** Return list of ground stations. */
-export const ListGroundStationBySubscription: API.OperationMethod<
+export const ListGroundStationBySubscription: API.PaginatedOperationMethod<
   ListGroundStationBySubscriptionRequest,
   GroundStationListResult,
   ListGroundStationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroundStation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListGroundStationBySubscriptionRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<GroundStationListResult>,
   errors: [UnknownAzureError],
@@ -1997,16 +2086,23 @@ export const ListGroundStationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroundStationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroundStationL2ConnectionsError = AzureOpError;
 /** Returns a list of L2 Connections attached to an ground station. */
-export const ListGroundStationL2Connections: API.OperationMethod<
+export const ListGroundStationL2Connections: API.PaginatedOperationMethod<
   ListGroundStationL2ConnectionsRequest,
   ResourceIdListResult,
   ListGroundStationL2ConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceIdListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListGroundStationL2ConnectionsRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<ResourceIdListResult>,
   errors: [UnknownAzureError],
@@ -2014,16 +2110,23 @@ export const ListGroundStationL2Connections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroundStationL2Connections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGroundStationsError = AzureOpError;
 /** Return list of ground stations. */
-export const ListGroundStations: API.OperationMethod<
+export const ListGroundStations: API.PaginatedOperationMethod<
   ListGroundStationsRequest,
   GroundStationListResult,
   ListGroundStationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroundStation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListGroundStationsRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<GroundStationListResult>,
   errors: [UnknownAzureError],
@@ -2031,16 +2134,23 @@ export const ListGroundStations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroundStations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListL2ConnectionBySubscriptionError = AzureOpError;
 /** Returns a list of L2 Connections attached to a subscription. */
-export const ListL2ConnectionBySubscription: API.OperationMethod<
+export const ListL2ConnectionBySubscription: API.PaginatedOperationMethod<
   ListL2ConnectionBySubscriptionRequest,
   L2ConnectionListResult,
   ListL2ConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  L2Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListL2ConnectionBySubscriptionRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<L2ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2048,16 +2158,23 @@ export const ListL2ConnectionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListL2ConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListL2ConnectionsError = AzureOpError;
 /** Returns a list of L2 Connections attached to an orbital gateway. */
-export const ListL2Connections: API.OperationMethod<
+export const ListL2Connections: API.PaginatedOperationMethod<
   ListL2ConnectionsRequest,
   L2ConnectionListResult,
   ListL2ConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  L2Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListL2ConnectionsRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<L2ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2065,16 +2182,23 @@ export const ListL2Connections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListL2Connections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Orbital Rest API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(676, __c42, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -2082,16 +2206,18 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListSpacecraftAvailableContactsError = AzureOpError;
 /** Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duration provided in the contact profile. */
-export const ListSpacecraftAvailableContacts: API.OperationMethod<
+export const ListSpacecraftAvailableContacts: API.PaginatedOperationMethod<
   ListSpacecraftAvailableContactsRequest,
   AvailableContactsListResult,
   ListSpacecraftAvailableContactsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AvailableContacts
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListSpacecraftAvailableContactsRequest>,
   output: __S(692, __c43, 4) as any as S.Schema<AvailableContactsListResult>,
   errors: [UnknownAzureError],
@@ -2099,16 +2225,23 @@ export const ListSpacecraftAvailableContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSpacecraftAvailableContacts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSpacecraftBySubscriptionError = AzureOpError;
 /** Returns list of spacecrafts by subscription. */
-export const ListSpacecraftBySubscription: API.OperationMethod<
+export const ListSpacecraftBySubscription: API.PaginatedOperationMethod<
   ListSpacecraftBySubscriptionRequest,
   SpacecraftListResult,
   ListSpacecraftBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Spacecraft
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListSpacecraftBySubscriptionRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<SpacecraftListResult>,
   errors: [UnknownAzureError],
@@ -2116,16 +2249,23 @@ export const ListSpacecraftBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSpacecraftBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSpacecraftsError = AzureOpError;
 /** Returns list of spacecrafts by resource group. */
-export const ListSpacecrafts: API.OperationMethod<
+export const ListSpacecrafts: API.PaginatedOperationMethod<
   ListSpacecraftsRequest,
   SpacecraftListResult,
   ListSpacecraftsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Spacecraft
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListSpacecraftsRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<SpacecraftListResult>,
   errors: [UnknownAzureError],
@@ -2133,7 +2273,13 @@ export const ListSpacecrafts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSpacecrafts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SpacecraftsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a spacecraft resource. */
@@ -2813,12 +2959,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           capability: S.String.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAvailableGroundStationByCapabilityRequest" });
@@ -2848,7 +2996,7 @@ function __c21(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(339, __c21, 3)),
+          value: __S(339, __c21, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableGroundStationListResult" });
@@ -2861,12 +3009,14 @@ function __c22(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/contactProfiles",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContactProfileBySubscriptionRequest" });
@@ -2879,7 +3029,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(368, __c23, 0)),
+          value: __S(368, __c23, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContactProfileListResult" });
@@ -2923,12 +3073,14 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContactProfilesRequest" });
@@ -2943,12 +3095,14 @@ function __c27(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           spacecraftName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContactsRequest" });
@@ -2957,7 +3111,7 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(433, __c27, 1)),
+          value: __S(433, __c27, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContactListResult" });
@@ -2970,12 +3124,14 @@ function __c28(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/edgeSites",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeSiteBySubscriptionRequest" });
@@ -2988,7 +3144,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(464, __c29, 0)),
+          value: __S(464, __c29, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeSiteListResult" });
@@ -3002,12 +3158,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeSiteName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/edgeSites/{edgeSiteName}/listL2Connections",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeSiteL2ConnectionsRequest" });
@@ -3026,7 +3184,7 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(497, __c31, 1)),
+          value: __S(497, __c31, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceIdListResult" });
@@ -3040,12 +3198,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/edgeSites",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeSitesRequest" });
@@ -3057,12 +3217,14 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/globalCommunicationsSites",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGlobalCommunicationsSiteBySubscriptionRequest" });
@@ -3108,7 +3270,7 @@ function __c33(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(534, __c33, 6)),
+          value: __S(534, __c33, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GlobalCommunicationsSiteListResult" });
@@ -3121,12 +3283,14 @@ function __c34(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/groundStations",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroundStationBySubscriptionRequest" });
@@ -3139,7 +3303,7 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(560, __c35, 0)),
+          value: __S(560, __c35, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroundStationListResult" });
@@ -3153,12 +3317,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           groundStationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/groundStations/{groundStationName}/listL2Connections",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroundStationL2ConnectionsRequest" });
@@ -3172,12 +3338,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/groundStations",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGroundStationsRequest" });
@@ -3190,12 +3358,14 @@ function __c38(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/l2Connections",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListL2ConnectionBySubscriptionRequest" });
@@ -3208,7 +3378,7 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(624, __c39, 0)),
+          value: __S(624, __c39, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "L2ConnectionListResult" });
@@ -3241,12 +3411,14 @@ function __c41(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/l2Connections",
             code: 200,
             apiVersion: "2024-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListL2ConnectionsRequest" });
@@ -3289,7 +3461,7 @@ function __c42(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(675, __c42, 3)),
+          value: __S(675, __c42, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3307,12 +3479,14 @@ function __c43(j: number): any {
           groundStationName: S.String,
           startTime: S.String,
           endTime: S.String,
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/listAvailableContacts",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSpacecraftAvailableContactsRequest" });
@@ -3343,7 +3517,7 @@ function __c43(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(691, __c43, 3)),
+          value: __S(691, __c43, 3),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -3357,12 +3531,14 @@ function __c44(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSpacecraftBySubscriptionRequest" });
@@ -3375,7 +3551,7 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(720, __c45, 0)),
+          value: __S(720, __c45, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpacecraftListResult" });
@@ -3389,12 +3565,14 @@ function __c46(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSpacecraftsRequest" });

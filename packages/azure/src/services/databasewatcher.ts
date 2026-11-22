@@ -512,6 +512,8 @@ export interface ListAlertRuleResourceByParentRequest {
   resourceGroupName: string;
   /** The database watcher name. */
   watcherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface AlertRuleResource {
@@ -542,6 +544,8 @@ export interface ListHealthValidationByParentRequest {
   resourceGroupName: string;
   /** The database watcher name. */
   watcherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface HealthValidation {
@@ -565,7 +569,10 @@ export interface HealthValidationListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -598,7 +605,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -609,6 +616,8 @@ export interface ListSharedPrivateLinkResourceByWatcherRequest {
   resourceGroupName: string;
   /** The database watcher name. */
   watcherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface SharedPrivateLinkResource {
@@ -639,6 +648,8 @@ export interface ListTargetByWatcherRequest {
   resourceGroupName: string;
   /** The database watcher name. */
   watcherName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface Target {
@@ -667,6 +678,8 @@ export interface ListWatcherByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherTagsMap = { [key: string]: string | undefined };
@@ -703,6 +716,8 @@ export interface WatcherListResult {
 export interface ListWatcherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface StartHealthValidationValidationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1201,12 +1216,13 @@ export const GetWatcher: API.OperationMethod<
 
 export type ListAlertRuleResourceByParentError = AzureOpError;
 /** List AlertRuleResource resources by Watcher */
-export const ListAlertRuleResourceByParent: API.OperationMethod<
+export const ListAlertRuleResourceByParent: API.PaginatedOperationMethod<
   ListAlertRuleResourceByParentRequest,
   AlertRuleResourceListResult,
   ListAlertRuleResourceByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AlertRuleResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListAlertRuleResourceByParentRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<AlertRuleResourceListResult>,
   errors: [UnknownAzureError],
@@ -1214,16 +1230,23 @@ export const ListAlertRuleResourceByParent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAlertRuleResourceByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHealthValidationByParentError = AzureOpError;
 /** List HealthValidation resources by Watcher */
-export const ListHealthValidationByParent: API.OperationMethod<
+export const ListHealthValidationByParent: API.PaginatedOperationMethod<
   ListHealthValidationByParentRequest,
   HealthValidationListResult,
   ListHealthValidationByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthValidation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListHealthValidationByParentRequest>,
   output: __S(74, __c9, 2) as any as S.Schema<HealthValidationListResult>,
   errors: [UnknownAzureError],
@@ -1231,16 +1254,23 @@ export const ListHealthValidationByParent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHealthValidationByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1248,16 +1278,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSharedPrivateLinkResourceByWatcherError = AzureOpError;
 /** List SharedPrivateLinkResource resources by Watcher */
-export const ListSharedPrivateLinkResourceByWatcher: API.OperationMethod<
+export const ListSharedPrivateLinkResourceByWatcher: API.PaginatedOperationMethod<
   ListSharedPrivateLinkResourceByWatcherRequest,
   SharedPrivateLinkResourceListResult,
   ListSharedPrivateLinkResourceByWatcherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedPrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListSharedPrivateLinkResourceByWatcherRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<SharedPrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -1265,16 +1302,23 @@ export const ListSharedPrivateLinkResourceByWatcher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSharedPrivateLinkResourceByWatcher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTargetByWatcherError = AzureOpError;
 /** List Target resources by Watcher */
-export const ListTargetByWatcher: API.OperationMethod<
+export const ListTargetByWatcher: API.PaginatedOperationMethod<
   ListTargetByWatcherRequest,
   TargetListResult,
   ListTargetByWatcherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Target
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListTargetByWatcherRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
@@ -1282,16 +1326,23 @@ export const ListTargetByWatcher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetByWatcher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWatcherByResourceGroupError = AzureOpError;
 /** List Watcher resources by resource group */
-export const ListWatcherByResourceGroup: API.OperationMethod<
+export const ListWatcherByResourceGroup: API.PaginatedOperationMethod<
   ListWatcherByResourceGroupRequest,
   WatcherListResult,
   ListWatcherByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Watcher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListWatcherByResourceGroupRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<WatcherListResult>,
   errors: [UnknownAzureError],
@@ -1299,16 +1350,23 @@ export const ListWatcherByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWatcherByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWatcherBySubscriptionError = AzureOpError;
 /** List Watcher resources by subscription ID */
-export const ListWatcherBySubscription: API.OperationMethod<
+export const ListWatcherBySubscription: API.PaginatedOperationMethod<
   ListWatcherBySubscriptionRequest,
   WatcherListResult,
   ListWatcherBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Watcher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListWatcherBySubscriptionRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<WatcherListResult>,
   errors: [UnknownAzureError],
@@ -1316,7 +1374,13 @@ export const ListWatcherBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWatcherBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type StartHealthValidationValidationError = AzureOpError;
 /** Starts health validation for a watcher. */
@@ -1637,12 +1701,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           watcherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAlertRuleResourceByParentRequest" });
@@ -1665,12 +1731,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           watcherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHealthValidationByParentRequest" });
@@ -1689,12 +1757,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DatabaseWatcher/operations",
             code: 200,
             apiVersion: "2025-01-02",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1722,7 +1793,7 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(83, __c10, 3)),
+          value: __S(83, __c10, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1736,12 +1807,14 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           watcherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSharedPrivateLinkResourceByWatcherRequest" });
@@ -1764,12 +1837,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           watcherName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTargetByWatcherRequest" });
@@ -1791,12 +1866,14 @@ function __c13(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWatcherByResourceGroupRequest" });
@@ -1821,12 +1898,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers",
             code: 200,
             apiVersion: "2024-10-01-preview",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWatcherBySubscriptionRequest" });

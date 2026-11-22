@@ -1,0 +1,20 @@
+{
+  "description": "HSMSecurityDomain_Download answers 202 with the SecurityDomainObject body (`{ value }`, the encrypted security domain) next to the Azure-AsyncOperation header; the converter kept only the headers, which drops the security domain itself. Add the body member and the 202 status.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_security_domain#HSMSecurityDomainDownload/traits/smithy.api#http/code",
+      "value": 202
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_security_domain#HSMSecurityDomainDownloadResponse/members/value",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The Security Domain, encrypted to the certificates in the request."
+        }
+      }
+    }
+  ]
+}

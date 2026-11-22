@@ -1,0 +1,65 @@
+{
+  "description": "ToolDefinition is polymorphic on `type`, but the converted model keeps only the discriminator, so function, file search, Azure Function, Bing grounding, connected agent, and OpenAPI tool definitions lose their settings on encode and decode. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/function",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"function\"`: the function definition."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/file_search",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"file_search\"`: file search options."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/azure_function",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"azure_function\"`: the Azure Function definition."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/bing_grounding",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"bing_grounding\"`: Bing grounding search parameters."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/connected_agent",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"connected_agent\"`: the connected agent."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#ToolDefinition/members/openapi",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"openapi\"`: the OpenAPI function definition."
+        }
+      }
+    }
+  ]
+}

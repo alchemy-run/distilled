@@ -1954,6 +1954,8 @@ export interface ListAmlFilesystemByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AmlFilesystemTagsMap = { [key: string]: string | undefined };
@@ -1987,19 +1989,23 @@ export type AmlFilesystemsListResultValueList = Array<AmlFilesystem>;
 /** Result of the request to list AML file systems. It contains a list of AML file systems and a URL link to get the next set of results. */
 export interface AmlFilesystemsListResult {
   /** List of AML file systems. */
-  value?: AmlFilesystemsListResultValueList | undefined;
+  value: AmlFilesystemsListResultValueList;
   /** URL to get the next set of AML file system list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListAmlFilesystemsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAscUsagesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Naming information for this resource type. */
 export interface ResourceUsageName {
@@ -2024,7 +2030,7 @@ export type ResourceUsagesListResultValueList = Array<ResourceUsage>;
 /** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
 export interface ResourceUsagesListResult {
   /** List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider. */
-  value?: ResourceUsagesListResultValueList | undefined;
+  value: ResourceUsagesListResultValueList;
   /** URL to get the next set of resource usage list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2035,6 +2041,8 @@ export interface ListAutoExportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutoExportJobTagsMap = { [key: string]: string | undefined };
@@ -2060,7 +2068,7 @@ export type AutoExportJobsListResultValueList = Array<AutoExportJob>;
 /** Result of the request to list auto export jobs. It contains a list of auto export jobs and a URL link to get the next set of results. */
 export interface AutoExportJobsListResult {
   /** List of auto export jobs. */
-  value?: AutoExportJobsListResultValueList | undefined;
+  value: AutoExportJobsListResultValueList;
   /** URL to get the next set of auto export job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2071,6 +2079,8 @@ export interface ListAutoImportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutoImportJobTagsMap = { [key: string]: string | undefined };
@@ -2096,7 +2106,7 @@ export type AutoImportJobsListResultValueList = Array<AutoImportJob>;
 /** Result of the request to list auto import jobs. It contains a list of auto import jobs and a URL link to get the next set of results. */
 export interface AutoImportJobsListResult {
   /** List of auto import jobs. */
-  value?: AutoImportJobsListResultValueList | undefined;
+  value: AutoImportJobsListResultValueList;
   /** URL to get the next set of auto import job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2105,6 +2115,8 @@ export interface ListCachByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CacheTagsMap = { [key: string]: string | undefined };
@@ -2134,13 +2146,15 @@ export type CachesListResultValueList = Array<Cache>;
 /** Result of the request to list caches. It contains a list of caches and a URL link to get the next set of results. */
 export interface CachesListResult {
   /** List of caches. */
-  value?: CachesListResultValueList | undefined;
+  value: CachesListResultValueList;
   /** URL to get the next set of cache list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListCachesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListExpansionJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2149,6 +2163,8 @@ export interface ListExpansionJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ExpansionJobTagsMap = { [key: string]: string | undefined };
@@ -2174,7 +2190,7 @@ export type ExpansionJobsListResultValueList = Array<ExpansionJob>;
 /** Result of the request to list expansion jobs. It contains a list of expansion jobs and a URL link to get the next set of results. */
 export interface ExpansionJobsListResult {
   /** List of expansion jobs. */
-  value?: ExpansionJobsListResultValueList | undefined;
+  value: ExpansionJobsListResultValueList;
   /** URL to get the next set of expansion job list results, if there are any. */
   nextLink?: string | undefined;
 }
@@ -2185,6 +2201,8 @@ export interface ListImportJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ImportJobTagsMap = { [key: string]: string | undefined };
@@ -2210,11 +2228,14 @@ export type ImportJobsListResultValueList = Array<ImportJob>;
 /** Result of the request to list import jobs. It contains a list of import jobs and a URL link to get the next set of results. */
 export interface ImportJobsListResult {
   /** List of import jobs. */
-  value?: ImportJobsListResultValueList | undefined;
+  value: ImportJobsListResultValueList;
   /** URL to get the next set of import job list results, if there are any. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface ApiOperationDisplay {
   /** Operation type: Read, write, delete, etc. */
@@ -2314,7 +2335,7 @@ export type ApiOperationListResultValueList = Array<ApiOperation>;
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApiOperationListResult {
   /** List of Resource Provider operations supported by the Microsoft.StorageCache resource provider. */
-  value?: ApiOperationListResultValueList | undefined;
+  value: ApiOperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2325,6 +2346,8 @@ export interface ListRebalanceJobByAmlFilesystemRequest {
   resourceGroupName: string;
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A rebalance job instance. Rebalances OST data across storage targets after a cluster expansion. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface RebalanceJob {
@@ -2344,13 +2367,15 @@ export type RebalanceJobsListResultValueList = Array<RebalanceJob>;
 /** Result of the request to list rebalance jobs. It contains a list of rebalance jobs and a URL link to get the next set of results. */
 export interface RebalanceJobsListResult {
   /** List of rebalance jobs. */
-  value?: RebalanceJobsListResultValueList | undefined;
+  value: RebalanceJobsListResultValueList;
   /** URL to get the next set of rebalance job list results, if there are any. */
   nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A resource SKU capability. */
 export interface ResourceSkuCapabilities {
@@ -2409,7 +2434,7 @@ export type ResourceSkusResultValueList = Array<ResourceSku>;
 /** The response from the List Cache SKUs operation. */
 export interface ResourceSkusResult {
   /** The list of SKUs available for the subscription. */
-  value?: ResourceSkusResultValueList | undefined;
+  value: ResourceSkusResultValueList;
   /** The URI to fetch the next page of cache SKUs. */
   nextLink?: string | undefined;
 }
@@ -2420,6 +2445,8 @@ export interface ListStorageTargetByCacheRequest {
   resourceGroupName: string;
   /** Name of cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class. */
   cacheName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Type of the Storage Target. */
 export interface StorageTarget {
@@ -2441,13 +2468,15 @@ export type StorageTargetsResultValueList = Array<StorageTarget>;
 /** A list of Storage Targets. */
 export interface StorageTargetsResult {
   /** The list of Storage Targets defined for the cache. */
-  value?: StorageTargetsResultValueList | undefined;
+  value: StorageTargetsResultValueList;
   /** The URI to fetch the next page of Storage Targets. */
   nextLink?: string | undefined;
 }
 export interface ListUsageModelsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Localized information describing this usage model. */
 export interface UsageModelDisplay {
@@ -2468,7 +2497,7 @@ export type UsageModelsResultValueList = Array<UsageModel>;
 /** A list of cache usage models. */
 export interface UsageModelsResult {
   /** The list of usage models available for the subscription. */
-  value?: UsageModelsResultValueList | undefined;
+  value: UsageModelsResultValueList;
   /** The URI to fetch the next page of cache usage models. */
   nextLink?: string | undefined;
 }
@@ -3579,12 +3608,13 @@ export const InvalidateStorageTarget: API.OperationMethod<
 
 export type ListAmlFilesystemByResourceGroupError = AzureOpError;
 /** Returns all AML file systems the user has access to under a resource group. */
-export const ListAmlFilesystemByResourceGroup: API.OperationMethod<
+export const ListAmlFilesystemByResourceGroup: API.PaginatedOperationMethod<
   ListAmlFilesystemByResourceGroupRequest,
   AmlFilesystemsListResult,
   ListAmlFilesystemByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlFilesystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListAmlFilesystemByResourceGroupRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<AmlFilesystemsListResult>,
   errors: [UnknownAzureError],
@@ -3592,16 +3622,23 @@ export const ListAmlFilesystemByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAmlFilesystemByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAmlFilesystemsError = AzureOpError;
 /** Returns all AML file systems the user has access to under a subscription. */
-export const ListAmlFilesystems: API.OperationMethod<
+export const ListAmlFilesystems: API.PaginatedOperationMethod<
   ListAmlFilesystemsRequest,
   AmlFilesystemsListResult,
   ListAmlFilesystemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlFilesystem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListAmlFilesystemsRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<AmlFilesystemsListResult>,
   errors: [UnknownAzureError],
@@ -3609,16 +3646,23 @@ export const ListAmlFilesystems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAmlFilesystems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAscUsagesError = AzureOpError;
 /** Gets the quantity used and quota limit for resources */
-export const ListAscUsages: API.OperationMethod<
+export const ListAscUsages: API.PaginatedOperationMethod<
   ListAscUsagesRequest,
   ResourceUsagesListResult,
   ListAscUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListAscUsagesRequest>,
   output: __S(1700, __c53, 4) as any as S.Schema<ResourceUsagesListResult>,
   errors: [UnknownAzureError],
@@ -3626,16 +3670,23 @@ export const ListAscUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAscUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoExportJobByAmlFilesystemError = AzureOpError;
 /** Returns all the auto export jobs the user has access to under an AML File System. */
-export const ListAutoExportJobByAmlFilesystem: API.OperationMethod<
+export const ListAutoExportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListAutoExportJobByAmlFilesystemRequest,
   AutoExportJobsListResult,
   ListAutoExportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoExportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListAutoExportJobByAmlFilesystemRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<AutoExportJobsListResult>,
   errors: [UnknownAzureError],
@@ -3643,16 +3694,23 @@ export const ListAutoExportJobByAmlFilesystem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoExportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutoImportJobByAmlFilesystemError = AzureOpError;
 /** Returns all the auto import jobs the user has access to under an AML File System. */
-export const ListAutoImportJobByAmlFilesystem: API.OperationMethod<
+export const ListAutoImportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListAutoImportJobByAmlFilesystemRequest,
   AutoImportJobsListResult,
   ListAutoImportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutoImportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListAutoImportJobByAmlFilesystemRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<AutoImportJobsListResult>,
   errors: [UnknownAzureError],
@@ -3660,16 +3718,23 @@ export const ListAutoImportJobByAmlFilesystem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoImportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachByResourceGroupError = AzureOpError;
 /** Returns all caches the user has access to under a resource group. */
-export const ListCachByResourceGroup: API.OperationMethod<
+export const ListCachByResourceGroup: API.PaginatedOperationMethod<
   ListCachByResourceGroupRequest,
   CachesListResult,
   ListCachByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListCachByResourceGroupRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<CachesListResult>,
   errors: [UnknownAzureError],
@@ -3677,16 +3742,23 @@ export const ListCachByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCachByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachesError = AzureOpError;
 /** Returns all caches the user has access to under a subscription. */
-export const ListCaches: API.OperationMethod<
+export const ListCaches: API.PaginatedOperationMethod<
   ListCachesRequest,
   CachesListResult,
   ListCachesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListCachesRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<CachesListResult>,
   errors: [UnknownAzureError],
@@ -3694,16 +3766,23 @@ export const ListCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCaches",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExpansionJobByAmlFilesystemError = AzureOpError;
 /** Returns all the expansion jobs the user has access to under an AML File System. */
-export const ListExpansionJobByAmlFilesystem: API.OperationMethod<
+export const ListExpansionJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListExpansionJobByAmlFilesystemRequest,
   ExpansionJobsListResult,
   ListExpansionJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExpansionJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListExpansionJobByAmlFilesystemRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ExpansionJobsListResult>,
   errors: [UnknownAzureError],
@@ -3711,16 +3790,23 @@ export const ListExpansionJobByAmlFilesystem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExpansionJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImportJobByAmlFilesystemError = AzureOpError;
 /** Returns all import jobs the user has access to under an AML File System. */
-export const ListImportJobByAmlFilesystem: API.OperationMethod<
+export const ListImportJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListImportJobByAmlFilesystemRequest,
   ImportJobsListResult,
   ListImportJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImportJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListImportJobByAmlFilesystemRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<ImportJobsListResult>,
   errors: [UnknownAzureError],
@@ -3728,16 +3814,23 @@ export const ListImportJobByAmlFilesystem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImportJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Resource Provider operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ApiOperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2029, __c63, 13) as any as S.Schema<ApiOperationListResult>,
   errors: [UnknownAzureError],
@@ -3745,16 +3838,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRebalanceJobByAmlFilesystemError = AzureOpError;
 /** Returns all the rebalance jobs the user has access to under an AML File System. */
-export const ListRebalanceJobByAmlFilesystem: API.OperationMethod<
+export const ListRebalanceJobByAmlFilesystem: API.PaginatedOperationMethod<
   ListRebalanceJobByAmlFilesystemRequest,
   RebalanceJobsListResult,
   ListRebalanceJobByAmlFilesystemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RebalanceJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListRebalanceJobByAmlFilesystemRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<RebalanceJobsListResult>,
   errors: [UnknownAzureError],
@@ -3762,16 +3862,23 @@ export const ListRebalanceJobByAmlFilesystem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRebalanceJobByAmlFilesystem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusError = AzureOpError;
 /** Get the list of StorageCache.Cache SKUs available to this subscription. */
-export const ListSkus: API.OperationMethod<
+export const ListSkus: API.PaginatedOperationMethod<
   ListSkusRequest,
   ResourceSkusResult,
   ListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(2089, __c65, 9) as any as S.Schema<ResourceSkusResult>,
   errors: [UnknownAzureError],
@@ -3779,16 +3886,23 @@ export const ListSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageTargetByCacheError = AzureOpError;
 /** Returns a list of Storage Targets for the specified cache. */
-export const ListStorageTargetByCache: API.OperationMethod<
+export const ListStorageTargetByCache: API.PaginatedOperationMethod<
   ListStorageTargetByCacheRequest,
   StorageTargetsResult,
   ListStorageTargetByCacheError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageTarget
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListStorageTargetByCacheRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<StorageTargetsResult>,
   errors: [UnknownAzureError],
@@ -3796,16 +3910,23 @@ export const ListStorageTargetByCache: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageTargetByCache",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageModelsError = AzureOpError;
 /** Get the list of cache usage models available to this subscription. */
-export const ListUsageModels: API.OperationMethod<
+export const ListUsageModels: API.PaginatedOperationMethod<
   ListUsageModelsRequest,
   UsageModelsResult,
   ListUsageModelsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsageModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListUsageModelsRequest>,
   output: __S(2148, __c67, 4) as any as S.Schema<UsageModelsResult>,
   errors: [UnknownAzureError],
@@ -3813,7 +3934,13 @@ export const ListUsageModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageModels",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PauseCachPrimingJobError = AzureOpError;
 /** Schedule a priming job to be paused. */
@@ -5331,12 +5458,14 @@ function __c50(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAmlFilesystemByResourceGroupRequest" });
@@ -5349,7 +5478,7 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1632, __c51, 0)),
+          value: __S(1632, __c51, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmlFilesystemsListResult" });
@@ -5361,12 +5490,14 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/amlFilesystems",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAmlFilesystemsRequest" });
@@ -5379,12 +5510,14 @@ function __c53(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAscUsagesRequest" });
@@ -5409,7 +5542,7 @@ function __c53(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1699, __c53, 3)),
+          value: __S(1699, __c53, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceUsagesListResult" });
@@ -5423,12 +5556,14 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoExportJobByAmlFilesystemRequest" });
@@ -5437,7 +5572,7 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1729, __c54, 1)),
+          value: __S(1729, __c54, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoExportJobsListResult" });
@@ -5451,12 +5586,14 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoImportJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutoImportJobByAmlFilesystemRequest" });
@@ -5465,7 +5602,7 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1761, __c55, 1)),
+          value: __S(1761, __c55, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoImportJobsListResult" });
@@ -5478,12 +5615,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachByResourceGroupRequest" });
@@ -5496,7 +5635,7 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1824, __c57, 0)),
+          value: __S(1824, __c57, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CachesListResult" });
@@ -5508,12 +5647,14 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/caches",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachesRequest" });
@@ -5633,12 +5774,14 @@ function __c61(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/expansionJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExpansionJobByAmlFilesystemRequest" });
@@ -5647,7 +5790,7 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1953, __c61, 1)),
+          value: __S(1953, __c61, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpansionJobsListResult" });
@@ -5661,12 +5804,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImportJobByAmlFilesystemRequest" });
@@ -5675,7 +5820,7 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1985, __c62, 1)),
+          value: __S(1985, __c62, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportJobsListResult" });
@@ -5685,12 +5830,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StorageCache/operations",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5768,7 +5916,7 @@ function __c63(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2028, __c63, 12)),
+          value: __S(2028, __c63, 12),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiOperationListResult" });
@@ -5782,12 +5930,14 @@ function __c64(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           amlFilesystemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/rebalanceJobs",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRebalanceJobByAmlFilesystemRequest" });
@@ -5796,7 +5946,7 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2049, __c64, 1)),
+          value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RebalanceJobsListResult" });
@@ -5808,12 +5958,14 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/skus",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusRequest" });
@@ -5861,7 +6013,7 @@ function __c65(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2088, __c65, 8)),
+          value: __S(2088, __c65, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceSkusResult" });
@@ -5875,12 +6027,14 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageTargetByCacheRequest" });
@@ -5889,7 +6043,7 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2113, __c66, 1)),
+          value: __S(2113, __c66, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageTargetsResult" });
@@ -5901,12 +6055,14 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageModelsRequest" });
@@ -5929,7 +6085,7 @@ function __c67(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2147, __c67, 3)),
+          value: __S(2147, __c67, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageModelsResult" });

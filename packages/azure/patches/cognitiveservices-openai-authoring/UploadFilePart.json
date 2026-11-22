@@ -1,0 +1,26 @@
+{
+  "description": "UploadFile_Part is multipart/form-data with the part bytes in a `data` field; the converted request carried only the endpoint and upload id. Send multipart with a `data` Document member (a Blob or File).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#UploadFilePart/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#UploadFilePart/traits/com.distilled.openapi#contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#UploadFilePartRequest/members/data",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The chunk of bytes for this part (a Blob or File)."
+        }
+      }
+    }
+  ]
+}

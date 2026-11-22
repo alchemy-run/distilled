@@ -216,6 +216,8 @@ export interface ListCommunityTrainingByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CommunityTrainingTagsMap = { [key: string]: string | undefined };
@@ -252,8 +254,13 @@ export interface CommunityTrainingListResult {
 export interface ListCommunityTrainingBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -286,7 +293,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -413,12 +420,13 @@ export const GetCommunityTraining: API.OperationMethod<
 
 export type ListCommunityTrainingByResourceGroupError = AzureOpError;
 /** List CommunityTraining resources by resource group */
-export const ListCommunityTrainingByResourceGroup: API.OperationMethod<
+export const ListCommunityTrainingByResourceGroup: API.PaginatedOperationMethod<
   ListCommunityTrainingByResourceGroupRequest,
   CommunityTrainingListResult,
   ListCommunityTrainingByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityTraining
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListCommunityTrainingByResourceGroupRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<CommunityTrainingListResult>,
   errors: [UnknownAzureError],
@@ -426,16 +434,23 @@ export const ListCommunityTrainingByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityTrainingByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunityTrainingBySubscriptionError = AzureOpError;
 /** List CommunityTraining resources by subscription ID */
-export const ListCommunityTrainingBySubscription: API.OperationMethod<
+export const ListCommunityTrainingBySubscription: API.PaginatedOperationMethod<
   ListCommunityTrainingBySubscriptionRequest,
   CommunityTrainingListResult,
   ListCommunityTrainingBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityTraining
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListCommunityTrainingBySubscriptionRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<CommunityTrainingListResult>,
   errors: [UnknownAzureError],
@@ -443,16 +458,23 @@ export const ListCommunityTrainingBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityTrainingBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -460,7 +482,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateCommunityTrainingError = AzureOpError;
 /** Update a CommunityTraining */
@@ -640,12 +668,14 @@ function __c5(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Community/communityTrainings",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityTrainingByResourceGroupRequest" });
@@ -670,12 +700,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Community/communityTrainings",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityTrainingBySubscriptionRequest" });
@@ -685,12 +717,15 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Community/operations",
             code: 200,
             apiVersion: "2023-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -718,7 +753,7 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(67, __c8, 3)),
+          value: __S(67, __c8, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

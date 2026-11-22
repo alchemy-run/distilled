@@ -434,6 +434,8 @@ export interface ListDomainByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DomainTagsMap = { [key: string]: string | undefined };
@@ -472,6 +474,8 @@ export interface ListDomainOwnershipIdentifiersRequest {
   resourceGroupName: string;
   /** Name of the domain. */
   domainName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Domain ownership Identifier. */
 export interface DomainOwnershipIdentifier {
@@ -504,6 +508,8 @@ export interface ListDomainRecommendationsRequest {
   keywords?: string | undefined;
   /** Maximum number of recommendations. */
   maxDomainRecommendations?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Identifies an object. */
 export interface NameIdentifier {
@@ -519,7 +525,10 @@ export interface NameIdentifierCollection {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListDomainRegistrationProviderOperationsRequest {}
+export interface ListDomainRegistrationProviderOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Meta data about operation used for display in portal. */
 export interface CsmOperationDisplay {
   /** Provider name. */
@@ -646,6 +655,8 @@ export interface CsmOperationCollection {
 export interface ListDomainsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListTopLevelDomainAgreementsRequest {
   /** The ID of the target subscription. */
@@ -656,6 +667,8 @@ export interface ListTopLevelDomainAgreementsRequest {
   includePrivacy?: boolean | undefined;
   /** If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>. */
   forTransfer?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Legal agreement for a top level domain. */
 export interface TldLegalAgreement {
@@ -680,6 +693,8 @@ export interface TldLegalAgreementCollection {
 export interface ListTopLevelDomainsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A top level domain object. */
 export interface TopLevelDomain {
@@ -959,12 +974,13 @@ export const GetTopLevelDomain: API.OperationMethod<
 
 export type ListDomainByResourceGroupError = AzureOpError;
 /** Get all domains in a resource group. Description for Get all domains in a resource group. */
-export const ListDomainByResourceGroup: API.OperationMethod<
+export const ListDomainByResourceGroup: API.PaginatedOperationMethod<
   ListDomainByResourceGroupRequest,
   DomainCollection,
   ListDomainByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Domain
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListDomainByResourceGroupRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<DomainCollection>,
   errors: [UnknownAzureError],
@@ -972,16 +988,23 @@ export const ListDomainByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomainByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDomainOwnershipIdentifiersError = AzureOpError;
 /** Lists domain ownership identifiers. Description for Lists domain ownership identifiers. */
-export const ListDomainOwnershipIdentifiers: API.OperationMethod<
+export const ListDomainOwnershipIdentifiers: API.PaginatedOperationMethod<
   ListDomainOwnershipIdentifiersRequest,
   DomainOwnershipIdentifierCollection,
   ListDomainOwnershipIdentifiersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DomainOwnershipIdentifier
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ListDomainOwnershipIdentifiersRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<DomainOwnershipIdentifierCollection>,
   errors: [UnknownAzureError],
@@ -989,16 +1012,23 @@ export const ListDomainOwnershipIdentifiers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomainOwnershipIdentifiers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDomainRecommendationsError = AzureOpError;
 /** Get domain name recommendations based on keywords. Description for Get domain name recommendations based on keywords. */
-export const ListDomainRecommendations: API.OperationMethod<
+export const ListDomainRecommendations: API.PaginatedOperationMethod<
   ListDomainRecommendationsRequest,
   NameIdentifierCollection,
   ListDomainRecommendationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NameIdentifier
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListDomainRecommendationsRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<NameIdentifierCollection>,
   errors: [UnknownAzureError],
@@ -1006,16 +1036,23 @@ export const ListDomainRecommendations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomainRecommendations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDomainRegistrationProviderOperationsError = AzureOpError;
 /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
-export const ListDomainRegistrationProviderOperations: API.OperationMethod<
+export const ListDomainRegistrationProviderOperations: API.PaginatedOperationMethod<
   ListDomainRegistrationProviderOperationsRequest,
   CsmOperationCollection,
   ListDomainRegistrationProviderOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CsmOperationDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListDomainRegistrationProviderOperationsRequest>,
   output: __S(94, __c5, 14) as any as S.Schema<CsmOperationCollection>,
   errors: [UnknownAzureError],
@@ -1023,16 +1060,23 @@ export const ListDomainRegistrationProviderOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomainRegistrationProviderOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDomainsError = AzureOpError;
 /** Get all domains in a subscription. Description for Get all domains in a subscription. */
-export const ListDomains: API.OperationMethod<
+export const ListDomains: API.PaginatedOperationMethod<
   ListDomainsRequest,
   DomainCollection,
   ListDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Domain
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<DomainCollection>,
   errors: [UnknownAzureError],
@@ -1040,16 +1084,23 @@ export const ListDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopLevelDomainAgreementsError = AzureOpError;
 /** Gets all legal agreements that user needs to accept before purchasing a domain. Description for Gets all legal agreements that user needs to accept before purchasing a domain. */
-export const ListTopLevelDomainAgreements: API.OperationMethod<
+export const ListTopLevelDomainAgreements: API.PaginatedOperationMethod<
   ListTopLevelDomainAgreementsRequest,
   TldLegalAgreementCollection,
   ListTopLevelDomainAgreementsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TldLegalAgreement
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListTopLevelDomainAgreementsRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<TldLegalAgreementCollection>,
   errors: [UnknownAzureError],
@@ -1057,16 +1108,23 @@ export const ListTopLevelDomainAgreements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopLevelDomainAgreements",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopLevelDomainsError = AzureOpError;
 /** Get all top-level domains supported for registration. Description for Get all top-level domains supported for registration. */
-export const ListTopLevelDomains: API.OperationMethod<
+export const ListTopLevelDomains: API.PaginatedOperationMethod<
   ListTopLevelDomainsRequest,
   TopLevelDomainCollection,
   ListTopLevelDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TopLevelDomain
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListTopLevelDomainsRequest>,
   output: __S(130, __c8, 2) as any as S.Schema<TopLevelDomainCollection>,
   errors: [UnknownAzureError],
@@ -1074,7 +1132,13 @@ export const ListTopLevelDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopLevelDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RenewDomainError = AzureOpError;
 /** Renew a domain. Description for Renew a domain. */
@@ -1205,12 +1269,14 @@ function __c3(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainOwnershipIdentifiersRequest" });
@@ -1233,12 +1299,14 @@ function __c4(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           keywords: S.optional(S.String),
           maxDomainRecommendations: S.optional(S.Number),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/listDomainRecommendations",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainRecommendationsRequest" });
@@ -1263,12 +1331,15 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DomainRegistration/operations",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainRegistrationProviderOperationsRequest" });
@@ -1376,12 +1447,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/domains",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainsRequest" });
@@ -1396,12 +1469,14 @@ function __c7(j: number): any {
           name: S.String.pipe(T.Label()),
           includePrivacy: S.optional(S.Boolean),
           forTransfer: S.optional(S.Boolean),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopLevelDomainAgreementsRequest" });
@@ -1431,12 +1506,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopLevelDomainsRequest" });
@@ -1879,12 +1956,14 @@ function __c27(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains",
             code: 200,
             apiVersion: "2024-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDomainByResourceGroupRequest" });

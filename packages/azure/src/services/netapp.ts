@@ -3119,6 +3119,8 @@ export interface GetVolumeQuotaRuleResponse {
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetAppAccountTagsMap = { [key: string]: string | undefined };
@@ -3171,6 +3173,8 @@ export interface ListAccountsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListBackupByVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3183,6 +3187,8 @@ export interface ListBackupByVaultRequest {
   backupVaultName: string;
   /** An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Backup under a Backup Vault */
 export interface Backup {
@@ -3213,6 +3219,8 @@ export interface ListBackupPoliciesRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupPolicyTagsMap = { [key: string]: string | undefined };
@@ -3251,6 +3259,8 @@ export interface ListBackupVaultByNetAppAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupVaultTagsMap = { [key: string]: string | undefined };
@@ -3291,6 +3301,8 @@ export interface ListBucketsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Bucket resource */
 export interface Bucket {
@@ -3323,6 +3335,8 @@ export interface ListCachesRequest {
   accountName: string;
   /** The name of the capacity pool */
   poolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CacheTagsMap = { [key: string]: string | undefined };
@@ -3386,6 +3400,8 @@ export interface ListNetAppResourceQuotaLimitsRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information regarding Quota Item. */
 export interface QuotaItem {
@@ -3416,12 +3432,16 @@ export interface ListNetAppResourceQuotaLimitsAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetAppResourceRegionInfosRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information regarding regionInfo Item. */
 export interface RegionInfoResource {
@@ -3450,6 +3470,8 @@ export interface ListNetAppResourceUsagesRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The UsageResult items on this page */
 export type UsagesListResultValueList = Array<UsageResult>;
@@ -3460,7 +3482,10 @@ export interface UsagesListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft NetApp. */
@@ -3571,6 +3596,8 @@ export interface ListPoolsRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CapacityPoolTagsMap = { [key: string]: string | undefined };
@@ -3613,6 +3640,8 @@ export interface ListRansomwareReportsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Advanced Ransomware Protection (ARP) report Get details of the specified Advanced Ransomware Protection report (ARP). ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions. ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data. */
 export interface RansomwareReport {
@@ -3643,6 +3672,8 @@ export interface ListSnapshotPoliciesRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SnapshotPolicyTagsMap = { [key: string]: string | undefined };
@@ -3729,6 +3760,8 @@ export interface ListSnapshotsRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Snapshot of a Volume */
 export interface Snapshot {
@@ -3761,6 +3794,8 @@ export interface ListVolumeGroupByNetAppAccountRequest {
   resourceGroupName: string;
   /** The name of the NetApp account */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Volume group properties */
 export interface VolumeGroupListProperties {
@@ -3853,6 +3888,8 @@ export interface ListVolumeQuotaRuleByVolumeRequest {
   poolName: string;
   /** The name of the volume */
   volumeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VolumeQuotaRuleTagsMap = { [key: string]: string | undefined };
@@ -3897,6 +3934,8 @@ export interface ListVolumeReplicationsRequest {
   volumeName: string;
   /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
   exclude?: ListVolumeReplicationsRequestExclude | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The status of the replication */
 export type ReplicationMirrorState = "Uninitialized" | "Mirrored" | "Broken";
@@ -3937,6 +3976,8 @@ export interface ListVolumesRequest {
   accountName: string;
   /** The name of the capacity pool */
   poolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Volume items on this page */
 export type VolumeListValueList = Array<Volume>;
@@ -6380,12 +6421,13 @@ export const GetVolumeQuotaRule: API.OperationMethod<
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** List and describe all NetApp accounts in the subscription. */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   NetAppAccountList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetAppAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
   errors: [UnknownAzureError],
@@ -6393,16 +6435,23 @@ export const ListAccountBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountsError = AzureOpError;
 /** List and describe all NetApp accounts in the resource group. */
-export const ListAccounts: API.OperationMethod<
+export const ListAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   NetAppAccountList,
   ListAccountsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetAppAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
   errors: [UnknownAzureError],
@@ -6410,16 +6459,23 @@ export const ListAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccounts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupByVaultError = AzureOpError;
 /** List all backups Under a Backup Vault */
-export const ListBackupByVault: API.OperationMethod<
+export const ListBackupByVault: API.PaginatedOperationMethod<
   ListBackupByVaultRequest,
   BackupsList,
   ListBackupByVaultError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Backup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListBackupByVaultRequest>,
   output: __S(1858, __c116, 2) as any as S.Schema<BackupsList>,
   errors: [UnknownAzureError],
@@ -6427,16 +6483,23 @@ export const ListBackupByVault: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupByVault",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupPoliciesError = AzureOpError;
 /** List backup policies for Netapp Account */
-export const ListBackupPolicies: API.OperationMethod<
+export const ListBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
   BackupPoliciesList,
   ListBackupPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(1874, __c117, 2) as any as S.Schema<BackupPoliciesList>,
   errors: [UnknownAzureError],
@@ -6444,16 +6507,23 @@ export const ListBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupVaultByNetAppAccountError = AzureOpError;
 /** List and describe all Backup Vaults in the NetApp account. */
-export const ListBackupVaultByNetAppAccount: API.OperationMethod<
+export const ListBackupVaultByNetAppAccount: API.PaginatedOperationMethod<
   ListBackupVaultByNetAppAccountRequest,
   BackupVaultsList,
   ListBackupVaultByNetAppAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupVault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListBackupVaultByNetAppAccountRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<BackupVaultsList>,
   errors: [UnknownAzureError],
@@ -6461,16 +6531,23 @@ export const ListBackupVaultByNetAppAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupVaultByNetAppAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBucketsError = AzureOpError;
 /** Describes all buckets belonging to a volume. Buckets allow additional services, such as AI services, connect to the volume data contained in those buckets. */
-export const ListBuckets: API.OperationMethod<
+export const ListBuckets: API.PaginatedOperationMethod<
   ListBucketsRequest,
   BucketList,
   ListBucketsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListBucketsRequest>,
   output: __S(1938, __c121, 2) as any as S.Schema<BucketList>,
   errors: [UnknownAzureError],
@@ -6478,16 +6555,23 @@ export const ListBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuckets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachesError = AzureOpError;
 /** List all Caches within the Capacity Pool */
-export const ListCaches: API.OperationMethod<
+export const ListCaches: API.PaginatedOperationMethod<
   ListCachesRequest,
   CacheList,
   ListCachesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cache
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListCachesRequest>,
   output: __S(1954, __c122, 2) as any as S.Schema<CacheList>,
   errors: [UnknownAzureError],
@@ -6495,7 +6579,13 @@ export const ListCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCaches",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCachPeeringPassphrasesError = AzureOpError;
 /** This operation will list the cluster peering command, cluster peering passphrase and the vserver peering command */
@@ -6516,12 +6606,13 @@ export const ListCachPeeringPassphrases: API.OperationMethod<
 
 export type ListNetAppResourceQuotaLimitsError = AzureOpError;
 /** Get the default and current limits for quotas */
-export const ListNetAppResourceQuotaLimits: API.OperationMethod<
+export const ListNetAppResourceQuotaLimits: API.PaginatedOperationMethod<
   ListNetAppResourceQuotaLimitsRequest,
   QuotaItemList,
   ListNetAppResourceQuotaLimitsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
   errors: [UnknownAzureError],
@@ -6529,16 +6620,23 @@ export const ListNetAppResourceQuotaLimits: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceQuotaLimits",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceQuotaLimitsAccountError = AzureOpError;
 /** Gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one. */
-export const ListNetAppResourceQuotaLimitsAccount: API.OperationMethod<
+export const ListNetAppResourceQuotaLimitsAccount: API.PaginatedOperationMethod<
   ListNetAppResourceQuotaLimitsAccountRequest,
   QuotaItemList,
   ListNetAppResourceQuotaLimitsAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsAccountRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
   errors: [UnknownAzureError],
@@ -6546,16 +6644,23 @@ export const ListNetAppResourceQuotaLimitsAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceQuotaLimitsAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceRegionInfosError = AzureOpError;
 /** Provides region specific information. */
-export const ListNetAppResourceRegionInfos: API.OperationMethod<
+export const ListNetAppResourceRegionInfos: API.PaginatedOperationMethod<
   ListNetAppResourceRegionInfosRequest,
   RegionInfosList,
   ListNetAppResourceRegionInfosError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegionInfoResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListNetAppResourceRegionInfosRequest>,
   output: __S(2034, __c127, 2) as any as S.Schema<RegionInfosList>,
   errors: [UnknownAzureError],
@@ -6563,16 +6668,23 @@ export const ListNetAppResourceRegionInfos: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceRegionInfos",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetAppResourceUsagesError = AzureOpError;
 /** Get usages Get current subscription usages */
-export const ListNetAppResourceUsages: API.OperationMethod<
+export const ListNetAppResourceUsages: API.PaginatedOperationMethod<
   ListNetAppResourceUsagesRequest,
   UsagesListResult,
   ListNetAppResourceUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsageResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListNetAppResourceUsagesRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
@@ -6580,16 +6692,23 @@ export const ListNetAppResourceUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetAppResourceUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2074, __c129, 10) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -6597,16 +6716,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolsError = AzureOpError;
 /** List all capacity pools in the NetApp Account */
-export const ListPools: API.OperationMethod<
+export const ListPools: API.PaginatedOperationMethod<
   ListPoolsRequest,
   CapacityPoolList,
   ListPoolsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CapacityPool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListPoolsRequest>,
   output: __S(2082, __c130, 2) as any as S.Schema<CapacityPoolList>,
   errors: [UnknownAzureError],
@@ -6614,16 +6740,23 @@ export const ListPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPools",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRansomwareReportsError = AzureOpError;
 /** List all ransomware reports for the volume Returns a list of the Advanced Ransomware Protection (ARP) reports for the volume. ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions. ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data" */
-export const ListRansomwareReports: API.OperationMethod<
+export const ListRansomwareReports: API.PaginatedOperationMethod<
   ListRansomwareReportsRequest,
   RansomwareReportsList,
   ListRansomwareReportsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RansomwareReport
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListRansomwareReportsRequest>,
   output: __S(2146, __c134, 2) as any as S.Schema<RansomwareReportsList>,
   errors: [UnknownAzureError],
@@ -6631,16 +6764,23 @@ export const ListRansomwareReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRansomwareReports",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnapshotPoliciesError = AzureOpError;
 /** List snapshot policy */
-export const ListSnapshotPolicies: API.OperationMethod<
+export const ListSnapshotPolicies: API.PaginatedOperationMethod<
   ListSnapshotPoliciesRequest,
   SnapshotPoliciesList,
   ListSnapshotPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnapshotPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
   output: __S(2162, __c135, 2) as any as S.Schema<SnapshotPoliciesList>,
   errors: [UnknownAzureError],
@@ -6648,7 +6788,13 @@ export const ListSnapshotPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshotPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnapshotPolicyVolumesError = AzureOpError;
 /** Get volumes associated with snapshot policy */
@@ -6669,12 +6815,13 @@ export const ListSnapshotPolicyVolumes: API.OperationMethod<
 
 export type ListSnapshotsError = AzureOpError;
 /** List all snapshots associated with the volume */
-export const ListSnapshots: API.OperationMethod<
+export const ListSnapshots: API.PaginatedOperationMethod<
   ListSnapshotsRequest,
   SnapshotsList,
   ListSnapshotsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Snapshot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListSnapshotsRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<SnapshotsList>,
   errors: [UnknownAzureError],
@@ -6682,16 +6829,23 @@ export const ListSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshots",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeGroupByNetAppAccountError = AzureOpError;
 /** List all volume groups for given account */
-export const ListVolumeGroupByNetAppAccount: API.OperationMethod<
+export const ListVolumeGroupByNetAppAccount: API.PaginatedOperationMethod<
   ListVolumeGroupByNetAppAccountRequest,
   VolumeGroupList,
   ListVolumeGroupByNetAppAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VolumeGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListVolumeGroupByNetAppAccountRequest>,
   output: __S(2228, __c139, 4) as any as S.Schema<VolumeGroupList>,
   errors: [UnknownAzureError],
@@ -6699,7 +6853,13 @@ export const ListVolumeGroupByNetAppAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeGroupByNetAppAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeQuotaReportError = AzureOpError;
 /** Get quota report for volume (with filter support) */
@@ -6720,12 +6880,13 @@ export const ListVolumeQuotaReport: API.OperationMethod<
 
 export type ListVolumeQuotaRuleByVolumeError = AzureOpError;
 /** List all quota rules associated with the volume */
-export const ListVolumeQuotaRuleByVolume: API.OperationMethod<
+export const ListVolumeQuotaRuleByVolume: API.PaginatedOperationMethod<
   ListVolumeQuotaRuleByVolumeRequest,
   VolumeQuotaRulesList,
   ListVolumeQuotaRuleByVolumeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VolumeQuotaRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListVolumeQuotaRuleByVolumeRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<VolumeQuotaRulesList>,
   errors: [UnknownAzureError],
@@ -6733,16 +6894,23 @@ export const ListVolumeQuotaRuleByVolume: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeQuotaRuleByVolume",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumeReplicationsError = AzureOpError;
 /** List all replications for a specified volume */
-export const ListVolumeReplications: API.OperationMethod<
+export const ListVolumeReplications: API.PaginatedOperationMethod<
   ListVolumeReplicationsRequest,
   ListReplications,
   ListVolumeReplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Replication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListVolumeReplicationsRequest>,
   output: __S(2275, __c142, 3) as any as S.Schema<ListReplications>,
   errors: [UnknownAzureError],
@@ -6750,16 +6918,23 @@ export const ListVolumeReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeReplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVolumesError = AzureOpError;
 /** List all volumes within the capacity pool */
-export const ListVolumes: API.OperationMethod<
+export const ListVolumes: API.PaginatedOperationMethod<
   ListVolumesRequest,
   VolumeList,
   ListVolumesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Volume
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListVolumesRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<VolumeList>,
   errors: [UnknownAzureError],
@@ -6767,7 +6942,13 @@ export const ListVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MigrateBackupsUnderAccountBackupsError = AzureOpError;
 /** Migrate the backups under a NetApp account to backup vault */
@@ -10353,12 +10534,14 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -10384,12 +10567,14 @@ function __c115(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
@@ -10405,12 +10590,14 @@ function __c116(j: number): any {
           accountName: S.String.pipe(T.Label()),
           backupVaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupByVaultRequest" });
@@ -10433,12 +10620,14 @@ function __c117(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
@@ -10508,12 +10697,14 @@ function __c120(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupVaultByNetAppAccountRequest" });
@@ -10538,12 +10729,14 @@ function __c121(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBucketsRequest" });
@@ -10567,12 +10760,14 @@ function __c122(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCachesRequest" });
@@ -10624,12 +10819,14 @@ function __c124(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceQuotaLimitsRequest" });
@@ -10656,12 +10853,14 @@ function __c126(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/quotaLimits",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceQuotaLimitsAccountRequest" });
@@ -10674,12 +10873,14 @@ function __c127(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceRegionInfosRequest" });
@@ -10701,12 +10902,14 @@ function __c128(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetAppResourceUsagesRequest" });
@@ -10725,12 +10928,15 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.NetApp/operations",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -10816,12 +11022,14 @@ function __c130(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolsRequest" });
@@ -10971,12 +11179,14 @@ function __c134(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRansomwareReportsRequest" });
@@ -10999,12 +11209,14 @@ function __c135(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotPoliciesRequest" });
@@ -11062,12 +11274,14 @@ function __c138(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotsRequest" });
@@ -11090,12 +11304,14 @@ function __c139(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeGroupByNetAppAccountRequest" });
@@ -11189,12 +11405,14 @@ function __c141(j: number): any {
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeQuotaRuleByVolumeRequest" });
@@ -11220,12 +11438,14 @@ function __c142(j: number): any {
           poolName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
           exclude: S.optional(S.String),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listReplications",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumeReplicationsRequest" });
@@ -11262,12 +11482,14 @@ function __c143(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVolumesRequest" });

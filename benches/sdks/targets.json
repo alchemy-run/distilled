@@ -352,6 +352,30 @@
         },
         "body": "{\"value\":[]}"
       }
+    },
+    "AzureDataPlaneProtocol": {
+      "pkg": "azure",
+      "protocol": "AzureDataPlaneProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/maps-render"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.GetRenderMapStaticImage({})",
+      "label": "maps-render.GetRenderMapStaticImage",
+      "env": {
+        "AZURE_BEARER_TOKEN": "bench-secret",
+        "AZURE_CLIENT_ID": "bench-id",
+        "AZURE_SUBSCRIPTION_ID": "bench-id",
+        "AZURE_TENANT_ID": "bench-id"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      }
     }
   },
   "boat-dev": {

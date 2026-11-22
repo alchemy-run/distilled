@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Azure confidential ledger accepts Microsoft Entra ID tokens for the `https://confidential-ledger.azure.com` resource (Microsoft Learn: \"Azure confidential ledger authentication with Microsoft Entra ID\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#ConfidentialledgerData/traits/com.azure.protocols#audience",
+      "value": "https://confidential-ledger.azure.com/.default"
+    }
+  ]
+}

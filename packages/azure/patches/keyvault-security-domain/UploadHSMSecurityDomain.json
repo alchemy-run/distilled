@@ -1,0 +1,30 @@
+{
+  "description": "HSMSecurityDomain_Upload answers 202 with a SecurityDomainOperationStatus body next to the Azure-AsyncOperation header; the converter kept only the headers. Add the body members and the 202 status.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_security_domain#HSMSecurityDomainUpload/traits/smithy.api#http/code",
+      "value": 202
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_security_domain#HSMSecurityDomainUploadResponse/members/status",
+      "value": {
+        "target": "com.azure.keyvault_security_domain#OperationStatus",
+        "traits": {
+          "smithy.api#documentation": "Operation status."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_security_domain#HSMSecurityDomainUploadResponse/members/status_details",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Details of the operation status."
+        }
+      }
+    }
+  ]
+}

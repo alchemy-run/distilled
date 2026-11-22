@@ -181,7 +181,7 @@ export type DatabasePrincipalListResultValueList = Array<DatabasePrincipal>;
 /** The list Kusto database principals operation response. */
 export interface DatabasePrincipalListResult {
   /** The list of Kusto database principals. */
-  value?: DatabasePrincipalListResultValueList | undefined;
+  value: DatabasePrincipalListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -593,7 +593,7 @@ export type LanguageExtensionsListValueList = Array<LanguageExtension>;
 /** The list of language extension objects. */
 export interface LanguageExtensionsList {
   /** The list of language extensions. */
-  value?: LanguageExtensionsListValueList | undefined;
+  value: LanguageExtensionsListValueList;
   /** The link to the next page of resources. */
   nextLink?: string | undefined;
 }
@@ -1019,6 +1019,8 @@ export interface ClustersListFollowerDatabasesGetRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The origin of the following setup. */
 export type DatabaseShareOrigin = "Direct" | "DataShare" | "Other";
@@ -2466,6 +2468,8 @@ export interface ListAttachedDatabaseConfigurationByClusterRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing an attached database configuration. */
 export interface AttachedDatabaseConfiguration {
@@ -2487,7 +2491,7 @@ export type AttachedDatabaseConfigurationListResultValueList = Array<AttachedDat
 /** The list attached database configurations operation response. */
 export interface AttachedDatabaseConfigurationListResult {
   /** The list of attached database configurations. */
-  value?: AttachedDatabaseConfigurationListResultValueList | undefined;
+  value: AttachedDatabaseConfigurationListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2496,6 +2500,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -2531,7 +2537,7 @@ export type ClusterListResultValueList = Array<Cluster>;
 /** The list Kusto clusters operation response. */
 export interface ClusterListResult {
   /** The list of Kusto clusters. */
-  value?: ClusterListResultValueList | undefined;
+  value: ClusterListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2542,6 +2548,8 @@ export interface ListClusterCalloutPoliciesRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The CalloutPolicy items on this page */
 export type CalloutPoliciesListValueList = Array<CalloutPolicy>;
@@ -2559,6 +2567,8 @@ export interface ListClusterFollowerDatabasesRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A class representing follower database request. */
 export type FollowerDatabaseDefinition = FollowerDatabaseProperties;
@@ -2567,7 +2577,7 @@ export type FollowerDatabaseListResultValueList = Array<FollowerDatabaseProperti
 /** The list Kusto database principals operation response. */
 export interface FollowerDatabaseListResult {
   /** The list of follower database result. */
-  value?: FollowerDatabaseListResultValueList | undefined;
+  value: FollowerDatabaseListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2578,6 +2588,8 @@ export interface ListClusterLanguageExtensionsRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListClusterOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. */
@@ -2586,6 +2598,8 @@ export interface ListClusterOutboundNetworkDependenciesEndpointsRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Current TCP connectivity information from the Kusto cluster to a single endpoint. */
 export interface EndpointDetail {
@@ -2646,6 +2660,8 @@ export interface ListClusterPrincipalAssignmentsRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing a cluster principal assignment. */
 export interface ClusterPrincipalAssignment {
@@ -2665,17 +2681,21 @@ export type ClusterPrincipalAssignmentListResultValueList = Array<ClusterPrincip
 /** The list Kusto cluster principal assignments operation response. */
 export interface ClusterPrincipalAssignmentListResult {
   /** The list of Kusto cluster principal assignments. */
-  value?: ClusterPrincipalAssignmentListResultValueList | undefined;
+  value: ClusterPrincipalAssignmentListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListClusterSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of locations that the SKU is available */
 export type SkuDescriptionLocationsList = Array<string>;
@@ -2734,7 +2754,7 @@ export type SkuDescriptionListValueList = Array<SkuDescription>;
 /** The list of the EngagementFabric SKU descriptions */
 export interface SkuDescriptionList {
   /** SKU descriptions */
-  value?: SkuDescriptionListValueList | undefined;
+  value: SkuDescriptionListValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2745,6 +2765,8 @@ export interface ListClusterSkusByResourceRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Scale type. */
 export type AzureScaleType = "automatic" | "manual" | "none";
@@ -2773,7 +2795,7 @@ export type ListResourceSkusResultValueList = Array<AzureResourceSku>;
 /** List of available SKUs for a Kusto Cluster. */
 export interface ListResourceSkusResult {
   /** The collection of available SKUs for an existing resource. */
-  value?: ListResourceSkusResultValueList | undefined;
+  value: ListResourceSkusResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2788,6 +2810,8 @@ export interface ListDatabaseByClusterRequest {
   _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Database items on this page */
 export type DatabaseListResultValueList = Array<Database>;
@@ -2807,6 +2831,8 @@ export interface ListDatabasePrincipalAssignmentsRequest {
   clusterName: string;
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing a database principal assignment. */
 export interface DatabasePrincipalAssignment {
@@ -2826,7 +2852,7 @@ export type DatabasePrincipalAssignmentListResultValueList = Array<DatabasePrinc
 /** The list Kusto database principal assignments operation response. */
 export interface DatabasePrincipalAssignmentListResult {
   /** The list of Kusto database principal assignments. */
-  value?: DatabasePrincipalAssignmentListResultValueList | undefined;
+  value: DatabasePrincipalAssignmentListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2839,6 +2865,8 @@ export interface ListDatabasePrincipalsRequest {
   clusterName: string;
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDataConnectionByDatabaseRequest {
   /** The ID of the target subscription. */
@@ -2849,13 +2877,15 @@ export interface ListDataConnectionByDatabaseRequest {
   clusterName: string;
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of Kusto data connections. */
 export type DataConnectionListResultValueList = Array<DataConnection>;
 /** The list Kusto data connections operation response. */
 export interface DataConnectionListResult {
   /** The list of Kusto data connections. */
-  value?: DataConnectionListResultValueList | undefined;
+  value: DataConnectionListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2866,6 +2896,8 @@ export interface ListManagedPrivateEndpointsRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing a managed private endpoint. */
 export interface ManagedPrivateEndpoint {
@@ -2885,11 +2917,14 @@ export type ManagedPrivateEndpointListResultValueList = Array<ManagedPrivateEndp
 /** The list managed private endpoints operation response. */
 export interface ManagedPrivateEndpointListResult {
   /** The list of managed private endpoints. */
-  value?: ManagedPrivateEndpointListResultValueList | undefined;
+  value: ManagedPrivateEndpointListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider. */
@@ -2917,7 +2952,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations supported by the resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2928,13 +2963,15 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2945,6 +2982,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
@@ -2964,7 +3003,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -2975,6 +3014,8 @@ export interface ListSandboxCustomImageByClusterRequest {
   resourceGroupName: string;
   /** The name of the Kusto cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing a Kusto sandbox custom image. */
 export interface SandboxCustomImage {
@@ -3007,6 +3048,8 @@ export interface ListScriptByDatabaseRequest {
   clusterName: string;
   /** The name of the database in the Kusto cluster. */
   databaseName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Class representing a database script. */
 export interface Script {
@@ -3026,7 +3069,7 @@ export type ScriptListResultValueList = Array<Script>;
 /** The list Kusto database script operation response. */
 export interface ScriptListResult {
   /** The list of Kusto scripts. */
-  value?: ScriptListResultValueList | undefined;
+  value: ScriptListResultValueList;
   /** Link to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -3035,6 +3078,8 @@ export interface ListSkusRequest {
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ManagedPrivateEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3739,12 +3784,13 @@ export const ClustersDiagnoseVirtualNetwork: API.OperationMethod<
 
 export type ClustersListFollowerDatabasesGetError = AzureOpError;
 /** Returns a list of databases that are owned by this cluster and were followed by another cluster. */
-export const ClustersListFollowerDatabasesGet: API.OperationMethod<
+export const ClustersListFollowerDatabasesGet: API.PaginatedOperationMethod<
   ClustersListFollowerDatabasesGetRequest,
   FollowerDatabaseListResultGet,
   ClustersListFollowerDatabasesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FollowerDatabaseDefinitionGet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ClustersListFollowerDatabasesGetRequest>,
   output: __S(355, __c22, 3) as any as S.Schema<FollowerDatabaseListResultGet>,
   errors: [UnknownAzureError],
@@ -3752,7 +3798,13 @@ export const ClustersListFollowerDatabasesGet: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ClustersListFollowerDatabasesGet",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type DatabasePrincipalAssignmentsCreateOrUpdateError = AzureOpError;
 /** Creates a Kusto cluster database principalAssignment. */
@@ -4232,12 +4284,13 @@ export const InviteDatabaseFollower: API.OperationMethod<
 
 export type ListAttachedDatabaseConfigurationByClusterError = AzureOpError;
 /** Returns the list of attached database configurations of the given Kusto cluster. */
-export const ListAttachedDatabaseConfigurationByCluster: API.OperationMethod<
+export const ListAttachedDatabaseConfigurationByCluster: API.PaginatedOperationMethod<
   ListAttachedDatabaseConfigurationByClusterRequest,
   AttachedDatabaseConfigurationListResult,
   ListAttachedDatabaseConfigurationByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AttachedDatabaseConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListAttachedDatabaseConfigurationByClusterRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<AttachedDatabaseConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -4245,16 +4298,23 @@ export const ListAttachedDatabaseConfigurationByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAttachedDatabaseConfigurationByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** Lists all Kusto clusters within a resource group. */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterListResult,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -4262,16 +4322,23 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterCalloutPoliciesError = AzureOpError;
 /** Returns the allowed callout policies for the specified service. */
-export const ListClusterCalloutPolicies: API.OperationMethod<
+export const ListClusterCalloutPolicies: API.PaginatedOperationMethod<
   ListClusterCalloutPoliciesRequest,
   CalloutPoliciesList,
   ListClusterCalloutPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CalloutPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListClusterCalloutPoliciesRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<CalloutPoliciesList>,
   errors: [UnknownAzureError],
@@ -4279,16 +4346,23 @@ export const ListClusterCalloutPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterCalloutPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterFollowerDatabasesError = AzureOpError;
 /** Returns a list of databases that are owned by this cluster and were followed by another cluster. */
-export const ListClusterFollowerDatabases: API.OperationMethod<
+export const ListClusterFollowerDatabases: API.PaginatedOperationMethod<
   ListClusterFollowerDatabasesRequest,
   FollowerDatabaseListResult,
   ListClusterFollowerDatabasesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FollowerDatabaseProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ListClusterFollowerDatabasesRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<FollowerDatabaseListResult>,
   errors: [UnknownAzureError],
@@ -4296,16 +4370,23 @@ export const ListClusterFollowerDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterFollowerDatabases",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterLanguageExtensionsError = AzureOpError;
 /** Returns a list of language extensions that can run within KQL queries. */
-export const ListClusterLanguageExtensions: API.OperationMethod<
+export const ListClusterLanguageExtensions: API.PaginatedOperationMethod<
   ListClusterLanguageExtensionsRequest,
   LanguageExtensionsList,
   ListClusterLanguageExtensionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LanguageExtension
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ListClusterLanguageExtensionsRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<LanguageExtensionsList>,
   errors: [UnknownAzureError],
@@ -4313,16 +4394,23 @@ export const ListClusterLanguageExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterLanguageExtensions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterOutboundNetworkDependenciesEndpointsError = AzureOpError;
 /** Gets the network endpoints of all outbound dependencies of a Kusto cluster */
-export const ListClusterOutboundNetworkDependenciesEndpoints: API.OperationMethod<
+export const ListClusterOutboundNetworkDependenciesEndpoints: API.PaginatedOperationMethod<
   ListClusterOutboundNetworkDependenciesEndpointsRequest,
   OutboundNetworkDependenciesEndpointListResult,
   ListClusterOutboundNetworkDependenciesEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundNetworkDependenciesEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1376,
     __c86,
@@ -4334,16 +4422,23 @@ export const ListClusterOutboundNetworkDependenciesEndpoints: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterOutboundNetworkDependenciesEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterPrincipalAssignmentsError = AzureOpError;
 /** Lists all Kusto cluster principalAssignments. */
-export const ListClusterPrincipalAssignments: API.OperationMethod<
+export const ListClusterPrincipalAssignments: API.PaginatedOperationMethod<
   ListClusterPrincipalAssignmentsRequest,
   ClusterPrincipalAssignmentListResult,
   ListClusterPrincipalAssignmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClusterPrincipalAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ListClusterPrincipalAssignmentsRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<ClusterPrincipalAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -4351,16 +4446,23 @@ export const ListClusterPrincipalAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterPrincipalAssignments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClustersError = AzureOpError;
 /** Lists all Kusto clusters within a subscription. */
-export const ListClusters: API.OperationMethod<
+export const ListClusters: API.PaginatedOperationMethod<
   ListClustersRequest,
   ClusterListResult,
   ListClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<ListClustersRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<ClusterListResult>,
   errors: [UnknownAzureError],
@@ -4368,16 +4470,23 @@ export const ListClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterSkusError = AzureOpError;
 /** Lists eligible SKUs for Kusto resource provider. */
-export const ListClusterSkus: API.OperationMethod<
+export const ListClusterSkus: API.PaginatedOperationMethod<
   ListClusterSkusRequest,
   SkuDescriptionList,
   ListClusterSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ListClusterSkusRequest>,
   output: __S(1465, __c91, 9) as any as S.Schema<SkuDescriptionList>,
   errors: [UnknownAzureError],
@@ -4385,16 +4494,23 @@ export const ListClusterSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterSkusByResourceError = AzureOpError;
 /** Returns the SKUs available for the provided resource. */
-export const ListClusterSkusByResource: API.OperationMethod<
+export const ListClusterSkusByResource: API.PaginatedOperationMethod<
   ListClusterSkusByResourceRequest,
   ListResourceSkusResult,
   ListClusterSkusByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<ListClusterSkusByResourceRequest>,
   output: __S(1476, __c92, 4) as any as S.Schema<ListResourceSkusResult>,
   errors: [UnknownAzureError],
@@ -4402,16 +4518,23 @@ export const ListClusterSkusByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterSkusByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseByClusterError = AzureOpError;
 /** Returns the list of databases of the given Kusto cluster. */
-export const ListDatabaseByCluster: API.OperationMethod<
+export const ListDatabaseByCluster: API.PaginatedOperationMethod<
   ListDatabaseByClusterRequest,
   DatabaseListResult,
   ListDatabaseByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Database
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
   output: __S(1490, __c93, 2) as any as S.Schema<DatabaseListResult>,
   errors: [UnknownAzureError],
@@ -4419,16 +4542,23 @@ export const ListDatabaseByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabasePrincipalAssignmentsError = AzureOpError;
 /** Lists all Kusto cluster database principalAssignments. */
-export const ListDatabasePrincipalAssignments: API.OperationMethod<
+export const ListDatabasePrincipalAssignments: API.PaginatedOperationMethod<
   ListDatabasePrincipalAssignmentsRequest,
   DatabasePrincipalAssignmentListResult,
   ListDatabasePrincipalAssignmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabasePrincipalAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ListDatabasePrincipalAssignmentsRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<DatabasePrincipalAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -4436,16 +4566,23 @@ export const ListDatabasePrincipalAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabasePrincipalAssignments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabasePrincipalsError = AzureOpError;
 /** Returns a list of database principals of the given Kusto cluster and database. */
-export const ListDatabasePrincipals: API.OperationMethod<
+export const ListDatabasePrincipals: API.PaginatedOperationMethod<
   ListDatabasePrincipalsRequest,
   DatabasePrincipalListResult,
   ListDatabasePrincipalsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DatabasePrincipal
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ListDatabasePrincipalsRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<DatabasePrincipalListResult>,
   errors: [UnknownAzureError],
@@ -4453,16 +4590,23 @@ export const ListDatabasePrincipals: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabasePrincipals",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataConnectionByDatabaseError = AzureOpError;
 /** Returns the list of data connections of the given Kusto database. */
-export const ListDataConnectionByDatabase: API.OperationMethod<
+export const ListDataConnectionByDatabase: API.PaginatedOperationMethod<
   ListDataConnectionByDatabaseRequest,
   DataConnectionListResult,
   ListDataConnectionByDatabaseError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ListDataConnectionByDatabaseRequest>,
   output: __S(1538, __c96, 2) as any as S.Schema<DataConnectionListResult>,
   errors: [UnknownAzureError],
@@ -4470,16 +4614,23 @@ export const ListDataConnectionByDatabase: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataConnectionByDatabase",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedPrivateEndpointsError = AzureOpError;
 /** Returns the list of managed private endpoints. */
-export const ListManagedPrivateEndpoints: API.OperationMethod<
+export const ListManagedPrivateEndpoints: API.PaginatedOperationMethod<
   ListManagedPrivateEndpointsRequest,
   ManagedPrivateEndpointListResult,
   ListManagedPrivateEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedPrivateEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ListManagedPrivateEndpointsRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<ManagedPrivateEndpointListResult>,
   errors: [UnknownAzureError],
@@ -4487,16 +4638,23 @@ export const ListManagedPrivateEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedPrivateEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1588, __c99, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -4504,16 +4662,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Returns the list of private endpoint connections. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1601, __c100, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -4521,16 +4686,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** Returns the list of private link resources. */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -4538,16 +4710,23 @@ export const ListPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSandboxCustomImageByClusterError = AzureOpError;
 /** Returns the list of the existing sandbox custom images of the given Kusto cluster. */
-export const ListSandboxCustomImageByCluster: API.OperationMethod<
+export const ListSandboxCustomImageByCluster: API.PaginatedOperationMethod<
   ListSandboxCustomImageByClusterRequest,
   SandboxCustomImagesListResult,
   ListSandboxCustomImageByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SandboxCustomImage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<ListSandboxCustomImageByClusterRequest>,
   output: __S(1634, __c102, 2) as any as S.Schema<SandboxCustomImagesListResult>,
   errors: [UnknownAzureError],
@@ -4555,16 +4734,23 @@ export const ListSandboxCustomImageByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSandboxCustomImageByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScriptByDatabaseError = AzureOpError;
 /** Returns the list of database scripts for given database. */
-export const ListScriptByDatabase: API.OperationMethod<
+export const ListScriptByDatabase: API.PaginatedOperationMethod<
   ListScriptByDatabaseRequest,
   ScriptListResult,
   ListScriptByDatabaseError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Script
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<ListScriptByDatabaseRequest>,
   output: __S(1650, __c103, 2) as any as S.Schema<ScriptListResult>,
   errors: [UnknownAzureError],
@@ -4572,16 +4758,23 @@ export const ListScriptByDatabase: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScriptByDatabase",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusError = AzureOpError;
 /** Lists eligible region SKUs for Kusto resource provider by Azure region. */
-export const ListSkus: API.OperationMethod<
+export const ListSkus: API.PaginatedOperationMethod<
   ListSkusRequest,
   SkuDescriptionList,
   ListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(1465, __c91, 9) as any as S.Schema<SkuDescriptionList>,
   errors: [UnknownAzureError],
@@ -4589,7 +4782,13 @@ export const ListSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ManagedPrivateEndpointsCreateOrUpdateError = AzureOpError;
 /** Creates a managed private endpoint. */
@@ -5191,7 +5390,7 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(65, __c4, 1)),
+          value: __S(65, __c4, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LanguageExtensionsList" });
@@ -5387,12 +5586,14 @@ function __c22(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ClustersListFollowerDatabasesGetRequest" });
@@ -5977,7 +6178,7 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(561, __c35, 1)),
+          value: __S(561, __c35, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabasePrincipalListResult" });
@@ -6862,12 +7063,14 @@ function __c79(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAttachedDatabaseConfigurationByClusterRequest" });
@@ -6876,7 +7079,7 @@ function __c79(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1265, __c79, 1)),
+          value: __S(1265, __c79, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachedDatabaseConfigurationListResult" });
@@ -6889,12 +7092,14 @@ function __c80(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -6907,7 +7112,7 @@ function __c81(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1296, __c81, 0)),
+          value: __S(1296, __c81, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterListResult" });
@@ -6921,12 +7126,14 @@ function __c82(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listCalloutPolicies",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterCalloutPoliciesRequest" });
@@ -6947,12 +7154,14 @@ function __c83(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterFollowerDatabasesRequest" });
@@ -6961,7 +7170,7 @@ function __c83(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1329, __c83, 1)),
+          value: __S(1329, __c83, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FollowerDatabaseListResult" });
@@ -6975,12 +7184,14 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterLanguageExtensionsRequest" });
@@ -7014,12 +7225,14 @@ function __c86(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/outboundNetworkDependenciesEndpoints",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterOutboundNetworkDependenciesEndpointsRequest" });
@@ -7079,12 +7292,14 @@ function __c87(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterPrincipalAssignmentsRequest" });
@@ -7097,7 +7312,7 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1408, __c88, 0)),
+          value: __S(1408, __c88, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterPrincipalAssignmentListResult" });
@@ -7109,12 +7324,14 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/clusters",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClustersRequest" });
@@ -7126,12 +7343,14 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/skus",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterSkusRequest" });
@@ -7185,7 +7404,7 @@ function __c91(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1464, __c91, 8)),
+          value: __S(1464, __c91, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuDescriptionList" });
@@ -7199,12 +7418,14 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/skus",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterSkusByResourceRequest" });
@@ -7230,7 +7451,7 @@ function __c92(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1475, __c92, 3)),
+          value: __S(1475, __c92, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceSkusResult" });
@@ -7246,12 +7467,14 @@ function __c93(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseByClusterRequest" });
@@ -7275,12 +7498,14 @@ function __c94(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/principalAssignments",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatabasePrincipalAssignmentsRequest" });
@@ -7295,12 +7520,14 @@ function __c95(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/listPrincipals",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatabasePrincipalsRequest" });
@@ -7315,12 +7542,14 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataConnectionByDatabaseRequest" });
@@ -7329,7 +7558,7 @@ function __c96(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1537, __c96, 1)),
+          value: __S(1537, __c96, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataConnectionListResult" });
@@ -7343,12 +7572,14 @@ function __c97(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedPrivateEndpointsRequest" });
@@ -7357,7 +7588,7 @@ function __c97(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1553, __c97, 1)),
+          value: __S(1553, __c97, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedPrivateEndpointListResult" });
@@ -7388,12 +7619,15 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Kusto/operations",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7420,7 +7654,7 @@ function __c99(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1587, __c99, 3)),
+          value: __S(1587, __c99, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -7434,19 +7668,21 @@ function __c100(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(288, __c18, 0)),
+          value: __S(288, __c18, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -7460,12 +7696,14 @@ function __c101(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateLinkResources",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -7474,7 +7712,7 @@ function __c101(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1617, __c101, 1)),
+          value: __S(1617, __c101, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -7488,12 +7726,14 @@ function __c102(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSandboxCustomImageByClusterRequest" });
@@ -7517,12 +7757,14 @@ function __c103(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScriptByDatabaseRequest" });
@@ -7531,7 +7773,7 @@ function __c103(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1649, __c103, 1)),
+          value: __S(1649, __c103, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScriptListResult" });
@@ -7544,12 +7786,14 @@ function __c104(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/skus",
             code: 200,
             apiVersion: "2025-02-14",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusRequest" });
