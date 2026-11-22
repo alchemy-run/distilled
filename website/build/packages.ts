@@ -75,6 +75,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "daytona",
       "e2b",
       "steel",
+      "browserbase",
       "boat-dev",
       "boxd",
       "coolify",
@@ -90,6 +91,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "netbird",
       "technitium",
       "proxmox",
+      "mux",
     ],
   ],
   [
@@ -105,6 +107,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "starburst-galaxy",
       "turso",
       "clickhouse-cloud",
+      "tinybird",
       "convex",
       "xata",
       "mongodb-atlas",
@@ -138,6 +141,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "whop",
       "gusto",
       "revenuecat",
+      "mollie",
     ],
   ],
   [
@@ -156,7 +160,17 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Messaging & support",
-    ["slack", "discord", "resend", "intercom", "zendesk", "customerio", "mailchimp"],
+    [
+      "slack",
+      "discord",
+      "twitch",
+      "resend",
+      "whatsapp",
+      "intercom",
+      "zendesk",
+      "customerio",
+      "mailchimp",
+    ],
   ],
   [
     "Developer tools",
@@ -184,6 +198,9 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
 
 /** Extra words the catalogue filter matches on, keyed by `packages/<dir>`. */
 export const SEARCH_HINTS: Record<string, string> = {
+  mux: "video streaming live hls playback analytics",
+  twitch: "helix live streaming chat eventsub clips moderation",
+  whatsapp: "meta messaging cloud api business templates chat",
   neon: "postgres serverless",
   supabase: "postgres auth storage",
   planetscale: "mysql postgres",
@@ -194,6 +211,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   "starburst-galaxy": "trino sql query engine data lake",
   turso: "sqlite libsql",
   "clickhouse-cloud": "olap analytics clickpipes clickstack postgres",
+  tinybird: "clickhouse olap analytics real-time events api endpoints",
   hydradb: "ai agent memory context retrieval rag knowledge graph",
   convex: "reactive backend database functions",
   xata: "postgres",
@@ -226,6 +244,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   stripe: "payments billing",
   adyen: "payments",
   paypal: "payments",
+  mollie: "payments checkout refunds ideal",
   plaid: "banking",
   coinbase: "crypto",
   coinflow: "payments payouts checkout stablecoin crypto",
@@ -260,6 +279,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   daytona: "sandboxes dev environments",
   e2b: "sandboxes agents code interpreter firecracker",
   steel: "headless browsers agents scraping captcha",
+  browserbase: "headless browsers agents scraping stagehand playwright",
   "boat-dev": "sandboxes agents ascii",
   boxd: "sandboxes agents microvms linux machines",
   celld: "workers runtime nodes",

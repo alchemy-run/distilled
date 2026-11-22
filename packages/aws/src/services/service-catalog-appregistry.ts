@@ -175,7 +175,7 @@ export interface CreateApplicationRequest {
   name: string;
   description?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export type ApplicationId = string;
 export type ApplicationTagDefinition = { [key: string]: string | undefined };
@@ -198,7 +198,7 @@ export interface CreateAttributeGroupRequest {
   description?: string | undefined;
   attributes: string;
   tags?: { [key: string]: string | undefined } | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export type AttributeGroupId = string;
 export interface AttributeGroup {
@@ -1943,7 +1943,7 @@ function __c30(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           tags: S.optional(__S(256, __c32, 0)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules),
         ),
@@ -1986,7 +1986,7 @@ function __c33(j: number): any {
           description: S.optional(S.String),
           attributes: S.String,
           tags: S.optional(__S(256, __c32, 0)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/attribute-groups" }), svc, auth, proto, ver, rules),
         ),

@@ -236,7 +236,7 @@ export interface JobTemplateData {
 export type KmsKeyArn = string;
 export interface CreateJobTemplateRequest {
   name: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   jobTemplateData: JobTemplateData;
   tags?: { [key: string]: string | undefined } | undefined;
   kmsKeyArn?: string | undefined;
@@ -293,7 +293,7 @@ export interface CreateManagedEndpointRequest {
   executionRoleArn: string;
   certificateArn?: string | undefined;
   configurationOverrides?: ConfigurationOverrides | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   sessionIdleTimeoutInMinutes?: number | undefined;
 }
@@ -365,7 +365,7 @@ export interface SecurityConfigurationData {
   authenticationConfiguration?: AuthenticationConfiguration | undefined;
 }
 export interface CreateSecurityConfigurationRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   name: string;
   containerProvider?: ContainerProvider | undefined;
   securityConfigurationData: SecurityConfigurationData;
@@ -386,7 +386,7 @@ export interface SchedulerConfiguration {
 export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
-  clientToken: string;
+  clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   securityConfigurationId?: string | undefined;
   sessionEnabled?: boolean | undefined;
@@ -680,7 +680,7 @@ export type TemplateParameterInputMap = { [key: string]: string | undefined };
 export interface StartJobRunRequest {
   name?: string | undefined;
   virtualClusterId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn?: string | undefined;
   releaseLabel?: string | undefined;
   jobDriver?: JobDriver | undefined;
@@ -710,7 +710,7 @@ export interface UntagResourceResponse {}
 export interface UpdateVirtualClusterRequest {
   id: string;
   schedulerConfiguration?: SchedulerConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateVirtualClusterResponse {
   virtualCluster?: VirtualCluster | undefined;
@@ -1533,7 +1533,7 @@ function __c0(j: number): any {
           executionRoleArn: S.String,
           certificateArn: S.optional(S.String),
           configurationOverrides: S.optional(__S(632, __c39, 8)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(624, __c39, 0)),
           sessionIdleTimeoutInMinutes: S.optional(S.Number),
         }).pipe(
@@ -1567,7 +1567,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           name: S.String,
           containerProvider: S.optional(__S(66, __c4, 2)),
           securityConfigurationData: __S(89, __c5, 9),
@@ -1684,7 +1684,7 @@ function __c6(j: number): any {
         S.Struct({
           name: S.String,
           containerProvider: __S(66, __c4, 2),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(624, __c39, 0)),
           securityConfigurationId: S.optional(S.String),
           sessionEnabled: S.optional(S.Boolean),
@@ -2230,7 +2230,7 @@ function __c32(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.optional(S.String),
           releaseLabel: S.optional(S.String),
           jobDriver: S.optional(__S(659, __c41, 3)),
@@ -2305,7 +2305,7 @@ function __c36(j: number): any {
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
           schedulerConfiguration: S.optional(__S(112, __c7, 0)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/virtualclusters/{id}" }),
@@ -2441,7 +2441,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           jobTemplateData: __S(678, __c42, 6),
           tags: S.optional(__S(624, __c39, 0)),
           kmsKeyArn: S.optional(S.String),

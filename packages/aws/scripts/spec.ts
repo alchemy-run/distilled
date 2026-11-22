@@ -1511,7 +1511,13 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     const hasClientOptional = traits["smithy.api#clientOptional"] != null;
     const hasRequired = traits["smithy.api#required"] != null;
     const isSoftRequired = hasClientOptional && hasRequired;
-    const isOptional = hasClientOptional || !hasRequired;
+    // An operation input's idempotency token is optional even when the
+    // model requires it: core fills a missing one on every call (as the AWS
+    // SDK for JavaScript does).
+    const isOptional =
+      hasClientOptional ||
+      !hasRequired ||
+      (ctx.isOperationInput && traits["smithy.api#idempotencyToken"] != null);
     if (isOptional) {
       schema = `S.optional(${schema})`;
     }

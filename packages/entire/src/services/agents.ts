@@ -273,7 +273,7 @@ export interface CreateProjectAgentRequest {
   /** Canonical public project name. */
   project: string;
   /** Required. Reuse it, with the same body, to retry this create: the retry returns the configuration the first attempt saved instead of saving another. The same key with a different body returns 409. Scoped to the caller, project and resource; it does not expire. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Free-form description. */
   description?: string | undefined;
   environment?: CreateProjectAgentRequestEnvironment | undefined;
@@ -1854,7 +1854,9 @@ function __c18(j: number): any {
         S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           description: S.optional(S.String),
           environment: S.optional(__S(288, __c18, 0)),
           environment_id: S.optional(S.String),

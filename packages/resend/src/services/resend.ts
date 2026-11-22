@@ -9673,7 +9673,9 @@ function __c62(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           thread_id: S.String.pipe(T.Label()),
           email_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),
           html: S.optional(S.String),
@@ -9818,7 +9820,9 @@ function __c68(j: number): any {
         S.Struct({
           inbox_id: S.String.pipe(T.Label()),
           draft_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           headers: S.optional(S.NullOr(__S(1984, __c124, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts/{draft_id}/send", code: 200 }),
@@ -10599,7 +10603,9 @@ function __c121(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           from: S.String,
           to: S.Unknown,
           subject: S.String,
@@ -10694,7 +10700,9 @@ function __c125(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           body: S.optional(__S(2003, __c125, 3).pipe(T.HttpBody())),
           batchValidation: S.optional(S.String.pipe(T.Header("x-batch-validation"))),
         }).pipe(T.Http({ method: "POST", uri: "/emails/batch", code: 200 })),
@@ -10755,7 +10763,9 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inbox_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           to: S.optional(S.NullOr(S.Unknown)),
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),
@@ -11155,7 +11165,9 @@ function __c160(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           thread_id: S.String.pipe(T.Label()),
           email_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           to: S.Unknown,
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),

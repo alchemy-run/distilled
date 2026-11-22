@@ -235,7 +235,7 @@ export interface CreateOutput {
 export type CreateOutputList = CreateOutput[];
 export interface AssociateFeedRequest {
   id: string;
-  associatedResourceName: string;
+  associatedResourceName?: string | undefined;
   outputs: CreateOutput[];
   dryRun?: boolean | undefined;
 }
@@ -394,7 +394,7 @@ export interface DeleteScheduleActionResponse {
 }
 export interface DisassociateFeedRequest {
   id: string;
-  associatedResourceName: string;
+  associatedResourceName?: string | undefined;
   dryRun?: boolean | undefined;
 }
 export interface DisassociateFeedResponse {
@@ -1724,7 +1724,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
-          associatedResourceName: S.String.pipe(T.IdempotencyToken()),
+          associatedResourceName: S.optional(S.String).pipe(T.IdempotencyToken()),
           dryRun: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -2079,7 +2079,7 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
-          associatedResourceName: S.String.pipe(T.IdempotencyToken()),
+          associatedResourceName: S.optional(S.String).pipe(T.IdempotencyToken()),
           outputs: __S(529, __c33, 1),
           dryRun: S.optional(S.Boolean),
         }).pipe(

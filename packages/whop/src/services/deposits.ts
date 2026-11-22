@@ -231,7 +231,9 @@ function __c1(j: number): any {
         S.Struct({
           amount: S.optional(S.Number),
           destination: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/deposits", code: 200 })),
       ).annotate({ identifier: "CreateDepositRequest" });
     case 1:

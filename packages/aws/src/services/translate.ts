@@ -224,7 +224,7 @@ export interface CreateParallelDataRequest {
   Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
   EncryptionKey?: EncryptionKey | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ParallelDataStatus =
@@ -475,7 +475,7 @@ export interface StartTextTranslationJobRequest {
   TargetLanguageCodes: string[];
   TerminologyNames?: string[] | undefined;
   ParallelDataNames?: string[] | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Settings?: TranslationSettings | undefined;
 }
 export interface StartTextTranslationJobResponse {
@@ -553,7 +553,7 @@ export interface UpdateParallelDataRequest {
   Name: string;
   Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateParallelDataResponse {
   Name?: string | undefined;
@@ -1240,7 +1240,7 @@ function __c0(j: number): any {
           Description: S.optional(S.String),
           ParallelDataConfig: __S(12, __c3, 0),
           EncryptionKey: S.optional(__S(8, __c2, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(17, __c4, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateParallelDataRequest" });
@@ -1623,7 +1623,7 @@ function __c24(j: number): any {
           TargetLanguageCodes: __S(36, __c9, 0),
           TerminologyNames: S.optional(__S(36, __c9, 0)),
           ParallelDataNames: S.optional(__S(36, __c9, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Settings: S.optional(__S(48, __c12, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartTextTranslationJobRequest" });
@@ -1747,7 +1747,7 @@ function __c32(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           ParallelDataConfig: __S(12, __c3, 0),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateParallelDataRequest" });
     case 1:

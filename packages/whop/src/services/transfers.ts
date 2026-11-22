@@ -628,7 +628,9 @@ function __c1(j: number): any {
           origin_id: S.String,
           redeemable_count: S.optional(S.Number),
           type: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/transfers", code: 200 })),
       ).annotate({ identifier: "CreateTransferRequest" });
     case 1:

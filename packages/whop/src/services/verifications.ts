@@ -1063,7 +1063,9 @@ function __c1(j: number): any {
           account_id: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/verifications", code: 200 })),
       ).annotate({ identifier: "CreateVerificationRequest" });
   }

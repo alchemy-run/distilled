@@ -1233,7 +1233,9 @@ function __c3(j: number): any {
           regenerate_ids: S.optional(S.Boolean),
           sent_after: S.String,
           sent_before: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/{id}/replay", code: 200 })),
       ).annotate({ identifier: "ReplayWebhookRequest" });
     case 2:
@@ -1252,7 +1254,9 @@ function __c4(j: number): any {
           id: S.String.pipe(T.Label()),
           delivery_id: S.String.pipe(T.Label()),
           regenerate_id: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1278,7 +1282,9 @@ function __c5(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           event: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/{id}/test", code: 200 })),
       ).annotate({ identifier: "TestWebhookRequest" });
     case 1:
@@ -1317,7 +1323,9 @@ function __c7(j: number): any {
           events: S.optional(__S(64, __c8, 0)),
           resource_id: S.optional(S.NullOr(S.String)),
           url: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }

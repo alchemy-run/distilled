@@ -1055,7 +1055,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/promo_codes/{id}/activate", code: 200 })),
       ).annotate({ identifier: "ActivatePromoCodeRequest" });
   }
@@ -1121,7 +1123,9 @@ function __c7(j: number): any {
           promo_type: S.String,
           stock: S.optional(S.NullOr(S.Number)),
           unlimited_stock: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/promo_codes", code: 200 })),
       ).annotate({ identifier: "CreatePromoCodeRequest" });
   }
@@ -1138,7 +1142,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/promo_codes/{id}/deactivate", code: 200 })),
       ).annotate({ identifier: "DeactivatePromoCodeRequest" });
   }

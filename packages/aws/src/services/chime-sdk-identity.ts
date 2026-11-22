@@ -207,7 +207,7 @@ export type TagList = Tag[];
 export interface CreateAppInstanceRequest {
   Name: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string> | undefined;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ChimeArn = string;
@@ -250,7 +250,7 @@ export interface CreateAppInstanceBotRequest {
   AppInstanceArn: string;
   Name?: string | redacted.Redacted<string> | undefined;
   Metadata?: string | redacted.Redacted<string> | undefined;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Tags?: Tag[] | undefined;
   Configuration: Configuration;
 }
@@ -270,7 +270,7 @@ export interface CreateAppInstanceUserRequest {
   AppInstanceUserId: string | redacted.Redacted<string>;
   Name: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string> | undefined;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Tags?: Tag[] | undefined;
   ExpirationSettings?: ExpirationSettings | undefined;
 }
@@ -510,7 +510,7 @@ export interface RegisterAppInstanceUserEndpointRequest {
   Type: AppInstanceUserEndpointType;
   ResourceArn: string;
   EndpointAttributes: EndpointAttributes;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   AllowMessages?: AllowMessages | undefined;
 }
 export interface RegisterAppInstanceUserEndpointResponse {
@@ -1788,7 +1788,7 @@ function __c2(j: number): any {
           AppInstanceArn: S.String,
           Name: S.optional(SensitiveString),
           Metadata: S.optional(SensitiveString),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(161, __c40, 1)),
           Configuration: __S(14, __c3, 2),
         }).pipe(
@@ -1843,7 +1843,7 @@ function __c5(j: number): any {
           AppInstanceUserId: SensitiveString,
           Name: SensitiveString,
           Metadata: S.optional(SensitiveString),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(161, __c40, 1)),
           ExpirationSettings: S.optional(__S(24, __c6, 0)),
         }).pipe(
@@ -2453,7 +2453,7 @@ function __c31(j: number): any {
           Type: S.String,
           ResourceArn: S.String,
           EndpointAttributes: __S(80, __c20, 0),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           AllowMessages: S.optional(S.String),
         }).pipe(
           T.all(
@@ -2608,7 +2608,7 @@ function __c39(j: number): any {
         S.Struct({
           Name: SensitiveString,
           Metadata: S.optional(SensitiveString),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(161, __c40, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/app-instances" }), svc, auth, proto, ver, rules),

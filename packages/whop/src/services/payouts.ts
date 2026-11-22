@@ -449,7 +449,7 @@ export interface CreatePayoutQuoteRequest {
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
   user_id?: string | undefined;
   /** A unique key that makes this quote request safe to retry. */
-  idempotency_key: string;
+  idempotency_key?: string | undefined;
 }
 export interface Money {
   /** The amount in major units, as an exact decimal string -- `"10.00"` is ten dollars. A string so no float rounds it in transit. */
@@ -1706,7 +1706,9 @@ function __c7(j: number): any {
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payouts/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelPayoutRequest" });
   }
@@ -1791,7 +1793,9 @@ function __c10(j: number): any {
           speed: S.optional(S.String),
           statement_descriptor: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payouts", code: 200 })),
       ).annotate({ identifier: "CreatePayoutRequest" });
   }
@@ -1808,7 +1812,9 @@ function __c11(j: number): any {
           nickname: S.optional(S.String),
           supported_payout_method_id: S.String,
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payouts/methods", code: 200 })),
       ).annotate({ identifier: "CreatePayoutMethodRequest" });
     case 1:
@@ -1864,7 +1870,9 @@ function __c12(j: number): any {
           speed: S.optional(S.String),
           statement_descriptor: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.String),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payouts/quotes", code: 200 })),
       ).annotate({ identifier: "CreatePayoutQuoteRequest" });
     case 1:

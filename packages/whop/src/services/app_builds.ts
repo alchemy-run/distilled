@@ -342,7 +342,9 @@ function __c1(j: number): any {
           platform: S.String,
           source_attachment: S.optional(__S(4, __c1, 0)),
           supported_app_view_types: S.optional(__S(8, __c2, 0)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/app_builds", code: 200 })),
       ).annotate({ identifier: "CreateAppBuildRequest" });
   }
@@ -420,7 +422,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/app_builds/{id}/promote", code: 200 })),
       ).annotate({ identifier: "PromoteAppBuildRequest" });
   }

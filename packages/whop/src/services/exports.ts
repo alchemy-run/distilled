@@ -377,7 +377,9 @@ function __c1(j: number): any {
           filters: S.optional(S.Unknown),
           resource: S.String,
           timezone: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/exports", code: 200 })),
       ).annotate({ identifier: "CreateExportRequest" });
   }

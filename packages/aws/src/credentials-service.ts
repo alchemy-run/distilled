@@ -14,6 +14,7 @@ import type { HttpClientError } from "effect/http/HttpClientError";
 import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
+import * as Semaphore from "effect/Semaphore";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
 import { MissingRegion, fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
@@ -123,24 +124,33 @@ const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 /**
  * Create a credentials effect with lazy resolution and expiration-aware caching.
- * Uses Effect.cachedWithTTL where the TTL is computed from the credentials' expiration.
+ * Credentials are reused until five minutes before they expire, and
+ * concurrent calls on a cold or stale cache share one resolution. Credentials
+ * without an expiration are not cached: they are resolved again on every
+ * call, without the lock.
  */
 export const createCachedCredentialsEffect = <E, R>(
   resolve: Effect.Effect<ResolvedCredentials, E, R>,
 ): Effect.Effect<ResolvedCredentials, E, R> => {
+  const lock = Semaphore.makeUnsafe(1);
   let cachedCreds: ResolvedCredentials | undefined;
   let expiresAt: number | undefined;
+  const fresh = () =>
+    cachedCreds !== undefined && expiresAt !== undefined && Date.now() < expiresAt;
+
+  const resolveAndCache = Effect.map(resolve, (creds) => {
+    cachedCreds = creds;
+    expiresAt = creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined;
+    return creds;
+  });
 
   return Effect.suspend(() => {
-    const now = Date.now();
-    if (cachedCreds && expiresAt && now < expiresAt) {
-      return Effect.succeed(cachedCreds);
-    }
-    return Effect.map(resolve, (creds) => {
-      cachedCreds = creds;
-      expiresAt = creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined;
-      return creds;
-    });
+    if (fresh()) return Effect.succeed(cachedCreds!);
+    if (cachedCreds !== undefined && expiresAt === undefined) return resolveAndCache;
+    return Semaphore.withPermit(
+      lock,
+      Effect.suspend(() => (fresh() ? Effect.succeed(cachedCreds!) : resolveAndCache)),
+    );
   });
 };
 

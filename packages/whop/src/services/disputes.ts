@@ -1512,7 +1512,9 @@ function __c5(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           documents: __S(97, __c3, 1),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/upload_evidence", code: 200 })),
       ).annotate({ identifier: "UploadDisputeEvidenceRequest" });
   }
@@ -1812,7 +1814,9 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/submit", code: 200 })),
       ).annotate({ identifier: "SubmitDisputeRequest" });
   }

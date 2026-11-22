@@ -1,0 +1,36 @@
+{
+  "description": "Expose FormIdentifierExists for HTTP 422 responses whose errors[0].code is form_identifier_exists on CreateEnterpriseConnection and UpdateEnterpriseConnection. Enterprise connection names are unique across a Clerk instance, and a create or update that reuses one fails with 422 { errors: [{ code: \"form_identifier_exists\", meta: { param_name: \"name\" } }] }, the envelope Clerk's Backend API error catalogue documents for form_identifier_exists (https://clerk.com/docs/guides/development/errors/backend-api). The spec only declares a generic 422, so the code a caller needs to recover (pick another name) is lost: the REST protocol keeps a numeric code only. Follows the body-matcher approach of platform/resource-not-found.patch.json (#702 guidance). Generic UnprocessableEntity stays the fallback for other 422 bodies. Not yet confirmed with a live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.api#FormIdentifierExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The identifier is already taken, e.g. an enterprise connection name in use elsewhere on the instance (Clerk form_identifier_exists, HTTP 422).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/errors/0/code": "form_identifier_exists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.api#CreateEnterpriseConnection/errors/-",
+      "value": { "target": "com.clerk.api#FormIdentifierExists" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.api#UpdateEnterpriseConnection/errors/-",
+      "value": { "target": "com.clerk.api#FormIdentifierExists" }
+    }
+  ]
+}

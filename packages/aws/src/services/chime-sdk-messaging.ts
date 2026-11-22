@@ -282,7 +282,7 @@ export interface ChannelMessageCallback {
   ContentType?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelFlowCallbackRequest {
-  CallbackId: string;
+  CallbackId?: string | undefined;
   ChannelArn: string;
   DeleteResource?: boolean | undefined;
   ChannelMessage: ChannelMessageCallback;
@@ -325,7 +325,7 @@ export interface CreateChannelRequest {
   Mode?: ChannelMode | undefined;
   Privacy?: ChannelPrivacy | undefined;
   Metadata?: string | redacted.Redacted<string> | undefined;
-  ClientRequestToken: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
   Tags?: Tag[] | undefined;
   ChimeBearer: string;
   ChannelId?: string | redacted.Redacted<string> | undefined;
@@ -369,7 +369,7 @@ export interface CreateChannelFlowRequest {
   Processors: Processor[];
   Name: string | redacted.Redacted<string>;
   Tags?: Tag[] | undefined;
-  ClientRequestToken: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateChannelFlowResponse {
   ChannelFlowArn?: string | undefined;
@@ -884,7 +884,7 @@ export interface SendChannelMessageRequest {
   Type: ChannelMessageType;
   Persistence: ChannelMessagePersistenceType;
   Metadata?: string | redacted.Redacted<string> | undefined;
-  ClientRequestToken: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
   PushNotification?: PushNotificationConfiguration | undefined;
   MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
@@ -3247,7 +3247,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CallbackId: S.String.pipe(T.IdempotencyToken()),
+          CallbackId: S.optional(S.String).pipe(T.IdempotencyToken()),
           ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
           DeleteResource: S.optional(S.Boolean),
           ChannelMessage: __S(24, __c3, 0),
@@ -3309,7 +3309,7 @@ function __c7(j: number): any {
           Mode: S.optional(S.String),
           Privacy: S.optional(S.String),
           Metadata: S.optional(SensitiveString),
-          ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(65, __c8, 1)),
           ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
           ChannelId: S.optional(SensitiveString),
@@ -3393,7 +3393,7 @@ function __c13(j: number): any {
           Processors: __S(115, __c14, 3),
           Name: SensitiveString,
           Tags: S.optional(__S(65, __c8, 1)),
-          ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/channel-flows" }), svc, auth, proto, ver, rules),
         ),
@@ -4660,7 +4660,7 @@ function __c63(j: number): any {
           Type: S.String,
           Persistence: S.String,
           Metadata: S.optional(SensitiveString),
-          ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
           ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
           PushNotification: S.optional(__S(48, __c6, 0)),
           MessageAttributes: S.optional(__S(33, __c4, 1)),

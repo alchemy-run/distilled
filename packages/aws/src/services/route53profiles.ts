@@ -210,7 +210,7 @@ export interface AssociateResourceToProfileResponse {
 export type CreatorRequestId = string;
 export interface CreateProfileRequest {
   Name: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
@@ -1091,7 +1091,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(5, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/profile" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProfileRequest" });

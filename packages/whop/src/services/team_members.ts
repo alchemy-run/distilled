@@ -387,7 +387,9 @@ function __c1(j: number): any {
           email: S.optional(S.String),
           role: S.String,
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/team_members", code: 200 })),
       ).annotate({ identifier: "CreateTeamMemberRequest" });
   }

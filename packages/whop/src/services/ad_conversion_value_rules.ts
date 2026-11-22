@@ -483,7 +483,9 @@ function __c1(j: number): any {
           replace_rule_ids: S.optional(__S(28, __c3, 4)),
           status: S.optional(S.String),
           targets: __S(30, __c3, 6),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/ad_conversion_value_rules", code: 200 })),
       ).annotate({ identifier: "CreateAdConversionValueRuleRequest" });
   }
@@ -641,7 +643,9 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/ad_conversion_value_rules/{id}/pause", code: 200 }),
         ),
@@ -654,7 +658,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/ad_conversion_value_rules/{id}/unpause", code: 200 }),
         ),

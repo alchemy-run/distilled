@@ -2,10 +2,12 @@
  * Request Builder - wraps Protocol and Middleware to build complete requests.
  *
  * This layer:
- * 1. Fills in idempotency tokens with generated UUIDs if not provided
- * 2. Uses the Protocol to serialize the input into a Request
- * 3. Applies middleware (e.g., checksum computation, streaming body handling)
- * 4. Adds common headers
+ * 1. Uses the Protocol to serialize the input into a Request
+ * 2. Applies middleware (e.g., checksum computation, streaming body handling)
+ * 3. Adds common headers
+ *
+ * Core fills missing idempotency tokens before the input gets here, once
+ * per call (`@distilled.cloud/core/api`).
  *
  * This is independently testable without making HTTP requests.
  */
@@ -19,14 +21,13 @@ import {
   makeStreamingBodyMiddleware,
 } from "../middleware/streaming-body.ts";
 import { getMiddleware } from "../traits.ts";
-import { fillIdempotencyTokens, findIdempotencyTokenProps } from "./generate-idempotency-tokens.ts";
 import type { Operation } from "./operation.ts";
 import { serializeEffect, type ProtocolHandler } from "./protocol.ts";
 import type { Request } from "./request.ts";
 
 /**
  * Create a request builder for a given operation and its (loaded) protocol
- * handler: fills idempotency tokens, serializes, applies middleware
+ * handler: serializes, applies middleware
  * (checksums, streaming bodies) and adds the common headers.
  *
  * Operations without middleware or a streaming payload build the request
@@ -42,9 +43,7 @@ export const makeRequestBuilder = (
 ): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput | SdkError>) => {
   const inputSchema = operation.input;
   const middleware = getMiddleware(inputSchema.ast);
-  const idempotencyTokenProps = findIdempotencyTokenProps(inputSchema);
-  const serialize = (input: unknown) =>
-    protocol.serialize(fillIdempotencyTokens(input, idempotencyTokenProps));
+  const serialize = (input: unknown) => protocol.serialize(input);
   if (!middleware.length && !getStreamingPayloadInfo(inputSchema.ast).hasStreamingPayload) {
     return (input) => {
       const request = serialize(input);

@@ -8781,7 +8781,7 @@ export interface StartContactStreamingRequest {
   InstanceId: string;
   ContactId: string;
   ChatStreamingConfiguration: ChatStreamingConfiguration;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface StartContactStreamingResponse {
   StreamingId: string;
@@ -36354,7 +36354,7 @@ function __c311(j: number): any {
           InstanceId: S.String,
           ContactId: S.String,
           ChatStreamingConfiguration: __S(9344, __c292, 0),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/contact/start-streaming" }),

@@ -192,7 +192,7 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface AssociateFirewallRuleGroupRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   FirewallRuleGroupId: string;
   VpcId: string;
   Priority: number;
@@ -486,7 +486,7 @@ export interface BatchUpdateFirewallRuleResponse {
   UpdateErrors?: BatchUpdateFirewallRuleError_[] | undefined;
 }
 export interface CreateFirewallDomainListRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Name: string;
   Tags?: Tag[] | undefined;
 }
@@ -517,7 +517,7 @@ export interface CreateFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface CreateFirewallRuleRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string | undefined;
   Priority: number;
@@ -537,7 +537,7 @@ export interface CreateFirewallRuleResponse {
   FirewallRule?: FirewallRule | undefined;
 }
 export interface CreateFirewallRuleGroupRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Name: string;
   Tags?: Tag[] | undefined;
 }
@@ -626,7 +626,7 @@ export type DestinationArn = string;
 export interface CreateResolverQueryLogConfigRequest {
   Name: string;
   DestinationArn: string;
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ResolverQueryLogConfigStatus =
@@ -4039,7 +4039,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           FirewallRuleGroupId: S.String,
           VpcId: S.String,
           Priority: S.Number,
@@ -4422,7 +4422,7 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4459,7 +4459,7 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           FirewallRuleGroupId: S.String,
           FirewallDomainListId: S.optional(S.String),
           Priority: S.Number,
@@ -4491,7 +4491,7 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4601,7 +4601,7 @@ function __c30(j: number): any {
         S.Struct({
           Name: S.String,
           DestinationArn: S.String,
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateResolverQueryLogConfigRequest" });

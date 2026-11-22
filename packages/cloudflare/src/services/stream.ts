@@ -2557,7 +2557,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           defaultCreator: S.optional(S.String),
           deleteRecordingAfterDays: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
