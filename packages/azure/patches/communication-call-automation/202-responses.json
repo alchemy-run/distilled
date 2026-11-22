@@ -1,0 +1,195 @@
+{
+  "description": "The converter drops HTTP 202 response bodies: add the spec's 202 schemas (AddParticipantResponse, TransferCallResponse, RemoveParticipantResponse, CancelAddParticipantResponse, MoveParticipantsResponse, SendDtmfTonesResult) as the outputs of their operations.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#MoveParticipantsResponseParticipantsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.communication_call_automation#CallParticipant"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#AddParticipantResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "participant": {
+            "target": "com.azure.communication_call_automation#CallParticipant",
+            "traits": {
+              "smithy.api#documentation": "The participant being invited."
+            }
+          },
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          },
+          "invitationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Invitation ID used to cancel the add participant action."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The AddCallConnectionParticipant response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionAddParticipant/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#AddParticipantResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#TransferCallResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The TransferCallConnectionToParticipant response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionTransferToParticipant/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#TransferCallResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#RemoveParticipantResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The RemoveCallConnectionParticipant response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionRemoveParticipant/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#RemoveParticipantResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#CancelAddParticipantResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "invitationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Invitation ID of the cancelled add participant action."
+            }
+          },
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The CallConnectionCancelAddParticipant response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionCancelAddParticipant/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#CancelAddParticipantResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#MoveParticipantsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "participants": {
+            "target": "com.azure.communication_call_automation#MoveParticipantsResponseParticipantsList",
+            "traits": {
+              "smithy.api#documentation": "The participants moved into the call."
+            }
+          },
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          },
+          "fromCall": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The call the participants moved from."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The MoveCallConnectionParticipants response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallConnectionMoveParticipants/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#MoveParticipantsResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_call_automation#SendDtmfTonesResult",
+      "value": {
+        "type": "structure",
+        "members": {
+          "operationContext": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The operation context passed with the request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The SendCallMediaDtmfTones response (HTTP 202 body)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_call_automation#CallMediaSendDtmfTones/output",
+      "value": {
+        "target": "com.azure.communication_call_automation#SendDtmfTonesResult"
+      }
+    }
+  ]
+}

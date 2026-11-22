@@ -1,0 +1,41 @@
+{
+  "description": "Get Map Tile, Get Map State Tile and Get Map Static Image answer image bytes (PNG/JPEG/vector tiles), but the converted model reads them as a string (or an untyped document), which decodes the image as UTF-8 text and corrupts it. Model the body as a blob payload so the client returns the raw bytes.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_render#RenderGetMapTileResponse/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The tile bytes, in the format the tileset serves (PNG, JPEG, or vector `pbf`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_render#RenderGetMapStateTileResponse/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The state tile bytes (vector `pbf`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.maps_render#RenderGetMapStaticImageResponse/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The image bytes (PNG)."
+        }
+      }
+    }
+  ]
+}

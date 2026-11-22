@@ -151,6 +151,8 @@ export interface ListGraphQueryRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GraphQueryResourceTagsMap = { [key: string]: string | undefined };
@@ -185,8 +187,13 @@ export interface GraphQueryListResult {
 export interface ListGraphQueryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Resource Graph. */
@@ -433,12 +440,13 @@ export const GraphQueryCreateOrUpdate: API.OperationMethod<
 
 export type ListGraphQueryError = AzureOpError;
 /** Get all graph queries defined within a specified subscription and resource group. */
-export const ListGraphQuery: API.OperationMethod<
+export const ListGraphQuery: API.PaginatedOperationMethod<
   ListGraphQueryRequest,
   GraphQueryListResult,
   ListGraphQueryError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GraphQueryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListGraphQueryRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<GraphQueryListResult>,
   errors: [UnknownAzureError],
@@ -446,16 +454,23 @@ export const ListGraphQuery: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGraphQuery",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGraphQueryBySubscriptionError = AzureOpError;
 /** Get all graph queries defined within a specified subscription. */
-export const ListGraphQueryBySubscription: API.OperationMethod<
+export const ListGraphQueryBySubscription: API.PaginatedOperationMethod<
   ListGraphQueryBySubscriptionRequest,
   GraphQueryListResult,
   ListGraphQueryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GraphQueryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListGraphQueryBySubscriptionRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<GraphQueryListResult>,
   errors: [UnknownAzureError],
@@ -463,16 +478,23 @@ export const ListGraphQueryBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGraphQueryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -480,7 +502,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ResourcesError = AzureOpError;
 /** Queries the resources managed by Azure Resource Manager for scopes specified in the request. */
@@ -633,12 +661,14 @@ function __c4(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGraphQueryRequest" });
@@ -663,12 +693,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceGraph/queries",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGraphQueryBySubscriptionRequest" });
@@ -678,12 +710,15 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ResourceGraph/operations",
             code: 200,
             apiVersion: "2024-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });

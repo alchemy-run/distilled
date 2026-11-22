@@ -1,0 +1,72 @@
+{
+  "description": "PreFullRestoreOperation answers 202 with a RestoreOperation body (the spec 202 schema) next to the Azure-AsyncOperation header; the converter kept only the headers, which drops the jobId the status operation needs. Add the body members and the 202 status.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperation/traits/smithy.api#http/code",
+      "value": 202
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/status",
+      "value": {
+        "target": "com.azure.keyvault_administration#OperationStatus",
+        "traits": {
+          "smithy.api#documentation": "Status of the operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/statusDetails",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The status details of the operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/error",
+      "value": {
+        "target": "com.azure.keyvault_administration#Error",
+        "traits": {
+          "smithy.api#documentation": "Error encountered, if any, during the operation.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/startTime",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The start time of the operation in UTC"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/endTime",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The end time of the operation in UTC",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_administration#PreFullRestoreOperationResponse/members/jobId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Identifier for the operation."
+        }
+      }
+    }
+  ]
+}

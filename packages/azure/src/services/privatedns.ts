@@ -355,6 +355,8 @@ export interface ListPrivateZoneByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PrivateZoneTagsMap = { [key: string]: string | undefined };
@@ -391,6 +393,8 @@ export interface ListPrivateZonesRequest {
   subscriptionId: string;
   /** The maximum number of Private DNS zones to return. If not specified, returns up to 100 zones. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRecordSetByTypeRequestRecordType =
   | "A"
@@ -414,6 +418,8 @@ export interface ListRecordSetByTypeRequest {
   _top?: number | undefined;
   /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
   _recordsetnamesuffix?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone. */
 export interface RecordSet {
@@ -450,6 +456,8 @@ export interface ListRecordSetsRequest {
   _top?: number | undefined;
   /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
   _recordsetnamesuffix?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkLinksRequest {
   /** The ID of the target subscription. */
@@ -460,6 +468,8 @@ export interface ListVirtualNetworkLinksRequest {
   privateZoneName: string;
   /** The maximum number of virtual network links to return. If not specified, returns up to 100 virtual network links. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkLinkTagsMap = { [key: string]: string | undefined };
@@ -895,12 +905,13 @@ export const GetVirtualNetworkLink: API.OperationMethod<
 
 export type ListPrivateZoneByResourceGroupError = AzureOpError;
 /** Lists the Private DNS zones within a resource group. */
-export const ListPrivateZoneByResourceGroup: API.OperationMethod<
+export const ListPrivateZoneByResourceGroup: API.PaginatedOperationMethod<
   ListPrivateZoneByResourceGroupRequest,
   PrivateZoneListResult,
   ListPrivateZoneByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListPrivateZoneByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<PrivateZoneListResult>,
   errors: [UnknownAzureError],
@@ -908,16 +919,23 @@ export const ListPrivateZoneByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateZoneByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateZonesError = AzureOpError;
 /** Lists the Private DNS zones in all resource groups in a subscription. */
-export const ListPrivateZones: API.OperationMethod<
+export const ListPrivateZones: API.PaginatedOperationMethod<
   ListPrivateZonesRequest,
   PrivateZoneListResult,
   ListPrivateZonesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateZone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListPrivateZonesRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<PrivateZoneListResult>,
   errors: [UnknownAzureError],
@@ -925,16 +943,23 @@ export const ListPrivateZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateZones",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecordSetByTypeError = AzureOpError;
 /** Lists the record sets of a specified type in a Private DNS zone. */
-export const ListRecordSetByType: API.OperationMethod<
+export const ListRecordSetByType: API.PaginatedOperationMethod<
   ListRecordSetByTypeRequest,
   RecordSetListResult,
   ListRecordSetByTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecordSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListRecordSetByTypeRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<RecordSetListResult>,
   errors: [UnknownAzureError],
@@ -942,16 +967,23 @@ export const ListRecordSetByType: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecordSetByType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecordSetsError = AzureOpError;
 /** Lists all record sets in a Private DNS zone. */
-export const ListRecordSets: API.OperationMethod<
+export const ListRecordSets: API.PaginatedOperationMethod<
   ListRecordSetsRequest,
   RecordSetListResult,
   ListRecordSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecordSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListRecordSetsRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<RecordSetListResult>,
   errors: [UnknownAzureError],
@@ -959,16 +991,23 @@ export const ListRecordSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecordSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkLinksError = AzureOpError;
 /** Lists the virtual network links to the specified Private DNS zone. */
-export const ListVirtualNetworkLinks: API.OperationMethod<
+export const ListVirtualNetworkLinks: API.PaginatedOperationMethod<
   ListVirtualNetworkLinksRequest,
   VirtualNetworkLinkListResult,
   ListVirtualNetworkLinksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetworkLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListVirtualNetworkLinksRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<VirtualNetworkLinkListResult>,
   errors: [UnknownAzureError],
@@ -976,7 +1015,13 @@ export const ListVirtualNetworkLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkLinks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PrivateZonesCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone. */
@@ -1147,12 +1192,14 @@ function __c4(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           privateZoneName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkLinksRequest" });
@@ -1652,12 +1699,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateZoneByResourceGroupRequest" });
@@ -1683,12 +1732,14 @@ function __c26(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateDnsZones",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateZonesRequest" });
@@ -1705,12 +1756,14 @@ function __c27(j: number): any {
           recordType: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _recordsetnamesuffix: S.optional(S.String.pipe(T.Query("$recordsetnamesuffix"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecordSetByTypeRequest" });
@@ -1739,12 +1792,14 @@ function __c29(j: number): any {
           privateZoneName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _recordsetnamesuffix: S.optional(S.String.pipe(T.Query("$recordsetnamesuffix"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/aLL",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecordSetsRequest" });

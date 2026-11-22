@@ -3342,6 +3342,8 @@ export interface ListActivityByModuleRequest {
   automationAccountName: string;
   /** The module name. */
   moduleName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Activity items on this page */
 export type ActivityListResultValueList = Array<Activity>;
@@ -3355,6 +3357,8 @@ export interface ActivityListResult {
 export interface ListAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AutomationAccountTagsMap = { [key: string]: string | undefined };
@@ -3393,6 +3397,8 @@ export interface ListAutomationAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListAutomationAccountDeletedRunbooksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3401,6 +3407,8 @@ export interface ListAutomationAccountDeletedRunbooksRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the deleted runbook property. */
 export interface DeletedRunbookProperties {
@@ -3444,6 +3452,8 @@ export interface ListCertificateByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the certificate. */
 export interface Certificate {
@@ -3474,6 +3484,8 @@ export interface ListConnectionByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the connection. */
 export interface Connection {
@@ -3504,6 +3516,8 @@ export interface ListConnectionTypeByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the connection type. */
 export interface ConnectionType {
@@ -3534,6 +3548,8 @@ export interface ListCredentialByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the credential. */
 export interface Credential {
@@ -3607,6 +3623,8 @@ export interface ListDscConfigurationByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DscConfigurationTagsMap = { [key: string]: string | undefined };
@@ -3634,7 +3652,7 @@ export type DscConfigurationListResultValueList = Array<DscConfiguration>;
 /** The response model for the list configuration operation. */
 export interface DscConfigurationListResult {
   /** Gets or sets a list of configurations. */
-  value?: DscConfigurationListResultValueList | undefined;
+  value: DscConfigurationListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets the total number of configurations matching filter criteria. */
@@ -3655,6 +3673,8 @@ export interface ListDscNodeByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of a DscNode */
 export interface DscNode {
@@ -3674,7 +3694,7 @@ export type DscNodeListResultValueList = Array<DscNode>;
 /** The response model for the list dsc nodes operation. */
 export interface DscNodeListResult {
   /** Gets or sets a list of dsc nodes. */
-  value?: DscNodeListResultValueList | undefined;
+  value: DscNodeListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets the total number of nodes matching filter criteria. */
@@ -3695,6 +3715,8 @@ export interface ListDscNodeConfigurationByAutomationAccountRequest {
   _top?: number | undefined;
   /** Return total rows. */
   _inlinecount?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the dsc node configuration. */
 export interface DscNodeConfiguration {
@@ -3714,7 +3736,7 @@ export type DscNodeConfigurationListResultValueList = Array<DscNodeConfiguration
 /** The response model for the list job operation. */
 export interface DscNodeConfigurationListResult {
   /** Gets or sets a list of Dsc node configurations. */
-  value?: DscNodeConfigurationListResultValueList | undefined;
+  value: DscNodeConfigurationListResultValueList;
   /** Gets or sets the next link. */
   nextLink?: string | undefined;
   /** Gets or sets the total rows in query. */
@@ -3731,6 +3753,8 @@ export interface ListFieldByTypeRequest {
   moduleName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information about a field of a type. */
 export interface TypeField {
@@ -3744,7 +3768,7 @@ export type TypeFieldListResultValueList = Array<TypeField>;
 /** The response model for the list fields operation. */
 export interface TypeFieldListResult {
   /** Gets or sets a list of fields. */
-  value?: TypeFieldListResultValueList | undefined;
+  value: TypeFieldListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
@@ -3758,6 +3782,8 @@ export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
   hybridRunbookWorkerGroupName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerTagsMap = { [key: string]: string | undefined };
@@ -3796,6 +3822,8 @@ export interface ListHybridRunbookWorkerGroupByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerGroupTagsMap = { [key: string]: string | undefined };
@@ -3834,6 +3862,8 @@ export interface ListJobByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Job collection item properties. */
 export interface JobCollectionItemProperties {
@@ -3891,6 +3921,8 @@ export interface ListJobScheduleByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the job schedule. */
 export interface JobSchedule {
@@ -3925,6 +3957,8 @@ export interface ListJobStreamByJobRequest {
   jobName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The JobStream items on this page */
 export type JobStreamListResultValueList = Array<JobStream>;
@@ -3969,6 +4003,8 @@ export interface ListModuleByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ModuleTagsMap = { [key: string]: string | undefined };
@@ -4011,6 +4047,8 @@ export interface ListNodeReportByNodeRequest {
   nodeId: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The DscNodeReport items on this page */
 export type DscNodeReportListResultValueList = Array<DscNodeReport>;
@@ -4030,8 +4068,13 @@ export interface ListObjectDataTypeFieldsByTypeRequest {
   automationAccountName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Provider, Resource and Operation values */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Automation */
@@ -4127,6 +4170,8 @@ export interface ListPackageByRuntimeEnvironmentRequest {
   automationAccountName: string;
   /** The name of the Runtime Environment. */
   runtimeEnvironmentName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PackageTagsMap = { [key: string]: string | undefined };
@@ -4163,13 +4208,15 @@ export interface ListPrivateEndpointConnectionByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListPython2PackageByAutomationAccountRequest {
@@ -4179,6 +4226,8 @@ export interface ListPython2PackageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPython3PackageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4187,6 +4236,8 @@ export interface ListPython3PackageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRunbookByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4195,6 +4246,8 @@ export interface ListRunbookByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RunbookTagsMap = { [key: string]: string | undefined };
@@ -4233,6 +4286,8 @@ export interface ListRuntimeEnvironmentByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RuntimeEnvironmentTagsMap = { [key: string]: string | undefined };
@@ -4269,6 +4324,8 @@ export interface ListScheduleByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the schedule. */
 export interface Schedule {
@@ -4395,6 +4452,8 @@ export interface ListSourceControlByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the source control. */
 export interface SourceControl {
@@ -4429,6 +4488,8 @@ export interface ListSourceControlSyncJobByAutomationAccountRequest {
   sourceControlName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SourceControlSyncJob items on this page */
 export type SourceControlSyncJobListResultValueList = Array<SourceControlSyncJob>;
@@ -4452,6 +4513,8 @@ export interface ListSourceControlSyncJobStreamBySyncJobRequest {
   sourceControlSyncJobId: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of source control sync job stream properties. */
 export interface SourceControlSyncJobStreamProperties {
@@ -4489,6 +4552,8 @@ export interface ListStatisticsByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the statistic. */
 export interface Statistics {
@@ -4508,7 +4573,7 @@ export type StatisticsListResultValueList = Array<Statistics>;
 /** The response model for the list statistics operation. */
 export interface StatisticsListResult {
   /** Gets or sets a list of statistics. */
-  value?: StatisticsListResultValueList | undefined;
+  value: StatisticsListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListTestJobStreamByTestJobRequest {
@@ -4522,6 +4587,8 @@ export interface ListTestJobStreamByTestJobRequest {
   runbookName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListUsageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4530,6 +4597,8 @@ export interface ListUsageByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of usage counter name. */
 export interface UsageCounterName {
@@ -4558,7 +4627,7 @@ export type UsageListResultValueList = Array<Usage>;
 /** The response model for the get usage operation. */
 export interface UsageListResult {
   /** Gets or sets usage. */
-  value?: UsageListResultValueList | undefined;
+  value: UsageListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListVariableByAutomationAccountRequest {
@@ -4568,6 +4637,8 @@ export interface ListVariableByAutomationAccountRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the variable. */
 export interface Variable {
@@ -4600,6 +4671,8 @@ export interface ListWatcherByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherTagsMap = { [key: string]: string | undefined };
@@ -4640,6 +4713,8 @@ export interface ListWebhookByAutomationAccountRequest {
   automationAccountName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Definition of the webhook type. */
 export interface Webhook {
@@ -4732,6 +4807,8 @@ export interface ObjectDataTypesListFieldsByModuleAndTypeRequest {
   moduleName: string;
   /** The name of type. */
   typeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The parameters supplied to the create or update package properties. */
 export interface PackageCreateOrUpdateProperties {
@@ -4866,6 +4943,8 @@ export interface PrivateLinkResourcesAutomationRequest {
   resourceGroupName: string;
   /** The name of the automation account. */
   automationAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -4894,7 +4973,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   nextLink?: string | undefined;
 }
 export interface PublishRunbookRequest {
@@ -7544,12 +7623,13 @@ export const GetWebhook: API.OperationMethod<
 
 export type ListActivityByModuleError = AzureOpError;
 /** Retrieve a list of activities in the module identified by module name. */
-export const ListActivityByModule: API.OperationMethod<
+export const ListActivityByModule: API.PaginatedOperationMethod<
   ListActivityByModuleRequest,
   ActivityListResult,
   ListActivityByModuleError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Activity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<ListActivityByModuleRequest>,
   output: __S(3490, __c218, 2) as any as S.Schema<ActivityListResult>,
   errors: [UnknownAzureError],
@@ -7557,16 +7637,23 @@ export const ListActivityByModule: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActivityByModule",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountError = AzureOpError;
 /** Lists the Automation Accounts within an Azure subscription. Retrieve a list of accounts within a given subscription. */
-export const ListAutomationAccount: API.OperationMethod<
+export const ListAutomationAccount: API.PaginatedOperationMethod<
   ListAutomationAccountRequest,
   AutomationAccountListResult,
   ListAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutomationAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<ListAutomationAccountRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<AutomationAccountListResult>,
   errors: [UnknownAzureError],
@@ -7574,16 +7661,23 @@ export const ListAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountByResourceGroupError = AzureOpError;
 /** Retrieve a list of accounts within a given resource group. */
-export const ListAutomationAccountByResourceGroup: API.OperationMethod<
+export const ListAutomationAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAutomationAccountByResourceGroupRequest,
   AutomationAccountListResult,
   ListAutomationAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AutomationAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<ListAutomationAccountByResourceGroupRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<AutomationAccountListResult>,
   errors: [UnknownAzureError],
@@ -7591,16 +7685,23 @@ export const ListAutomationAccountByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAutomationAccountDeletedRunbooksError = AzureOpError;
 /** Retrieve the deleted runbooks for an automation account. */
-export const ListAutomationAccountDeletedRunbooks: API.OperationMethod<
+export const ListAutomationAccountDeletedRunbooks: API.PaginatedOperationMethod<
   ListAutomationAccountDeletedRunbooksRequest,
   DeletedRunbookListResult,
   ListAutomationAccountDeletedRunbooksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedRunbook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<ListAutomationAccountDeletedRunbooksRequest>,
   output: __S(3556, __c222, 4) as any as S.Schema<DeletedRunbookListResult>,
   errors: [UnknownAzureError],
@@ -7608,16 +7709,23 @@ export const ListAutomationAccountDeletedRunbooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutomationAccountDeletedRunbooks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCertificateByAutomationAccountError = AzureOpError;
 /** Retrieve a list of certificates. */
-export const ListCertificateByAutomationAccount: API.OperationMethod<
+export const ListCertificateByAutomationAccount: API.PaginatedOperationMethod<
   ListCertificateByAutomationAccountRequest,
   CertificateListResult,
   ListCertificateByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Certificate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3600, __c225, 0) as any as S.Schema<ListCertificateByAutomationAccountRequest>,
   output: __S(3602, __c225, 2) as any as S.Schema<CertificateListResult>,
   errors: [UnknownAzureError],
@@ -7625,16 +7733,23 @@ export const ListCertificateByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCertificateByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionByAutomationAccountError = AzureOpError;
 /** Retrieve a list of connections. */
-export const ListConnectionByAutomationAccount: API.OperationMethod<
+export const ListConnectionByAutomationAccount: API.PaginatedOperationMethod<
   ListConnectionByAutomationAccountRequest,
   ConnectionListResult,
   ListConnectionByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<ListConnectionByAutomationAccountRequest>,
   output: __S(3618, __c226, 2) as any as S.Schema<ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -7642,16 +7757,23 @@ export const ListConnectionByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionTypeByAutomationAccountError = AzureOpError;
 /** Retrieve a list of connection types. */
-export const ListConnectionTypeByAutomationAccount: API.OperationMethod<
+export const ListConnectionTypeByAutomationAccount: API.PaginatedOperationMethod<
   ListConnectionTypeByAutomationAccountRequest,
   ConnectionTypeListResult,
   ListConnectionTypeByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectionType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<ListConnectionTypeByAutomationAccountRequest>,
   output: __S(3634, __c227, 2) as any as S.Schema<ConnectionTypeListResult>,
   errors: [UnknownAzureError],
@@ -7659,16 +7781,23 @@ export const ListConnectionTypeByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionTypeByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCredentialByAutomationAccountError = AzureOpError;
 /** Retrieve a list of credentials. */
-export const ListCredentialByAutomationAccount: API.OperationMethod<
+export const ListCredentialByAutomationAccount: API.PaginatedOperationMethod<
   ListCredentialByAutomationAccountRequest,
   CredentialListResult,
   ListCredentialByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Credential
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<ListCredentialByAutomationAccountRequest>,
   output: __S(3650, __c228, 2) as any as S.Schema<CredentialListResult>,
   errors: [UnknownAzureError],
@@ -7676,7 +7805,13 @@ export const ListCredentialByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCredentialByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedAutomationAccountBySubscriptionError = AzureOpError;
 /** Retrieve deleted automation account. */
@@ -7697,12 +7832,13 @@ export const ListDeletedAutomationAccountBySubscription: API.OperationMethod<
 
 export type ListDscConfigurationByAutomationAccountError = AzureOpError;
 /** Retrieve a list of configurations. */
-export const ListDscConfigurationByAutomationAccount: API.OperationMethod<
+export const ListDscConfigurationByAutomationAccount: API.PaginatedOperationMethod<
   ListDscConfigurationByAutomationAccountRequest,
   DscConfigurationListResult,
   ListDscConfigurationByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<ListDscConfigurationByAutomationAccountRequest>,
   output: __S(3682, __c230, 2) as any as S.Schema<DscConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -7710,16 +7846,23 @@ export const ListDscConfigurationByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscConfigurationByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDscNodeByAutomationAccountError = AzureOpError;
 /** Retrieve a list of dsc nodes. */
-export const ListDscNodeByAutomationAccount: API.OperationMethod<
+export const ListDscNodeByAutomationAccount: API.PaginatedOperationMethod<
   ListDscNodeByAutomationAccountRequest,
   DscNodeListResult,
   ListDscNodeByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNode
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3696, __c231, 0) as any as S.Schema<ListDscNodeByAutomationAccountRequest>,
   output: __S(3698, __c231, 2) as any as S.Schema<DscNodeListResult>,
   errors: [UnknownAzureError],
@@ -7727,16 +7870,23 @@ export const ListDscNodeByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscNodeByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDscNodeConfigurationByAutomationAccountError = AzureOpError;
 /** Retrieve a list of dsc node configurations. */
-export const ListDscNodeConfigurationByAutomationAccount: API.OperationMethod<
+export const ListDscNodeConfigurationByAutomationAccount: API.PaginatedOperationMethod<
   ListDscNodeConfigurationByAutomationAccountRequest,
   DscNodeConfigurationListResult,
   ListDscNodeConfigurationByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNodeConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3712,
     __c232,
@@ -7748,16 +7898,23 @@ export const ListDscNodeConfigurationByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDscNodeConfigurationByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFieldByTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type identified by module name. */
-export const ListFieldByType: API.OperationMethod<
+export const ListFieldByType: API.PaginatedOperationMethod<
   ListFieldByTypeRequest,
   TypeFieldListResult,
   ListFieldByTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<ListFieldByTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
   errors: [UnknownAzureError],
@@ -7765,16 +7922,23 @@ export const ListFieldByType: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFieldByType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridRunbookWorkerByHybridRunbookWorkerGroupError = AzureOpError;
 /** Retrieve a list of hybrid runbook workers. */
-export const ListHybridRunbookWorkerByHybridRunbookWorkerGroup: API.OperationMethod<
+export const ListHybridRunbookWorkerByHybridRunbookWorkerGroup: API.PaginatedOperationMethod<
   ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest,
   HybridRunbookWorkersListResult,
   ListHybridRunbookWorkerByHybridRunbookWorkerGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridRunbookWorker
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3760,
     __c235,
@@ -7786,16 +7950,23 @@ export const ListHybridRunbookWorkerByHybridRunbookWorkerGroup: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHybridRunbookWorkerByHybridRunbookWorkerGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridRunbookWorkerGroupByAutomationAccountError = AzureOpError;
 /** Retrieve a list of hybrid runbook worker groups. */
-export const ListHybridRunbookWorkerGroupByAutomationAccount: API.OperationMethod<
+export const ListHybridRunbookWorkerGroupByAutomationAccount: API.PaginatedOperationMethod<
   ListHybridRunbookWorkerGroupByAutomationAccountRequest,
   HybridRunbookWorkerGroupsListResult,
   ListHybridRunbookWorkerGroupByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridRunbookWorkerGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     288,
     __c18,
@@ -7807,16 +7978,23 @@ export const ListHybridRunbookWorkerGroupByAutomationAccount: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHybridRunbookWorkerGroupByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobByAutomationAccountError = AzureOpError;
 /** Retrieve a list of jobs. */
-export const ListJobByAutomationAccount: API.OperationMethod<
+export const ListJobByAutomationAccount: API.PaginatedOperationMethod<
   ListJobByAutomationAccountRequest,
   JobListResultV2,
   ListJobByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobCollectionItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListJobByAutomationAccountRequest>,
   output: __S(308, __c19, 4) as any as S.Schema<JobListResultV2>,
   errors: [UnknownAzureError],
@@ -7824,16 +8002,23 @@ export const ListJobByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobScheduleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of job schedules. */
-export const ListJobScheduleByAutomationAccount: API.OperationMethod<
+export const ListJobScheduleByAutomationAccount: API.PaginatedOperationMethod<
   ListJobScheduleByAutomationAccountRequest,
   JobScheduleListResult,
   ListJobScheduleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListJobScheduleByAutomationAccountRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<JobScheduleListResult>,
   errors: [UnknownAzureError],
@@ -7841,16 +8026,23 @@ export const ListJobScheduleByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobScheduleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobStreamByJobError = AzureOpError;
 /** Retrieve a list of jobs streams identified by job name. */
-export const ListJobStreamByJob: API.OperationMethod<
+export const ListJobStreamByJob: API.PaginatedOperationMethod<
   ListJobStreamByJobRequest,
   JobStreamListResult,
   ListJobStreamByJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListJobStreamByJobRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<JobStreamListResult>,
   errors: [UnknownAzureError],
@@ -7858,7 +8050,13 @@ export const ListJobStreamByJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobStreamByJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKeyByAutomationAccountError = AzureOpError;
 /** Retrieve the automation keys for an account. */
@@ -7879,12 +8077,13 @@ export const ListKeyByAutomationAccount: API.OperationMethod<
 
 export type ListModuleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of modules. */
-export const ListModuleByAutomationAccount: API.OperationMethod<
+export const ListModuleByAutomationAccount: API.PaginatedOperationMethod<
   ListModuleByAutomationAccountRequest,
   ModuleListResult,
   ListModuleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListModuleByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
   errors: [UnknownAzureError],
@@ -7892,16 +8091,23 @@ export const ListModuleByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModuleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodeReportByNodeError = AzureOpError;
 /** Retrieve the Dsc node report list by node id. */
-export const ListNodeReportByNode: API.OperationMethod<
+export const ListNodeReportByNode: API.PaginatedOperationMethod<
   ListNodeReportByNodeRequest,
   DscNodeReportListResult,
   ListNodeReportByNodeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DscNodeReport
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListNodeReportByNodeRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<DscNodeReportListResult>,
   errors: [UnknownAzureError],
@@ -7909,16 +8115,23 @@ export const ListNodeReportByNode: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeReportByNode",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListObjectDataTypeFieldsByTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type across all accessible modules. */
-export const ListObjectDataTypeFieldsByType: API.OperationMethod<
+export const ListObjectDataTypeFieldsByType: API.PaginatedOperationMethod<
   ListObjectDataTypeFieldsByTypeRequest,
   TypeFieldListResult,
   ListObjectDataTypeFieldsByTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListObjectDataTypeFieldsByTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
   errors: [UnknownAzureError],
@@ -7926,16 +8139,23 @@ export const ListObjectDataTypeFieldsByType: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListObjectDataTypeFieldsByType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Automation REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(460, __c28, 12) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -7943,16 +8163,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPackageByRuntimeEnvironmentError = AzureOpError;
 /** Retrieve the a list of Packages */
-export const ListPackageByRuntimeEnvironment: API.OperationMethod<
+export const ListPackageByRuntimeEnvironment: API.PaginatedOperationMethod<
   ListPackageByRuntimeEnvironmentRequest,
   PackageListResult,
   ListPackageByRuntimeEnvironmentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Package
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListPackageByRuntimeEnvironmentRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<PackageListResult>,
   errors: [UnknownAzureError],
@@ -7960,16 +8187,23 @@ export const ListPackageByRuntimeEnvironment: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPackageByRuntimeEnvironment",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByAutomationAccountError = AzureOpError;
 /** List all private endpoint connections on a Automation account. */
-export const ListPrivateEndpointConnectionByAutomationAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionByAutomationAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByAutomationAccountRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     512,
     __c32,
@@ -7981,16 +8215,23 @@ export const ListPrivateEndpointConnectionByAutomationAccount: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPython2PackageByAutomationAccountError = AzureOpError;
 /** Retrieve a list of python 2 packages. */
-export const ListPython2PackageByAutomationAccount: API.OperationMethod<
+export const ListPython2PackageByAutomationAccount: API.PaginatedOperationMethod<
   ListPython2PackageByAutomationAccountRequest,
   ModuleListResult,
   ListPython2PackageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListPython2PackageByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
   errors: [UnknownAzureError],
@@ -7998,16 +8239,23 @@ export const ListPython2PackageByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPython2PackageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPython3PackageByAutomationAccountError = AzureOpError;
 /** Retrieve a list of python 3 packages. */
-export const ListPython3PackageByAutomationAccount: API.OperationMethod<
+export const ListPython3PackageByAutomationAccount: API.PaginatedOperationMethod<
   ListPython3PackageByAutomationAccountRequest,
   ModuleListResult,
   ListPython3PackageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Module
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListPython3PackageByAutomationAccountRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ModuleListResult>,
   errors: [UnknownAzureError],
@@ -8015,16 +8263,23 @@ export const ListPython3PackageByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPython3PackageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRunbookByAutomationAccountError = AzureOpError;
 /** Retrieve a list of runbooks. */
-export const ListRunbookByAutomationAccount: API.OperationMethod<
+export const ListRunbookByAutomationAccount: API.PaginatedOperationMethod<
   ListRunbookByAutomationAccountRequest,
   RunbookListResult,
   ListRunbookByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Runbook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListRunbookByAutomationAccountRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<RunbookListResult>,
   errors: [UnknownAzureError],
@@ -8032,16 +8287,23 @@ export const ListRunbookByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRunbookByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRuntimeEnvironmentByAutomationAccountError = AzureOpError;
 /** Retrieve a list of RuntimeEnvironments. */
-export const ListRuntimeEnvironmentByAutomationAccount: API.OperationMethod<
+export const ListRuntimeEnvironmentByAutomationAccount: API.PaginatedOperationMethod<
   ListRuntimeEnvironmentByAutomationAccountRequest,
   RuntimeEnvironmentListResult,
   ListRuntimeEnvironmentByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RuntimeEnvironment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListRuntimeEnvironmentByAutomationAccountRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<RuntimeEnvironmentListResult>,
   errors: [UnknownAzureError],
@@ -8049,16 +8311,23 @@ export const ListRuntimeEnvironmentByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRuntimeEnvironmentByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScheduleByAutomationAccountError = AzureOpError;
 /** Retrieve a list of schedules. */
-export const ListScheduleByAutomationAccount: API.OperationMethod<
+export const ListScheduleByAutomationAccount: API.PaginatedOperationMethod<
   ListScheduleByAutomationAccountRequest,
   ScheduleListResult,
   ListScheduleByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListScheduleByAutomationAccountRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<ScheduleListResult>,
   errors: [UnknownAzureError],
@@ -8066,7 +8335,13 @@ export const ListScheduleByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduleByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSoftwareUpdateConfigurationMachineRunsError = AzureOpError;
 /** Return list of software update configuration machine runs */
@@ -8121,12 +8396,13 @@ export const ListSoftwareUpdateConfigurations: API.OperationMethod<
 
 export type ListSourceControlByAutomationAccountError = AzureOpError;
 /** Retrieve a list of source controls. */
-export const ListSourceControlByAutomationAccount: API.OperationMethod<
+export const ListSourceControlByAutomationAccount: API.PaginatedOperationMethod<
   ListSourceControlByAutomationAccountRequest,
   SourceControlListResult,
   ListSourceControlByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControl
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListSourceControlByAutomationAccountRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<SourceControlListResult>,
   errors: [UnknownAzureError],
@@ -8134,16 +8410,23 @@ export const ListSourceControlByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlSyncJobByAutomationAccountError = AzureOpError;
 /** Retrieve a list of source control sync jobs. */
-export const ListSourceControlSyncJobByAutomationAccount: API.OperationMethod<
+export const ListSourceControlSyncJobByAutomationAccount: API.PaginatedOperationMethod<
   ListSourceControlSyncJobByAutomationAccountRequest,
   SourceControlSyncJobListResult,
   ListSourceControlSyncJobByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlSyncJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListSourceControlSyncJobByAutomationAccountRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<SourceControlSyncJobListResult>,
   errors: [UnknownAzureError],
@@ -8151,16 +8434,23 @@ export const ListSourceControlSyncJobByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlSyncJobByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSourceControlSyncJobStreamBySyncJobError = AzureOpError;
 /** Retrieve a list of sync job streams identified by sync job id. */
-export const ListSourceControlSyncJobStreamBySyncJob: API.OperationMethod<
+export const ListSourceControlSyncJobStreamBySyncJob: API.PaginatedOperationMethod<
   ListSourceControlSyncJobStreamBySyncJobRequest,
   SourceControlSyncJobStreamsListBySyncJob,
   ListSourceControlSyncJobStreamBySyncJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SourceControlSyncJobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListSourceControlSyncJobStreamBySyncJobRequest>,
   output: __S(724, __c45, 4) as any as S.Schema<SourceControlSyncJobStreamsListBySyncJob>,
   errors: [UnknownAzureError],
@@ -8168,16 +8458,23 @@ export const ListSourceControlSyncJobStreamBySyncJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceControlSyncJobStreamBySyncJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStatisticsByAutomationAccountError = AzureOpError;
 /** Retrieve the statistics for the account. */
-export const ListStatisticsByAutomationAccount: API.OperationMethod<
+export const ListStatisticsByAutomationAccount: API.PaginatedOperationMethod<
   ListStatisticsByAutomationAccountRequest,
   StatisticsListResult,
   ListStatisticsByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Statistics
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListStatisticsByAutomationAccountRequest>,
   output: __S(739, __c46, 3) as any as S.Schema<StatisticsListResult>,
   errors: [UnknownAzureError],
@@ -8185,16 +8482,23 @@ export const ListStatisticsByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStatisticsByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTestJobStreamByTestJobError = AzureOpError;
 /** Retrieve a list of test job streams identified by runbook name. */
-export const ListTestJobStreamByTestJob: API.OperationMethod<
+export const ListTestJobStreamByTestJob: API.PaginatedOperationMethod<
   ListTestJobStreamByTestJobRequest,
   JobStreamListResult,
   ListTestJobStreamByTestJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobStream
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListTestJobStreamByTestJobRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<JobStreamListResult>,
   errors: [UnknownAzureError],
@@ -8202,16 +8506,23 @@ export const ListTestJobStreamByTestJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTestJobStreamByTestJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageByAutomationAccountError = AzureOpError;
 /** Retrieve the usage for the account id. */
-export const ListUsageByAutomationAccount: API.OperationMethod<
+export const ListUsageByAutomationAccount: API.PaginatedOperationMethod<
   ListUsageByAutomationAccountRequest,
   UsageListResult,
   ListUsageByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Usage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListUsageByAutomationAccountRequest>,
   output: __S(772, __c48, 4) as any as S.Schema<UsageListResult>,
   errors: [UnknownAzureError],
@@ -8219,16 +8530,23 @@ export const ListUsageByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVariableByAutomationAccountError = AzureOpError;
 /** Retrieve a list of variables. */
-export const ListVariableByAutomationAccount: API.OperationMethod<
+export const ListVariableByAutomationAccount: API.PaginatedOperationMethod<
   ListVariableByAutomationAccountRequest,
   VariableListResult,
   ListVariableByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Variable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListVariableByAutomationAccountRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<VariableListResult>,
   errors: [UnknownAzureError],
@@ -8236,16 +8554,23 @@ export const ListVariableByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVariableByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWatcherByAutomationAccountError = AzureOpError;
 /** Retrieve a list of watchers. */
-export const ListWatcherByAutomationAccount: API.OperationMethod<
+export const ListWatcherByAutomationAccount: API.PaginatedOperationMethod<
   ListWatcherByAutomationAccountRequest,
   WatcherListResult,
   ListWatcherByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Watcher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListWatcherByAutomationAccountRequest>,
   output: __S(802, __c50, 2) as any as S.Schema<WatcherListResult>,
   errors: [UnknownAzureError],
@@ -8253,16 +8578,23 @@ export const ListWatcherByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWatcherByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebhookByAutomationAccountError = AzureOpError;
 /** Retrieve a list of webhooks. */
-export const ListWebhookByAutomationAccount: API.OperationMethod<
+export const ListWebhookByAutomationAccount: API.PaginatedOperationMethod<
   ListWebhookByAutomationAccountRequest,
   WebhookListResult,
   ListWebhookByAutomationAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Webhook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListWebhookByAutomationAccountRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<WebhookListResult>,
   errors: [UnknownAzureError],
@@ -8270,7 +8602,13 @@ export const ListWebhookByAutomationAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhookByAutomationAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ModuleCreateOrUpdateError = AzureOpError;
 /** Create or Update the module identified by module name. */
@@ -8308,12 +8646,13 @@ export const MoveHybridRunbookWorker: API.OperationMethod<
 
 export type ObjectDataTypesListFieldsByModuleAndTypeError = AzureOpError;
 /** Retrieve a list of fields of a given type identified by module name. */
-export const ObjectDataTypesListFieldsByModuleAndType: API.OperationMethod<
+export const ObjectDataTypesListFieldsByModuleAndType: API.PaginatedOperationMethod<
   ObjectDataTypesListFieldsByModuleAndTypeRequest,
   TypeFieldListResult,
   ObjectDataTypesListFieldsByModuleAndTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TypeField
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ObjectDataTypesListFieldsByModuleAndTypeRequest>,
   output: __S(3744, __c234, 0) as any as S.Schema<TypeFieldListResult>,
   errors: [UnknownAzureError],
@@ -8321,7 +8660,13 @@ export const ObjectDataTypesListFieldsByModuleAndType: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ObjectDataTypesListFieldsByModuleAndType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PackageCreateOrUpdateError = AzureOpError;
 /** Create or update the package identified by package name. */
@@ -8376,12 +8721,13 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 
 export type PrivateLinkResourcesAutomationError = AzureOpError;
 /** Gets the private link resources that need to be created for Automation account. */
-export const PrivateLinkResourcesAutomation: API.OperationMethod<
+export const PrivateLinkResourcesAutomation: API.PaginatedOperationMethod<
   PrivateLinkResourcesAutomationRequest,
   PrivateLinkResourceListResult,
   PrivateLinkResourcesAutomationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<PrivateLinkResourcesAutomationRequest>,
   output: __S(996, __c62, 4) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -8389,7 +8735,13 @@ export const PrivateLinkResourcesAutomation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PrivateLinkResourcesAutomation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PublishRunbookError = AzureOpError;
 /** Publish runbook draft. */
@@ -9513,12 +9865,14 @@ function __c18(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridRunbookWorkerGroupByAutomationAccountRequest" });
@@ -9542,12 +9896,14 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobByAutomationAccountRequest" });
@@ -9597,12 +9953,14 @@ function __c20(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobScheduleByAutomationAccountRequest" });
@@ -9627,12 +9985,14 @@ function __c21(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobStreamByJobRequest" });
@@ -9694,12 +10054,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListModuleByAutomationAccountRequest" });
@@ -9728,12 +10090,14 @@ function __c26(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           nodeId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodeReportByNodeRequest" });
@@ -9757,12 +10121,14 @@ function __c27(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/objectDataTypes/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListObjectDataTypeFieldsByTypeRequest" });
@@ -9772,12 +10138,15 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Automation/operations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -9864,12 +10233,14 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           runtimeEnvironmentName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPackageByRuntimeEnvironmentRequest" });
@@ -9944,19 +10315,21 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByAutomationAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -9970,12 +10343,14 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPython2PackageByAutomationAccountRequest" });
@@ -9989,12 +10364,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPython3PackageByAutomationAccountRequest" });
@@ -10008,12 +10385,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRunbookByAutomationAccountRequest" });
@@ -10036,12 +10415,14 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRuntimeEnvironmentByAutomationAccountRequest" });
@@ -10064,12 +10445,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScheduleByAutomationAccountRequest" });
@@ -10204,12 +10587,14 @@ function __c41(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlByAutomationAccountRequest" });
@@ -10277,12 +10662,14 @@ function __c44(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           sourceControlName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlSyncJobByAutomationAccountRequest" });
@@ -10308,12 +10695,14 @@ function __c45(j: number): any {
           sourceControlName: S.String.pipe(T.Label()),
           sourceControlSyncJobId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceControlSyncJobStreamBySyncJobRequest" });
@@ -10353,12 +10742,14 @@ function __c46(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStatisticsByAutomationAccountRequest" });
@@ -10377,7 +10768,7 @@ function __c46(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(738, __c46, 2)),
+          value: __S(738, __c46, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StatisticsListResult" });
@@ -10393,12 +10784,14 @@ function __c47(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           runbookName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTestJobStreamByTestJobRequest" });
@@ -10412,12 +10805,14 @@ function __c48(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageByAutomationAccountRequest" });
@@ -10444,7 +10839,7 @@ function __c48(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(771, __c48, 3)),
+          value: __S(771, __c48, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageListResult" });
@@ -10458,12 +10853,14 @@ function __c49(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVariableByAutomationAccountRequest" });
@@ -10487,12 +10884,14 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWatcherByAutomationAccountRequest" });
@@ -10516,12 +10915,14 @@ function __c51(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebhookByAutomationAccountRequest" });
@@ -10654,12 +11055,14 @@ function __c57(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/objectDataTypes/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ObjectDataTypesListFieldsByModuleAndTypeRequest" });
@@ -10777,12 +11180,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateLinkResources",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "PrivateLinkResourcesAutomationRequest" });
@@ -10808,7 +11213,7 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c62, 3)),
+          value: __S(995, __c62, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -10914,6 +11319,7 @@ function __c67(j: number): any {
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
             code: 200,
             apiVersion: "2024-10-23",
+            bodyMediaType: "text/powershell",
           }),
         ),
       ).annotate({ identifier: "ReplaceRunbookDraftContentRequest" });
@@ -14453,12 +14859,14 @@ function __c218(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListActivityByModuleRequest" });
@@ -14479,12 +14887,14 @@ function __c219(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountRequest" });
@@ -14510,12 +14920,14 @@ function __c221(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountByResourceGroupRequest" });
@@ -14529,12 +14941,14 @@ function __c222(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listDeletedRunbooks",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAutomationAccountDeletedRunbooksRequest" });
@@ -14631,12 +15045,14 @@ function __c225(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCertificateByAutomationAccountRequest" });
@@ -14659,12 +15075,14 @@ function __c226(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionByAutomationAccountRequest" });
@@ -14687,12 +15105,14 @@ function __c227(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionTypeByAutomationAccountRequest" });
@@ -14715,12 +15135,14 @@ function __c228(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           automationAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCredentialByAutomationAccountRequest" });
@@ -14793,12 +15215,14 @@ function __c230(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscConfigurationByAutomationAccountRequest" });
@@ -14807,7 +15231,7 @@ function __c230(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3681, __c230, 1)),
+          value: __S(3681, __c230, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14826,12 +15250,14 @@ function __c231(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscNodeByAutomationAccountRequest" });
@@ -14840,7 +15266,7 @@ function __c231(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3697, __c231, 1)),
+          value: __S(3697, __c231, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14859,12 +15285,14 @@ function __c232(j: number): any {
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _inlinecount: S.optional(S.String.pipe(T.Query("$inlinecount"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDscNodeConfigurationByAutomationAccountRequest" });
@@ -14873,7 +15301,7 @@ function __c232(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3713, __c232, 1)),
+          value: __S(3713, __c232, 1),
           nextLink: S.optional(S.String),
           totalCount: S.optional(S.Number),
         }),
@@ -14890,12 +15318,14 @@ function __c233(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           moduleName: S.String.pipe(T.Label()),
           typeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFieldByTypeRequest" });
@@ -14906,7 +15336,7 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2321, __c145, 1)),
+          value: __S(2321, __c145, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeFieldListResult" });
@@ -14922,12 +15352,14 @@ function __c235(j: number): any {
           automationAccountName: S.String.pipe(T.Label()),
           hybridRunbookWorkerGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers",
             code: 200,
             apiVersion: "2024-10-23",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest" });

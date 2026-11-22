@@ -1,0 +1,145 @@
+{
+  "description": "SignalDefinitionProperties is polymorphic on `signalKind` (AzureResourceMetric, LogAnalyticsQuery, PrometheusMetricsQuery); the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the union of the flat subtype members to the input and output shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/metricNamespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Metric namespace (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/metricName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/aggregationType",
+      "value": {
+        "target": "com.azure.cloudhealth#MetricAggregationType",
+        "traits": {
+          "smithy.api#documentation": "Type of aggregation to apply to the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/dimensionFilter",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Dimension filter to apply to the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/queryText",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Query text: KQL (LogAnalyticsQuery) or PromQL (PrometheusMetricsQuery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/valueColumnName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the numeric result column evaluated against the thresholds (LogAnalyticsQuery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionPropertiesInput/members/timeGrain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Time range of the signal, ISO 8601 duration like PT10M."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/metricNamespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Metric namespace (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/metricName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/aggregationType",
+      "value": {
+        "target": "com.azure.cloudhealth#MetricAggregationType",
+        "traits": {
+          "smithy.api#documentation": "Type of aggregation to apply to the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/dimensionFilter",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Dimension filter to apply to the metric (AzureResourceMetric)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/queryText",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Query text: KQL (LogAnalyticsQuery) or PromQL (PrometheusMetricsQuery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/valueColumnName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the numeric result column evaluated against the thresholds (LogAnalyticsQuery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#SignalDefinitionProperties/members/timeGrain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Time range of the signal, ISO 8601 duration like PT10M."
+        }
+      }
+    }
+  ]
+}

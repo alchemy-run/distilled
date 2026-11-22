@@ -334,7 +334,7 @@ export interface ProductList {
   /** URI to the next page. */
   nextLink?: string | undefined;
   /** List of products. */
-  value?: ProductListValueList | undefined;
+  value: ProductListValueList;
 }
 export interface GetRegistrationRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -406,6 +406,8 @@ export interface ListCustomerSubscriptionsRequest {
   resourceGroup: string;
   /** Name of the Azure Stack registration. */
   registrationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Customer subscription. */
 export interface CustomerSubscription {
@@ -427,9 +429,12 @@ export interface CustomerSubscriptionList {
   /** URI to the next page. */
   nextLink?: string | undefined;
   /** List of customer subscriptions. */
-  value?: CustomerSubscriptionListValueList | undefined;
+  value: CustomerSubscriptionListValueList;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Contains the localized display information for this particular operation or action. */
 export interface Display {
   /** The localized, friendly version of the resource provider name. */
@@ -455,7 +460,7 @@ export type OperationListValueList = Array<Operation>;
 /** List of Operations */
 export interface OperationList {
   /** Array of operations */
-  value?: OperationListValueList | undefined;
+  value: OperationListValueList;
   /** URI to the next page of operations. */
   nextLink?: string | undefined;
 }
@@ -541,10 +546,14 @@ export interface ListProductsRequest {
   resourceGroup: string;
   /** Name of the Azure Stack registration. */
   registrationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistrationBySubscriptionRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Location of the resource. */
 export type RegistrationLocation = "global";
@@ -574,13 +583,15 @@ export interface RegistrationList {
   /** URI to the next page. */
   nextLink?: string | undefined;
   /** List of Registrations */
-  value?: RegistrationListValueList | undefined;
+  value: RegistrationListValueList;
 }
 export interface ListRegistrationsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** Name of the resource group. */
   resourceGroup: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties of the Azure Stack registration resource */
 export interface RegistrationParameterProperties {
@@ -913,12 +924,13 @@ export const ListCloudManifestFile: API.OperationMethod<
 
 export type ListCustomerSubscriptionsError = AzureOpError;
 /** Returns a list of products. */
-export const ListCustomerSubscriptions: API.OperationMethod<
+export const ListCustomerSubscriptions: API.PaginatedOperationMethod<
   ListCustomerSubscriptionsRequest,
   CustomerSubscriptionList,
   ListCustomerSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomerSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListCustomerSubscriptionsRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<CustomerSubscriptionList>,
   errors: [UnknownAzureError],
@@ -926,16 +938,23 @@ export const ListCustomerSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomerSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Returns the list of supported REST operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -943,7 +962,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProductDetailsError = AzureOpError;
 /** Returns the extended properties of a product. */
@@ -981,12 +1006,13 @@ export const ListProductProducts: API.OperationMethod<
 
 export type ListProductsError = AzureOpError;
 /** Returns a list of products. */
-export const ListProducts: API.OperationMethod<
+export const ListProducts: API.PaginatedOperationMethod<
   ListProductsRequest,
   ProductList,
   ListProductsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Product
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListProductsRequest>,
   output: __S(241, __c30, 1) as any as S.Schema<ProductList>,
   errors: [UnknownAzureError],
@@ -994,16 +1020,23 @@ export const ListProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProducts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistrationBySubscriptionError = AzureOpError;
 /** Returns a list of all registrations under current subscription. */
-export const ListRegistrationBySubscription: API.OperationMethod<
+export const ListRegistrationBySubscription: API.PaginatedOperationMethod<
   ListRegistrationBySubscriptionRequest,
   RegistrationList,
   ListRegistrationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListRegistrationBySubscriptionRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<RegistrationList>,
   errors: [UnknownAzureError],
@@ -1011,16 +1044,23 @@ export const ListRegistrationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistrationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistrationsError = AzureOpError;
 /** Returns a list of all registrations. */
-export const ListRegistrations: API.OperationMethod<
+export const ListRegistrations: API.PaginatedOperationMethod<
   ListRegistrationsRequest,
   RegistrationList,
   ListRegistrationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListRegistrationsRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<RegistrationList>,
   errors: [UnknownAzureError],
@@ -1028,7 +1068,13 @@ export const ListRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistrations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegistrationsCreateOrUpdateError = AzureOpError;
 /** Create or update an Azure Stack registration. */
@@ -1244,12 +1290,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroup: S.String.pipe(T.Label()),
           registrationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions",
             code: 200,
             apiVersion: "2022-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomerSubscriptionsRequest" });
@@ -1259,7 +1307,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(57, __c7, 1)),
+          value: __S(57, __c7, 1),
         }),
       ).annotate({ identifier: "CustomerSubscriptionList" });
   }
@@ -1268,12 +1316,15 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureStack/operations",
             code: 200,
             apiVersion: "2022-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1299,7 +1350,7 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(67, __c8, 3)),
+          value: __S(67, __c8, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });
@@ -1397,12 +1448,14 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroup: S.String.pipe(T.Label()),
           registrationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products",
             code: 200,
             apiVersion: "2022-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProductsRequest" });
@@ -1414,12 +1467,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStack/registrations",
             code: 200,
             apiVersion: "2022-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistrationBySubscriptionRequest" });
@@ -1433,7 +1488,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(104, __c13, 0)),
+          value: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "RegistrationList" });
   }
@@ -1445,12 +1500,14 @@ function __c14(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroup: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations",
             code: 200,
             apiVersion: "2022-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistrationsRequest" });
@@ -1825,7 +1882,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(240, __c30, 0)),
+          value: __S(240, __c30, 0),
         }),
       ).annotate({ identifier: "ProductList" });
   }

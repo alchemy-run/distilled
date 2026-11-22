@@ -1,11 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type API_ERRORS,
-  type InvalidInput,
-} from "@distilled.cloud/core/errors";
+import { ConfigError, type API_ERRORS, InvalidInput } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
   getAnn,
@@ -14,8 +8,7 @@ import {
   withResponseHeaders,
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * AzureProtocol -- hand-written.
@@ -24,22 +17,31 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * The generic request/response machinery lives in
  * `@distilled.cloud/core/protocol-http`; this module supplies what is
  * Azure's own (which is why this is a bespoke protocol rather than a
- * `makeRestProtocol` instantiation):
+ * `makeRestProtocol` instantiation). Data-plane operations use
+ * `AzureDataPlaneProtocol` (`./data-plane-protocol.ts`) instead, so an
+ * ARM-only program never bundles the data-plane code.
  *
- *   request:  credentials -> `Authorization: Bearer <token>` + base URL
- *             (default https://management.azure.com), resolved from the
- *             calling fiber on every request; a `{subscriptionId}` path
- *             placeholder the caller didn't fill is injected from
- *             credentials; the operation's baked `apiVersion` (see
- *             `traits.ts`) is appended as `?api-version=` -- ARM requires it
- *             on every call
+ *   request:  `Authorization: Bearer <token>` with the token for the ARM
+ *             scope of `apiBaseUrl` (default https://management.azure.com),
+ *             resolved from the calling fiber on every request; a
+ *             `{subscriptionId}` path placeholder the caller didn't fill is
+ *             injected from credentials; the operation's baked `apiVersion`
+ *             (see `traits.ts`) is appended as `?api-version=` -- ARM
+ *             requires it on every call
+ *
+ *             pageable operations (`x-ms-pageable`, see convert.ts): an
+ *             input carrying a page's `nextLink` is a GET of that URL as-is,
+ *             with the same auth, when it stays on the ARM endpoint; core's
+ *             cursor strategy feeds each page's `nextLink` back in
+ *             (`.pages()` / `.items()`)
  *
  *   response: 2xx JSON is the payload (no envelope; sensitive members
- *             delivered as `Redacted`); errors are matched like distilled
- *             v0's Azure client:
+ *             delivered as `Redacted`); errors are matched first against the
+ *             operation's own typed errors, then like distilled v0's Azure
+ *             client (`./protocol-common.ts`):
  *               1. ARM envelope `{ error: { code, message, target } }` (flat
  *                  `{ code, message }` fallback) -> `AZURE_ERROR_CODE_MAP`
- *                  dispatch on `error.code` (~35 codes -> ~20 typed classes)
+ *                  dispatch on `error.code`
  *               2. core `HTTP_STATUS_MAP` by status (Retry-After honored via
  *                  `parseRetryAfterForStatus`)
  *               3. unmapped 5xx -> retryable `InternalServerError`
@@ -53,22 +55,30 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
 import {
-  AZURE_ERROR_CODE_MAP,
-  matchAzureErrorMessage,
-  type AzureApiError,
-  AzureParseError,
-  UnknownAzureError,
-} from "./errors.ts";
+  type AzureCredentialsError,
+  type Config,
+  Credentials,
+  MissingTokenAudience,
+  armScopeFor,
+} from "./credentials-service.ts";
+import { type AzureApiError, AzureParseError, type UnknownAzureError } from "./errors.ts";
+import {
+  fail,
+  failResponse,
+  nextLinkOf,
+  parseArmError,
+  parseBody,
+  resolveNextLink,
+  withoutMember,
+} from "./protocol-common.ts";
 import type { HttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Azure operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, AzureOpError,
- * AzureOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics. Errors are entirely client-level (v0 parity:
- * `includeOperationErrors=false` -- generated ops carry no per-op unions).
+ * Error channel shared by every generated Azure operation, ARM and data
+ * plane. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, AzureOpError, AzureOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
 export type AzureOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
@@ -76,6 +86,8 @@ export type AzureOpError =
   | UnknownAzureError
   | AzureParseError
   | ConfigError
+  | AzureCredentialsError
+  | MissingTokenAudience
   | HttpClientError.HttpClientError
   | InvalidInput
   | SdkError;
@@ -83,66 +95,9 @@ export type AzureOpError =
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but Azure failures are real typed errors surfaced through AzureOpError.
-// Fail with the instance and erase the type here; the generated operation
-// annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
-// ---------------------------------------------------------------------------
-// Error-body parsing
-// ---------------------------------------------------------------------------
-
-interface ArmError {
-  code?: string;
-  message?: string;
-  target?: string;
-  /** Codes/messages of `error.details[]` (e.g. a generic `ValidationError`
-   * whose real cause is a nested detail code). */
-  details?: ReadonlyArray<{ code?: string; message?: string }>;
-}
-
-/**
- * Extract `{ code, message, target }` from an ARM error body: the
- * `{ error: { code, message, target } }` envelope first, the flat
- * `{ code, message }` shape as a fallback (v0 parity).
- */
-const parseArmError = (body: unknown): ArmError | undefined => {
-  // Some RPs (e.g. Microsoft.GuestConfiguration) return a bare JSON string.
-  if (typeof body === "string") return body ? { message: body } : undefined;
-  if (body === null || typeof body !== "object") return undefined;
-  const b = body as Record<string, unknown>;
-  const inner =
-    b.error !== null && typeof b.error === "object" ? (b.error as Record<string, unknown>) : b;
-  // Microsoft.Web (and other legacy RPs) return PascalCase `Code`/`Message`.
-  const field = (name: string) => {
-    const value = inner[name] ?? inner[name[0]!.toUpperCase() + name.slice(1)];
-    return typeof value === "string" ? value : undefined;
-  };
-  const code = field("code");
-  const message = field("message");
-  const target = field("target");
-  if (code === undefined && message === undefined) return undefined;
-  const details = Array.isArray(inner.details)
-    ? inner.details.flatMap((d: unknown) =>
-        d !== null && typeof d === "object"
-          ? [
-              {
-                code:
-                  typeof (d as { code?: unknown }).code === "string"
-                    ? ((d as { code: string }).code as string)
-                    : undefined,
-                message:
-                  typeof (d as { message?: unknown }).message === "string"
-                    ? ((d as { message: string }).message as string)
-                    : undefined,
-              },
-            ]
-          : [],
-      )
-    : undefined;
-  return { code, message, target, details };
-};
+/** `url` with `pair` appended to its query. */
+const withQuery = (url: string, pair: string): string =>
+  `${url}${url.includes("?") ? "&" : "?"}${pair}`;
 
 // ---------------------------------------------------------------------------
 // Encode
@@ -150,39 +105,90 @@ const parseArmError = (body: unknown): ArmError | undefined => {
 
 // The protocol layer is memoized per process by `API.make`, so the build
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request instead. Its ConfigError channel
-// is erased at this boundary (Protocol effects carry none) and reintroduced
+// calling fiber's context on every request instead. Its error channel is
+// erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated AzureOpError annotations.
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
-    const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    let request = yield* buildRequest({
-      input: unwrapRedactedDeep(input),
-      inputAst,
-      baseUrl: creds.apiBaseUrl,
-      headers: {
-        Authorization: `Bearer ${Redacted.value(creds.bearerToken)}`,
-        // ARM speaks JSON; without this, some resource providers negotiate
-        // another media type (API Management returns policies as raw XML).
-        Accept: "application/json",
-      },
-    });
+    const creds = yield* (yield* Credentials) as Effect.Effect<Config>;
+    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+    // A data-plane operation names its own host and token audience; sent
+    // here it would get the ARM token at the ARM endpoint. The generator
+    // never wires one to this protocol, so this is a hand-made op's bug.
+    if (http?.host !== undefined) {
+      return yield* fail(
+        new SdkError({
+          message: `${http.uri} names a host: use AzureDataPlaneProtocol for data-plane operations`,
+        }),
+      );
+    }
+    const unwrapped = unwrapRedactedDeep(input);
+    const baseUrl = creds.apiBaseUrl;
+
+    // Pageable operations: a page's `nextLink` is never sent as a member.
+    // It is checked before a token is minted: it must stay on the endpoint.
+    const nextLink = nextLinkOf(http, unwrapped);
+    const fields =
+      http?.nextLink !== undefined ? withoutMember(unwrapped, http.nextLink) : unwrapped;
+    const nextUrl = nextLink !== undefined ? resolveNextLink(nextLink, baseUrl) : undefined;
+    if (nextLink !== undefined && nextUrl === undefined) {
+      return yield* fail(
+        new InvalidInput({
+          member: http!.nextLink!,
+          message: `${http!.nextLink} must be a page link on ${baseUrl}; the credentials are only sent there`,
+        }),
+      );
+    }
+
+    const token = yield* creds.token(armScopeFor(baseUrl));
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${Redacted.value(token)}`,
+      // ARM speaks JSON; without this, some resource providers negotiate
+      // another media type (API Management returns policies as raw XML).
+      Accept: http?.accept ?? "application/json",
+      ...http?.headers,
+    };
+
+    // The next page: GET its `nextLink` as-is with the same auth. The link
+    // already carries `api-version` and the skip token; a version is added
+    // only when the link has none.
+    if (nextUrl !== undefined) {
+      const url =
+        http?.apiVersion && !/[?&]api-version=/.test(nextUrl)
+          ? withQuery(nextUrl, `api-version=${encodeURIComponent(http.apiVersion)}`)
+          : nextUrl;
+      return HttpClientRequest.setHeaders(HttpClientRequest.get(url), headers);
+    }
+
+    let request = yield* buildRequest({ input: fields, inputAst, baseUrl, headers });
 
     // Azure-specific URL rewrites, applied to the built request:
     //  1. `{subscriptionId}` left unfilled by the caller is injected from
     //     credentials (v0 parity: users set AZURE_SUBSCRIPTION_ID once and
     //     individual operations pick it up automatically).
-    //  2. ARM requires `api-version` on every call -- the version baked into
+    //  2. Constant query parameters a patch declares.
+    //  3. ARM requires `api-version` on every call -- the version baked into
     //     the operation's Http trait at generation time is appended unless
     //     the URL already carries one.
-    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
+      if (!creds.subscriptionId) {
+        return yield* fail(
+          new ConfigError({
+            message: `${http?.uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
+          }),
+        );
+      }
       url = url.split("{subscriptionId}").join(encodeURIComponent(creds.subscriptionId));
     }
+    for (const [key, value] of Object.entries(http?.query ?? {})) {
+      url = withQuery(
+        url,
+        value === "" ? encodeURIComponent(key) : `${key}=${encodeURIComponent(value)}`,
+      );
+    }
     if (http?.apiVersion && !/[?&]api-version=/.test(url)) {
-      url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
+      url = withQuery(url, `api-version=${encodeURIComponent(http.apiVersion)}`);
     }
     if (url !== request.url) {
       request = HttpClientRequest.setUrl(request, url);
@@ -197,6 +203,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 const decode = ({
   response,
   outputAst,
+  errors,
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
@@ -204,85 +211,14 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    let json: unknown;
-    let nonJson = false;
-    if (text.trim().length > 0) {
-      try {
-        json = JSON.parse(text);
-      } catch {
-        nonJson = true;
-      }
-    }
+    const read = parseBody((yield* response.text.pipe(Effect.catch(fail))) ?? "");
+    const { text, json, nonJson } = read;
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
     if (status >= 400) {
-      const body = nonJson ? text : json;
       const arm = nonJson ? undefined : parseArmError(json);
-
-      // 1. Match by Azure error code first for richer typed errors.
-      const AzureErrorClass =
-        (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
-        (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
-      if (AzureErrorClass) {
-        return yield* fail(
-          new AzureErrorClass({
-            message: arm!.message,
-            code: arm!.code,
-            target: arm!.target,
-          }),
-        );
-      }
-
-      // 1b. A generic top-level code (e.g. `ValidationError`) whose nested
-      //     `details[].code` is mapped.
-      const detail = arm?.details?.find(
-        (d) => d.code !== undefined && AZURE_ERROR_CODE_MAP[d.code],
-      );
-      if (detail !== undefined) {
-        const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
-        return yield* fail(
-          new DetailErrorClass({
-            message: detail.message ?? arm!.message,
-            code: detail.code,
-            target: arm!.target,
-          }),
-        );
-      }
-
-      // 2. Fall back to standard HTTP status errors (Retry-After honored on
-      //    retryable statuses).
-      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
-      if (StatusErrorClass) {
-        return yield* fail(
-          new StatusErrorClass({
-            message: arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
-            retryAfter: parseRetryAfterForStatus(status, headers),
-          } as any),
-        );
-      }
-
-      // 3. Unmapped 5xx -> retryable server error.
-      if (status >= 500) {
-        return yield* fail(
-          new InternalServerError({
-            message: arm?.message ?? `HTTP ${status}`,
-            retryAfter: parseRetryAfterForStatus(status, headers),
-          }),
-        );
-      }
-
-      // 4. Unknown Azure error.
-      return yield* fail(
-        new UnknownAzureError({
-          status,
-          code: arm?.code,
-          message: arm?.message,
-          target: arm?.target,
-          body,
-        }),
-      );
+      return yield* failResponse({ status, headers, read, arm, errors });
     }
 
     // 2xx: the response body IS the payload (ARM has no success envelope),

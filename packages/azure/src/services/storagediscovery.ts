@@ -201,7 +201,10 @@ export interface GetStorageDiscoveryWorkspaceResponse {
   /** The resource-specific properties for this resource. */
   properties?: StorageDiscoveryWorkspaceProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -234,7 +237,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -245,6 +248,8 @@ export interface ListReportByResourceGroupRequest {
   resourceGroupName: string;
   /** The name of the StorageDiscoveryWorkspace */
   storageDiscoveryWorkspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A report resource */
 export interface ReportResource {
@@ -273,12 +278,16 @@ export interface ListReportBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the StorageDiscoveryWorkspace */
   storageDiscoveryWorkspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListStorageDiscoveryWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageDiscoveryWorkspaceTagsMap = { [key: string]: string | undefined };
@@ -311,6 +320,8 @@ export interface StorageDiscoveryWorkspaceListResult {
 export interface ListStorageDiscoveryWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageDiscoveryWorkspacesCreateOrUpdateRequestTagsMap = {
@@ -498,12 +509,13 @@ export const GetStorageDiscoveryWorkspace: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(92, __c11, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -511,16 +523,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReportByResourceGroupError = AzureOpError;
 /** List ReportResource resources by StorageDiscoveryWorkspace */
-export const ListReportByResourceGroup: API.OperationMethod<
+export const ListReportByResourceGroup: API.PaginatedOperationMethod<
   ListReportByResourceGroupRequest,
   ReportResourceListResult,
   ListReportByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReportResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListReportByResourceGroupRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<ReportResourceListResult>,
   errors: [UnknownAzureError],
@@ -528,16 +547,23 @@ export const ListReportByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReportByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReportBySubscriptionError = AzureOpError;
 /** List ReportResource resources by subscription ID */
-export const ListReportBySubscription: API.OperationMethod<
+export const ListReportBySubscription: API.PaginatedOperationMethod<
   ListReportBySubscriptionRequest,
   ReportResourceListResult,
   ListReportBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReportResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListReportBySubscriptionRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<ReportResourceListResult>,
   errors: [UnknownAzureError],
@@ -545,16 +571,23 @@ export const ListReportBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReportBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageDiscoveryWorkspaceByResourceGroupError = AzureOpError;
 /** List StorageDiscoveryWorkspace resources by resource group */
-export const ListStorageDiscoveryWorkspaceByResourceGroup: API.OperationMethod<
+export const ListStorageDiscoveryWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListStorageDiscoveryWorkspaceByResourceGroupRequest,
   StorageDiscoveryWorkspaceListResult,
   ListStorageDiscoveryWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageDiscoveryWorkspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListStorageDiscoveryWorkspaceByResourceGroupRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<StorageDiscoveryWorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -562,16 +595,23 @@ export const ListStorageDiscoveryWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageDiscoveryWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageDiscoveryWorkspaceBySubscriptionError = AzureOpError;
 /** List StorageDiscoveryWorkspace resources by subscription ID */
-export const ListStorageDiscoveryWorkspaceBySubscription: API.OperationMethod<
+export const ListStorageDiscoveryWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListStorageDiscoveryWorkspaceBySubscriptionRequest,
   StorageDiscoveryWorkspaceListResult,
   ListStorageDiscoveryWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageDiscoveryWorkspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListStorageDiscoveryWorkspaceBySubscriptionRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<StorageDiscoveryWorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -579,7 +619,13 @@ export const ListStorageDiscoveryWorkspaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageDiscoveryWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type StorageDiscoveryWorkspacesCreateOrUpdateError = AzureOpError;
 /** Create a StorageDiscoveryWorkspace */
@@ -885,12 +931,15 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StorageDiscovery/operations",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -918,7 +967,7 @@ function __c11(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(91, __c11, 3)),
+          value: __S(91, __c11, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -932,12 +981,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageDiscoveryWorkspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}/reports",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReportByResourceGroupRequest" });
@@ -963,12 +1014,14 @@ function __c14(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           storageDiscoveryWorkspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}/reports",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReportBySubscriptionRequest" });
@@ -981,12 +1034,14 @@ function __c15(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageDiscoveryWorkspaceByResourceGroupRequest" });
@@ -1011,12 +1066,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces",
             code: 200,
             apiVersion: "2025-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageDiscoveryWorkspaceBySubscriptionRequest" });
