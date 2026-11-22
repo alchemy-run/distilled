@@ -13,8 +13,11 @@
  * instead (a gRPC server on a local socket, such as Modal's
  * `unix:/run/modal.sock` inside its containers). The response body is an
  * Effect `Stream` fed by the HTTP/2 stream as data arrives; the trailers
- * settle when it ends, and fail when the stream fails or closes first. `node:http2` is found on first use (no static
- * import), so the module loads in any runtime and only a call needs Node.
+ * settle when it ends, and fail when the stream fails or closes first. A
+ * stream the server resets ends the call with the gRPC status the reset's
+ * code maps to (`resetTrailers`). `node:http2` is found on first use (no
+ * static import), so the module loads in any runtime and only a call needs
+ * Node.
  */
 import * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
@@ -30,6 +33,8 @@ import {
   isResponseStatus,
   hasNoBody,
   layer as transportLayer,
+  resetReply,
+  resetTrailers,
   respond,
   type Trailers,
 } from "./grpc-transport.ts";
@@ -168,9 +173,17 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
 
         let received: Trailers = {};
         let ended = false;
+        let started = false;
+        /** The call already failed with a transport error. */
+        let failed = false;
         const failWith = (cause: unknown) => {
           Queue.failCauseUnsafe(chunks, Cause.fail(cause));
           Deferred.doneUnsafe(trailers, Effect.fail(cause));
+        };
+        const fail = (cause: unknown) => {
+          failed = true;
+          if (started) return failWith(cause);
+          resume(Effect.fail(transportError(request, cause)));
         };
         stream.on("trailers", (incoming) => (received = plain(incoming)));
         stream.on("data", (chunk: Uint8Array) => {
@@ -181,14 +194,34 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
           Queue.endUnsafe(chunks);
           Deferred.doneUnsafe(trailers, Effect.succeed(received));
         });
+        // Every stream ends here, a reset included, which emits no `error` for
+        // NO_ERROR or CANCEL. As in grpc-js, the reset code decides the call.
         stream.on("close", () => {
           settle();
           signal.removeEventListener("abort", onAbort);
-          // After `end` this changes nothing; before it, the response is cut short.
-          if (!ended) failWith(new Error("the HTTP/2 stream closed before the response ended"));
+          if (failed) return;
+          // Node closes every stream of a lost connection with CANCEL; that is
+          // a transport failure, which retries, and no answer from the server.
+          if (entry.session.destroyed) {
+            if (!started || !ended) {
+              fail(new Error("the HTTP/2 connection closed before the response ended"));
+            }
+            return;
+          }
+          if (!started) {
+            started = true;
+            resume(
+              respond(request, resetReply(stream.rstCode)).pipe(
+                Effect.mapError((cause) => transportError(request, cause)),
+              ),
+            );
+          } else if (!ended) {
+            ended = true;
+            Queue.endUnsafe(chunks);
+            Deferred.doneUnsafe(trailers, Effect.succeed(resetTrailers(stream.rstCode)));
+          }
         });
 
-        let started = false;
         stream.on("response", (incoming) => {
           started = true;
           const status = Number(incoming[":status"] ?? 0);
@@ -222,11 +255,10 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
             ),
           );
         });
-        stream.on("error", (error) => {
-          if (started) return failWith(error);
-          settle();
-          signal.removeEventListener("abort", onAbort);
-          resume(Effect.fail(transportError(request, error)));
+        stream.on("error", (error: Error & { code?: string }) => {
+          // The server's RST_STREAM: `close` follows with its code.
+          if (error.code === "ERR_HTTP2_STREAM_ERROR") return;
+          fail(error);
         });
         const body = bodyOf(request);
         stream.end(body === undefined ? undefined : body);
