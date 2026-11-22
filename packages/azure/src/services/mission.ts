@@ -1553,6 +1553,8 @@ export interface GetWorkloadResponse {
 export interface ListApprovalByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Approval Model Resource */
 export interface ApprovalResource {
@@ -1581,6 +1583,8 @@ export interface ListCommunityByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CommunityResourceTagsMap = { [key: string]: string | undefined };
@@ -1617,6 +1621,8 @@ export interface CommunityResourceListResult {
 export interface ListCommunityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCommunityEndpointByCommunityResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1625,6 +1631,8 @@ export interface ListCommunityEndpointByCommunityResourceRequest {
   resourceGroupName: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CommunityEndpointResourceTagsMap = { [key: string]: string | undefined };
@@ -1659,6 +1667,8 @@ export interface ListCommunityEndpointBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHubByCommunityResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1667,6 +1677,8 @@ export interface ListDedicatedHubByCommunityResourceRequest {
   resourceGroupName: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The DedicatedHubResource items on this page */
 export type DedicatedHubResourceListResultValueList = Array<DedicatedHubResource>;
@@ -1682,12 +1694,16 @@ export interface ListDedicatedHubBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEnclaveConnectionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnclaveConnectionResourceTagsMap = { [key: string]: string | undefined };
@@ -1720,6 +1736,8 @@ export interface EnclaveConnectionResourceListResult {
 export interface ListEnclaveConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEnclaveEndpointByEnclaveResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1728,6 +1746,8 @@ export interface ListEnclaveEndpointByEnclaveResourceRequest {
   resourceGroupName: string;
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnclaveEndpointResourceTagsMap = { [key: string]: string | undefined };
@@ -1762,8 +1782,13 @@ export interface ListEnclaveEndpointBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1796,7 +1821,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1807,6 +1832,8 @@ export interface ListTransitHubByCommunityResourceRequest {
   resourceGroupName: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type TransitHubResourceTagsMap = { [key: string]: string | undefined };
@@ -1841,12 +1868,16 @@ export interface ListTransitHubBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the communityResource Resource */
   communityName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVirtualEnclaveByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnclaveResourceTagsMap = { [key: string]: string | undefined };
@@ -1883,6 +1914,8 @@ export interface EnclaveResourceListResult {
 export interface ListVirtualEnclaveBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkloadByEnclaveResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1891,6 +1924,8 @@ export interface ListWorkloadByEnclaveResourceRequest {
   resourceGroupName: string;
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadResourceTagsMap = { [key: string]: string | undefined };
@@ -1925,6 +1960,8 @@ export interface ListWorkloadBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The approval status for an approval action request. */
 export type ApprovalActionRequestApprovalStatus = "Approved" | "Rejected";
@@ -3264,12 +3301,13 @@ export const GetWorkload: API.OperationMethod<
 
 export type ListApprovalByParentError = AzureOpError;
 /** List ApprovalResource resources by parent */
-export const ListApprovalByParent: API.OperationMethod<
+export const ListApprovalByParent: API.PaginatedOperationMethod<
   ListApprovalByParentRequest,
   ApprovalResourceListResult,
   ListApprovalByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApprovalResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListApprovalByParentRequest>,
   output: __S(882, __c55, 2) as any as S.Schema<ApprovalResourceListResult>,
   errors: [UnknownAzureError],
@@ -3280,16 +3318,23 @@ export const ListApprovalByParent: API.OperationMethod<
     op: "ListApprovalByParent",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunityByResourceGroupError = AzureOpError;
 /** List CommunityResource resources by resource group */
-export const ListCommunityByResourceGroup: API.OperationMethod<
+export const ListCommunityByResourceGroup: API.PaginatedOperationMethod<
   ListCommunityByResourceGroupRequest,
   CommunityResourceListResult,
   ListCommunityByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListCommunityByResourceGroupRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<CommunityResourceListResult>,
   errors: [UnknownAzureError],
@@ -3297,16 +3342,23 @@ export const ListCommunityByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunityBySubscriptionError = AzureOpError;
 /** List CommunityResource resources by subscription ID */
-export const ListCommunityBySubscription: API.OperationMethod<
+export const ListCommunityBySubscription: API.PaginatedOperationMethod<
   ListCommunityBySubscriptionRequest,
   CommunityResourceListResult,
   ListCommunityBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListCommunityBySubscriptionRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<CommunityResourceListResult>,
   errors: [UnknownAzureError],
@@ -3314,16 +3366,23 @@ export const ListCommunityBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunityEndpointByCommunityResourceError = AzureOpError;
 /** List CommunityEndpointResource resources by CommunityResource */
-export const ListCommunityEndpointByCommunityResource: API.OperationMethod<
+export const ListCommunityEndpointByCommunityResource: API.PaginatedOperationMethod<
   ListCommunityEndpointByCommunityResourceRequest,
   CommunityEndpointResourceListResult,
   ListCommunityEndpointByCommunityResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListCommunityEndpointByCommunityResourceRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<CommunityEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -3331,16 +3390,23 @@ export const ListCommunityEndpointByCommunityResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityEndpointByCommunityResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCommunityEndpointBySubscriptionError = AzureOpError;
 /** List CommunityEndpointResource resources by subscription ID */
-export const ListCommunityEndpointBySubscription: API.OperationMethod<
+export const ListCommunityEndpointBySubscription: API.PaginatedOperationMethod<
   ListCommunityEndpointBySubscriptionRequest,
   CommunityEndpointResourceListResult,
   ListCommunityEndpointBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CommunityEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListCommunityEndpointBySubscriptionRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<CommunityEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -3348,16 +3414,23 @@ export const ListCommunityEndpointBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCommunityEndpointBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDedicatedHubByCommunityResourceError = AzureOpError;
 /** List DedicatedHubResource resources by CommunityResource */
-export const ListDedicatedHubByCommunityResource: API.OperationMethod<
+export const ListDedicatedHubByCommunityResource: API.PaginatedOperationMethod<
   ListDedicatedHubByCommunityResourceRequest,
   DedicatedHubResourceListResult,
   ListDedicatedHubByCommunityResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DedicatedHubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListDedicatedHubByCommunityResourceRequest>,
   output: __S(1008, __c63, 0) as any as S.Schema<DedicatedHubResourceListResult>,
   errors: [UnknownAzureError],
@@ -3365,16 +3438,23 @@ export const ListDedicatedHubByCommunityResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDedicatedHubByCommunityResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDedicatedHubBySubscriptionError = AzureOpError;
 /** List DedicatedHubResource resources by subscription ID */
-export const ListDedicatedHubBySubscription: API.OperationMethod<
+export const ListDedicatedHubBySubscription: API.PaginatedOperationMethod<
   ListDedicatedHubBySubscriptionRequest,
   DedicatedHubResourceListResult,
   ListDedicatedHubBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DedicatedHubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListDedicatedHubBySubscriptionRequest>,
   output: __S(1008, __c63, 0) as any as S.Schema<DedicatedHubResourceListResult>,
   errors: [UnknownAzureError],
@@ -3382,16 +3462,23 @@ export const ListDedicatedHubBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDedicatedHubBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnclaveConnectionByResourceGroupError = AzureOpError;
 /** List EnclaveConnectionResource resources by resource group */
-export const ListEnclaveConnectionByResourceGroup: API.OperationMethod<
+export const ListEnclaveConnectionByResourceGroup: API.PaginatedOperationMethod<
   ListEnclaveConnectionByResourceGroupRequest,
   EnclaveConnectionResourceListResult,
   ListEnclaveConnectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveConnectionResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListEnclaveConnectionByResourceGroupRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<EnclaveConnectionResourceListResult>,
   errors: [UnknownAzureError],
@@ -3399,16 +3486,23 @@ export const ListEnclaveConnectionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnclaveConnectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnclaveConnectionBySubscriptionError = AzureOpError;
 /** List EnclaveConnectionResource resources by subscription ID */
-export const ListEnclaveConnectionBySubscription: API.OperationMethod<
+export const ListEnclaveConnectionBySubscription: API.PaginatedOperationMethod<
   ListEnclaveConnectionBySubscriptionRequest,
   EnclaveConnectionResourceListResult,
   ListEnclaveConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveConnectionResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListEnclaveConnectionBySubscriptionRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<EnclaveConnectionResourceListResult>,
   errors: [UnknownAzureError],
@@ -3416,16 +3510,23 @@ export const ListEnclaveConnectionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnclaveConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnclaveEndpointByEnclaveResourceError = AzureOpError;
 /** List EnclaveEndpointResource resources by EnclaveResource */
-export const ListEnclaveEndpointByEnclaveResource: API.OperationMethod<
+export const ListEnclaveEndpointByEnclaveResource: API.PaginatedOperationMethod<
   ListEnclaveEndpointByEnclaveResourceRequest,
   EnclaveEndpointResourceListResult,
   ListEnclaveEndpointByEnclaveResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListEnclaveEndpointByEnclaveResourceRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<EnclaveEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -3433,16 +3534,23 @@ export const ListEnclaveEndpointByEnclaveResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnclaveEndpointByEnclaveResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnclaveEndpointBySubscriptionError = AzureOpError;
 /** List EnclaveEndpointResource resources by subscription ID */
-export const ListEnclaveEndpointBySubscription: API.OperationMethod<
+export const ListEnclaveEndpointBySubscription: API.PaginatedOperationMethod<
   ListEnclaveEndpointBySubscriptionRequest,
   EnclaveEndpointResourceListResult,
   ListEnclaveEndpointBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListEnclaveEndpointBySubscriptionRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<EnclaveEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -3450,16 +3558,23 @@ export const ListEnclaveEndpointBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnclaveEndpointBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1172, __c73, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -3467,16 +3582,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTransitHubByCommunityResourceError = AzureOpError;
 /** List TransitHubResource resources by CommunityResource */
-export const ListTransitHubByCommunityResource: API.OperationMethod<
+export const ListTransitHubByCommunityResource: API.PaginatedOperationMethod<
   ListTransitHubByCommunityResourceRequest,
   TransitHubResourceListResult,
   ListTransitHubByCommunityResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TransitHubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListTransitHubByCommunityResourceRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<TransitHubResourceListResult>,
   errors: [UnknownAzureError],
@@ -3484,16 +3606,23 @@ export const ListTransitHubByCommunityResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransitHubByCommunityResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTransitHubBySubscriptionError = AzureOpError;
 /** List TransitHubResource resources by subscription ID */
-export const ListTransitHubBySubscription: API.OperationMethod<
+export const ListTransitHubBySubscription: API.PaginatedOperationMethod<
   ListTransitHubBySubscriptionRequest,
   TransitHubResourceListResult,
   ListTransitHubBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TransitHubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListTransitHubBySubscriptionRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<TransitHubResourceListResult>,
   errors: [UnknownAzureError],
@@ -3501,16 +3630,23 @@ export const ListTransitHubBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransitHubBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualEnclaveByResourceGroupError = AzureOpError;
 /** List EnclaveResource resources by resource group */
-export const ListVirtualEnclaveByResourceGroup: API.OperationMethod<
+export const ListVirtualEnclaveByResourceGroup: API.PaginatedOperationMethod<
   ListVirtualEnclaveByResourceGroupRequest,
   EnclaveResourceListResult,
   ListVirtualEnclaveByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<ListVirtualEnclaveByResourceGroupRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<EnclaveResourceListResult>,
   errors: [UnknownAzureError],
@@ -3518,16 +3654,23 @@ export const ListVirtualEnclaveByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualEnclaveByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualEnclaveBySubscriptionError = AzureOpError;
 /** List EnclaveResource resources by subscription ID */
-export const ListVirtualEnclaveBySubscription: API.OperationMethod<
+export const ListVirtualEnclaveBySubscription: API.PaginatedOperationMethod<
   ListVirtualEnclaveBySubscriptionRequest,
   EnclaveResourceListResult,
   ListVirtualEnclaveBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnclaveResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListVirtualEnclaveBySubscriptionRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<EnclaveResourceListResult>,
   errors: [UnknownAzureError],
@@ -3535,16 +3678,23 @@ export const ListVirtualEnclaveBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualEnclaveBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadByEnclaveResourceError = AzureOpError;
 /** List WorkloadResource resources by EnclaveResource */
-export const ListWorkloadByEnclaveResource: API.OperationMethod<
+export const ListWorkloadByEnclaveResource: API.PaginatedOperationMethod<
   ListWorkloadByEnclaveResourceRequest,
   WorkloadResourceListResult,
   ListWorkloadByEnclaveResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListWorkloadByEnclaveResourceRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<WorkloadResourceListResult>,
   errors: [UnknownAzureError],
@@ -3552,16 +3702,23 @@ export const ListWorkloadByEnclaveResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadByEnclaveResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkloadBySubscriptionError = AzureOpError;
 /** List WorkloadResource resources by subscription ID */
-export const ListWorkloadBySubscription: API.OperationMethod<
+export const ListWorkloadBySubscription: API.PaginatedOperationMethod<
   ListWorkloadBySubscriptionRequest,
   WorkloadResourceListResult,
   ListWorkloadBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListWorkloadBySubscriptionRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<WorkloadResourceListResult>,
   errors: [UnknownAzureError],
@@ -3569,7 +3726,13 @@ export const ListWorkloadBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NotifyApprovalInitiatorError = AzureOpError;
 /** Upon receiving approval or rejection from approver, this facilitates actions on approval resource */
@@ -5121,12 +5284,14 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApprovalByParentRequest" });
@@ -5148,12 +5313,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityByResourceGroupRequest" });
@@ -5178,12 +5345,14 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/communities",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityBySubscriptionRequest" });
@@ -5197,12 +5366,14 @@ function __c59(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityEndpointByCommunityResourceRequest" });
@@ -5228,12 +5399,14 @@ function __c61(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCommunityEndpointBySubscriptionRequest" });
@@ -5247,12 +5420,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/dedicatedHubs",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDedicatedHubByCommunityResourceRequest" });
@@ -5276,12 +5451,14 @@ function __c64(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/communities/{communityName}/dedicatedHubs",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDedicatedHubBySubscriptionRequest" });
@@ -5294,12 +5471,14 @@ function __c65(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/enclaveConnections",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnclaveConnectionByResourceGroupRequest" });
@@ -5324,12 +5503,14 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/enclaveConnections",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnclaveConnectionBySubscriptionRequest" });
@@ -5378,12 +5559,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           virtualEnclaveName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/virtualEnclaves/{virtualEnclaveName}/enclaveEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnclaveEndpointByEnclaveResourceRequest" });
@@ -5409,12 +5592,14 @@ function __c72(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           virtualEnclaveName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/virtualEnclaves/{virtualEnclaveName}/enclaveEndpoints",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnclaveEndpointBySubscriptionRequest" });
@@ -5424,12 +5609,15 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Mission/operations",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5457,7 +5645,7 @@ function __c73(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1171, __c73, 3)),
+          value: __S(1171, __c73, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -5471,12 +5659,14 @@ function __c74(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/transitHubs",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTransitHubByCommunityResourceRequest" });
@@ -5502,12 +5692,14 @@ function __c76(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           communityName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/communities/{communityName}/transitHubs",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTransitHubBySubscriptionRequest" });
@@ -5520,12 +5712,14 @@ function __c77(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/virtualEnclaves",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualEnclaveByResourceGroupRequest" });
@@ -5550,12 +5744,14 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/virtualEnclaves",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualEnclaveBySubscriptionRequest" });
@@ -5569,12 +5765,14 @@ function __c80(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           virtualEnclaveName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/virtualEnclaves/{virtualEnclaveName}/workloads",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadByEnclaveResourceRequest" });
@@ -5600,12 +5798,14 @@ function __c82(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           virtualEnclaveName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Mission/virtualEnclaves/{virtualEnclaveName}/workloads",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkloadBySubscriptionRequest" });

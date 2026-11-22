@@ -541,7 +541,7 @@ export type UsageListResultValueList = Array<Usage>;
 /** The response from the List Usages operation. */
 export interface UsageListResult {
   /** Gets or sets the list of Storage Resource Usages. */
-  value?: UsageListResultValueList | undefined;
+  value: UsageListResultValueList;
 }
 export interface GetTrustedIdProviderRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -600,6 +600,8 @@ export interface ListAccountByResourceGroupRequest {
   _orderby?: string | undefined;
   /** A Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The resource tags. */
 export type DataLakeStoreAccountBasicTagsMap = { [key: string]: string | undefined };
@@ -653,7 +655,7 @@ export type DataLakeStoreAccountListResultValueList = Array<DataLakeStoreAccount
 /** Data Lake Store account list information response. */
 export interface DataLakeStoreAccountListResult {
   /** The results of the list operation. */
-  value?: DataLakeStoreAccountListResultValueList | undefined;
+  value: DataLakeStoreAccountListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -672,6 +674,8 @@ export interface ListAccountsRequest {
   _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRuleByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -680,13 +684,15 @@ export interface ListFirewallRuleByAccountRequest {
   resourceGroupName: string;
   /** The name of the Data Lake Store account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** Data Lake Store firewall rule list information. */
 export interface FirewallRuleListResult {
   /** The results of the list operation. */
-  value?: FirewallRuleListResultValueList | undefined;
+  value: FirewallRuleListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -729,13 +735,15 @@ export interface ListTrustedIdProviderByAccountRequest {
   resourceGroupName: string;
   /** The name of the Data Lake Store account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type TrustedIdProviderListResultValueList = Array<TrustedIdProvider>;
 /** Data Lake Store trusted identity provider list information. */
 export interface TrustedIdProviderListResult {
   /** The results of the list operation. */
-  value?: TrustedIdProviderListResultValueList | undefined;
+  value: TrustedIdProviderListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -746,13 +754,15 @@ export interface ListVirtualNetworkRuleByAccountRequest {
   resourceGroupName: string;
   /** The name of the Data Lake Store account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type VirtualNetworkRuleListResultValueList = Array<VirtualNetworkRule>;
 /** Data Lake Store virtual network rule list information. */
 export interface VirtualNetworkRuleListResult {
   /** The results of the list operation. */
-  value?: VirtualNetworkRuleListResultValueList | undefined;
+  value: VirtualNetworkRuleListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1175,12 +1185,13 @@ export const GetLocationCapability: API.OperationMethod<
 
 export type GetLocationUsageError = AzureOpError;
 /** Gets the current usage count and the limit for the resources of the location under the subscription. */
-export const GetLocationUsage: API.OperationMethod<
+export const GetLocationUsage: API.PaginatedOperationMethod<
   GetLocationUsageRequest,
   UsageListResult,
   GetLocationUsageError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Usage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetLocationUsageRequest>,
   output: __S(228, __c14, 4) as any as S.Schema<UsageListResult>,
   errors: [UnknownAzureError],
@@ -1188,7 +1199,8 @@ export const GetLocationUsage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLocationUsage",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type GetTrustedIdProviderError = AzureOpError;
 /** Gets the specified Data Lake Store trusted identity provider. */
@@ -1226,12 +1238,13 @@ export const GetVirtualNetworkRule: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** Lists the Data Lake Store accounts within a specific resource group. The response includes a link to the next page of results, if any. */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   DataLakeStoreAccountListResult,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataLakeStoreAccountBasic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<DataLakeStoreAccountListResult>,
   errors: [UnknownAzureError],
@@ -1239,16 +1252,23 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountsError = AzureOpError;
 /** Lists the Data Lake Store accounts within the subscription. The response includes a link to the next page of results, if any. */
-export const ListAccounts: API.OperationMethod<
+export const ListAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   DataLakeStoreAccountListResult,
   ListAccountsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataLakeStoreAccountBasic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<DataLakeStoreAccountListResult>,
   errors: [UnknownAzureError],
@@ -1256,16 +1276,23 @@ export const ListAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccounts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirewallRuleByAccountError = AzureOpError;
 /** Lists the Data Lake Store firewall rules within the specified Data Lake Store account. */
-export const ListFirewallRuleByAccount: API.OperationMethod<
+export const ListFirewallRuleByAccount: API.PaginatedOperationMethod<
   ListFirewallRuleByAccountRequest,
   FirewallRuleListResult,
   ListFirewallRuleByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FirewallRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListFirewallRuleByAccountRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<FirewallRuleListResult>,
   errors: [UnknownAzureError],
@@ -1273,7 +1300,13 @@ export const ListFirewallRuleByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRuleByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Data Lake Store REST API operations. */
@@ -1294,12 +1327,13 @@ export const ListOperations: API.OperationMethod<
 
 export type ListTrustedIdProviderByAccountError = AzureOpError;
 /** Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account. */
-export const ListTrustedIdProviderByAccount: API.OperationMethod<
+export const ListTrustedIdProviderByAccount: API.PaginatedOperationMethod<
   ListTrustedIdProviderByAccountRequest,
   TrustedIdProviderListResult,
   ListTrustedIdProviderByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TrustedIdProvider
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListTrustedIdProviderByAccountRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<TrustedIdProviderListResult>,
   errors: [UnknownAzureError],
@@ -1307,16 +1341,23 @@ export const ListTrustedIdProviderByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTrustedIdProviderByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkRuleByAccountError = AzureOpError;
 /** Lists the Data Lake Store virtual network rules within the specified Data Lake Store account. */
-export const ListVirtualNetworkRuleByAccount: API.OperationMethod<
+export const ListVirtualNetworkRuleByAccount: API.PaginatedOperationMethod<
   ListVirtualNetworkRuleByAccountRequest,
   VirtualNetworkRuleListResult,
   ListVirtualNetworkRuleByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetworkRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListVirtualNetworkRuleByAccountRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<VirtualNetworkRuleListResult>,
   errors: [UnknownAzureError],
@@ -1324,7 +1365,13 @@ export const ListVirtualNetworkRuleByAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkRuleByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type TrustedIdProvidersCreateOrUpdateError = AzureOpError;
 /** Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider */
@@ -1769,7 +1816,7 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(227, __c14, 3)),
+          value: __S(227, __c14, 3),
         }),
       ).annotate({ identifier: "UsageListResult" });
   }
@@ -1827,12 +1874,14 @@ function __c17(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -1867,7 +1916,7 @@ function __c18(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(290, __c18, 2)),
+          value: __S(290, __c18, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataLakeStoreAccountListResult" });
@@ -1885,12 +1934,14 @@ function __c19(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeStore/accounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
@@ -1904,19 +1955,21 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/firewallRules",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFirewallRuleByAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRuleListResult" });
@@ -1971,19 +2024,21 @@ function __c22(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/trustedIdProviders",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTrustedIdProviderByAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(160, __c10, 0)),
+          value: __S(160, __c10, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TrustedIdProviderListResult" });
@@ -1997,19 +2052,21 @@ function __c23(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/virtualNetworkRules",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkRuleByAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(176, __c11, 0)),
+          value: __S(176, __c11, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualNetworkRuleListResult" });

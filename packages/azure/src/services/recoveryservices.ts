@@ -745,6 +745,8 @@ export interface ListDeletedVaultBySubscriptionIdRequest {
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** DeletedVault information as returned by the resource provider. */
 export interface DeletedVault {
@@ -768,7 +770,10 @@ export interface DeletedVaultList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
   /** Name of the provider for display purposes */
@@ -829,6 +834,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The name of the recovery services vault. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Information of the private link resource. */
 export interface PrivateLinkResource {
@@ -859,6 +866,8 @@ export interface ListReplicationUsagesRequest {
   resourceGroupName: string;
   /** The name of the Vault */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Summary of the replication monitoring data for this vault. */
 export interface MonitoringSummary {
@@ -904,7 +913,7 @@ export type ReplicationUsageListValueList = Array<ReplicationUsage>;
 /** Replication usages for vault. */
 export interface ReplicationUsageList {
   /** The list of replication usages for the given vault. */
-  value?: ReplicationUsageListValueList | undefined;
+  value: ReplicationUsageListValueList;
   nextLink?: string | undefined;
 }
 export interface ListUsageByVaultsRequest {
@@ -914,6 +923,8 @@ export interface ListUsageByVaultsRequest {
   resourceGroupName: string;
   /** The name of the Vault */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Unit of the usage. */
 export type UsagesUnit =
@@ -950,7 +961,7 @@ export type VaultUsageListValueList = Array<VaultUsage>;
 /** Usage for vault. */
 export interface VaultUsageList {
   /** The list of usages for the given vault. */
-  value?: VaultUsageListValueList | undefined;
+  value: VaultUsageListValueList;
   nextLink?: string | undefined;
 }
 export interface ListVaultByResourceGroupRequest {
@@ -958,6 +969,8 @@ export interface ListVaultByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VaultTagsMap = { [key: string]: string | undefined };
@@ -996,6 +1009,8 @@ export interface VaultList {
 export interface ListVaultBySubscriptionIdRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** DNSZone information */
 export interface DNSZone {
@@ -1455,12 +1470,13 @@ export const GetVaultExtendedInfo: API.OperationMethod<
 
 export type ListDeletedVaultBySubscriptionIdError = AzureOpError;
 /** List deleted vaults in a subscription. */
-export const ListDeletedVaultBySubscriptionId: API.OperationMethod<
+export const ListDeletedVaultBySubscriptionId: API.PaginatedOperationMethod<
   ListDeletedVaultBySubscriptionIdRequest,
   DeletedVaultList,
   ListDeletedVaultBySubscriptionIdError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeletedVault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListDeletedVaultBySubscriptionIdRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<DeletedVaultList>,
   errors: [UnknownAzureError],
@@ -1468,16 +1484,23 @@ export const ListDeletedVaultBySubscriptionId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeletedVaultBySubscriptionId",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ClientDiscoveryResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClientDiscoveryValueForSingleApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(168, __c5, 8) as any as S.Schema<ClientDiscoveryResponse>,
   errors: [UnknownAzureError],
@@ -1485,16 +1508,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** Returns the list of private link resources that need to be created for Backup and SiteRecovery */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResources,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PrivateLinkResources>,
   errors: [UnknownAzureError],
@@ -1502,16 +1532,23 @@ export const ListPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReplicationUsagesError = AzureOpError;
 /** Fetches the replication usages of the vault. */
-export const ListReplicationUsages: API.OperationMethod<
+export const ListReplicationUsages: API.PaginatedOperationMethod<
   ListReplicationUsagesRequest,
   ReplicationUsageList,
   ListReplicationUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReplicationUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListReplicationUsagesRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<ReplicationUsageList>,
   errors: [UnknownAzureError],
@@ -1519,16 +1556,23 @@ export const ListReplicationUsages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReplicationUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageByVaultsError = AzureOpError;
 /** Fetches the usages of the vault. */
-export const ListUsageByVaults: API.OperationMethod<
+export const ListUsageByVaults: API.PaginatedOperationMethod<
   ListUsageByVaultsRequest,
   VaultUsageList,
   ListUsageByVaultsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VaultUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListUsageByVaultsRequest>,
   output: __S(260, __c8, 4) as any as S.Schema<VaultUsageList>,
   errors: [UnknownAzureError],
@@ -1536,16 +1580,23 @@ export const ListUsageByVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageByVaults",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultByResourceGroupError = AzureOpError;
 /** Retrieve a list of Vaults. */
-export const ListVaultByResourceGroup: API.OperationMethod<
+export const ListVaultByResourceGroup: API.PaginatedOperationMethod<
   ListVaultByResourceGroupRequest,
   VaultList,
   ListVaultByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Vault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListVaultByResourceGroupRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<VaultList>,
   errors: [UnknownAzureError],
@@ -1553,16 +1604,23 @@ export const ListVaultByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultBySubscriptionIdError = AzureOpError;
 /** Fetches all the resources of the specified type in the subscription. */
-export const ListVaultBySubscriptionId: API.OperationMethod<
+export const ListVaultBySubscriptionId: API.PaginatedOperationMethod<
   ListVaultBySubscriptionIdRequest,
   VaultList,
   ListVaultBySubscriptionIdError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Vault
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListVaultBySubscriptionIdRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<VaultList>,
   errors: [UnknownAzureError],
@@ -1570,7 +1628,13 @@ export const ListVaultBySubscriptionId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultBySubscriptionId",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RecoveryServicesCapabilitiesError = AzureOpError;
 /** API to get details about capabilities provided by Microsoft.RecoveryServices RP API to get details about capabilities provided by Microsoft.RecoveryServices RP */
@@ -1831,12 +1895,14 @@ function __c4(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeletedVaultBySubscriptionIdRequest" });
@@ -1855,12 +1921,15 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1923,12 +1992,14 @@ function __c6(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -1951,12 +2022,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReplicationUsagesRequest" });
@@ -1995,7 +2068,7 @@ function __c7(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(228, __c7, 4)),
+          value: __S(228, __c7, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationUsageList" });
@@ -2009,12 +2082,14 @@ function __c8(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageByVaultsRequest" });
@@ -2041,7 +2116,7 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(259, __c8, 3)),
+          value: __S(259, __c8, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VaultUsageList" });
@@ -2054,12 +2129,14 @@ function __c9(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultByResourceGroupRequest" });
@@ -2084,12 +2161,14 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultBySubscriptionIdRequest" });

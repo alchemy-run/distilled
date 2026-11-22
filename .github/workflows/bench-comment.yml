@@ -65,7 +65,14 @@ jobs:
           RESULTS: ${{ runner.temp }}/results
           RUN_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          pr=$(node -p 'const n = require(process.env.RESULTS + "/pr.json").number; Number.isInteger(n) && n > 0 ? n : ""')
+          # The results are only data: every entry must be a plain file or
+          # directory, and pr.json and head.json must be plain files.
+          bad=$(find "$RESULTS" -mindepth 1 ! -type f ! -type d)
+          [ -z "$bad" ] || { echo "::error::the results hold entries that are not plain files"; exit 1; }
+          for f in pr.json head.json; do
+            [ -f "$RESULTS/$f" ] && [ ! -L "$RESULTS/$f" ] || { echo "::error::$f is not a plain file"; exit 1; }
+          done
+          pr=$(node -p 'const n = JSON.parse(require("node:fs").readFileSync(process.env.RESULTS + "/pr.json", "utf8")).number; Number.isInteger(n) && n > 0 ? n : ""')
           [ -n "$pr" ] || { echo "::error::pr.json has no PR number"; exit 1; }
           read -r state head < <(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr" --jq '"\(.state) \(.head.sha)"')
           if [ "$state" != open ] || [ "$head" != "$RUN_SHA" ]; then

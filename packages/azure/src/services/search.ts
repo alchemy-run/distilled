@@ -650,6 +650,8 @@ export interface ListNetworkSecurityPerimeterConfigurationByServiceRequest {
   resourceGroupName: string;
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfigurationListResultValueItem {
@@ -673,7 +675,10 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationListResultValueItemDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -707,7 +712,7 @@ export type OperationListResultValueList = Array<OperationListResultValueItem>;
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations by Azure AI Search, some supported by the resource provider and others by data plane APIs. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The URL to get the next set of operation list results, if any. */
   nextLink?: string | undefined;
 }
@@ -718,13 +723,15 @@ export interface ListPrivateEndpointConnectionByServiceRequest {
   resourceGroupName: string;
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of private endpoint connections. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** Response containing a list of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
   nextLink?: string | undefined;
 }
@@ -735,6 +742,8 @@ export interface ListPrivateLinkResourceSupportedRequest {
   resourceGroupName: string;
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of required members of the private link resource. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -790,7 +799,7 @@ export type PrivateLinkResourcesResultValueList = Array<PrivateLinkResource>;
 /** Response containing a list of supported Private Link Resources. */
 export interface PrivateLinkResourcesResult {
   /** The list of supported Private Link Resources. */
-  value?: PrivateLinkResourcesResultValueList | undefined;
+  value: PrivateLinkResourcesResultValueList;
   /** The URL to get the next set of private link resources, if there are any. */
   nextLink?: string | undefined;
 }
@@ -799,6 +808,8 @@ export interface ListServiceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SearchServiceTagsMap = { [key: string]: string | undefined };
@@ -828,13 +839,15 @@ export type SearchServiceListResultValueList = Array<SearchService>;
 /** Response containing a list of Azure AI Search services. */
 export interface SearchServiceListResult {
   /** The list of search services. */
-  value?: SearchServiceListResultValueList | undefined;
+  value: SearchServiceListResultValueList;
   /** Request URL that can be used to query next page of search services. Returned when the total number of requested search services exceed maximum page size. */
   nextLink?: string | undefined;
 }
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSharedPrivateLinkResourceByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -843,13 +856,15 @@ export interface ListSharedPrivateLinkResourceByServiceRequest {
   resourceGroupName: string;
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of shared private link resources. */
 export type SharedPrivateLinkResourceListResultValueList = Array<SharedPrivateLinkResource>;
 /** Response containing a list of shared private link resources. */
 export interface SharedPrivateLinkResourceListResult {
   /** The list of shared private link resources. */
-  value?: SharedPrivateLinkResourceListResultValueList | undefined;
+  value: SharedPrivateLinkResourceListResultValueList;
   /** The URL to get the next set of shared private link resources, if there are any. */
   nextLink?: string | undefined;
 }
@@ -858,6 +873,8 @@ export interface ListUsageBySubscriptionRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SKU name information, including its identifier and localized display name. */
 export interface QuotaUsageResultName {
@@ -884,7 +901,7 @@ export type QuotaUsagesListResultValueList = Array<QuotaUsageResult>;
 /** Response containing the quota usage information for all the supported SKUs of Azure AI Search. */
 export interface QuotaUsagesListResult {
   /** The quota usages for the SKUs supported by Azure AI Search. */
-  value?: QuotaUsagesListResultValueList | undefined;
+  value: QuotaUsagesListResultValueList;
   /** Request URL that can be used to query next page of quota usages. Returned when the total number of requested quota usages exceed maximum page size. */
   nextLink?: string | undefined;
 }
@@ -909,13 +926,15 @@ export interface QueryKeysListBySearchServiceRequest {
   resourceGroupName: string;
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The query keys for the Azure AI Search service. */
 export type ListQueryKeysResultValueList = Array<QueryKey>;
 /** Response containing the query API keys for a given Azure AI Search service. */
 export interface ListQueryKeysResult {
   /** The query keys for the Azure AI Search service. */
-  value?: ListQueryKeysResultValueList | undefined;
+  value: ListQueryKeysResultValueList;
   /** Request URL that can be used to query next page of query keys. Returned when the total number of requested query keys exceed maximum page size. */
   nextLink?: string | undefined;
 }
@@ -1356,12 +1375,13 @@ export const GetSharedPrivateLinkResource: API.OperationMethod<
 
 export type ListNetworkSecurityPerimeterConfigurationByServiceError = AzureOpError;
 /** Gets a list of network security perimeter configurations for a search service. */
-export const ListNetworkSecurityPerimeterConfigurationByService: API.OperationMethod<
+export const ListNetworkSecurityPerimeterConfigurationByService: API.PaginatedOperationMethod<
   ListNetworkSecurityPerimeterConfigurationByServiceRequest,
   NetworkSecurityPerimeterConfigurationListResult,
   ListNetworkSecurityPerimeterConfigurationByServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkSecurityPerimeterConfigurationListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     64,
     __c4,
@@ -1373,16 +1393,23 @@ export const ListNetworkSecurityPerimeterConfigurationByService: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkSecurityPerimeterConfigurationByService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available REST API operations of the Microsoft.Search provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(84, __c5, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -1390,16 +1417,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByServiceError = AzureOpError;
 /** Gets a list of all private endpoint connections in the given service. */
-export const ListPrivateEndpointConnectionByService: API.OperationMethod<
+export const ListPrivateEndpointConnectionByService: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByServiceRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListPrivateEndpointConnectionByServiceRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -1407,16 +1441,23 @@ export const ListPrivateEndpointConnectionByService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceSupportedError = AzureOpError;
 /** Gets a list of all supported private link resource types for the given service. */
-export const ListPrivateLinkResourceSupported: API.OperationMethod<
+export const ListPrivateLinkResourceSupported: API.PaginatedOperationMethod<
   ListPrivateLinkResourceSupportedRequest,
   PrivateLinkResourcesResult,
   ListPrivateLinkResourceSupportedError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListPrivateLinkResourceSupportedRequest>,
   output: __S(119, __c7, 7) as any as S.Schema<PrivateLinkResourcesResult>,
   errors: [UnknownAzureError],
@@ -1424,16 +1465,23 @@ export const ListPrivateLinkResourceSupported: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceSupported",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceByResourceGroupError = AzureOpError;
 /** Gets a list of all search services in the given resource group. */
-export const ListServiceByResourceGroup: API.OperationMethod<
+export const ListServiceByResourceGroup: API.PaginatedOperationMethod<
   ListServiceByResourceGroupRequest,
   SearchServiceListResult,
   ListServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SearchService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<SearchServiceListResult>,
   errors: [UnknownAzureError],
@@ -1441,16 +1489,23 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceBySubscriptionError = AzureOpError;
 /** Gets a list of all search services in the given subscription. */
-export const ListServiceBySubscription: API.OperationMethod<
+export const ListServiceBySubscription: API.PaginatedOperationMethod<
   ListServiceBySubscriptionRequest,
   SearchServiceListResult,
   ListServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SearchService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListServiceBySubscriptionRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<SearchServiceListResult>,
   errors: [UnknownAzureError],
@@ -1458,16 +1513,23 @@ export const ListServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSharedPrivateLinkResourceByServiceError = AzureOpError;
 /** Gets a list of all shared private link resources managed by the given service. */
-export const ListSharedPrivateLinkResourceByService: API.OperationMethod<
+export const ListSharedPrivateLinkResourceByService: API.PaginatedOperationMethod<
   ListSharedPrivateLinkResourceByServiceRequest,
   SharedPrivateLinkResourceListResult,
   ListSharedPrivateLinkResourceByServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedPrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListSharedPrivateLinkResourceByServiceRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<SharedPrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -1475,16 +1537,23 @@ export const ListSharedPrivateLinkResourceByService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSharedPrivateLinkResourceByService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageBySubscriptionError = AzureOpError;
 /** Get a list of all Azure AI Search quota usages across the subscription. */
-export const ListUsageBySubscription: API.OperationMethod<
+export const ListUsageBySubscription: API.PaginatedOperationMethod<
   ListUsageBySubscriptionRequest,
   QuotaUsagesListResult,
   ListUsageBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QuotaUsageResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListUsageBySubscriptionRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<QuotaUsagesListResult>,
   errors: [UnknownAzureError],
@@ -1492,7 +1561,13 @@ export const ListUsageBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NetworkSecurityPerimeterConfigurationsReconcileError = AzureOpError;
 /** Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration. */
@@ -1521,12 +1596,13 @@ export const NetworkSecurityPerimeterConfigurationsReconcile: API.OperationMetho
 
 export type QueryKeysListBySearchServiceError = AzureOpError;
 /** Returns the list of query API keys for the given Azure AI Search service. */
-export const QueryKeysListBySearchService: API.OperationMethod<
+export const QueryKeysListBySearchService: API.PaginatedOperationMethod<
   QueryKeysListBySearchServiceRequest,
   ListQueryKeysResult,
   QueryKeysListBySearchServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  QueryKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<QueryKeysListBySearchServiceRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<ListQueryKeysResult>,
   errors: [UnknownAzureError],
@@ -1534,7 +1610,13 @@ export const QueryKeysListBySearchService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryKeysListBySearchService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegenerateAdminKeyError = AzureOpError;
 /** Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time. */
@@ -1742,12 +1824,14 @@ function __c4(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           searchServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkSecurityPerimeterConfigurationByServiceRequest" });
@@ -1766,12 +1850,15 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Search/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1799,7 +1886,7 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(83, __c5, 3)),
+          value: __S(83, __c5, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -1813,19 +1900,21 @@ function __c6(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           searchServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByServiceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(672, __c42, 0)),
+          value: __S(672, __c42, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -1839,12 +1928,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           searchServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceSupportedRequest" });
@@ -1889,7 +1980,7 @@ function __c7(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(118, __c7, 6)),
+          value: __S(118, __c7, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourcesResult" });
@@ -1902,12 +1993,14 @@ function __c8(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -1920,7 +2013,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(144, __c9, 0)),
+          value: __S(144, __c9, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchServiceListResult" });
@@ -1932,12 +2025,14 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceBySubscriptionRequest" });
@@ -1951,19 +2046,21 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           searchServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSharedPrivateLinkResourceByServiceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(688, __c43, 0)),
+          value: __S(688, __c43, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharedPrivateLinkResourceListResult" });
@@ -1976,12 +2073,14 @@ function __c12(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageBySubscriptionRequest" });
@@ -1990,7 +2089,7 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(193, __c12, 1)),
+          value: __S(193, __c12, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuotaUsagesListResult" });
@@ -2129,12 +2228,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           searchServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "QueryKeysListBySearchServiceRequest" });
@@ -2143,7 +2244,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(305, __c19, 1)),
+          value: __S(305, __c19, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListQueryKeysResult" });

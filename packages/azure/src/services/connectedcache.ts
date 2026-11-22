@@ -1421,6 +1421,8 @@ export interface ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerReso
   resourceGroupName: string;
   /** Name of the Customer resource */
   customerResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCacheNodeResourceTagsMap = { [key: string]: string | undefined };
@@ -1456,6 +1458,8 @@ export interface ListEnterpriseMccCustomerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnterpriseMccCustomerResourceTagsMap = { [key: string]: string | undefined };
@@ -1488,6 +1492,8 @@ export interface EnterpriseMccCustomerResourceListResult {
 export interface ListEnterpriseMccCustomerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIspCacheNodesOperationByIspCustomerResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1496,6 +1502,8 @@ export interface ListIspCacheNodesOperationByIspCustomerResourceRequest {
   resourceGroupName: string;
   /** Name of the Customer resource */
   customerResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IspCacheNodeResourceTagsMap = { [key: string]: string | undefined };
@@ -1530,6 +1538,8 @@ export interface ListIspCustomerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IspCustomerResourceTagsMap = { [key: string]: string | undefined };
@@ -1562,8 +1572,13 @@ export interface IspCustomerResourceListResult {
 export interface ListIspCustomerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1596,7 +1611,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2134,12 +2149,13 @@ export const IspCustomersCreateOrUpdate: API.OperationMethod<
 
 export type ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResourceError = AzureOpError;
 /** This api retrieves information about all ispCacheNode resources under the given subscription and resource group */
-export const ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource: API.OperationMethod<
+export const ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource: API.PaginatedOperationMethod<
   ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResourceRequest,
   EnterpriseMccCacheNodeResourceListResult,
   ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnterpriseMccCacheNodeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     120,
     __c15,
@@ -2151,16 +2167,23 @@ export const ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnterpriseMccCustomerByResourceGroupError = AzureOpError;
 /** This api gets the information about all enterprise mcc customer resources under the given subscription and resource group */
-export const ListEnterpriseMccCustomerByResourceGroup: API.OperationMethod<
+export const ListEnterpriseMccCustomerByResourceGroup: API.PaginatedOperationMethod<
   ListEnterpriseMccCustomerByResourceGroupRequest,
   EnterpriseMccCustomerResourceListResult,
   ListEnterpriseMccCustomerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnterpriseMccCustomerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListEnterpriseMccCustomerByResourceGroupRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<EnterpriseMccCustomerResourceListResult>,
   errors: [UnknownAzureError],
@@ -2168,16 +2191,23 @@ export const ListEnterpriseMccCustomerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnterpriseMccCustomerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnterpriseMccCustomerBySubscriptionError = AzureOpError;
 /** This api gets information about all enterpriseMccCustomer resources under the given subscription */
-export const ListEnterpriseMccCustomerBySubscription: API.OperationMethod<
+export const ListEnterpriseMccCustomerBySubscription: API.PaginatedOperationMethod<
   ListEnterpriseMccCustomerBySubscriptionRequest,
   EnterpriseMccCustomerResourceListResult,
   ListEnterpriseMccCustomerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnterpriseMccCustomerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListEnterpriseMccCustomerBySubscriptionRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<EnterpriseMccCustomerResourceListResult>,
   errors: [UnknownAzureError],
@@ -2185,16 +2215,23 @@ export const ListEnterpriseMccCustomerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnterpriseMccCustomerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIspCacheNodesOperationByIspCustomerResourceError = AzureOpError;
 /** This api retrieves information about all ispCacheNode resources under the given subscription and resource group */
-export const ListIspCacheNodesOperationByIspCustomerResource: API.OperationMethod<
+export const ListIspCacheNodesOperationByIspCustomerResource: API.PaginatedOperationMethod<
   ListIspCacheNodesOperationByIspCustomerResourceRequest,
   IspCacheNodeResourceListResult,
   ListIspCacheNodesOperationByIspCustomerResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IspCacheNodeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     160,
     __c20,
@@ -2206,16 +2243,23 @@ export const ListIspCacheNodesOperationByIspCustomerResource: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIspCacheNodesOperationByIspCustomerResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIspCustomerByResourceGroupError = AzureOpError;
 /** This api gets the information about all ispCustomer resources under the given subscription and resource group */
-export const ListIspCustomerByResourceGroup: API.OperationMethod<
+export const ListIspCustomerByResourceGroup: API.PaginatedOperationMethod<
   ListIspCustomerByResourceGroupRequest,
   IspCustomerResourceListResult,
   ListIspCustomerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IspCustomerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListIspCustomerByResourceGroupRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<IspCustomerResourceListResult>,
   errors: [UnknownAzureError],
@@ -2223,16 +2267,23 @@ export const ListIspCustomerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIspCustomerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIspCustomerBySubscriptionError = AzureOpError;
 /** This api gets information about all ispCustomer resources under the given subscription */
-export const ListIspCustomerBySubscription: API.OperationMethod<
+export const ListIspCustomerBySubscription: API.PaginatedOperationMethod<
   ListIspCustomerBySubscriptionRequest,
   IspCustomerResourceListResult,
   ListIspCustomerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IspCustomerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListIspCustomerBySubscriptionRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<IspCustomerResourceListResult>,
   errors: [UnknownAzureError],
@@ -2240,16 +2291,23 @@ export const ListIspCustomerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIspCustomerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(188, __c23, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -2257,7 +2315,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateEnterpriseMccCacheNodesOperationError = AzureOpError;
 /** This api updates an existing ispCacheNode resource */
@@ -2669,12 +2733,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           customerResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -2702,12 +2768,14 @@ function __c17(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnterpriseMccCustomerByResourceGroupRequest" });
@@ -2732,12 +2800,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnterpriseMccCustomerBySubscriptionRequest" });
@@ -2751,12 +2821,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           customerResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIspCacheNodesOperationByIspCustomerResourceRequest" });
@@ -2769,12 +2841,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIspCustomerByResourceGroupRequest" });
@@ -2786,12 +2860,14 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/ispCustomers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIspCustomerBySubscriptionRequest" });
@@ -2801,12 +2877,15 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ConnectedCache/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2834,7 +2913,7 @@ function __c23(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(187, __c23, 3)),
+          value: __S(187, __c23, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

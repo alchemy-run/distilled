@@ -509,6 +509,8 @@ export interface ManagedProxyResource {
 export interface ListEndpointsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The endpoint for the target resource. */
 export interface EndpointResource {
@@ -537,6 +539,8 @@ export interface ListInventoryBySolutionConfigurationRequest {
   resourceUri: string;
   /** Represent Solution Configuration Resource. */
   solutionConfiguration: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface InventoryResource {
@@ -560,7 +564,10 @@ export interface InventoryResourceListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -593,7 +600,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -602,6 +609,8 @@ export interface ListPublicCloudConnectorByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PublicCloudConnectorTagsMap = { [key: string]: string | undefined };
@@ -636,12 +645,16 @@ export interface PublicCloudConnectorListResult {
 export interface ListPublicCloudConnectorBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListServiceConfigurationByEndpointResourceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The endpoint name. */
   endpointName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The service configuration details associated with the target resource. */
 export interface ServiceConfigurationResource {
@@ -668,6 +681,8 @@ export interface ServiceConfigurationList {
 export interface ListSolutionConfigurationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Configuration */
 export interface SolutionConfiguration {
@@ -696,6 +711,8 @@ export interface ListSolutionTypeByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface SolutionTypeResource {
@@ -722,6 +739,8 @@ export interface SolutionTypeResourceListResult {
 export interface ListSolutionTypeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties of Solution Type */
 export interface SolutionTypeSettings {
@@ -1414,12 +1433,13 @@ export const ListEndpointManagedProxyDetails: API.OperationMethod<
 
 export type ListEndpointsError = AzureOpError;
 /** List of endpoints to the target resource. */
-export const ListEndpoints: API.OperationMethod<
+export const ListEndpoints: API.PaginatedOperationMethod<
   ListEndpointsRequest,
   EndpointsList,
   ListEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<EndpointsList>,
   errors: [UnknownAzureError],
@@ -1432,16 +1452,23 @@ export const ListEndpoints: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInventoryBySolutionConfigurationError = AzureOpError;
 /** List InventoryResource resources by SolutionConfiguration */
-export const ListInventoryBySolutionConfiguration: API.OperationMethod<
+export const ListInventoryBySolutionConfiguration: API.PaginatedOperationMethod<
   ListInventoryBySolutionConfigurationRequest,
   InventoryResourceListResult,
   ListInventoryBySolutionConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InventoryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListInventoryBySolutionConfigurationRequest>,
   output: __S(114, __c14, 2) as any as S.Schema<InventoryResourceListResult>,
   errors: [UnknownAzureError],
@@ -1455,16 +1482,23 @@ export const ListInventoryBySolutionConfiguration: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(124, __c15, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1472,16 +1506,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublicCloudConnectorByResourceGroupError = AzureOpError;
 /** List PublicCloudConnector resources by resource group */
-export const ListPublicCloudConnectorByResourceGroup: API.OperationMethod<
+export const ListPublicCloudConnectorByResourceGroup: API.PaginatedOperationMethod<
   ListPublicCloudConnectorByResourceGroupRequest,
   PublicCloudConnectorListResult,
   ListPublicCloudConnectorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PublicCloudConnector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListPublicCloudConnectorByResourceGroupRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<PublicCloudConnectorListResult>,
   errors: [UnknownAzureError],
@@ -1489,16 +1530,23 @@ export const ListPublicCloudConnectorByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublicCloudConnectorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublicCloudConnectorBySubscriptionError = AzureOpError;
 /** List PublicCloudConnector resources by subscription ID */
-export const ListPublicCloudConnectorBySubscription: API.OperationMethod<
+export const ListPublicCloudConnectorBySubscription: API.PaginatedOperationMethod<
   ListPublicCloudConnectorBySubscriptionRequest,
   PublicCloudConnectorListResult,
   ListPublicCloudConnectorBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PublicCloudConnector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListPublicCloudConnectorBySubscriptionRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<PublicCloudConnectorListResult>,
   errors: [UnknownAzureError],
@@ -1506,16 +1554,23 @@ export const ListPublicCloudConnectorBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublicCloudConnectorBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceConfigurationByEndpointResourceError = AzureOpError;
 /** Lists of all the services associated with endpoint resource. API to enumerate registered services in service configurations under a Endpoint Resource */
-export const ListServiceConfigurationByEndpointResource: API.OperationMethod<
+export const ListServiceConfigurationByEndpointResource: API.PaginatedOperationMethod<
   ListServiceConfigurationByEndpointResourceRequest,
   ServiceConfigurationList,
   ListServiceConfigurationByEndpointResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceConfigurationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListServiceConfigurationByEndpointResourceRequest>,
   output: __S(162, __c20, 2) as any as S.Schema<ServiceConfigurationList>,
   errors: [UnknownAzureError],
@@ -1529,16 +1584,23 @@ export const ListServiceConfigurationByEndpointResource: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionConfigurationsError = AzureOpError;
 /** List SolutionConfiguration resources by parent */
-export const ListSolutionConfigurations: API.OperationMethod<
+export const ListSolutionConfigurations: API.PaginatedOperationMethod<
   ListSolutionConfigurationsRequest,
   SolutionConfigurationListResult,
   ListSolutionConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListSolutionConfigurationsRequest>,
   output: __S(170, __c21, 2) as any as S.Schema<SolutionConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -1552,16 +1614,23 @@ export const ListSolutionConfigurations: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionTypeByResourceGroupError = AzureOpError;
 /** List SolutionTypeResource resources by resource group */
-export const ListSolutionTypeByResourceGroup: API.OperationMethod<
+export const ListSolutionTypeByResourceGroup: API.PaginatedOperationMethod<
   ListSolutionTypeByResourceGroupRequest,
   SolutionTypeResourceListResult,
   ListSolutionTypeByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionTypeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListSolutionTypeByResourceGroupRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<SolutionTypeResourceListResult>,
   errors: [UnknownAzureError],
@@ -1569,16 +1638,23 @@ export const ListSolutionTypeByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionTypeByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionTypeBySubscriptionError = AzureOpError;
 /** List SolutionTypeResource resources by subscription ID */
-export const ListSolutionTypeBySubscription: API.OperationMethod<
+export const ListSolutionTypeBySubscription: API.PaginatedOperationMethod<
   ListSolutionTypeBySubscriptionRequest,
   SolutionTypeResourceListResult,
   ListSolutionTypeBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionTypeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListSolutionTypeBySubscriptionRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<SolutionTypeResourceListResult>,
   errors: [UnknownAzureError],
@@ -1586,7 +1662,13 @@ export const ListSolutionTypeBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionTypeBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PostGenerateAwsTemplateError = AzureOpError;
 /** Retrieve AWS Cloud Formation template */
@@ -2097,12 +2179,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEndpointsRequest" });
@@ -2124,12 +2208,14 @@ function __c14(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           solutionConfiguration: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInventoryBySolutionConfigurationRequest" });
@@ -2148,12 +2234,15 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridConnectivity/operations",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2181,7 +2270,7 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(123, __c15, 3)),
+          value: __S(123, __c15, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2194,12 +2283,14 @@ function __c16(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublicCloudConnectorByResourceGroupRequest" });
@@ -2224,12 +2315,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublicCloudConnectorBySubscriptionRequest" });
@@ -2261,12 +2354,14 @@ function __c20(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
             code: 200,
             apiVersion: "2024-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceConfigurationByEndpointResourceRequest" });
@@ -2287,12 +2382,14 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionConfigurationsRequest" });
@@ -2314,12 +2411,14 @@ function __c22(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionTypeByResourceGroupRequest" });
@@ -2344,12 +2443,14 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionTypeBySubscriptionRequest" });

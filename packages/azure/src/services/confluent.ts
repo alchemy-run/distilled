@@ -1542,6 +1542,8 @@ export interface ListConnectorRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of connector record */
 export interface ConnectorResource {
@@ -1568,6 +1570,8 @@ export interface ListConnectorsSuccessResponse {
 export interface ListMarketplaceAgreementsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The ConfluentAgreementResource items on this page */
 export type ConfluentAgreementResourceListResponseValueList = Array<ConfluentAgreementResource>;
@@ -1583,6 +1587,8 @@ export interface ListOrganizationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationResourceTagsMap = { [key: string]: string | undefined };
@@ -1615,6 +1621,8 @@ export interface OrganizationResourceListResult {
 export interface ListOrganizationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOrganizationClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1629,6 +1637,8 @@ export interface ListOrganizationClustersRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of cluster record */
 export interface SCClusterRecord {
@@ -1665,6 +1675,8 @@ export interface ListOrganizationEnvironmentsRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details about environment name, metadata and environment id of an environment */
 export interface SCEnvironmentRecord {
@@ -1690,7 +1702,10 @@ export interface GetEnvironmentsResponse {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOrganizationOperationsRequest {}
+export interface ListOrganizationOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Confluent */
@@ -1779,6 +1794,8 @@ export interface ListOrganizationSchemaRegistryClustersRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The SchemaRegistryClusterRecord items on this page */
 export type ListSchemaRegistryClustersResponseValueList = Array<SchemaRegistryClusterRecord>;
@@ -1804,6 +1821,8 @@ export interface ListTopicsRequest {
   pageSize?: number | undefined;
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of topic record */
 export interface TopicRecord {
@@ -2426,12 +2445,13 @@ export const ListAccessUsers: API.OperationMethod<
 
 export type ListConnectorError = AzureOpError;
 /** Lists all the connectors in a cluster */
-export const ListConnector: API.OperationMethod<
+export const ListConnector: API.PaginatedOperationMethod<
   ListConnectorRequest,
   ListConnectorsSuccessResponse,
   ListConnectorError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<ListConnectorsSuccessResponse>,
   errors: [UnknownAzureError],
@@ -2439,16 +2459,23 @@ export const ListConnector: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnector",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceAgreementsError = AzureOpError;
 /** List Confluent marketplace agreements in the subscription. List Confluent marketplace agreements in the subscription. */
-export const ListMarketplaceAgreements: API.OperationMethod<
+export const ListMarketplaceAgreements: API.PaginatedOperationMethod<
   ListMarketplaceAgreementsRequest,
   ConfluentAgreementResourceListResponse,
   ListMarketplaceAgreementsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfluentAgreementResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<ConfluentAgreementResourceListResponse>,
   errors: [UnknownAzureError],
@@ -2456,16 +2483,23 @@ export const ListMarketplaceAgreements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceAgreements",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationByResourceGroupError = AzureOpError;
 /** List all Organizations under the specified resource group. */
-export const ListOrganizationByResourceGroup: API.OperationMethod<
+export const ListOrganizationByResourceGroup: API.PaginatedOperationMethod<
   ListOrganizationByResourceGroupRequest,
   OrganizationResourceListResult,
   ListOrganizationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListOrganizationByResourceGroupRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
   errors: [UnknownAzureError],
@@ -2473,16 +2507,23 @@ export const ListOrganizationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationBySubscriptionError = AzureOpError;
 /** List all organizations under the specified subscription. */
-export const ListOrganizationBySubscription: API.OperationMethod<
+export const ListOrganizationBySubscription: API.PaginatedOperationMethod<
   ListOrganizationBySubscriptionRequest,
   OrganizationResourceListResult,
   ListOrganizationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OrganizationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListOrganizationBySubscriptionRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
   errors: [UnknownAzureError],
@@ -2490,16 +2531,23 @@ export const ListOrganizationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationClustersError = AzureOpError;
 /** Lists of all the clusters in a environment */
-export const ListOrganizationClusters: API.OperationMethod<
+export const ListOrganizationClusters: API.PaginatedOperationMethod<
   ListOrganizationClustersRequest,
   ListClustersSuccessResponse,
   ListOrganizationClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SCClusterRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListOrganizationClustersRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<ListClustersSuccessResponse>,
   errors: [UnknownAzureError],
@@ -2507,16 +2555,23 @@ export const ListOrganizationClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationEnvironmentsError = AzureOpError;
 /** Lists of all the environments in a organization */
-export const ListOrganizationEnvironments: API.OperationMethod<
+export const ListOrganizationEnvironments: API.PaginatedOperationMethod<
   ListOrganizationEnvironmentsRequest,
   GetEnvironmentsResponse,
   ListOrganizationEnvironmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SCEnvironmentRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListOrganizationEnvironmentsRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<GetEnvironmentsResponse>,
   errors: [UnknownAzureError],
@@ -2524,16 +2579,23 @@ export const ListOrganizationEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationEnvironments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOrganizationOperations: API.OperationMethod<
+export const ListOrganizationOperations: API.PaginatedOperationMethod<
   ListOrganizationOperationsRequest,
   OperationListResult,
   ListOrganizationOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListOrganizationOperationsRequest>,
   output: __S(740, __c46, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -2541,7 +2603,13 @@ export const ListOrganizationOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrganizationRegionsError = AzureOpError;
 /** cloud provider regions available for creating Schema Registry clusters. */
@@ -2562,12 +2630,13 @@ export const ListOrganizationRegions: API.OperationMethod<
 
 export type ListOrganizationSchemaRegistryClustersError = AzureOpError;
 /** Get schema registry clusters */
-export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
+export const ListOrganizationSchemaRegistryClusters: API.PaginatedOperationMethod<
   ListOrganizationSchemaRegistryClustersRequest,
   ListSchemaRegistryClustersResponse,
   ListOrganizationSchemaRegistryClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchemaRegistryClusterRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListOrganizationSchemaRegistryClustersRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<ListSchemaRegistryClustersResponse>,
   errors: [UnknownAzureError],
@@ -2575,16 +2644,23 @@ export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationSchemaRegistryClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTopicsError = AzureOpError;
 /** Lists of all the topics in a clusters */
-export const ListTopics: API.OperationMethod<
+export const ListTopics: API.PaginatedOperationMethod<
   ListTopicsRequest,
   ListTopicsSuccessResponse,
   ListTopicsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TopicRecord
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListTopicsRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<ListTopicsSuccessResponse>,
   errors: [UnknownAzureError],
@@ -2592,7 +2668,13 @@ export const ListTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateOrganizationError = AzureOpError;
 /** Update Organization resource */
@@ -3692,12 +3774,14 @@ function __c39(j: number): any {
           clusterId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/connectors",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectorRequest" });
@@ -3718,12 +3802,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceAgreementsRequest" });
@@ -3745,12 +3831,14 @@ function __c41(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationByResourceGroupRequest" });
@@ -3775,12 +3863,14 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationBySubscriptionRequest" });
@@ -3797,12 +3887,14 @@ function __c44(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationClustersRequest" });
@@ -3827,12 +3919,14 @@ function __c45(j: number): any {
           organizationName: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationEnvironmentsRequest" });
@@ -3851,12 +3945,15 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Confluent/operations",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationOperationsRequest" });
@@ -3951,12 +4048,14 @@ function __c48(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationSchemaRegistryClustersRequest" });
@@ -3983,12 +4082,14 @@ function __c49(j: number): any {
           clusterId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/topics",
             code: 200,
             apiVersion: "2024-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTopicsRequest" });
