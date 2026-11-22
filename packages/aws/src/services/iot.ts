@@ -502,7 +502,7 @@ export interface CreateAuditSuppressionRequest {
   expirationDate?: Date | undefined;
   suppressIndefinitely?: boolean | undefined;
   description?: string | undefined;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
 }
 export interface CreateAuditSuppressionResponse {}
 export type AuthorizerName = string;
@@ -691,7 +691,7 @@ export interface CreateCustomMetricRequest {
   displayName?: string | undefined;
   metricType: CustomMetricType;
   tags?: Tag[] | undefined;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
 }
 export type CustomMetricArn = string;
 export interface CreateCustomMetricResponse {
@@ -707,7 +707,7 @@ export interface CreateDimensionRequest {
   type: DimensionType;
   stringValues: string[];
   tags?: Tag[] | undefined;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
 }
 export type DimensionArn = string;
 export interface CreateDimensionResponse {
@@ -4669,7 +4669,7 @@ export interface StartAuditMitigationActionsTaskRequest {
   taskId: string;
   target: AuditMitigationActionsTaskTarget;
   auditCheckToActionsMapping: { [key: string]: string[] | undefined };
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
 }
 export interface StartAuditMitigationActionsTaskResponse {
   taskId?: string | undefined;
@@ -4682,7 +4682,7 @@ export interface StartDetectMitigationActionsTaskRequest {
   violationEventOccurrenceRange?: ViolationEventOccurrenceRange | undefined;
   includeOnlyActiveViolations?: boolean | undefined;
   includeSuppressedAlerts?: boolean | undefined;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
 }
 export interface StartDetectMitigationActionsTaskResponse {
   taskId?: string | undefined;
@@ -20165,7 +20165,7 @@ function __c194(j: number): any {
           taskId: S.String.pipe(T.HttpLabel("taskId")),
           target: __S(865, __c27, 1),
           auditCheckToActionsMapping: __S(864, __c27, 0),
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/audit/mitigationactions/tasks/{taskId}" }),
@@ -20198,7 +20198,7 @@ function __c196(j: number): any {
           violationEventOccurrenceRange: S.optional(__S(1377, __c43, 1)),
           includeOnlyActiveViolations: S.optional(S.Boolean),
           includeSuppressedAlerts: S.optional(S.Boolean),
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/detect/mitigationactions/tasks/{taskId}" }),
@@ -21539,7 +21539,7 @@ function __c261(j: number): any {
           expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           suppressIndefinitely: S.optional(S.Boolean),
           description: S.optional(S.String),
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/audit/suppressions/create" }),
@@ -21832,7 +21832,7 @@ function __c275(j: number): any {
           displayName: S.optional(S.String),
           metricType: S.String,
           tags: S.optional(__S(8481, __c265, 1)),
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/custom-metric/{metricName}" }),
@@ -21863,7 +21863,7 @@ function __c277(j: number): any {
           type: S.String,
           stringValues: __S(7904, __c247, 0),
           tags: S.optional(__S(8481, __c265, 1)),
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/dimensions/{name}" }),

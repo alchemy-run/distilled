@@ -1,0 +1,37 @@
+{
+  "description": "POST /{Phone-Number-ID}/media is modeled as a JSON body whose `file` is a string (the spec's examples are curl `-F` arguments such as `@/local/path/file.jpg;type=image/jpeg`). Meta's media guide (https://developers.facebook.com/documentation/business-messaging/whatsapp/business-phone-numbers/media) uploads as `multipart/form-data` with three parts: `file` (the bytes), `type` (the MIME type) and `messaging_product: whatsapp`. Live on 2026-11-18 (v23.0) a multipart request with those parts returned `{ id }`. The operation becomes multipart, `file` binary and required, `messaging_product` required, and `type` is added.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UploadImage/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#UploadImageRequest/members/file",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The media file. A `File` keeps its name; a `Blob` or bytes are sent under the part name."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UploadImageRequest/members/type",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "MIME type of the file, e.g. `image/jpeg`, `audio/ogg`, `application/pdf`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#UploadImageRequest/members/messaging_product/traits",
+      "value": { "smithy.api#required": {}, "smithy.api#documentation": "Always `whatsapp`." }
+    }
+  ]
+}

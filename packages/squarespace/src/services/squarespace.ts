@@ -115,7 +115,7 @@ export type AdjustInventoryStockLevelsRequestSetFiniteOperationsList =
 export type AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList = Array<string>;
 export interface AdjustInventoryStockLevelsRequest {
   /** Required for idempotent requests. Refer to the idempotency key guide for requirements. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
   decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList | undefined;
   /** Optional; array of objects. Increments stock quantity for InventoryItems. */
@@ -781,7 +781,7 @@ export type CreateOrderRequestShippingLinesList = Array<CreateShippingLineReques
 export type ShopperFulfillmentNotificationBehavior = "SEND" | "SKIP";
 export interface CreateOrderRequest {
   /** Idempotency key to prevent duplicate order creation. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   billingAddress?: AddressRequest | undefined;
   /** Name of third-party sales channel. */
   channelName: string;
@@ -4177,7 +4177,9 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           decrementOperations: S.optional(__S(1313, __c41, 1)),
           incrementOperations: S.optional(__S(1313, __c41, 1)),
           setFiniteOperations: S.optional(__S(1313, __c41, 1)),
@@ -4900,7 +4902,9 @@ function __c75(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           billingAddress: S.optional(__S(2528, __c79, 0)),
           channelName: S.String,
           createdOn: S.String,

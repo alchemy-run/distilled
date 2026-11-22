@@ -237,7 +237,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          s2RequestToken: S.optional(S.String.pipe(T.Header("s2-request-token"))),
+          s2RequestToken: S.optional(
+            S.String.pipe(T.Header("s2-request-token"), T.IdempotencyToken()),
+          ),
           config: S.optional(S.NullOr(__S(6, __c1, 2))),
           stream: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/streams", code: 200 })),

@@ -166,6 +166,10 @@ plain strings.
   header, query string, body or signature is built, and never put a secret
   in an error message or an error field. Anything minted at runtime (an
   exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+- **Concurrent calls share one refresh.** A token or credentials cache
+  re-checks inside a one-permit `Semaphore`, so a burst of calls on a cold
+  or stale cache mints once (`AGENTS.md` rule 16; copy
+  `createRefreshingProvider` in `packages/gcp/src/credentials-service.ts`).
 
 This must print nothing:
 

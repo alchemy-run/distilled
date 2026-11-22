@@ -169,7 +169,7 @@ export type ClientToken = string;
 export interface AcceptConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type ConnectionId = string;
 export type ConnectionArn = string;
@@ -234,7 +234,7 @@ export interface CancelConnectionRequest {
   Identifier: string;
   ConnectionType: ConnectionType;
   Reason: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface CancelConnectionResponse {
   Catalog: string;
@@ -247,7 +247,7 @@ export interface CancelConnectionResponse {
 export interface CancelConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type ConnectionInvitationArn = string;
 export type ParticipantIdentifier = string;
@@ -391,7 +391,7 @@ export interface CancelProfileUpdateTaskResponse {
 }
 export interface CreateConnectionInvitationRequest {
   Catalog: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ConnectionType: ConnectionType;
   Email: string;
   Message: string;
@@ -775,7 +775,7 @@ export interface PutProfileVisibilityResponse {
 export interface RejectConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Reason?: string | undefined;
 }
 export interface RejectConnectionInvitationResponse {
@@ -2130,7 +2130,7 @@ function __c0(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CancelConnectionInvitationRequest" });
   }
@@ -2237,7 +2237,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ConnectionType: S.String,
           Email: S.String,
           Message: S.String,
@@ -2750,7 +2750,7 @@ function __c34(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Reason: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RejectConnectionInvitationRequest" });
@@ -2904,7 +2904,7 @@ function __c44(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AcceptConnectionInvitationRequest" });
     case 1:
@@ -2991,7 +2991,7 @@ function __c49(j: number): any {
           Identifier: S.String,
           ConnectionType: S.String,
           Reason: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CancelConnectionRequest" });
   }

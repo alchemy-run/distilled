@@ -399,7 +399,9 @@ function __c2(j: number): any {
           project: S.String.pipe(T.Label()),
           trail_id: S.String.pipe(T.Label()),
           project_id: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           content_type: S.optional(S.Unknown),
           filename: S.optional(S.Unknown),
           height: S.optional(S.Unknown),

@@ -1150,7 +1150,9 @@ function __c1(j: number): any {
           address: S.optional(S.NullOr(__S(8, __c1, 0))),
           ip_address: S.optional(S.String),
           tax_ids: S.optional(S.NullOr(__S(10, __c1, 2))),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/plans/{id}/calculate_tax", code: 200 })),
       ).annotate({ identifier: "CalculatePlanTaxRequest" });
     case 4:
@@ -1198,7 +1200,9 @@ function __c2(j: number): any {
           trial_period_days: S.optional(S.NullOr(S.Number)),
           unlimited_stock: S.optional(S.NullOr(S.Boolean)),
           visibility: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/plans", code: 200 })),
       ).annotate({ identifier: "CreatePlanRequest" });
   }
