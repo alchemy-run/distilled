@@ -10585,7 +10585,7 @@ function __c24(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "ListExecutionByWorkflowVersionRequest" });
@@ -11407,7 +11407,7 @@ function __c60(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkflowByContextRequest" });
@@ -11456,7 +11456,7 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkflowVersionByWorkflowRequest" });
@@ -12628,7 +12628,7 @@ function __c106(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateExecutionRequest" });
@@ -13113,7 +13113,7 @@ function __c123(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkflowRequest" });
@@ -13156,7 +13156,7 @@ function __c124(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkflowVersionRequest" });
@@ -13192,7 +13192,7 @@ function __c125(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "WorkflowsCreateOrUpdateRequest" });
@@ -13236,7 +13236,7 @@ function __c126(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "WorkflowVersionsCreateOrUpdateRequest" });
@@ -13463,7 +13463,7 @@ function __c137(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteExecutionRequest" });
@@ -13840,7 +13840,7 @@ function __c156(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkflowRequest" });
@@ -13861,7 +13861,7 @@ function __c157(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkflowVersionRequest" });
@@ -14244,7 +14244,7 @@ function __c171(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "ExecutionsCreateOrUpdateRequest" });
@@ -14873,7 +14873,7 @@ function __c203(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetExecutionRequest" });
@@ -16202,7 +16202,7 @@ function __c268(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkflowRequest" });
@@ -16250,7 +16250,7 @@ function __c271(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkflowVersionRequest" });

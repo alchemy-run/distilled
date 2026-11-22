@@ -162,6 +162,8 @@ export interface SuppressionProperties {
   ttl?: string | undefined;
   /** Gets or sets the expiration time stamp. */
   expirationTimeStamp?: string | undefined;
+  /** The expiration time stamp, as GetSuppression and ListSuppressions return it. */
+  expirationTimestamp?: string | undefined;
 }
 export interface CreateSuppressionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1593,6 +1595,7 @@ function __c17(j: number): any {
           suppressionId: S.optional(S.String),
           ttl: S.optional(S.String),
           expirationTimeStamp: S.optional(S.String),
+          expirationTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuppressionProperties" });
     case 1:
