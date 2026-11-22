@@ -1,4 +1,4 @@
-import { ConfigError, InternalServerError } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
 import type {
   DecodeArgs,
   EncodeArgs,
@@ -185,13 +185,9 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     const qs = query.toString();
     // Optional overrides, read from the calling fiber like Credentials but
     // never listed in an operation's requirements.
-    const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
-    const override = Option.isSome(endpointOverride) ? yield* endpointOverride.value : undefined;
-    if (override !== undefined && !URL.canParse(override)) {
-      return yield* new ConfigError({
-        message: `GCP endpoint override must be an absolute URL (e.g. http://localhost:8085), got ${JSON.stringify(override)}`,
-      });
-    }
+    const override = Option.getOrUndefined(
+      Option.flatten(yield* Effect.serviceOption(Endpoint.Endpoint)),
+    );
     const mode = Option.getOrElse(
       yield* Effect.serviceOption(Region.RegionalEndpoints),
       () => "required" as const,

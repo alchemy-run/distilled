@@ -3,6 +3,7 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { fromAccessToken } from "../src/credential-providers/from-access-token.ts";
@@ -305,7 +306,7 @@ describe("endpoint selection", () => {
     const { calls, layer } = fakeGoogle();
     await run(
       getObjects({ bucket: "b", object: "o" }).pipe(
-        Effect.provide(Layer.succeed(Endpoint.Endpoint, Effect.succeed(undefined))),
+        Effect.provide(Layer.succeed(Endpoint.Endpoint, Option.none())),
       ),
       layer,
     );
