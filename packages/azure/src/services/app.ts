@@ -5158,6 +5158,8 @@ export interface SandboxGroupProperties {
   /** Whether detailed sandbox metrics are emitted. */
   enableDetailedMetrics?: boolean | undefined;
 }
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type GetSandboxGroupResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -5173,6 +5175,8 @@ export interface GetSandboxGroupResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetVnetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6992,6 +6996,8 @@ export interface ListSandboxGroupByResourceGroupRequest {
 }
 /** Resource tags. */
 export type SandboxGroupTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 /** A SandboxGroup resource, representing a group of sandboxes that share configuration defaults and quotas. */
 export interface SandboxGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7008,6 +7014,8 @@ export interface SandboxGroup {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The SandboxGroup items on this page */
 export type SandboxGroupListResultValueList = Array<SandboxGroup>;
@@ -7411,6 +7419,8 @@ export interface SandboxGroupPropertiesInput {
   /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
   environmentId?: string | undefined;
 }
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupsCreateOrUpdateRequestIdentity = ContainerAppsCreateOrUpdateRequestIdentity;
 export interface SandboxGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -7424,9 +7434,14 @@ export interface SandboxGroupsCreateOrUpdateRequest {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupPropertiesInput | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupsCreateOrUpdateResponseIdentity =
+  ContainerAppsCreateOrUpdateResponseIdentity;
 export interface SandboxGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -7442,6 +7457,8 @@ export interface SandboxGroupsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -8277,6 +8294,25 @@ export interface UpdateManagedEnvironmentResponse {
 export type UpdateSandboxGroupRequestTagsMap = { [key: string]: string | undefined };
 /** SandboxGroup resource specific properties for patch requests. */
 export type SandboxGroupPatchProperties = SandboxGroupPropertiesInput;
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type SandboxGroupIdentityInputType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+/** User assigned identity properties */
+export type SandboxGroupIdentityInputUserAssignedIdentitiesValue = UserAssignedIdentityInput;
+/** The identities assigned to this resource by the user. */
+export type SandboxGroupIdentityInputUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityInput | undefined;
+};
+/** The managed identity properties that can be updated on a SandboxGroup. */
+export interface SandboxGroupIdentityInput {
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type?: SandboxGroupIdentityInputType | (string & {}) | undefined;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: SandboxGroupIdentityInputUserAssignedIdentitiesMap | undefined;
+}
 export interface UpdateSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -8288,9 +8324,13 @@ export interface UpdateSandboxGroupRequest {
   tags?: UpdateSandboxGroupRequestTagsMap | undefined;
   /** SandboxGroup properties that can be updated. */
   properties?: SandboxGroupPropertiesInput | undefined;
+  /** Managed identity updates. Omit to preserve the current identities. */
+  identity?: SandboxGroupIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type UpdateSandboxGroupResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -8306,6 +8346,8 @@ export interface UpdateSandboxGroupResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -12123,8 +12165,8 @@ export const UpdateSandboxGroup: API.OperationMethod<
   UpdateSandboxGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<UpdateSandboxGroupRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<UpdateSandboxGroupResponse>,
+  input: __S(4674, __c146, 2) as any as S.Schema<UpdateSandboxGroupRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<UpdateSandboxGroupResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15563,6 +15605,7 @@ function __c119(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(3840, __c120, 0)),
+          identity: S.optional(__S(4865, __c152, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15582,6 +15625,7 @@ function __c119(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -16255,6 +16299,15 @@ function __c145(j: number): any {
 function __c146(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, __S(32, __c1, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          userAssignedIdentities: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "SandboxGroupIdentityInput" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -16262,6 +16315,7 @@ function __c146(j: number): any {
           sandboxGroupName: S.String.pipe(T.Label()),
           tags: S.optional(__S(4896, __c153, 0)),
           properties: S.optional(__S(3840, __c120, 0)),
+          identity: S.optional(__S(4673, __c146, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16271,7 +16325,7 @@ function __c146(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateSandboxGroupRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -16281,6 +16335,7 @@ function __c146(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -19526,6 +19581,7 @@ function __c282(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
         }),
       ).annotate({ identifier: "GetSandboxGroupResponse" });
   }

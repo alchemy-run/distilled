@@ -27,6 +27,7 @@
  * );
  * ```
  */
+import { invalidHostLabel, type InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { Credentials as S3Keys, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
 import { Endpoint } from "@distilled.cloud/s3/Endpoint";
 import * as Data from "effect/Data";
@@ -45,10 +46,11 @@ export class SpacesCredentialsError
     cause?: unknown;
   }> {}
 
-// Every S3 operation's error type includes it in programs that use this module.
+// Every S3 operation's error type includes them in programs that use this
+// module (`InvalidInput` is in it already).
 declare module "@distilled.cloud/s3/Credentials" {
   interface ProviderErrors {
-    digitalocean: SpacesCredentialsError;
+    digitalocean: SpacesCredentialsError | InvalidInput;
   }
 }
 
@@ -135,11 +137,20 @@ export const layerS3Keys = (
     }),
   );
 
-/** `layerS3Keys` plus the `Endpoint` of the bucket's Spaces region. */
+/**
+ * `layerS3Keys` plus the `Endpoint` of the bucket's Spaces region. A region
+ * that is not one DNS label (it becomes a label of the host name) fails each
+ * S3 call with `InvalidInput`.
+ */
 export const layerS3 = (
   options: LayerS3KeysOptions & { readonly region: string },
-): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> =>
-  Layer.merge(
+): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> => {
+  const invalid = invalidHostLabel("region", options.region);
+  return Layer.merge(
     layerS3Keys(options),
-    Layer.succeed(Endpoint, Effect.succeed(endpointFor(options.region))),
+    Layer.succeed(
+      Endpoint,
+      invalid === undefined ? Effect.succeed(endpointFor(options.region)) : Effect.fail(invalid),
+    ),
   );
+};

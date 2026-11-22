@@ -337,7 +337,7 @@ export type StorageType = "PremiumSSD" | "PremiumSSDv2";
 export interface StorageProperties {
   /** The size of the data disk assigned to each server. */
   sizeGb?: number | undefined;
-  /** The type of storage to provision the cluster servers with. */
+  /** The type of storage to provision the cluster servers with. Defaults to 'PremiumSSDv2' when omitted during cluster creation. Omitting this property during an update leaves the storage type unchanged. */
   type?: StorageType | (string & {}) | undefined;
 }
 /** The sharding properties of the cluster. This includes the shard count and scaling options for the cluster. */
@@ -1018,7 +1018,7 @@ export interface MongoClustersCreateOrUpdateResponse {
   retryAfter?: number | undefined;
 }
 /** The option to apply to a promote operation. */
-export type PromoteOption = "Forced";
+export type PromoteOption = "Forced" | "Planned";
 /** The mode to apply to a promote operation. */
 export type PromoteMode = "Switchover";
 export interface PromoteMongoClusterRequest {
@@ -1654,7 +1654,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CheckMongoClusterNameAvailabilityRequest" });
@@ -1690,7 +1690,7 @@ function __c1(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreatePrivateEndpointConnectionRequest" });
@@ -1776,7 +1776,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetUserRequest" });
@@ -1844,7 +1844,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -1873,7 +1873,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -1906,7 +1906,7 @@ function __c12(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListMongoClusterConnectionStringsRequest" });
@@ -1940,7 +1940,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -1958,7 +1958,7 @@ function __c14(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.DocumentDB/operations",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -2007,7 +2007,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -2035,7 +2035,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -2083,7 +2083,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/replicas",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -2123,7 +2123,7 @@ function __c18(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
@@ -2153,7 +2153,7 @@ function __c19(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteFirewallRuleRequest" });
@@ -2208,7 +2208,7 @@ function __c21(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "MongoClustersCreateOrUpdateRequest" });
@@ -2256,7 +2256,7 @@ function __c23(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "PromoteMongoClusterRequest" });
@@ -2296,7 +2296,7 @@ function __c24(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateMongoClusterRequest" });
@@ -2339,7 +2339,7 @@ function __c25(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UsersCreateOrUpdateRequest" });
@@ -2369,7 +2369,7 @@ function __c26(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoClusterRequest" });
@@ -2389,7 +2389,7 @@ function __c27(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -2409,7 +2409,7 @@ function __c28(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteUserRequest" });
@@ -2437,7 +2437,7 @@ function __c29(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FirewallRulesCreateOrUpdateRequest" });
@@ -2481,7 +2481,7 @@ function __c31(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFirewallRuleRequest" });
@@ -2514,7 +2514,7 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetMongoClusterRequest" });
@@ -2720,7 +2720,7 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });

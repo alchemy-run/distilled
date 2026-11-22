@@ -145,7 +145,7 @@ export type ConnectedRegistryMode = "ReadWrite" | "ReadOnly" | "Registry" | "Mir
 /** The sync properties of the connected registry with its parent. */
 export interface SyncPropertiesInput {
   /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
-  tokenId: string;
+  tokenId?: string | undefined;
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
   schedule?: string | undefined;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
@@ -225,7 +225,7 @@ export interface ActivationProperties {
 /** The sync properties of the connected registry with its parent. */
 export interface SyncProperties {
   /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
-  tokenId: string;
+  tokenId?: string | undefined;
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
   schedule?: string | undefined;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
@@ -454,6 +454,17 @@ export interface CreateCredentialSetResponse {
 export type CreateRegistryRequestTagsMap = { [key: string]: string | undefined };
 /** The default action of allow or deny when no other rules match. */
 export type NetworkRuleSetDefaultAction = "Allow" | "Deny";
+/** The action of virtual network rule. */
+export type VirtualNetworkRuleAction = "Allow";
+/** Virtual network rule. */
+export interface VirtualNetworkRule {
+  /** The action of virtual network rule. */
+  action?: VirtualNetworkRuleAction | (string & {}) | undefined;
+  /** Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}. */
+  virtualNetworkSubnetResourceId: string;
+}
+/** The virtual network rules. */
+export type NetworkRuleSetVirtualNetworkRulesList = Array<VirtualNetworkRule>;
 /** The action of IP ACL rule. */
 export type IPRuleAction = "Allow";
 /** IP rule with specific IP or IP range in CIDR format. */
@@ -469,6 +480,8 @@ export type NetworkRuleSetIpRulesList = Array<IPRule>;
 export interface NetworkRuleSet {
   /** The default action of allow or deny when no other rules match. */
   defaultAction: NetworkRuleSetDefaultAction | (string & {});
+  /** The virtual network rules. */
+  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList | undefined;
   /** The IP ACL rules. */
   ipRules?: NetworkRuleSetIpRulesList | undefined;
 }
@@ -540,6 +553,10 @@ export interface EncryptionPropertyInput {
   /** Key vault properties. */
   keyVaultProperties?: KeyVaultPropertiesInput | undefined;
 }
+/** Whether or not per-region endpoints are enabled for accessing the registry. */
+export type RegionalEndpoints = "Enabled" | "Disabled";
+/** The connectivity protocol for the registry, such as IPv4 or dual stack (IPv4 and IPv6). */
+export type RegistryPropertiesInputEndpointProtocol = "IPv4" | "IPv4AndIPv6";
 /** Whether or not public network access is allowed for the container registry. */
 export type RegistryPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Whether to allow trusted Azure services to access a network restricted registry. */
@@ -562,6 +579,10 @@ export interface RegistryPropertiesInput {
   encryption?: EncryptionPropertyInput | undefined;
   /** Enable a single data endpoint per region for serving data. */
   dataEndpointEnabled?: boolean | undefined;
+  /** Enable per-region endpoints for accessing registry. */
+  regionalEndpoints?: RegionalEndpoints | (string & {}) | undefined;
+  /** The connectivity protocol for the registry, such as IPv4 or dual stack (IPv4 and IPv6). */
+  endpointProtocol?: RegistryPropertiesInputEndpointProtocol | (string & {}) | undefined;
   /** Whether or not public network access is allowed for the container registry. */
   publicNetworkAccess?: RegistryPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
@@ -662,6 +683,10 @@ export interface EncryptionProperty {
 }
 /** List of host names that will serve data when dataEndpointEnabled is true. */
 export type RegistryPropertiesDataEndpointHostNamesList = Array<string>;
+/** List of host names that will serve registry when RegionalEndpoints is enabled. */
+export type RegistryPropertiesRegionalEndpointHostNamesList = Array<string>;
+/** The connectivity protocol for the registry, such as IPv4 or dual stack (IPv4 and IPv6). */
+export type RegistryPropertiesEndpointProtocol = "IPv4" | "IPv4AndIPv6";
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** This is private endpoint resource created with Microsoft.Network resource provider. */
@@ -736,6 +761,12 @@ export interface RegistryProperties {
   dataEndpointEnabled?: boolean | undefined;
   /** List of host names that will serve data when dataEndpointEnabled is true. */
   dataEndpointHostNames?: RegistryPropertiesDataEndpointHostNamesList | undefined;
+  /** Enable per-region endpoints for accessing registry. */
+  regionalEndpoints?: RegionalEndpoints | undefined;
+  /** List of host names that will serve registry when RegionalEndpoints is enabled. */
+  regionalEndpointHostNames?: RegistryPropertiesRegionalEndpointHostNamesList | undefined;
+  /** The connectivity protocol for the registry, such as IPv4 or dual stack (IPv4 and IPv6). */
+  endpointProtocol?: RegistryPropertiesEndpointProtocol | undefined;
   /** List of private endpoint connections for a container registry. */
   privateEndpointConnections?: RegistryPropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public network access is allowed for the container registry. */
@@ -3200,6 +3231,8 @@ export interface UpdateCredentialSetResponse {
 }
 /** The tags for the container registry. */
 export type UpdateRegistryRequestTagsMap = { [key: string]: string | undefined };
+/** The connectivity protocol for the registry. */
+export type EndpointProtocol = "IPv4" | "IPv4AndIPv6";
 /** Whether or not public network access is allowed for the container registry. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Whether to allow trusted Azure services to access a network restricted registry. */
@@ -3220,6 +3253,10 @@ export interface RegistryPropertiesUpdateParametersInput {
   encryption?: EncryptionPropertyInput | undefined;
   /** Enable a single data endpoint per region for serving data. */
   dataEndpointEnabled?: boolean | undefined;
+  /** Enable per-region endpoints for accessing registry. */
+  regionalEndpoints?: RegionalEndpoints | (string & {}) | undefined;
+  /** The connectivity protocol for the registry, such as IPv4 or dual stack (IPv4 and IPv6). */
+  endpointProtocol?: EndpointProtocol | (string & {}) | undefined;
   /** Whether or not public network access is allowed for the container registry. */
   publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
@@ -5120,7 +5157,7 @@ function __c2(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckRegistryNameAvailabilityRequest" });
@@ -5161,7 +5198,7 @@ function __c3(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateWebhookRequest" });
@@ -5212,7 +5249,7 @@ function __c6(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/deactivate",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeactivateConnectedRegistryRequest" });
@@ -5243,7 +5280,7 @@ function __c8(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCacheRuleRequest" });
@@ -5263,7 +5300,7 @@ function __c9(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteConnectedRegistryRequest" });
@@ -5283,7 +5320,7 @@ function __c10(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCredentialSetRequest" });
@@ -5303,7 +5340,7 @@ function __c11(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -5322,7 +5359,7 @@ function __c12(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryRequest" });
@@ -5342,7 +5379,7 @@ function __c13(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationRequest" });
@@ -5362,7 +5399,7 @@ function __c14(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteScopeMapRequest" });
@@ -5411,7 +5448,7 @@ function __c16(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateCacheRuleRequest" });
@@ -5476,7 +5513,7 @@ function __c20(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteTokenRequest" });
@@ -5496,7 +5533,7 @@ function __c21(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWebhookRequest" });
@@ -5518,7 +5555,7 @@ function __c22(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GenerateRegistryCredentialsRequest" });
@@ -5547,7 +5584,7 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetCacheRuleRequest" });
@@ -5581,7 +5618,7 @@ function __c25(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetConnectedRegistryRequest" });
@@ -5615,7 +5652,7 @@ function __c27(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetCredentialSetRequest" });
@@ -5650,7 +5687,7 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -5669,7 +5706,7 @@ function __c30(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryRequest" });
@@ -5686,8 +5723,8 @@ function __c31(j: number): any {
           systemData: S.optional(__S(288, __c18, 0)),
           tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(1241, __c77, 9)),
-          sku: __S(1236, __c77, 4),
+          properties: S.optional(__S(1243, __c77, 11)),
+          sku: __S(1238, __c77, 6),
           identity: S.optional(__S(930, __c58, 2)),
         }),
       ).annotate({ identifier: "GetRegistryResponse" });
@@ -5707,7 +5744,7 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources/{groupName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryPrivateLinkResourceRequest" });
@@ -5749,7 +5786,7 @@ function __c34(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationRequest" });
@@ -5776,7 +5813,7 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.String,
+          tokenId: S.optional(S.String),
           schedule: S.optional(S.String),
           syncWindow: S.optional(S.String),
           messageTtl: S.String,
@@ -5814,7 +5851,7 @@ function __c36(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateConnectedRegistryRequest" });
@@ -5839,7 +5876,7 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokenId: S.String,
+          tokenId: S.optional(S.String),
           schedule: S.optional(S.String),
           syncWindow: S.optional(S.String),
           messageTtl: S.String,
@@ -6074,7 +6111,7 @@ function __c44(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetScopeMapRequest" });
@@ -6148,7 +6185,7 @@ function __c48(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetTokenRequest" });
@@ -6182,7 +6219,7 @@ function __c50(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetWebhookRequest" });
@@ -6218,7 +6255,7 @@ function __c52(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetWebhookCallbackConfigRequest" });
@@ -6264,7 +6301,7 @@ function __c53(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importImage",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ImportRegistryImageRequest" });
@@ -6284,7 +6321,7 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6323,7 +6360,7 @@ function __c55(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateCredentialSetRequest" });
@@ -6428,7 +6465,7 @@ function __c60(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6458,7 +6495,7 @@ function __c61(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6485,7 +6522,7 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ContainerRegistry/operations",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6570,7 +6607,7 @@ function __c63(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6596,7 +6633,7 @@ function __c64(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6629,7 +6666,7 @@ function __c66(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6649,7 +6686,7 @@ function __c67(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listCredentials",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryCredentialsRequest" });
@@ -6689,7 +6726,7 @@ function __c69(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6718,7 +6755,7 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listUsages",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryUsagesRequest" });
@@ -6755,7 +6792,7 @@ function __c71(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -6777,10 +6814,12 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(1234, __c77, 2)),
+          networkRuleSet: S.optional(__S(1236, __c77, 4)),
           policies: S.optional(__S(1281, __c80, 1)),
           encryption: S.optional(__S(1283, __c80, 3)),
           dataEndpointEnabled: S.optional(S.Boolean),
+          regionalEndpoints: S.optional(S.String),
+          endpointProtocol: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
           networkRuleBypassAllowedForTasks: S.optional(S.Boolean),
@@ -6798,14 +6837,14 @@ function __c72(j: number): any {
           tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
           properties: S.optional(__S(1152, __c72, 0)),
-          sku: __S(1236, __c77, 4),
+          sku: __S(1238, __c77, 6),
           identity: S.optional(__S(913, __c57, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateRegistryRequest" });
@@ -6867,33 +6906,43 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
-          value: S.String,
+          virtualNetworkSubnetResourceId: S.String,
         }),
-      ).annotate({ identifier: "IPRule" });
+      ).annotate({ identifier: "VirtualNetworkRule" });
     case 1:
       return S.Array(__S(1232, __c77, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          action: S.optional(S.String),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "IPRule" });
+    case 3:
+      return S.Array(__S(1234, __c77, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           defaultAction: S.String,
-          ipRules: S.optional(__S(1233, __c77, 1)),
+          virtualNetworkRules: S.optional(__S(1233, __c77, 1)),
+          ipRules: S.optional(__S(1235, __c77, 3)),
         }),
       ).annotate({ identifier: "NetworkRuleSet" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "TrustPolicy" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           tier: S.optional(S.String),
         }),
       ).annotate({ identifier: "Sku" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           days: S.optional(S.Number),
@@ -6901,17 +6950,17 @@ function __c77(j: number): any {
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "RetentionPolicy" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           quarantinePolicy: S.optional(__S(608, __c38, 0)),
-          trustPolicy: S.optional(__S(1235, __c77, 3)),
-          retentionPolicy: S.optional(__S(1237, __c77, 5)),
+          trustPolicy: S.optional(__S(1237, __c77, 5)),
+          retentionPolicy: S.optional(__S(1239, __c77, 7)),
           exportPolicy: S.optional(__S(608, __c38, 0)),
           azureADAuthenticationAsArmPolicy: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "Policies" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           keyIdentifier: S.optional(S.String),
@@ -6921,14 +6970,14 @@ function __c77(j: number): any {
           lastKeyRotationTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyVaultProperties" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          keyVaultProperties: S.optional(__S(1239, __c77, 7)),
+          keyVaultProperties: S.optional(__S(1241, __c77, 9)),
         }),
       ).annotate({ identifier: "EncryptionProperty" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           loginServer: S.optional(S.String),
@@ -6936,11 +6985,14 @@ function __c77(j: number): any {
           provisioningState: S.optional(S.String),
           status: S.optional(__S(1248, __c78, 0)),
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(1234, __c77, 2)),
-          policies: S.optional(__S(1238, __c77, 6)),
-          encryption: S.optional(__S(1240, __c77, 8)),
+          networkRuleSet: S.optional(__S(1236, __c77, 4)),
+          policies: S.optional(__S(1240, __c77, 8)),
+          encryption: S.optional(__S(1242, __c77, 10)),
           dataEndpointEnabled: S.optional(S.Boolean),
           dataEndpointHostNames: S.optional(__S(624, __c39, 0)),
+          regionalEndpoints: S.optional(S.String),
+          regionalEndpointHostNames: S.optional(__S(624, __c39, 0)),
+          endpointProtocol: S.optional(S.String),
           privateEndpointConnections: S.optional(__S(1216, __c76, 0)),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
@@ -6983,7 +7035,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           quarantinePolicy: S.optional(__S(608, __c38, 0)),
-          trustPolicy: S.optional(__S(1235, __c77, 3)),
+          trustPolicy: S.optional(__S(1237, __c77, 5)),
           retentionPolicy: S.optional(__S(1280, __c80, 0)),
           exportPolicy: S.optional(__S(608, __c38, 0)),
           azureADAuthenticationAsArmPolicy: S.optional(__S(608, __c38, 0)),
@@ -7012,8 +7064,8 @@ function __c80(j: number): any {
           systemData: S.optional(__S(288, __c18, 0)),
           tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(1241, __c77, 9)),
-          sku: __S(1236, __c77, 4),
+          properties: S.optional(__S(1243, __c77, 11)),
+          sku: __S(1238, __c77, 6),
           identity: S.optional(__S(930, __c58, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7067,7 +7119,7 @@ function __c82(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -7127,7 +7179,7 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -7158,7 +7210,7 @@ function __c85(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -7265,7 +7317,7 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
             nextLink: "nextLink",
           }),
         ),
@@ -7295,7 +7347,7 @@ function __c87(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PingWebhookRequest" });
@@ -7316,7 +7368,7 @@ function __c88(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateRequest" });
@@ -7348,7 +7400,7 @@ function __c89(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/regenerateCredential",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateRegistryCredentialRequest" });
@@ -7404,7 +7456,7 @@ function __c91(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationRequest" });
@@ -7546,7 +7598,7 @@ function __c95(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateCacheRuleRequest" });
@@ -7585,7 +7637,7 @@ function __c96(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateConnectedRegistryRequest" });
@@ -7613,7 +7665,7 @@ function __c97(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateCredentialSetRequest" });
@@ -7625,10 +7677,12 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(1234, __c77, 2)),
+          networkRuleSet: S.optional(__S(1236, __c77, 4)),
           policies: S.optional(__S(1281, __c80, 1)),
           encryption: S.optional(__S(1283, __c80, 3)),
           dataEndpointEnabled: S.optional(S.Boolean),
+          regionalEndpoints: S.optional(S.String),
+          endpointProtocol: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
           networkRuleBypassAllowedForTasks: S.optional(S.Boolean),
@@ -7644,14 +7698,14 @@ function __c98(j: number): any {
           registryName: S.String.pipe(T.Label()),
           identity: S.optional(__S(913, __c57, 1)),
           tags: S.optional(__S(1264, __c79, 0)),
-          sku: S.optional(__S(1236, __c77, 4)),
+          sku: S.optional(__S(1238, __c77, 6)),
           properties: S.optional(__S(1568, __c98, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateRegistryRequest" });
@@ -7679,7 +7733,7 @@ function __c99(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationRequest" });
@@ -7728,7 +7782,7 @@ function __c101(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateScopeMapRequest" });
@@ -7894,7 +7948,7 @@ function __c103(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateTokenRequest" });
@@ -7922,7 +7976,7 @@ function __c104(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateScopeMapRequest" });
@@ -7984,7 +8038,7 @@ function __c107(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWebhookRequest" });
@@ -8294,7 +8348,7 @@ function __c113(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
             code: 200,
-            apiVersion: "2025-11-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateTokenRequest" });

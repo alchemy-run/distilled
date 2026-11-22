@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4673,7 +4673,8 @@ export const ActivateCertificateAuthority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivateCertificateAuthorityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ActivateCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4690,7 +4691,8 @@ export const AssetEndpointProfilesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c2, 1) as any as S.Schema<AssetEndpointProfilesCreateOrReplaceRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<AssetEndpointProfilesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4707,7 +4709,8 @@ export const AssetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(641, __c20, 1) as any as S.Schema<AssetsCreateOrReplaceRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<AssetsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4724,7 +4727,8 @@ export const CertificateAuthoritiesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1701, __c53, 5) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceRequest>,
   output: __S(1702, __c53, 6) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4741,7 +4745,8 @@ export const CertificateAuthoritiesRevokeAndRotate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CertificateAuthoritiesRevokeAndRotateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CertificateAuthoritiesRevokeAndRotateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4758,7 +4763,8 @@ export const CertificatePoliciesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2817, __c88, 1) as any as S.Schema<CertificatePoliciesCreateOrReplaceRequest>,
   output: __S(2818, __c88, 2) as any as S.Schema<CertificatePoliciesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4775,7 +4781,8 @@ export const DeleteAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<DeleteAssetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4792,7 +4799,8 @@ export const DeleteAssetEndpointProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteAssetEndpointProfileRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAssetEndpointProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4809,7 +4817,8 @@ export const DeleteCertificateAuthority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteCertificateAuthorityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4826,7 +4835,8 @@ export const DeleteCertificatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteCertificatePolicyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCertificatePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4843,7 +4853,8 @@ export const DeleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeleteNamespaceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4860,7 +4871,8 @@ export const DeleteNamespaceAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeleteNamespaceAssetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4877,7 +4889,8 @@ export const DeleteNamespaceDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteNamespaceDeviceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4894,7 +4907,8 @@ export const DeleteNamespaceDiscoveredAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteNamespaceDiscoveredAssetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceDiscoveredAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4911,7 +4925,8 @@ export const DeleteNamespaceDiscoveredDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteNamespaceDiscoveredDeviceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNamespaceDiscoveredDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4928,7 +4943,8 @@ export const DeleteRegistryDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteRegistryDeviceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteRegistryDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4945,7 +4961,8 @@ export const DeleteSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSchemaResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4962,7 +4979,8 @@ export const DeleteSchemaRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteSchemaRegistryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSchemaRegistryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4979,7 +4997,8 @@ export const DeleteSchemaVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteSchemaVersionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSchemaVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4996,7 +5015,8 @@ export const ExecuteNamespaceAssetAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ExecuteNamespaceAssetActionRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<NamespaceAssetExecuteActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5013,7 +5033,8 @@ export const GetAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetAssetRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5030,7 +5051,8 @@ export const GetAssetEndpointProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetAssetEndpointProfileRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<GetAssetEndpointProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5047,7 +5069,8 @@ export const GetAsyncOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetAsyncOperationStatusRequest>,
   output: __S(967, __c30, 7) as any as S.Schema<GetAsyncOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5064,7 +5087,8 @@ export const GetBillingContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetBillingContainerRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetBillingContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5081,7 +5105,8 @@ export const GetCertificateAuthority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetCertificateAuthorityRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<GetCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5098,7 +5123,8 @@ export const GetCertificatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetCertificatePolicyRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<GetCertificatePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5115,7 +5141,8 @@ export const GetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<GetNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5132,7 +5159,8 @@ export const GetNamespaceAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetNamespaceAssetRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<GetNamespaceAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5149,7 +5177,8 @@ export const GetNamespaceDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetNamespaceDeviceRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<GetNamespaceDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5166,7 +5195,8 @@ export const GetNamespaceDiscoveredAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetNamespaceDiscoveredAssetRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<GetNamespaceDiscoveredAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5183,7 +5213,8 @@ export const GetNamespaceDiscoveredDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetNamespaceDiscoveredDeviceRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<GetNamespaceDiscoveredDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5200,7 +5231,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(967, __c30, 7) as any as S.Schema<GetOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5217,7 +5249,8 @@ export const GetRegistryDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetRegistryDeviceRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetRegistryDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5234,7 +5267,8 @@ export const GetSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetSchemaRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<GetSchemaResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5251,7 +5285,8 @@ export const GetSchemaRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetSchemaRegistryRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<GetSchemaRegistryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5268,7 +5303,8 @@ export const GetSchemaVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetSchemaVersionRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<GetSchemaVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5286,7 +5322,8 @@ export const ListAssetByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListAssetByResourceGroupRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<AssetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5310,7 +5347,8 @@ export const ListAssetBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListAssetBySubscriptionRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<AssetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5334,7 +5372,8 @@ export const ListAssetEndpointProfileByResourceGroup: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListAssetEndpointProfileByResourceGroupRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<AssetEndpointProfileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5358,7 +5397,8 @@ export const ListAssetEndpointProfileBySubscription: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListAssetEndpointProfileBySubscriptionRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<AssetEndpointProfileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5382,7 +5422,8 @@ export const ListBillingContainerBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListBillingContainerBySubscriptionRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<BillingContainerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5406,7 +5447,8 @@ export const ListCertificateAuthorityByNamespace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListCertificateAuthorityByNamespaceRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<CertificateAuthorityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5430,7 +5472,8 @@ export const ListCertificatePolicyByCertificateAuthority: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListCertificatePolicyByCertificateAuthorityRequest>,
   output: __S(2530, __c79, 2) as any as S.Schema<CertificatePolicyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5454,7 +5497,8 @@ export const ListNamespaceAssetByNamespace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListNamespaceAssetByNamespaceRequest>,
   output: __S(2562, __c80, 2) as any as S.Schema<NamespaceAssetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5478,7 +5522,8 @@ export const ListNamespaceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListNamespaceByResourceGroupRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5502,7 +5547,8 @@ export const ListNamespaceBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListNamespaceBySubscriptionRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5526,7 +5572,8 @@ export const ListNamespaceDeviceByNamespace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListNamespaceDeviceByNamespaceRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<NamespaceDeviceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5550,7 +5597,8 @@ export const ListNamespaceDiscoveredAssetByNamespace: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListNamespaceDiscoveredAssetByNamespaceRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<NamespaceDiscoveredAssetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5574,7 +5622,8 @@ export const ListNamespaceDiscoveredDeviceByNamespace: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListNamespaceDiscoveredDeviceByNamespaceRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<NamespaceDiscoveredDeviceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5598,7 +5647,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2788, __c87, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5622,7 +5672,8 @@ export const ListRegistryDeviceByNamespace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryDeviceByNamespaceRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<RegistryDeviceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5646,7 +5697,8 @@ export const ListSchemaBySchemaRegistry: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListSchemaBySchemaRegistryRequest>,
   output: __S(2915, __c91, 3) as any as S.Schema<SchemaListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5670,7 +5722,8 @@ export const ListSchemaRegistryByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListSchemaRegistryByResourceGroupRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<SchemaRegistryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5694,7 +5747,8 @@ export const ListSchemaRegistryBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListSchemaRegistryBySubscriptionRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<SchemaRegistryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5718,7 +5772,8 @@ export const ListSchemaVersionBySchema: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListSchemaVersionBySchemaRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<SchemaVersionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5741,7 +5796,8 @@ export const MigrateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<MigrateNamespaceRequest>,
   output: __S(3075, __c96, 3) as any as S.Schema<NamespaceMigrateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5758,7 +5814,8 @@ export const NamespaceAssetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3105, __c97, 1) as any as S.Schema<NamespaceAssetsCreateOrReplaceRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<NamespaceAssetsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5775,7 +5832,8 @@ export const NamespaceDevicesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3137, __c98, 1) as any as S.Schema<NamespaceDevicesCreateOrReplaceRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<NamespaceDevicesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5792,7 +5850,8 @@ export const NamespaceDiscoveredAssetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3169, __c99, 1) as any as S.Schema<NamespaceDiscoveredAssetsCreateOrReplaceRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<NamespaceDiscoveredAssetsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5813,7 +5872,8 @@ export const NamespaceDiscoveredDevicesCreateOrReplace: API.OperationMethod<
     __c100,
     2,
   ) as any as S.Schema<NamespaceDiscoveredDevicesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5830,7 +5890,8 @@ export const NamespacesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<NamespacesCreateOrReplaceRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<NamespacesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5847,7 +5908,8 @@ export const RegistryDevicesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3361, __c105, 1) as any as S.Schema<RegistryDevicesCreateOrReplaceRequest>,
   output: __S(3362, __c105, 2) as any as S.Schema<RegistryDevicesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5864,7 +5926,8 @@ export const SchemaRegistriesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3393, __c106, 1) as any as S.Schema<SchemaRegistriesCreateOrReplaceRequest>,
   output: __S(3394, __c106, 2) as any as S.Schema<SchemaRegistriesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5881,7 +5944,8 @@ export const SchemasCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3425, __c107, 1) as any as S.Schema<SchemasCreateOrReplaceRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<SchemasCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5898,7 +5962,8 @@ export const SchemaVersionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3457, __c108, 1) as any as S.Schema<SchemaVersionsCreateOrReplaceRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<SchemaVersionsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5915,7 +5980,8 @@ export const UpdateAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3490, __c109, 2) as any as S.Schema<UpdateAssetRequest>,
   output: __S(3491, __c109, 3) as any as S.Schema<UpdateAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5932,7 +5998,8 @@ export const UpdateAssetEndpointProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3523, __c110, 3) as any as S.Schema<UpdateAssetEndpointProfileRequest>,
   output: __S(3524, __c110, 4) as any as S.Schema<UpdateAssetEndpointProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5949,7 +6016,8 @@ export const UpdateCertificateAuthority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<UpdateCertificateAuthorityRequest>,
   output: __S(3585, __c112, 1) as any as S.Schema<UpdateCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5966,7 +6034,8 @@ export const UpdateCertificatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3618, __c113, 2) as any as S.Schema<UpdateCertificatePolicyRequest>,
   output: __S(3619, __c113, 3) as any as S.Schema<UpdateCertificatePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5983,7 +6052,8 @@ export const UpdateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<UpdateNamespaceRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<UpdateNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6000,7 +6070,8 @@ export const UpdateNamespaceAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3713, __c116, 1) as any as S.Schema<UpdateNamespaceAssetRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<UpdateNamespaceAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6017,7 +6088,8 @@ export const UpdateNamespaceDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3751, __c117, 7) as any as S.Schema<UpdateNamespaceDeviceRequest>,
   output: __S(3752, __c117, 8) as any as S.Schema<UpdateNamespaceDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6034,7 +6106,8 @@ export const UpdateNamespaceDiscoveredAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3810, __c119, 2) as any as S.Schema<UpdateNamespaceDiscoveredAssetRequest>,
   output: __S(3811, __c119, 3) as any as S.Schema<UpdateNamespaceDiscoveredAssetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6051,7 +6124,8 @@ export const UpdateNamespaceDiscoveredDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3845, __c120, 5) as any as S.Schema<UpdateNamespaceDiscoveredDeviceRequest>,
   output: __S(3846, __c120, 6) as any as S.Schema<UpdateNamespaceDiscoveredDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6068,7 +6142,8 @@ export const UpdateRegistryDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3873, __c121, 1) as any as S.Schema<UpdateRegistryDeviceRequest>,
   output: __S(3874, __c121, 2) as any as S.Schema<UpdateRegistryDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6085,7 +6160,8 @@ export const UpdateSchemaRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3905, __c122, 1) as any as S.Schema<UpdateSchemaRegistryRequest>,
   output: __S(3906, __c122, 2) as any as S.Schema<UpdateSchemaRegistryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

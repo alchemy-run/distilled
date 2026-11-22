@@ -9569,9 +9569,13 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerAccessPolicyRequest" });
     case 1:
-      return S.suspend(() => __S(722, __c45, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetContainerAccessPolicyResponse",
-      });
+      return S.suspend(() =>
+        __S(722, __c45, 2).pipe(
+          T.RawResponseRoot(),
+          T.XmlName("SignedIdentifiers"),
+          T.XmlItemName("SignedIdentifier"),
+        ),
+      ).annotate({ identifier: "GetContainerAccessPolicyResponse" });
   }
 }
 function __c45(j: number): any {
