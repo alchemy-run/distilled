@@ -26,6 +26,7 @@ import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
 const ERROR_MATCHERS_TRAIT = "com.googleworkspace.protocols#errorMatchers";
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Discovery simple shapes → TS type / schema expression. */
 const SIMPLE_SHAPES: Record<string, readonly [string, string]> = {
@@ -46,6 +47,25 @@ const makeGoogleWorkspaceSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   opExportName: (name) => lowerFirst(name.replace(/_+$/, "")),
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   sourceNote: ".generated-specs (converted Google Discovery documents)",
+
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
 
   // Each Google service has its own host: bake `rootUrl + servicePath` from
   // the model metadata into the op's Http trait (read by GoogleWorkspaceProtocol).
