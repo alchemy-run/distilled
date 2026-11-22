@@ -301,11 +301,12 @@ const withLocality = (input: unknown, uri: string, creds: Config): unknown => {
 export const stripNulls = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(stripNulls);
   if (isObject(value)) {
-    const out: Json = {};
-    for (const [k, v] of Object.entries(value)) {
-      if (v !== null) out[k] = stripNulls(v);
-    }
-    return out;
+    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, v]) => v !== null)
+        .map(([k, v]) => [k, stripNulls(v)]),
+    );
   }
   return value;
 };

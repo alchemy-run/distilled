@@ -16,6 +16,7 @@
  * `optional`, message fields and `oneof` members) are omitted when absent.
  * Enum numbers map back to names, and unknown fields are skipped.
  */
+import { setOwnKey } from "./plain-values.ts";
 
 /** A scalar or composite field kind. */
 export type FieldKind =
@@ -963,7 +964,7 @@ const readStruct = (bytes: Uint8Array): Record<string, unknown> => {
       else if (n === 2 && w === 2) value = readStructValue(entry.delimited());
       else entry.skip(w, n);
     }
-    out[key] = value;
+    setOwnKey(out, key, value);
   }
   return out;
 };
@@ -1202,7 +1203,7 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
         else entry.skip(w, n);
       }
       const map = (out[json] ??= {}) as Record<string, unknown>;
-      map[String(key)] = value;
+      setOwnKey(map, String(key), value);
       continue;
     }
     if (repeated) {

@@ -66,12 +66,12 @@ export type AxiomOpContext = Credentials | HttpClient.HttpClient;
 export const stripNulls = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(stripNulls);
   if (value && typeof value === "object") {
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v === null) continue;
-      out[k] = stripNulls(v);
-    }
-    return out;
+    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, v]) => v !== null)
+        .map(([k, v]) => [k, stripNulls(v)]),
+    );
   }
   return value;
 };

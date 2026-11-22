@@ -20,6 +20,7 @@
  * Which types hold a secret, and how logs and error messages show them, is
  * core's rule (`@distilled.cloud/core/sensitive`).
  */
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import {
   holdsSensitive as holdsSensitiveAst,
@@ -335,8 +336,11 @@ const encodeObjects = (n: Node, v: unknown, binary: boolean): unknown => {
       if (shape.typeKeys.has(key)) continue;
       const x = v[key];
       try {
-        out[key] =
-          x === undefined && isOptional(index.type) ? undefined : encode(index.type, x, binary);
+        setOwnKey(
+          out,
+          key,
+          x === undefined && isOptional(index.type) ? undefined : encode(index.type, x, binary),
+        );
       } catch (e) {
         throw within(e, key);
       }
@@ -460,7 +464,7 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
       // A map that is not `@sparse` has no null values.
       if (x === null && !acceptsNull(index.type)) continue;
       try {
-        out[key] = decode(index.type, x, exact);
+        setOwnKey(out, key, decode(index.type, x, exact));
       } catch (e) {
         throw within(e, key);
       }
