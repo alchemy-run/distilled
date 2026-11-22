@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
 import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
-import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
+import type { ConfigError, DefaultErrors, InvalidInput } from "@distilled.cloud/core/errors";
 import {
+  encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
@@ -29,10 +30,10 @@ import {
  *
  *   request:  credentials -> `Authorization: Bearer <access token>`; the
  *             per-service base URL (rootUrl + servicePath) read from the
- *             extended `T.Http({ ... baseUrl })` trait; RFC 6570
- *             reserved-expansion for `{+param}` path tokens (Google
- *             discovery paths like `v1/{+name}` carry multi-segment
- *             resource names whose `/` must NOT be percent-encoded);
+ *             extended `T.Http({ ... baseUrl })` trait; `{+param}`
+ *             path tokens (Google discovery paths like `v1/{+name}` carry
+ *             multi-segment resource names) keep their `/` and encode
+ *             each segment, with core's `encodeLabel` checks;
  *             query params (arrays as repeated `k=v`); a single
  *             `HttpBody()` member as the whole JSON request body.
  *
@@ -65,6 +66,7 @@ import type { GoogleWorkspaceHttpTrait } from "./traits.ts";
  */
 export type GoogleWorkspaceOpError =
   | DefaultErrors
+  | InvalidInput
   | UnknownGoogleWorkspaceError
   | GoogleWorkspaceParseError
   | ConfigError
@@ -79,14 +81,6 @@ export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;
 // `errors: [...]` list. Fail with the instance and erase the error type here;
 // `API.make`'s signature reintroduces it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
-/**
- * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
- * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
- * sets. Used for `{+param}` path tokens (ported from the distilled core).
- */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
-const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
 const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
@@ -172,11 +166,13 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
       if (hasPropAnn(prop, labelSymbol)) {
         const token = nameOf(prop, labelSymbol);
-        // Discovery paths use RFC 6570 reserved expansion (`{+name}`) for
-        // multi-segment resource names; plain `{name}` is fully encoded.
-        uri = uri.includes(`{+${token}}`)
-          ? uri.replace(`{+${token}}`, encodeReserved(String(value)))
-          : uri.replace(`{${token}}`, encodeURIComponent(String(value)));
+        // `{+name}` is a multi-segment resource name (`projects/p/secrets/s`):
+        // like core's greedy `{name+}`, each segment is encoded and the `/`
+        // kept (google/api/http.proto). Plain `{name}` is fully encoded.
+        const greedy = uri.includes(`{+${token}}`);
+        const label = encodeLabel(String(prop.name), value, greedy);
+        if (typeof label !== "string") return yield* fail(label);
+        uri = uri.replace(greedy ? `{+${token}}` : `{${token}}`, () => label);
       } else if (hasPropAnn(prop, querySymbol)) {
         appendQuery(query, nameOf(prop, querySymbol), value);
       } else if (hasPropAnn(prop, headerSymbol)) {
