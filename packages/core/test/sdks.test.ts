@@ -77,7 +77,7 @@ describe("every SDK", () => {
       // takes its errors from the protocol's type, `ErrorOf<typeof XProtocol>`,
       // so the compiler puts the ParseError there once the protocol builds it.
       const fromProtocol = names.some((name) =>
-        /\bErrorOf<typeof \w+>/.test(aliases.get(name) ?? ""),
+        /\bErrorOf<\s*typeof \w+/.test(aliases.get(name) ?? ""),
       );
       const parseError = fromProtocol
         ? /^export class (\w*ParseError)\b/m.exec(read(pkg, "src/errors.ts") ?? "")?.[1]
