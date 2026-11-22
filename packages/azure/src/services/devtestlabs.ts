@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3059,6 +3059,8 @@ export interface ListArmTemplatesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ArmTemplateTagsMap = { [key: string]: string | undefined };
@@ -3105,6 +3107,8 @@ export interface ListArtifactsRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactTagsMap = { [key: string]: string | undefined };
@@ -3149,6 +3153,8 @@ export interface ListArtifactSourcesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactSourceTagsMap = { [key: string]: string | undefined };
@@ -3193,6 +3199,8 @@ export interface ListCustomImagesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CustomImageTagsMap = { [key: string]: string | undefined };
@@ -3239,6 +3247,8 @@ export interface ListDisksRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DiskTagsMap = { [key: string]: string | undefined };
@@ -3285,6 +3295,8 @@ export interface ListEnvironmentsRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DtlEnvironmentTagsMap = { [key: string]: string | undefined };
@@ -3329,6 +3341,8 @@ export interface ListFormulasRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FormulaTagsMap = { [key: string]: string | undefined };
@@ -3373,6 +3387,8 @@ export interface ListGalleryImagesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties of a gallery image. */
 export interface GalleryImageProperties {
@@ -3434,6 +3450,8 @@ export interface ListGlobalScheduleByResourceGroupRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Schedule items on this page */
 export type ScheduleListValueList = Array<Schedule>;
@@ -3455,6 +3473,8 @@ export interface ListGlobalScheduleBySubscriptionRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLabByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3469,6 +3489,8 @@ export interface ListLabByResourceGroupRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LabTagsMap = { [key: string]: string | undefined };
@@ -3509,6 +3531,8 @@ export interface ListLabBySubscriptionRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLabVhdsRequest {
   /** The ID of the target subscription. */
@@ -3517,6 +3541,8 @@ export interface ListLabVhdsRequest {
   resourceGroupName: string;
   /** The name of the lab. */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties of a VHD in the lab. */
 export interface LabVhd {
@@ -3547,6 +3573,8 @@ export interface ListNotificationChannelsRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NotificationChannelTagsMap = { [key: string]: string | undefined };
@@ -3593,6 +3621,8 @@ export interface ListPoliciesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type PolicyTagsMap = { [key: string]: string | undefined };
@@ -3622,7 +3652,10 @@ export interface PolicyList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListProviderOperationsRequest {}
+export interface ListProviderOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3655,7 +3688,7 @@ export interface Operation {
 export type ListProviderOperationsResponseValueList = Array<Operation>;
 export interface ListProviderOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListProviderOperationsResponseValueList | undefined;
+  value: ListProviderOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -3668,6 +3701,8 @@ export interface ListScheduleApplicableRequest {
   labName: string;
   /** The name of the Schedule */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSchedulesRequest {
   /** The ID of the target subscription. */
@@ -3684,6 +3719,8 @@ export interface ListSchedulesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSecretsRequest {
   /** The ID of the target subscription. */
@@ -3702,6 +3739,8 @@ export interface ListSecretsRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SecretTagsMap = { [key: string]: string | undefined };
@@ -3780,6 +3819,8 @@ export interface ListServiceFabricsRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricTagsMap = { [key: string]: string | undefined };
@@ -3828,6 +3869,8 @@ export interface ListServiceFabricSchedulesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListUsersRequest {
   /** The ID of the target subscription. */
@@ -3844,6 +3887,8 @@ export interface ListUsersRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UserTagsMap = { [key: string]: string | undefined };
@@ -3918,6 +3963,8 @@ export interface ListVirtualMachinesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LabVirtualMachineTagsMap = { [key: string]: string | undefined };
@@ -3964,6 +4011,8 @@ export interface ListVirtualMachineSchedulesRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworksRequest {
   /** The ID of the target subscription. */
@@ -3980,6 +4029,8 @@ export interface ListVirtualNetworksRequest {
   _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
   _orderby?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkTagsMap = { [key: string]: string | undefined };
@@ -5339,8 +5390,7 @@ export const AddVirtualMachineDataDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddVirtualMachineDataDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AddVirtualMachineDataDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5357,8 +5407,7 @@ export const ApplyVirtualMachineArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ApplyVirtualMachineArtifactsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ApplyVirtualMachineArtifactsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5375,8 +5424,7 @@ export const ArtifactSourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(785, __c49, 1) as any as S.Schema<ArtifactSourcesCreateOrUpdateRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ArtifactSourcesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5393,8 +5441,7 @@ export const AttachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<AttachDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AttachDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5411,8 +5458,7 @@ export const ClaimLabAnyVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ClaimLabAnyVmRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimLabAnyVmResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5429,8 +5475,7 @@ export const ClaimVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ClaimVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5447,8 +5492,7 @@ export const ClaimVirtualMachinesUn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ClaimVirtualMachinesUnRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimVirtualMachinesUnResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5465,8 +5509,7 @@ export const CostsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2177, __c136, 1) as any as S.Schema<CostsCreateOrUpdateRequest>,
   output: __S(2202, __c137, 10) as any as S.Schema<CostsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5483,8 +5526,7 @@ export const CreateLabEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<CreateLabEnvironmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateLabEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5501,8 +5543,7 @@ export const CustomImagesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2705, __c169, 1) as any as S.Schema<CustomImagesCreateOrUpdateRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<CustomImagesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5519,8 +5560,7 @@ export const DeleteArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteArtifactSourceRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteArtifactSourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5537,8 +5577,7 @@ export const DeleteCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteCustomImageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteCustomImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5555,8 +5594,7 @@ export const DeleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5573,8 +5611,7 @@ export const DeleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5591,8 +5628,7 @@ export const DeleteFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteFormulasRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteFormulasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5609,8 +5645,7 @@ export const DeleteGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteGlobalScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteGlobalScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5627,8 +5662,7 @@ export const DeleteLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<DeleteLabRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteLabResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5645,8 +5679,7 @@ export const DeleteNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5663,8 +5696,7 @@ export const DeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5681,8 +5713,7 @@ export const DeleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5699,8 +5730,7 @@ export const DeleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5717,8 +5747,7 @@ export const DeleteServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DeleteServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5735,8 +5764,7 @@ export const DeleteServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<DeleteServiceFabricScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteServiceFabricScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5753,8 +5781,7 @@ export const DeleteServiceRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<DeleteServiceRunnerRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteServiceRunnerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5771,8 +5798,7 @@ export const DeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5789,8 +5815,7 @@ export const DeleteVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5807,8 +5832,7 @@ export const DeleteVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteVirtualMachineScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteVirtualMachineScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5825,8 +5849,7 @@ export const DeleteVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5843,8 +5866,7 @@ export const DetachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DetachDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DetachDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5861,8 +5883,7 @@ export const DetachVirtualMachineDataDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DetachVirtualMachineDataDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DetachVirtualMachineDataDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5879,8 +5900,7 @@ export const DisksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c64, 1) as any as S.Schema<DisksCreateOrUpdateRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<DisksCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5897,8 +5917,7 @@ export const EnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c66, 1) as any as S.Schema<EnvironmentsCreateOrUpdateRequest>,
   output: __S(1058, __c66, 2) as any as S.Schema<EnvironmentsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5915,8 +5934,7 @@ export const ExecuteGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ExecuteGlobalScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteGlobalScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5933,8 +5951,7 @@ export const ExecuteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ExecuteScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5951,8 +5968,7 @@ export const ExecuteServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ExecuteServiceFabricScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteServiceFabricScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5969,8 +5985,7 @@ export const ExecuteVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ExecuteVirtualMachineScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteVirtualMachineScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5987,8 +6002,7 @@ export const ExportLabResourceUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ExportLabResourceUsageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExportLabResourceUsageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6005,8 +6019,7 @@ export const FormulasCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1170, __c73, 2) as any as S.Schema<FormulasCreateOrUpdateRequest>,
   output: __S(1171, __c73, 3) as any as S.Schema<FormulasCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6023,8 +6036,7 @@ export const GenerateArtifactArmTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GenerateArtifactArmTemplateRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ArmTemplateInfo>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6041,8 +6053,7 @@ export const GetArmTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetArmTemplateRequest>,
   output: __S(1267, __c79, 3) as any as S.Schema<GetArmTemplateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6059,8 +6070,7 @@ export const GetArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetArtifactRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<GetArtifactResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6077,8 +6087,7 @@ export const GetArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetArtifactSourceRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<GetArtifactSourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6095,8 +6104,7 @@ export const GetCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetCostRequest>,
   output: __S(2202, __c137, 10) as any as S.Schema<GetCostResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6113,8 +6121,7 @@ export const GetCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetCustomImageRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<GetCustomImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6131,8 +6138,7 @@ export const GetDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetDiskRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<GetDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6149,8 +6155,7 @@ export const GetEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<GetEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6167,8 +6172,7 @@ export const GetFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetFormulasRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<GetFormulasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6185,8 +6189,7 @@ export const GetGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetGlobalScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetGlobalScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6203,8 +6206,7 @@ export const GetLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetLabRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<GetLabResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6221,8 +6223,7 @@ export const GetNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetNotificationChannelRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<GetNotificationChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6239,8 +6240,7 @@ export const GetOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetOperationRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<OperationResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6257,8 +6257,7 @@ export const GetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<GetPolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6275,8 +6274,7 @@ export const GetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6293,8 +6291,7 @@ export const GetSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<GetSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6311,8 +6308,7 @@ export const GetServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetServiceFabricRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<GetServiceFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6329,8 +6325,7 @@ export const GetServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetServiceFabricScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetServiceFabricScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6347,8 +6342,7 @@ export const GetServiceRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<GetServiceRunnerRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<GetServiceRunnerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6365,8 +6359,7 @@ export const GetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<GetUserResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6383,8 +6376,7 @@ export const GetVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetVirtualMachineRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<GetVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6401,8 +6393,7 @@ export const GetVirtualMachineRdpFileContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<GetVirtualMachineRdpFileContentsRequest>,
   output: __S(1953, __c122, 1) as any as S.Schema<RdpConnection>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6419,8 +6410,7 @@ export const GetVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetVirtualMachineScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetVirtualMachineScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6437,8 +6427,7 @@ export const GetVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetVirtualNetworkRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<GetVirtualNetworkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6455,8 +6444,7 @@ export const GlobalSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GlobalSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GlobalSchedulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6473,8 +6461,7 @@ export const GlobalSchedulesRetarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GlobalSchedulesRetargetRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<GlobalSchedulesRetargetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6491,8 +6478,7 @@ export const ImportLabVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ImportLabVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ImportLabVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6509,8 +6495,7 @@ export const LabsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2098, __c131, 2) as any as S.Schema<LabsCreateOrUpdateRequest>,
   output: __S(2099, __c131, 3) as any as S.Schema<LabsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6527,8 +6512,7 @@ export const LabsGenerateUploadUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<LabsGenerateUploadUriRequest>,
   output: __S(2113, __c132, 1) as any as S.Schema<GenerateUploadUriResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6537,345 +6521,459 @@ export const LabsGenerateUploadUri: API.OperationMethod<
 
 export type ListArmTemplatesError = AzureOpError;
 /** List azure resource manager templates in a given artifact source. */
-export const ListArmTemplates: API.OperationMethod<
+export const ListArmTemplates: API.PaginatedOperationMethod<
   ListArmTemplatesRequest,
   ArmTemplateList,
   ListArmTemplatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArmTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListArmTemplatesRequest>,
   output: __S(2130, __c133, 2) as any as S.Schema<ArmTemplateList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArmTemplates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListArtifactsError = AzureOpError;
 /** List artifacts in a given artifact source. */
-export const ListArtifacts: API.OperationMethod<
+export const ListArtifacts: API.PaginatedOperationMethod<
   ListArtifactsRequest,
   ArtifactList,
   ListArtifactsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Artifact
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListArtifactsRequest>,
   output: __S(2146, __c134, 2) as any as S.Schema<ArtifactList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifacts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListArtifactSourcesError = AzureOpError;
 /** List artifact sources in a given lab. */
-export const ListArtifactSources: API.OperationMethod<
+export const ListArtifactSources: API.PaginatedOperationMethod<
   ListArtifactSourcesRequest,
   ArtifactSourceList,
   ListArtifactSourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArtifactSource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListArtifactSourcesRequest>,
   output: __S(2162, __c135, 2) as any as S.Schema<ArtifactSourceList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactSources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomImagesError = AzureOpError;
 /** List custom images in a given lab. */
-export const ListCustomImages: API.OperationMethod<
+export const ListCustomImages: API.PaginatedOperationMethod<
   ListCustomImagesRequest,
   CustomImageList,
   ListCustomImagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomImage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListCustomImagesRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<CustomImageList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomImages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisksError = AzureOpError;
 /** List disks in a given user profile. */
-export const ListDisks: API.OperationMethod<
+export const ListDisks: API.PaginatedOperationMethod<
   ListDisksRequest,
   DiskList,
   ListDisksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Disk
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListDisksRequest>,
   output: __S(2226, __c139, 2) as any as S.Schema<DiskList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentsError = AzureOpError;
 /** List environments in a given user profile. */
-export const ListEnvironments: API.OperationMethod<
+export const ListEnvironments: API.PaginatedOperationMethod<
   ListEnvironmentsRequest,
   DtlEnvironmentList,
   ListEnvironmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DtlEnvironment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(2242, __c140, 2) as any as S.Schema<DtlEnvironmentList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFormulasError = AzureOpError;
 /** List formulas in a given lab. */
-export const ListFormulas: API.OperationMethod<
+export const ListFormulas: API.PaginatedOperationMethod<
   ListFormulasRequest,
   FormulaList,
   ListFormulasError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Formula
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListFormulasRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<FormulaList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFormulas",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGalleryImagesError = AzureOpError;
 /** List gallery images in a given lab. */
-export const ListGalleryImages: API.OperationMethod<
+export const ListGalleryImages: API.PaginatedOperationMethod<
   ListGalleryImagesRequest,
   GalleryImageList,
   ListGalleryImagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GalleryImage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListGalleryImagesRequest>,
   output: __S(2276, __c142, 4) as any as S.Schema<GalleryImageList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGalleryImages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGlobalScheduleByResourceGroupError = AzureOpError;
 /** List schedules in a resource group. */
-export const ListGlobalScheduleByResourceGroup: API.OperationMethod<
+export const ListGlobalScheduleByResourceGroup: API.PaginatedOperationMethod<
   ListGlobalScheduleByResourceGroupRequest,
   ScheduleList,
   ListGlobalScheduleByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListGlobalScheduleByResourceGroupRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalScheduleByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGlobalScheduleBySubscriptionError = AzureOpError;
 /** List schedules in a subscription. */
-export const ListGlobalScheduleBySubscription: API.OperationMethod<
+export const ListGlobalScheduleBySubscription: API.PaginatedOperationMethod<
   ListGlobalScheduleBySubscriptionRequest,
   ScheduleList,
   ListGlobalScheduleBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListGlobalScheduleBySubscriptionRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalScheduleBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLabByResourceGroupError = AzureOpError;
 /** List labs in a resource group. */
-export const ListLabByResourceGroup: API.OperationMethod<
+export const ListLabByResourceGroup: API.PaginatedOperationMethod<
   ListLabByResourceGroupRequest,
   LabList,
   ListLabByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Lab
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<ListLabByResourceGroupRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<LabList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLabByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLabBySubscriptionError = AzureOpError;
 /** List labs in a subscription. */
-export const ListLabBySubscription: API.OperationMethod<
+export const ListLabBySubscription: API.PaginatedOperationMethod<
   ListLabBySubscriptionRequest,
   LabList,
   ListLabBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Lab
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListLabBySubscriptionRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<LabList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLabBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLabVhdsError = AzureOpError;
 /** List disk images available for custom image creation. */
-export const ListLabVhds: API.OperationMethod<
+export const ListLabVhds: API.PaginatedOperationMethod<
   ListLabVhdsRequest,
   LabVhdList,
   ListLabVhdsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LabVhd
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<ListLabVhdsRequest>,
   output: __S(2387, __c149, 3) as any as S.Schema<LabVhdList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLabVhds",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNotificationChannelsError = AzureOpError;
 /** List notification channels in a given lab. */
-export const ListNotificationChannels: API.OperationMethod<
+export const ListNotificationChannels: API.PaginatedOperationMethod<
   ListNotificationChannelsRequest,
   NotificationChannelList,
   ListNotificationChannelsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NotificationChannel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListNotificationChannelsRequest>,
   output: __S(2546, __c159, 2) as any as S.Schema<NotificationChannelList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNotificationChannels",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoliciesError = AzureOpError;
 /** List policies in a given policy set. */
-export const ListPolicies: API.OperationMethod<
+export const ListPolicies: API.PaginatedOperationMethod<
   ListPoliciesRequest,
   PolicyList,
   ListPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Policy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<PolicyList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProviderOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListProviderOperations: API.OperationMethod<
+export const ListProviderOperations: API.PaginatedOperationMethod<
   ListProviderOperationsRequest,
   ListProviderOperationsResponse,
   ListProviderOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<ListProviderOperationsRequest>,
   output: __S(2580, __c161, 4) as any as S.Schema<ListProviderOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProviderOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScheduleApplicableError = AzureOpError;
 /** Lists all applicable schedules */
-export const ListScheduleApplicable: API.OperationMethod<
+export const ListScheduleApplicable: API.PaginatedOperationMethod<
   ListScheduleApplicableRequest,
   ScheduleList,
   ListScheduleApplicableError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListScheduleApplicableRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduleApplicable",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulesError = AzureOpError;
 /** List schedules in a given lab. */
-export const ListSchedules: API.OperationMethod<
+export const ListSchedules: API.PaginatedOperationMethod<
   ListSchedulesRequest,
   ScheduleList,
   ListSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecretsError = AzureOpError;
 /** List secrets in a given user profile. */
-export const ListSecrets: API.OperationMethod<
+export const ListSecrets: API.PaginatedOperationMethod<
   ListSecretsRequest,
   SecretList,
   ListSecretsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Secret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ListSecretsRequest>,
   output: __S(2626, __c164, 2) as any as S.Schema<SecretList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecrets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceFabricApplicableSchedulesError = AzureOpError;
 /** Lists the applicable start/stop schedules, if any. */
@@ -6887,8 +6985,7 @@ export const ListServiceFabricApplicableSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ListServiceFabricApplicableSchedulesRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<ListServiceFabricApplicableSchedulesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6897,57 +6994,75 @@ export const ListServiceFabricApplicableSchedules: API.OperationMethod<
 
 export type ListServiceFabricsError = AzureOpError;
 /** List service fabrics in a given user profile. */
-export const ListServiceFabrics: API.OperationMethod<
+export const ListServiceFabrics: API.PaginatedOperationMethod<
   ListServiceFabricsRequest,
   ServiceFabricList,
   ListServiceFabricsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceFabric
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<ListServiceFabricsRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<ServiceFabricList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceFabrics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceFabricSchedulesError = AzureOpError;
 /** List schedules in a given service fabric. */
-export const ListServiceFabricSchedules: API.OperationMethod<
+export const ListServiceFabricSchedules: API.PaginatedOperationMethod<
   ListServiceFabricSchedulesRequest,
   ScheduleList,
   ListServiceFabricSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListServiceFabricSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceFabricSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsersError = AzureOpError;
 /** List user profiles in a given lab. */
-export const ListUsers: API.OperationMethod<
+export const ListUsers: API.PaginatedOperationMethod<
   ListUsersRequest,
   UserList,
   ListUsersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  User
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(2690, __c168, 2) as any as S.Schema<UserList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineApplicableSchedulesError = AzureOpError;
 /** Lists the applicable start/stop schedules, if any. */
@@ -6959,8 +7074,7 @@ export const ListVirtualMachineApplicableSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<ListVirtualMachineApplicableSchedulesRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<ListVirtualMachineApplicableSchedulesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6969,57 +7083,75 @@ export const ListVirtualMachineApplicableSchedules: API.OperationMethod<
 
 export type ListVirtualMachinesError = AzureOpError;
 /** List virtual machines in a given lab. */
-export const ListVirtualMachines: API.OperationMethod<
+export const ListVirtualMachines: API.PaginatedOperationMethod<
   ListVirtualMachinesRequest,
   LabVirtualMachineList,
   ListVirtualMachinesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LabVirtualMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<ListVirtualMachinesRequest>,
   output: __S(2754, __c172, 2) as any as S.Schema<LabVirtualMachineList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineSchedulesError = AzureOpError;
 /** List schedules in a given virtual machine. */
-export const ListVirtualMachineSchedules: API.OperationMethod<
+export const ListVirtualMachineSchedules: API.PaginatedOperationMethod<
   ListVirtualMachineSchedulesRequest,
   ScheduleList,
   ListVirtualMachineSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<ListVirtualMachineSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworksError = AzureOpError;
 /** List virtual networks in a given lab. */
-export const ListVirtualNetworks: API.OperationMethod<
+export const ListVirtualNetworks: API.PaginatedOperationMethod<
   ListVirtualNetworksRequest,
   VirtualNetworkList,
   ListVirtualNetworksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ListVirtualNetworksRequest>,
   output: __S(2786, __c174, 2) as any as S.Schema<VirtualNetworkList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NotificationChannelsCreateOrUpdateError = AzureOpError;
 /** Create or replace an existing notification channel. */
@@ -7031,8 +7163,7 @@ export const NotificationChannelsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2801, __c175, 1) as any as S.Schema<NotificationChannelsCreateOrUpdateRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<NotificationChannelsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7049,8 +7180,7 @@ export const NotifyNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<NotifyNotificationChannelRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<NotifyNotificationChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7067,8 +7197,7 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2833, __c177, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7085,8 +7214,7 @@ export const PolicySetsEvaluatePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2850, __c178, 2) as any as S.Schema<PolicySetsEvaluatePoliciesRequest>,
   output: __S(2854, __c178, 6) as any as S.Schema<EvaluatePoliciesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7103,8 +7231,7 @@ export const RedeployVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<RedeployVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RedeployVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7121,8 +7248,7 @@ export const ResizeVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<ResizeVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResizeVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7139,8 +7265,7 @@ export const RestartVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<RestartVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestartVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7157,8 +7282,7 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7175,8 +7299,7 @@ export const SecretsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<SecretsCreateOrUpdateRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<SecretsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7193,8 +7316,7 @@ export const ServiceFabricSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ServiceFabricSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<ServiceFabricSchedulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7211,8 +7333,7 @@ export const ServiceFabricsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<ServiceFabricsCreateOrUpdateRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<ServiceFabricsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7229,8 +7350,7 @@ export const ServiceRunnersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c13, 1) as any as S.Schema<ServiceRunnersCreateOrUpdateRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<ServiceRunnersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7247,8 +7367,7 @@ export const StartServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<StartServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartServiceFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7265,8 +7384,7 @@ export const StartVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<StartVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7283,8 +7401,7 @@ export const StopServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<StopServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopServiceFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7301,8 +7418,7 @@ export const StopVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<StopVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7319,8 +7435,7 @@ export const TransferVirtualMachineDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<TransferVirtualMachineDisksRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TransferVirtualMachineDisksResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7337,8 +7452,7 @@ export const UpdateArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<UpdateArtifactSourceRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<UpdateArtifactSourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7355,8 +7469,7 @@ export const UpdateCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<UpdateCustomImageRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<UpdateCustomImageResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7373,8 +7486,7 @@ export const UpdateDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateDiskRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateDiskResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7391,8 +7503,7 @@ export const UpdateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<UpdateEnvironmentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7409,8 +7520,7 @@ export const UpdateFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<UpdateFormulasRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<UpdateFormulasResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7427,8 +7537,7 @@ export const UpdateGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<UpdateGlobalScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateGlobalScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7445,8 +7554,7 @@ export const UpdateLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<UpdateLabRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<UpdateLabResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7463,8 +7571,7 @@ export const UpdateNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateNotificationChannelRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<UpdateNotificationChannelResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7481,8 +7588,7 @@ export const UpdatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<UpdatePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7499,8 +7605,7 @@ export const UpdateSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UpdateScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7517,8 +7622,7 @@ export const UpdateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<UpdateSecretResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7535,8 +7639,7 @@ export const UpdateServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UpdateServiceFabricRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<UpdateServiceFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7553,8 +7656,7 @@ export const UpdateServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateServiceFabricScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateServiceFabricScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7571,8 +7673,7 @@ export const UpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7589,8 +7690,7 @@ export const UpdateVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateVirtualMachineRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<UpdateVirtualMachineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7607,8 +7707,7 @@ export const UpdateVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UpdateVirtualMachineScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateVirtualMachineScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7625,8 +7724,7 @@ export const UpdateVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<UpdateVirtualNetworkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7643,8 +7741,7 @@ export const UsersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c38, 1) as any as S.Schema<UsersCreateOrUpdateRequest>,
   output: __S(610, __c38, 2) as any as S.Schema<UsersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7661,8 +7758,7 @@ export const VirtualMachineSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<VirtualMachineSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<VirtualMachineSchedulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7679,8 +7775,7 @@ export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(657, __c41, 1) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<VirtualMachinesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7697,8 +7792,7 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c42, 1) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10943,12 +11037,14 @@ function __c133(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/armtemplates",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArmTemplatesRequest" });
@@ -10976,12 +11072,14 @@ function __c134(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactsRequest" });
@@ -11008,12 +11106,14 @@ function __c135(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactSourcesRequest" });
@@ -11165,12 +11265,14 @@ function __c138(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomImagesRequest" });
@@ -11198,12 +11300,14 @@ function __c139(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisksRequest" });
@@ -11231,12 +11335,14 @@ function __c140(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentsRequest" });
@@ -11263,12 +11369,14 @@ function __c141(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFormulasRequest" });
@@ -11295,12 +11403,14 @@ function __c142(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGalleryImagesRequest" });
@@ -11351,12 +11461,14 @@ function __c143(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGlobalScheduleByResourceGroupRequest" });
@@ -11385,12 +11497,14 @@ function __c145(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/schedules",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGlobalScheduleBySubscriptionRequest" });
@@ -11407,12 +11521,14 @@ function __c146(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLabByResourceGroupRequest" });
@@ -11441,12 +11557,14 @@ function __c148(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/labs",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLabBySubscriptionRequest" });
@@ -11460,12 +11578,14 @@ function __c149(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/listVhds",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLabVhdsRequest" });
@@ -11691,12 +11811,14 @@ function __c159(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNotificationChannelsRequest" });
@@ -11724,12 +11846,14 @@ function __c160(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
@@ -11748,12 +11872,15 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DevTestLab/operations",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProviderOperationsRequest" });
@@ -11781,7 +11908,7 @@ function __c161(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2579, __c161, 3)),
+          value: __S(2579, __c161, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProviderOperationsResponse" });
@@ -11796,12 +11923,14 @@ function __c162(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           labName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/listApplicable",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScheduleApplicableRequest" });
@@ -11819,12 +11948,14 @@ function __c163(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulesRequest" });
@@ -11843,12 +11974,14 @@ function __c164(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecretsRequest" });
@@ -11897,12 +12030,14 @@ function __c166(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceFabricsRequest" });
@@ -11931,12 +12066,14 @@ function __c167(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceFabricSchedulesRequest" });
@@ -11954,12 +12091,14 @@ function __c168(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsersRequest" });
@@ -12123,12 +12262,14 @@ function __c172(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachinesRequest" });
@@ -12156,12 +12297,14 @@ function __c173(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineSchedulesRequest" });
@@ -12179,12 +12322,14 @@ function __c174(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks",
             code: 200,
             apiVersion: "2018-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworksRequest" });

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -775,6 +775,8 @@ export interface ListConnectedPartnerResourcesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Connected Partner Resource Properties */
 export interface ConnectedPartnerResourceProperties {
@@ -840,6 +842,8 @@ export interface ListElasticVersionsRequest {
   subscriptionId: string;
   /** Region where elastic deployment will take place. */
   region: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Elastic Version Properties */
 export interface ElasticVersionListProperties {
@@ -873,6 +877,8 @@ export interface ListMonitorByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ElasticMonitorResourceTagsMap = { [key: string]: string | undefined };
@@ -915,6 +921,8 @@ export interface ListMonitoredResourcesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Flag indicating the status of the resource for sending logs operation to Elastic. */
 export type SendingLogs = "True" | "False";
@@ -943,6 +951,8 @@ export interface ListMonitoredSubscriptionsRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
 export interface MonitoredSubscriptionProperties {
@@ -969,6 +979,8 @@ export interface MonitoredSubscriptionPropertiesList {
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOpenAIRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -977,6 +989,8 @@ export interface ListOpenAIRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Capture properties of Open AI resource Integration. */
 export interface OpenAIIntegrationRPModel {
@@ -1000,7 +1014,10 @@ export interface OpenAIIntegrationRPModelListResponse {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Represents the display information for an operation. */
 export interface OperationDisplay {
   /** The service provider of the operation. */
@@ -1039,6 +1056,8 @@ export interface ListTagRulesRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
@@ -1069,6 +1088,8 @@ export interface ListVMHostRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The vm resource properties that is currently being monitored by the Elastic monitor resource. */
 export interface VMResources {
@@ -1361,8 +1382,7 @@ export const AssociateTrafficFilterAssociate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AssociateTrafficFilterAssociateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AssociateTrafficFilterAssociateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1379,8 +1399,7 @@ export const CreateCreateAndAssociateIPFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateCreateAndAssociateIPFilterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateCreateAndAssociateIPFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1397,8 +1416,7 @@ export const CreateCreateAndAssociatePLFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<CreateCreateAndAssociatePLFilterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateCreateAndAssociatePLFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1415,8 +1433,7 @@ export const CreateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(547, __c34, 3) as any as S.Schema<CreateMonitorRequest>,
   output: __S(548, __c34, 4) as any as S.Schema<CreateMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1433,8 +1450,7 @@ export const DeleteDetachAndDeleteTrafficFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<DeleteDetachAndDeleteTrafficFilterRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<DeleteDetachAndDeleteTrafficFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1451,8 +1467,7 @@ export const DeleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1469,8 +1484,7 @@ export const DeleteMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DeleteMonitoredSubscriptionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteMonitoredSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1487,8 +1501,7 @@ export const DeleteOpenAI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<DeleteOpenAIRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<DeleteOpenAIResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1505,8 +1518,7 @@ export const DeleteTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<DeleteTagRuleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteTagRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1523,8 +1535,7 @@ export const DeleteTrafficFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteTrafficFilterRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<DeleteTrafficFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1541,8 +1552,7 @@ export const ExternalUserCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ExternalUserCreateOrUpdateRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<ExternalUserCreationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1559,8 +1569,7 @@ export const GetBillingInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetBillingInfoRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<BillingInfoResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1577,8 +1586,7 @@ export const GetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<GetMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,8 +1603,7 @@ export const GetMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetMonitoredSubscriptionRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<GetMonitoredSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1613,8 +1620,7 @@ export const GetOpenAI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetOpenAIRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<GetOpenAIResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1631,8 +1637,7 @@ export const GetOpenAIStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetOpenAIStatusRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<OpenAIIntegrationStatusResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1649,8 +1654,7 @@ export const GetOrganizationApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetOrganizationApiKeyRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<UserApiKeyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1675,8 +1679,7 @@ export const GetOrganizationElasticToAzureSubscriptionMapping: API.OperationMeth
     __c17,
     2,
   ) as any as S.Schema<ElasticOrganizationToAzureSubscriptionMappingResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1693,8 +1696,7 @@ export const GetTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetTagRuleRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<GetTagRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1711,8 +1713,7 @@ export const ListAllTrafficFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListAllTrafficFiltersRequest>,
   output: __S(340, __c21, 4) as any as S.Schema<ElasticTrafficFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1721,21 +1722,27 @@ export const ListAllTrafficFilters: API.OperationMethod<
 
 export type ListConnectedPartnerResourcesError = AzureOpError;
 /** List all active deployments associated with the marketplace subscription linked to the given Elastic monitor resource. */
-export const ListConnectedPartnerResources: API.OperationMethod<
+export const ListConnectedPartnerResources: API.PaginatedOperationMethod<
   ListConnectedPartnerResourcesRequest,
   ConnectedPartnerResourcesListResponse,
   ListConnectedPartnerResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectedPartnerResourcesListFormat
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListConnectedPartnerResourcesRequest>,
   output: __S(372, __c23, 4) as any as S.Schema<ConnectedPartnerResourcesListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectedPartnerResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentInfoError = AzureOpError;
 /** Fetch detailed information about Elastic cloud deployments corresponding to the Elastic monitor resource. */
@@ -1747,8 +1754,7 @@ export const ListDeploymentInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListDeploymentInfoRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<DeploymentInfoResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1757,21 +1763,27 @@ export const ListDeploymentInfo: API.OperationMethod<
 
 export type ListElasticVersionsError = AzureOpError;
 /** Retrieve a list of all available Elastic versions for a specified region, helping you choose the best version for your deployment. Retrieve a list of all available Elastic versions for a specified region, helping you choose the best version for your deployment. */
-export const ListElasticVersions: API.OperationMethod<
+export const ListElasticVersions: API.PaginatedOperationMethod<
   ListElasticVersionsRequest,
   ElasticVersionsListResponse,
   ListElasticVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticVersionListFormat
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListElasticVersionsRequest>,
   output: __S(404, __c25, 4) as any as S.Schema<ElasticVersionsListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListElasticVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListAssociatedTrafficFiltersError = AzureOpError;
 /** List all traffic filters associated with your Elastic monitor resource, helping you manage network traffic control. */
@@ -1783,8 +1795,7 @@ export const ListListAssociatedTrafficFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListListAssociatedTrafficFiltersRequest>,
   output: __S(340, __c21, 4) as any as S.Schema<ElasticTrafficFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1793,147 +1804,195 @@ export const ListListAssociatedTrafficFilters: API.OperationMethod<
 
 export type ListMonitorByResourceGroupError = AzureOpError;
 /** List all Elastic monitor resources within a specified resource group of the subscription, helping you audit and manage your monitoring setup. */
-export const ListMonitorByResourceGroup: API.OperationMethod<
+export const ListMonitorByResourceGroup: API.PaginatedOperationMethod<
   ListMonitorByResourceGroupRequest,
   ElasticMonitorResourceListResponse,
   ListMonitorByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticMonitorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListMonitorByResourceGroupRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<ElasticMonitorResourceListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitorByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitoredResourcesError = AzureOpError;
 /** List all resources currently being monitored by the Elastic monitor resource, helping you manage observability. */
-export const ListMonitoredResources: API.OperationMethod<
+export const ListMonitoredResources: API.PaginatedOperationMethod<
   ListMonitoredResourcesRequest,
   MonitoredResourceListResponse,
   ListMonitoredResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoredResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListMonitoredResourcesRequest>,
   output: __S(467, __c29, 3) as any as S.Schema<MonitoredResourceListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitoredResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitoredSubscriptionsError = AzureOpError;
 /** List all subscriptions currently being monitored by the Elastic monitor resource, helping you manage observability. */
-export const ListMonitoredSubscriptions: API.OperationMethod<
+export const ListMonitoredSubscriptions: API.PaginatedOperationMethod<
   ListMonitoredSubscriptionsRequest,
   MonitoredSubscriptionPropertiesList,
   ListMonitoredSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoredSubscriptionProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListMonitoredSubscriptionsRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<MonitoredSubscriptionPropertiesList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitoredSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitorsError = AzureOpError;
 /** List all Elastic monitor resources within a specified subscription, helping you audit and manage your monitoring setup. */
-export const ListMonitors: API.OperationMethod<
+export const ListMonitors: API.PaginatedOperationMethod<
   ListMonitorsRequest,
   ElasticMonitorResourceListResponse,
   ListMonitorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ElasticMonitorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListMonitorsRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<ElasticMonitorResourceListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitors",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenAIError = AzureOpError;
 /** List all OpenAI integration rules for a given Elastic monitor resource, helping you manage AI-driven observability and monitoring. */
-export const ListOpenAI: API.OperationMethod<
+export const ListOpenAI: API.PaginatedOperationMethod<
   ListOpenAIRequest,
   OpenAIIntegrationRPModelListResponse,
   ListOpenAIError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenAIIntegrationRPModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListOpenAIRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<OpenAIIntegrationRPModelListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenAI",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(532, __c33, 4) as any as S.Schema<OperationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTagRulesError = AzureOpError;
 /** List all tag rules for a given Elastic monitor resource, helping you manage fine-grained control over observability based on resource tags. */
-export const ListTagRules: API.OperationMethod<
+export const ListTagRules: API.PaginatedOperationMethod<
   ListTagRulesRequest,
   MonitoringTagRulesListResponse,
   ListTagRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoringTagRules
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListTagRulesRequest>,
   output: __S(610, __c38, 2) as any as S.Schema<MonitoringTagRulesListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVMHostError = AzureOpError;
 /** List all VM resources currently being monitored by the Elastic monitor resource, helping you manage observability. */
-export const ListVMHost: API.OperationMethod<
+export const ListVMHost: API.PaginatedOperationMethod<
   ListVMHostRequest,
   VMHostListResponse,
   ListVMHostError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VMResources
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListVMHostRequest>,
   output: __S(627, __c39, 3) as any as S.Schema<VMHostListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVMHost",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MonitorUpgradeError = AzureOpError;
 /** Upgrade the Elastic monitor resource to a newer version, ensuring optimal observability and performance. */
@@ -1945,8 +2004,7 @@ export const MonitorUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<MonitorUpgradeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MonitorUpgradeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1963,8 +2021,7 @@ export const OpenAICreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(657, __c41, 1) as any as S.Schema<OpenAICreateOrUpdateRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<OpenAICreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1981,8 +2038,7 @@ export const OrganizationsResubscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<OrganizationsResubscribeRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationsResubscribeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1999,8 +2055,7 @@ export const TagRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<TagRulesCreateOrUpdateRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<TagRulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2017,8 +2072,7 @@ export const UpdateDetachTrafficFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<UpdateDetachTrafficFilterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateDetachTrafficFilterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2035,8 +2089,7 @@ export const UpdateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2053,8 +2106,7 @@ export const UpdateMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<UpdateMonitoredSubscriptionRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<UpdateMonitoredSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,8 +2123,7 @@ export const UpdateMonitoredSubscriptionsCreateor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2089,8 +2140,7 @@ export const UpdateVMCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<UpdateVMCollectionRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<UpdateVMCollectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2107,8 +2157,7 @@ export const UpgradableVersionsDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<UpgradableVersionsDetailsRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<UpgradableVersionsList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2125,8 +2174,7 @@ export const VMIngestionDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<VMIngestionDetailsRequest>,
   output: __S(833, __c52, 1) as any as S.Schema<VMIngestionDetailsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2661,12 +2709,14 @@ function __c23(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listConnectedPartnerResources",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectedPartnerResourcesRequest" });
@@ -2737,12 +2787,14 @@ function __c25(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Query()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/elasticVersions",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListElasticVersionsRequest" });
@@ -2795,12 +2847,14 @@ function __c27(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorByResourceGroupRequest" });
@@ -2827,12 +2881,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listMonitoredResources",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitoredResourcesRequest" });
@@ -2863,12 +2919,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitoredSubscriptionsRequest" });
@@ -2889,12 +2947,14 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/monitors",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitorsRequest" });
@@ -2908,12 +2968,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/openAIIntegrations",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenAIRequest" });
@@ -2932,12 +2994,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Elastic/operations",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3175,12 +3240,14 @@ function __c38(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/tagRules",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTagRulesRequest" });
@@ -3203,12 +3270,14 @@ function __c39(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           monitorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listVMHost",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVMHostRequest" });

@@ -14,7 +14,6 @@ import {
   declaredStatusClass,
   unwrapRedactedDeep,
   validateSuccess,
-  wrapSensitive,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
@@ -279,25 +278,13 @@ const CoinbaseErrorResponse = /*@__PURE__*/ Schema.Struct({
  *
  * Steps 1 to 4 build a class of the service's errors, taken from `errors`
  * (the classes the operation lists).
- *
- * Error bodies carrying `isValid`/`success` keys are policy-validation
- * results delivered with an error status -- treated as success values
- * (`Effect.succeed`) like the v0 client did.
  */
 const matchError = (
   errors: ReadonlyArray<DeclaredErrorClass>,
   status: number,
   errorBody: unknown,
   headers?: Record<string, string | undefined>,
-): Effect.Effect<unknown, DeclaredError | InternalServerError | UnknownCoinbaseError> => {
-  if (
-    errorBody &&
-    typeof errorBody === "object" &&
-    ("isValid" in errorBody || "success" in errorBody)
-  ) {
-    return Effect.succeed(errorBody);
-  }
-
+): Effect.Effect<never, DeclaredError | InternalServerError | UnknownCoinbaseError> => {
   // A body that is not Coinbase's error shape (a proxy page, an empty body)
   // still maps by HTTP status below.
   const parsed = Option.getOrUndefined(
@@ -432,11 +419,11 @@ const decode = ({ response, outputAst, errors }: DecodeArgs) =>
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
-    if (status >= 400) {
-      const result = yield* matchError(errors, status, json, headers);
-      // isValid/success bodies are success values delivered with an error
-      // status -- map them onto the output schema like a normal response.
-      return wrapSensitive(outputAst, mapKeys(outputAst, result, "decode"));
+    // Only a 2xx status succeeds. x402 verify/settle return a 2xx with
+    // `isValid: false` / `success: false` as a result; their 400 rejection
+    // bodies carry the same keys and are errors.
+    if (status < 200 || status >= 300) {
+      return yield* matchError(errors, status, json, headers);
     }
 
     // No envelope: the response body IS the payload, mapped onto the output

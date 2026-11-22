@@ -93,7 +93,7 @@ import {
   protocolSymbol,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
-import { invalidHostLabel } from "./util/serialize-input.ts";
+import { invalidHostLabel, invalidRegion } from "./util/serialize-input.ts";
 import { bodyStream, isOneShotBody, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
@@ -277,6 +277,11 @@ const toHttpRequest = (
     > => {
   const { sigv4, sigv2, serviceSdkId, resolveEndpoint: rulesResolver } = prepared;
   const serviceName = sigv4?.name ?? "s3";
+
+  // The region from the input, the `Region` layer or the credentials. It is
+  // checked before any endpoint is built, custom endpoints included.
+  const regionError = invalidRegion(region);
+  if (regionError !== undefined) return Effect.fail(regionError);
 
   // Resolve endpoint and adjust request path if needed
   let endpoint: string;

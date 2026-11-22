@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -10281,6 +10281,8 @@ export interface ListBatchDeploymentsRequest {
   _top?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BatchDeploymentTagsMap = { [key: string]: string | undefined };
@@ -10341,6 +10343,8 @@ export interface ListBatchEndpointsRequest {
   count?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BatchEndpointTagsMap = { [key: string]: string | undefined };
@@ -10387,6 +10391,8 @@ export interface ListCapabilityHostsRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface CapabilityHost {
@@ -10419,6 +10425,8 @@ export interface ListCodeContainersRequest {
   workspaceName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface CodeContainer {
@@ -10461,6 +10469,8 @@ export interface ListCodeVersionsRequest {
   hash?: string | undefined;
   /** Hash algorithm version when listing by hash */
   hashVersion?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface CodeVersion {
@@ -10496,6 +10506,8 @@ export interface ListComponentContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListComponentContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ComponentContainer {
@@ -10537,6 +10549,8 @@ export interface ListComponentVersionsRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListComponentVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ComponentVersion {
@@ -10569,6 +10583,8 @@ export interface ListComputeRequest {
   workspaceName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeResourceTagsMap = { [key: string]: string | undefined };
@@ -10659,6 +10675,8 @@ export interface ListComputeNodesRequest {
   workspaceName: string;
   /** Name of the Azure Machine Learning compute. */
   computeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** State of the compute node. Values are idle, running, preparing, unusable, leaving and preempted. */
 export type NodeState = "idle" | "running" | "preparing" | "unusable" | "leaving" | "preempted";
@@ -10682,7 +10700,7 @@ export type AmlComputeNodesInformationNodesList = Array<AmlComputeNodeInformatio
 /** Result of AmlCompute Nodes */
 export interface AmlComputeNodesInformation {
   /** The collection of returned AmlCompute nodes details. */
-  nodes?: AmlComputeNodesInformationNodesList | undefined;
+  nodes: AmlComputeNodesInformationNodesList;
   /** The continuation token. */
   nextLink?: string | undefined;
 }
@@ -10698,6 +10716,8 @@ export interface ListDataContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListDataContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface DataContainer {
@@ -10743,6 +10763,8 @@ export interface ListDatastoresRequest {
   orderBy?: string | undefined;
   /** Order by property in ascending order. */
   orderByAsc?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Datastore {
@@ -10807,6 +10829,8 @@ export interface ListDataVersionsRequest {
   _tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
   listViewType?: ListDataVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface DataVersionBase {
@@ -10842,6 +10866,8 @@ export interface ListEnvironmentContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListEnvironmentContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface EnvironmentContainer {
@@ -10883,6 +10909,8 @@ export interface ListEnvironmentVersionsRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListEnvironmentVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface EnvironmentVersion {
@@ -10930,6 +10958,8 @@ export interface ListFeaturesRequest {
   listViewType?: ListFeaturesRequestListViewType | (string & {}) | undefined;
   /** Page size. */
   pageSize?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Feature {
@@ -10975,6 +11005,8 @@ export interface ListFeaturesetContainersRequest {
   description?: string | undefined;
   /** createdBy user name */
   createdBy?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturesetContainer {
@@ -11026,6 +11058,8 @@ export interface ListFeaturesetVersionsRequest {
   createdBy?: string | undefined;
   /** Specifies the featurestore stage */
   stage?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturesetVersion {
@@ -11074,6 +11108,8 @@ export interface ListFeaturestoreEntityContainersRequest {
   description?: string | undefined;
   /** createdBy user name */
   createdBy?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturestoreEntityContainer {
@@ -11129,6 +11165,8 @@ export interface ListFeaturestoreEntityVersionsRequest {
   createdBy?: string | undefined;
   /** Specifies the featurestore stage */
   stage?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturestoreEntityVersion {
@@ -11171,6 +11209,8 @@ export interface ListJobsRequest {
   listViewType?: ListJobsRequestListViewType | (string & {}) | undefined;
   /** Comma-separated list of user property names (and optionally values). Example: prop1,prop2=value2 */
   properties?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface JobBase {
@@ -11201,6 +11241,8 @@ export interface ListManagedNetworkSettingsRuleRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface OutboundRuleBasicResource {
@@ -11233,6 +11275,8 @@ export interface ListMarketplaceSubscriptionsRequest {
   workspaceName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface MarketplaceSubscription {
@@ -11271,6 +11315,8 @@ export interface ListModelContainersRequest {
   count?: number | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListModelContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ModelContainer {
@@ -11324,6 +11370,8 @@ export interface ListModelVersionsRequest {
   feed?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListModelVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ModelVersion {
@@ -11362,6 +11410,8 @@ export interface ListOnlineDeploymentsRequest {
   _top?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OnlineDeploymentTagsMap = { [key: string]: string | undefined };
@@ -11416,6 +11466,8 @@ export interface ListOnlineDeploymentSkusRequest {
   count?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Node scaling setting for the compute sku. */
 export type SkuCapacityScaleType = "Automatic" | "Manual" | "None";
@@ -11494,6 +11546,8 @@ export interface ListOnlineEndpointsRequest {
   properties?: string | undefined;
   /** The option to order the response. */
   orderBy?: ListOnlineEndpointsRequestOrderBy | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OnlineEndpointTagsMap = { [key: string]: string | undefined };
@@ -11533,7 +11587,10 @@ export interface OnlineEndpointTrackedResourceArmPaginatedResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -11566,7 +11623,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -11577,13 +11634,15 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** List of private endpoint connection associated with the specified workspace */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
@@ -11593,6 +11652,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PrivateLinkResourceIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -11637,7 +11698,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** A list of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListQuotasRequest {
@@ -11645,6 +11706,8 @@ export interface ListQuotasRequest {
   subscriptionId: string;
   /** The location name. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Resource Name. */
 export interface ResourceName {
@@ -11684,6 +11747,8 @@ export interface ListRegistriesRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RegistryTagsMap = { [key: string]: string | undefined };
@@ -11726,6 +11791,8 @@ export interface RegistryTrackedResourceArmPaginatedResult {
 export interface ListRegistryBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistryCodeContainersRequest {
   /** The ID of the target subscription. */
@@ -11736,6 +11803,8 @@ export interface ListRegistryCodeContainersRequest {
   registryName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistryCodeVersionsRequest {
   /** The ID of the target subscription. */
@@ -11752,6 +11821,8 @@ export interface ListRegistryCodeVersionsRequest {
   _top?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistryComponentContainersRequest {
   /** The ID of the target subscription. */
@@ -11762,6 +11833,8 @@ export interface ListRegistryComponentContainersRequest {
   registryName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListRegistryComponentVersionsRequest {
   /** The ID of the target subscription. */
@@ -11778,6 +11851,8 @@ export interface ListRegistryComponentVersionsRequest {
   _top?: number | undefined;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryDataContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryDataContainersRequest {
@@ -11791,6 +11866,8 @@ export interface ListRegistryDataContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryDataContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryDataVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryDataVersionsRequest {
@@ -11812,6 +11889,8 @@ export interface ListRegistryDataVersionsRequest {
   _tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryDataVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryEnvironmentContainersRequestListViewType =
   | "ActiveOnly"
@@ -11828,6 +11907,8 @@ export interface ListRegistryEnvironmentContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryEnvironmentContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryEnvironmentVersionsRequestListViewType =
   | "ActiveOnly"
@@ -11850,6 +11931,8 @@ export interface ListRegistryEnvironmentVersionsRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryEnvironmentVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryModelContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryModelContainersRequest {
@@ -11863,6 +11946,8 @@ export interface ListRegistryModelContainersRequest {
   _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryModelContainersRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListRegistryModelVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryModelVersionsRequest {
@@ -11890,6 +11975,8 @@ export interface ListRegistryModelVersionsRequest {
   properties?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListRegistryModelVersionsRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListSchedulesRequestListViewType = "EnabledOnly" | "DisabledOnly" | "All";
 export interface ListSchedulesRequest {
@@ -11903,6 +11990,8 @@ export interface ListSchedulesRequest {
   _skip?: string | undefined;
   /** Status filter for schedule. */
   listViewType?: ListSchedulesRequestListViewType | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Schedule {
@@ -11945,6 +12034,8 @@ export interface ListServerlessEndpointsRequest {
   workspaceName: string;
   /** Continuation token for pagination. */
   _skip?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServerlessEndpointTagsMap = { [key: string]: string | undefined };
@@ -11990,6 +12081,8 @@ export interface ListUsagesRequest {
   subscriptionId: string;
   /** The location name. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An enum describing the unit of usage measurement. */
 export type UsageUnit = "Count";
@@ -12099,6 +12192,8 @@ export interface ListWorkspaceByResourceGroupRequest {
   /** Continuation token for pagination. */
   _skip?: string | undefined;
   aiCapabilities?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WorkspaceIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -12142,6 +12237,8 @@ export interface ListWorkspaceBySubscriptionRequest {
   /** Continuation token for pagination. */
   _skip?: string | undefined;
   aiCapabilities?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceConnectionsRequest {
   /** The ID of the target subscription. */
@@ -12156,6 +12253,8 @@ export interface ListWorkspaceConnectionsRequest {
   category?: string | undefined;
   /** query parameter that indicates if get connection call should return both connections and datastores */
   includeAll?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface WorkspaceConnectionPropertiesV2BasicResource {
@@ -12207,6 +12306,8 @@ export interface ListWorkspaceFeaturesRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Features enabled for a workspace */
 export interface AmlUserFeature {
@@ -14593,8 +14694,7 @@ export const BatchDeploymentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<BatchDeploymentsCreateOrUpdateRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<BatchDeploymentsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14611,8 +14711,7 @@ export const BatchEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(353, __c11, 1) as any as S.Schema<BatchEndpointsCreateOrUpdateRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<BatchEndpointsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14629,8 +14728,7 @@ export const CancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<CancelJobRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<CancelJobResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14647,8 +14745,7 @@ export const CapabilityHostsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6113, __c191, 1) as any as S.Schema<CapabilityHostsCreateOrUpdateRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<CapabilityHostsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14665,8 +14762,7 @@ export const CodeContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<CodeContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<CodeContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14683,8 +14779,7 @@ export const CodeVersionsCreateOrGetStartPendingUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14701,8 +14796,7 @@ export const CodeVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14719,8 +14813,7 @@ export const ComponentContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14737,8 +14830,7 @@ export const ComponentVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14755,8 +14847,7 @@ export const ComputeCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9714, __c303, 18) as any as S.Schema<ComputeCreateOrUpdateRequest>,
   output: __S(9715, __c303, 19) as any as S.Schema<ComputeCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14773,8 +14864,7 @@ export const CreateWorkspaceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateWorkspaceConnectionRequest>,
   output: __S(500, __c15, 20) as any as S.Schema<CreateWorkspaceConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14791,8 +14881,7 @@ export const DataContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DataContainersCreateOrUpdateRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DataContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14809,8 +14898,7 @@ export const DatastoresCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1798, __c56, 6) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
   output: __S(1837, __c57, 13) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14827,8 +14915,7 @@ export const DataVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<DataVersionsCreateOrUpdateRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<DataVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14845,8 +14932,7 @@ export const DeleteBatchDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<DeleteBatchDeploymentRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteBatchDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14863,8 +14949,7 @@ export const DeleteBatchEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteBatchEndpointRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteBatchEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14881,8 +14966,7 @@ export const DeleteCapabilityHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteCapabilityHostRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteCapabilityHostResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14899,8 +14983,7 @@ export const DeleteCodeContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteCodeContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteCodeContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14917,8 +15000,7 @@ export const DeleteCodeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteCodeVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteCodeVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14935,8 +15017,7 @@ export const DeleteComponentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteComponentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14953,8 +15034,7 @@ export const DeleteComponentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DeleteComponentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14971,8 +15051,7 @@ export const DeleteCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteComputeRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<DeleteComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14989,8 +15068,7 @@ export const DeleteDataContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteDataContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15007,8 +15085,7 @@ export const DeleteDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDatastoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15025,8 +15102,7 @@ export const DeleteDataVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<DeleteDataVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15043,8 +15119,7 @@ export const DeleteEnvironmentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteEnvironmentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15061,8 +15136,7 @@ export const DeleteEnvironmentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteEnvironmentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15079,8 +15153,7 @@ export const DeleteFeaturesetContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteFeaturesetContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturesetContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15097,8 +15170,7 @@ export const DeleteFeaturesetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteFeaturesetVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturesetVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15115,8 +15187,7 @@ export const DeleteFeaturestoreEntityContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15133,8 +15204,7 @@ export const DeleteFeaturestoreEntityVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15151,8 +15221,7 @@ export const DeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteJobRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteJobResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15169,8 +15238,7 @@ export const DeleteManagedNetworkSettingsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15187,8 +15255,7 @@ export const DeleteMarketplaceSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15205,8 +15272,7 @@ export const DeleteModelContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteModelContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15223,8 +15289,7 @@ export const DeleteModelVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteModelVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15241,8 +15306,7 @@ export const DeleteOnlineDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteOnlineDeploymentRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteOnlineDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15259,8 +15323,7 @@ export const DeleteOnlineEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteOnlineEndpointRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteOnlineEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15277,8 +15340,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15295,8 +15357,7 @@ export const DeleteRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DeleteRegistryRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15313,8 +15374,7 @@ export const DeleteRegistryCodeContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<DeleteRegistryCodeContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryCodeContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15331,8 +15391,7 @@ export const DeleteRegistryCodeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<DeleteRegistryCodeVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryCodeVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15349,8 +15408,7 @@ export const DeleteRegistryComponentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<DeleteRegistryComponentContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryComponentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15367,8 +15425,7 @@ export const DeleteRegistryComponentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<DeleteRegistryComponentVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryComponentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15385,8 +15442,7 @@ export const DeleteRegistryDataContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<DeleteRegistryDataContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryDataContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15403,8 +15459,7 @@ export const DeleteRegistryDataVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryDataVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryDataVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15421,8 +15476,7 @@ export const DeleteRegistryEnvironmentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15439,8 +15493,7 @@ export const DeleteRegistryEnvironmentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15457,8 +15510,7 @@ export const DeleteRegistryModelContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<DeleteRegistryModelContainerRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryModelContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15475,8 +15527,7 @@ export const DeleteRegistryModelVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<DeleteRegistryModelVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteRegistryModelVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15493,8 +15544,7 @@ export const DeleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15511,8 +15561,7 @@ export const DeleteServerlessEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15529,8 +15578,7 @@ export const DeleteWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<DeleteWorkspaceRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteWorkspaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15547,8 +15595,7 @@ export const DeleteWorkspaceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteWorkspaceConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15565,8 +15612,7 @@ export const EnvironmentContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15583,8 +15629,7 @@ export const EnvironmentVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15601,8 +15646,7 @@ export const FeaturesetContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
   output: __S(7392, __c231, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15619,8 +15663,7 @@ export const FeaturesetVersionsBackfill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7425, __c232, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
   output: __S(7426, __c232, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15637,8 +15680,7 @@ export const FeaturesetVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7489, __c234, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
   output: __S(7490, __c234, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15659,8 +15701,7 @@ export const FeaturestoreEntityContainersCreateOrUpdate: API.OperationMethod<
     __c231,
     0,
   ) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15677,8 +15718,7 @@ export const FeaturestoreEntityVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7777, __c243, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
   output: __S(7778, __c243, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15695,8 +15735,7 @@ export const GetBatchDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<GetBatchDeploymentRequest>,
   output: __S(7872, __c246, 0) as any as S.Schema<GetBatchDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15713,8 +15752,7 @@ export const GetBatchEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetBatchEndpointRequest>,
   output: __S(7936, __c248, 0) as any as S.Schema<GetBatchEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15731,8 +15769,7 @@ export const GetCapabilityHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetCapabilityHostRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<GetCapabilityHostResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15749,8 +15786,7 @@ export const GetCodeContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetCodeContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetCodeContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15767,8 +15803,7 @@ export const GetCodeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetCodeVersionRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<GetCodeVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15785,8 +15820,7 @@ export const GetComponentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<GetComponentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetComponentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15803,8 +15837,7 @@ export const GetComponentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetComponentVersionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<GetComponentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15821,8 +15854,7 @@ export const GetCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<GetComputeRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<GetComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15839,8 +15871,7 @@ export const GetDataContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<GetDataContainerRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetDataContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15857,8 +15888,7 @@ export const GetDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(1837, __c57, 13) as any as S.Schema<GetDatastoreResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15875,8 +15905,7 @@ export const GetDataVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetDataVersionRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetDataVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15893,8 +15922,7 @@ export const GetEnvironmentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15911,8 +15939,7 @@ export const GetEnvironmentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15929,8 +15956,7 @@ export const GetFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetFeatureRequest>,
   output: __S(8449, __c264, 1) as any as S.Schema<GetFeatureResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15947,8 +15973,7 @@ export const GetFeaturesetContainerEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15965,8 +15990,7 @@ export const GetFeaturesetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
   output: __S(8544, __c267, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15983,8 +16007,7 @@ export const GetFeaturestoreEntityContainerEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16001,8 +16024,7 @@ export const GetFeaturestoreEntityVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16019,8 +16041,7 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetJobRequest>,
   output: __S(8800, __c275, 0) as any as S.Schema<GetJobResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16037,8 +16058,7 @@ export const GetManagedNetworkSettingsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16055,8 +16075,7 @@ export const GetMarketplaceSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16073,8 +16092,7 @@ export const GetModelContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetModelContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetModelContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16091,8 +16109,7 @@ export const GetModelVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetModelVersionRequest>,
   output: __S(9216, __c288, 0) as any as S.Schema<GetModelVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16109,8 +16126,7 @@ export const GetOnlineDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16127,8 +16143,7 @@ export const GetOnlineDeploymentLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
   output: __S(9377, __c293, 1) as any as S.Schema<DeploymentLogs>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16145,8 +16160,7 @@ export const GetOnlineEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetOnlineEndpointRequest>,
   output: __S(9440, __c295, 0) as any as S.Schema<GetOnlineEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16163,8 +16177,7 @@ export const GetOnlineEndpointToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
   output: __S(9505, __c297, 1) as any as S.Schema<EndpointAuthToken>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16181,8 +16194,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16199,8 +16211,7 @@ export const GetRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryRequest>,
   output: __S(9664, __c302, 0) as any as S.Schema<GetRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16217,8 +16228,7 @@ export const GetRegistryCodeContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16235,8 +16245,7 @@ export const GetRegistryCodeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16253,8 +16262,7 @@ export const GetRegistryComponentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16271,8 +16279,7 @@ export const GetRegistryComponentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16289,8 +16296,7 @@ export const GetRegistryDataContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16307,8 +16313,7 @@ export const GetRegistryDataReferenceBlobReferenceSAS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
   output: __S(10118, __c316, 6) as any as S.Schema<GetBlobReferenceSASResponseDto>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16325,8 +16330,7 @@ export const GetRegistryDataVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetRegistryDataVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16343,8 +16347,7 @@ export const GetRegistryEnvironmentContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16361,8 +16364,7 @@ export const GetRegistryEnvironmentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16379,8 +16381,7 @@ export const GetRegistryModelContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16397,8 +16398,7 @@ export const GetRegistryModelVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetRegistryModelVersionRequest>,
   output: __S(9216, __c288, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16415,8 +16415,7 @@ export const GetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetScheduleRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<GetScheduleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16433,8 +16432,7 @@ export const GetServerlessEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetServerlessEndpointRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<GetServerlessEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16451,8 +16449,7 @@ export const GetWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetWorkspaceRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16469,8 +16466,7 @@ export const GetWorkspaceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetWorkspaceConnectionRequest>,
   output: __S(500, __c15, 20) as any as S.Schema<GetWorkspaceConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16487,8 +16483,7 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<JobsCreateOrUpdateRequest>,
   output: __S(8800, __c275, 0) as any as S.Schema<JobsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16497,21 +16492,27 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 
 export type ListBatchDeploymentsError = AzureOpError;
 /** Lists Batch inference deployments in the workspace. Lists Batch inference deployments in the workspace. */
-export const ListBatchDeployments: API.OperationMethod<
+export const ListBatchDeployments: API.PaginatedOperationMethod<
   ListBatchDeploymentsRequest,
   BatchDeploymentTrackedResourceArmPaginatedResult,
   ListBatchDeploymentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BatchDeployment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListBatchDeploymentsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<BatchDeploymentTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchDeployments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBatchEndpointKeysError = AzureOpError;
 /** Lists batch Inference Endpoint keys. Lists batch Inference Endpoint keys. */
@@ -16523,8 +16524,7 @@ export const ListBatchEndpointKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListBatchEndpointKeysRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16533,129 +16533,171 @@ export const ListBatchEndpointKeys: API.OperationMethod<
 
 export type ListBatchEndpointsError = AzureOpError;
 /** Lists Batch inference endpoint in the workspace. Lists Batch inference endpoint in the workspace. */
-export const ListBatchEndpoints: API.OperationMethod<
+export const ListBatchEndpoints: API.PaginatedOperationMethod<
   ListBatchEndpointsRequest,
   BatchEndpointTrackedResourceArmPaginatedResult,
   ListBatchEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BatchEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListBatchEndpointsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<BatchEndpointTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCapabilityHostsError = AzureOpError;
 /** List capability hosts in the workspace. Lists the capability hosts associated with the specified workspace. */
-export const ListCapabilityHosts: API.OperationMethod<
+export const ListCapabilityHosts: API.PaginatedOperationMethod<
   ListCapabilityHostsRequest,
   CapabilityHostListResult,
   ListCapabilityHostsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CapabilityHost
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListCapabilityHostsRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<CapabilityHostListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCapabilityHosts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeContainersError = AzureOpError;
 /** List containers. List containers. */
-export const ListCodeContainers: API.OperationMethod<
+export const ListCodeContainers: API.PaginatedOperationMethod<
   ListCodeContainersRequest,
   CodeContainerResourceArmPaginatedResult,
   ListCodeContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListCodeContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCodeVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListCodeVersions: API.OperationMethod<
+export const ListCodeVersions: API.PaginatedOperationMethod<
   ListCodeVersionsRequest,
   CodeVersionResourceArmPaginatedResult,
   ListCodeVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListCodeVersionsRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCodeVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComponentContainersError = AzureOpError;
 /** List component containers. List component containers. */
-export const ListComponentContainers: API.OperationMethod<
+export const ListComponentContainers: API.PaginatedOperationMethod<
   ListComponentContainersRequest,
   ComponentContainerResourceArmPaginatedResult,
   ListComponentContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComponentContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListComponentContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListComponentContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComponentVersionsError = AzureOpError;
 /** List component versions. List component versions. */
-export const ListComponentVersions: API.OperationMethod<
+export const ListComponentVersions: API.PaginatedOperationMethod<
   ListComponentVersionsRequest,
   ComponentVersionResourceArmPaginatedResult,
   ListComponentVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComponentVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListComponentVersionsRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListComponentVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComputeError = AzureOpError;
 /** Gets computes in specified workspace. */
-export const ListCompute: API.OperationMethod<
+export const ListCompute: API.PaginatedOperationMethod<
   ListComputeRequest,
   PaginatedComputeResourcesList,
   ListComputeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComputeResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListComputeRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<PaginatedComputeResourcesList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCompute",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComputeKeysError = AzureOpError;
 /** Gets secrets related to Machine Learning compute (storage keys, service credentials, etc). */
@@ -16667,8 +16709,7 @@ export const ListComputeKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListComputeKeysRequest>,
   output: __S(1605, __c50, 5) as any as S.Schema<ListComputeKeysResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16677,57 +16718,75 @@ export const ListComputeKeys: API.OperationMethod<
 
 export type ListComputeNodesError = AzureOpError;
 /** Get the details (e.g IP address, port etc) of all the compute nodes in the compute. */
-export const ListComputeNodes: API.OperationMethod<
+export const ListComputeNodes: API.PaginatedOperationMethod<
   ListComputeNodesRequest,
   AmlComputeNodesInformation,
   ListComputeNodesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlComputeNodeInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListComputeNodesRequest>,
   output: __S(1635, __c51, 3) as any as S.Schema<AmlComputeNodesInformation>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListComputeNodes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "nodes",
+  } as const,
+})) as any;
 
 export type ListDataContainersError = AzureOpError;
 /** List data containers. List data containers. */
-export const ListDataContainers: API.OperationMethod<
+export const ListDataContainers: API.PaginatedOperationMethod<
   ListDataContainersRequest,
   DataContainerResourceArmPaginatedResult,
   ListDataContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListDataContainersRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatastoresError = AzureOpError;
 /** List datastores. List datastores. */
-export const ListDatastores: API.OperationMethod<
+export const ListDatastores: API.PaginatedOperationMethod<
   ListDatastoresRequest,
   DatastoreResourceArmPaginatedResult,
   ListDatastoresError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Datastore
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListDatastoresRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<DatastoreResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatastores",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatastoreSecretsError = AzureOpError;
 /** Get datastore secrets. Get datastore secrets. */
@@ -16739,8 +16798,7 @@ export const ListDatastoreSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListDatastoreSecretsRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ListDatastoreSecretsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16749,281 +16807,371 @@ export const ListDatastoreSecrets: API.OperationMethod<
 
 export type ListDataVersionsError = AzureOpError;
 /** List data versions in the data container List data versions in the data container */
-export const ListDataVersions: API.OperationMethod<
+export const ListDataVersions: API.PaginatedOperationMethod<
   ListDataVersionsRequest,
   DataVersionBaseResourceArmPaginatedResult,
   ListDataVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataVersionBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListDataVersionsRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentContainersError = AzureOpError;
 /** List environment containers. List environment containers. */
-export const ListEnvironmentContainers: API.OperationMethod<
+export const ListEnvironmentContainers: API.PaginatedOperationMethod<
   ListEnvironmentContainersRequest,
   EnvironmentContainerResourceArmPaginatedResult,
   ListEnvironmentContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListEnvironmentContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListEnvironmentVersions: API.OperationMethod<
+export const ListEnvironmentVersions: API.PaginatedOperationMethod<
   ListEnvironmentVersionsRequest,
   EnvironmentVersionResourceArmPaginatedResult,
   ListEnvironmentVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListEnvironmentVersionsRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturesError = AzureOpError;
 /** List Features. List Features. */
-export const ListFeatures: API.OperationMethod<
+export const ListFeatures: API.PaginatedOperationMethod<
   ListFeaturesRequest,
   FeatureResourceArmPaginatedResult,
   ListFeaturesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Feature
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListFeaturesRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<FeatureResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeatures",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturesetContainersError = AzureOpError;
 /** List featurestore entity containers. List featurestore entity containers. */
-export const ListFeaturesetContainers: API.OperationMethod<
+export const ListFeaturesetContainers: API.PaginatedOperationMethod<
   ListFeaturesetContainersRequest,
   FeaturesetContainerResourceArmPaginatedResult,
   ListFeaturesetContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeaturesetContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListFeaturesetContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<FeaturesetContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeaturesetContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturesetVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListFeaturesetVersions: API.OperationMethod<
+export const ListFeaturesetVersions: API.PaginatedOperationMethod<
   ListFeaturesetVersionsRequest,
   FeaturesetVersionResourceArmPaginatedResult,
   ListFeaturesetVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeaturesetVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListFeaturesetVersionsRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<FeaturesetVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeaturesetVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturestoreEntityContainersError = AzureOpError;
 /** List featurestore entity containers. List featurestore entity containers. */
-export const ListFeaturestoreEntityContainers: API.OperationMethod<
+export const ListFeaturestoreEntityContainers: API.PaginatedOperationMethod<
   ListFeaturestoreEntityContainersRequest,
   FeaturestoreEntityContainerResourceArmPaginatedResult,
   ListFeaturestoreEntityContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeaturestoreEntityContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListFeaturestoreEntityContainersRequest>,
   output: __S(
     1377,
     __c43,
     1,
   ) as any as S.Schema<FeaturestoreEntityContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeaturestoreEntityContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturestoreEntityVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListFeaturestoreEntityVersions: API.OperationMethod<
+export const ListFeaturestoreEntityVersions: API.PaginatedOperationMethod<
   ListFeaturestoreEntityVersionsRequest,
   FeaturestoreEntityVersionResourceArmPaginatedResult,
   ListFeaturestoreEntityVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeaturestoreEntityVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListFeaturestoreEntityVersionsRequest>,
   output: __S(
     2178,
     __c68,
     2,
   ) as any as S.Schema<FeaturestoreEntityVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeaturestoreEntityVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobsError = AzureOpError;
 /** Lists Jobs in the workspace. Lists Jobs in the workspace. */
-export const ListJobs: API.OperationMethod<
+export const ListJobs: API.PaginatedOperationMethod<
   ListJobsRequest,
   JobBaseResourceArmPaginatedResult,
   ListJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<JobBaseResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedNetworkSettingsRuleError = AzureOpError;
 /** Lists the managed network outbound rules for a machine learning workspace. Lists the managed network outbound rules for a machine learning workspace. */
-export const ListManagedNetworkSettingsRule: API.OperationMethod<
+export const ListManagedNetworkSettingsRule: API.PaginatedOperationMethod<
   ListManagedNetworkSettingsRuleRequest,
   OutboundRuleListResult,
   ListManagedNetworkSettingsRuleError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundRuleBasicResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListManagedNetworkSettingsRuleRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<OutboundRuleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedNetworkSettingsRule",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceSubscriptionsError = AzureOpError;
 /** List containers. List containers. */
-export const ListMarketplaceSubscriptions: API.OperationMethod<
+export const ListMarketplaceSubscriptions: API.PaginatedOperationMethod<
   ListMarketplaceSubscriptionsRequest,
   MarketplaceSubscriptionResourceArmPaginatedResult,
   ListMarketplaceSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MarketplaceSubscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListMarketplaceSubscriptionsRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<MarketplaceSubscriptionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListModelContainersError = AzureOpError;
 /** List model containers. List model containers. */
-export const ListModelContainers: API.OperationMethod<
+export const ListModelContainers: API.PaginatedOperationMethod<
   ListModelContainersRequest,
   ModelContainerResourceArmPaginatedResult,
   ListModelContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ModelContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListModelContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModelContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListModelVersionsError = AzureOpError;
 /** List model versions. List model versions. */
-export const ListModelVersions: API.OperationMethod<
+export const ListModelVersions: API.PaginatedOperationMethod<
   ListModelVersionsRequest,
   ModelVersionResourceArmPaginatedResult,
   ListModelVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ModelVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListModelVersionsRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModelVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOnlineDeploymentsError = AzureOpError;
 /** List Inference Endpoint Deployments. List Inference Endpoint Deployments. */
-export const ListOnlineDeployments: API.OperationMethod<
+export const ListOnlineDeployments: API.PaginatedOperationMethod<
   ListOnlineDeploymentsRequest,
   OnlineDeploymentTrackedResourceArmPaginatedResult,
   ListOnlineDeploymentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OnlineDeployment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListOnlineDeploymentsRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<OnlineDeploymentTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOnlineDeployments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOnlineDeploymentSkusError = AzureOpError;
 /** List Inference Endpoint Deployment Skus. List Inference Endpoint Deployment Skus. */
-export const ListOnlineDeploymentSkus: API.OperationMethod<
+export const ListOnlineDeploymentSkus: API.PaginatedOperationMethod<
   ListOnlineDeploymentSkusRequest,
   SkuResourceArmPaginatedResult,
   ListOnlineDeploymentSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListOnlineDeploymentSkusRequest>,
   output: __S(2533, __c79, 5) as any as S.Schema<SkuResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOnlineDeploymentSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOnlineEndpointKeysError = AzureOpError;
 /** List EndpointAuthKeys for an Endpoint using Key-based authentication. List EndpointAuthKeys for an Endpoint using Key-based authentication. */
@@ -17035,8 +17183,7 @@ export const ListOnlineEndpointKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListOnlineEndpointKeysRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17045,327 +17192,435 @@ export const ListOnlineEndpointKeys: API.OperationMethod<
 
 export type ListOnlineEndpointsError = AzureOpError;
 /** List Online Endpoints. List Online Endpoints. */
-export const ListOnlineEndpoints: API.OperationMethod<
+export const ListOnlineEndpoints: API.PaginatedOperationMethod<
   ListOnlineEndpointsRequest,
   OnlineEndpointTrackedResourceArmPaginatedResult,
   ListOnlineEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OnlineEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListOnlineEndpointsRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<OnlineEndpointTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOnlineEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Azure Machine Learning Workspaces REST API operations List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2628, __c82, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Called by end-users to get all PE connections. Called by end-users to get all PE connections. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** Called by Client (Portal, CLI, etc) to get available "private link resources" for the workspace. Each "private link resource" is a connection endpoint (IP address) to the resource. Pre single connection endpoint per workspace: the Data Plane IP address, returned by DNS resolution. Other RPs, such as Azure Storage, have multiple - one for Blobs, other for Queues, etc. Defined in the "[NRP] Private Endpoint Design" doc, topic "GET API for GroupIds". Called by Client (Portal, CLI, etc) to get available "private link resources" for the workspace. Each "private link resource" is a connection endpoint (IP address) to the resource. Pre single connection endpoint per workspace: the Data Plane IP address, returned by DNS resolution. Other RPs, such as Azure Storage, have multiple - one for Blobs, other for Queues, etc. Defined in the "[NRP] Private Endpoint Design" doc, topic "GET API for GroupIds". */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(2692, __c84, 4) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListQuotasError = AzureOpError;
 /** Gets the currently assigned Workspace Quotas based on VMFamily. */
-export const ListQuotas: API.OperationMethod<
+export const ListQuotas: API.PaginatedOperationMethod<
   ListQuotasRequest,
   ListWorkspaceQuotas,
   ListQuotasError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceQuota
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListQuotasRequest>,
   output: __S(2755, __c86, 3) as any as S.Schema<ListWorkspaceQuotas>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListQuotas",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistriesError = AzureOpError;
 /** List registries List registries */
-export const ListRegistries: API.OperationMethod<
+export const ListRegistries: API.PaginatedOperationMethod<
   ListRegistriesRequest,
   RegistryTrackedResourceArmPaginatedResult,
   ListRegistriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<ListRegistriesRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryBySubscriptionError = AzureOpError;
 /** List registries by subscription List registries by subscription */
-export const ListRegistryBySubscription: API.OperationMethod<
+export const ListRegistryBySubscription: API.PaginatedOperationMethod<
   ListRegistryBySubscriptionRequest,
   RegistryTrackedResourceArmPaginatedResult,
   ListRegistryBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Registry
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryBySubscriptionRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryCodeContainersError = AzureOpError;
 /** List containers. List containers. */
-export const ListRegistryCodeContainers: API.OperationMethod<
+export const ListRegistryCodeContainers: API.PaginatedOperationMethod<
   ListRegistryCodeContainersRequest,
   CodeContainerResourceArmPaginatedResult,
   ListRegistryCodeContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListRegistryCodeContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryCodeContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryCodeVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListRegistryCodeVersions: API.OperationMethod<
+export const ListRegistryCodeVersions: API.PaginatedOperationMethod<
   ListRegistryCodeVersionsRequest,
   CodeVersionResourceArmPaginatedResult,
   ListRegistryCodeVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CodeVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListRegistryCodeVersionsRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryCodeVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryComponentContainersError = AzureOpError;
 /** List containers. List containers. */
-export const ListRegistryComponentContainers: API.OperationMethod<
+export const ListRegistryComponentContainers: API.PaginatedOperationMethod<
   ListRegistryComponentContainersRequest,
   ComponentContainerResourceArmPaginatedResult,
   ListRegistryComponentContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComponentContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListRegistryComponentContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryComponentContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryComponentVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListRegistryComponentVersions: API.OperationMethod<
+export const ListRegistryComponentVersions: API.PaginatedOperationMethod<
   ListRegistryComponentVersionsRequest,
   ComponentVersionResourceArmPaginatedResult,
   ListRegistryComponentVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComponentVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListRegistryComponentVersionsRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryComponentVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryDataContainersError = AzureOpError;
 /** List Data containers. List Data containers. */
-export const ListRegistryDataContainers: API.OperationMethod<
+export const ListRegistryDataContainers: API.PaginatedOperationMethod<
   ListRegistryDataContainersRequest,
   DataContainerResourceArmPaginatedResult,
   ListRegistryDataContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListRegistryDataContainersRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryDataContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryDataVersionsError = AzureOpError;
 /** List data versions in the data container List data versions in the data container */
-export const ListRegistryDataVersions: API.OperationMethod<
+export const ListRegistryDataVersions: API.PaginatedOperationMethod<
   ListRegistryDataVersionsRequest,
   DataVersionBaseResourceArmPaginatedResult,
   ListRegistryDataVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataVersionBase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListRegistryDataVersionsRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryDataVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryEnvironmentContainersError = AzureOpError;
 /** List environment containers. List environment containers. */
-export const ListRegistryEnvironmentContainers: API.OperationMethod<
+export const ListRegistryEnvironmentContainers: API.PaginatedOperationMethod<
   ListRegistryEnvironmentContainersRequest,
   EnvironmentContainerResourceArmPaginatedResult,
   ListRegistryEnvironmentContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListRegistryEnvironmentContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryEnvironmentContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryEnvironmentVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListRegistryEnvironmentVersions: API.OperationMethod<
+export const ListRegistryEnvironmentVersions: API.PaginatedOperationMethod<
   ListRegistryEnvironmentVersionsRequest,
   EnvironmentVersionResourceArmPaginatedResult,
   ListRegistryEnvironmentVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListRegistryEnvironmentVersionsRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryEnvironmentVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryModelContainersError = AzureOpError;
 /** List model containers. List model containers. */
-export const ListRegistryModelContainers: API.OperationMethod<
+export const ListRegistryModelContainers: API.PaginatedOperationMethod<
   ListRegistryModelContainersRequest,
   ModelContainerResourceArmPaginatedResult,
   ListRegistryModelContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ModelContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListRegistryModelContainersRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryModelContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryModelVersionsError = AzureOpError;
 /** List versions. List versions. */
-export const ListRegistryModelVersions: API.OperationMethod<
+export const ListRegistryModelVersions: API.PaginatedOperationMethod<
   ListRegistryModelVersionsRequest,
   ModelVersionResourceArmPaginatedResult,
   ListRegistryModelVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ModelVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListRegistryModelVersionsRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryModelVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchedulesError = AzureOpError;
 /** List schedules in specified workspace. List schedules in specified workspace. */
-export const ListSchedules: API.OperationMethod<
+export const ListSchedules: API.PaginatedOperationMethod<
   ListSchedulesRequest,
   ScheduleResourceArmPaginatedResult,
   ListSchedulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<ListSchedulesRequest>,
   output: __S(3266, __c102, 2) as any as S.Schema<ScheduleResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServerlessEndpointKeysError = AzureOpError;
 /** List EndpointAuthKeys for an Endpoint using Key-based authentication. List EndpointAuthKeys for an Endpoint using Key-based authentication. */
@@ -17377,8 +17632,7 @@ export const ListServerlessEndpointKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListServerlessEndpointKeysRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<EndpointAuthKeys>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17387,43 +17641,55 @@ export const ListServerlessEndpointKeys: API.OperationMethod<
 
 export type ListServerlessEndpointsError = AzureOpError;
 /** List Serverless Endpoints. List Serverless Endpoints. */
-export const ListServerlessEndpoints: API.OperationMethod<
+export const ListServerlessEndpoints: API.PaginatedOperationMethod<
   ListServerlessEndpointsRequest,
   ServerlessEndpointTrackedResourceArmPaginatedResult,
   ListServerlessEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServerlessEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListServerlessEndpointsRequest>,
   output: __S(
     3330,
     __c104,
     2,
   ) as any as S.Schema<ServerlessEndpointTrackedResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerlessEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagesError = AzureOpError;
 /** Gets the current usage information as well as limits for AML resources for given subscription and location. */
-export const ListUsages: API.OperationMethod<
+export const ListUsages: API.PaginatedOperationMethod<
   ListUsagesRequest,
   ListUsagesResult,
   ListUsagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Usage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(3363, __c105, 3) as any as S.Schema<ListUsagesResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineSizesError = AzureOpError;
 /** Returns supported VM Sizes in a location */
@@ -17435,8 +17701,7 @@ export const ListVirtualMachineSizes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ListVirtualMachineSizesRequest>,
   output: __S(3398, __c106, 6) as any as S.Schema<VirtualMachineSizeListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17445,61 +17710,79 @@ export const ListVirtualMachineSizes: API.OperationMethod<
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
 /** Lists all the available machine learning workspaces under the specified resource group. Lists all the available machine learning workspaces under the specified resource group. */
-export const ListWorkspaceByResourceGroup: API.OperationMethod<
+export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceByResourceGroupRequest,
   WorkspaceListResult,
   ListWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(3457, __c108, 1) as any as S.Schema<WorkspaceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
 /** Lists all the available machine learning workspaces under the specified subscription. Lists all the available machine learning workspaces under the specified subscription. */
-export const ListWorkspaceBySubscription: API.OperationMethod<
+export const ListWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListWorkspaceBySubscriptionRequest,
   WorkspaceListResult,
   ListWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
   output: __S(3457, __c108, 1) as any as S.Schema<WorkspaceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceConnectionsError = AzureOpError;
 /** List all the available machine learning workspaces connections under the specified workspace. Lists all the available machine learning workspaces connections under the specified workspace. */
-export const ListWorkspaceConnections: API.OperationMethod<
+export const ListWorkspaceConnections: API.PaginatedOperationMethod<
   ListWorkspaceConnectionsRequest,
   WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult,
   ListWorkspaceConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspaceConnectionPropertiesV2BasicResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<ListWorkspaceConnectionsRequest>,
   output: __S(
     3554,
     __c111,
     2,
   ) as any as S.Schema<WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceConnectionSecretsError = AzureOpError;
 /** List all the secrets of a machine learning workspaces connections. List all the secrets of a machine learning workspaces connections. */
@@ -17511,8 +17794,7 @@ export const ListWorkspaceConnectionSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
   output: __S(500, __c15, 20) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17521,21 +17803,27 @@ export const ListWorkspaceConnectionSecrets: API.OperationMethod<
 
 export type ListWorkspaceFeaturesError = AzureOpError;
 /** Lists all enabled features for a workspace */
-export const ListWorkspaceFeatures: API.OperationMethod<
+export const ListWorkspaceFeatures: API.PaginatedOperationMethod<
   ListWorkspaceFeaturesRequest,
   ListAmlUserFeatureResult,
   ListWorkspaceFeaturesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AmlUserFeature
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<ListWorkspaceFeaturesRequest>,
   output: __S(3619, __c113, 3) as any as S.Schema<ListAmlUserFeatureResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceFeatures",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceKeysError = AzureOpError;
 /** Lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry. Lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry. */
@@ -17547,8 +17835,7 @@ export const ListWorkspaceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<ListWorkspaceKeysRequest>,
   output: __S(3652, __c114, 4) as any as S.Schema<ListWorkspaceKeysResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17565,8 +17852,7 @@ export const ListWorkspaceNotebookAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListWorkspaceNotebookAccessTokenRequest>,
   output: __S(3713, __c116, 1) as any as S.Schema<NotebookAccessTokenResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17583,8 +17869,7 @@ export const ListWorkspaceNotebookKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListWorkspaceNotebookKeysRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<ListNotebookKeysResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17605,8 +17890,7 @@ export const ListWorkspaceOutboundNetworkDependenciesEndpoints: API.OperationMet
     0,
   ) as any as S.Schema<ListWorkspaceOutboundNetworkDependenciesEndpointsRequest>,
   output: __S(3784, __c118, 8) as any as S.Schema<ExternalFQDNResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17623,8 +17907,7 @@ export const ListWorkspaceStorageAccountKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListWorkspaceStorageAccountKeysRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<ListStorageAccountKeysResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17641,8 +17924,7 @@ export const ManagedNetworkSettingsRuleCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17659,8 +17941,7 @@ export const MarketplaceSubscriptionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3905, __c122, 1) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateRequest>,
   output: __S(3906, __c122, 2) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17677,8 +17958,7 @@ export const ModelContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ModelContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<ModelContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17695,8 +17975,7 @@ export const ModelVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
   output: __S(9216, __c288, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17713,8 +17992,7 @@ export const OnlineDeploymentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4067, __c127, 3) as any as S.Schema<OnlineDeploymentsCreateOrUpdateRequest>,
   output: __S(4068, __c127, 4) as any as S.Schema<OnlineDeploymentsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17731,8 +18009,7 @@ export const OnlineEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4097, __c128, 1) as any as S.Schema<OnlineEndpointsCreateOrUpdateRequest>,
   output: __S(4098, __c128, 2) as any as S.Schema<OnlineEndpointsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17749,8 +18026,7 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4129, __c129, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17775,8 +18051,7 @@ export const ProvisionManagedNetworkProvisionManagedNetwork: API.OperationMethod
     __c130,
     1,
   ) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17793,8 +18068,7 @@ export const PublishCodeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<PublishCodeVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<PublishCodeVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17811,8 +18085,7 @@ export const PublishComponentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<PublishComponentVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<PublishComponentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17829,8 +18102,7 @@ export const PublishDataVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<PublishDataVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<PublishDataVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17847,8 +18119,7 @@ export const PublishEnvironmentVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<PublishEnvironmentVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<PublishEnvironmentVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17865,8 +18136,7 @@ export const PublishModelVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<PublishModelVersionRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<PublishModelVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17883,8 +18153,7 @@ export const RegenerateOnlineEndpointKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17901,8 +18170,7 @@ export const RegenerateServerlessEndpointKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>,
   output: __S(4417, __c138, 1) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17919,8 +18187,7 @@ export const RegistriesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<RegistriesCreateOrUpdateRequest>,
   output: __S(4449, __c139, 1) as any as S.Schema<RegistriesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17937,8 +18204,7 @@ export const RegistryCodeContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateRequest>,
   output: __S(4544, __c142, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17959,8 +18225,7 @@ export const RegistryCodeVersionsCreateOrGetStartPendingUpload: API.OperationMet
     0,
   ) as any as S.Schema<RegistryCodeVersionsCreateOrGetStartPendingUploadRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17977,8 +18242,7 @@ export const RegistryCodeVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateRequest>,
   output: __S(4609, __c144, 1) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17999,8 +18263,7 @@ export const RegistryComponentContainersCreateOrUpdate: API.OperationMethod<
     __c142,
     0,
   ) as any as S.Schema<RegistryComponentContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18017,8 +18280,7 @@ export const RegistryComponentVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18035,8 +18297,7 @@ export const RegistryDataContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<RegistryDataContainersCreateOrUpdateRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<RegistryDataContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18057,8 +18318,7 @@ export const RegistryDataVersionsCreateOrGetStartPendingUpload: API.OperationMet
     0,
   ) as any as S.Schema<RegistryDataVersionsCreateOrGetStartPendingUploadRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18075,8 +18335,7 @@ export const RegistryDataVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<RegistryDataVersionsCreateOrUpdateRequest>,
   output: __S(4801, __c150, 1) as any as S.Schema<RegistryDataVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18101,8 +18360,7 @@ export const RegistryEnvironmentContainersCreateOrUpdate: API.OperationMethod<
     __c231,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18123,8 +18381,7 @@ export const RegistryEnvironmentVersionsCreateOrUpdate: API.OperationMethod<
     __c152,
     1,
   ) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18141,8 +18398,7 @@ export const RegistryModelContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateRequest>,
   output: __S(4544, __c142, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18163,8 +18419,7 @@ export const RegistryModelVersionsCreateOrGetStartPendingUpload: API.OperationMe
     0,
   ) as any as S.Schema<RegistryModelVersionsCreateOrGetStartPendingUploadRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18181,8 +18436,7 @@ export const RegistryModelVersionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<RegistryModelVersionsCreateOrUpdateRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<RegistryModelVersionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18199,8 +18453,7 @@ export const RemoveRegistryRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<RemoveRegistryRegionsRequest>,
   output: __S(4993, __c156, 1) as any as S.Schema<RemoveRegistryRegionsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18217,8 +18470,7 @@ export const RestartCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<RestartComputeRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<RestartComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18235,8 +18487,7 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5064, __c158, 8) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
   output: __S(5065, __c158, 9) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18253,8 +18504,7 @@ export const ServerlessEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5185, __c162, 1) as any as S.Schema<ServerlessEndpointsCreateOrUpdateRequest>,
   output: __S(5186, __c162, 2) as any as S.Schema<ServerlessEndpointsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18271,8 +18521,7 @@ export const StartCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<StartComputeRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<StartComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18289,8 +18538,7 @@ export const StopCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<StopComputeRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<StopComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18307,8 +18555,7 @@ export const UpdateBatchDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5281, __c165, 1) as any as S.Schema<UpdateBatchDeploymentRequest>,
   output: __S(5282, __c165, 2) as any as S.Schema<UpdateBatchDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18325,8 +18572,7 @@ export const UpdateBatchEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<UpdateBatchEndpointRequest>,
   output: __S(5313, __c166, 1) as any as S.Schema<UpdateBatchEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18343,8 +18589,7 @@ export const UpdateCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5378, __c168, 2) as any as S.Schema<UpdateComputeRequest>,
   output: __S(5379, __c168, 3) as any as S.Schema<UpdateComputeResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18361,8 +18606,7 @@ export const UpdateOnlineDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<UpdateOnlineDeploymentRequest>,
   output: __S(5409, __c169, 1) as any as S.Schema<UpdateOnlineDeploymentResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18379,8 +18623,7 @@ export const UpdateOnlineEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<UpdateOnlineEndpointRequest>,
   output: __S(5473, __c171, 1) as any as S.Schema<UpdateOnlineEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18397,8 +18640,7 @@ export const UpdateQuotas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5506, __c172, 2) as any as S.Schema<UpdateQuotasRequest>,
   output: __S(5509, __c172, 5) as any as S.Schema<UpdateWorkspaceQuotasResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18415,8 +18657,7 @@ export const UpdateRegistry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<UpdateRegistryRequest>,
   output: __S(9664, __c302, 0) as any as S.Schema<UpdateRegistryResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18433,8 +18674,7 @@ export const UpdateServerlessEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<UpdateServerlessEndpointRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<UpdateServerlessEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18451,8 +18691,7 @@ export const UpdateWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5635, __c176, 3) as any as S.Schema<UpdateWorkspaceRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<UpdateWorkspaceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18469,8 +18708,7 @@ export const UpdateWorkspaceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
   output: __S(500, __c15, 20) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18487,8 +18725,7 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5729, __c179, 1) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18505,8 +18742,7 @@ export const WorkspacesDiagnose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5761, __c180, 1) as any as S.Schema<WorkspacesDiagnoseRequest>,
   output: __S(5765, __c180, 5) as any as S.Schema<DiagnoseResponseResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18523,8 +18759,7 @@ export const WorkspacesPrepareNotebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<WorkspacesPrepareNotebookRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<WorkspacesPrepareNotebookResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18541,8 +18776,7 @@ export const WorkspacesResyncKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<WorkspacesResyncKeysRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<WorkspacesResyncKeysResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20202,12 +20436,14 @@ function __c34(j: number): any {
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchDeploymentsRequest" });
@@ -20252,12 +20488,14 @@ function __c36(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           count: S.optional(S.Number.pipe(T.Query())),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchEndpointsRequest" });
@@ -20280,12 +20518,14 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCapabilityHostsRequest" });
@@ -20374,12 +20614,14 @@ function __c42(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeContainersRequest" });
@@ -20412,12 +20654,14 @@ function __c44(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           hash: S.optional(S.String.pipe(T.Query())),
           hashVersion: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCodeVersionsRequest" });
@@ -20446,12 +20690,14 @@ function __c46(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComponentContainersRequest" });
@@ -20470,12 +20716,14 @@ function __c47(j: number): any {
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComponentVersionsRequest" });
@@ -20503,12 +20751,14 @@ function __c49(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComputeRequest" });
@@ -20581,12 +20831,14 @@ function __c51(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComputeNodesRequest" });
@@ -20606,7 +20858,7 @@ function __c51(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodes: S.optional(__S(1634, __c51, 2)),
+          nodes: __S(1634, __c51, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmlComputeNodesInformation" });
@@ -20622,12 +20874,14 @@ function __c52(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataContainersRequest" });
@@ -20657,16 +20911,18 @@ function __c54(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           isDefault: S.optional(S.Boolean.pipe(T.Query())),
-          names: S.optional(__S(6176, __c193, 0).pipe(T.Query())),
+          names: S.optional(__S(6176, __c193, 0).pipe(T.Query(), T.CommaDelimited({}))),
           searchText: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderByAsc: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatastoresRequest" });
@@ -21033,12 +21289,14 @@ function __c59(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           _tags: S.optional(S.String.pipe(T.Query("$tags"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataVersionsRequest" });
@@ -21067,12 +21325,14 @@ function __c61(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentContainersRequest" });
@@ -21091,12 +21351,14 @@ function __c62(j: number): any {
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentVersionsRequest" });
@@ -21131,12 +21393,14 @@ function __c64(j: number): any {
           description: S.optional(S.String.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{featuresetName}/versions/{featuresetVersion}/features",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesRequest" });
@@ -21166,12 +21430,14 @@ function __c65(j: number): any {
           name: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesetContainersRequest" });
@@ -21195,12 +21461,14 @@ function __c66(j: number): any {
           description: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
           stage: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesetVersionsRequest" });
@@ -21230,12 +21498,14 @@ function __c67(j: number): any {
           name: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityContainersRequest" });
@@ -21259,12 +21529,14 @@ function __c68(j: number): any {
           description: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
           stage: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityVersionsRequest" });
@@ -21292,12 +21564,14 @@ function __c69(j: number): any {
           tag: S.optional(S.String.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
           properties: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -21320,12 +21594,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedNetworkSettingsRuleRequest" });
@@ -21416,12 +21692,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceSubscriptionsRequest" });
@@ -21447,12 +21725,14 @@ function __c75(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListModelContainersRequest" });
@@ -21477,12 +21757,14 @@ function __c76(j: number): any {
           properties: S.optional(S.String.pipe(T.Query())),
           feed: S.optional(S.String.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListModelVersionsRequest" });
@@ -21513,12 +21795,14 @@ function __c78(j: number): any {
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOnlineDeploymentsRequest" });
@@ -21545,12 +21829,14 @@ function __c79(j: number): any {
           deploymentName: S.String.pipe(T.Label()),
           count: S.optional(S.Number.pipe(T.Query())),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/skus",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOnlineDeploymentSkusRequest" });
@@ -21624,12 +21910,14 @@ function __c81(j: number): any {
           tags: S.optional(S.String.pipe(T.Query())),
           properties: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOnlineEndpointsRequest" });
@@ -21648,12 +21936,15 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.MachineLearningServices/operations",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -21681,7 +21972,7 @@ function __c82(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2627, __c82, 3)),
+          value: __S(2627, __c82, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -21695,19 +21986,21 @@ function __c83(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(864, __c27, 0)),
+          value: __S(864, __c27, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -21721,12 +22014,14 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -21757,7 +22052,7 @@ function __c84(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2691, __c84, 3)),
+          value: __S(2691, __c84, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -21791,12 +22086,14 @@ function __c86(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListQuotasRequest" });
@@ -21840,12 +22137,14 @@ function __c88(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistriesRequest" });
@@ -21870,12 +22169,14 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/registries",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryBySubscriptionRequest" });
@@ -21890,12 +22191,14 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryCodeContainersRequest" });
@@ -21913,12 +22216,14 @@ function __c92(j: number): any {
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryCodeVersionsRequest" });
@@ -21933,12 +22238,14 @@ function __c93(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryComponentContainersRequest" });
@@ -21956,12 +22263,14 @@ function __c94(j: number): any {
           _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryComponentVersionsRequest" });
@@ -21977,12 +22286,14 @@ function __c95(j: number): any {
           registryName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryDataContainersRequest" });
@@ -22002,12 +22313,14 @@ function __c96(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           _tags: S.optional(S.String.pipe(T.Query("$tags"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryDataVersionsRequest" });
@@ -22023,12 +22336,14 @@ function __c97(j: number): any {
           registryName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryEnvironmentContainersRequest" });
@@ -22067,12 +22382,14 @@ function __c99(j: number): any {
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryEnvironmentVersionsRequest" });
@@ -22088,12 +22405,14 @@ function __c100(j: number): any {
           registryName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryModelContainersRequest" });
@@ -22116,12 +22435,14 @@ function __c101(j: number): any {
           tags: S.optional(S.String.pipe(T.Query())),
           properties: S.optional(S.String.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryModelVersionsRequest" });
@@ -22137,12 +22458,14 @@ function __c102(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           listViewType: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchedulesRequest" });
@@ -22186,12 +22509,14 @@ function __c104(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServerlessEndpointsRequest" });
@@ -22213,12 +22538,14 @@ function __c105(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagesRequest" });
@@ -22315,12 +22642,14 @@ function __c107(j: number): any {
           kind: S.optional(S.String.pipe(T.Query())),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           aiCapabilities: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
@@ -22348,12 +22677,14 @@ function __c109(j: number): any {
           kind: S.optional(S.String.pipe(T.Query())),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           aiCapabilities: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
@@ -22390,12 +22721,14 @@ function __c111(j: number): any {
           target: S.optional(S.String.pipe(T.Query())),
           category: S.optional(S.String.pipe(T.Query())),
           includeAll: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceConnectionsRequest" });
@@ -22438,12 +22771,14 @@ function __c113(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/features",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceFeaturesRequest" });

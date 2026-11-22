@@ -1,0 +1,10 @@
+{
+  "description": "AddTaskCollection answers `\"status\": \"Success\"` (PascalCase) on the wire, not the spec's `success` (seen live on 2025-06-01). The casing of `clienterror` / `servererror` was not observed, so they keep the spec's values.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.batch_data#BatchTaskAddStatus/members/SUCCESS/traits/smithy.api#enumValue",
+      "value": "Success"
+    }
+  ]
+}

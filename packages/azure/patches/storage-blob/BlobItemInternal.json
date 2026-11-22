@@ -1,0 +1,13 @@
+{
+  "description": "List Blobs omits <Deleted> and <Snapshot> for live, base blobs (they appear only with include=deleted / include=snapshots), so the swagger's `required` fails strict decoding of every ordinary listing. Make both optional.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_blob#BlobItemInternal/members/Deleted/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_blob#BlobItemInternal/members/Snapshot/traits/smithy.api#required"
+    }
+  ]
+}
