@@ -15,6 +15,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
+import { ConfigError } from "./config.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
@@ -614,6 +615,8 @@ interface MemberPlan {
   readonly preserve: string | undefined;
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
+  /** The schema marks the member optional (`S.optional`). */
+  readonly optional: boolean;
   readonly stringEncoded: boolean;
   /** A list query member sent as one comma-separated parameter. */
   readonly commaDelimited: boolean;
@@ -680,6 +683,7 @@ const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
       type: prop.type,
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
+      optional: prop.type.context?.isOptional === true,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
       commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
@@ -713,8 +717,9 @@ export const makeRequest = (
 
 /**
  * The input cannot be sent: a path label whose value would address another
- * resource (`.` or `..`, which the URL parser resolves to the parent path).
- * Raised before anything is sent.
+ * resource (`.` or `..`, which the URL parser resolves to the parent path,
+ * or `""`, which addresses the parent path), or a host label that would
+ * address another host. Raised before anything is sent.
  */
 export class InvalidInput
   extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
@@ -729,6 +734,13 @@ export class InvalidInput
  * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
  * `/`, so each of its segments counts.
  *
+ * Also refuses an empty value, unless the label is `optional`. It leaves the
+ * segment empty, and a server that ignores a trailing slash (Smithy routing
+ * does) reads `/things/` as the collection `/things`: Kubernetes runs a
+ * delete of the Secret `""` as a delete of every Secret in the namespace.
+ * A label the schema marks optional is one the API documents as possibly
+ * empty (Azure Key Vault's `{secret-version}`), so it may be `""`.
+ *
  * Also refuses a value with a lone UTF-16 surrogate (`"\ud800"`):
  * `encodeURIComponent` throws `URIError` on it, and no encoding keeps the
  * name as written.
@@ -737,6 +749,7 @@ export const invalidLabel = (
   member: string,
   value: unknown,
   greedy?: boolean,
+  optional?: boolean,
 ): InvalidInput | undefined => {
   const text = String(value);
   if (!text.isWellFormed()) {
@@ -745,13 +758,76 @@ export const invalidLabel = (
       message: `Input member ${member} cannot be ${JSON.stringify(text)}: it has a lone UTF-16 surrogate, which a URL cannot carry`,
     });
   }
-  return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
+  return (text === "" && !optional) ||
+    (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
     ? new InvalidInput({
         member,
         message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
       })
     : undefined;
 };
+
+/**
+ * A path label value, percent-encoded, or the {@link InvalidInput} that
+ * {@link invalidLabel} refuses it with. A greedy label keeps its `/` and
+ * encodes each segment ({@link encodeGreedyLabel}). Use it wherever a
+ * caller's value goes into a URL path, so the check can't be skipped.
+ */
+export const encodeLabel = (
+  member: string,
+  value: unknown,
+  greedy?: boolean,
+  optional?: boolean,
+): string | InvalidInput =>
+  invalidLabel(member, value, greedy, optional) ??
+  (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
+
+/** One RFC 1123 DNS label: 1-63 letters, digits and `-`, no `-` at either end. */
+const HOST_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
+/**
+ * Whether `value` is one DNS host label (RFC 1123), or with
+ * `allowSubDomains` a dot-separated name made of them. A value that goes into
+ * a URL host must pass it: any other character (`/`, `@`, `#`, `?`, `:`)
+ * can move the request to another host, and no encoding fixes a host.
+ */
+export const isHostLabel = (value: unknown, allowSubDomains?: boolean): boolean =>
+  typeof value === "string" &&
+  (allowSubDomains ? value.split(".") : [value]).every((label) => HOST_LABEL.test(label));
+
+/**
+ * The refusal for a value that goes into a URL host but is not a host label
+ * ({@link isHostLabel}), or `undefined`. The host-side counterpart of
+ * {@link invalidLabel}. A value read from credentials config fails with
+ * {@link invalidHostLabelConfig} instead.
+ */
+export const invalidHostLabel = (
+  member: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): InvalidInput | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: as a host label it would address another host`,
+      });
+
+/**
+ * {@link invalidHostLabel} for a value read from credentials config: the
+ * refusal is a `ConfigError` naming the setting (`"S2 basin"`,
+ * `"STACKIT region"`), or `undefined`.
+ */
+export const invalidHostLabelConfig = (
+  name: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): ConfigError | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new ConfigError({
+        message: `${name} ${JSON.stringify(String(value))} cannot go into a host name: it must be ${allowSubDomains ? "DNS labels separated by dots, each" : "one DNS label:"} letters, digits and hyphens, at most 63 characters`,
+      });
 
 /**
  * Build an HTTP request from an operation input and its schema, driven by
@@ -765,9 +841,12 @@ export const invalidLabel = (
  * The schema is read once per input schema (see `planFor`); later calls only
  * walk the input value.
  *
+ * An optional label left out of the input is an empty segment, like `""`
+ * (Azure Key Vault's `/secrets/{name}/{version}` -> `/secrets/db/`).
+ *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
- * or has a lone UTF-16 surrogate.
+ * is `""` and the schema marks it required, or has a lone UTF-16 surrogate.
  * Fails with {@link SdkError} when the input schema is missing the `Http()`
  * trait (a codegen bug the generator refuses).
  */
@@ -810,23 +889,26 @@ const requestOrInvalid = ({
   for (let i = 0; i < members.length; i++) {
     const m = members[i]!;
     const value = inputObj[m.key];
-    if (value === undefined) continue;
+    if (value === undefined) {
+      // An omitted optional label is an empty segment, the same as `""`.
+      if (m.bind === "label" && m.optional) {
+        uri = uri.replace(m.greedy ? `{${m.name}+}` : `{${m.name}}`, "");
+      }
+      continue;
+    }
     switch (m.bind) {
       case "label": {
-        const invalid = invalidLabel(m.key, value, m.greedy);
-        if (invalid) return invalid;
-        const encoded = encodeURIComponent(String(value));
+        const encoded = encodeLabel(m.key, value, m.greedy, m.optional);
+        if (encoded instanceof InvalidInput) return encoded;
         const preserve = m.preserve;
         const label =
-          preserve !== undefined
+          preserve !== undefined && !m.greedy
             ? encoded.replace(/%[0-9A-F]{2}/g, (escape) => {
                 const character = String.fromCharCode(Number.parseInt(escape.slice(1), 16));
                 return preserve.includes(character) ? character : escape;
               })
             : encoded;
-        uri = m.greedy
-          ? uri.replace(`{${m.name}+}`, () => encodeGreedyLabel(String(value)))
-          : uri.replace(`{${m.name}}`, () => label);
+        uri = uri.replace(m.greedy ? `{${m.name}+}` : `{${m.name}}`, () => label);
         break;
       }
       case "header": {

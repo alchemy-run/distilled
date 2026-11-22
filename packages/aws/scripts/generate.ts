@@ -1,4 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
+import { readFileSync } from "node:fs";
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
 /**
@@ -24,7 +25,25 @@ import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
 import { Schema as S } from "effect";
 import { eventsResourceName, eventsSpec, isEventsModel } from "./events-spec.ts";
 import { SmithyModel, type ServiceShape } from "./model-schema.ts";
-import { awsSpec } from "./spec.ts";
+import { awsSpec, moduleName } from "./spec.ts";
+
+// Model and patch values reach the generated code only through `lit()`,
+// `num()` and identifier checks (spec.ts) or JSON.stringify. A hand-quoted
+// interpolation such as `"${name}"` lets a quote in a model end the string
+// literal, so refuse to generate while an emitter has one.
+const RAW_INTERPOLATION = /["']\$\{|\$\{[^{}]*\}["']/;
+const rawInterpolations = ["spec.ts", "compile-rules.ts", "events-spec.ts"].flatMap((file) =>
+  readFileSync(`${import.meta.dirname}/${file}`, "utf8")
+    .split("\n")
+    .flatMap((line, i) =>
+      RAW_INTERPOLATION.test(line) ? [`  ${file}:${i + 1}: ${line.trim()}`] : [],
+    ),
+);
+if (rawInterpolations.length > 0) {
+  throw new Error(
+    `quoted interpolation in an AWS emitter; emit model strings with lit() or JSON.stringify:\n${rawInterpolations.join("\n")}`,
+  );
+}
 
 /** The service shape and its sdkId — every AWS model has exactly one. */
 const serviceOf = (model: any): ServiceShape => {
@@ -36,9 +55,6 @@ const serviceOf = (model: any): ServiceShape => {
 };
 
 const sdkIdOf = (model: any): string => serviceOf(model).traits["aws.api#service"].sdkId;
-
-/** `SimpleDB` → `simpledb`, `API Gateway` → `api-gateway`. */
-const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 runGeneratorCli({
   description: "Generate the AWS Effect SDK from patched Smithy models",

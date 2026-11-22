@@ -53,6 +53,12 @@ const spec: SdkSpec = {
     commonErrorClasses: ["UnknownBoxdError"],
     protocol: "BoxdProtocol",
     retry: "Retry.Retry",
+    // Every call takes an optional `maxMessageBytes` (core max-message-bytes.ts).
+    callInput: {
+      type: "MaxMessageBytesInput",
+      from: "@distilled.cloud/core/max-message-bytes",
+      member: "maxMessageBytes",
+    },
   },
 
   postProcess: (code) =>

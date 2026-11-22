@@ -30,9 +30,10 @@ description: Build or update a distilled SDK for an API provider — sourcing it
 
 Two facts follow from this and shape everything below:
 
-- **The generated output is committed.** CI never runs `generate` and never
-  checks out a submodule. A PR is green with no spec present at all — the
-  specs only matter to whoever regenerates.
+- **The generated output is committed.** CI regenerates only turso and npm,
+  to check the committed code matches the generator, and fetches only their
+  mirrors. A new SDK's PR is green with no spec present at all — the specs
+  only matter to whoever regenerates.
 - **The mirror is the spec source, not the upstream.** A package never
   submodules the upstream repository. `github/rest-api-description` is 6.7 GB
   checked out for one 13 MB file; the mirror holds the file. See
@@ -166,10 +167,11 @@ plain strings.
   header, query string, body or signature is built, and never put a secret
   in an error message or an error field. Anything minted at runtime (an
   exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
-- **Concurrent calls share one refresh.** A token or credentials cache
-  re-checks inside a one-permit `Semaphore`, so a burst of calls on a cold
-  or stale cache mints once (`AGENTS.md` rule 16; copy
-  `createRefreshingProvider` in `packages/gcp/src/credentials-service.ts`).
+- **Cache tokens with core `refreshing`.** A token or credentials cache is
+  `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
+  created once per layer value, so a burst of calls on a cold or stale
+  cache mints once and works in workerd. Give it `onTimeout`, and
+  `timeoutMs` if the mint's retries can exceed 60 s (`AGENTS.md` rule 16).
 
 This must print nothing:
 

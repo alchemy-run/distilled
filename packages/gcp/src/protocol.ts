@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
 import { ConfigError, HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
-import type { DefaultErrors } from "@distilled.cloud/core/errors";
+import type { DefaultErrors, InvalidInput } from "@distilled.cloud/core/errors";
 import {
+  encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
@@ -9,7 +10,7 @@ import {
   responseErrorFields,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
@@ -29,10 +30,10 @@ import {
  *
  *   request:  credentials -> `Authorization: Bearer <access token>`; the
  *             per-service base URL (rootUrl + servicePath) read from the
- *             extended `T.Http({ ... baseUrl })` trait; RFC 6570
- *             reserved-expansion for `{+param}` path tokens (Google
- *             discovery paths like `v1/{+name}` carry multi-segment
- *             resource names whose `/` must NOT be percent-encoded);
+ *             extended `T.Http({ ... baseUrl })` trait; `{+param}`
+ *             path tokens (Google discovery paths like `v1/{+name}` carry
+ *             multi-segment resource names) keep their `/` and encode
+ *             each segment, with core's `encodeLabel` checks;
  *             query params (arrays as repeated `k=v`); a single
  *             `HttpBody()` member as the whole JSON request body.
  *
@@ -69,6 +70,7 @@ import type { GcpHttpTrait } from "./traits.ts";
  */
 export type GcpOpError =
   | DefaultErrors
+  | InvalidInput
   | UnknownGCPError
   | GCPParseError
   | GCPCredentialsError
@@ -85,14 +87,6 @@ export type GcpOpContext = Credentials | HttpClient.HttpClient;
 // `errors: [...]` list. Fail with the instance and erase the error type here;
 // `API.make`'s signature reintroduces it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
-/**
- * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
- * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
- * sets. Used for `{+param}` path tokens (ported from the distilled core).
- */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
-const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
 const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
@@ -161,7 +155,8 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     if (!http) {
       return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
     }
-    const inputObj = (input ?? {}) as Record<string, unknown>;
+    // Sensitive members accept `string | Redacted<string>`; the wire wants the string.
+    const inputObj = unwrapRedactedDeep(input ?? {}) as Record<string, unknown>;
 
     const headers: Record<string, string> = {
       Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
@@ -180,11 +175,13 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
       if (hasPropAnn(prop, labelSymbol)) {
         const token = nameOf(prop, labelSymbol);
-        // Discovery paths use RFC 6570 reserved expansion (`{+name}`) for
-        // multi-segment resource names; plain `{name}` is fully encoded.
-        uri = uri.includes(`{+${token}}`)
-          ? uri.replace(`{+${token}}`, encodeReserved(String(value)))
-          : uri.replace(`{${token}}`, encodeURIComponent(String(value)));
+        // `{+name}` is a multi-segment resource name (`projects/p/secrets/s`):
+        // like core's greedy `{name+}`, each segment is encoded and the `/`
+        // kept (google/api/http.proto). Plain `{name}` is fully encoded.
+        const greedy = uri.includes(`{+${token}}`);
+        const label = encodeLabel(String(prop.name), value, greedy);
+        if (typeof label !== "string") return yield* fail(label);
+        uri = uri.replace(greedy ? `{+${token}}` : `{${token}}`, () => label);
       } else if (hasPropAnn(prop, querySymbol)) {
         appendQuery(query, nameOf(prop, querySymbol), value);
       } else if (hasPropAnn(prop, headerSymbol)) {
@@ -309,11 +306,16 @@ const decode = ({
     // already the TS-facing names). Empty bodies (204 / empty 200) decode
     // to an empty object so `<Op>Response {}` outputs stay well-typed.
     // Strict mode (core/response-validation) checks it against the output
-    // schema.
-    return yield* validateResponse(
+    // schema, and sensitive members come back Redacted (core
+    // `validateSuccess`).
+    return yield* validateSuccess(
       outputAst,
-      nonJson ? text : json === undefined ? {} : json,
-      (cause) => new GCPParseError({ body: nonJson ? text : json, cause }),
+      {
+        value: nonJson ? text : json === undefined ? {} : json,
+        body: nonJson ? text : json,
+        nonJson,
+      },
+      (info) => new GCPParseError(info),
     ).pipe(Effect.catch(fail));
   });
 

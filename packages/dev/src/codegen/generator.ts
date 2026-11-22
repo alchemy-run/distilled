@@ -563,6 +563,17 @@ export interface SdkSpec {
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
     /**
+     * A type intersected with every operation's input: optional members the
+     * protocol reads and never sends, e.g. `maxMessageBytes` from
+     * `MaxMessageBytesInput` in `@distilled.cloud/core/max-message-bytes`.
+     * An input that models a member of the same name keeps its own.
+     */
+    readonly callInput?: {
+      readonly type: string;
+      readonly from: string;
+      readonly member: string;
+    };
+    /**
      * Extra config lines inserted before the pagination entry (e.g. AWS's
      * `operationName` and `endpointHostPrefix`).
      */
@@ -894,6 +905,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     }
   };
 
+  /** Trait-table pipes: trait value JSON-inlined as the argument. */
+  const traitTablePipes = (info: EmittedMember): string[] =>
+    Object.entries(spec.memberTraitPipes ?? {})
+      .filter(([trait]) => info.traits[trait] !== undefined)
+      .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`);
+
   const memberPipes =
     spec.memberPipes ??
     ((info: EmittedMember) => [
@@ -902,10 +919,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(spec.extraBindings ?? [])
         .filter((b) => b.binding === info.binding && b.trait in info.traits)
         .map((b) => b.pipe),
-      // Trait-table pipes: trait value JSON-inlined as the argument.
-      ...Object.entries(spec.memberTraitPipes ?? {})
-        .filter(([trait]) => info.traits[trait] !== undefined)
-        .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
+      ...traitTablePipes(info),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
       // Core fills a missing token once per call, before the retry.
       ...("smithy.api#idempotencyToken" in info.traits
@@ -1127,14 +1141,22 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // key dictionary so opaque content (union cases, freeform maps)
         // nested in the payload decodes with the same wire mapping as
         // struct-form roots.
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        // The member's trait-table pipes (a sensitive mark) move to the
+        // root with its payload, and so does the TS type they imply.
+        const rootMember: EmittedMember = { ...memberInfos(d, id)[0]!, nullable };
+        const traitPipes = traitTablePipes(rootMember);
         const rootPipes = [
           soleMemberRoot.rootPipe,
+          ...traitPipes,
           ...(spec.rootKeyDictionary && opIoShapes.has(id)
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
-        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
+        const rootType =
+          (traitPipes.length ? memberTsTypeOf(rootMember, tsRef) : undefined) ??
+          `${tsRef(m.target)}${nullable ? " | null" : ""}`;
+        out.push(`export type ${name} = ${rootType};`);
         out.push(
           suspendConst({
             name,
@@ -1451,10 +1473,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         : streamWhen !== undefined
           ? tsRef(streamWhen.items)
           : undefined;
+      const callInput =
+        decl.callInput !== undefined &&
+        !memberInfos(shapes[ctx.op.def.__input] ?? {}).some(
+          (m) => m.tsName === decl.callInput!.member,
+        )
+          ? ` & ${decl.callInput.type}`
+          : "";
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
-          `  ${ctx.inputName},\n` +
+          `  ${ctx.inputName}${callInput},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
           `  ${contextType}` +
@@ -1843,6 +1872,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         : "") +
       (decl.commonErrorClasses.length
         ? `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n`
+        : "") +
+      (decl.callInput
+        ? `import type { ${decl.callInput.type} } from "${decl.callInput.from}";\n`
         : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.

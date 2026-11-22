@@ -74,9 +74,9 @@ export interface ApplicationPackageProperties {
   state?: PackageState | undefined;
   /** The format of the application package, if the package is active. */
   format?: string | undefined;
-  /** The URL for the application package in Azure Storage. */
+  /** The URL for the application package in Azure Storage. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   storageUrl?: string | undefined;
-  /** The UTC time at which the Azure Storage URL will expire. */
+  /** The UTC time at which the Azure Storage URL will expire. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   storageUrlExpiry?: string | undefined;
   /** The time at which the package was last activated, if the package is active. */
   lastActivationTime?: string | undefined;
@@ -288,7 +288,7 @@ export interface EncryptionProperties {
   keyVaultProperties?: KeyVaultProperties | undefined;
 }
 /** The authentication mode for the Batch account. */
-export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
+export type AuthenticationMode = "SharedKey" | "AAD";
 /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
 export type BatchAccountCreatePropertiesAllowedAuthenticationModesList = Array<
   AuthenticationMode | (string & {})
@@ -536,6 +536,27 @@ export interface CreateBatchAccountResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** Specifies a single VM size that may be allocated for an Instance Mix pool. */
+export interface VirtualMachineSkuProfileVmSize {
+  /** The name of the VM size (for example, "Standard_D8s_v5"). */
+  name: string;
+  /** The 0-based rank (a.k.a. priority) associated with this VM size. Lower values indicate higher priority. Rank is required only when the allocation strategy is 'Prioritized' and must be omitted otherwise. */
+  rank?: number | undefined;
+}
+/** The list of VM sizes (up to 5) that may be allocated for the Pool. VM sizes may span the supported A, B, D, E, and F VM families, but must have the same vCPU count and CPU architecture and compatible VM capabilities. This must be specified when the vmSkuProfile is provided during Pool creation. */
+export type VirtualMachineSkuProfileVmSizesList = Array<VirtualMachineSkuProfileVmSize>;
+/** Specifies the allocation strategy that the Fungible Compute Platform uses to select VM sizes from the vmSkuProfile when allocating nodes for an Instance Mix pool. */
+export type VirtualMachineSkuAllocationStrategy =
+  | "LowestPrice"
+  | "CapacityOptimized"
+  | "Prioritized";
+/** Specifies the set of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. */
+export interface VirtualMachineSkuProfile {
+  /** The list of VM sizes (up to 5) that may be allocated for the Pool. VM sizes may span the supported A, B, D, E, and F VM families, but must have the same vCPU count and CPU architecture and compatible VM capabilities. This must be specified when the vmSkuProfile is provided during Pool creation. */
+  vmSizes?: VirtualMachineSkuProfileVmSizesList | undefined;
+  /** The allocation strategy used to select VM sizes from vmSizes. Defaults to LowestPrice when not specified. */
+  allocationStrategy?: VirtualMachineSkuAllocationStrategy | (string & {}) | undefined;
+}
 /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
 export interface ImageReference {
   /** For example, Canonical or MicrosoftWindowsServer. */
@@ -742,6 +763,44 @@ export interface ServiceArtifactReference {
   /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
   id: string;
 }
+/** Specifies the properties for customizing the size of the virtual machine. */
+export interface VmSizeProperties {
+  /** Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size. */
+  vCPUsAvailable?: number | undefined;
+  /** Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size. **Setting this property to 1 also means that hyper-threading is disabled.** */
+  vCPUsPerCore?: number | undefined;
+}
+/** Specifies the hardware settings for the compute nodes. */
+export interface HardwareProfile {
+  /** Specifies the properties for customizing the size of the virtual machine. */
+  vmSizeProperties?: VmSizeProperties | undefined;
+}
+/** The zone placement policy for compute nodes in a pool. */
+export type ZonePlacementPolicyType = "Auto";
+/** The placement policy for compute nodes in a pool. */
+export interface Placement {
+  /** Auto delegates zone selection and balancing to the virtual machine scale set. */
+  zonePlacementPolicy: ZonePlacementPolicyType | (string & {});
+}
+/** The policy that limits the percentage of pool instances that may be allocated in a single availability zone. */
+export interface MaxInstancePercentPerZonePolicy {
+  /** Whether the maximum instance percentage policy is enabled. */
+  enabled?: boolean | undefined;
+  /** The maximum percentage of pool instances that may be allocated in a single availability zone. */
+  value: number;
+}
+/** The policy that controls allocation across availability zones. */
+export interface ZoneAllocationPolicy {
+  /** The maximum number of availability zones that may be used. The value cannot exceed the number of zones supported by the region. */
+  maxZoneCount?: number | undefined;
+  /** The policy that limits the percentage of pool instances that may be allocated in a single availability zone. */
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy | undefined;
+}
+/** The resiliency policy for compute nodes in a pool. */
+export interface ResiliencyPolicy {
+  /** The policy that controls allocation across availability zones. */
+  zoneAllocationPolicy: ZoneAllocationPolicy;
+}
 /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
 export interface VirtualMachineConfiguration {
   /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
@@ -768,18 +827,20 @@ export interface VirtualMachineConfiguration {
   securityProfile?: SecurityProfile | undefined;
   /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
   serviceArtifactReference?: ServiceArtifactReference | undefined;
+  /** Specifies the hardware settings for the compute nodes. */
+  hardwareProfile?: HardwareProfile | undefined;
+  /** The availability zone placement policy for compute nodes in the pool. Set zonePlacementPolicy to Auto to delegate availability zone selection and balancing to the virtual machine scale set. On pool creation, if placement is omitted, Batch uses nodePlacementConfiguration when it is specified; otherwise, the pool uses Regional placement, which provides no availability zone distribution guarantee. This property cannot be combined with nodePlacementConfiguration. On PATCH, omitting placement preserves the existing placement policy, including when virtualMachineConfiguration is supplied. On PUT, the supplied virtual machine configuration replaces the existing policies; omitting placement clears the placement policy. */
+  placement?: Placement | undefined;
+  /** The resiliency policy for compute nodes in the pool. This property requires placement.zonePlacementPolicy to be Auto. On PATCH, omitting resiliencyPolicy preserves the existing resiliency policy independently of whether placement is supplied. On PUT, the supplied virtual machine configuration replaces the existing policies; omitting resiliencyPolicy clears the resiliency policy. */
+  resiliencyPolicy?: ResiliencyPolicy | undefined;
 }
 /** Deployment configuration properties. */
 export interface DeploymentConfiguration {
   /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
   virtualMachineConfiguration?: VirtualMachineConfiguration | undefined;
 }
-/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
-export type ComputeNodeDeallocationOption =
-  | "Requeue"
-  | "Terminate"
-  | "TaskCompletion"
-  | "RetainedData";
+/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. This is the set of values that can be requested; `RetainedData` is no longer accepted as of the 2026-10-01 API version. */
+export type RequestedComputeNodeDeallocationOption = "Requeue" | "Terminate" | "TaskCompletion";
 /** Fixed scale settings for the pool. */
 export interface FixedScaleSettings {
   /** The default value is 15 minutes. Timeout values use ISO 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
@@ -789,7 +850,7 @@ export interface FixedScaleSettings {
   /** At least one of targetDedicatedNodes, targetLowPriorityNodes must be set. */
   targetLowPriorityNodes?: number | undefined;
   /** If omitted, the default value is Requeue. */
-  nodeDeallocationOption?: ComputeNodeDeallocationOption | (string & {}) | undefined;
+  nodeDeallocationOption?: RequestedComputeNodeDeallocationOption | (string & {}) | undefined;
 }
 /** AutoScale settings for the pool. */
 export interface AutoScaleSettings {
@@ -951,9 +1012,9 @@ export type PoolPropertiesInputMetadataList = Array<MetadataItem>;
 export interface ResourceFile {
   /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. */
   autoStorageContainerName?: string | undefined;
-  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access. */
+  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. Do not embed credentials in the URL. For Azure Blob Storage, use a managed identity with read and list permissions on the container and specify it using identityReference. */
   storageContainerUrl?: string | undefined;
-  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access. */
+  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. Do not embed credentials in the URL. For Azure Blob Storage, use a managed identity with read permission on the blob and specify it using identityReference. */
   httpUrl?: string | undefined;
   /** The property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded. */
   blobPrefix?: string | undefined;
@@ -1130,7 +1191,7 @@ export interface AutomaticOSUpgradePolicy {
 }
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
-  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field can be set to true or false only when nodePlacementConfiguration.policy is Zonal or placement.zonePlacementPolicy is Auto. */
   enableCrossZoneUpgrade?: boolean | undefined;
   /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
   maxBatchInstancePercent?: number | undefined;
@@ -1160,6 +1221,8 @@ export interface PoolPropertiesInput {
   displayName?: string | undefined;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string | undefined;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile | undefined;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration | undefined;
   /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
@@ -1246,6 +1309,12 @@ export type PoolPropertiesUserAccountsList = Array<UserAccount>;
 export type PoolPropertiesMetadataList = Array<MetadataItem>;
 /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
 export type PoolPropertiesApplicationPackagesList = Array<ApplicationPackageReference>;
+/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
+export type ComputeNodeDeallocationOption =
+  | "Requeue"
+  | "Terminate"
+  | "TaskCompletion"
+  | "RetainedData";
 /** Additional details about the error. */
 export type ResizeErrorDetailsList = Array<ResizeError>;
 /** An error that occurred when resizing a pool. */
@@ -1294,6 +1363,8 @@ export interface PoolProperties {
   allocationStateTransitionTime?: string | undefined;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string | undefined;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile | undefined;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration | undefined;
   /** The number of dedicated compute nodes currently in the pool. */
@@ -1865,6 +1936,8 @@ export interface ListApplicationRequest {
   accountName: string;
   /** The maximum number of items to return in the response. */
   maxresults?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
@@ -1905,6 +1978,8 @@ export interface ListApplicationPackageRequest {
   applicationName: string;
   /** The maximum number of items to return in the response. */
   maxresults?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type ApplicationPackageTagsMap = { [key: string]: string | undefined };
@@ -1937,6 +2012,8 @@ export interface ListApplicationPackagesResult {
 export interface ListBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BatchAccountTagsMap = { [key: string]: string | undefined };
@@ -1973,6 +2050,8 @@ export interface ListBatchAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListBatchAccountDetectorsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1981,6 +2060,8 @@ export interface ListBatchAccountDetectorsRequest {
   resourceGroupName: string;
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type DetectorResponseTagsMap = { [key: string]: string | undefined };
@@ -2017,6 +2098,8 @@ export interface ListBatchAccountOutboundNetworkDependenciesEndpointsRequest {
   resourceGroupName: string;
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details about the connection between the Batch service and the endpoint. */
 export interface EndpointDetail {
@@ -2061,6 +2144,8 @@ export interface ListLocationSupportedVirtualMachineSkusRequest {
   maxresults?: number | undefined;
   /** OData filter expression. Valid properties for filtering are "familyName". */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A SKU capability, such as the number of cores. */
 export interface SkuCapability {
@@ -2098,6 +2183,8 @@ export interface ListNetworkSecurityPerimeterConfigurationsRequest {
   resourceGroupName: string;
   /** A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfigurationListResultValueItem {
@@ -2121,7 +2208,10 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider. */
@@ -2168,6 +2258,8 @@ export interface ListPoolByBatchAccountRequest {
   _select?: string | undefined;
   /** OData filter expression. Valid properties for filtering are: name properties/allocationState properties/allocationStateTransitionTime properties/creationTime properties/provisioningState properties/provisioningStateTransitionTime properties/lastModified properties/vmSize properties/interNodeCommunication properties/scaleSettings/autoScale properties/scaleSettings/fixedScale */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type PoolTagsMap = { [key: string]: string | undefined };
@@ -2208,6 +2300,8 @@ export interface ListPrivateEndpointConnectionByBatchAccountRequest {
   accountName: string;
   /** The maximum number of items to return in the response. */
   maxresults?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type ListPrivateEndpointConnectionsResultValueList = Array<PrivateEndpointConnection>;
@@ -2227,6 +2321,8 @@ export interface ListPrivateLinkResourceByBatchAccountRequest {
   accountName: string;
   /** The maximum number of items to return in the response. */
   maxresults?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The tags of the resource. */
 export type PrivateLinkResourceTagsMap = { [key: string]: string | undefined };
@@ -2411,6 +2507,113 @@ export interface UpdateBatchAccountResponse {
 }
 /** The tags of the resource. */
 export type UpdatePoolRequestTagsMap = { [key: string]: string | undefined };
+/** The list of user accounts to be created on each node in the pool. */
+export type PoolPatchPropertiesInputUserAccountsList = Array<UserAccount>;
+/** The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
+export type PoolPatchPropertiesInputMetadataList = Array<MetadataItem>;
+/** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
+export type PoolPatchPropertiesInputApplicationPackagesList = Array<ApplicationPackageReference>;
+/** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
+export type PoolPatchPropertiesInputMountConfigurationList = Array<MountConfiguration>;
+/** This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. */
+export type VirtualMachineConfigurationPatchDataDisksList = Array<DataDisk>;
+/** If specified, the extensions mentioned in this configuration will be installed on each node. */
+export type VirtualMachineConfigurationPatchExtensionsList = Array<VMExtension>;
+/** Availability zone placement fields to update, leaving omitted fields unchanged. */
+export interface PlacementPatch {
+  /** Auto delegates zone selection and balancing to the virtual machine scale set. */
+  zonePlacementPolicy?: ZonePlacementPolicyType | (string & {}) | undefined;
+}
+/** Per-zone instance percentage fields to update, leaving omitted fields unchanged. */
+export interface MaxInstancePercentPerZonePolicyPatch {
+  /** Whether the maximum instance percentage policy is enabled. */
+  enabled?: boolean | undefined;
+  /** The maximum percentage of pool instances that may be allocated in a single availability zone. */
+  value?: number | undefined;
+}
+/** Zone allocation policy fields to update, leaving omitted fields unchanged. */
+export interface ZoneAllocationPolicyPatch {
+  /** The maximum number of availability zones that may be used. The value cannot exceed the number of zones supported by the region. */
+  maxZoneCount?: number | undefined;
+  /** The per-zone instance percentage policy fields to update. */
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicyPatch | undefined;
+}
+/** Resiliency policy fields to update, leaving omitted fields unchanged. */
+export interface ResiliencyPolicyPatch {
+  /** The zone allocation policy fields to update. */
+  zoneAllocationPolicy?: ZoneAllocationPolicyPatch | undefined;
+}
+/** Virtual machine settings retaining legacy requirements when updating zone policies. */
+export interface VirtualMachineConfigurationPatch {
+  /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
+  imageReference: ImageReference;
+  /** The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation. */
+  nodeAgentSkuId: string;
+  /** This property must not be specified if the imageReference specifies a Linux OS image. */
+  windowsConfiguration?: WindowsConfiguration | undefined;
+  /** This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. */
+  dataDisks?: VirtualMachineConfigurationPatchDataDisksList | undefined;
+  /** This only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are: Windows_Server - The on-premises license is for Windows Server. Windows_Client - The on-premises license is for Windows Client. */
+  licenseType?: string | undefined;
+  /** If specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it. */
+  containerConfiguration?: ContainerConfiguration | undefined;
+  /** If specified, encryption is performed on each node in the pool during node provisioning. */
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
+  /** This configuration will specify rules on how nodes in the pool will be physically allocated. */
+  nodePlacementConfiguration?: NodePlacementConfiguration | undefined;
+  /** If specified, the extensions mentioned in this configuration will be installed on each node. */
+  extensions?: VirtualMachineConfigurationPatchExtensionsList | undefined;
+  /** Contains configuration for ephemeral OSDisk settings. */
+  osDisk?: OSDisk | undefined;
+  /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+  securityProfile?: SecurityProfile | undefined;
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  serviceArtifactReference?: ServiceArtifactReference | undefined;
+  /** Specifies the hardware settings for the compute nodes. */
+  hardwareProfile?: HardwareProfile | undefined;
+  /** The availability zone placement policy to update. Omitted fields retain their existing values. */
+  placement?: PlacementPatch | undefined;
+  /** The resiliency policy to update. Omitted fields retain their existing values. */
+  resiliencyPolicy?: ResiliencyPolicyPatch | undefined;
+}
+/** Deployment settings with partial updates for the new zone policies. */
+export interface DeploymentConfigurationPatch {
+  /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
+  virtualMachineConfiguration?: VirtualMachineConfigurationPatch | undefined;
+}
+/** Pool settings with partial updates for the new zone policies. */
+export interface PoolPatchPropertiesInput {
+  /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
+  displayName?: string | undefined;
+  /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  vmSize?: string | undefined;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile | undefined;
+  /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
+  scaleSettings?: ScaleSettings | undefined;
+  /** This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. */
+  interNodeCommunication?: InterNodeCommunicationState | (string & {}) | undefined;
+  /** The network configuration for a pool. */
+  networkConfiguration?: NetworkConfiguration | undefined;
+  /** If not specified, the default is spread. */
+  taskSchedulingPolicy?: TaskSchedulingPolicy | undefined;
+  /** The list of user accounts to be created on each node in the pool. */
+  userAccounts?: PoolPatchPropertiesInputUserAccountsList | undefined;
+  /** The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
+  metadata?: PoolPatchPropertiesInputMetadataList | undefined;
+  /** In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool. */
+  startTask?: StartTask | undefined;
+  /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
+  applicationPackages?: PoolPatchPropertiesInputApplicationPackagesList | undefined;
+  /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
+  mountConfiguration?: PoolPatchPropertiesInputMountConfigurationList | undefined;
+  /** Describes an upgrade policy - automatic, manual, or rolling. */
+  upgradePolicy?: UpgradePolicy | undefined;
+  /** Deployment configuration properties. */
+  deploymentConfiguration?: DeploymentConfigurationPatch | undefined;
+  /** When omitted, the existing value is preserved. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
+  taskSlotsPerNode?: number | undefined;
+}
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2420,12 +2623,12 @@ export interface UpdatePoolRequest {
   accountName: string;
   /** The pool name. This must be unique within the account. */
   poolName: string;
-  /** The properties associated with the pool. */
-  properties?: PoolPropertiesInput | undefined;
   /** The type of identity used for the Batch Pool. */
   identity?: BatchPoolIdentityInput | undefined;
   /** The tags of the resource. */
   tags?: UpdatePoolRequestTagsMap | undefined;
+  /** The pool properties to update. */
+  properties?: PoolPatchPropertiesInput | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -2609,8 +2812,8 @@ export const CreatePool: API.OperationMethod<
   CreatePoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<CreatePoolRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<CreatePoolResponse>,
+  input: __S(1857, __c58, 1) as any as S.Schema<CreatePoolRequest>,
+  output: __S(1969, __c61, 17) as any as S.Schema<CreatePoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2626,7 +2829,7 @@ export const DeleteApplication: API.OperationMethod<
   DeleteApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteApplicationRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -2643,7 +2846,7 @@ export const DeleteApplicationPackage: API.OperationMethod<
   DeleteApplicationPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeleteApplicationPackageRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteApplicationPackageRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteApplicationPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -2660,8 +2863,8 @@ export const DeleteBatchAccount: API.OperationMethod<
   DeleteBatchAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeleteBatchAccountRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<DeleteBatchAccountResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteBatchAccountRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteBatchAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2678,7 +2881,7 @@ export const DeletePool: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeletePoolRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<DeletePoolResponse>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeletePoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2712,7 +2915,7 @@ export const DisablePoolAutoScale: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DisablePoolAutoScaleRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<DisablePoolAutoScaleResponse>,
+  output: __S(1969, __c61, 17) as any as S.Schema<DisablePoolAutoScaleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2848,7 +3051,7 @@ export const GetPool: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetPoolRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<GetPoolResponse>,
+  output: __S(1969, __c61, 17) as any as S.Schema<GetPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2892,12 +3095,13 @@ export const GetPrivateLinkResource: API.OperationMethod<
 
 export type ListApplicationError = AzureOpError;
 /** Lists all of the applications in the specified account. */
-export const ListApplication: API.OperationMethod<
+export const ListApplication: API.PaginatedOperationMethod<
   ListApplicationRequest,
   ListApplicationsResult,
   ListApplicationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListApplicationRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<ListApplicationsResult>,
   errors: [UnknownAzureError],
@@ -2905,16 +3109,23 @@ export const ListApplication: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplication",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationPackageError = AzureOpError;
 /** Lists all of the application packages in the specified application. */
-export const ListApplicationPackage: API.OperationMethod<
+export const ListApplicationPackage: API.PaginatedOperationMethod<
   ListApplicationPackageRequest,
   ListApplicationPackagesResult,
   ListApplicationPackageError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationPackage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListApplicationPackageRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<ListApplicationPackagesResult>,
   errors: [UnknownAzureError],
@@ -2922,16 +3133,23 @@ export const ListApplicationPackage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationPackage",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBatchAccountError = AzureOpError;
 /** Gets information about the Batch accounts associated with the subscription. */
-export const ListBatchAccount: API.OperationMethod<
+export const ListBatchAccount: API.PaginatedOperationMethod<
   ListBatchAccountRequest,
   BatchAccountListResult,
   ListBatchAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BatchAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListBatchAccountRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<BatchAccountListResult>,
   errors: [UnknownAzureError],
@@ -2939,16 +3157,23 @@ export const ListBatchAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBatchAccountByResourceGroupError = AzureOpError;
 /** Gets information about the Batch accounts associated with the specified resource group. */
-export const ListBatchAccountByResourceGroup: API.OperationMethod<
+export const ListBatchAccountByResourceGroup: API.PaginatedOperationMethod<
   ListBatchAccountByResourceGroupRequest,
   BatchAccountListResult,
   ListBatchAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BatchAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListBatchAccountByResourceGroupRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<BatchAccountListResult>,
   errors: [UnknownAzureError],
@@ -2956,16 +3181,23 @@ export const ListBatchAccountByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBatchAccountDetectorsError = AzureOpError;
 /** Gets information about the detectors available for a given Batch account. */
-export const ListBatchAccountDetectors: API.OperationMethod<
+export const ListBatchAccountDetectors: API.PaginatedOperationMethod<
   ListBatchAccountDetectorsRequest,
   DetectorListResult,
   ListBatchAccountDetectorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DetectorResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListBatchAccountDetectorsRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<DetectorListResult>,
   errors: [UnknownAzureError],
@@ -2973,16 +3205,23 @@ export const ListBatchAccountDetectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchAccountDetectors",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBatchAccountOutboundNetworkDependenciesEndpointsError = AzureOpError;
 /** Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://learn.microsoft.com/azure/batch/batch-virtual-network. */
-export const ListBatchAccountOutboundNetworkDependenciesEndpoints: API.OperationMethod<
+export const ListBatchAccountOutboundNetworkDependenciesEndpoints: API.PaginatedOperationMethod<
   ListBatchAccountOutboundNetworkDependenciesEndpointsRequest,
   OutboundEnvironmentEndpointCollection,
   ListBatchAccountOutboundNetworkDependenciesEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundEnvironmentEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     992,
     __c31,
@@ -2994,16 +3233,23 @@ export const ListBatchAccountOutboundNetworkDependenciesEndpoints: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBatchAccountOutboundNetworkDependenciesEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLocationSupportedVirtualMachineSkusError = AzureOpError;
 /** Gets the list of Batch supported Virtual Machine VM sizes available at the given location. */
-export const ListLocationSupportedVirtualMachineSkus: API.OperationMethod<
+export const ListLocationSupportedVirtualMachineSkus: API.PaginatedOperationMethod<
   ListLocationSupportedVirtualMachineSkusRequest,
   SupportedSkusResult,
   ListLocationSupportedVirtualMachineSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SupportedSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListLocationSupportedVirtualMachineSkusRequest>,
   output: __S(1029, __c32, 5) as any as S.Schema<SupportedSkusResult>,
   errors: [UnknownAzureError],
@@ -3011,16 +3257,23 @@ export const ListLocationSupportedVirtualMachineSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLocationSupportedVirtualMachineSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkSecurityPerimeterConfigurationsError = AzureOpError;
 /** Lists all of the NSP configurations in the specified account. */
-export const ListNetworkSecurityPerimeterConfigurations: API.OperationMethod<
+export const ListNetworkSecurityPerimeterConfigurations: API.PaginatedOperationMethod<
   ListNetworkSecurityPerimeterConfigurationsRequest,
   NetworkSecurityPerimeterConfigurationListResult,
   ListNetworkSecurityPerimeterConfigurationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkSecurityPerimeterConfigurationListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListNetworkSecurityPerimeterConfigurationsRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -3028,16 +3281,23 @@ export const ListNetworkSecurityPerimeterConfigurations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkSecurityPerimeterConfigurations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists available operations for the Microsoft.Batch provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -3045,16 +3305,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolByBatchAccountError = AzureOpError;
 /** Lists all of the pools in the specified account. */
-export const ListPoolByBatchAccount: API.OperationMethod<
+export const ListPoolByBatchAccount: API.PaginatedOperationMethod<
   ListPoolByBatchAccountRequest,
   ListPoolsResult,
   ListPoolByBatchAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListPoolByBatchAccountRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<ListPoolsResult>,
   errors: [UnknownAzureError],
@@ -3062,16 +3329,23 @@ export const ListPoolByBatchAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPoolByBatchAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByBatchAccountError = AzureOpError;
 /** Lists all of the private endpoint connections in the specified account. */
-export const ListPrivateEndpointConnectionByBatchAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionByBatchAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByBatchAccountRequest,
   ListPrivateEndpointConnectionsResult,
   ListPrivateEndpointConnectionByBatchAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListPrivateEndpointConnectionByBatchAccountRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ListPrivateEndpointConnectionsResult>,
   errors: [UnknownAzureError],
@@ -3079,16 +3353,23 @@ export const ListPrivateEndpointConnectionByBatchAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByBatchAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByBatchAccountError = AzureOpError;
 /** Lists all of the private link resources in the specified account. */
-export const ListPrivateLinkResourceByBatchAccount: API.OperationMethod<
+export const ListPrivateLinkResourceByBatchAccount: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByBatchAccountRequest,
   ListPrivateLinkResourcesResult,
   ListPrivateLinkResourceByBatchAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListPrivateLinkResourceByBatchAccountRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<ListPrivateLinkResourcesResult>,
   errors: [UnknownAzureError],
@@ -3096,7 +3377,13 @@ export const ListPrivateLinkResourceByBatchAccount: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByBatchAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NetworkSecurityPerimeterReconcileConfigurationError = AzureOpError;
 /** Reconciles the specified NSP configuration. */
@@ -3112,8 +3399,8 @@ export const NetworkSecurityPerimeterReconcileConfiguration: API.OperationMethod
     0,
   ) as any as S.Schema<NetworkSecurityPerimeterReconcileConfigurationRequest>,
   output: __S(
-    2112,
-    __c66,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<NetworkSecurityPerimeterReconcileConfigurationResponse>,
   errors: [UnknownAzureError],
@@ -3132,7 +3419,7 @@ export const PoolStopResize: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PoolStopResizeRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<PoolStopResizeResponse>,
+  output: __S(1969, __c61, 17) as any as S.Schema<PoolStopResizeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3199,8 +3486,8 @@ export const UpdatePool: API.OperationMethod<
   UpdatePoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UpdatePoolRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<UpdatePoolResponse>,
+  input: __S(1479, __c46, 7) as any as S.Schema<UpdatePoolRequest>,
+  output: __S(1969, __c61, 17) as any as S.Schema<UpdatePoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3242,7 +3529,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}/activate",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ActivateApplicationPackageRequest" });
@@ -3308,7 +3595,7 @@ function __c4(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/syncAutoStorageKeys",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "BatchAccountSynchronizeAutoStorageKeysRequest" });
@@ -3336,7 +3623,7 @@ function __c6(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeletePoolRequest" });
@@ -3356,7 +3643,7 @@ function __c7(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -3384,7 +3671,7 @@ function __c8(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DisablePoolAutoScaleRequest" });
@@ -3404,7 +3691,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetApplicationRequest" });
@@ -3425,7 +3712,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetApplicationPackageRequest" });
@@ -3444,7 +3731,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetBatchAccountRequest" });
@@ -3481,7 +3768,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors/{detectorId}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetBatchAccountDetectorRequest" });
@@ -3522,7 +3809,7 @@ function __c15(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetBatchAccountKeysRequest" });
@@ -3552,7 +3839,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetLocationQuotasRequest" });
@@ -3578,7 +3865,7 @@ function __c18(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetNetworkSecurityPerimeterConfigurationRequest" });
@@ -3691,7 +3978,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CheckLocationNameAvailabilityRequest" });
@@ -3719,7 +4006,7 @@ function __c21(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPoolRequest" });
@@ -3739,7 +4026,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -3759,7 +4046,7 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources/{privateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
@@ -3798,12 +4085,14 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           maxresults: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationRequest" });
@@ -3828,12 +4117,14 @@ function __c26(j: number): any {
           accountName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
           maxresults: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationPackageRequest" });
@@ -3854,12 +4145,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/batchAccounts",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchAccountRequest" });
@@ -3885,12 +4178,14 @@ function __c29(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchAccountByResourceGroupRequest" });
@@ -3904,12 +4199,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchAccountDetectorsRequest" });
@@ -3932,12 +4229,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBatchAccountOutboundNetworkDependenciesEndpointsRequest" });
@@ -3986,12 +4285,14 @@ function __c32(j: number): any {
           locationName: S.String.pipe(T.Label()),
           maxresults: S.optional(S.Number.pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/virtualMachineSkus",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLocationSupportedVirtualMachineSkusRequest" });
@@ -4040,7 +4341,7 @@ function __c33(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateApplicationRequest" });
@@ -4078,12 +4379,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/networkSecurityPerimeterConfigurations",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkSecurityPerimeterConfigurationsRequest" });
@@ -4102,12 +4405,15 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Batch/operations",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4152,17 +4458,19 @@ function __c37(j: number): any {
           maxresults: S.optional(S.Number.pipe(T.Query())),
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolByBatchAccountRequest" });
     case 1:
-      return S.Array(__S(1960, __c61, 8));
+      return S.Array(__S(1969, __c61, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4181,12 +4489,14 @@ function __c38(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           maxresults: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByBatchAccountRequest" });
@@ -4208,12 +4518,14 @@ function __c39(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           maxresults: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByBatchAccountRequest" });
@@ -4242,7 +4554,7 @@ function __c40(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "NetworkSecurityPerimeterReconcileConfigurationRequest" });
@@ -4262,7 +4574,7 @@ function __c41(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "PoolStopResizeRequest" });
@@ -4282,7 +4594,7 @@ function __c42(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateBatchAccountKeyRequest" });
@@ -4304,7 +4616,7 @@ function __c43(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateApplicationRequest" });
@@ -4336,7 +4648,7 @@ function __c44(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBatchAccountRequest" });
@@ -4359,7 +4671,7 @@ function __c45(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateApplicationPackageRequest" });
@@ -4370,19 +4682,91 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          zonePlacementPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlacementPatch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MaxInstancePercentPerZonePolicyPatch" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maxZoneCount: S.optional(S.Number),
+          maxInstancePercentPerZonePolicy: S.optional(__S(1473, __c46, 1)),
+        }),
+      ).annotate({ identifier: "ZoneAllocationPolicyPatch" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          zoneAllocationPolicy: S.optional(__S(1474, __c46, 2)),
+        }),
+      ).annotate({ identifier: "ResiliencyPolicyPatch" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          imageReference: __S(1891, __c59, 3),
+          nodeAgentSkuId: S.String,
+          windowsConfiguration: S.optional(__S(1892, __c59, 4)),
+          dataDisks: S.optional(__S(1897, __c59, 9)),
+          licenseType: S.optional(S.String),
+          containerConfiguration: S.optional(__S(1900, __c59, 12)),
+          diskEncryptionConfiguration: S.optional(__S(1902, __c59, 14)),
+          nodePlacementConfiguration: S.optional(__S(1903, __c59, 15)),
+          extensions: S.optional(__S(1905, __c59, 17)),
+          osDisk: S.optional(__S(1907, __c59, 19)),
+          securityProfile: S.optional(__S(1911, __c59, 23)),
+          serviceArtifactReference: S.optional(__S(1893, __c59, 5)),
+          hardwareProfile: S.optional(__S(1913, __c59, 25)),
+          placement: S.optional(__S(1472, __c46, 0)),
+          resiliencyPolicy: S.optional(__S(1475, __c46, 3)),
+        }),
+      ).annotate({ identifier: "VirtualMachineConfigurationPatch" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          virtualMachineConfiguration: S.optional(__S(1476, __c46, 4)),
+        }),
+      ).annotate({ identifier: "DeploymentConfigurationPatch" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          vmSize: S.optional(S.String),
+          vmSkuProfile: S.optional(__S(1890, __c59, 2)),
+          scaleSettings: S.optional(__S(1922, __c60, 2)),
+          interNodeCommunication: S.optional(S.String),
+          networkConfiguration: S.optional(__S(1931, __c60, 11)),
+          taskSchedulingPolicy: S.optional(__S(1932, __c60, 12)),
+          userAccounts: S.optional(__S(1936, __c60, 16)),
+          metadata: S.optional(__S(1938, __c60, 18)),
+          startTask: S.optional(__S(1948, __c60, 28)),
+          applicationPackages: S.optional(__S(1950, __c60, 30)),
+          mountConfiguration: S.optional(__S(1956, __c61, 4)),
+          upgradePolicy: S.optional(__S(1959, __c61, 7)),
+          deploymentConfiguration: S.optional(__S(1477, __c46, 5)),
+          taskSlotsPerNode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PoolPatchPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1984, __c62, 0)),
           identity: S.optional(__S(1825, __c57, 1)),
           tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(1478, __c46, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePoolRequest" });
@@ -4417,7 +4801,7 @@ function __c47(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
@@ -4467,7 +4851,7 @@ function __c48(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateBatchAccountRequest" });
@@ -4694,11 +5078,31 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          displayName: S.optional(S.String),
+          vmSize: S.optional(S.String),
+          vmSkuProfile: S.optional(__S(1890, __c59, 2)),
+          deploymentConfiguration: S.optional(__S(1919, __c59, 31)),
+          scaleSettings: S.optional(__S(1922, __c60, 2)),
+          interNodeCommunication: S.optional(S.String),
+          networkConfiguration: S.optional(__S(1931, __c60, 11)),
+          taskSlotsPerNode: S.optional(S.Number),
+          taskSchedulingPolicy: S.optional(__S(1932, __c60, 12)),
+          userAccounts: S.optional(__S(1936, __c60, 16)),
+          metadata: S.optional(__S(1938, __c60, 18)),
+          startTask: S.optional(__S(1948, __c60, 28)),
+          applicationPackages: S.optional(__S(1950, __c60, 30)),
+          mountConfiguration: S.optional(__S(1956, __c61, 4)),
+          upgradePolicy: S.optional(__S(1959, __c61, 7)),
+        }),
+      ).annotate({ identifier: "PoolPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1984, __c62, 0)),
+          properties: S.optional(__S(1856, __c58, 0)),
           identity: S.optional(__S(1825, __c57, 1)),
           tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
@@ -4706,7 +5110,7 @@ function __c58(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreatePoolRequest" });
@@ -4715,6 +5119,22 @@ function __c58(j: number): any {
 function __c59(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          rank: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VirtualMachineSkuProfileVmSize" });
+    case 1:
+      return S.Array(__S(1888, __c59, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          vmSizes: S.optional(__S(1889, __c59, 1)),
+          allocationStrategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineSkuProfile" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           publisher: S.optional(S.String),
@@ -4726,45 +5146,45 @@ function __c59(j: number): any {
           communityGalleryImageId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageReference" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           enableAutomaticUpdates: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WindowsConfiguration" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
         }),
       ).annotate({ identifier: "DiskEncryptionSetParameters" });
-    case 3:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           securityEncryptionType: S.optional(S.String),
-          diskEncryptionSet: S.optional(__S(1890, __c59, 2)),
+          diskEncryptionSet: S.optional(__S(1893, __c59, 5)),
         }),
       ).annotate({ identifier: "VMDiskSecurityProfile" });
-    case 4:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           storageAccountType: S.optional(S.String),
-          securityProfile: S.optional(__S(1891, __c59, 3)),
-          diskEncryptionSet: S.optional(__S(1890, __c59, 2)),
+          securityProfile: S.optional(__S(1894, __c59, 6)),
+          diskEncryptionSet: S.optional(__S(1893, __c59, 5)),
         }),
       ).annotate({ identifier: "ManagedDisk" });
-    case 5:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           lun: S.Number,
           caching: S.optional(S.String),
           diskSizeGB: S.Number,
-          managedDisk: S.optional(__S(1892, __c59, 4)),
+          managedDisk: S.optional(__S(1895, __c59, 7)),
         }),
       ).annotate({ identifier: "DataDisk" });
-    case 6:
-      return S.Array(__S(1893, __c59, 5));
-    case 7:
+    case 9:
+      return S.Array(__S(1896, __c59, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
@@ -4773,17 +5193,17 @@ function __c59(j: number): any {
           identityReference: S.optional(__S(1792, __c56, 0)),
         }),
       ).annotate({ identifier: "ContainerRegistry" });
-    case 8:
-      return S.Array(__S(1895, __c59, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(1898, __c59, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           containerImageNames: S.optional(__S(1760, __c55, 0)),
-          containerRegistries: S.optional(__S(1896, __c59, 8)),
+          containerRegistries: S.optional(__S(1899, __c59, 11)),
         }),
       ).annotate({ identifier: "ContainerConfiguration" });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           keyUrl: S.optional(S.String),
@@ -4791,20 +5211,20 @@ function __c59(j: number): any {
           identityReference: S.optional(__S(1792, __c56, 0)),
         }),
       ).annotate({ identifier: "DiskCustomerManagedKey" });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           targets: S.optional(__S(1793, __c56, 1)),
-          customerManagedKey: S.optional(__S(1898, __c59, 10)),
+          customerManagedKey: S.optional(__S(1901, __c59, 13)),
         }),
       ).annotate({ identifier: "DiskEncryptionConfiguration" });
-    case 12:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodePlacementConfiguration" });
-    case 13:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -4818,79 +5238,125 @@ function __c59(j: number): any {
           provisionAfterExtensions: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "VMExtension" });
-    case 14:
-      return S.Array(__S(1901, __c59, 13));
-    case 15:
+    case 17:
+      return S.Array(__S(1904, __c59, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           placement: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiffDiskSettings" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          ephemeralOSDiskSettings: S.optional(__S(1903, __c59, 15)),
+          ephemeralOSDiskSettings: S.optional(__S(1906, __c59, 18)),
           caching: S.optional(S.String),
-          managedDisk: S.optional(__S(1892, __c59, 4)),
+          managedDisk: S.optional(__S(1895, __c59, 7)),
           diskSizeGB: S.optional(S.Number),
           writeAcceleratorEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OSDisk" });
-    case 17:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           secureBootEnabled: S.optional(S.Boolean),
           vTpmEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UefiSettings" });
-    case 18:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           inVMAccessControlProfileReferenceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostEndpointSettings" });
-    case 19:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          imds: S.optional(__S(1906, __c59, 18)),
-          wireServer: S.optional(__S(1906, __c59, 18)),
+          imds: S.optional(__S(1909, __c59, 21)),
+          wireServer: S.optional(__S(1909, __c59, 21)),
         }),
       ).annotate({ identifier: "ProxyAgentSettings" });
-    case 20:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           securityType: S.optional(S.String),
           encryptionAtHost: S.optional(S.Boolean),
-          uefiSettings: S.optional(__S(1905, __c59, 17)),
-          proxyAgentSettings: S.optional(__S(1907, __c59, 19)),
+          uefiSettings: S.optional(__S(1908, __c59, 20)),
+          proxyAgentSettings: S.optional(__S(1910, __c59, 22)),
         }),
       ).annotate({ identifier: "SecurityProfile" });
-    case 21:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          imageReference: __S(1888, __c59, 0),
+          vCPUsAvailable: S.optional(S.Number),
+          vCPUsPerCore: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VmSizeProperties" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          vmSizeProperties: S.optional(__S(1912, __c59, 24)),
+        }),
+      ).annotate({ identifier: "HardwareProfile" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          zonePlacementPolicy: S.String,
+        }),
+      ).annotate({ identifier: "Placement" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "MaxInstancePercentPerZonePolicy" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          maxZoneCount: S.optional(S.Number),
+          maxInstancePercentPerZonePolicy: S.optional(__S(1915, __c59, 27)),
+        }),
+      ).annotate({ identifier: "ZoneAllocationPolicy" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          zoneAllocationPolicy: __S(1916, __c59, 28),
+        }),
+      ).annotate({ identifier: "ResiliencyPolicy" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          imageReference: __S(1891, __c59, 3),
           nodeAgentSkuId: S.String,
-          windowsConfiguration: S.optional(__S(1889, __c59, 1)),
-          dataDisks: S.optional(__S(1894, __c59, 6)),
+          windowsConfiguration: S.optional(__S(1892, __c59, 4)),
+          dataDisks: S.optional(__S(1897, __c59, 9)),
           licenseType: S.optional(S.String),
-          containerConfiguration: S.optional(__S(1897, __c59, 9)),
-          diskEncryptionConfiguration: S.optional(__S(1899, __c59, 11)),
-          nodePlacementConfiguration: S.optional(__S(1900, __c59, 12)),
-          extensions: S.optional(__S(1902, __c59, 14)),
-          osDisk: S.optional(__S(1904, __c59, 16)),
-          securityProfile: S.optional(__S(1908, __c59, 20)),
-          serviceArtifactReference: S.optional(__S(1890, __c59, 2)),
+          containerConfiguration: S.optional(__S(1900, __c59, 12)),
+          diskEncryptionConfiguration: S.optional(__S(1902, __c59, 14)),
+          nodePlacementConfiguration: S.optional(__S(1903, __c59, 15)),
+          extensions: S.optional(__S(1905, __c59, 17)),
+          osDisk: S.optional(__S(1907, __c59, 19)),
+          securityProfile: S.optional(__S(1911, __c59, 23)),
+          serviceArtifactReference: S.optional(__S(1893, __c59, 5)),
+          hardwareProfile: S.optional(__S(1913, __c59, 25)),
+          placement: S.optional(__S(1914, __c59, 26)),
+          resiliencyPolicy: S.optional(__S(1917, __c59, 29)),
         }),
       ).annotate({ identifier: "VirtualMachineConfiguration" });
-    case 22:
+    case 31:
       return S.suspend(() =>
         S.Struct({
-          virtualMachineConfiguration: S.optional(__S(1909, __c59, 21)),
+          virtualMachineConfiguration: S.optional(__S(1918, __c59, 30)),
         }),
       ).annotate({ identifier: "DeploymentConfiguration" });
-    case 23:
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           resizeTimeout: S.optional(S.String),
@@ -4899,21 +5365,21 @@ function __c59(j: number): any {
           nodeDeallocationOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "FixedScaleSettings" });
-    case 24:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           formula: S.String,
           evaluationInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoScaleSettings" });
-    case 25:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          fixedScale: S.optional(__S(1911, __c59, 23)),
-          autoScale: S.optional(__S(1912, __c59, 24)),
+          fixedScale: S.optional(__S(1920, __c60, 0)),
+          autoScale: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ScaleSettings" });
-    case 26:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           priority: S.Number,
@@ -4922,9 +5388,9 @@ function __c59(j: number): any {
           sourcePortRanges: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "NetworkSecurityGroupRule" });
-    case 27:
-      return S.Array(__S(1914, __c59, 26));
-    case 28:
+    case 4:
+      return S.Array(__S(1923, __c60, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -4932,57 +5398,53 @@ function __c59(j: number): any {
           backendPort: S.Number,
           frontendPortRangeStart: S.Number,
           frontendPortRangeEnd: S.Number,
-          networkSecurityGroupRules: S.optional(__S(1915, __c59, 27)),
+          networkSecurityGroupRules: S.optional(__S(1924, __c60, 4)),
         }),
       ).annotate({ identifier: "InboundNatPool" });
-    case 29:
-      return S.Array(__S(1916, __c59, 28));
-    case 30:
+    case 6:
+      return S.Array(__S(1925, __c60, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          inboundNatPools: __S(1917, __c59, 29),
+          inboundNatPools: __S(1926, __c60, 6),
         }),
       ).annotate({ identifier: "PoolEndpointConfiguration" });
-    case 31:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           ipTagType: S.optional(S.String),
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "IPTag" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1919, __c59, 31));
-    case 1:
+    case 9:
+      return S.Array(__S(1928, __c60, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           provision: S.optional(S.String),
           ipAddressIds: S.optional(__S(1760, __c55, 0)),
           ipFamilies: S.optional(__S(1793, __c56, 1)),
-          ipTags: S.optional(__S(1920, __c60, 0)),
+          ipTags: S.optional(__S(1929, __c60, 9)),
         }),
       ).annotate({ identifier: "PublicIPAddressConfiguration" });
-    case 2:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           subnetId: S.optional(S.String),
           dynamicVnetAssignmentScope: S.optional(S.String),
-          endpointConfiguration: S.optional(__S(1918, __c59, 30)),
-          publicIPAddressConfiguration: S.optional(__S(1921, __c60, 1)),
+          endpointConfiguration: S.optional(__S(1927, __c60, 7)),
+          publicIPAddressConfiguration: S.optional(__S(1930, __c60, 10)),
           enableAcceleratedNetworking: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NetworkConfiguration" });
-    case 3:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           jobDefaultOrder: S.optional(S.String),
           nodeFillType: S.String,
         }),
       ).annotate({ identifier: "TaskSchedulingPolicy" });
-    case 4:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           uid: S.optional(S.Number),
@@ -4990,34 +5452,34 @@ function __c60(j: number): any {
           sshPrivateKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinuxUserConfiguration" });
-    case 5:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           loginMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "WindowsUserConfiguration" });
-    case 6:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           elevationLevel: S.optional(S.String),
-          linuxUserConfiguration: S.optional(__S(1924, __c60, 4)),
-          windowsUserConfiguration: S.optional(__S(1925, __c60, 5)),
+          linuxUserConfiguration: S.optional(__S(1933, __c60, 13)),
+          windowsUserConfiguration: S.optional(__S(1934, __c60, 14)),
         }),
       ).annotate({ identifier: "UserAccount" });
-    case 7:
-      return S.Array(__S(1926, __c60, 6));
-    case 8:
+    case 16:
+      return S.Array(__S(1935, __c60, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           value: S.String,
         }),
       ).annotate({ identifier: "MetadataItem" });
-    case 9:
-      return S.Array(__S(1928, __c60, 8));
-    case 10:
+    case 18:
+      return S.Array(__S(1937, __c60, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           autoStorageContainerName: S.optional(S.String),
@@ -5029,72 +5491,72 @@ function __c60(j: number): any {
           identityReference: S.optional(__S(1792, __c56, 0)),
         }),
       ).annotate({ identifier: "ResourceFile" });
-    case 11:
-      return S.Array(__S(1930, __c60, 10));
-    case 12:
+    case 20:
+      return S.Array(__S(1939, __c60, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentSetting" });
-    case 13:
-      return S.Array(__S(1932, __c60, 12));
-    case 14:
+    case 22:
+      return S.Array(__S(1941, __c60, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           scope: S.optional(S.String),
           elevationLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoUserSpecification" });
-    case 15:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           userName: S.optional(S.String),
-          autoUser: S.optional(__S(1934, __c60, 14)),
+          autoUser: S.optional(__S(1943, __c60, 23)),
         }),
       ).annotate({ identifier: "UserIdentity" });
-    case 16:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
           isReadOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ContainerHostBatchBindMountEntry" });
-    case 17:
-      return S.Array(__S(1936, __c60, 16));
-    case 18:
+    case 26:
+      return S.Array(__S(1945, __c60, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           containerRunOptions: S.optional(S.String),
           imageName: S.String,
-          registry: S.optional(__S(1895, __c59, 7)),
+          registry: S.optional(__S(1898, __c59, 10)),
           workingDirectory: S.optional(S.String),
-          containerHostBatchBindMounts: S.optional(__S(1937, __c60, 17)),
+          containerHostBatchBindMounts: S.optional(__S(1946, __c60, 26)),
         }),
       ).annotate({ identifier: "TaskContainerSettings" });
-    case 19:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           commandLine: S.optional(S.String),
-          resourceFiles: S.optional(__S(1931, __c60, 11)),
-          environmentSettings: S.optional(__S(1933, __c60, 13)),
-          userIdentity: S.optional(__S(1935, __c60, 15)),
+          resourceFiles: S.optional(__S(1940, __c60, 20)),
+          environmentSettings: S.optional(__S(1942, __c60, 22)),
+          userIdentity: S.optional(__S(1944, __c60, 24)),
           maxTaskRetryCount: S.optional(S.Number),
           waitForSuccess: S.optional(S.Boolean),
-          containerSettings: S.optional(__S(1938, __c60, 18)),
+          containerSettings: S.optional(__S(1947, __c60, 27)),
         }),
       ).annotate({ identifier: "StartTask" });
-    case 20:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationPackageReference" });
-    case 21:
-      return S.Array(__S(1940, __c60, 20));
-    case 22:
+    case 30:
+      return S.Array(__S(1949, __c60, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           accountName: S.String,
@@ -5106,7 +5568,11 @@ function __c60(j: number): any {
           identityReference: S.optional(__S(1792, __c56, 0)),
         }),
       ).annotate({ identifier: "AzureBlobFileSystemConfiguration" });
-    case 23:
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           source: S.String,
@@ -5114,7 +5580,7 @@ function __c60(j: number): any {
           mountOptions: S.optional(S.String),
         }),
       ).annotate({ identifier: "NFSMountConfiguration" });
-    case 24:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           userName: S.String,
@@ -5124,7 +5590,7 @@ function __c60(j: number): any {
           password: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CIFSMountConfiguration" });
-    case 25:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           accountName: S.String,
@@ -5134,18 +5600,18 @@ function __c60(j: number): any {
           mountOptions: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureFileShareConfiguration" });
-    case 26:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          azureBlobFileSystemConfiguration: S.optional(__S(1942, __c60, 22)),
-          nfsMountConfiguration: S.optional(__S(1943, __c60, 23)),
-          cifsMountConfiguration: S.optional(__S(1944, __c60, 24)),
-          azureFileShareConfiguration: S.optional(__S(1945, __c60, 25)),
+          azureBlobFileSystemConfiguration: S.optional(__S(1951, __c60, 31)),
+          nfsMountConfiguration: S.optional(__S(1952, __c61, 0)),
+          cifsMountConfiguration: S.optional(__S(1953, __c61, 1)),
+          azureFileShareConfiguration: S.optional(__S(1954, __c61, 2)),
         }),
       ).annotate({ identifier: "MountConfiguration" });
-    case 27:
-      return S.Array(__S(1946, __c60, 26));
-    case 28:
+    case 4:
+      return S.Array(__S(1955, __c61, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           disableAutomaticRollback: S.optional(S.Boolean),
@@ -5154,7 +5620,7 @@ function __c60(j: number): any {
           osRollingUpgradeDeferral: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutomaticOSUpgradePolicy" });
-    case 29:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           enableCrossZoneUpgrade: S.optional(S.Boolean),
@@ -5166,49 +5632,45 @@ function __c60(j: number): any {
           rollbackFailedInstancesOnPolicyBreach: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RollingUpgradePolicy" });
-    case 30:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
-          automaticOSUpgradePolicy: S.optional(__S(1948, __c60, 28)),
-          rollingUpgradePolicy: S.optional(__S(1949, __c60, 29)),
+          automaticOSUpgradePolicy: S.optional(__S(1957, __c61, 5)),
+          rollingUpgradePolicy: S.optional(__S(1958, __c61, 6)),
         }),
       ).annotate({ identifier: "UpgradePolicy" });
-    case 31:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1952, __c61, 0)));
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
+    case 8:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1961, __c61, 9)));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
-          details: S.optional(__S(1951, __c60, 31)),
+          details: S.optional(__S(1960, __c61, 8)),
         }),
       ).annotate({ identifier: "AutoScaleRunError" });
-    case 1:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           evaluationTime: S.String,
           results: S.optional(S.String),
-          error: S.optional(__S(1952, __c61, 0)),
+          error: S.optional(__S(1961, __c61, 9)),
         }),
       ).annotate({ identifier: "AutoScaleRun" });
-    case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1955, __c61, 3)));
-    case 3:
+    case 11:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1964, __c61, 12)));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
-          details: S.optional(__S(1954, __c61, 2)),
+          details: S.optional(__S(1963, __c61, 11)),
         }),
       ).annotate({ identifier: "ResizeError" });
-    case 4:
-      return S.Array(__S(1955, __c61, 3));
-    case 5:
+    case 13:
+      return S.Array(__S(1964, __c61, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           targetDedicatedNodes: S.optional(S.Number),
@@ -5216,10 +5678,10 @@ function __c61(j: number): any {
           resizeTimeout: S.optional(S.String),
           nodeDeallocationOption: S.optional(S.String),
           startTime: S.optional(S.String),
-          errors: S.optional(__S(1956, __c61, 4)),
+          errors: S.optional(__S(1965, __c61, 13)),
         }),
       ).annotate({ identifier: "ResizeOperationStatus" });
-    case 6:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
@@ -5230,40 +5692,41 @@ function __c61(j: number): any {
           allocationState: S.optional(S.String),
           allocationStateTransitionTime: S.optional(S.String),
           vmSize: S.optional(S.String),
-          deploymentConfiguration: S.optional(__S(1910, __c59, 22)),
+          vmSkuProfile: S.optional(__S(1890, __c59, 2)),
+          deploymentConfiguration: S.optional(__S(1919, __c59, 31)),
           currentDedicatedNodes: S.optional(S.Number),
           currentLowPriorityNodes: S.optional(S.Number),
-          scaleSettings: S.optional(__S(1913, __c59, 25)),
-          autoScaleRun: S.optional(__S(1953, __c61, 1)),
+          scaleSettings: S.optional(__S(1922, __c60, 2)),
+          autoScaleRun: S.optional(__S(1962, __c61, 10)),
           interNodeCommunication: S.optional(S.String),
-          networkConfiguration: S.optional(__S(1922, __c60, 2)),
+          networkConfiguration: S.optional(__S(1931, __c60, 11)),
           taskSlotsPerNode: S.optional(S.Number),
-          taskSchedulingPolicy: S.optional(__S(1923, __c60, 3)),
-          userAccounts: S.optional(__S(1927, __c60, 7)),
-          metadata: S.optional(__S(1929, __c60, 9)),
-          startTask: S.optional(__S(1939, __c60, 19)),
-          applicationPackages: S.optional(__S(1941, __c60, 21)),
-          resizeOperationStatus: S.optional(__S(1957, __c61, 5)),
-          mountConfiguration: S.optional(__S(1947, __c60, 27)),
-          upgradePolicy: S.optional(__S(1950, __c60, 30)),
+          taskSchedulingPolicy: S.optional(__S(1932, __c60, 12)),
+          userAccounts: S.optional(__S(1936, __c60, 16)),
+          metadata: S.optional(__S(1938, __c60, 18)),
+          startTask: S.optional(__S(1948, __c60, 28)),
+          applicationPackages: S.optional(__S(1950, __c60, 30)),
+          resizeOperationStatus: S.optional(__S(1966, __c61, 14)),
+          mountConfiguration: S.optional(__S(1956, __c61, 4)),
+          upgradePolicy: S.optional(__S(1959, __c61, 7)),
         }),
       ).annotate({ identifier: "PoolProperties" });
-    case 7:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           userAssignedIdentities: S.optional(__S(1795, __c56, 3)),
         }),
       ).annotate({ identifier: "BatchPoolIdentity" });
-    case 8:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(1958, __c61, 6)),
-          identity: S.optional(__S(1959, __c61, 7)),
+          properties: S.optional(__S(1967, __c61, 15)),
+          identity: S.optional(__S(1968, __c61, 16)),
           etag: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
         }),
@@ -5271,29 +5734,6 @@ function __c61(j: number): any {
   }
 }
 function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          vmSize: S.optional(S.String),
-          deploymentConfiguration: S.optional(__S(1910, __c59, 22)),
-          scaleSettings: S.optional(__S(1913, __c59, 25)),
-          interNodeCommunication: S.optional(S.String),
-          networkConfiguration: S.optional(__S(1922, __c60, 2)),
-          taskSlotsPerNode: S.optional(S.Number),
-          taskSchedulingPolicy: S.optional(__S(1923, __c60, 3)),
-          userAccounts: S.optional(__S(1927, __c60, 7)),
-          metadata: S.optional(__S(1929, __c60, 9)),
-          startTask: S.optional(__S(1939, __c60, 19)),
-          applicationPackages: S.optional(__S(1941, __c60, 21)),
-          mountConfiguration: S.optional(__S(1947, __c60, 27)),
-          upgradePolicy: S.optional(__S(1950, __c60, 30)),
-        }),
-      ).annotate({ identifier: "PoolPropertiesInput" });
-  }
-}
-function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5307,13 +5747,13 @@ function __c63(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5328,13 +5768,13 @@ function __c64(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteApplicationPackageRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5347,13 +5787,13 @@ function __c65(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
             code: 200,
-            apiVersion: "2025-06-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBatchAccountRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -128,12 +128,11 @@ const wrap = (
   whole: boolean,
   siblingNames?: ReadonlySet<string>,
 ): unknown => {
-  if (
-    value === null ||
-    typeof value !== "object" ||
-    isOpaqueValue(value) ||
-    Redacted.isRedacted(value)
-  ) {
+  if (Redacted.isRedacted(value)) return value;
+  // The value's own type is sensitive: a response whose whole body is the
+  // secret (a bare-payload root).
+  if (isSensitive(ast) && isSecretValue(ast, value, whole)) return Redacted.make(value);
+  if (value === null || typeof value !== "object" || isOpaqueValue(value)) {
     return value;
   }
   const node = resolveNode(ast);

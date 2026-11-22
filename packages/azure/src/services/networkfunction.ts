@@ -308,6 +308,8 @@ export interface ListAzureTrafficCollectorsByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AzureTrafficCollectorTagsMap = { [key: string]: string | undefined };
@@ -342,6 +344,8 @@ export interface AzureTrafficCollectorListResult {
 export interface ListAzureTrafficCollectorsBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCollectorPoliciesRequest {
   /** The ID of the target subscription. */
@@ -350,6 +354,8 @@ export interface ListCollectorPoliciesRequest {
   resourceGroupName: string;
   /** Azure Traffic Collector name */
   azureTrafficCollectorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CollectorPolicyTagsMap = { [key: string]: string | undefined };
@@ -381,7 +387,10 @@ export interface CollectorPolicyListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListNetworkFunctionOperationsRequest {}
+export interface ListNetworkFunctionOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft NetworkFunction. */
@@ -583,12 +592,13 @@ export const GetCollectorPolicy: API.OperationMethod<
 
 export type ListAzureTrafficCollectorsByResourceGroupError = AzureOpError;
 /** Return list of Azure Traffic Collectors in a Resource Group */
-export const ListAzureTrafficCollectorsByResourceGroup: API.OperationMethod<
+export const ListAzureTrafficCollectorsByResourceGroup: API.PaginatedOperationMethod<
   ListAzureTrafficCollectorsByResourceGroupRequest,
   AzureTrafficCollectorListResult,
   ListAzureTrafficCollectorsByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureTrafficCollector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListAzureTrafficCollectorsByResourceGroupRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<AzureTrafficCollectorListResult>,
   errors: [UnknownAzureError],
@@ -596,16 +606,23 @@ export const ListAzureTrafficCollectorsByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureTrafficCollectorsByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureTrafficCollectorsBySubscriptionError = AzureOpError;
 /** Return list of Azure Traffic Collectors in a subscription */
-export const ListAzureTrafficCollectorsBySubscription: API.OperationMethod<
+export const ListAzureTrafficCollectorsBySubscription: API.PaginatedOperationMethod<
   ListAzureTrafficCollectorsBySubscriptionRequest,
   AzureTrafficCollectorListResult,
   ListAzureTrafficCollectorsBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureTrafficCollector
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListAzureTrafficCollectorsBySubscriptionRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<AzureTrafficCollectorListResult>,
   errors: [UnknownAzureError],
@@ -613,16 +630,23 @@ export const ListAzureTrafficCollectorsBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureTrafficCollectorsBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCollectorPoliciesError = AzureOpError;
 /** Return list of Collector policies in a Azure Traffic Collector */
-export const ListCollectorPolicies: API.OperationMethod<
+export const ListCollectorPolicies: API.PaginatedOperationMethod<
   ListCollectorPoliciesRequest,
   CollectorPolicyListResult,
   ListCollectorPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CollectorPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListCollectorPoliciesRequest>,
   output: __S(138, __c17, 2) as any as S.Schema<CollectorPolicyListResult>,
   errors: [UnknownAzureError],
@@ -630,16 +654,23 @@ export const ListCollectorPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCollectorPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkFunctionOperationsError = AzureOpError;
 /** Lists all of the available NetworkFunction Rest API operations. */
-export const ListNetworkFunctionOperations: API.OperationMethod<
+export const ListNetworkFunctionOperations: API.PaginatedOperationMethod<
   ListNetworkFunctionOperationsRequest,
   OperationListResult,
   ListNetworkFunctionOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListNetworkFunctionOperationsRequest>,
   output: __S(148, __c18, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -647,7 +678,13 @@ export const ListNetworkFunctionOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFunctionOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateAzureTrafficCollectorTagsError = AzureOpError;
 /** Updates the specified Azure Traffic Collector tags. */
@@ -1018,12 +1055,14 @@ function __c14(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureTrafficCollectorsByResourceGroupRequest" });
@@ -1048,12 +1087,14 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureTrafficCollectorsBySubscriptionRequest" });
@@ -1067,12 +1108,14 @@ function __c17(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           azureTrafficCollectorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCollectorPoliciesRequest" });
@@ -1091,12 +1134,15 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.NetworkFunction/operations",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkFunctionOperationsRequest" });

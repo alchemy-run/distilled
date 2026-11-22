@@ -102,6 +102,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "meilisearch" },
   { package: "mercury" },
   { package: "metabase" },
+  { package: "microsoft-graph" },
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
@@ -144,6 +145,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   // of the docs.slack.dev reference pages.
   { package: "slack" },
   { package: "spacetimedb" },
+  { package: "sproutboat" },
   { package: "stackit" },
   { package: "squarespace" },
   { package: "starburst-galaxy" },

@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -68,6 +69,9 @@ const baseUrlFor = (creds: Config, uri: string): string => {
         `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
     });
   }
+  // The basin becomes a label of the host name.
+  const invalid = invalidHostLabelConfig("S2 basin", creds.basin);
+  if (invalid !== undefined) throw invalid;
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 

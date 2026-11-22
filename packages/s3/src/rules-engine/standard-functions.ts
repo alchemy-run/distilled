@@ -5,6 +5,7 @@
  * @see https://smithy.io/2.0/additional-specs/rules-engine/specification.html#standard-library-functions
  */
 
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import type { ParsedUrl, RulesValue } from "./expression.ts";
 
 /** Returns true if the value is set (not null or undefined). */
@@ -158,39 +159,7 @@ export function uriEncode(value: RulesValue): RulesValue {
   return encodeURIComponent(value);
 }
 
-/** Checks if a string is a valid DNS host label. */
+/** Checks if a string is a valid DNS host label (core `isHostLabel`). */
 export function isValidHostLabel(value: RulesValue, allowSubDomains: RulesValue): boolean {
-  if (typeof value !== "string" || value.length === 0) {
-    return false;
-  }
-
-  if (allowSubDomains) {
-    // Split by dots and validate each label
-    const labels = value.split(".");
-    return labels.every((label) => isValidSingleHostLabel(label));
-  }
-
-  return isValidSingleHostLabel(value);
-}
-
-/**
- * Validates a single DNS label (no dots).
- * - Must be 1-63 characters
- * - Must start and end with alphanumeric
- * - Can contain alphanumeric and hyphens
- */
-function isValidSingleHostLabel(label: string): boolean {
-  if (label.length < 1 || label.length > 63) {
-    return false;
-  }
-
-  // Must match RFC 1123 host label pattern
-  const pattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/;
-
-  // Single character labels are valid
-  if (label.length === 1) {
-    return /^[a-zA-Z0-9]$/.test(label);
-  }
-
-  return pattern.test(label);
+  return isHostLabel(value, Boolean(allowSubDomains));
 }

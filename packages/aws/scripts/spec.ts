@@ -30,6 +30,7 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/gene
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
 import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
+import { q } from "@distilled.cloud/dev/codegen/naming";
 import {
   assertPaginationFields,
   defaultStrategyFields,
@@ -52,6 +53,78 @@ const ERROR_TAG_TRAIT = "aws.codegen#errorTag";
 const SYNTHETIC_TRAIT = "aws.codegen#synthetic";
 
 type MessageMatcher = string | { readonly includes?: string; readonly matches?: string };
+
+// =============================================================================
+// Emitting model values
+// =============================================================================
+
+// Every value read from a model or a patch reaches the generated source
+// through one of these: strings as JSON string literals, numbers only when
+// they are finite numbers, names only when they are plain identifiers.
+// `scripts/generate.ts` refuses to run if this file or compile-rules.ts
+// quotes an interpolation by hand.
+
+/** A model string as a TS string literal. */
+const lit = (value: unknown): string => {
+  if (typeof value !== "string") {
+    throw new Error(`expected a string in the model, got ${JSON.stringify(value)}`);
+  }
+  return q(value);
+};
+
+/** A model number as a TS numeric literal. */
+const num = (value: unknown): string => {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`expected a number in the model, got ${JSON.stringify(value)}`);
+  }
+  return String(value);
+};
+
+const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*$/;
+
+/** Throw unless `name`, read from a model, is a plain identifier. */
+export const assertIdentifier = (name: string, where: string): void => {
+  if (!IDENTIFIER.test(name)) {
+    throw new Error(`${where}: ${JSON.stringify(name)} is not a valid identifier`);
+  }
+};
+
+/** Throw unless `name`, taken from a model, is safe as an output file name. */
+export const assertModuleName = (name: string): string => {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    throw new Error(`${JSON.stringify(name)} is not a valid module name`);
+  }
+  return name;
+};
+
+/** `SimpleDB` → `simpledb`, `API Gateway` → `api-gateway`: the service's file name. */
+export const moduleName = (sdkId: string): string =>
+  assertModuleName(sdkId.toLowerCase().replaceAll(" ", "-"));
+
+/**
+ * Shape names, member names and the shapes they target become TS
+ * identifiers and object keys as they are. Smithy allows only identifiers
+ * there, but nothing checks a model or a patch against that grammar.
+ */
+export const assertIdentifiers = (model: SmithyModel): void => {
+  const check = assertIdentifier;
+  const checkTarget = (ref: { target?: unknown } | undefined, where: string) => {
+    if (ref?.target === undefined) return;
+    if (typeof ref.target !== "string") throw new Error(`${where}: target is not a string`);
+    check(ref.target.split("#")[1] ?? "", where);
+  };
+  for (const [id, shape] of Object.entries(model.shapes as Record<string, any>)) {
+    check(id.split("#")[1] ?? "", "shape id");
+    for (const [memberName, member] of Object.entries<any>(shape.members ?? {})) {
+      check(memberName, `member of ${id}`);
+      checkTarget(member, `${id}$${memberName}`);
+    }
+    for (const key of ["member", "key", "value", "input", "output"]) {
+      checkTarget(shape[key], `${id} ${key}`);
+    }
+    for (const error of shape.errors ?? []) checkTarget(error, `${id} errors`);
+  }
+};
 
 // =============================================================================
 // Naming
@@ -211,8 +284,8 @@ interface XmlNamespaceTrait {
 
 const xmlNamespaceAnnotation = (ns: XmlNamespaceTrait): string =>
   ns.prefix === undefined
-    ? `T.XmlNamespace(${JSON.stringify(ns.uri)})`
-    : `T.XmlNamespace(${JSON.stringify(ns.uri)}, ${JSON.stringify(ns.prefix)})`;
+    ? `T.XmlNamespace(${lit(ns.uri)})`
+    : `T.XmlNamespace(${lit(ns.uri)}, ${lit(ns.prefix)})`;
 
 /**
  * Collect serialization-relevant trait annotations from a Smithy traits
@@ -226,35 +299,35 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   const pipes: string[] = [];
 
   if (traits["smithy.api#httpHeader"] != null) {
-    pipes.push(`T.HttpHeader("${traits["smithy.api#httpHeader"]}")`);
+    pipes.push(`T.HttpHeader(${lit(traits["smithy.api#httpHeader"])})`);
   }
   if (traits["smithy.api#httpPayload"] != null) {
     pipes.push(`T.HttpPayload()`);
   }
   if (traits["smithy.api#httpLabel"] != null) {
     if (memberName) {
-      pipes.push(`T.HttpLabel("${memberName}")`);
+      pipes.push(`T.HttpLabel(${lit(memberName)})`);
     } else {
       pipes.push(`T.HttpLabel()`);
     }
   }
   if (traits["smithy.api#httpQuery"] != null) {
-    pipes.push(`T.HttpQuery("${traits["smithy.api#httpQuery"]}")`);
+    pipes.push(`T.HttpQuery(${lit(traits["smithy.api#httpQuery"])})`);
   }
   if (traits["smithy.api#httpQueryParams"] != null) {
     pipes.push(`T.HttpQueryParams()`);
   }
   if (traits["smithy.api#httpPrefixHeaders"] != null) {
-    pipes.push(`T.HttpPrefixHeaders("${traits["smithy.api#httpPrefixHeaders"]}")`);
+    pipes.push(`T.HttpPrefixHeaders(${lit(traits["smithy.api#httpPrefixHeaders"])})`);
   }
   if (traits["smithy.api#httpResponseCode"] != null) {
     pipes.push(`T.HttpResponseCode()`);
   }
   if (traits["smithy.api#mediaType"] != null) {
-    pipes.push(`T.MediaType(${JSON.stringify(traits["smithy.api#mediaType"])})`);
+    pipes.push(`T.MediaType(${lit(traits["smithy.api#mediaType"])})`);
   }
   if (traits["smithy.api#xmlName"] != null) {
-    pipes.push(`T.XmlName("${traits["smithy.api#xmlName"]}")`);
+    pipes.push(`T.XmlName(${lit(traits["smithy.api#xmlName"])})`);
   }
   if (traits["smithy.api#xmlFlattened"] != null) {
     pipes.push(`T.XmlFlattened()`);
@@ -274,13 +347,13 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
     const contextParam = traits["smithy.rules#contextParam"] as {
       name: string;
     };
-    pipes.push(`T.ContextParam("${contextParam.name}")`);
+    pipes.push(`T.ContextParam(${lit(contextParam.name)})`);
   }
   if (traits["smithy.api#hostLabel"] != null) {
     pipes.push(`T.HostLabel()`);
   }
   if (traits["aws.protocols#ec2QueryName"] != null) {
-    pipes.push(`T.Ec2QueryName("${traits["aws.protocols#ec2QueryName"]}")`);
+    pipes.push(`T.Ec2QueryName(${lit(traits["aws.protocols#ec2QueryName"])})`);
   }
   if (traits["smithy.api#eventPayload"] != null) {
     pipes.push(`T.EventPayload()`);
@@ -307,7 +380,7 @@ function applyTraitsToSchema(
   if (pipes.length > 0) {
     let result = `${schema}.pipe(${pipes.join(", ")})`;
     if (identifier) {
-      result = `${result}.annotate({ identifier: "${identifier}" })`;
+      result = `${result}.annotate({ identifier: ${lit(identifier)} })`;
     }
     return result;
   }
@@ -939,6 +1012,7 @@ const smithyPrimitiveToTs: Record<string, string> = {
  * so every override is a trait or shape here.
  */
 export const awsSpec = (model: SmithyModel): SdkSpec => {
+  assertIdentifiers(model);
   const shapes = model.shapes as Record<string, any>;
 
   // --- Service-level facts ---------------------------------------------------
@@ -1143,7 +1217,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       if (format === "date-time") {
         return `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
       }
-      return `S.Date.pipe(T.TimestampFormat("${format}"))`;
+      return `S.Date.pipe(T.TimestampFormat(${lit(format)}))`;
     }
     if (isJsonProtocol) {
       return `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`;
@@ -1336,7 +1410,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       case "union":
         return name;
       default:
-        throw new Error(`Cannot convert shape type "${shape.type}" to TypeScript type: ${target}`);
+        throw new Error(
+          `Cannot convert shape type ${JSON.stringify(shape.type)} to TypeScript type: ${target}`,
+        );
     }
   };
 
@@ -1440,7 +1516,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     const timestampExpr = (format: string) =>
       format === "date-time"
         ? `T.DateFromString.pipe(T.TimestampFormat("date-time"))`
-        : `S.Date.pipe(T.TimestampFormat("${format}"))`;
+        : `S.Date.pipe(T.TimestampFormat(${lit(format)}))`;
     const targetFormat = memberTargetShape?.traits?.["smithy.api#timestampFormat"];
     if (isTimestampSchema && explicitFormat) {
       schema = timestampExpr(explicitFormat);
@@ -1569,14 +1645,14 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   ): string => {
     const checksumParts: string[] = [];
     if (checksum.requestAlgorithmMember) {
-      checksumParts.push(`requestAlgorithmMember: "${checksum.requestAlgorithmMember}"`);
+      checksumParts.push(`requestAlgorithmMember: ${lit(checksum.requestAlgorithmMember)}`);
     }
     if (checksum.requestChecksumRequired) {
       checksumParts.push(`requestChecksumRequired: true`);
     }
     if (checksum.responseAlgorithms) {
       checksumParts.push(
-        `responseAlgorithms: [${checksum.responseAlgorithms.map((a) => `"${a}"`).join(", ")}]`,
+        `responseAlgorithms: [${checksum.responseAlgorithms.map(lit).join(", ")}]`,
       );
     }
     return `T.AwsProtocolsHttpChecksum({ ${checksumParts.join(", ")} })`;
@@ -1732,7 +1808,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             (m) => m.traits["smithy.api#enumValue"] as string,
           );
           const union = enumValues.length
-            ? `${enumValues.map((v) => JSON.stringify(v)).join(" | ")} | (string & {})`
+            ? `${enumValues.map(lit).join(" | ")} | (string & {})`
             : "string";
           return [`export type ${name} = ${union};`, `export const ${name} = S.String;\n`];
         }
@@ -1744,7 +1820,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             (m) => m.traits["smithy.api#enumValue"] as number,
           );
           const intUnion = enumValues.length
-            ? `${enumValues.join(" | ")} | (number & {})`
+            ? `${enumValues.map(num).join(" | ")} | (number & {})`
             : "number";
           return [`export type ${name} = ${intUnion};`, `export const ${name} = S.Number;`];
         }
@@ -1891,7 +1967,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               : undefined;
             const encodeKeys =
               jsonName && jsonName !== memberName
-                ? `.pipe(S.encodeKeys({ ${memberName}: "${jsonName}" }))`
+                ? `.pipe(S.encodeKeys({ ${memberName}: ${lit(jsonName)} }))`
                 : "";
             wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })${encodeKeys}`);
             variantTypes.push(
@@ -1900,7 +1976,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           }
           const typeAlias = `export type ${name} = ${variantTypes.join(" | ")};`;
           const unionExpr = payloadUnionShapeIds.has(id)
-            ? `S.Union([${wrappedMembers.join(", ")}]).annotate({ identifier: "${name}" })`
+            ? `S.Union([${wrappedMembers.join(", ")}]).annotate({ identifier: ${lit(name)} })`
             : `S.Union([${wrappedMembers.join(", ")}])`;
 
           if (isEventStream) {
@@ -1972,11 +2048,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               : undefined;
 
           const classAnnotations: string[] = [];
-          if (xmlName) classAnnotations.push(`T.XmlName("${xmlName}")`);
+          if (xmlName) classAnnotations.push(`T.XmlName(${lit(xmlName)})`);
           if (xmlNamespaceRef) classAnnotations.push(xmlNamespaceRef);
           if (isOperationInput && opTraits) {
             classAnnotations.push(
-              `T.Http({ method: "${opTraits.method}", uri: "${opTraits.uri}" })`,
+              `T.Http({ method: ${lit(opTraits.method)}, uri: ${lit(opTraits.uri)} })`,
             );
             classAnnotations.push("svc", "auth", "proto", "ver");
             if (endpointRuleSet) classAnnotations.push("rules");
@@ -2003,7 +2079,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           // jsonName key renames as one struct-level S.encodeKeys pipe.
           const encodeKeysEntries = members
             .filter((m) => m.jsonName)
-            .map((m) => `${m.name}: "${m.jsonName}"`);
+            .map((m) => `${m.name}: ${lit(m.jsonName!)}`);
           const encodeKeysPipe =
             encodeKeysEntries.length > 0
               ? `.pipe(S.encodeKeys({ ${encodeKeysEntries.join(", ")} }))`
@@ -2024,7 +2100,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               name: exportedName,
               expr: `S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe}`,
               pure: PURE,
-              annotation: `{ identifier: "${name}" }`,
+              annotation: `{ identifier: ${lit(name)} }`,
             }).trimEnd(),
           ];
         }
@@ -2104,13 +2180,13 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
         if (errorTraits?.awsQueryError) {
           annotations.push(
-            `T.AwsQueryError({ code: "${errorTraits.awsQueryError.code}", httpResponseCode: ${errorTraits.awsQueryError.httpResponseCode} })`,
+            `T.AwsQueryError({ code: ${lit(errorTraits.awsQueryError.code)}, httpResponseCode: ${num(errorTraits.awsQueryError.httpResponseCode)} })`,
           );
         }
         // The response parser uses httpError as a status-based fallback for
         // services whose error responses carry no error code.
         if (errorTraits?.httpError) {
-          annotations.push(`T.HttpError(${errorTraits.httpError})`);
+          annotations.push(`T.HttpError(${num(errorTraits.httpError)})`);
         }
         if (errorTraits?.retryable) {
           if (errorTraits.retryable.throttling) {
@@ -2158,7 +2234,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         // operation retains every error class in the service (distilled
         // #191). Same reason the schema consts carry one.
         return [
-          `export class ${name} extends ${PURE}S.TaggedError<${name}>()("${tag}", ${fields}${annotationsArg})${categoryPipe} {}`,
+          `export class ${name} extends ${PURE}S.TaggedError<${name}>()(${lit(tag)}, ${fields}${annotationsArg})${categoryPipe} {}`,
         ];
       },
     },
@@ -2187,7 +2263,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             derivedName = `${derivedName}_`;
           }
           const overrideAnnotations: string[] = [
-            `T.Http({ method: "${overrideTraits.method}", uri: "${overrideTraits.uri}" })`,
+            `T.Http({ method: ${lit(overrideTraits.method)}, uri: ${lit(overrideTraits.uri)} })`,
           ];
           if (overrideTraits.requestCompression) {
             overrideAnnotations.push(
@@ -2208,7 +2284,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               : `T.all(${overrideAnnotations.join(", ")})`;
           pre.push(`export interface ${derivedName} extends ${baseName} {}`);
           pre.push(
-            `export const ${derivedName} = ${PURE}${baseName}.pipe(${overridePipe}).annotate({ identifier: "${derivedName}" }) as any as S.Schema<${derivedName}>;`,
+            `export const ${derivedName} = ${PURE}${baseName}.pipe(${overridePipe}).annotate({ identifier: ${lit(derivedName)} }) as any as S.Schema<${derivedName}>;`,
           );
           input = derivedName;
         }
@@ -2351,17 +2427,17 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
       const serviceConstants: string[] = [];
       if (serviceXmlNamespace) {
-        serviceConstants.push(`const ns = T.XmlNamespace("${serviceXmlNamespace}");`);
+        serviceConstants.push(`const ns = T.XmlNamespace(${lit(serviceXmlNamespace)});`);
       }
       serviceConstants.push(
-        `const svc = T.AwsApiService({ sdkId: "${sdkId}", serviceShapeName: "${serviceShapeName}" });`,
+        `const svc = T.AwsApiService({ sdkId: ${lit(sdkId)}, serviceShapeName: ${lit(serviceShapeName)} });`,
       );
       serviceConstants.push(
         sigV2ServiceName !== undefined
-          ? `const auth = T.AwsAuthSigv2({ name: "${sigV2ServiceName}" });`
-          : `const auth = T.AwsAuthSigv4({ name: "${sigV4ServiceName}" });`,
+          ? `const auth = T.AwsAuthSigv2({ name: ${lit(sigV2ServiceName)} });`
+          : `const auth = T.AwsAuthSigv4({ name: ${lit(sigV4ServiceName)} });`,
       );
-      serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
+      serviceConstants.push(`const ver = T.ServiceVersion(${lit(version)});`);
 
       // A service moved off awsQuery says so on every request
       // (`x-amzn-query-mode`), so it can answer with query error codes.

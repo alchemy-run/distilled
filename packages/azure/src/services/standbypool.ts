@@ -406,7 +406,10 @@ export interface GetStandbyVirtualMachinePoolRuntimeViewResponse {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -439,7 +442,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -448,6 +451,8 @@ export interface ListStandbyContainerGroupPoolByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StandbyContainerGroupPoolResourceTagsMap = { [key: string]: string | undefined };
@@ -481,6 +486,8 @@ export interface StandbyContainerGroupPoolResourceListResult {
 export interface ListStandbyContainerGroupPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -489,6 +496,8 @@ export interface ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolRequest {
   resourceGroupName: string;
   /** Name of the standby container group pool */
   standbyContainerGroupPoolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
 export interface StandbyContainerGroupPoolRuntimeViewResource {
@@ -520,6 +529,8 @@ export interface ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceReq
   resourceGroupName: string;
   /** Name of the standby virtual machine pool */
   standbyVirtualMachinePoolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface StandbyVirtualMachineResource {
@@ -548,6 +559,8 @@ export interface ListStandbyVirtualMachinePoolByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StandbyVirtualMachinePoolResourceTagsMap = { [key: string]: string | undefined };
@@ -581,6 +594,8 @@ export interface StandbyVirtualMachinePoolResourceListResult {
 export interface ListStandbyVirtualMachinePoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -589,6 +604,8 @@ export interface ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolRequest {
   resourceGroupName: string;
   /** Name of the standby virtual machine pool */
   standbyVirtualMachinePoolName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
 export interface StandbyVirtualMachinePoolRuntimeViewResource {
@@ -922,12 +939,13 @@ export const GetStandbyVirtualMachinePoolRuntimeView: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(436, __c27, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -935,16 +953,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyContainerGroupPoolByResourceGroupError = AzureOpError;
 /** List StandbyContainerGroupPoolResource resources by resource group */
-export const ListStandbyContainerGroupPoolByResourceGroup: API.OperationMethod<
+export const ListStandbyContainerGroupPoolByResourceGroup: API.PaginatedOperationMethod<
   ListStandbyContainerGroupPoolByResourceGroupRequest,
   StandbyContainerGroupPoolResourceListResult,
   ListStandbyContainerGroupPoolByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyContainerGroupPoolResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListStandbyContainerGroupPoolByResourceGroupRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<StandbyContainerGroupPoolResourceListResult>,
   errors: [UnknownAzureError],
@@ -952,16 +977,23 @@ export const ListStandbyContainerGroupPoolByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyContainerGroupPoolByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyContainerGroupPoolBySubscriptionError = AzureOpError;
 /** List StandbyContainerGroupPoolResource resources by subscription ID */
-export const ListStandbyContainerGroupPoolBySubscription: API.OperationMethod<
+export const ListStandbyContainerGroupPoolBySubscription: API.PaginatedOperationMethod<
   ListStandbyContainerGroupPoolBySubscriptionRequest,
   StandbyContainerGroupPoolResourceListResult,
   ListStandbyContainerGroupPoolBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyContainerGroupPoolResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListStandbyContainerGroupPoolBySubscriptionRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<StandbyContainerGroupPoolResourceListResult>,
   errors: [UnknownAzureError],
@@ -969,16 +1001,23 @@ export const ListStandbyContainerGroupPoolBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyContainerGroupPoolBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolError = AzureOpError;
 /** List StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource */
-export const ListStandbyContainerGroupPoolRuntimeViewByStandbyPool: API.OperationMethod<
+export const ListStandbyContainerGroupPoolRuntimeViewByStandbyPool: API.PaginatedOperationMethod<
   ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolRequest,
   StandbyContainerGroupPoolRuntimeViewResourceListResult,
   ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyContainerGroupPoolRuntimeViewResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     48,
     __c3,
@@ -994,16 +1033,23 @@ export const ListStandbyContainerGroupPoolRuntimeViewByStandbyPool: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyContainerGroupPoolRuntimeViewByStandbyPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceError = AzureOpError;
 /** List StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource */
-export const ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource: API.OperationMethod<
+export const ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource: API.PaginatedOperationMethod<
   ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceRequest,
   StandbyVirtualMachineResourceListResult,
   ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyVirtualMachineResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     80,
     __c5,
@@ -1015,16 +1061,23 @@ export const ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyVirtualMachinePoolByResourceGroupError = AzureOpError;
 /** List StandbyVirtualMachinePoolResource resources by resource group */
-export const ListStandbyVirtualMachinePoolByResourceGroup: API.OperationMethod<
+export const ListStandbyVirtualMachinePoolByResourceGroup: API.PaginatedOperationMethod<
   ListStandbyVirtualMachinePoolByResourceGroupRequest,
   StandbyVirtualMachinePoolResourceListResult,
   ListStandbyVirtualMachinePoolByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyVirtualMachinePoolResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListStandbyVirtualMachinePoolByResourceGroupRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<StandbyVirtualMachinePoolResourceListResult>,
   errors: [UnknownAzureError],
@@ -1032,16 +1085,23 @@ export const ListStandbyVirtualMachinePoolByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyVirtualMachinePoolByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyVirtualMachinePoolBySubscriptionError = AzureOpError;
 /** List StandbyVirtualMachinePoolResource resources by subscription ID */
-export const ListStandbyVirtualMachinePoolBySubscription: API.OperationMethod<
+export const ListStandbyVirtualMachinePoolBySubscription: API.PaginatedOperationMethod<
   ListStandbyVirtualMachinePoolBySubscriptionRequest,
   StandbyVirtualMachinePoolResourceListResult,
   ListStandbyVirtualMachinePoolBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyVirtualMachinePoolResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListStandbyVirtualMachinePoolBySubscriptionRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<StandbyVirtualMachinePoolResourceListResult>,
   errors: [UnknownAzureError],
@@ -1049,16 +1109,23 @@ export const ListStandbyVirtualMachinePoolBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyVirtualMachinePoolBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolError = AzureOpError;
 /** List StandbyVirtualMachinePoolRuntimeViewResource resources by StandbyVirtualMachinePoolResource */
-export const ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool: API.OperationMethod<
+export const ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool: API.PaginatedOperationMethod<
   ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolRequest,
   StandbyVirtualMachinePoolRuntimeViewResourceListResult,
   ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StandbyVirtualMachinePoolRuntimeViewResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     144,
     __c9,
@@ -1074,7 +1141,13 @@ export const ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type StandbyContainerGroupPoolsCreateOrUpdateError = AzureOpError;
 /** Create a StandbyContainerGroupPoolResource */
@@ -1202,12 +1275,14 @@ function __c3(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           standbyContainerGroupPoolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}/runtimeViews",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolRequest" });
@@ -1234,12 +1309,14 @@ function __c5(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           standbyVirtualMachinePoolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/standbyVirtualMachines",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -1263,12 +1340,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyVirtualMachinePoolByResourceGroupRequest" });
@@ -1293,12 +1372,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyVirtualMachinePoolBySubscriptionRequest" });
@@ -1312,12 +1393,14 @@ function __c9(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           standbyVirtualMachinePoolName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolRequest" });
@@ -1791,12 +1874,15 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.StandbyPool/operations",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1824,7 +1910,7 @@ function __c27(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(435, __c27, 3)),
+          value: __S(435, __c27, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1837,12 +1923,14 @@ function __c28(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyContainerGroupPoolByResourceGroupRequest" });
@@ -1867,12 +1955,14 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StandbyPool/standbyContainerGroupPools",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStandbyContainerGroupPoolBySubscriptionRequest" });

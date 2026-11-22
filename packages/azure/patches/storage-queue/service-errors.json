@@ -1,0 +1,203 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the `x-ms-error-code` response header (sent with every Storage error, XML or JSON body): Queue service error codes (Microsoft Learn, \"Queue Storage error codes\" and \"Common REST API error codes\"). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#MessageNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Storage: the queue message does not exist (or was already deleted). Code `MessageNotFound`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "MessageNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#QueueAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: a queue with other metadata already exists. Code `QueueAlreadyExists`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "QueueAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#PopReceiptMismatch",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Storage: the pop receipt does not match the message's current one. Code `PopReceiptMismatch`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "PopReceiptMismatch"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#StorageResourceAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage (File): the directory or file already exists. Code `ResourceAlreadyExists`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ResourceAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#StorageBeingDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Storage: the container, queue, share or filesystem is still being deleted, so a create with the same name fails; retry after a delay. Codes `ContainerBeingDeleted`, `QueueBeingDeleted`, `ShareBeingDeleted`, `FilesystemBeingDeleted`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "ContainerBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "QueueBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "ShareBeingDeleted"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "FilesystemBeingDeleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#StorageAuthenticationFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Storage: the request carries no valid credential (missing, malformed or expired token, bad SAS signature). Codes `AuthenticationFailed`, `NoAuthenticationInformation`, `InvalidAuthenticationInfo`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "AuthenticationFailed"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "NoAuthenticationInformation"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "InvalidAuthenticationInfo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#StorageAuthorizationFailure",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Storage: the account refuses the request regardless of role (network rules, disabled shared-key or SAS access). Codes `AuthorizationFailure`, `KeyBasedAuthenticationNotPermitted`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "headers": {
+                "x-ms-error-code": "AuthorizationFailure"
+              }
+            },
+            {
+              "headers": {
+                "x-ms-error-code": "KeyBasedAuthenticationNotPermitted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage_queue#StorageQueue/errors",
+      "value": [
+        {
+          "target": "com.azure.storage_queue#MessageNotFound"
+        },
+        {
+          "target": "com.azure.storage_queue#QueueAlreadyExists"
+        },
+        {
+          "target": "com.azure.storage_queue#PopReceiptMismatch"
+        },
+        {
+          "target": "com.azure.storage_queue#StorageResourceAlreadyExists"
+        },
+        {
+          "target": "com.azure.storage_queue#StorageBeingDeleted"
+        },
+        {
+          "target": "com.azure.storage_queue#StorageAuthenticationFailed"
+        },
+        {
+          "target": "com.azure.storage_queue#StorageAuthorizationFailure"
+        }
+      ]
+    }
+  ]
+}

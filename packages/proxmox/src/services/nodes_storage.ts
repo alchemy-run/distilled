@@ -26,7 +26,7 @@ const TELEMETRY = {
 export interface DeleteNodesByNodeStorageByStorageContentByVolumeRequest {
   delay?: number | undefined;
   node: string;
-  storage?: string | undefined;
+  storage: string;
   volume: string;
 }
 export type DeleteNodesByNodeStorageByStorageContentByVolumeResponse = string;
@@ -114,7 +114,7 @@ export type GetNodesByNodeStorageByStorageContentResponse =
   GetNodesByNodeStorageByStorageContentResult;
 export interface GetNodesByNodeStorageByStorageContentByVolumeRequest {
   node: string;
-  storage?: string | undefined;
+  storage: string;
   volume: string;
 }
 export interface GetNodesByNodeStorageByStorageContentByVolumeResult {
@@ -313,7 +313,7 @@ export interface PostNodesByNodeStorageByStorageContentRequest {
 export type PostNodesByNodeStorageByStorageContentResponse = string;
 export interface PostNodesByNodeStorageByStorageContentByVolumeRequest {
   node: string;
-  storage?: string | undefined;
+  storage: string;
   target: string;
   target_node?: string | undefined;
   volume: string;
@@ -374,7 +374,7 @@ export interface PutNodesByNodeStorageByStorageContentByVolumeRequest {
   node: string;
   notes?: string | undefined;
   protected?: boolean | 0 | 1 | undefined;
-  storage?: string | undefined;
+  storage: string;
   volume: string;
 }
 export type PutNodesByNodeStorageByStorageContentByVolumeResponse = null;
@@ -758,7 +758,7 @@ function __c0(j: number): any {
         S.Struct({
           delay: S.optional(S.Number.pipe(T.Query())),
           node: S.String.pipe(T.Label()),
-          storage: S.optional(S.String.pipe(T.Label())),
+          storage: S.String.pipe(T.Label()),
           volume: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -928,7 +928,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           node: S.String.pipe(T.Label()),
-          storage: S.optional(S.String.pipe(T.Label())),
+          storage: S.String.pipe(T.Label()),
           target: S.String,
           target_node: S.optional(S.String),
           volume: S.String.pipe(T.Label()),
@@ -1011,7 +1011,7 @@ function __c12(j: number): any {
           node: S.String.pipe(T.Label()),
           notes: S.optional(S.String),
           protected: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          storage: S.optional(S.String.pipe(T.Label())),
+          storage: S.String.pipe(T.Label()),
           volume: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1148,7 +1148,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           node: S.String.pipe(T.Label()),
-          storage: S.optional(S.String.pipe(T.Label())),
+          storage: S.String.pipe(T.Label()),
           volume: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({

@@ -948,6 +948,8 @@ export interface GetPrivateLinkResourceResponse {
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedDashboardTagsMap = { [key: string]: string | undefined };
@@ -982,10 +984,14 @@ export interface ListDashboardsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGrafanaRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedGrafanaTagsMap = { [key: string]: string | undefined };
@@ -1026,6 +1032,8 @@ export interface ListGrafanaByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationFabricsRequest {
   /** The ID of the target subscription. */
@@ -1034,6 +1042,8 @@ export interface ListIntegrationFabricsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IntegrationFabricTagsMap = { [key: string]: string | undefined };
@@ -1069,6 +1079,8 @@ export interface ListManagedPrivateEndpointsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedPrivateEndpointModelTagsMap = { [key: string]: string | undefined };
@@ -1098,7 +1110,10 @@ export interface ManagedPrivateEndpointModelListResponse {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1131,7 +1146,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1142,6 +1157,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1159,6 +1176,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
@@ -1710,12 +1729,13 @@ export const GetPrivateLinkResource: API.OperationMethod<
 
 export type ListDashboardBySubscriptionError = AzureOpError;
 /** List all resources of dashboards under the specified subscription. */
-export const ListDashboardBySubscription: API.OperationMethod<
+export const ListDashboardBySubscription: API.PaginatedOperationMethod<
   ListDashboardBySubscriptionRequest,
   ManagedDashboardListResponse,
   ListDashboardBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedDashboard
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListDashboardBySubscriptionRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<ManagedDashboardListResponse>,
   errors: [UnknownAzureError],
@@ -1723,16 +1743,23 @@ export const ListDashboardBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDashboardBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDashboardsError = AzureOpError;
 /** List all resources of dashboards under the specified resource group. */
-export const ListDashboards: API.OperationMethod<
+export const ListDashboards: API.PaginatedOperationMethod<
   ListDashboardsRequest,
   ManagedDashboardListResponse,
   ListDashboardsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedDashboard
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListDashboardsRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<ManagedDashboardListResponse>,
   errors: [UnknownAzureError],
@@ -1740,16 +1767,23 @@ export const ListDashboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDashboards",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGrafanaError = AzureOpError;
 /** List all resources of workspaces for Grafana under the specified subscription. */
-export const ListGrafana: API.OperationMethod<
+export const ListGrafana: API.PaginatedOperationMethod<
   ListGrafanaRequest,
   ManagedGrafanaListResponse,
   ListGrafanaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedGrafana
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListGrafanaRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ManagedGrafanaListResponse>,
   errors: [UnknownAzureError],
@@ -1757,16 +1791,23 @@ export const ListGrafana: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGrafana",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGrafanaByResourceGroupError = AzureOpError;
 /** List all resources of workspaces for Grafana under the specified resource group. */
-export const ListGrafanaByResourceGroup: API.OperationMethod<
+export const ListGrafanaByResourceGroup: API.PaginatedOperationMethod<
   ListGrafanaByResourceGroupRequest,
   ManagedGrafanaListResponse,
   ListGrafanaByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedGrafana
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListGrafanaByResourceGroupRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ManagedGrafanaListResponse>,
   errors: [UnknownAzureError],
@@ -1774,16 +1815,23 @@ export const ListGrafanaByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGrafanaByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIntegrationFabricsError = AzureOpError;
 /** List IntegrationFabric resources by ManagedGrafana */
-export const ListIntegrationFabrics: API.OperationMethod<
+export const ListIntegrationFabrics: API.PaginatedOperationMethod<
   ListIntegrationFabricsRequest,
   IntegrationFabricListResponse,
   ListIntegrationFabricsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IntegrationFabric
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListIntegrationFabricsRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<IntegrationFabricListResponse>,
   errors: [UnknownAzureError],
@@ -1791,16 +1839,23 @@ export const ListIntegrationFabrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIntegrationFabrics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedPrivateEndpointsError = AzureOpError;
 /** List all managed private endpoints of a grafana resource. */
-export const ListManagedPrivateEndpoints: API.OperationMethod<
+export const ListManagedPrivateEndpoints: API.PaginatedOperationMethod<
   ListManagedPrivateEndpointsRequest,
   ManagedPrivateEndpointModelListResponse,
   ListManagedPrivateEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedPrivateEndpointModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListManagedPrivateEndpointsRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ManagedPrivateEndpointModelListResponse>,
   errors: [UnknownAzureError],
@@ -1808,16 +1863,23 @@ export const ListManagedPrivateEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedPrivateEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1825,16 +1887,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Get private endpoint connection */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -1842,16 +1911,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** List all private link resources information for this grafana resource */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -1859,7 +1935,13 @@ export const ListPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RefreshManagedPrivateEndpointError = AzureOpError;
 /** Refresh and sync managed private endpoints of a grafana resource to latest state. */
@@ -2368,12 +2450,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/dashboards",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDashboardBySubscriptionRequest" });
@@ -2399,12 +2483,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/dashboards",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDashboardsRequest" });
@@ -2638,12 +2724,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/grafana",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGrafanaRequest" });
@@ -2669,12 +2757,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGrafanaByResourceGroupRequest" });
@@ -2688,12 +2778,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIntegrationFabricsRequest" });
@@ -2716,12 +2808,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedPrivateEndpointsRequest" });
@@ -2740,12 +2834,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Dashboard/operations",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2773,7 +2870,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1059, __c33, 3)),
+          value: __S(1059, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2787,12 +2884,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -2813,12 +2912,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateLinkResources",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });

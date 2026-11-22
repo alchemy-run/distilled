@@ -23,14 +23,19 @@
  * from the services they belong to: `process.startProcess`,
  * `process.connectProcess` and `filesystem.watchDir`.
  */
-import { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
-import { ENVD_PORT, envdBaseUrlFor, SandboxConnection } from "./credentials.ts";
+import {
+  ENVD_PORT,
+  envdBaseUrlFor,
+  resolveSandboxConnection,
+  type SandboxConnection,
+} from "./credentials.ts";
 import {
   BadRequest,
   Conflict,
@@ -280,13 +285,6 @@ const errorOf = (json: unknown): { code?: string; message?: string } | undefined
   };
 };
 
-const missingSandbox = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
-  }),
-);
-
 /**
  * Calls a server-streaming envd RPC and streams its decoded messages.
  * Exported for RPCs envd adds before this module models them.
@@ -297,9 +295,7 @@ export const serverStream = (
 ): Stream.Stream<unknown, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   Stream.unwrap(
     Effect.gen(function* () {
-      const sandbox = yield* Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-        option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-      );
+      const sandbox = yield* resolveSandboxConnection;
       const client = yield* HttpClient.HttpClient;
       const headers: Record<string, string> = {
         "Connect-Protocol-Version": "1",
