@@ -1,0 +1,84 @@
+{
+  "description": "SyMS reads and writes lake database properties in PascalCase, like its DDL responses (`00-pascal-case-ddl-response.json`): `{\"Source\":{\"Provider\":\"ADLS\",\"Location\":\"abfss://...\",\"Properties\":{...}},\"Properties\":{},\"PublishStatus\":\"PUBLISHED\"}`. The spec declares camelCase members, so `PutDatabase` sent keys SyMS ignores and the required `Source` was missing. Map `DatabaseProperties`, its request form `DatabasePropertiesInput`, and `DataSource` to their PascalCase wire names.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/originObjectId/traits/smithy.api#jsonName",
+      "value": "OriginObjectId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/objectId/traits/smithy.api#jsonName",
+      "value": "ObjectId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/objectVersion/traits/smithy.api#jsonName",
+      "value": "ObjectVersion"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/publishStatus/traits",
+      "value": {
+        "smithy.api#jsonName": "PublishStatus"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/properties/traits/smithy.api#jsonName",
+      "value": "Properties"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/source/traits/smithy.api#jsonName",
+      "value": "Source"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabaseProperties/members/description/traits/smithy.api#jsonName",
+      "value": "Description"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DataSource/members/provider/traits/smithy.api#jsonName",
+      "value": "Provider"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DataSource/members/location/traits/smithy.api#jsonName",
+      "value": "Location"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DataSource/members/properties/traits/smithy.api#jsonName",
+      "value": "Properties"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabasePropertiesInput/members/originObjectId/traits/smithy.api#jsonName",
+      "value": "OriginObjectId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabasePropertiesInput/members/publishStatus/traits",
+      "value": {
+        "smithy.api#jsonName": "PublishStatus"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabasePropertiesInput/members/properties/traits/smithy.api#jsonName",
+      "value": "Properties"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabasePropertiesInput/members/source/traits/smithy.api#jsonName",
+      "value": "Source"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DatabasePropertiesInput/members/description/traits/smithy.api#jsonName",
+      "value": "Description"
+    }
+  ]
+}

@@ -34,9 +34,14 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { declaredStatusClass } from "@distilled.cloud/core/protocol-rest";
 import {
-  checkResponse,
+  checkSuccess,
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+} from "@distilled.cloud/core/protocol-rest";
+import {
   ResponseValidation,
   SchemaMismatch,
+  withholdActual,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -341,10 +346,12 @@ const requestFor = (
   const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
   if (jurisdiction !== undefined && takesJurisdiction(inputAst))
     headers[JURISDICTION_HEADER] = jurisdiction;
-  const host = hostFor(input, inputAst);
+  // Sensitive members accept `string | Redacted<string>`; the wire wants the string.
+  const plain = unwrapRedactedDeep(input);
+  const host = hostFor(plain, inputAst);
   if (host instanceof InvalidInput) return Effect.fail(host);
   return buildRequest({
-    input,
+    input: plain,
     inputAst,
     baseUrl: host ?? creds.apiBaseUrl,
     headers,
@@ -622,12 +629,14 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
 
         // Validating modes (core/response-validation) check the TS-shaped
         // output against the schema; lenient mode returns it as built.
+        // Sensitive members come back Redacted, and a parse error for an
+        // output that holds them withholds the body (core `checkSuccess`).
         const body: unknown = nonJson ? text : json;
         const validate = (value: unknown): Effect.Effect<unknown, CloudflareParseError> => {
-          const cause = checkResponse(context, outputAst, value);
-          return cause === undefined
-            ? Effect.succeed(value)
-            : Effect.fail(new CloudflareParseError({ body, cause }));
+          const checked = checkSuccess(context, outputAst, { value, body, nonJson });
+          return checked.ok
+            ? Effect.succeed(checked.value)
+            : Effect.fail(new CloudflareParseError(checked.error));
         };
 
         if (nonJson) json = {};
@@ -706,11 +715,17 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
         ) {
           for (const [k, v] of Object.entries(payload)) {
             if (consumed.has(k) || v === undefined) continue;
+            const cause = new SchemaMismatch(
+              [k],
+              "no value (the schema does not model this key)",
+              v,
+            );
             return Effect.fail(
-              new CloudflareParseError({
-                body,
-                cause: new SchemaMismatch([k], "no value (the schema does not model this key)", v),
-              }),
+              new CloudflareParseError(
+                hasSensitiveMember(outputAst)
+                  ? { body: "[REDACTED]", cause: withholdActual(cause) }
+                  : { body, cause },
+              ),
             );
           }
         }
