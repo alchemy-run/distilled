@@ -93,11 +93,6 @@ const makeSpec = (protocol: string): SdkSpec => ({
   operationDecl: {
     contextType: "EntireOpContext",
     commonErrorType: "EntireOpError",
-    // No per-operation error classes: every failure shares one problem
-    // document, so every status rides EntireOpError and the protocol picks
-    // the class.
-    // UnknownEntireError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "EntireServiceErrors",
     protocol,
     retry: "Retry.Retry",

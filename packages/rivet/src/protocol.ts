@@ -1,10 +1,9 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
 import {
   restProtocol,
   unknownErrorProps,
   type RestErrorInfo,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * RivetProtocol -- the shared bearer-REST protocol instantiated for the
@@ -25,7 +24,7 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   EngineNotReady,
   RivetParseError,
@@ -34,28 +33,13 @@ import {
 } from "./errors.ts";
 
 /**
- * The errors declared on Rivet's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link RivetParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownRivetError}), a 404 that did not come from
- * the engine ({@link EngineNotReady}, see {@link engineNotReady}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type RivetProtocolError =
-  | RestProtocolError
-  | RivetParseError
-  | UnknownRivetError
-  | EngineNotReady;
-
-/**
  * What every generated Rivet operation fails with besides its own errors: the
  * service's errors, the protocol's, and what resolving the credentials fails
  * with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, RivetOpError, RivetOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type RivetOpError = RivetServiceError | RivetProtocolError | CredentialsError;
+export type RivetOpError = RivetServiceError | ErrorOf<typeof RivetProtocol>;
 
 /** Context (requirements) shared by every generated Rivet operation. */
 export type RivetOpContext = Credentials | HttpClient.HttpClient;
@@ -87,19 +71,16 @@ const engineNotReady = (info: RestErrorInfo): EngineNotReady | undefined =>
       })
     : undefined;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const RivetProtocol: Protocol<RivetProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the calling fiber per request, so a rotated token is picked
-    // up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.endpoint,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    errorEnvelope,
-    classifyError: engineNotReady,
-    unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
-  });
+export const RivetProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated token is picked
+  // up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.endpoint,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  errorEnvelope,
+  classifyError: engineNotReady,
+  unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
+});

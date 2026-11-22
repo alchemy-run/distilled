@@ -57,8 +57,6 @@ const redisCloudSpec: SdkSpec = {
   operationDecl: {
     contextType: "RedisCloudOpContext",
     commonErrorType: "RedisCloudOpError",
-    // UnknownRedisCloudError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "RedisCloudServiceErrors",
     protocol: "RedisCloudProtocol",
     retry: "Retry.Retry",

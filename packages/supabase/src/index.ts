@@ -22,7 +22,6 @@ export {
   DEFAULT_API_BASE_URL,
   type Config,
   Credentials,
-  type CredentialsError,
   CredentialsFromEnv,
   credentials,
   formatHeaders,

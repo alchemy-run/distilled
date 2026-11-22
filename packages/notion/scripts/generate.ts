@@ -87,10 +87,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NotionOpContext",
     commonErrorType: "NotionOpError",
-    // No per-operation error classes: every failure shares one envelope,
-    // so every status rides NotionOpError and the protocol picks the class.
-    // UnknownNotionError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "NotionServiceErrors",
     protocol: "NotionProtocol",
     retry: "Retry.Retry",

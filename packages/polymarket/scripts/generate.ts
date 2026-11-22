@@ -88,8 +88,6 @@ const specFor = (model: any): SdkSpec => ({
   operationDecl: {
     contextType: "PolymarketOpContext",
     commonErrorType: "PolymarketOpError",
-    // UnknownPolymarketError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "PolymarketServiceErrors",
     protocol: protocolFor(model),
     retry: "Retry.Retry",

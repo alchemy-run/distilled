@@ -65,8 +65,6 @@ const openSearchSpec: SdkSpec = {
   operationDecl: {
     contextType: "OpenSearchOpContext",
     commonErrorType: "OpenSearchOpError",
-    // UnknownOpenSearchError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "OpenSearchServiceErrors",
     protocol: "OpenSearchProtocol",
     retry: "Retry.Retry",

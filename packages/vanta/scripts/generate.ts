@@ -75,8 +75,6 @@ const vantaSpec: SdkSpec = {
   operationDecl: {
     contextType: "VantaOpContext",
     commonErrorType: "VantaOpError",
-    // UnknownVantaError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "VantaServiceErrors",
     protocol: "VantaProtocol",
     retry: "Retry.Retry",

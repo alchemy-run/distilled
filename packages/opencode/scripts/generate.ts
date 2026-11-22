@@ -66,8 +66,6 @@ const opencodeSpec: SdkSpec = {
   operationDecl: {
     contextType: "OpencodeOpContext",
     commonErrorType: "OpencodeOpError",
-    // UnknownOpencodeError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "OpencodeServiceErrors",
     protocol: "OpencodeProtocol",
     retry: "Retry.Retry",

@@ -70,10 +70,6 @@ const resendSpec: SdkSpec = {
   operationDecl: {
     contextType: "ResendOpContext",
     commonErrorType: "ResendOpError",
-    // The errors any operation can answer are declared on the service
-    // (`ResendServiceErrors` in src/errors.ts), and UnknownResendError on the
-    // protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ResendServiceErrors",
     protocol: "ResendProtocol",
     retry: "Retry.Retry",

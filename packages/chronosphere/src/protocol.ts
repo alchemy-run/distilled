@@ -1,9 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ChronosphereProtocol -- hand-written.
  *
@@ -24,25 +20,12 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   UnknownChronosphereError,
   ChronosphereParseError,
   type ChronosphereServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Chronosphere's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link ChronosphereParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownChronosphereError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type ChronosphereProtocolError =
-  | RestProtocolError
-  | ChronosphereParseError
-  | UnknownChronosphereError;
 
 /**
  * What every generated Chronosphere operation fails with besides its own
@@ -52,20 +35,12 @@ export type ChronosphereProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type ChronosphereOpError =
-  | ChronosphereServiceError
-  | ChronosphereProtocolError
-  | CredentialsError;
+export type ChronosphereOpError = ChronosphereServiceError | ErrorOf<typeof ChronosphereProtocol>;
 
 /** Context (requirements) shared by every generated Chronosphere operation. */
 export type ChronosphereOpContext = Credentials | HttpClient.HttpClient;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const ChronosphereProtocol: Protocol<
-  ChronosphereProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const ChronosphereProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),

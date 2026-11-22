@@ -70,8 +70,6 @@ const squarespaceSpec: SdkSpec = {
   operationDecl: {
     contextType: "SquarespaceOpContext",
     commonErrorType: "SquarespaceOpError",
-    // UnknownSquarespaceError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "SquarespaceServiceErrors",
     protocol: "SquarespaceProtocol",
     retry: "Retry.Retry",

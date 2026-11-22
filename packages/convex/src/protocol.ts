@@ -1,7 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  type RestProtocolError,
   restProtocol,
   type RestProtocolOptions,
   unknownErrorProps,
@@ -28,22 +27,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { ConvexParseError, UnknownConvexError, type ConvexServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Convex's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link ConvexParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownConvexError}), credentials that lack what
- * the API needs (`ConfigError`: a token, or a deployment URL), and core's REST
- * errors (a bad path label, a request that can't be built, the transport).
- */
-export type ConvexProtocolError =
-  | RestProtocolError
-  | ConvexParseError
-  | UnknownConvexError
-  | ConfigError;
 
 /**
  * What every generated Convex operation fails with besides its own errors: the
@@ -52,7 +37,11 @@ export type ConvexProtocolError =
  * `API.OperationMethod<I, O, ConvexOpError, ConvexOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type ConvexOpError = ConvexServiceError | ConvexProtocolError | CredentialsError;
+export type ConvexOpError =
+  | ConvexServiceError
+  | ErrorOf<
+      typeof ConvexProtocol | typeof ConvexDeploymentProtocol | typeof ConvexFunctionsProtocol
+    >;
 
 /** Context (requirements) shared by every generated Convex operation. */
 export type ConvexOpContext = Credentials | HttpClient.HttpClient;
@@ -90,19 +79,15 @@ const shared = {
 // the errors an operation and the service declare, must be listed there.
 
 /** The Management API, for the `convex` service. */
-export const ConvexProtocol: Protocol<ConvexProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    credentials: withToken,
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
-    ...shared,
-  });
+export const ConvexProtocol = /*@__PURE__*/ restProtocol({
+  credentials: withToken,
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+  ...shared,
+});
 
 /** The Deployment API, for the `deployment` service. */
-export const ConvexDeploymentProtocol: Protocol<
-  ConvexProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const ConvexDeploymentProtocol = /*@__PURE__*/ restProtocol({
   credentials: withToken,
   baseUrl: (creds) => deploymentBaseUrl(creds, "/api/v1"),
   headers: (creds) => ({ Authorization: `Convex ${Redacted.value(creds.token)}` }),
@@ -110,10 +95,7 @@ export const ConvexDeploymentProtocol: Protocol<
 });
 
 /** The public HTTP API, for the `functions` service. */
-export const ConvexFunctionsProtocol: Protocol<
-  ConvexProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const ConvexFunctionsProtocol = /*@__PURE__*/ restProtocol({
   credentials: resolveCredentials,
   baseUrl: (creds) => deploymentBaseUrl(creds, "/api"),
   headers: () => ({}),

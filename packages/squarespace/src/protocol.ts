@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * SquarespaceProtocol -- hand-written.
@@ -24,25 +23,12 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   UnknownSquarespaceError,
   SquarespaceParseError,
   type SquarespaceServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Squarespace's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link SquarespaceParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownSquarespaceError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type SquarespaceProtocolError =
-  | RestProtocolError
-  | SquarespaceParseError
-  | UnknownSquarespaceError;
 
 /**
  * What every generated Squarespace operation fails with besides its own
@@ -52,10 +38,7 @@ export type SquarespaceProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type SquarespaceOpError =
-  | SquarespaceServiceError
-  | SquarespaceProtocolError
-  | CredentialsError;
+export type SquarespaceOpError = SquarespaceServiceError | ErrorOf<typeof SquarespaceProtocol>;
 
 /** Context (requirements) shared by every generated Squarespace operation. */
 export type SquarespaceOpContext = Credentials | HttpClient.HttpClient;
@@ -79,12 +62,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const SquarespaceProtocol: Protocol<
-  SquarespaceProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const SquarespaceProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),

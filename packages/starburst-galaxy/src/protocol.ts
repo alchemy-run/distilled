@@ -1,10 +1,9 @@
 import { TooManyRequests } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorInfo,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
 /**
@@ -30,27 +29,12 @@ import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   StarburstGalaxyParseError,
   UnknownStarburstGalaxyError,
   type StarburstGalaxyServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Galaxy's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link StarburstGalaxyParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownStarburstGalaxyError}), a
- * rate-limited 429 (`TooManyRequests`, see {@link rateLimited}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type StarburstGalaxyProtocolError =
-  | RestProtocolError
-  | StarburstGalaxyParseError
-  | UnknownStarburstGalaxyError
-  | TooManyRequests;
 
 /**
  * What every generated Galaxy operation fails with besides its own errors: the
@@ -62,8 +46,7 @@ export type StarburstGalaxyProtocolError =
  */
 export type StarburstGalaxyOpError =
   | StarburstGalaxyServiceError
-  | StarburstGalaxyProtocolError
-  | CredentialsError;
+  | ErrorOf<typeof StarburstGalaxyProtocol>;
 
 /** Context (requirements) shared by every generated Galaxy operation. */
 export type StarburstGalaxyOpContext = Credentials | HttpClient.HttpClient;
@@ -91,12 +74,7 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
   });
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const StarburstGalaxyProtocol: Protocol<
-  StarburstGalaxyProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const StarburstGalaxyProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up a refreshed access token.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),

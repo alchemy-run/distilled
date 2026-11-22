@@ -69,8 +69,6 @@ const renderSpec: SdkSpec = {
   operationDecl: {
     contextType: "RenderOpContext",
     commonErrorType: "RenderOpError",
-    // UnknownRenderError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "RenderServiceErrors",
     protocol: "RenderProtocol",
     retry: "Retry.Retry",

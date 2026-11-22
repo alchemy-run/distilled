@@ -75,8 +75,6 @@ const dopplerSpec: SdkSpec = {
   operationDecl: {
     contextType: "DopplerOpContext",
     commonErrorType: "DopplerOpError",
-    // UnknownDopplerError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "DopplerServiceErrors",
     protocol: "DopplerProtocol",
     retry: "Retry.Retry",

@@ -26,9 +26,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "TailscaleCredentials",
 ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   /**

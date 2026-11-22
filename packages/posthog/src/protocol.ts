@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 /**
@@ -28,18 +27,8 @@ import * as Effect from "effect/Effect";
  */
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownPosthogError, PosthogParseError, type PosthogServiceError } from "./errors.ts";
-
-/**
- * The errors declared on PostHog's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link PosthogParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownPosthogError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type PosthogProtocolError = RestProtocolError | PosthogParseError | UnknownPosthogError;
 
 /**
  * What every generated PostHog operation fails with besides its own errors:
@@ -48,7 +37,7 @@ export type PosthogProtocolError = RestProtocolError | PosthogParseError | Unkno
  * `API.OperationMethod<I, O, PosthogOpError, PosthogOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type PosthogOpError = PosthogServiceError | PosthogProtocolError | CredentialsError;
+export type PosthogOpError = PosthogServiceError | ErrorOf<typeof PosthogProtocol>;
 
 /** Context (requirements) shared by every generated PostHog operation. */
 export type PosthogOpContext = Credentials | HttpClient.HttpClient;
@@ -80,19 +69,16 @@ const drfErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const PosthogProtocol: Protocol<PosthogProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request) picks up rotations. Its ConfigError channel is erased at the
-    // protocol boundary; PosthogOpError reintroduces it for callers.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope: drfErrorEnvelope,
-    unknownError: (info) => new UnknownPosthogError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new PosthogParseError({ body, cause }),
-  });
+export const PosthogProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request) picks up rotations. Its ConfigError channel is erased at the
+  // protocol boundary; PosthogOpError reintroduces it for callers.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope: drfErrorEnvelope,
+  unknownError: (info) => new UnknownPosthogError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new PosthogParseError({ body, cause }),
+});

@@ -1,11 +1,10 @@
 import { ServiceUnavailable } from "@distilled.cloud/core/errors";
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
 import {
   restProtocol,
   unknownErrorProps,
   type RestErrorInfo,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * AnthropicProtocol -- the shared REST protocol instantiated for the Claude
@@ -25,27 +24,12 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   AnthropicParseError,
   UnknownAnthropicError,
   type AnthropicServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Anthropic's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link AnthropicParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownAnthropicError}), an
- * overloaded 529 (`ServiceUnavailable`, see {@link overloaded}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type AnthropicProtocolError =
-  | RestProtocolError
-  | AnthropicParseError
-  | UnknownAnthropicError
-  | ServiceUnavailable;
 
 /**
  * What every generated Anthropic operation fails with besides its own errors:
@@ -54,7 +38,7 @@ export type AnthropicProtocolError =
  * `API.OperationMethod<I, O, AnthropicOpError, AnthropicOpContext>` explicitly
  * so the compiler never infers these back out of the schema generics.
  */
-export type AnthropicOpError = AnthropicServiceError | AnthropicProtocolError | CredentialsError;
+export type AnthropicOpError = AnthropicServiceError | ErrorOf<typeof AnthropicProtocol>;
 
 /** Context (requirements) shared by every generated Anthropic operation. */
 export type AnthropicOpContext = Credentials | HttpClient.HttpClient;
@@ -85,19 +69,16 @@ const overloaded = (info: RestErrorInfo): ServiceUnavailable | undefined =>
       })
     : undefined;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const AnthropicProtocol: Protocol<AnthropicProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the calling fiber per request, so a rotated key is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      "x-api-key": Redacted.value(creds.apiKey),
-      "anthropic-version": creds.version,
-    }),
-    classifyError: overloaded,
-    errorEnvelope,
-    unknownError: (info) => new UnknownAnthropicError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new AnthropicParseError({ body, cause }),
-  });
+export const AnthropicProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated key is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    "x-api-key": Redacted.value(creds.apiKey),
+    "anthropic-version": creds.version,
+  }),
+  classifyError: overloaded,
+  errorEnvelope,
+  unknownError: (info) => new UnknownAnthropicError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new AnthropicParseError({ body, cause }),
+});

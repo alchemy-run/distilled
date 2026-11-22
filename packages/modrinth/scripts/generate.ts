@@ -57,8 +57,6 @@ const modrinthSpec: SdkSpec = {
   operationDecl: {
     contextType: "ModrinthOpContext",
     commonErrorType: "ModrinthOpError",
-    // UnknownModrinthError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "ModrinthServiceErrors",
     protocol: "ModrinthProtocol",
     retry: "Retry.Retry",

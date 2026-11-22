@@ -31,9 +31,6 @@ export class Credentials
     "BoxdCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("BOXD_API_KEY").pipe(
     /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.Redacted("BOXD_TOKEN")),

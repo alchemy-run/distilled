@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * DiscordProtocol -- the shared bearer-REST protocol instantiated for Discord.
@@ -22,18 +21,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownDiscordError, DiscordParseError, type DiscordServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Discord's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link DiscordParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownDiscordError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type DiscordProtocolError = RestProtocolError | DiscordParseError | UnknownDiscordError;
 
 /**
  * What every generated Discord operation fails with besides its own errors:
@@ -42,7 +31,7 @@ export type DiscordProtocolError = RestProtocolError | DiscordParseError | Unkno
  * `API.OperationMethod<I, O, DiscordOpError, DiscordOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type DiscordOpError = DiscordServiceError | DiscordProtocolError | CredentialsError;
+export type DiscordOpError = DiscordServiceError | ErrorOf<typeof DiscordProtocol>;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -86,23 +75,20 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const DiscordProtocol: Protocol<DiscordProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the CALLING fiber per request; the Credentials service holds
-    // an effect so rotating tokens Just Work.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
+export const DiscordProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect so rotating tokens Just Work.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) =>
+    new UnknownDiscordError({
+      ...unknownErrorProps(info),
+      code: numericCode(info.code),
+      errors: errorDetails(info.body),
     }),
-    errorEnvelope,
-    unknownError: (info) =>
-      new UnknownDiscordError({
-        ...unknownErrorProps(info),
-        code: numericCode(info.code),
-        errors: errorDetails(info.body),
-      }),
-    parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
-  });
+  parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
+});

@@ -66,8 +66,6 @@ const customerioSpec: SdkSpec = {
   operationDecl: {
     contextType: "CustomerioOpContext",
     commonErrorType: "CustomerioOpError",
-    // UnknownCustomerioError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "CustomerioServiceErrors",
     protocol: "CustomerioProtocol",
     retry: "Retry.Retry",

@@ -63,9 +63,6 @@ export class Credentials
     "OpenSearchCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const layerOf = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, config);
 
