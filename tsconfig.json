@@ -568,6 +568,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mollie/tsconfig.json"
+    },
+    {
+      "path": "./packages/mollie/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/mux/tsconfig.json"
     },
     {
@@ -664,6 +670,12 @@
       "path": "./packages/e2b/tsconfig.scripts.json"
     },
     { "path": "./packages/e2b/tsconfig.test.json" },
+    {
+      "path": "./packages/browserbase/tsconfig.json"
+    },
+    {
+      "path": "./packages/browserbase/tsconfig.scripts.json"
+    },
     {
       "path": "./packages/steel/tsconfig.json"
     },

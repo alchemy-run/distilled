@@ -1215,7 +1215,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           name: S.String,
           workerScriptName: S.optional(S.String.pipe(T.Body("worker_script_name"))),
         }).pipe(
@@ -1250,7 +1252,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           repos: __S(33, __c1, 1),
           telemetryWindow: S.optional(__S(64, __c2, 0).pipe(T.Body("telemetry_window"))),
         }).pipe(

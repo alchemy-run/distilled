@@ -165,14 +165,14 @@ settings:
 catalogs:
   default:
     '@alchemy.run/aws':
-      specifier: 2.0.0-beta.85
-      version: 2.0.0-beta.85
+      specifier: https://pkg.alchemy.run/@alchemy.run/aws/branch:main
+      version: https://pkg.alchemy.run/@alchemy.run/aws/branch:main
     '@alchemy.run/cloudflare':
-      specifier: 2.0.0-beta.85
-      version: 2.0.0-beta.85
+      specifier: https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main
+      version: https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main
     '@alchemy.run/github':
-      specifier: 2.0.0-beta.85
-      version: 2.0.0-beta.85
+      specifier: https://pkg.alchemy.run/@alchemy.run/github/branch:main
+      version: https://pkg.alchemy.run/@alchemy.run/github/branch:main
     '@effect/platform-node':
       specifier: ^4.1.4
       version: 4.1.4
@@ -183,8 +183,8 @@ catalogs:
       specifier: 26.6.5
       version: 26.6.5
     alchemy:
-      specifier: 2.0.0-beta.85
-      version: 2.0.0-beta.85
+      specifier: https://pkg.alchemy.run/alchemy/branch:main
+      version: https://pkg.alchemy.run/alchemy/branch:main
     changelogithub:
       specifier: ^13.16.1
       version: 13.16.1
@@ -204,17 +204,17 @@ catalogs:
       specifier: ^1.0.34
       version: 1.0.34
     oxfmt:
-      specifier: ^0.72.0
-      version: 0.72.0
+      specifier: ^0.79.0
+      version: 0.79.0
     oxlint:
-      specifier: ^1.87.0
-      version: 1.87.0
+      specifier: ^1.94.0
+      version: 1.94.0
     rolldown:
       specifier: 1.2.13
       version: 1.2.13
     tsrs:
-      specifier: 0.18.0-ts7.1.0-dev.20260929
-      version: 0.18.0-ts7.1.0-dev.20260929
+      specifier: 7.1.0-beta.tsrs3
+      version: 7.1.0-beta.tsrs3
     typescript:
       specifier: ^7.0.2
       version: 7.0.2
@@ -277,16 +277,16 @@ importers:
         version: 9.1.7
       oxfmt:
         specifier: 'catalog:'
-        version: 0.72.0
+        version: 0.79.0
       oxlint:
         specifier: 'catalog:'
-        version: 1.87.0
+        version: 1.94.0
       rolldown:
         specifier: 'catalog:'
         version: 1.2.13
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
       vitest:
         specifier: 'catalog:'
         version: 5.0.4(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
@@ -317,7 +317,7 @@ importers:
         version: 1.2.13
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
 
   benches/bundlers:
     devDependencies:
@@ -332,7 +332,7 @@ importers:
         version: 1.2.13
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
       vite:
         specifier: 'catalog:'
         version: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
@@ -424,7 +424,7 @@ importers:
         version: 26.6.5
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
 
   benches/schema-lab:
     dependencies:
@@ -498,7 +498,7 @@ importers:
         version: 1.2.13
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -510,7 +510,7 @@ importers:
         version: 26.6.5
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
 
   packages/acme:
     dependencies:
@@ -725,6 +725,25 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+
+  packages/browserbase:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.4
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.1
 
   packages/celld:
     dependencies:
@@ -1535,6 +1554,25 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+
+  packages/mollie:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.4
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.1
 
   packages/mongodb-atlas:
     dependencies:
@@ -2571,41 +2609,41 @@ importers:
     dependencies:
       '@alchemy.run/aws':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+        version: https://pkg.alchemy.run/@alchemy.run/aws/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+        version: https://pkg.alchemy.run/@alchemy.run/github/branch:main(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
         version: 4.1.4
     devDependencies:
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
 
   stacks/distilled-submodules:
     dependencies:
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+        version: https://pkg.alchemy.run/@alchemy.run/github/branch:main(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.1.4(effect@4.1.4)(redis@6.2.1)
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
         version: 4.1.4
@@ -2621,7 +2659,7 @@ importers:
         version: 7.3.0
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
       yaml:
         specifier: 'catalog:'
         version: 2.9.1
@@ -2630,10 +2668,10 @@ importers:
     dependencies:
       '@alchemy.run/cloudflare':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@alchemy.run/github':
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+        version: https://pkg.alchemy.run/@alchemy.run/github/branch:main(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.1.4(effect@4.1.4)(redis@6.2.1)
@@ -2648,7 +2686,7 @@ importers:
         version: 2.0.6(@solidjs/router@1.0.0(solid-js@1.9.17))(crossws@0.4.12(srvx@1.0.5))(ocache@0.3.0)(supports-color@8.1.1)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       alchemy:
         specifier: 'catalog:'
-        version: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+        version: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect:
         specifier: 'catalog:'
         version: 4.1.4
@@ -2676,7 +2714,7 @@ importers:
         version: 4.3.3
       tsrs:
         specifier: 'catalog:'
-        version: 0.18.0-ts7.1.0-dev.20260929
+        version: 7.1.0-beta.tsrs3
       vite:
         specifier: 8.3.4
         version: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
@@ -2689,14 +2727,22 @@ packages:
       alchemy: 2.0.0-beta.85
       effect: ^4.1.0
 
-  '@alchemy.run/aws@2.0.0-beta.85':
-    resolution: {integrity: sha512-rLNszwjnncHLSBxsXoRXr68LUXtygXfMAHEWWbndOLdyV05fwVx4KkwCSQAOrC/B4louwbp5ciFZLoSmJcndLw==}
+  '@alchemy.run/acme@https://pkg.alchemy.run/@alchemy.run/acme/-/ccb1dad9bedcc5a51717b97019cd9112c553c66b8fa78724a012531bc9358781.tgz':
+    resolution: {integrity: sha512-vAIhG9fRG1EdX1ImgJP87C2Q+oOOMKHGSMbBFvG7xKlLhmlJW+AvDg2N7LyCgvc8IXDXLsZbpBEmcoyna5V/tw==, tarball: https://pkg.alchemy.run/@alchemy.run/acme/-/ccb1dad9bedcc5a51717b97019cd9112c553c66b8fa78724a012531bc9358781.tgz}
+    version: 2.0.0-beta.87
     peerDependencies:
-      '@alchemy.run/frontend-frameworks': 2.0.0-beta.85
-      '@effect/platform-bun': ^4.1.0
-      '@effect/platform-node': ^4.1.0
-      alchemy: 2.0.0-beta.85
-      effect: ^4.1.0
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
+
+  '@alchemy.run/aws@https://pkg.alchemy.run/@alchemy.run/aws/branch:main':
+    resolution: {integrity: sha512-cBnsgi7J7tjNRcqJcncMU3KFRSpcX8M4MZV9d50fR+q2ESexYjGBUK7eMlY8PfXnSlaIrhZcy647jHOotQ6GDw==, tarball: https://pkg.alchemy.run/@alchemy.run/aws/-/01f12383ee04969870b5097f9fb474a3e4b22c328fe568262bad47e290dafb57.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      '@alchemy.run/frontend-frameworks': https://pkg.alchemy.run/@alchemy.run/frontend-frameworks/-/0c2a361b9d5995752e359563348a138afa0c6e9ebcaee2677c104c1e7e0a17c3.tgz
+      '@effect/platform-bun': ^4.1.4
+      '@effect/platform-node': ^4.1.4
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
       mongodb: ^6.10.0
       pg: ^8.22.0
     peerDependenciesMeta:
@@ -2730,6 +2776,26 @@ packages:
       vite:
         optional: true
 
+  '@alchemy.run/cloudflare-runtime@https://pkg.alchemy.run/@alchemy.run/cloudflare-runtime/-/1ea5ca00c2ed5345e4be517e0b9573847a85229c931fd55c779cfbe033b685a5.tgz':
+    resolution: {integrity: sha512-fZ7fNM+zzFWrG0dpX5cscS97EgEdvESNZWch4a5ZO3Laqd3zQmFNTKuEMl7Z3QDCeiYlCTuLRt7opKehw6hu6A==, tarball: https://pkg.alchemy.run/@alchemy.run/cloudflare-runtime/-/1ea5ca00c2ed5345e4be517e0b9573847a85229c931fd55c779cfbe033b685a5.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      '@distilled.cloud/cloudflare': https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz
+      '@effect/platform-bun': ^4.1.4
+      '@effect/platform-node': ^4.1.4
+      effect: ^4.1.4
+      rolldown: 1.2.16
+      vite: ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@effect/platform-bun':
+        optional: true
+      '@effect/platform-node':
+        optional: true
+      rolldown:
+        optional: true
+      vite:
+        optional: true
+
   '@alchemy.run/cloudflare@2.0.0-beta.85':
     resolution: {integrity: sha512-gS/LYJIpEiRthx+Eqr/+O9TseXB7PGuWWkOc96oHfqwDHu+8zUzaY1pwsc0qQ1eAlgd/xy8YWnM6JThc6eXOUQ==}
     peerDependencies:
@@ -2752,6 +2818,26 @@ packages:
       vite:
         optional: true
 
+  '@alchemy.run/cloudflare@https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main':
+    resolution: {integrity: sha512-SubFCKMKovsGpjKuClx/Qj+rjRE61OqgOs84oWbcT6j7ocAmuH9fZmEtd+FUdouXjzsxAqgdcdQEFqhUW4HSKA==, tarball: https://pkg.alchemy.run/@alchemy.run/cloudflare/-/683394b879464318d3c4d1ec002224e2cb9d88fb32752f08bebae99954619321.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      '@alchemy.run/frontend-frameworks': https://pkg.alchemy.run/@alchemy.run/frontend-frameworks/-/0c2a361b9d5995752e359563348a138afa0c6e9ebcaee2677c104c1e7e0a17c3.tgz
+      '@effect/platform-bun': ^4.1.4
+      '@effect/platform-node': ^4.1.4
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
+      vite: ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@alchemy.run/frontend-frameworks':
+        optional: true
+      '@effect/platform-bun':
+        optional: true
+      '@effect/platform-node':
+        optional: true
+      vite:
+        optional: true
+
   '@alchemy.run/docker@2.0.0-beta.85':
     resolution: {integrity: sha512-AhVdcCTu/paBdDUtGc2U4WEa8+gczkkf7oH7XEeIVjlQ+xX3hmYWlspdfejoJ9pb2JT4myfvp5EeXi/Jcp+W2g==}
     peerDependencies:
@@ -2762,24 +2848,43 @@ packages:
       '@effect/platform-bun':
         optional: true
 
-  '@alchemy.run/github@2.0.0-beta.85':
-    resolution: {integrity: sha512-lKQZTlqYo/iOK4Zbskd7riff9nqkMNgtStdlmgAUD/IvR+FweXftfcjZD9u9k/Z3h4RguJi4IduwFudSpLl6QQ==}
+  '@alchemy.run/docker@https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz':
+    resolution: {integrity: sha512-ztw1pnBtCB8kEI5wN33of69RoLNjCoPexapb55g4n/dp1rAbEjE2QKPzY8eV6Jx7g0ypt2I71VHvXkrLExbfRg==, tarball: https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz}
+    version: 2.0.0-beta.87
     peerDependencies:
-      alchemy: 2.0.0-beta.85
-      effect: ^4.1.0
+      '@effect/platform-bun': ^4.1.4
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
+    peerDependenciesMeta:
+      '@effect/platform-bun':
+        optional: true
 
-  '@alchemy.run/kubernetes@2.0.0-beta.85':
-    resolution: {integrity: sha512-wREK4549wHncU7+XZJuJlOOTjHE2+9Dl+K/CHb5qwEWtHKaX6wbCuEccQad2PerDTA9cs5kPHmMXdGJhrY9yhQ==}
+  '@alchemy.run/github@https://pkg.alchemy.run/@alchemy.run/github/branch:main':
+    resolution: {integrity: sha512-JlAYo1OkfO+QC3A3PpQI8Fdi6/TZ4GPMEJvfmKvsO7Um997kj5rNU9eCenVtmep1MMaOfAmV5jYyR/bqmoaidA==, tarball: https://pkg.alchemy.run/@alchemy.run/github/-/f58e557a4107665a8f2ee9f00968cdb5765adb690f8a42a09754ff26bb5a96a6.tgz}
+    version: 2.0.0-beta.87
     peerDependencies:
-      '@effect/platform-bun': ^4.1.0
-      alchemy: 2.0.0-beta.85
-      effect: ^4.1.0
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
+
+  '@alchemy.run/kubernetes@https://pkg.alchemy.run/@alchemy.run/kubernetes/-/f7ccb449ddb9866a7b07db08a8d80e9a66489bf0f948fccd2cce46708689ff8a.tgz':
+    resolution: {integrity: sha512-xq5GuSOR+3ZkETgQnx6kaBDWs5w6UXeotQYMGMk6yKHFeC0kMDqqdjOdDk+A9UPH15WthAcScHLttueFrwpWsg==, tarball: https://pkg.alchemy.run/@alchemy.run/kubernetes/-/f7ccb449ddb9866a7b07db08a8d80e9a66489bf0f948fccd2cce46708689ff8a.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      '@effect/platform-bun': ^4.1.4
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
     peerDependenciesMeta:
       '@effect/platform-bun':
         optional: true
 
   '@alchemy.run/node-utils@2.0.0-beta.85':
     resolution: {integrity: sha512-2gxqMNMoJdx13w7wlDJw+gaXQ8e1VxQFsKldOvweqpd7JEgB5TGn3oO8r1sb/GB9+UzqXdh8tKp2MOVgFOrmbg==}
+
+  '@alchemy.run/node-utils@https://pkg.alchemy.run/@alchemy.run/node-utils/-/3ac66c7f1348b366450188594ee3013ea56adb8cb5bff8088cba7960961df25e.tgz':
+    resolution: {integrity: sha512-QoWbmntoVvL45vkqCuUDg4E1VFjcElKsbFUcdDowwABNNGsjRVEoj4Mi/VSyNbY1vt5q/s4jTuYTyXdn4Ijk7g==, tarball: https://pkg.alchemy.run/@alchemy.run/node-utils/-/3ac66c7f1348b366450188594ee3013ea56adb8cb5bff8088cba7960961df25e.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      effect: ^4.1.4
 
   '@alchemy.run/pkg@2.0.0-beta.85':
     resolution: {integrity: sha512-vYDxaZ2J1mOweqnFnJ2h4F3PtckdTNfuTuOLl6kcitWgu8Ivd8fTthO4lZJFaiZym5JtVgB+xmJvzYI2bgj84A==}
@@ -2795,6 +2900,18 @@ packages:
 
   '@alchemy.run/sigil@0.1.0-alpha.1':
     resolution: {integrity: sha512-RtHELG2w+GluVewRsuKm66idtPzC+4STptMr/61X1Vy5uBkDzcCzjzV8G6jUa4iBv6Il0hHV7UL6wvv//9nD/Q==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      '@types/react': '>=19.2.0'
+      react-devtools-core: '>=6.1.2'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react-devtools-core:
+        optional: true
+
+  '@alchemy.run/sigil@0.1.0-alpha.4':
+    resolution: {integrity: sha512-d6Uo16C2P6Wk7TNoYt4qzjjNGyjsrJLjq8bBotl86Nmcp/U6+R34/n4CZomqFERF2wMinut2DBqWNeUQPTBtFQ==}
     engines: {node: '>=22'}
     peerDependencies:
       '@types/react': '>=19.2.0'
@@ -2821,6 +2938,32 @@ packages:
       '@effect/sql-mysql2':
         optional: true
       '@effect/sql-pg':
+        optional: true
+      mysql2:
+        optional: true
+      pg:
+        optional: true
+
+  '@alchemy.run/sql@https://pkg.alchemy.run/@alchemy.run/sql/-/105093ec55642395b5217925fe83a7cb7157a58372f36bc6eb56bdf8d9637667.tgz':
+    resolution: {integrity: sha512-pObVBTDsB2NC6e8x2/VkgIZIoJ4FE/95m1NvvcLWdHliH+uPUpc31UnwYG6svqmmVzHduJab+tylz6mzSVT/fg==, tarball: https://pkg.alchemy.run/@alchemy.run/sql/-/105093ec55642395b5217925fe83a7cb7157a58372f36bc6eb56bdf8d9637667.tgz}
+    version: 2.0.0-beta.87
+    peerDependencies:
+      '@effect/sql-libsql': ^4.1.4
+      '@effect/sql-mysql2': ^4.1.4
+      '@effect/sql-pg': ^4.1.4
+      '@types/pg': ^8.20.0
+      alchemy: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz
+      effect: ^4.1.4
+      mysql2: ^3.24.2
+      pg: ^8.22.0
+    peerDependenciesMeta:
+      '@effect/sql-libsql':
+        optional: true
+      '@effect/sql-mysql2':
+        optional: true
+      '@effect/sql-pg':
+        optional: true
+      '@types/pg':
         optional: true
       mysql2:
         optional: true
@@ -3031,8 +3174,20 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  '@cloudflare/workerd-darwin-64@1.20261117.1':
+    resolution: {integrity: sha512-qfAYw6iPoey0BmPsp4z5ARWOa+XSBD3gQzmcBI2ql9pKTSA5eEC8F1oI6BIk/FVguhomfSn5gS4RzbWhTd/EpQ==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [darwin]
+
   '@cloudflare/workerd-darwin-arm64@1.20261026.1':
     resolution: {integrity: sha512-ewhmUr/1S8/ik7MjPcQqq7Kx91I6AVLSlTTblbU8OkZ4CiPy92N3WBNMZ06BUkJaFS+XThbXyN/4FDF6xIFo5w==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@cloudflare/workerd-darwin-arm64@1.20261117.1':
+    resolution: {integrity: sha512-cInx5Cr9O27oW+ujyI49lTRQZra/lMgWUFiKmGY3jxDncATSxzfQ6udXHkVvK4//1/PfxQTDyMjdQUIN8m6Aqg==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [darwin]
@@ -3043,8 +3198,20 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@cloudflare/workerd-linux-64@1.20261117.1':
+    resolution: {integrity: sha512-gZLA8X11m/luZwn+YA3+mDu61vdxNJzpksP/QZqjydKTQ+VUCulsK5gtn9Bqst1p3KJu2kafQpJ1nDQv4B23jA==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [linux]
+
   '@cloudflare/workerd-linux-arm64@1.20261026.1':
     resolution: {integrity: sha512-sM+rsagLWdSGb8GP5Qz40nmufbx8EawRD+jw+ySzdiv3owLOLlP0Z1Nzl4s5gtZ6OPCHSVsQxdWNCDfnJLbiVA==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@cloudflare/workerd-linux-arm64@1.20261117.1':
+    resolution: {integrity: sha512-gxWngFojq41ULKNKb9rpWYvKotN5hT2I/xot+Bpy31cXzrwcTgtDLSMb2t75sW5BJxH7hihFvikgYb577kB3Zg==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [linux]
@@ -3055,43 +3222,100 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@cloudflare/workerd-windows-64@1.20261117.1':
+    resolution: {integrity: sha512-0OR2Btx5EDonOKvvuGDq8rxBSggxoF1ThQjbZN3vsu3GlaF/oXW5f9/iB78OgV0CzMPTi+hZgzc1NR95UJCURA==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [win32]
+
   '@cloudflare/workers-types@5.20261102.1':
     resolution: {integrity: sha512-rRNznLGla+8vRdToTN/5M+AzlopILSLLZ3qo2L5Ku/dY792iOlX/K9ZLkLnLYji1jycv7+FB12hiE+fFjVgMrw==}
+
+  '@cloudflare/workers-types@5.20261120.1':
+    resolution: {integrity: sha512-bpaDXQ1oYqWhLCAqV5fO0pPB2tduDEEFyIMedZVi0NqzW/7T8DlJ8hUe3DqoDG1RQ8X7zTbK555Qr9yAyyUhmQ==}
 
   '@distilled.cloud/acme@1.0.0-rc.18':
     resolution: {integrity: sha512-OWO6NG9IcpDqZCzlrN5T4MIQqSbpZ5cw61Ru/dYn1vr3AIyx3Vlg+Ew8NhlunpURr4wqDUW2/7QW3fKbrmfwLg==}
     peerDependencies:
       effect: ^4.0.5
 
+  '@distilled.cloud/acme@https://pkg.alchemy.run/@distilled.cloud/acme/-/93cdeb63385c621e30cc363c24b6111d68f2e9796416c9d22532b5f3d6f14a0e.tgz':
+    resolution: {integrity: sha512-G2fnAgxbqNexD/Wmjrj26KqRJhaArrsKl9ZTnwW3Jir+JGOg/G6B69i0zSzYV3W2frV1rmy7ll3flfVzmpjJ1w==, tarball: https://pkg.alchemy.run/@distilled.cloud/acme/-/93cdeb63385c621e30cc363c24b6111d68f2e9796416c9d22532b5f3d6f14a0e.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
+
   '@distilled.cloud/aws4signer@1.0.0-rc.18':
     resolution: {integrity: sha512-eYJi2rsblwjxpa0kj2qUQYqY9cEwD6ow0njiFL6I5ZnlOqrE8I3aLiWvScoc3s9bQUQD5nFdmSnORoPJ5GsHKg==}
     peerDependencies:
       effect: ^4.0.5
+
+  '@distilled.cloud/aws4signer@https://pkg.alchemy.run/@distilled.cloud/aws4signer/-/3b17306505bb7e32801a8266f47ccc28276318777fe1e79e62f13aff9e4a899a.tgz':
+    resolution: {integrity: sha512-dvTC0gZb8PsINuOY46WMBUWXUpklTsZP1lIbtlohh3upxBdaf+96NuQL3y3Hsw6h9yYUdUewS21GxluXOUAvPA==, tarball: https://pkg.alchemy.run/@distilled.cloud/aws4signer/-/3b17306505bb7e32801a8266f47ccc28276318777fe1e79e62f13aff9e4a899a.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
 
   '@distilled.cloud/aws@1.0.0-rc.18':
     resolution: {integrity: sha512-VZDlOGEXvXvTdY/0sTEoTWnPCGde+fjvq1ZIW3wgiZK/X8ChbbonGArg+Sc9OO4E9tr1WBymASrZ906uLnLWFw==}
     peerDependencies:
       effect: ^4.0.5
 
+  '@distilled.cloud/aws@https://pkg.alchemy.run/@distilled.cloud/aws/-/ba4df5342ed43e6fc9881d6de831addbe49bdf50939a1c0959639032f822916f.tgz':
+    resolution: {integrity: sha512-YF6qII8z09LrmfxvvViZrrHXLlIzX1zyrbofn6R9Ej+Br1rgYm35e+roU00w0RpQYnThiN6K0VwKIGQ7kNp1Gg==, tarball: https://pkg.alchemy.run/@distilled.cloud/aws/-/ba4df5342ed43e6fc9881d6de831addbe49bdf50939a1c0959639032f822916f.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
+
   '@distilled.cloud/cloudflare@1.0.0-rc.18':
     resolution: {integrity: sha512-UJB7pitkg7msm7BGTuAE8yYx4GzKdPLRtiOm3G3XHw07xLUlqEiEr4xpSf0CeziWzDygjI53FSkpC2qyVZr49g==}
     peerDependencies:
       effect: ^4.0.5
+
+  '@distilled.cloud/cloudflare@https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz':
+    resolution: {integrity: sha512-ZCxgyfTqrnnOEftWl+vnPWeZSk5AZ48xVnMmr+PZGn5TUN+6Ds9Tx7SgT9rdNCFYiUqihHTodQZb1ircGDCebQ==, tarball: https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
 
   '@distilled.cloud/core@1.0.0-rc.18':
     resolution: {integrity: sha512-Iui60+sNl1CwUu7NKGLuFf3VC4H9xYzfm0Fc8ZQvd87qwf1sDMB3EAWZrq/QFgrwzSY16z2mJ0PNHaBUnGet8A==}
     peerDependencies:
       effect: ^4.0.5
 
+  '@distilled.cloud/core@https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz':
+    resolution: {integrity: sha512-8e8nFfmEBfKaUtpKgl4kWV3gnAZGJ2lYYhxGz1qrJd8l+6xMhfrgULsHg/Dqfaml1O8yzC3XiG8aDyOjo2kGWw==, tarball: https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
+
   '@distilled.cloud/github@1.0.0-rc.18':
     resolution: {integrity: sha512-SX5EofqqjaHRnTw0RC83qvEQZr11/RcNxqjdsn7kteHvni+1DIgnlRfeHoUD2rVyQEyEPWCYnIOFWysgXUOvSg==}
     peerDependencies:
       effect: ^4.0.5
 
+  '@distilled.cloud/github@https://pkg.alchemy.run/@distilled.cloud/github/-/4747d0b95bacbe183325734a7940960eda85d91c43cddf4d12f29ad784b2f480.tgz':
+    resolution: {integrity: sha512-JqJBxXfgtTXlsA//0K7x/DGA3FipqYYW7Z+hZ3JLyMUMoHF6bCG2fIxG5D2e70oUD+mm8YwDZvutom0I5F1B6Q==, tarball: https://pkg.alchemy.run/@distilled.cloud/github/-/4747d0b95bacbe183325734a7940960eda85d91c43cddf4d12f29ad784b2f480.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
+
   '@distilled.cloud/iceberg@1.0.0-rc.18':
     resolution: {integrity: sha512-XjUJ/vEOylhIZbAm85O9H6YqXKWGfVROT5BE9BGA/RXvo0bLK2+sUcjC6BoN77a99lImJkrXJuvbHBhNebObEA==}
     peerDependencies:
       effect: ^4.0.5
+
+  '@distilled.cloud/iceberg@https://pkg.alchemy.run/@distilled.cloud/iceberg/-/53b5fb0a6c5c72a24cee7364f343d4e8606b98ce19845eb7ef4adc06a212a3d9.tgz':
+    resolution: {integrity: sha512-oStBXIetMkiY94yBG92S8ITKkA/3ufDpkw56SDkHoxTfnthWLUEZTY6OLbZYJIaihrhcpg9iBaOUS+0aJJ5G0A==, tarball: https://pkg.alchemy.run/@distilled.cloud/iceberg/-/53b5fb0a6c5c72a24cee7364f343d4e8606b98ce19845eb7ef4adc06a212a3d9.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
+
+  '@distilled.cloud/s3@https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz':
+    resolution: {integrity: sha512-aCYraBaFUuMnSgqsvoqkx8yA5eLOAHIsSsC7QqbqPoTpvMN5h259DleOlYIYHyBQCjDRUlW/GygIZ7dWQc1Z9Q==, tarball: https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz}
+    version: 1.0.0-rc.20
+    peerDependencies:
+      effect: ^4.1.4
 
   '@effect/platform-node-shared@4.1.4':
     resolution: {integrity: sha512-DWdfphHGOFJNj/mYadgpT3jIm8aRXDcPrQiGXFBH4p2H4XmA7iYMrPsI8NxVgZ7kNX0q1+FGJZJama0tINHRAg==}
@@ -3110,6 +3334,11 @@ packages:
     resolution: {integrity: sha512-7uzFwDg/SQali/+Edp6H/t0nQSXtdDsNO8dHkC8xl45/YITJ6F5Os0pBZdXMCdtqehekhDM3qzTtJut4rLGcEA==}
     peerDependencies:
       effect: ^4.1.2
+
+  '@effect/sql-d1@4.1.5':
+    resolution: {integrity: sha512-UBGAoDhy26GR2W0KvBtCASJRvYpM4Wadng1MaJbMEvwbasEbQ+KKiZpWICVe0JpSLp3vxbQTD+1l1JYzp30V2g==}
+    peerDependencies:
+      effect: ^4.1.5
 
   '@emnapi/core@1.11.2':
     resolution: {integrity: sha512-TC8MkTuZUtcTSiFeuC0ksCh9QIJ5+F21MvZ4Wn4ORfYaFJ/0dsiudv5tVkejgwZlwQ39jL9WWDe2lz8x0WglOA==}
@@ -3634,246 +3863,249 @@ packages:
   '@oxc-project/types@0.153.0':
     resolution: {integrity: sha512-jSNrRIyvPVLL5E1z/tS5zLAprosGz/FuI1PWwEOz59j3E4TTTzSpqKb/RDGqJhhW0QHYISGXxq582wGx6T11Tw==}
 
-  '@oxfmt/binding-android-arm-eabi@0.72.0':
-    resolution: {integrity: sha512-u4U1uaDOVBuorGNC/07NLm48nECHOiJJka002YGML16Md2DRvf38RGBt01lH60EOGvNlFVmbLoksQedNBoZHKw==}
+  '@oxc-project/types@0.156.0':
+    resolution: {integrity: sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==}
+
+  '@oxfmt/binding-android-arm-eabi@0.79.0':
+    resolution: {integrity: sha512-xOCQ/rvokUXs8SxOQY5Wy2ukPaZJZ0PmdJovN0ryB1c8DVEtbcvliLdYtINUYh8QOTpmBOctIisSJk9tvh+J6w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxfmt/binding-android-arm64@0.72.0':
-    resolution: {integrity: sha512-GCnM+Ae2mWOKC+92y3FOb6eZJeVnBAVz82e3lITUUg+kxukYKzBNAvJ/hhHIfa2A0md55SYYhdWPddSSy3KPVA==}
+  '@oxfmt/binding-android-arm64@0.79.0':
+    resolution: {integrity: sha512-WMLDvCjjchUYtI6zXKOdzTDGm72BaYZiz1/VhB1rrxdakUZRlJh1aMr3CT6ui51uHcWVBycULIXSZHpw6u2pTQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxfmt/binding-darwin-arm64@0.72.0':
-    resolution: {integrity: sha512-LjQ8tlevdtwraFlWC6AnQ1Forzde0clRmnsP3QmK+ydSElDt/J+5Jc+m+//Ly1G97aP7WCNUw110QMIUw2K7xA==}
+  '@oxfmt/binding-darwin-arm64@0.79.0':
+    resolution: {integrity: sha512-+LzSN7w7tULz96ntS1Uqe5oI00XZ0o/m/t3+eSfiQp3aTPnj2eGUafqEWryMLk84j7x9NiF+GEP2YT4/BfClgA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxfmt/binding-darwin-x64@0.72.0':
-    resolution: {integrity: sha512-+ZbcxhB1C34RQR5IldSyY6Z/yalJIxHXhP36PGE4sEq0f/lgL5jCLmOKoDeVm8dqd9gFGDsd1bNWHSGCAwdSkw==}
+  '@oxfmt/binding-darwin-x64@0.79.0':
+    resolution: {integrity: sha512-KFiMRhKeiiooaS1dKc4r8AZgOrfOhwVe1yf/aRef+8BajJwtVjMtlsQl/BNRxtkFbq13GjEo/4Q+9YhFGU4o6g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxfmt/binding-freebsd-x64@0.72.0':
-    resolution: {integrity: sha512-yGPhA8sePEBFV9iGcprhyOk3Bz3fZshswMH3DpYIPZFLT1DG5LjiZ0j6AJQpSueaL6bUK0av1K+5+fe+ldy5EQ==}
+  '@oxfmt/binding-freebsd-x64@0.79.0':
+    resolution: {integrity: sha512-lHVIp0g8ZOFKiqVscvttp+3HJkkRH6XkGgfAA0lVexIlE1mMFVp4V7RBdxz/P9p7T8pSNsYdapFWvdT21Mib9w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxfmt/binding-linux-arm-gnueabihf@0.72.0':
-    resolution: {integrity: sha512-/g5axuqFMcAtoQrFLR5EJEMDjR5Ea4GuzpdDmMpPWAgrF1DmL4kD1NPNVlpXEOxpFJnD6lPvLKYj1lzdlrfifA==}
+  '@oxfmt/binding-linux-arm-gnueabihf@0.79.0':
+    resolution: {integrity: sha512-Pt35GoxiMUfnr+23cuzk07XQVvISDFxxPcp/aFVB87+RQvJoQaBo/XN7Re9XxgElvbELdyxTLnV9XM2aTfJeUA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxfmt/binding-linux-arm-musleabihf@0.72.0':
-    resolution: {integrity: sha512-InVitdHbS09PM+w+WinIiyX37rC9R3L7lUP9mKy9uKTEDSUFaLjWsLoreRIxKivnv7Ndqc6Trvi+K+b6ZzhiJg==}
+  '@oxfmt/binding-linux-arm-musleabihf@0.79.0':
+    resolution: {integrity: sha512-zPi9Dni58VKp3r1QUcFvnbJNfBr49qyecq0vlM4SaX/MSjmguq77VngirghDua5tyhIDfqdUMTCK2KRlnZFp/g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxfmt/binding-linux-arm64-gnu@0.72.0':
-    resolution: {integrity: sha512-WKjlyRAxpPjXoqeuwFBim5LscgvY+RNEiZ971C9JlRQZONhJTsXDki/oHFYQE+fzzRpzXh3owZvOdT3kNL2g+g==}
+  '@oxfmt/binding-linux-arm64-gnu@0.79.0':
+    resolution: {integrity: sha512-XhRehATEWjwX7VVEgDUD+7pfHYncQIJaEU0qsHvEKtu9XX0QYzcKvXhU9+URfiGX9WRh3wy2Ow+YCc3EeHtImg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-arm64-musl@0.72.0':
-    resolution: {integrity: sha512-poafnbsPpJhR+5Mbwpf8CscugTyiRAzjTOxRVn8ra3X2jnURs2xL5Du2xl5g2iW85lICMglpmLf8jDjZEbNgzQ==}
+  '@oxfmt/binding-linux-arm64-musl@0.79.0':
+    resolution: {integrity: sha512-gbVjFZYug0MEyqvuTAzXGNxFJmBqBO32o1Fud1lG8bGs6oVz48ZtNQyEcAzqrOwaaG+Sxtv4gVzcsfht9aqmkg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-ppc64-gnu@0.72.0':
-    resolution: {integrity: sha512-zNUi0gKRsO7S3IfPzsTbnm88OedPuX32hmZFWZRWHvWJlAoZRwVbeO6Nb3hng4vDgL7qUKp4TGqzPz1mhsycYg==}
+  '@oxfmt/binding-linux-ppc64-gnu@0.79.0':
+    resolution: {integrity: sha512-0N0sD3vnllyuiNh1r6zKvNXWE/CakcPKJAespg7XE2+sfvxpz5Q1iFah8sF5aedsOmVvbZaOPZcSHVmMosT1fA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-riscv64-gnu@0.72.0':
-    resolution: {integrity: sha512-qTY7z/iyF/rWI2HWwWMevXqZW5PZUOofUy2afK7v6rseXnpld3yjgyIk6pCux3DqWQ0lB+f5atvLJNBwzLvFsw==}
+  '@oxfmt/binding-linux-riscv64-gnu@0.79.0':
+    resolution: {integrity: sha512-YtjqUHolcX6cv0ZMZuKQCM4H0ae/okcowy0wGcPHJk4O+8zjy3TvNhzDQ1/KGCkMJO8Fwulm1JcPJsraVJ3p+w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-riscv64-musl@0.72.0':
-    resolution: {integrity: sha512-w18qfo8vEMD6EKEHtzTvjc6jH8yCyXIT1Bn7PFWJd0PpZyzH/VQDx4xvjCh0LGz6GRzqiezbisTdG9AoXtpkZQ==}
+  '@oxfmt/binding-linux-riscv64-musl@0.79.0':
+    resolution: {integrity: sha512-H2gb9bEBr5tcdP5FU8JYTfgOavXDorWcAAlwci/zEKF2jzgh/oEr/SAw6aHB9n3FLEvnKvOh0A1fjku+vgYoUA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-s390x-gnu@0.72.0':
-    resolution: {integrity: sha512-grW8HwEir+vK7fCcq1ZgL3NHQCfZ1PidiERE9Hbf+24xGys+DoDaoqTht4ccfn0PcBwbViLkwkda/KNpJu2KRQ==}
+  '@oxfmt/binding-linux-s390x-gnu@0.79.0':
+    resolution: {integrity: sha512-aZUbyWW5dSOxT/u6suWc4S9GVDt7YPPNMKQon+z79M8dpXmosadcFHAb7jBhpU7Hdsd2GN6/y3nd0JFTsGddZw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-x64-gnu@0.72.0':
-    resolution: {integrity: sha512-wQJRQfWBRIn88Pkr449EUViwRayrYUScg7ty+Ihiem21mQ9BUA6S9e/4RAgyNk9lMag0KBouyKskjq61rOC0WQ==}
+  '@oxfmt/binding-linux-x64-gnu@0.79.0':
+    resolution: {integrity: sha512-5pW/ZHYfjjQ71gQR+EKzDz8ZzWIDHlTUtWtxVFNgZbKxVZnRxiSXVrllbjpJtx1q8VtSPZ+Lyg9BLny3yw+PTA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-x64-musl@0.72.0':
-    resolution: {integrity: sha512-T1B0uQzafxuGPjjaPrZJ497nxoi1BiI65JfsYc56nNpmev3msfb/iaTmH2kQuNFqa8PKxpMlf3GhWrWBvBPORQ==}
+  '@oxfmt/binding-linux-x64-musl@0.79.0':
+    resolution: {integrity: sha512-3IVUerTDB7Dvd90c1EurAzlVnlE9Azl7Wn8e33qX3wL/IqnslF+P7HvwkD+VeMbHxRtuw0EEBGSArZFXpUAZrQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-openharmony-arm64@0.72.0':
-    resolution: {integrity: sha512-OKxxgTurl7+hypVplO8QRAbbQlwEs0j1Y6FZv+ZN2qNbdxQk2muMlzuJNBGTCWwxQ0rkkOD1uK/DW1fvzoUSJA==}
+  '@oxfmt/binding-openharmony-arm64@0.79.0':
+    resolution: {integrity: sha512-C5QDgJBtu9+/2BQScoP7ynv54PLOqfoSqhRWwI0D0RPOwYD4tYj0TUdJbXMO1fNegL/5zJiSOxkq6II2xvttWg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxfmt/binding-win32-arm64-msvc@0.72.0':
-    resolution: {integrity: sha512-L78TKzURqvjuZOCo88ixMbPXf/RP7u31Y0cmjJ/KEmrHmfYhmhEvsDaTYPiyTRne64jUgCbADfY0YeoQk4/Xyw==}
+  '@oxfmt/binding-win32-arm64-msvc@0.79.0':
+    resolution: {integrity: sha512-zlW1m8M49vNGgqQF/ze80KW8pZMicnW2XDZGBHuYtXTRYn4ewvgpqN9wwoqb6uLZZfb1R1zaQWKEB8cs7KYjwA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxfmt/binding-win32-ia32-msvc@0.72.0':
-    resolution: {integrity: sha512-gQtFW+Ii8BWgtJTAD17TY/WsdNS5gUfAPov8iI1jeq4r9lRRYImmxPL08UU00/RLaCfBJwh2UgINnDY0iOiZ+A==}
+  '@oxfmt/binding-win32-ia32-msvc@0.79.0':
+    resolution: {integrity: sha512-wbb7hFv2wK3SCTfu8dl1ydNsXM5dmH+PJMU3sojCkfKcG29VDpITL5/AtouCzXjkOc90QRkcAZcg36gP0KqoHA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxfmt/binding-win32-x64-msvc@0.72.0':
-    resolution: {integrity: sha512-uhooIN+DCzWX5uH7mQkSVCsODqsGluGJ4n3ch4+mITtWKpESMDjUJUSDBAVFuYQDwqY2McPDKdKJbM0oZVW/Qw==}
+  '@oxfmt/binding-win32-x64-msvc@0.79.0':
+    resolution: {integrity: sha512-JLaeaQ+4LkQiVXY06JIV1dBFEDJzssvDieK/3Poi6CsY+c4UxghZVrrsfcKGJ5R/0F2Sw3C5Lf5Hu0sM5qJfPw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
 
-  '@oxlint/binding-android-arm-eabi@1.87.0':
-    resolution: {integrity: sha512-22tVIHlB9898OYsBKmYB6He1MCSqdTmK1BVWuSNUTVrpS0KWNege+U9uEYqGJ+KatQag0r/oU44i3OOs46z7HQ==}
+  '@oxlint/binding-android-arm-eabi@1.94.0':
+    resolution: {integrity: sha512-730FKSBsKg/NawYnpI3gXRroXptOVqY32iYBPLUZaSx0vgYzOeiNtwojZL4gJdzo9wDvHUlstShmGRHrWcbRYg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxlint/binding-android-arm64@1.87.0':
-    resolution: {integrity: sha512-JfZQ3MWf74n8ov0DojZpkOduIubYJvZL5tbTMMhDutsal6u1xH1QuNpN+lK+EQwF8AeAfgwTR2fgh5U2br27XA==}
+  '@oxlint/binding-android-arm64@1.94.0':
+    resolution: {integrity: sha512-8v8TICIiZpXLot1HSq5+vsG9NEKQ5czQBYlUqJR75OVfFDr3cGOmRU/CtHDWnS4tm8nW+Z4Y357qGToSfYqFvA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxlint/binding-darwin-arm64@1.87.0':
-    resolution: {integrity: sha512-rkx6Xvvw93z2GImVOyvbZwAZcoY0Z6MJW177XNsSB+i/CBsH7ANyelTp01VZyIkM3iSXtqKVb4+ptBgPHap5pQ==}
+  '@oxlint/binding-darwin-arm64@1.94.0':
+    resolution: {integrity: sha512-NePcRMO/ltt1Pnytohl6pl0bd/QyRX8HbpptuDz9LK7FTsFD4lKxDMBt7di9k6IFLO0J05jO2nm7wGqIh6dRHA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint/binding-darwin-x64@1.87.0':
-    resolution: {integrity: sha512-cw5nYw7L/pQ2SgGBgOcg/Qo89llQre3vIc/kuBLhSICzu1r5s8L76H3ug6AIFsD98WpROj8/z5JVzkf4daxHaQ==}
+  '@oxlint/binding-darwin-x64@1.94.0':
+    resolution: {integrity: sha512-QV+m+OaEgLmYyillvP1wKXhMm6tDZEWx3vG7Wjmx9ybg15+6YMfqzvp6e+uPukC6zNywuule0vMn0fZgihZzZA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint/binding-freebsd-x64@1.87.0':
-    resolution: {integrity: sha512-x/SuznE6loRZK9gz9AS4ZmzNzSu+5KdeoCS+sVHhnrE8HM6AD8UyTjwldQTTqlXGvkwHASgB0NiTNOc3o3PdAg==}
+  '@oxlint/binding-freebsd-x64@1.94.0':
+    resolution: {integrity: sha512-KVZjca581nrV6P71kZ9M1otBib9LH0IMn9rr4mrnbRp18V0HiZhBHbU26gji/Ieq2G34qMacnMc3zrmKmvWqWA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.87.0':
-    resolution: {integrity: sha512-+JEDmCAXiiFmKhAjZhgAOwaHWY6WENOQ5QA+lFuY59tgsUCDOTRi46B+lENK6CWvtxsXpwkZXNOgpjAQcpIpnA==}
+  '@oxlint/binding-linux-arm-gnueabihf@1.94.0':
+    resolution: {integrity: sha512-AMQtgQJk8DgdIV+qaQ5sFoHAko4iKa8zo+gYqELy2grtU8hXWB08DAGB3u90aQL1YSxbd3zqHjgcODBHDFyzBQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm-musleabihf@1.87.0':
-    resolution: {integrity: sha512-/uC9XqXLAC9AHFLNycwmSQEvKqGrOCgU+uXALI7gNW0DG81TJ/3T2eHnKdRvcb5R1gFEfjxDwI4e4zIa29rICQ==}
+  '@oxlint/binding-linux-arm-musleabihf@1.94.0':
+    resolution: {integrity: sha512-ZLzoGVGAmQkp9leeB5rNxAXLcvlmkmd/GY71LKd5uikk+28NEApY3S2FB3pq6MkfOCFFnFg6QgD9lJIjd07D0Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm64-gnu@1.87.0':
-    resolution: {integrity: sha512-FTRYPsBy/M728vnUv7l+KAwSAa3Qi4BQbhVvy7NYuMTZ0sUa/OWsbMx79HVFw6u/5KWcaYayDsoOiv7xbevzDg==}
+  '@oxlint/binding-linux-arm64-gnu@1.94.0':
+    resolution: {integrity: sha512-N1dW6o7cY90hLVkDsvz8nWIFOwbO+n272pvW7uLYB7u47HagJVnLChfK6QA9dWFdiPudud9zfksVUOciHc5PNA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-arm64-musl@1.87.0':
-    resolution: {integrity: sha512-6sC+N7IY0h1egd8SrYUGNN7CUyKJZ4bIZakKa7V7hfinf4jfi8Kq4+klJvFp5DqXcwMn44I5MeBwmJluO1odFg==}
+  '@oxlint/binding-linux-arm64-musl@1.94.0':
+    resolution: {integrity: sha512-7tCF4OV/bGDQ2xxgb+sDI97SpmmDrUII4JxTG553voJVA9cnkbXSGSXzo78Ax73BuhEOPoQc2Qi6VrfT0cDG2A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-ppc64-gnu@1.87.0':
-    resolution: {integrity: sha512-d5Mnn+ICbhoJPi37Ccjy+86T5qfH2+mSTrTMBXNPfB+wqSWOayBBLLIrCXdUy1YssluCVdGkl+DO9w5r5ODmUA==}
+  '@oxlint/binding-linux-ppc64-gnu@1.94.0':
+    resolution: {integrity: sha512-B5vUHE4wNisVEuaYxwFUn6tY+vw7A+9APxxqGKI+UmP3yKLpkhnt0qsaCrzjpX55F8rCRHBaTvIDdYo32NE36g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-gnu@1.87.0':
-    resolution: {integrity: sha512-sf5YWuUo1Dx9loqWCgF8P278MycfcD4JHjDC/LV5j11L3Lqa4PFiwCjD6B8kP4AjsgZZkLn3xbpJEtZBaccs4Q==}
+  '@oxlint/binding-linux-riscv64-gnu@1.94.0':
+    resolution: {integrity: sha512-/U0b15+c4hTodo8YhEqDlQ6OjnGKvc8igjM/mh23ukqqCUBKiBCaxqUV8bcaofK9uZ+f8wCygkyXLS6LN25YSA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-musl@1.87.0':
-    resolution: {integrity: sha512-+aCraYbmK3uU3P0rFojjeaK9pGY6JvBDXh/0CM+gPyWKmNmXmnFe0qj4qj02U4ibFpbd9Pa9CmDvIdjJUd29rA==}
+  '@oxlint/binding-linux-riscv64-musl@1.94.0':
+    resolution: {integrity: sha512-ba94Vwl0qOnwXIXNDR33AEbLXuX++ckM74t+9Te7CiPSPAHivhOYyeEkUAicrvOEei1pxXkWggLbFeBFFBTuHA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-s390x-gnu@1.87.0':
-    resolution: {integrity: sha512-7rzbZQIljo6VLWVPqUyLa2P/WV3VFsJB4M52R4NCUJn1A50yjtUsHxiMHFL9opEKGFIiTbZ3VQzmtcJOPUq4NQ==}
+  '@oxlint/binding-linux-s390x-gnu@1.94.0':
+    resolution: {integrity: sha512-GVwwwms3O8pdgbCiPavwq2vltyB4661GkDz6kJduZ0E5nsSJUDJ0svaP+ePYpuDVYi4+K1qhCKnWa/Ec8I4LUA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-gnu@1.87.0':
-    resolution: {integrity: sha512-Dry46Fa+AXE/xt9J/YriujU1pU9mzfNWHGQwtOYibAFH8HLrKWCi93AhIGnuUMiwn2JbuBkRyz51f50Ly4r4ow==}
+  '@oxlint/binding-linux-x64-gnu@1.94.0':
+    resolution: {integrity: sha512-iUfCFJN8ZIresSnpTfiIkhF3s8X+XA4I9KJ249QwR2QYTMwh0+pla1pj1xaFi+HtR9McjM4Jaemf70HzX7ilOQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-musl@1.87.0':
-    resolution: {integrity: sha512-f/HMZez74gJvnRpGz+b5sdGyWrEgRLmFTXg9sNoqjPWogGxYHUhXKTKyMiYsu9rUGR2ciYqL3fk+Ua4JhMJbRA==}
+  '@oxlint/binding-linux-x64-musl@1.94.0':
+    resolution: {integrity: sha512-RqWVeWpDACS4Oh0m21OBmy+CQ50CbbhuHFmNNPVS2P/4R3d188MjEuEuV7So82/tAM8UAT+UuMDtRDESd9NJ7g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-openharmony-arm64@1.87.0':
-    resolution: {integrity: sha512-lEC6ZfPZm/07JlB7FsOWX9o1RiHlXiBW594LSUGuXmekC8LZmvUPP9XzE2WZcNxJi5cHA/Fw56o02c3JxgMA5g==}
+  '@oxlint/binding-openharmony-arm64@1.94.0':
+    resolution: {integrity: sha512-K/2DHOUoypwYVqzxJMRPdMuBKjAetZEAsGPP7rHimd+2+5J1TxM+17pG8kw+ayH4+rqBXiPd+H9wgPcU+fF77A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxlint/binding-win32-arm64-msvc@1.87.0':
-    resolution: {integrity: sha512-afBWKOD36dUiA9AenaiWpCg8xfyUVPYznyAAVXu413brK4RA5UI/Xoc4yfeGIT8G1a44MV+JR7hioryerBDzGQ==}
+  '@oxlint/binding-win32-arm64-msvc@1.94.0':
+    resolution: {integrity: sha512-hYOCaOJiB4ZCGswBWKl3JQrhqu6mnC5DCUw/1UMNzRXgsHIJ0V226J43LAVICVIDGlhFUZTYShFW+wHWpt6qCQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint/binding-win32-ia32-msvc@1.87.0':
-    resolution: {integrity: sha512-daptNsEOuru4/nJTxV4DBHNJ5GepzmaBVQf+jjgKQGi9NRlZKik+RFq4hUL7ewsF1pwjKM+SkYaMbF82UwFGnw==}
+  '@oxlint/binding-win32-ia32-msvc@1.94.0':
+    resolution: {integrity: sha512-1l1FDlzbPmAeDoZ8UGspOE2dOmz1ZL6SlDsvOmRCmWSQjCdTy5LzUepS8mO/SGpAoz4D6WAt/yNZAUyHqbkmkQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxlint/binding-win32-x64-msvc@1.87.0':
-    resolution: {integrity: sha512-k+m/EShyXE29J/r1fjk0HlAzhN5JhIvj044oSJkXTEkCLrWZQgXb/3r4q5LTw/eaKW/4GuMXG2xmiJs3s5rPNw==}
+  '@oxlint/binding-win32-x64-msvc@1.94.0':
+    resolution: {integrity: sha512-I3eZdd4bemIJQDNv9XDV/FEofDxIoN32tzCv98wIgLdW05EqxZb5hF4AwPrRzHD/dQhl0n7KgPy5AQPfM0HWrA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -3933,8 +4165,20 @@ packages:
     cpu: [arm]
     os: [android]
 
+  '@rolldown/binding-android-arm-eabi@1.2.16':
+    resolution: {integrity: sha512-ia3DwAs0OsMGS7+IConptSiyk9pEXkOx/AbJ2n/lAGxH3QkWQus1t8d7gnAT38FCU2sQu8lUbeR6AiZFv4JxaA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [android]
+
   '@rolldown/binding-android-arm64@1.2.13':
     resolution: {integrity: sha512-6LEoIrGy5vvCd2boNnv2soPSUZj/PRvhp8R/t9KlX+mIZxThIE/ZqxrGXxmuNX0FuvQFvLdZr7S4HrYpYBVhEQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
+  '@rolldown/binding-android-arm64@1.2.16':
+    resolution: {integrity: sha512-kx5wBiMB6E7TEvpl2B9gjLU004BkvEm2Dr941BFjx/SontPwSzNuQUIoVKxHHoSjpFIfHMmcguyLOtyn0hObRg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
@@ -3945,8 +4189,20 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@rolldown/binding-darwin-arm64@1.2.16':
+    resolution: {integrity: sha512-qslZrXnKJU4cUpjoAmtAo/KQM9e2IRMlmpig6Zpwj+8KWxW8v+nkAf9216Bsek9lOC1jvg2yCjygCFo2f83msQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
   '@rolldown/binding-darwin-x64@1.2.13':
     resolution: {integrity: sha512-e4r340I5hxSzJkD3YJBxgzq/rJ3wwxwdLLb2FPt1Zpyem20nrQPT11DDEEkazwxaHumH8wpglsp/Ozgj/wT6mw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
+  '@rolldown/binding-darwin-x64@1.2.16':
+    resolution: {integrity: sha512-FdF+y48ND13eAyM2mQn+85kvAqNlvRWROy2rhgA463X/0Gv4vGtazZtfaF1mRBLscYvtOlh4QnLjOWiFzX69OQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
@@ -3957,14 +4213,33 @@ packages:
     cpu: [x64]
     os: [freebsd]
 
+  '@rolldown/binding-freebsd-x64@1.2.16':
+    resolution: {integrity: sha512-ddjqFM5e95AgLbUPtKIS7V1KTVlA0RUgCVr5mn+/IEhsdy3pr+Vuj/HZ7nlMN2FyxIwUktOH1LEPIQXO1v9y1Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
   '@rolldown/binding-linux-arm-gnueabihf@1.2.13':
     resolution: {integrity: sha512-oF9fZu3vTWnTiVAkDFxU9PJLt1nh20K9RRpuHsR7ZnE2L7XookBbDBVLojCVSLGbvtSlxeUNnjAj6DbNsKyzbg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
+  '@rolldown/binding-linux-arm-gnueabihf@1.2.16':
+    resolution: {integrity: sha512-tHdKWbFkFBI687iim3LIyIvyL7j66VvQYkDPss5Stn/qyE2tWkR1YD0dXmXPFKKqT/o5ZEJVsaRsWS2meQwGOA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
   '@rolldown/binding-linux-arm64-gnu@1.2.13':
     resolution: {integrity: sha512-DTpb/+jMiqWMPgphn4ksW1zW+XLJ6dJJ9FMvnIk9I291LhCctMPhMYJrP5t9p6C9qa3KXadDdUEZHBaPh3kNxQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-arm64-gnu@1.2.16':
+    resolution: {integrity: sha512-FJiLGAblPBMlBEdbOqw6kW6QcXDWAf/oJu7gYs9ZJZwmg+K+/zjFLxPTIY9izJUzxzc24FHvmseyA0IvJSl17w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
@@ -3977,8 +4252,22 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@rolldown/binding-linux-arm64-musl@1.2.16':
+    resolution: {integrity: sha512-hrJpblMsrQ58U9veWpbXzkhV5zStunds6HWLprqq1qauvgBr1E6P+24kLj6lSLI9vjRn/RYpjprhkHQPKGWpNg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
   '@rolldown/binding-linux-ppc64-gnu@1.2.13':
     resolution: {integrity: sha512-XMk/hnhh25oQ756Lclb1Q11h4ll0xC0Esa5w4Vzp+mAE2S3AGJgeM0SonrIgY8fHhjarb6hcoTuwoFG0VVP2ig==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-ppc64-gnu@1.2.16':
+    resolution: {integrity: sha512-qJd/dC6j6CwLG9/s/RP2nb1RZ0GIgj7Ioj7x/SYa3RzjVrlzrmH0fhIOpfvqQDeIsdP0loi+kHaMhJzY1PBIaA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
@@ -3991,8 +4280,22 @@ packages:
     os: [linux]
     libc: [glibc]
 
+  '@rolldown/binding-linux-s390x-gnu@1.2.16':
+    resolution: {integrity: sha512-Vx7Xg5uUJuNcujJjI70OICaH0EYj80BtOLZTSN7uOYg8QOLlyKnaG0IW7Fn/J0IpJsaKzmDKMhOQv1JBM9m9vg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
   '@rolldown/binding-linux-x64-gnu@1.2.13':
     resolution: {integrity: sha512-J4cm80Pc6wEwV5AZ42o62sIQgDk+Y7R2s646jIwuvO+4V46QB58N4vVuMPWCBaNgursXLpmUWJV//WQAkPvHBQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-x64-gnu@1.2.16':
+    resolution: {integrity: sha512-TNKhgE3uJTsTzatUSSYt0Kgo+Oa2uSlSjz4r1aEIea7HX6ULBym4fAlYUhG1i6pjNf2njfCUAfKwr6C3E9Xg1w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
@@ -4005,8 +4308,21 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@rolldown/binding-linux-x64-musl@1.2.16':
+    resolution: {integrity: sha512-7chXdpjXZ8qG0+mIxECN3cT9kvhZ3/oZhMX6Pp876P7CDrIy8nJswva6Mq357JR7eYXfuskwZxMeV1SzoZdHrA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
   '@rolldown/binding-openharmony-arm64@1.2.13':
     resolution: {integrity: sha512-do/AF/4n9MRshia3a5aXoy8xM2c6mgfT6D7H/dY6my5z+hfCIR4ab7mk4IRj++nsEQpKy39kd0DQnDq+r692tw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@rolldown/binding-openharmony-arm64@1.2.16':
+    resolution: {integrity: sha512-Kwjt+7uNTJK5/MDkGWGVO2KQPnj8yAV75dMpfwyHZrJSXWHrniOB0aUEWlVYf3H1hOqFLIStLdM5QXq6bnKmOQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
@@ -4017,8 +4333,20 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@rolldown/binding-win32-arm64-msvc@1.2.16':
+    resolution: {integrity: sha512-/LH6WfjDRXXJz/p5xl4TmU+jpcnwcxbKEQBW/GZE0JHfN0lGIyTtsUEGaQ/q/GikkGJ2yLKe6pwm7AnEWO8pdw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
   '@rolldown/binding-win32-x64-msvc@1.2.13':
     resolution: {integrity: sha512-UKhFaZTeTcbKrb3iU82m17jVcPEAoqDkCN5MBqgPyZSwp/cQmib21crTS0DdH7T1B7wZRWEI89YQAOJMet5yhg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
+  '@rolldown/binding-win32-x64-msvc@1.2.16':
+    resolution: {integrity: sha512-1lv1KvX0Z871zfk7vw+dnXMMnHNyDwMzWG8Kv3HxDXMOhzCX4SHc7HK319fInP0i+0p9D8brkfzL7pJOaGl+tw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -4203,39 +4531,57 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
-  '@tsrs/darwin-arm64@0.18.0-ts7.1.0-dev.20260929':
-    resolution: {integrity: sha512-sAirMpaGA9uRQm2W+t4zC7PjnijNuFa4PCSIfLKKo0JyAUCRfnMeev0UGBQ9F3g+9Nz187tvikUs5Irh5+eajA==}
+  '@tsrs/darwin-arm64@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-R1Rh692Gy7XxuDS6Ds+BexqiuHawqH4KVftLu4Ty0vh7cjIPHm4MdWtlU/0MdrbdlJpnGo6Ul1W5BpHIiP+Zgw==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [darwin]
 
-  '@tsrs/linux-arm64-gnu@0.18.0-ts7.1.0-dev.20260929':
-    resolution: {integrity: sha512-zm9/z9yylig68JiZF4Aq0Cm26n09KEU8YoQRlG7tdDWTBNAIViYw8knxnWYsjMWVZ2XiU4mYq1xdrOKuOgABHg==}
+  '@tsrs/darwin-x64@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-F2IHae89mxUuSTGTbC9WfGdDKeZ12/TQo0tMYRc55llUKmxC7gJ3+1C1uwKXiZG7c6sTg07EYct9pnxEql/85Q==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@tsrs/linux-arm64-gnu@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-13V8kMb0iTEv/IY4DUZF4RKO2QycTlty3U3TSLOHLmvyLY+MOcmvg2ixzKm71uCHG0YVZgyUiCjiw8ZdqevT1A==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@tsrs/linux-arm64-musl@0.18.0-ts7.1.0-dev.20260929':
-    resolution: {integrity: sha512-Lw7VVU/YQ9JcarODICEiwzMLdFqZprqh5RGTgbS5Uc6I95P635/g5xA1pOC8RVs4efBvAR30J54iDG3l5JEYiw==}
+  '@tsrs/linux-arm64-musl@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-k9P/n40siZyt1kUUlxfefWDVj/189AsVQIPN3uoIpALx2Y59Ow+7i49fanxDexmGcZTKEfNB2gF2FeWET6o4TQ==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@tsrs/linux-x64-gnu@0.18.0-ts7.1.0-dev.20260929':
-    resolution: {integrity: sha512-EdBwBgNICGu1r1h23ixdcKwsMo6E9ll7ZsY3mNERNYqE1Pwdtcat99d5E7zB1J+oy/Xk6YqiizaB6nolIjpDTw==}
+  '@tsrs/linux-x64-gnu@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-erepwUH0NoRDjLeHEEEruh0Gd2/t0n2PHfJwXNlgSNbGM94+nNNZop0sYmjAtx63MadiC9YQXO6blTEQDVpDOg==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@tsrs/linux-x64-musl@0.18.0-ts7.1.0-dev.20260929':
-    resolution: {integrity: sha512-LHk+AOAtXuTlhJhOJ2+elriEIX17ycXljojeNxrrzckOipTG1LksoVWuCSas2nu00EnWAzrdKpt9oqPylUKZfQ==}
+  '@tsrs/linux-x64-musl@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-/qGDUjkuRWNUaTJ8ChRnhJPnmALgCZN6TSVwj3uyGp5Nj8OZ/rulEwciHCsynBaX7KgoWP0SvmvPuPycSJq56g==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
+
+  '@tsrs/win32-arm64@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-Q6QtafSuUL3Ram8X/6n0gtUyC/qOmQ1bFsqkCkbwYGMIU/P7l7fsJgMQ0BBKSJBkvfwfZvZ8JpgR9+yrsRumWw==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@tsrs/win32-x64@7.1.0-beta.tsrs3':
+    resolution: {integrity: sha512-mITdFPru52C0Ws7D7DyLd+pISSwd3GIzM+v4elsXhW5o1n0FJpEr57WDcN8humkhxQinprzOELGIn4qiEXj2jw==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [win32]
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -4522,6 +4868,29 @@ packages:
       ws:
         optional: true
 
+  alchemy@https://pkg.alchemy.run/alchemy/branch:main:
+    resolution: {integrity: sha512-KsplzLGAbG8gt498AMjk/OLGWfCzbVR5/4UvCnW5nn+6Tb6dGBh8tPYAlh8EhgUp+fplW6fBuJ57cXCBp3i65g==, tarball: https://pkg.alchemy.run/alchemy/-/c34030a30f5973ce4cfc0f2bef383d2e37fccd2ac66c7d67d8616bec918db3b9.tgz}
+    version: 2.0.0-beta.87
+    hasBin: true
+    peerDependencies:
+      '@alchemy.run/frontend-frameworks': https://pkg.alchemy.run/@alchemy.run/frontend-frameworks/-/0c2a361b9d5995752e359563348a138afa0c6e9ebcaee2677c104c1e7e0a17c3.tgz
+      '@effect/platform-bun': ^4.1.4
+      '@effect/platform-node': ^4.1.4
+      effect: ^4.1.4
+      vite: ^7.0.0 || ^8.0.0
+      ws: ^8.21.0
+    peerDependenciesMeta:
+      '@alchemy.run/frontend-frameworks':
+        optional: true
+      '@effect/platform-bun':
+        optional: true
+      '@effect/platform-node':
+        optional: true
+      vite:
+        optional: true
+      ws:
+        optional: true
+
   ansi-regex@6.3.0:
     resolution: {integrity: sha512-WpDfL7NO6j7tH88IDBNVdUJxDh9nmCteAVW9dsep846XdwF4naCBK+/tGLX3KJgcpgMRXCFlTM2hKGoK9FsdrQ==}
     engines: {node: '>=12'}
@@ -4627,6 +4996,15 @@ packages:
 
   capnp-es@0.0.16:
     resolution: {integrity: sha512-pqhhnRqGfDdgHa+rz4JVO9j1jnkyqsHRYrD4RBtIwxCknYSRG7Mjs+x3IRfd20u+ZGS0IhW2L7cDv9ZcIkCYhQ==}
+    hasBin: true
+    peerDependencies:
+      typescript: ^5.7.3 || ^6.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  capnp-es@0.0.17:
+    resolution: {integrity: sha512-uIm/Aju0TNUkL51aBbhPl/2fWsSMiqDjnTnPYyx6oCAQReGCRDl7kZPDNZFer2WhOwR9+B/72olbxUV1GgoKbw==}
     hasBin: true
     peerDependencies:
       typescript: ^5.7.3 || ^6.0.0
@@ -5515,25 +5893,28 @@ packages:
     resolution: {integrity: sha512-uFkGGr1KMWd6aWv9UAqooYrN78trw8MWWmoPvgWokfBEUq1+eiIQ+qfj3wokhy0fxtZWZk+0dHoS7/yRTJtd6w==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  oxfmt@0.72.0:
-    resolution: {integrity: sha512-16OQeL0uhPZbfmT9S9WWM0Nv9+BmVi8Ra1uTYaSKj/qSCs6FB30KOhz9JoNYw6thT+K5bVxsk/tSEOu497i34g==}
+  oxfmt@0.79.0:
+    resolution: {integrity: sha512-92iLHGxAgtYk6jLp/1ZBnEeABveNduHZgMDQj7tyqO9iafuJG3q+YHJq0R5Aa4YT+E6xswMQXdmPZYMwynS8ig==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
+      '@astrojs/compiler-rs': ^0.5.0
       svelte: ^5.0.0
       vite-plus: '*'
     peerDependenciesMeta:
+      '@astrojs/compiler-rs':
+        optional: true
       svelte:
         optional: true
       vite-plus:
         optional: true
 
-  oxlint@1.87.0:
-    resolution: {integrity: sha512-drxVlaW7Oqq7wSy1CN25znRu00aRq8n57Q2wniJRxCmtYVz07ufCm7EVDPQFZURrTgQIjzKrVEHAD/HcvJXObg==}
+  oxlint@1.94.0:
+    resolution: {integrity: sha512-Fnt+3wSKRhtLmvgRfxgRX0excSPCoyiXRol4eWKZLtXxWMQtwQ3KjKQUYXOw5loyinfnZfGzh4RCYf7opfL0vw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
-      oxlint-tsgolint: '>=7.0.2003'
+      oxlint-tsgolint: '>=7.0.2007'
       vite-plus: '*'
     peerDependenciesMeta:
       oxlint-tsgolint:
@@ -5669,6 +6050,11 @@ packages:
 
   rolldown@1.2.13:
     resolution: {integrity: sha512-/5apOkwWxtACcQtZ5WlrAsKS4JwXVThQPJZ3RqIruRY9UG9M8e0VlXN068xum/JRKA4aIUoJ13ghe/kGCvidiQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+
+  rolldown@1.2.16:
+    resolution: {integrity: sha512-bWvlMpFKiTfDKfnK7FC2MPgPeWCf/Kpwsq49ApdW+FQaBZb6O6dZ4MAPbPUjp7hYQrw/RobqCzn64BRrQecGHw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -5900,8 +6286,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsrs@0.18.0-ts7.1.0-dev.20260929:
-    resolution: {integrity: sha512-9T0b4Uam/yMFIK16GUx0fUrJqYZnJ/gvSmV9JB8NTyDePvwCI45WFWxyEV/UMV3KfdNRJG/PBsm3fSIB9WmWsA==}
+  tsrs@7.1.0-beta.tsrs3:
+    resolution: {integrity: sha512-iDcoaNkX4j3ZCtO3F40R7gVB2/9oyVQwJ12hb0iWBo3egT13oYpG9wQSPFCiGN7d+uq9FGTwlG0WsQNMBTEGzA==}
     engines: {node: '>=16.20.0'}
     hasBin: true
 
@@ -6164,6 +6550,11 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  workerd@1.20261117.1:
+    resolution: {integrity: sha512-iakDbGVtJRiErpWSM5fYT0z3spJ2Mo1x/POsEajBNLqUbTRwm8vMqbB7g8zPN2tzs6eZYNiO5ECyEnAXO9Foxw==}
+    engines: {node: '>=16'}
+    hasBin: true
+
   wrap-ansi@9.0.2:
     resolution: {integrity: sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==}
     engines: {node: '>=18'}
@@ -6240,22 +6631,30 @@ snapshots:
       alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
 
-  '@alchemy.run/aws@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+  '@alchemy.run/acme@https://pkg.alchemy.run/@alchemy.run/acme/-/ccb1dad9bedcc5a51717b97019cd9112c553c66b8fa78724a012531bc9358781.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
-      '@alchemy.run/kubernetes': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
-      '@alchemy.run/sql': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
-      '@distilled.cloud/aws': 1.0.0-rc.18(effect@4.1.4)
-      '@types/aws-lambda': 8.10.164
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      '@distilled.cloud/acme': https://pkg.alchemy.run/@distilled.cloud/acme/-/93cdeb63385c621e30cc363c24b6111d68f2e9796416c9d22532b5f3d6f14a0e.tgz(effect@4.1.4)
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
-      rolldown: 1.2.13
+
+  '@alchemy.run/aws@https://pkg.alchemy.run/@alchemy.run/aws/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+    dependencies:
+      '@alchemy.run/docker': https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/kubernetes': https://pkg.alchemy.run/@alchemy.run/kubernetes/-/f7ccb449ddb9866a7b07db08a8d80e9a66489bf0f948fccd2cce46708689ff8a.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/sql': https://pkg.alchemy.run/@alchemy.run/sql/-/105093ec55642395b5217925fe83a7cb7157a58372f36bc6eb56bdf8d9637667.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@distilled.cloud/aws': https://pkg.alchemy.run/@distilled.cloud/aws/-/ba4df5342ed43e6fc9881d6de831addbe49bdf50939a1c0959639032f822916f.tgz(effect@4.1.4)
+      '@distilled.cloud/s3': https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz(effect@4.1.4)
+      '@types/aws-lambda': 8.10.164
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
+      rolldown: 1.2.16
     optionalDependencies:
       '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
     transitivePeerDependencies:
       - '@effect/sql-libsql'
       - '@effect/sql-mysql2'
       - '@effect/sql-pg'
+      - '@types/pg'
       - mysql2
 
   '@alchemy.run/cloudflare-runtime@2.0.0-beta.85(@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.4))(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.4)(rolldown@1.2.13)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
@@ -6275,6 +6674,29 @@ snapshots:
     optionalDependencies:
       '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
       rolldown: 1.2.13
+      vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
+    transitivePeerDependencies:
+      - '@types/node'
+      - proxy-agent
+      - typescript
+
+  '@alchemy.run/cloudflare-runtime@https://pkg.alchemy.run/@alchemy.run/cloudflare-runtime/-/1ea5ca00c2ed5345e4be517e0b9573847a85229c931fd55c779cfbe033b685a5.tgz(@distilled.cloud/cloudflare@https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz(effect@4.1.4))(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.4)(rolldown@1.2.16)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
+    dependencies:
+      '@alchemy.run/node-utils': https://pkg.alchemy.run/@alchemy.run/node-utils/-/3ac66c7f1348b366450188594ee3013ea56adb8cb5bff8088cba7960961df25e.tgz(effect@4.1.4)
+      '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261117.1)
+      '@distilled.cloud/cloudflare': https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz(effect@4.1.4)
+      '@puppeteer/browsers': 3.2.6(yauzl@3.4.0)
+      capnp-es: 0.0.17
+      effect: 4.1.4
+      magic-string: 0.30.21
+      mime: 4.1.2
+      sharp: 0.35.5(@types/node@26.6.5)
+      unenv: 2.0.0-rc.24
+      workerd: 1.20261117.1
+      yauzl: 3.4.0
+    optionalDependencies:
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
+      rolldown: 1.2.16
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -6312,24 +6734,62 @@ snapshots:
       - proxy-agent
       - typescript
 
+  '@alchemy.run/cloudflare@https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
+    dependencies:
+      '@alchemy.run/acme': https://pkg.alchemy.run/@alchemy.run/acme/-/ccb1dad9bedcc5a51717b97019cd9112c553c66b8fa78724a012531bc9358781.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/cloudflare-runtime': https://pkg.alchemy.run/@alchemy.run/cloudflare-runtime/-/1ea5ca00c2ed5345e4be517e0b9573847a85229c931fd55c779cfbe033b685a5.tgz(@distilled.cloud/cloudflare@https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz(effect@4.1.4))(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(effect@4.1.4)(rolldown@1.2.16)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+      '@alchemy.run/docker': https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@alchemy.run/sql': https://pkg.alchemy.run/@alchemy.run/sql/-/105093ec55642395b5217925fe83a7cb7157a58372f36bc6eb56bdf8d9637667.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      '@distilled.cloud/aws': https://pkg.alchemy.run/@distilled.cloud/aws/-/ba4df5342ed43e6fc9881d6de831addbe49bdf50939a1c0959639032f822916f.tgz(effect@4.1.4)
+      '@distilled.cloud/aws4signer': https://pkg.alchemy.run/@distilled.cloud/aws4signer/-/3b17306505bb7e32801a8266f47ccc28276318777fe1e79e62f13aff9e4a899a.tgz(effect@4.1.4)
+      '@distilled.cloud/cloudflare': https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz(effect@4.1.4)
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      '@distilled.cloud/iceberg': https://pkg.alchemy.run/@distilled.cloud/iceberg/-/53b5fb0a6c5c72a24cee7364f343d4e8606b98ce19845eb7ef4adc06a212a3d9.tgz(effect@4.1.4)
+      '@effect/sql-d1': 4.1.5(effect@4.1.4)
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
+      pathe: 2.0.3
+      picomatch: 4.0.7
+      rolldown: 1.2.16
+      tinyglobby: 0.2.17
+    optionalDependencies:
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
+      vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
+    transitivePeerDependencies:
+      - '@effect/sql-libsql'
+      - '@effect/sql-mysql2'
+      - '@effect/sql-pg'
+      - '@types/node'
+      - '@types/pg'
+      - mysql2
+      - pg
+      - proxy-agent
+      - typescript
+
   '@alchemy.run/docker@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
       alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
       rolldown: 1.2.13
 
-  '@alchemy.run/github@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+  '@alchemy.run/docker@https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
-      '@distilled.cloud/github': 1.0.0-rc.18(effect@4.1.4)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
+      rolldown: 1.2.16
+
+  '@alchemy.run/github@https://pkg.alchemy.run/@alchemy.run/github/branch:main(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      '@distilled.cloud/github': https://pkg.alchemy.run/@distilled.cloud/github/-/4747d0b95bacbe183325734a7940960eda85d91c43cddf4d12f29ad784b2f480.tgz(effect@4.1.4)
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
       libsodium-wrappers: 0.8.4
 
-  '@alchemy.run/kubernetes@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+  '@alchemy.run/kubernetes@https://pkg.alchemy.run/@alchemy.run/kubernetes/-/f7ccb449ddb9866a7b07db08a8d80e9a66489bf0f948fccd2cce46708689ff8a.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
-      '@alchemy.run/docker': 2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
-      alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      '@alchemy.run/docker': https://pkg.alchemy.run/@alchemy.run/docker/-/ee6afaeff80eff40b2b8f38abb4fc222f87adf98ef8816db6ec84ddf0d3191a9.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
       yaml: 2.9.1
 
@@ -6337,6 +6797,12 @@ snapshots:
     dependencies:
       chokidar: 5.0.0
       rolldown: 1.2.13
+
+  '@alchemy.run/node-utils@https://pkg.alchemy.run/@alchemy.run/node-utils/-/3ac66c7f1348b366450188594ee3013ea56adb8cb5bff8088cba7960961df25e.tgz(effect@4.1.4)':
+    dependencies:
+      chokidar: 5.0.0
+      effect: 4.1.4
+      rolldown: 1.2.16
 
   '@alchemy.run/pkg@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)':
     dependencies:
@@ -6365,9 +6831,16 @@ snapshots:
 
   '@alchemy.run/sigil@0.1.0-alpha.1': {}
 
+  '@alchemy.run/sigil@0.1.0-alpha.4': {}
+
   '@alchemy.run/sql@2.0.0-beta.85(alchemy@2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
     dependencies:
       alchemy: 2.0.0-beta.85(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
+      effect: 4.1.4
+
+  '@alchemy.run/sql@https://pkg.alchemy.run/@alchemy.run/sql/-/105093ec55642395b5217925fe83a7cb7157a58372f36bc6eb56bdf8d9637667.tgz(alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1))(effect@4.1.4)':
+    dependencies:
+      alchemy: https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1)
       effect: 4.1.4
 
   '@aws-sdk/checksums@3.1001.1':
@@ -6740,31 +7213,64 @@ snapshots:
     optionalDependencies:
       workerd: 1.20261026.1
 
+  '@cloudflare/unenv-preset@2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261117.1)':
+    dependencies:
+      unenv: 2.0.0-rc.24
+    optionalDependencies:
+      workerd: 1.20261117.1
+
   '@cloudflare/workerd-darwin-64@1.20261026.1':
+    optional: true
+
+  '@cloudflare/workerd-darwin-64@1.20261117.1':
     optional: true
 
   '@cloudflare/workerd-darwin-arm64@1.20261026.1':
     optional: true
 
+  '@cloudflare/workerd-darwin-arm64@1.20261117.1':
+    optional: true
+
   '@cloudflare/workerd-linux-64@1.20261026.1':
+    optional: true
+
+  '@cloudflare/workerd-linux-64@1.20261117.1':
     optional: true
 
   '@cloudflare/workerd-linux-arm64@1.20261026.1':
     optional: true
 
+  '@cloudflare/workerd-linux-arm64@1.20261117.1':
+    optional: true
+
   '@cloudflare/workerd-windows-64@1.20261026.1':
     optional: true
 
+  '@cloudflare/workerd-windows-64@1.20261117.1':
+    optional: true
+
   '@cloudflare/workers-types@5.20261102.1': {}
+
+  '@cloudflare/workers-types@5.20261120.1': {}
 
   '@distilled.cloud/acme@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
       effect: 4.1.4
 
+  '@distilled.cloud/acme@https://pkg.alchemy.run/@distilled.cloud/acme/-/93cdeb63385c621e30cc363c24b6111d68f2e9796416c9d22532b5f3d6f14a0e.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      effect: 4.1.4
+
   '@distilled.cloud/aws4signer@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
+
+  '@distilled.cloud/aws4signer@https://pkg.alchemy.run/@distilled.cloud/aws4signer/-/3b17306505bb7e32801a8266f47ccc28276318777fe1e79e62f13aff9e4a899a.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
       effect: 4.1.4
 
   '@distilled.cloud/aws@1.0.0-rc.18(effect@4.1.4)':
@@ -6773,12 +7279,28 @@ snapshots:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
       effect: 4.1.4
 
+  '@distilled.cloud/aws@https://pkg.alchemy.run/@distilled.cloud/aws/-/ba4df5342ed43e6fc9881d6de831addbe49bdf50939a1c0959639032f822916f.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      '@distilled.cloud/s3': https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz(effect@4.1.4)
+      effect: 4.1.4
+
   '@distilled.cloud/cloudflare@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
       effect: 4.1.4
 
+  '@distilled.cloud/cloudflare@https://pkg.alchemy.run/@distilled.cloud/cloudflare/-/e1c0a40deb7527a83eea37663f75c7440b0cbad01d34b6137e0cb13d8917509c.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      '@distilled.cloud/s3': https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz(effect@4.1.4)
+      effect: 4.1.4
+
   '@distilled.cloud/core@1.0.0-rc.18(effect@4.1.4)':
+    dependencies:
+      effect: 4.1.4
+
+  '@distilled.cloud/core@https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)':
     dependencies:
       effect: 4.1.4
 
@@ -6787,9 +7309,25 @@ snapshots:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
       effect: 4.1.4
 
+  '@distilled.cloud/github@https://pkg.alchemy.run/@distilled.cloud/github/-/4747d0b95bacbe183325734a7940960eda85d91c43cddf4d12f29ad784b2f480.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      effect: 4.1.4
+
   '@distilled.cloud/iceberg@1.0.0-rc.18(effect@4.1.4)':
     dependencies:
       '@distilled.cloud/core': 1.0.0-rc.18(effect@4.1.4)
+      effect: 4.1.4
+
+  '@distilled.cloud/iceberg@https://pkg.alchemy.run/@distilled.cloud/iceberg/-/53b5fb0a6c5c72a24cee7364f343d4e8606b98ce19845eb7ef4adc06a212a3d9.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
+      effect: 4.1.4
+
+  '@distilled.cloud/s3@https://pkg.alchemy.run/@distilled.cloud/s3/-/12f59c1d10739a3e6f358a682c09d887911a8274f63ee00aeef9874e5d34ac6a.tgz(effect@4.1.4)':
+    dependencies:
+      '@distilled.cloud/aws4signer': https://pkg.alchemy.run/@distilled.cloud/aws4signer/-/3b17306505bb7e32801a8266f47ccc28276318777fe1e79e62f13aff9e4a899a.tgz(effect@4.1.4)
+      '@distilled.cloud/core': https://pkg.alchemy.run/@distilled.cloud/core/-/4cad6ddeafd8ef5b74e38ab721d5d8abc77d32f6894519781b5811983e758fed.tgz(effect@4.1.4)
       effect: 4.1.4
 
   '@effect/platform-node-shared@4.1.4(effect@4.1.4)':
@@ -6814,6 +7352,11 @@ snapshots:
   '@effect/sql-d1@4.1.2(effect@4.1.4)':
     dependencies:
       '@cloudflare/workers-types': 5.20261102.1
+      effect: 4.1.4
+
+  '@effect/sql-d1@4.1.5(effect@4.1.4)':
+    dependencies:
+      '@cloudflare/workers-types': 5.20261120.1
       effect: 4.1.4
 
   '@emnapi/core@1.11.2':
@@ -7164,118 +7707,120 @@ snapshots:
 
   '@oxc-project/types@0.153.0': {}
 
-  '@oxfmt/binding-android-arm-eabi@0.72.0':
+  '@oxc-project/types@0.156.0': {}
+
+  '@oxfmt/binding-android-arm-eabi@0.79.0':
     optional: true
 
-  '@oxfmt/binding-android-arm64@0.72.0':
+  '@oxfmt/binding-android-arm64@0.79.0':
     optional: true
 
-  '@oxfmt/binding-darwin-arm64@0.72.0':
+  '@oxfmt/binding-darwin-arm64@0.79.0':
     optional: true
 
-  '@oxfmt/binding-darwin-x64@0.72.0':
+  '@oxfmt/binding-darwin-x64@0.79.0':
     optional: true
 
-  '@oxfmt/binding-freebsd-x64@0.72.0':
+  '@oxfmt/binding-freebsd-x64@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm-gnueabihf@0.72.0':
+  '@oxfmt/binding-linux-arm-gnueabihf@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm-musleabihf@0.72.0':
+  '@oxfmt/binding-linux-arm-musleabihf@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm64-gnu@0.72.0':
+  '@oxfmt/binding-linux-arm64-gnu@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm64-musl@0.72.0':
+  '@oxfmt/binding-linux-arm64-musl@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-ppc64-gnu@0.72.0':
+  '@oxfmt/binding-linux-ppc64-gnu@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-riscv64-gnu@0.72.0':
+  '@oxfmt/binding-linux-riscv64-gnu@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-riscv64-musl@0.72.0':
+  '@oxfmt/binding-linux-riscv64-musl@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-s390x-gnu@0.72.0':
+  '@oxfmt/binding-linux-s390x-gnu@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-x64-gnu@0.72.0':
+  '@oxfmt/binding-linux-x64-gnu@0.79.0':
     optional: true
 
-  '@oxfmt/binding-linux-x64-musl@0.72.0':
+  '@oxfmt/binding-linux-x64-musl@0.79.0':
     optional: true
 
-  '@oxfmt/binding-openharmony-arm64@0.72.0':
+  '@oxfmt/binding-openharmony-arm64@0.79.0':
     optional: true
 
-  '@oxfmt/binding-win32-arm64-msvc@0.72.0':
+  '@oxfmt/binding-win32-arm64-msvc@0.79.0':
     optional: true
 
-  '@oxfmt/binding-win32-ia32-msvc@0.72.0':
+  '@oxfmt/binding-win32-ia32-msvc@0.79.0':
     optional: true
 
-  '@oxfmt/binding-win32-x64-msvc@0.72.0':
+  '@oxfmt/binding-win32-x64-msvc@0.79.0':
     optional: true
 
-  '@oxlint/binding-android-arm-eabi@1.87.0':
+  '@oxlint/binding-android-arm-eabi@1.94.0':
     optional: true
 
-  '@oxlint/binding-android-arm64@1.87.0':
+  '@oxlint/binding-android-arm64@1.94.0':
     optional: true
 
-  '@oxlint/binding-darwin-arm64@1.87.0':
+  '@oxlint/binding-darwin-arm64@1.94.0':
     optional: true
 
-  '@oxlint/binding-darwin-x64@1.87.0':
+  '@oxlint/binding-darwin-x64@1.94.0':
     optional: true
 
-  '@oxlint/binding-freebsd-x64@1.87.0':
+  '@oxlint/binding-freebsd-x64@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.87.0':
+  '@oxlint/binding-linux-arm-gnueabihf@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-musleabihf@1.87.0':
+  '@oxlint/binding-linux-arm-musleabihf@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-gnu@1.87.0':
+  '@oxlint/binding-linux-arm64-gnu@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-musl@1.87.0':
+  '@oxlint/binding-linux-arm64-musl@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-ppc64-gnu@1.87.0':
+  '@oxlint/binding-linux-ppc64-gnu@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-gnu@1.87.0':
+  '@oxlint/binding-linux-riscv64-gnu@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-musl@1.87.0':
+  '@oxlint/binding-linux-riscv64-musl@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-s390x-gnu@1.87.0':
+  '@oxlint/binding-linux-s390x-gnu@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-gnu@1.87.0':
+  '@oxlint/binding-linux-x64-gnu@1.94.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-musl@1.87.0':
+  '@oxlint/binding-linux-x64-musl@1.94.0':
     optional: true
 
-  '@oxlint/binding-openharmony-arm64@1.87.0':
+  '@oxlint/binding-openharmony-arm64@1.94.0':
     optional: true
 
-  '@oxlint/binding-win32-arm64-msvc@1.87.0':
+  '@oxlint/binding-win32-arm64-msvc@1.94.0':
     optional: true
 
-  '@oxlint/binding-win32-ia32-msvc@1.87.0':
+  '@oxlint/binding-win32-ia32-msvc@1.94.0':
     optional: true
 
-  '@oxlint/binding-win32-x64-msvc@1.87.0':
+  '@oxlint/binding-win32-x64-msvc@1.94.0':
     optional: true
 
   '@puppeteer/browsers@3.2.6(yauzl@3.4.0)':
@@ -7308,46 +7853,91 @@ snapshots:
   '@rolldown/binding-android-arm-eabi@1.2.13':
     optional: true
 
+  '@rolldown/binding-android-arm-eabi@1.2.16':
+    optional: true
+
   '@rolldown/binding-android-arm64@1.2.13':
+    optional: true
+
+  '@rolldown/binding-android-arm64@1.2.16':
     optional: true
 
   '@rolldown/binding-darwin-arm64@1.2.13':
     optional: true
 
+  '@rolldown/binding-darwin-arm64@1.2.16':
+    optional: true
+
   '@rolldown/binding-darwin-x64@1.2.13':
+    optional: true
+
+  '@rolldown/binding-darwin-x64@1.2.16':
     optional: true
 
   '@rolldown/binding-freebsd-x64@1.2.13':
     optional: true
 
+  '@rolldown/binding-freebsd-x64@1.2.16':
+    optional: true
+
   '@rolldown/binding-linux-arm-gnueabihf@1.2.13':
+    optional: true
+
+  '@rolldown/binding-linux-arm-gnueabihf@1.2.16':
     optional: true
 
   '@rolldown/binding-linux-arm64-gnu@1.2.13':
     optional: true
 
+  '@rolldown/binding-linux-arm64-gnu@1.2.16':
+    optional: true
+
   '@rolldown/binding-linux-arm64-musl@1.2.13':
+    optional: true
+
+  '@rolldown/binding-linux-arm64-musl@1.2.16':
     optional: true
 
   '@rolldown/binding-linux-ppc64-gnu@1.2.13':
     optional: true
 
+  '@rolldown/binding-linux-ppc64-gnu@1.2.16':
+    optional: true
+
   '@rolldown/binding-linux-s390x-gnu@1.2.13':
+    optional: true
+
+  '@rolldown/binding-linux-s390x-gnu@1.2.16':
     optional: true
 
   '@rolldown/binding-linux-x64-gnu@1.2.13':
     optional: true
 
+  '@rolldown/binding-linux-x64-gnu@1.2.16':
+    optional: true
+
   '@rolldown/binding-linux-x64-musl@1.2.13':
+    optional: true
+
+  '@rolldown/binding-linux-x64-musl@1.2.16':
     optional: true
 
   '@rolldown/binding-openharmony-arm64@1.2.13':
     optional: true
 
+  '@rolldown/binding-openharmony-arm64@1.2.16':
+    optional: true
+
   '@rolldown/binding-win32-arm64-msvc@1.2.13':
     optional: true
 
+  '@rolldown/binding-win32-arm64-msvc@1.2.16':
+    optional: true
+
   '@rolldown/binding-win32-x64-msvc@1.2.13':
+    optional: true
+
+  '@rolldown/binding-win32-x64-msvc@1.2.16':
     optional: true
 
   '@rolldown/pluginutils@1.0.1': {}
@@ -7541,19 +8131,28 @@ snapshots:
       tailwindcss: 4.3.3
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
 
-  '@tsrs/darwin-arm64@0.18.0-ts7.1.0-dev.20260929':
+  '@tsrs/darwin-arm64@7.1.0-beta.tsrs3':
     optional: true
 
-  '@tsrs/linux-arm64-gnu@0.18.0-ts7.1.0-dev.20260929':
+  '@tsrs/darwin-x64@7.1.0-beta.tsrs3':
     optional: true
 
-  '@tsrs/linux-arm64-musl@0.18.0-ts7.1.0-dev.20260929':
+  '@tsrs/linux-arm64-gnu@7.1.0-beta.tsrs3':
     optional: true
 
-  '@tsrs/linux-x64-gnu@0.18.0-ts7.1.0-dev.20260929':
+  '@tsrs/linux-arm64-musl@7.1.0-beta.tsrs3':
     optional: true
 
-  '@tsrs/linux-x64-musl@0.18.0-ts7.1.0-dev.20260929':
+  '@tsrs/linux-x64-gnu@7.1.0-beta.tsrs3':
+    optional: true
+
+  '@tsrs/linux-x64-musl@7.1.0-beta.tsrs3':
+    optional: true
+
+  '@tsrs/win32-arm64@7.1.0-beta.tsrs3':
+    optional: true
+
+  '@tsrs/win32-x64@7.1.0-beta.tsrs3':
     optional: true
 
   '@tybys/wasm-util@0.10.3':
@@ -7816,6 +8415,26 @@ snapshots:
       - '@types/react'
       - react-devtools-core
 
+  alchemy@https://pkg.alchemy.run/alchemy/branch:main(@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.2.1))(effect@4.1.4)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(ws@8.22.1):
+    dependencies:
+      '@alchemy.run/node-utils': https://pkg.alchemy.run/@alchemy.run/node-utils/-/3ac66c7f1348b366450188594ee3013ea56adb8cb5bff8088cba7960961df25e.tgz(effect@4.1.4)
+      '@alchemy.run/sigil': 0.1.0-alpha.4
+      capnweb: 0.12.0
+      effect: 4.1.4
+      fflate: 0.8.3
+      pathe: 2.0.3
+      picomatch: 4.0.7
+      rolldown: 1.2.16
+      tinyglobby: 0.2.17
+      yaml: 2.9.1
+    optionalDependencies:
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.2.1)
+      vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
+      ws: 8.22.1
+    transitivePeerDependencies:
+      - '@types/react'
+      - react-devtools-core
+
   ansi-regex@6.3.0: {}
 
   ansi-styles@6.2.3: {}
@@ -7918,6 +8537,8 @@ snapshots:
   caniuse-lite@1.0.30001810: {}
 
   capnp-es@0.0.16: {}
+
+  capnp-es@0.0.17: {}
 
   capnweb@0.12.0: {}
 
@@ -8747,51 +9368,51 @@ snapshots:
       '@oxc-parser/binding-win32-ia32-msvc': 0.141.0
       '@oxc-parser/binding-win32-x64-msvc': 0.141.0
 
-  oxfmt@0.72.0:
+  oxfmt@0.79.0:
     dependencies:
       tinypool: 2.2.0
     optionalDependencies:
-      '@oxfmt/binding-android-arm-eabi': 0.72.0
-      '@oxfmt/binding-android-arm64': 0.72.0
-      '@oxfmt/binding-darwin-arm64': 0.72.0
-      '@oxfmt/binding-darwin-x64': 0.72.0
-      '@oxfmt/binding-freebsd-x64': 0.72.0
-      '@oxfmt/binding-linux-arm-gnueabihf': 0.72.0
-      '@oxfmt/binding-linux-arm-musleabihf': 0.72.0
-      '@oxfmt/binding-linux-arm64-gnu': 0.72.0
-      '@oxfmt/binding-linux-arm64-musl': 0.72.0
-      '@oxfmt/binding-linux-ppc64-gnu': 0.72.0
-      '@oxfmt/binding-linux-riscv64-gnu': 0.72.0
-      '@oxfmt/binding-linux-riscv64-musl': 0.72.0
-      '@oxfmt/binding-linux-s390x-gnu': 0.72.0
-      '@oxfmt/binding-linux-x64-gnu': 0.72.0
-      '@oxfmt/binding-linux-x64-musl': 0.72.0
-      '@oxfmt/binding-openharmony-arm64': 0.72.0
-      '@oxfmt/binding-win32-arm64-msvc': 0.72.0
-      '@oxfmt/binding-win32-ia32-msvc': 0.72.0
-      '@oxfmt/binding-win32-x64-msvc': 0.72.0
+      '@oxfmt/binding-android-arm-eabi': 0.79.0
+      '@oxfmt/binding-android-arm64': 0.79.0
+      '@oxfmt/binding-darwin-arm64': 0.79.0
+      '@oxfmt/binding-darwin-x64': 0.79.0
+      '@oxfmt/binding-freebsd-x64': 0.79.0
+      '@oxfmt/binding-linux-arm-gnueabihf': 0.79.0
+      '@oxfmt/binding-linux-arm-musleabihf': 0.79.0
+      '@oxfmt/binding-linux-arm64-gnu': 0.79.0
+      '@oxfmt/binding-linux-arm64-musl': 0.79.0
+      '@oxfmt/binding-linux-ppc64-gnu': 0.79.0
+      '@oxfmt/binding-linux-riscv64-gnu': 0.79.0
+      '@oxfmt/binding-linux-riscv64-musl': 0.79.0
+      '@oxfmt/binding-linux-s390x-gnu': 0.79.0
+      '@oxfmt/binding-linux-x64-gnu': 0.79.0
+      '@oxfmt/binding-linux-x64-musl': 0.79.0
+      '@oxfmt/binding-openharmony-arm64': 0.79.0
+      '@oxfmt/binding-win32-arm64-msvc': 0.79.0
+      '@oxfmt/binding-win32-ia32-msvc': 0.79.0
+      '@oxfmt/binding-win32-x64-msvc': 0.79.0
 
-  oxlint@1.87.0:
+  oxlint@1.94.0:
     optionalDependencies:
-      '@oxlint/binding-android-arm-eabi': 1.87.0
-      '@oxlint/binding-android-arm64': 1.87.0
-      '@oxlint/binding-darwin-arm64': 1.87.0
-      '@oxlint/binding-darwin-x64': 1.87.0
-      '@oxlint/binding-freebsd-x64': 1.87.0
-      '@oxlint/binding-linux-arm-gnueabihf': 1.87.0
-      '@oxlint/binding-linux-arm-musleabihf': 1.87.0
-      '@oxlint/binding-linux-arm64-gnu': 1.87.0
-      '@oxlint/binding-linux-arm64-musl': 1.87.0
-      '@oxlint/binding-linux-ppc64-gnu': 1.87.0
-      '@oxlint/binding-linux-riscv64-gnu': 1.87.0
-      '@oxlint/binding-linux-riscv64-musl': 1.87.0
-      '@oxlint/binding-linux-s390x-gnu': 1.87.0
-      '@oxlint/binding-linux-x64-gnu': 1.87.0
-      '@oxlint/binding-linux-x64-musl': 1.87.0
-      '@oxlint/binding-openharmony-arm64': 1.87.0
-      '@oxlint/binding-win32-arm64-msvc': 1.87.0
-      '@oxlint/binding-win32-ia32-msvc': 1.87.0
-      '@oxlint/binding-win32-x64-msvc': 1.87.0
+      '@oxlint/binding-android-arm-eabi': 1.94.0
+      '@oxlint/binding-android-arm64': 1.94.0
+      '@oxlint/binding-darwin-arm64': 1.94.0
+      '@oxlint/binding-darwin-x64': 1.94.0
+      '@oxlint/binding-freebsd-x64': 1.94.0
+      '@oxlint/binding-linux-arm-gnueabihf': 1.94.0
+      '@oxlint/binding-linux-arm-musleabihf': 1.94.0
+      '@oxlint/binding-linux-arm64-gnu': 1.94.0
+      '@oxlint/binding-linux-arm64-musl': 1.94.0
+      '@oxlint/binding-linux-ppc64-gnu': 1.94.0
+      '@oxlint/binding-linux-riscv64-gnu': 1.94.0
+      '@oxlint/binding-linux-riscv64-musl': 1.94.0
+      '@oxlint/binding-linux-s390x-gnu': 1.94.0
+      '@oxlint/binding-linux-x64-gnu': 1.94.0
+      '@oxlint/binding-linux-x64-musl': 1.94.0
+      '@oxlint/binding-openharmony-arm64': 1.94.0
+      '@oxlint/binding-win32-arm64-msvc': 1.94.0
+      '@oxlint/binding-win32-ia32-msvc': 1.94.0
+      '@oxlint/binding-win32-x64-msvc': 1.94.0
 
   p-limit@3.1.0:
     dependencies:
@@ -8931,6 +9552,27 @@ snapshots:
       '@rolldown/binding-openharmony-arm64': 1.2.13
       '@rolldown/binding-win32-arm64-msvc': 1.2.13
       '@rolldown/binding-win32-x64-msvc': 1.2.13
+
+  rolldown@1.2.16:
+    dependencies:
+      '@oxc-project/types': 0.156.0
+      '@rolldown/pluginutils': 1.0.1
+    optionalDependencies:
+      '@rolldown/binding-android-arm-eabi': 1.2.16
+      '@rolldown/binding-android-arm64': 1.2.16
+      '@rolldown/binding-darwin-arm64': 1.2.16
+      '@rolldown/binding-darwin-x64': 1.2.16
+      '@rolldown/binding-freebsd-x64': 1.2.16
+      '@rolldown/binding-linux-arm-gnueabihf': 1.2.16
+      '@rolldown/binding-linux-arm64-gnu': 1.2.16
+      '@rolldown/binding-linux-arm64-musl': 1.2.16
+      '@rolldown/binding-linux-ppc64-gnu': 1.2.16
+      '@rolldown/binding-linux-s390x-gnu': 1.2.16
+      '@rolldown/binding-linux-x64-gnu': 1.2.16
+      '@rolldown/binding-linux-x64-musl': 1.2.16
+      '@rolldown/binding-openharmony-arm64': 1.2.16
+      '@rolldown/binding-win32-arm64-msvc': 1.2.16
+      '@rolldown/binding-win32-x64-msvc': 1.2.16
 
   rou3@0.9.2: {}
 
@@ -9156,13 +9798,16 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsrs@0.18.0-ts7.1.0-dev.20260929:
+  tsrs@7.1.0-beta.tsrs3:
     optionalDependencies:
-      '@tsrs/darwin-arm64': 0.18.0-ts7.1.0-dev.20260929
-      '@tsrs/linux-arm64-gnu': 0.18.0-ts7.1.0-dev.20260929
-      '@tsrs/linux-arm64-musl': 0.18.0-ts7.1.0-dev.20260929
-      '@tsrs/linux-x64-gnu': 0.18.0-ts7.1.0-dev.20260929
-      '@tsrs/linux-x64-musl': 0.18.0-ts7.1.0-dev.20260929
+      '@tsrs/darwin-arm64': 7.1.0-beta.tsrs3
+      '@tsrs/darwin-x64': 7.1.0-beta.tsrs3
+      '@tsrs/linux-arm64-gnu': 7.1.0-beta.tsrs3
+      '@tsrs/linux-arm64-musl': 7.1.0-beta.tsrs3
+      '@tsrs/linux-x64-gnu': 7.1.0-beta.tsrs3
+      '@tsrs/linux-x64-musl': 7.1.0-beta.tsrs3
+      '@tsrs/win32-arm64': 7.1.0-beta.tsrs3
+      '@tsrs/win32-x64': 7.1.0-beta.tsrs3
 
   typebox@1.0.81: {}
 
@@ -9383,6 +10028,14 @@ snapshots:
       '@cloudflare/workerd-linux-64': 1.20261026.1
       '@cloudflare/workerd-linux-arm64': 1.20261026.1
       '@cloudflare/workerd-windows-64': 1.20261026.1
+
+  workerd@1.20261117.1:
+    optionalDependencies:
+      '@cloudflare/workerd-darwin-64': 1.20261117.1
+      '@cloudflare/workerd-darwin-arm64': 1.20261117.1
+      '@cloudflare/workerd-linux-64': 1.20261117.1
+      '@cloudflare/workerd-linux-arm64': 1.20261117.1
+      '@cloudflare/workerd-windows-64': 1.20261117.1
 
   wrap-ansi@9.0.2:
     dependencies:

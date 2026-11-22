@@ -1,0 +1,20 @@
+{
+  "description": "Mark Mollie's secrets sensitive so they decode as Redacted. A webhook subscription's `webhookSecret` is returned only by create-webhook (\"The subscription's secret.\") and signs the events Mollie sends to it. A Checkout Session's `clientAccessToken` (\"The client access token for the Checkout Session. Use the client access token to initialize Mollie Components.\") authenticates the browser to that session, on create-session and get-session.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#CreateWebhookResponse/members/webhookSecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#CreateSessionResponse/members/clientAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#GetSessionResponse/members/clientAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -225,7 +225,7 @@ export type LambdaArn = string;
 export type LosslessStorageFormat = "HTJ2K" | "JPEG_2000_LOSSLESS" | (string & {});
 export interface CreateDatastoreRequest {
   datastoreName?: string | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   kmsKeyArn?: string | undefined;
   lambdaAuthorizerArn?: string | undefined;
@@ -613,7 +613,7 @@ export type AwsAccountId = string;
 export interface StartDICOMImportJobRequest {
   jobName?: string | undefined;
   dataAccessRoleArn: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   datastoreId: string;
   inputS3Uri: string;
   outputS3Uri: string;
@@ -1326,7 +1326,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datastoreName: S.optional(S.String),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(32, __c2, 0)),
           kmsKeyArn: S.optional(S.String),
           lambdaAuthorizerArn: S.optional(S.String),
@@ -1869,7 +1869,7 @@ function __c17(j: number): any {
         S.Struct({
           jobName: S.optional(S.String),
           dataAccessRoleArn: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
           inputS3Uri: S.String,
           outputS3Uri: S.String,

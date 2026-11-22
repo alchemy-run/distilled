@@ -54,6 +54,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "azure" },
   { package: "boat-dev" },
   { package: "boxd" },
+  { package: "browserbase" },
   // celld publishes no API description: its models are hand-written in
   // spec-repos/celld/models/ and shipped by the mirror.
   { package: "celld" },
@@ -104,6 +105,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
+  { package: "mollie" },
   { package: "mux" },
   { package: "namespacelabs" },
   { package: "neon" },

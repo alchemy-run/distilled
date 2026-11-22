@@ -262,7 +262,7 @@ export interface CreateApplicationRequest {
   name?: string | undefined;
   releaseLabel: string;
   type: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
   maximumCapacity?: MaximumAllowedResources | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -632,7 +632,7 @@ export interface StartApplicationRequest {
 export interface StartApplicationResponse {}
 export interface StartJobRunRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn: string;
   executionIamPolicy?: JobRunExecutionIamPolicy | undefined;
   jobDriver?: JobDriver | undefined;
@@ -650,7 +650,7 @@ export interface StartJobRunResponse {
 }
 export interface StartSessionRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn: string;
   configurationOverrides?: SessionConfigurationOverrides | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -687,7 +687,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   initialCapacity?: { [key: string]: InitialCapacityConfig | undefined } | undefined;
   maximumCapacity?: MaximumAllowedResources | undefined;
   autoStartConfiguration?: AutoStartConfig | undefined;
@@ -1762,7 +1762,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
           executionIamPolicy: S.optional(__S(16, __c2, 0)),
           jobDriver: S.optional(__S(21, __c2, 5)),
@@ -1795,7 +1795,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
           configurationOverrides: S.optional(__S(40, __c5, 0)),
           tags: S.optional(__S(192, __c24, 0)),
@@ -1905,7 +1905,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           initialCapacity: S.optional(__S(226, __c28, 2)),
           maximumCapacity: S.optional(__S(227, __c28, 3)),
           autoStartConfiguration: S.optional(__S(228, __c28, 4)),
@@ -1970,7 +1970,7 @@ function __c21(j: number): any {
           name: S.optional(S.String),
           releaseLabel: S.String,
           type: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           initialCapacity: S.optional(__S(226, __c28, 2)),
           maximumCapacity: S.optional(__S(227, __c28, 3)),
           tags: S.optional(__S(192, __c24, 0)),

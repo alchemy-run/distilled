@@ -557,7 +557,7 @@ export interface DeleteDataCatalogOutput {
   DataCatalog?: DataCatalog | undefined;
 }
 export interface DeleteNamedQueryInput {
-  NamedQueryId: string;
+  NamedQueryId?: string | undefined;
 }
 export interface DeleteNamedQueryOutput {}
 export interface DeleteNotebookInput {
@@ -1263,7 +1263,7 @@ export interface StopCalculationExecutionResponse {
   State?: CalculationExecutionState | undefined;
 }
 export interface StopQueryExecutionInput {
-  QueryExecutionId: string;
+  QueryExecutionId?: string | undefined;
 }
 export interface StopQueryExecutionOutput {}
 export interface TagResourceInput {
@@ -3948,7 +3948,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ NamedQueryId: S.String.pipe(T.IdempotencyToken()) }).pipe(
+        S.Struct({ NamedQueryId: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteNamedQueryInput" });
@@ -5114,7 +5114,7 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ QueryExecutionId: S.String.pipe(T.IdempotencyToken()) }).pipe(
+        S.Struct({ QueryExecutionId: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StopQueryExecutionInput" });

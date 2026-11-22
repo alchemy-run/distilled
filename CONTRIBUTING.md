@@ -19,6 +19,10 @@ by number. The ones that most often send a pull request back:
 - One change per pull request. A breaking change has `!` in its
   conventional-commit title, for example `fix(axiom)!: redact API tokens`.
 - Keep "Allow edits by maintainers" ticked.
+- If a coding agent writes your pull request body, a review or a comment, it
+  ends that text with the signed note in
+  [rule 17](./AGENTS.md#external-contributors), word for word apart from the
+  username, model and harness.
 
 ## Set up the repo
 

@@ -912,7 +912,9 @@ function __c1(j: number): any {
           plan_id: S.optional(S.NullOr(S.String)),
           redirect_url: S.optional(S.NullOr(S.String)),
           three_ds_level: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/checkout_configurations", code: 200 })),
       ).annotate({ identifier: "CreateCheckoutConfigurationRequest" });
   }

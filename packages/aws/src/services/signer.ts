@@ -530,7 +530,7 @@ export interface StartSigningJobRequest {
   source: Source;
   destination: Destination;
   profileName: string;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
   profileOwner?: string | undefined;
 }
 export interface StartSigningJobResponse {
@@ -1831,7 +1831,7 @@ function __c27(j: number): any {
           source: __S(37, __c9, 1),
           destination: __S(109, __c27, 1),
           profileName: S.String,
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           profileOwner: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/signing-jobs" }), svc, auth, proto, ver, rules),
