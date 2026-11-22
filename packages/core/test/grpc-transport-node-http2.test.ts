@@ -47,12 +47,31 @@ const frameOf = (type: number, flags: number, stream: number, payload: Uint8Arra
   return out;
 };
 
+const resetFrame = (code: number) => {
+  const payload = Buffer.alloc(4);
+  payload.writeUInt32BE(code);
+  return frameOf(0x3, 0, 1, payload);
+};
+
+const headFrame = () =>
+  frameOf(
+    0x1,
+    0x4,
+    1,
+    encode([
+      [":status", "200"],
+      ["content-type", "application/grpc"],
+    ]),
+  );
+
 /**
- * A server that writes raw HTTP/2 frames: a response head, `body`, then a
- * RST_STREAM with `code`. `node:http2` can't send a reset after a head
- * without ending the stream first.
+ * A server that speaks raw HTTP/2 frames and calls `answer` once the
+ * client's request HEADERS arrive, on a TCP port or at the Unix socket
+ * `path`. The frames are exact on every runtime: Bun's `node:http2` server
+ * doesn't send the code given to `stream.close`, and Node 22 and Bun refuse
+ * to destroy an HTTP/2 session's socket.
  */
-const serveResetAfterHead = async (code: number, body: string) => {
+const serveRaw = async (answer: (socket: net.Socket) => void, path?: string) => {
   const server = net.createServer((socket) => {
     socket.on("error", () => undefined);
     socket.write(frameOf(0x4, 0, 0, new Uint8Array(0)));
@@ -60,32 +79,26 @@ const serveResetAfterHead = async (code: number, body: string) => {
     let answered = false;
     socket.on("data", (chunk: Buffer) => {
       seen = Buffer.concat([seen, chunk]);
-      // The client's preface, then its frames; answer once its HEADERS arrive.
+      // The client's preface, then its frames.
       for (let at = 24; !answered && at + 9 <= seen.length;) {
         const length = seen.readUIntBE(at, 3);
         if (seen[at + 3] === 0x1) {
           answered = true;
-          const head = encode([
-            [":status", "200"],
-            ["content-type", "application/grpc"],
-          ]);
-          const reset = Buffer.alloc(4);
-          reset.writeUInt32BE(code);
-          socket.write(
-            Buffer.concat([
-              frameOf(0x1, 0x4, 1, head),
-              ...(body === "" ? [] : [frameOf(0x0, 0, 1, Buffer.from(body))]),
-              frameOf(0x3, 0, 1, reset),
-            ]),
-          );
+          answer(socket);
         }
         at += 9 + length;
       }
     });
   });
-  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  if (path === undefined) {
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  } else {
+    await new Promise<void>((resolve) => server.listen(path, resolve));
+  }
   closers.push(() => server.close());
-  return `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  return path === undefined
+    ? `http://127.0.0.1:${(server.address() as AddressInfo).port}`
+    : "http://localhost";
 };
 
 const call = (client: HttpClient.HttpClient, url: string) =>
@@ -150,7 +163,7 @@ describe("gRPC over node:http2: stream resets", () => {
   ])(
     "a reset %i before the head is a reply of trailers alone with status %s",
     async (code, status, message) => {
-      const url = await serve((stream) => stream.close(code));
+      const url = await serveRaw((socket) => socket.write(resetFrame(code)));
       expect(await read(await answered(NodeHttp2.client, url))).toEqual({
         status: 200,
         contentType: "application/grpc",
@@ -162,11 +175,8 @@ describe("gRPC over node:http2: stream resets", () => {
 
   test("a reset before the head over a Unix socket", async () => {
     const path = `/tmp/distilled-grpc-reset-${process.pid}.sock`;
-    const server = http2.createServer();
-    server.on("stream", (stream) => stream.close(C.NGHTTP2_NO_ERROR));
-    await new Promise<void>((resolve) => server.listen(path, resolve));
-    closers.push(() => server.close());
-    const response = await answered(NodeHttp2.unixSocket(path), "http://localhost");
+    const url = await serveRaw((socket) => socket.write(resetFrame(C.NGHTTP2_NO_ERROR)), path);
+    const response = await answered(NodeHttp2.unixSocket(path), url);
     expect((await read(response)).trailers).toEqual(resetTrailers(C.NGHTTP2_NO_ERROR));
   });
 
@@ -174,7 +184,15 @@ describe("gRPC over node:http2: stream resets", () => {
     [C.NGHTTP2_INTERNAL_ERROR, ""],
     [C.NGHTTP2_REFUSED_STREAM, "partial"],
   ])("a reset %i after the head ends the body with its status", async (code, body) => {
-    const url = await serveResetAfterHead(code, body);
+    const url = await serveRaw((socket) =>
+      socket.write(
+        Buffer.concat([
+          headFrame(),
+          ...(body === "" ? [] : [frameOf(0x0, 0, 1, Buffer.from(body))]),
+          resetFrame(code),
+        ]),
+      ),
+    );
     expect(await read(await answered(NodeHttp2.client, url))).toEqual({
       status: 200,
       contentType: "application/grpc",
@@ -184,7 +202,7 @@ describe("gRPC over node:http2: stream resets", () => {
   });
 
   test("a connection lost before the head is a transport error", async () => {
-    const url = await serve((stream) => stream.session?.socket.destroy());
+    const url = await serveRaw((socket) => socket.destroy());
     const result = await call(NodeHttp2.client, url);
     if (!Result.isFailure(result)) throw new Error("the request was answered");
     const error = result.failure as HttpClientError.HttpClientError;

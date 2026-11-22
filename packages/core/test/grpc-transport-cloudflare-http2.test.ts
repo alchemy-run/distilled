@@ -119,11 +119,6 @@ server.on("stream", (stream: http2.ServerHttp2Stream, headers) => {
       padding?: string;
     };
     seen = { headers, padding: padding?.length ?? 0 };
-    if (count === 9) {
-      // A reset before any response, which carries no status.
-      stream.close(http2.constants.NGHTTP2_NO_ERROR);
-      return;
-    }
     if (count === 8) {
       // Trailers-only: the status rides the one header block.
       stream.respond(
@@ -251,7 +246,10 @@ describe("gRPC over HTTP/2 on cloudflare:sockets", () => {
   });
 
   test("a reset before the response fails the call with the status it maps to", async () => {
-    const result = await run(get({ count: 9 }));
+    // A scripted server: Bun's `node:http2` server doesn't send the code
+    // given to `stream.close`.
+    sockets.next = () => new Peer([rst(1, 0)]);
+    const result = await run(get({ count: 1 }));
     expect(result._tag).toBe("Failure");
     expect(result.failure._tag).toBe("InternalServerError");
     expect(result.failure.body).toMatchObject({ code: 13, status: "INTERNAL" });
