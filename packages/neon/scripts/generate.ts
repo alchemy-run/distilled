@@ -114,7 +114,7 @@ const neonSpec: SdkSpec = {
   operationDecl: {
     contextType: "NeonOpContext",
     commonErrorType: "NeonOpError",
-    commonErrorClasses: ["UnknownNeonError"],
+    serviceErrors: "NeonServiceErrors",
     protocol: "NeonProtocol",
     retry: "Retry.Retry",
   },
