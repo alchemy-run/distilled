@@ -1,0 +1,10 @@
+{
+  "description": "CommunicationIdentityAccessToken.token is a bearer token for the Communication Services identity (IssueAccessToken, ExchangeTeamsUserAccessToken, CreateIdentity and the Teams extension token exchange return it), but the spec has no sensitive mark. Mark it sensitive so it decodes as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_identity#CommunicationIdentityAccessToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
