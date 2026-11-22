@@ -117,6 +117,11 @@ export interface HttpTrait extends Omit<CoreHttpTrait, "method"> {
    */
   readonly storage?: boolean;
   /**
+   * How the token goes into `Authorization` when it is not `Bearer <token>`.
+   * `"cosmos-aad"`: Cosmos DB's URL-encoded `type=aad&ver=1.0&sig=<token>`.
+   */
+  readonly authScheme?: "cosmos-aad";
+  /**
    * Send the JSON body under this media type instead of `application/json`
    * (Service Bus / Event Hubs batches `application/vnd.microsoft.servicebus.json`,
    * Cosmos DB queries `application/query+json`). Sent exactly, no charset.
@@ -183,3 +188,11 @@ export const headerPrefixSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/azu
  * (`metadata: { owner: "a" }` <-> `x-ms-meta-owner: a`).
  */
 export const HeaderPrefix = (prefix: string) => makeAnnotation(headerPrefixSymbol, prefix);
+
+export const jsonHeaderSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/azure/json-header");
+/**
+ * A structured member sent and read as one JSON-encoded header, with its
+ * fields under their wire names (Service Bus `BrokerProperties:
+ * {"Label":"M1"}`, Cosmos DB `x-ms-documentdb-partitionkey: ["a"]`).
+ */
+export const JsonHeader = (name: string) => makeAnnotation(jsonHeaderSymbol, name);
