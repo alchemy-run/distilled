@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1260,12 +1261,13 @@ export const batchGetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1602, __c50, 2) as any as S.Schema<BatchGetPolicyInput>,
   output: __S(1607, __c50, 7) as any as S.Schema<BatchGetPolicyOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPolicy",
@@ -1297,13 +1299,13 @@ export const batchIsAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c1, 2) as any as S.Schema<BatchIsAuthorizedInput>,
   output: __S(37, __c1, 5) as any as S.Schema<BatchIsAuthorizedOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorized",
@@ -1335,13 +1337,13 @@ export const batchIsAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(130, __c4, 2) as any as S.Schema<BatchIsAuthorizedWithTokenInput>,
   output: __S(133, __c4, 5) as any as S.Schema<BatchIsAuthorizedWithTokenOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorizedWithToken",
@@ -1381,15 +1383,13 @@ export const createIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateIdentitySourceInput>,
   output: __S(291, __c9, 3) as any as S.Schema<CreateIdentitySourceOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
@@ -1425,15 +1425,13 @@ export const createPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreatePolicyInput>,
   output: __S(384, __c12, 0) as any as S.Schema<CreatePolicyOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
@@ -1464,14 +1462,13 @@ export const createPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(418, __c13, 2) as any as S.Schema<CreatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<CreatePolicyStoreOutput>,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
@@ -1503,15 +1500,13 @@ export const createPolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreatePolicyStoreAliasInput>,
   output: __S(545, __c17, 1) as any as S.Schema<CreatePolicyStoreAliasOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStoreAlias",
@@ -1541,15 +1536,13 @@ export const createPolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreatePolicyTemplateInput>,
   output: __S(608, __c19, 0) as any as S.Schema<CreatePolicyTemplateOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyTemplate",
@@ -1576,14 +1569,13 @@ export const deleteIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteIdentitySourceInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteIdentitySourceOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
@@ -1612,14 +1604,13 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeletePolicyInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -1647,13 +1638,13 @@ export const deletePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeletePolicyStoreInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreOutput>,
-  errors: [
-    InvalidStateException,
+  errors: [InvalidStateException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
@@ -1688,14 +1679,13 @@ export const deletePolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeletePolicyStoreAliasInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreAliasOutput>,
-  errors: [
-    InvalidStateException,
-    ResourceNotFoundException,
+  errors: [InvalidStateException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
@@ -1724,14 +1714,13 @@ export const deletePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeletePolicyTemplateInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyTemplateOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
@@ -1757,13 +1746,13 @@ export const getIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetIdentitySourceInput>,
   output: __S(868, __c27, 4) as any as S.Schema<GetIdentitySourceOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
@@ -1789,13 +1778,13 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetPolicyInput>,
   output: __S(897, __c28, 1) as any as S.Schema<GetPolicyOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -1821,13 +1810,13 @@ export const getPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetPolicyStoreInput>,
   output: __S(931, __c29, 3) as any as S.Schema<GetPolicyStoreOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
@@ -1853,13 +1842,13 @@ export const getPolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetPolicyStoreAliasInput>,
   output: __S(992, __c31, 0) as any as S.Schema<GetPolicyStoreAliasOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
@@ -1885,13 +1874,13 @@ export const getPolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetPolicyTemplateInput>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetPolicyTemplateOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
@@ -1917,13 +1906,13 @@ export const getSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSchemaInput>,
   output: __S(1057, __c33, 1) as any as S.Schema<GetSchemaOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
@@ -1949,13 +1938,13 @@ export const isAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<IsAuthorizedInput>,
   output: __S(1089, __c34, 1) as any as S.Schema<IsAuthorizedOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
@@ -1985,13 +1974,13 @@ export const isAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<IsAuthorizedWithTokenInput>,
   output: __S(1121, __c35, 1) as any as S.Schema<IsAuthorizedWithTokenOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
@@ -2018,13 +2007,13 @@ export const listIdentitySources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1154, __c36, 2) as any as S.Schema<ListIdentitySourcesInput>,
   output: __S(1156, __c36, 4) as any as S.Schema<ListIdentitySourcesOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentitySources",
@@ -2057,13 +2046,13 @@ export const listPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1186, __c37, 2) as any as S.Schema<ListPoliciesInput>,
   output: __S(1191, __c37, 7) as any as S.Schema<ListPoliciesOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -2095,12 +2084,13 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<ListPolicyStoreAliasesInput>,
   output: __S(1219, __c38, 3) as any as S.Schema<ListPolicyStoreAliasesOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStoreAliases",
@@ -2132,12 +2122,13 @@ export const listPolicyStores: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListPolicyStoresInput>,
   output: __S(1251, __c39, 3) as any as S.Schema<ListPolicyStoresOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStores",
@@ -2170,13 +2161,13 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListPolicyTemplatesInput>,
   output: __S(1283, __c40, 3) as any as S.Schema<ListPolicyTemplatesOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyTemplates",
@@ -2208,13 +2199,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(1313, __c41, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2244,15 +2235,13 @@ export const putSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1345, __c42, 1) as any as S.Schema<PutSchemaInput>,
   output: __S(1346, __c42, 2) as any as S.Schema<PutSchemaOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchema",
@@ -2285,14 +2274,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<TagResourceInput>,
   output: __S(672, __c21, 0) as any as S.Schema<TagResourceOutput>,
-  errors: [
+  errors: [ResourceNotFoundException, TooManyTagsException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    TooManyTagsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2318,13 +2306,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(672, __c21, 0) as any as S.Schema<UntagResourceOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2353,14 +2341,13 @@ export const updateIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateIdentitySourceInput>,
   output: __S(291, __c9, 3) as any as S.Schema<UpdateIdentitySourceOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
@@ -2410,15 +2397,13 @@ export const updatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1473, __c46, 1) as any as S.Schema<UpdatePolicyInput>,
   output: __S(384, __c12, 0) as any as S.Schema<UpdatePolicyOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
@@ -2447,14 +2432,13 @@ export const updatePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<UpdatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<UpdatePolicyStoreOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
@@ -2485,14 +2469,13 @@ export const updatePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<UpdatePolicyTemplateInput>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdatePolicyTemplateOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",

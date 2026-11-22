@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -305,16 +306,15 @@ export const createInvestigationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<CreateInvestigationGroupInput>,
   output: __S(45, __c11, 1) as any as S.Schema<CreateInvestigationGroupOutput>,
-  errors: [
+  errors: [ServiceQuotaExceededException, ThrottlingException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigationGroup",
@@ -343,16 +343,15 @@ export const deleteInvestigationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteInvestigationGroupRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteInvestigationGroupResponse>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
     ConflictException,
     ForbiddenException,
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroup",
@@ -381,16 +380,15 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-    UnauthorizedException,
     ConflictException,
     ForbiddenException,
-  ],
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroupPolicy",
@@ -419,16 +417,15 @@ export const getInvestigationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetInvestigationGroupRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<GetInvestigationGroupResponse>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    UnauthorizedException,
     ConflictException,
     ForbiddenException,
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroup",
@@ -457,16 +454,15 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetInvestigationGroupPolicyRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<GetInvestigationGroupPolicyResponse>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-    UnauthorizedException,
     ConflictException,
     ForbiddenException,
-  ],
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroupPolicy",
@@ -495,15 +491,15 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListInvestigationGroupsInput>,
   output: __S(23, __c5, 3) as any as S.Schema<ListInvestigationGroupsOutput>,
-  errors: [
+  errors: [ThrottlingException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
     ConflictException,
     ForbiddenException,
+    InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigationGroups",
@@ -537,15 +533,15 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
+  errors: [ThrottlingException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -578,16 +574,15 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<PutInvestigationGroupPolicyRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<PutInvestigationGroupPolicyResponse>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvestigationGroupPolicy",
@@ -621,15 +616,15 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
+  errors: [ThrottlingException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -657,15 +652,15 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
+  errors: [ThrottlingException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -694,16 +689,15 @@ export const updateInvestigationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<UpdateInvestigationGroupRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateInvestigationGroupOutput>,
-  errors: [
+  errors: [ThrottlingException, UnauthorizedException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
+    ForbiddenException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
-    ForbiddenException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationGroup",

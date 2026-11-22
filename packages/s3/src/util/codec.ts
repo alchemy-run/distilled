@@ -699,10 +699,14 @@ export const outputBody = (operation: Operation<any, any, any>, body: string): s
 
 /**
  * An error body to quote in an error message: `[REDACTED]` when one of the
- * operation's declared errors can hold a secret.
+ * errors the operation or its service declares can hold a secret.
  */
 export const errorBody = (operation: Operation<any, any, any>, body: string): string =>
-  (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? REDACTED : body;
+  [...(operation.errors ?? []), ...(operation.serviceErrors ?? [])].some((e) =>
+    holdsSensitive(e.ast),
+  )
+    ? REDACTED
+    : body;
 
 const encodeFailure = (ast: Node, e: unknown): ParseError =>
   new ParseError({ message: decodeFailure(e, holdsSensitive(ast)) });

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -214,6 +215,7 @@ export const getActionRecommendations: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetActionRecommendationsRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<GetActionRecommendationsResponse>,
   errors: [InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActionRecommendations",
@@ -241,6 +243,7 @@ export const getPersonalizedRanking: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<GetPersonalizedRankingRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<GetPersonalizedRankingResponse>,
   errors: [InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersonalizedRanking",
@@ -275,6 +278,7 @@ export const getRecommendations: API.OperationMethod<
   input: __S(34, __c4, 2) as any as S.Schema<GetRecommendationsRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<GetRecommendationsResponse>,
   errors: [InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
