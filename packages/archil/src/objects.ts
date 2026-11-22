@@ -15,11 +15,13 @@
  * per request), CopyObject (same bucket), ListObjectsV2 (`/` delimiter only),
  * and multipart upload (create, upload part, complete, abort, list parts,
  * list uploads). Writes that conflict with a FUSE mount's write delegation
- * fail with {@link ObjectConflict}.
+ * fail with {@link ObjectConflict}. A key with a `.` or `..` segment fails
+ * with {@link InvalidInput} before anything is sent.
  */
 import * as AwsClient from "@distilled.cloud/aws4signer/AwsClient";
 import * as Category from "@distilled.cloud/core/category";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { InvalidInput, invalidLabel } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -136,7 +138,14 @@ export interface DiskRef {
 
 const bucketOf = (ref: DiskRef) => (ref.branch ? `${ref.disk}.${ref.branch}` : ref.disk);
 
-const encodeKey = (key: string) =>
+/**
+ * The key as URL path segments, each percent-encoded, or the
+ * {@link InvalidInput} of a key that has a `.` or `..` segment (the URL
+ * parser resolves one, so the request would reach another path) or a lone
+ * UTF-16 surrogate.
+ */
+const encodeKey = (member: string, key: string): string | InvalidInput =>
+  invalidLabel(member, key, true) ??
   key.replace(/^\//, "").split("/").map(encodeURIComponent).join("/");
 
 const xmlText = (xml: string, tag: string) => {
@@ -192,10 +201,13 @@ const toError = (options: RequestOptions, status: number, text: string): Objects
   return new ObjectsError({ operation: options.operation, status, code, message });
 };
 
-const objectUrl = (base: string, options: Pick<RequestOptions, "ref" | "key" | "query">) => {
-  const path = options.key
-    ? `/${bucketOf(options.ref)}/${encodeKey(options.key)}`
-    : `/${bucketOf(options.ref)}`;
+const objectUrl = (
+  base: string,
+  options: Pick<RequestOptions, "ref" | "key" | "query">,
+): string | InvalidInput => {
+  const key = options.key ? encodeKey("key", options.key) : undefined;
+  if (key instanceof InvalidInput) return key;
+  const path = key !== undefined ? `/${bucketOf(options.ref)}/${key}` : `/${bucketOf(options.ref)}`;
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(options.query ?? {})) {
     if (v !== undefined) params.set(k, String(v));
@@ -208,7 +220,9 @@ const objectUrl = (base: string, options: Pick<RequestOptions, "ref" | "key" | "
 const request = Effect.fn(function* (options: RequestOptions) {
   const auth = yield* Effect.flatMap(ObjectCredentials, (resolve) => resolve);
   const client = yield* HttpClient.HttpClient;
-  let req = HttpClientRequest.make(options.method)(objectUrl(auth.baseUrl, options));
+  const url = objectUrl(auth.baseUrl, options);
+  if (url instanceof InvalidInput) return yield* url;
+  let req = HttpClientRequest.make(options.method)(url);
   for (const [k, v] of Object.entries(options.headers ?? {})) {
     if (v !== undefined) req = HttpClientRequest.setHeader(req, k, v);
   }
@@ -252,7 +266,9 @@ export const presignGetObject = Effect.fn(function* (
       message: "Presigned object URLs need a disk's S3 user keys, not an API key.",
     });
   }
-  return yield* AwsClient.presign(objectUrl(auth.baseUrl, { ref, key }), {
+  const url = objectUrl(auth.baseUrl, { ref, key });
+  if (url instanceof InvalidInput) return yield* url;
+  return yield* AwsClient.presign(url, {
     service: "s3",
     region: SIGNING_REGION,
     credentials: auth.keys,
@@ -376,12 +392,14 @@ export const deleteObject = Effect.fn(function* (ref: DiskRef, key: string) {
 
 /** Copy an object within the same disk. */
 export const copyObject = Effect.fn(function* (ref: DiskRef, sourceKey: string, key: string) {
+  const source = encodeKey("sourceKey", sourceKey);
+  if (source instanceof InvalidInput) return yield* source;
   const response = yield* request({
     operation: "CopyObject",
     method: "PUT",
     ref,
     key,
-    headers: { "x-amz-copy-source": `/${bucketOf(ref)}/${encodeKey(sourceKey)}` },
+    headers: { "x-amz-copy-source": `/${bucketOf(ref)}/${source}` },
   });
   return { etag: xmlText(yield* response.text, "ETag") };
 });
