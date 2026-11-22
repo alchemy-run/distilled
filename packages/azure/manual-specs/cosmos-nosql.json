@@ -1,0 +1,1514 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: the Cosmos DB SQL API has no Swagger. Transcribed from learn.microsoft.com/rest/api/cosmos-db (common-cosmosdb-rest-request-headers, common-cosmosdb-rest-response-headers, create-a-document, get-a-document, replace-a-document, patch-a-document, delete-a-document, list-documents, query-documents, http-status-codes-for-cosmosdb). x-ms-version 2018-12-31 is the first version that accepts Entra tokens.",
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ]
+  },
+  "shapes": {
+    "com.azure.cosmos_nosql#CosmosConflict": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error message."
+          }
+        },
+        "headers": {
+          "target": "com.azure.cosmos_nosql#HeaderMap",
+          "traits": {
+            "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-retry-after-ms` says when to retry, `x-ms-activity-id` identifies the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "smithy.api#documentation": "A document with this id already exists in the partition (HTTP 409).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.azure.cosmos_nosql#CosmosNosql": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.azure.cosmos_nosql#CreateDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#UpsertDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#GetDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#ReplaceDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#PatchDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#DeleteDocument"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#ListDocuments"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#QueryDocuments"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Azure Cosmos DB for NoSQL",
+        "smithy.api#documentation": "Azure Cosmos DB for NoSQL document operations (create, upsert, read, replace, patch, delete, list, query) over the REST API. Hand-authored from the Cosmos DB REST reference; authenticates with a Microsoft Entra token for https://cosmos.azure.com/.default in the `type=aad&ver=1.0&sig=<token>` Authorization form.",
+        "com.azure.protocols#host": {
+          "template": "https://{accountName}.documents.azure.com",
+          "parameters": [
+            {
+              "name": "accountName"
+            }
+          ]
+        },
+        "com.azure.protocols#audience": "https://cosmos.azure.com/.default"
+      }
+    },
+    "com.azure.cosmos_nosql#CosmosNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error message."
+          }
+        },
+        "headers": {
+          "target": "com.azure.cosmos_nosql#HeaderMap",
+          "traits": {
+            "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-retry-after-ms` says when to retry, `x-ms-activity-id` identifies the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The document, container or database does not exist (HTTP 404; `x-ms-substatus` 1002: a session read that is not available yet, 1013: a container still being created).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.azure.cosmos_nosql#CosmosPreconditionFailed": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error message."
+          }
+        },
+        "headers": {
+          "target": "com.azure.cosmos_nosql#HeaderMap",
+          "traits": {
+            "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-retry-after-ms` says when to retry, `x-ms-activity-id` identifies the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 412,
+        "smithy.api#documentation": "The `If-Match` etag is not the document's current etag, or a conditional patch's condition is false (HTTP 412).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 412
+          }
+        ]
+      }
+    },
+    "com.azure.cosmos_nosql#CosmosRequestEntityTooLarge": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error message."
+          }
+        },
+        "headers": {
+          "target": "com.azure.cosmos_nosql#HeaderMap",
+          "traits": {
+            "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-retry-after-ms` says when to retry, `x-ms-activity-id` identifies the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 413,
+        "smithy.api#documentation": "The document exceeds the maximum document size of 2 MB (HTTP 413).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 413
+          }
+        ]
+      }
+    },
+    "com.azure.cosmos_nosql#CosmosTooManyRequests": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error message."
+          }
+        },
+        "headers": {
+          "target": "com.azure.cosmos_nosql#HeaderMap",
+          "traits": {
+            "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-retry-after-ms` says when to retry, `x-ms-activity-id` identifies the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 429,
+        "smithy.api#documentation": "The request exceeded the provisioned throughput (HTTP 429; `x-ms-substatus` 3200: request units exhausted). Retry after `x-ms-retry-after-ms`.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 429
+          }
+        ],
+        "smithy.api#retryable": {
+          "throttling": true
+        }
+      }
+    },
+    "com.azure.cosmos_nosql#CreateDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#CreateDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#CreateDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs",
+          "code": 201,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad"
+        },
+        "smithy.api#documentation": "Create a document in a container (`POST /dbs/{db}/colls/{coll}/docs`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosConflict"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosPreconditionFailed"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosRequestEntityTooLarge"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#CreateDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document; it must have a string `id`."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "indexingDirective": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-indexing-directive",
+            "smithy.api#documentation": "`Include` or `Exclude` the document from the index."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#CreateDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document with its system properties (`_rid`, `_etag`, `_ts`, `_self`)."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The document's etag."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#DeleteDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#DeleteDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#DeleteDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs/{documentId}",
+          "code": 204,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad"
+        },
+        "smithy.api#documentation": "Delete a document (`DELETE /dbs/{db}/colls/{coll}/docs/{id}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosPreconditionFailed"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#DeleteDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "documentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The document id."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Only write when the document's etag is this one (optimistic concurrency)."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#DeleteDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#DocumentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.azure.cosmos_nosql#GetDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#GetDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#GetDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs/{documentId}",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad"
+        },
+        "smithy.api#documentation": "Read a document (`GET /dbs/{db}/colls/{coll}/docs/{id}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#GetDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "documentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The document id."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "ifNoneMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-None-Match",
+            "smithy.api#documentation": "Only return the document when its etag differs (HTTP 304 otherwise)."
+          }
+        },
+        "consistencyLevel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-consistency-level",
+            "smithy.api#documentation": "Override the read consistency: `Strong`, `Bounded`, `Session` or `Eventual` (no stronger than the account's)."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#GetDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document with its system properties (`_rid`, `_etag`, `_ts`, `_self`)."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The document's etag."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#HeaderMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.cosmos_nosql#ListDocuments": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#ListDocumentsRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#ListDocumentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad"
+        },
+        "smithy.api#documentation": "List the documents of a container, one page at a time (`GET /dbs/{db}/colls/{coll}/docs`); with `aIm: \"Incremental feed\"` it reads the change feed."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#ListDocumentsRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "maxItemCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-max-item-count",
+            "smithy.api#documentation": "Most documents per page; -1 lets the service choose."
+          }
+        },
+        "continuation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-continuation",
+            "smithy.api#documentation": "The `continuation` of the previous page."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "aIm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "A-IM",
+            "smithy.api#documentation": "`Incremental feed` reads the change feed instead of the documents."
+          }
+        },
+        "partitionKeyRangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-documentdb-partitionkeyrangeid",
+            "smithy.api#documentation": "The partition key range to read (change feed)."
+          }
+        },
+        "ifNoneMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-None-Match",
+            "smithy.api#documentation": "Change feed: the `etag` of the last read; `*` starts from now."
+          }
+        },
+        "consistencyLevel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-consistency-level",
+            "smithy.api#documentation": "Override the read consistency: `Strong`, `Bounded`, `Session` or `Eventual` (no stronger than the account's)."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#ListDocumentsResponse": {
+      "type": "structure",
+      "members": {
+        "_rid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The container's resource id."
+          }
+        },
+        "Documents": {
+          "target": "com.azure.cosmos_nosql#DocumentList",
+          "traits": {
+            "smithy.api#documentation": "The documents of this page."
+          }
+        },
+        "_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many documents this page has."
+          }
+        },
+        "continuation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-continuation",
+            "smithy.api#documentation": "The token for the next page (`x-ms-continuation`); absent on the last page."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The change-feed etag (send it as `ifNoneMatch` to read later changes)."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#PartitionKey": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.azure.cosmos_nosql#PatchDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#PatchDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#PatchDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs/{documentId}",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad",
+          "jsonContentType": "application/json_patch+json"
+        },
+        "smithy.api#documentation": "Change parts of a document (`PATCH /dbs/{db}/colls/{coll}/docs/{id}`, `application/json_patch+json`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosConflict"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosPreconditionFailed"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosRequestEntityTooLarge"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#PatchDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "documentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The document id."
+          }
+        },
+        "operations": {
+          "target": "com.azure.cosmos_nosql#PatchOperationList",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The operations, applied in order (at most 10)."
+          }
+        },
+        "condition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Only patch when this filter matches the document (`from c where c.Address.ZipCode = '98101'`)."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Only write when the document's etag is this one (optimistic concurrency)."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#PatchDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document with its system properties (`_rid`, `_etag`, `_ts`, `_self`)."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The document's etag."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#PatchOperation": {
+      "type": "structure",
+      "members": {
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "`add`, `set`, `replace`, `remove`, `incr` or `move`."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The JSON path to change (`/Parents/0/FamilyName`)."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The value to write (not for `remove` or `move`)."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source path of a `move`."
+          }
+        }
+      }
+    },
+    "com.azure.cosmos_nosql#PatchOperationList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.cosmos_nosql#PatchOperation"
+      }
+    },
+    "com.azure.cosmos_nosql#QueryDocuments": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#QueryDocumentsRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#QueryDocumentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad",
+          "headers": {
+            "x-ms-documentdb-isquery": "True"
+          },
+          "jsonContentType": "application/query+json"
+        },
+        "smithy.api#documentation": "Run a SQL query over a container, one page at a time (`POST /dbs/{db}/colls/{coll}/docs`, `x-ms-documentdb-isquery: True`, `application/query+json`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#QueryDocumentsRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The SQL query (`SELECT * FROM c WHERE c.id = @id`)."
+          }
+        },
+        "parameters": {
+          "target": "com.azure.cosmos_nosql#QueryParameterList",
+          "traits": {
+            "smithy.api#documentation": "Values for the query's `@` parameters."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "maxItemCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-max-item-count",
+            "smithy.api#documentation": "Most documents per page; -1 lets the service choose."
+          }
+        },
+        "continuation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-continuation",
+            "smithy.api#documentation": "The `continuation` of the previous page."
+          }
+        },
+        "enableCrossPartition": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-documentdb-query-enablecrosspartition",
+            "smithy.api#documentation": "Fan the query out over every partition (needed when it has no partition key filter)."
+          }
+        },
+        "consistencyLevel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-consistency-level",
+            "smithy.api#documentation": "Override the read consistency: `Strong`, `Bounded`, `Session` or `Eventual` (no stronger than the account's)."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#QueryDocumentsResponse": {
+      "type": "structure",
+      "members": {
+        "_rid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The container's resource id."
+          }
+        },
+        "Documents": {
+          "target": "com.azure.cosmos_nosql#DocumentList",
+          "traits": {
+            "smithy.api#documentation": "The documents of this page."
+          }
+        },
+        "_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many documents this page has."
+          }
+        },
+        "continuation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-continuation",
+            "smithy.api#documentation": "The token for the next page (`x-ms-continuation`); absent on the last page."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The change-feed etag (send it as `ifNoneMatch` to read later changes)."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#QueryParameter": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The parameter name, with its `@` (`@id`)."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The parameter value."
+          }
+        }
+      }
+    },
+    "com.azure.cosmos_nosql#QueryParameterList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.cosmos_nosql#QueryParameter"
+      }
+    },
+    "com.azure.cosmos_nosql#ReplaceDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#ReplaceDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#ReplaceDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs/{documentId}",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad"
+        },
+        "smithy.api#documentation": "Replace a document (`PUT /dbs/{db}/colls/{coll}/docs/{id}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosConflict"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosPreconditionFailed"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosRequestEntityTooLarge"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#ReplaceDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "documentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The document id."
+          }
+        },
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The new document; its `id` must equal `documentId`."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Only write when the document's etag is this one (optimistic concurrency)."
+          }
+        },
+        "indexingDirective": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-indexing-directive",
+            "smithy.api#documentation": "`Include` or `Exclude` the document from the index."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#ReplaceDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document with its system properties (`_rid`, `_etag`, `_ts`, `_self`)."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The document's etag."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.cosmos_nosql#UpsertDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.cosmos_nosql#UpsertDocumentRequest"
+      },
+      "output": {
+        "target": "com.azure.cosmos_nosql#UpsertDocumentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dbs/{databaseId}/colls/{collectionId}/docs",
+          "code": 200,
+          "host": "https://{accountName}.documents.azure.com",
+          "apiVersion": "2018-12-31",
+          "apiVersionHeader": "x-ms-version",
+          "authScheme": "cosmos-aad",
+          "headers": {
+            "x-ms-documentdb-is-upsert": "True"
+          }
+        },
+        "smithy.api#documentation": "Create a document, or replace the one with the same id (`POST /dbs/{db}/colls/{coll}/docs` with `x-ms-documentdb-is-upsert: True`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.cosmos_nosql#CosmosNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosConflict"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosPreconditionFailed"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosTooManyRequests"
+        },
+        {
+          "target": "com.azure.cosmos_nosql#CosmosRequestEntityTooLarge"
+        }
+      ]
+    },
+    "com.azure.cosmos_nosql#UpsertDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Cosmos DB account name (`<accountName>.documents.azure.com`)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The database id (its name, not its `_rid`)."
+          }
+        },
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The container (collection) id."
+          }
+        },
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document; it must have a string `id`."
+          }
+        },
+        "partitionKey": {
+          "target": "com.azure.cosmos_nosql#PartitionKey",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "x-ms-documentdb-partitionkey",
+            "smithy.api#documentation": "The document's partition key value as a one-element array (`[\"tenant-1\"]`). Required when the container has a partition key."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Only write when the document's etag is this one (optimistic concurrency)."
+          }
+        },
+        "indexingDirective": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-indexing-directive",
+            "smithy.api#documentation": "`Include` or `Exclude` the document from the index."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token of an earlier response, for session consistency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.cosmos_nosql#UpsertDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The document with its system properties (`_rid`, `_etag`, `_ts`, `_self`)."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "etag",
+            "smithy.api#documentation": "The document's etag."
+          }
+        },
+        "requestCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-charge",
+            "smithy.api#documentation": "Request units the operation consumed."
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-session-token",
+            "smithy.api#documentation": "The session token to send with later reads for session consistency."
+          }
+        },
+        "activityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-activity-id",
+            "smithy.api#documentation": "The request's activity id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    }
+  }
+}
