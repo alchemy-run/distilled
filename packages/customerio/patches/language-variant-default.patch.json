@@ -1,0 +1,45 @@
+{
+  "description": "The spec marks the `language` path label required on the get and update operations of campaign, broadcast, newsletter and transactional language variants, but documents an empty value: \"If you don't provide a language (an empty string), we'll use your default language.\" Mark `language` optional on those 10 operations so `language: \"\"` addresses the default language. The 2 delete operations stay required.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#GetCampaignActionTranslationRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#UpdateCampaignActionTranslationRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#GetBroadcastActionLanguageRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#UpdateBroadcastActionLanguageRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#GetNewsletterVariantTranslationRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#UpdateNewsletterVariantTranslationRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#GetNewsletterVariantTranslationTestRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#UpdateNewsletterTestTranslationRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#GetTransactionalVariantRequest/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.customerio.api#UpdateTransactionalVariantRequest/members/language/traits/smithy.api#required"
+    }
+  ]
+}
