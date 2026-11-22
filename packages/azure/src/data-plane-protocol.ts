@@ -14,7 +14,7 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * AzureDataPlaneProtocol -- hand-written.
  *
  * The protocol of every data-plane operation (`keyvault-secrets`,
- * `storage-blob`, ...): the generator points an
+ * `storage-blob`, the manual-specs models, ...): the generator points an
  * operation here when its http trait names a `host`. ARM operations use
  * `AzureProtocol` (`./protocol.ts`), so an ARM-only program never bundles
  * this module.
@@ -34,8 +34,10 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  *             repository and actions (`/oauth2/token`); both are cached
  *             until shortly before they expire.
  *
- *             Operations a patch marks add header maps with an empty
- *             prefix, `jsonContentType` bodies and `emptyBody` writes.
+ *             Hand-written models (manual-specs) add `JsonHeader` members
+ *             (one JSON header, e.g. `BrokerProperties`), header maps with
+ *             an empty prefix, `jsonContentType` bodies, `emptyBody` writes,
+ *             and Cosmos DB's `authScheme: "cosmos-aad"`.
  *
  *             A page's `nextLink` is a GET of that URL with the same auth;
  *             it must stay on the endpoint's host.
@@ -89,7 +91,7 @@ import {
   takePrefixHeaders,
   withoutXmlBodyMembers,
 } from "./storage.ts";
-import type { HttpTrait } from "./traits.ts";
+import { jsonHeaderSymbol, type HttpTrait } from "./traits.ts";
 
 // ---------------------------------------------------------------------------
 // Encode
@@ -182,21 +184,29 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       }
     }
 
-    // Data planes: header maps (Storage `x-ms-meta-*`) and Storage's XML body
-    // leave the generic builder's input; they are sent below.
+    // Data planes: header maps (Storage `x-ms-meta-*`, Service Bus custom
+    // properties), JSON-encoded headers (`BrokerProperties`) and Storage's
+    // XML body leave the generic builder's input; they are sent below.
     let prefixHeaders: Record<string, string> = {};
     let xmlBody: string | undefined;
     if (http?.host !== undefined && fields !== null && typeof fields === "object") {
       const taken = takePrefixHeaders(inputAst, fields as Record<string, unknown>);
-      prefixHeaders = taken.headers;
-      fields = taken.input;
+      const json = takeJsonHeaders(inputAst, taken.input);
+      prefixHeaders = { ...taken.headers, ...json.headers };
+      fields = json.input;
       if (http.storage === true && http.xmlRoot !== undefined) {
-        xmlBody = encodeXmlBody(http.xmlRoot, inputAst, taken.input);
-        fields = withoutXmlBodyMembers(inputAst, taken.input);
+        xmlBody = encodeXmlBody(http.xmlRoot, inputAst, json.input);
+        fields = withoutXmlBodyMembers(inputAst, json.input);
       }
     }
 
-    const authorization = token !== undefined ? `Bearer ${Redacted.value(token)}` : undefined;
+    let authorization: string | undefined;
+    if (token !== undefined) {
+      authorization =
+        http?.authScheme === "cosmos-aad"
+          ? encodeURIComponent(`type=aad&ver=1.0&sig=${Redacted.value(token)}`)
+          : `Bearer ${Redacted.value(token)}`;
+    }
 
     const headers: Record<string, string> = {
       ...(authorization !== undefined ? { Authorization: authorization } : {}),
@@ -577,6 +587,61 @@ const buildHost = (http: HttpTrait, input: unknown): string | InvalidInput => {
   return url.replace(/\/+$/, "");
 };
 
+/** `T.JsonHeader(name)` members of a schema, read once per schema. */
+const jsonHeaderPlans = /*@__PURE__*/ new WeakMap<
+  AST.AST,
+  ReadonlyArray<{ readonly key: string; readonly header: string; readonly type: AST.AST }>
+>();
+const jsonHeaderMembers = (ast: AST.AST) => {
+  let members = jsonHeaderPlans.get(ast);
+  if (members !== undefined) return members;
+  members = getProps(resolveNode(ast)).flatMap((prop) => {
+    const header = getPropAnn(prop, jsonHeaderSymbol);
+    return typeof header === "string" ? [{ key: String(prop.name), header, type: prop.type }] : [];
+  });
+  jsonHeaderPlans.set(ast, members);
+  return members;
+};
+
+/**
+ * Split the input's JSON-encoded header members off into headers
+ * (`brokerProperties: { label: "M1" }` -> `BrokerProperties: {"Label":"M1"}`);
+ * returns the input without them.
+ */
+const takeJsonHeaders = (
+  inputAst: AST.AST,
+  input: Record<string, unknown>,
+): { readonly input: Record<string, unknown>; readonly headers: Record<string, string> } => {
+  const members = jsonHeaderMembers(inputAst);
+  if (members.length === 0) return { input, headers: {} };
+  const rest = { ...input };
+  const headers: Record<string, string> = {};
+  for (const m of members) {
+    const value = rest[m.key];
+    delete rest[m.key];
+    if (value !== undefined) headers[m.header] = JSON.stringify(mapKeys(m.type, value, "encode"));
+  }
+  return { input: rest, headers };
+};
+
+/** The output's JSON-encoded header members, parsed and mapped to their TS names. */
+const readJsonHeaders = (
+  outputAst: AST.AST,
+  headers: Record<string, string | undefined>,
+): Effect.Effect<Record<string, unknown>, AzureParseError> =>
+  Effect.try({
+    try: () => {
+      const out: Record<string, unknown> = {};
+      for (const m of jsonHeaderMembers(outputAst)) {
+        const raw = headers[m.header.toLowerCase()];
+        if (raw === undefined || raw.trim() === "") continue;
+        out[m.key] = mapKeys(m.type, JSON.parse(raw), "decode");
+      }
+      return out;
+    },
+    catch: (cause) => new AzureParseError({ body: undefined, cause }),
+  });
+
 /** The input without the members that only fill the host template. */
 const withoutHostMembers = (template: string, input: unknown): unknown => {
   if (input === null || typeof input !== "object") return input;
@@ -602,16 +667,19 @@ const decode = ({
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
-    // A raw-bytes body (Storage download): the body is the bytes, the rest
-    // are headers. A 204 has no body at all.
+    // A raw-bytes body (Storage download, Service Bus message): the body is
+    // the bytes, the rest are headers. A 204 (no message within the
+    // receive timeout) has no body at all.
     const bytesMember = status < 400 ? binaryBodyMember(outputAst) : undefined;
     if (bytesMember !== undefined) {
       const buffer = yield* response.arrayBuffer.pipe(Effect.catch(fail));
+      const decodedHeaders = yield* readJsonHeaders(outputAst, headers).pipe(Effect.catch(fail));
       return yield* validateSuccess(
         outputAst,
         {
           value: {
             ...readStorageHeaders(outputAst, headers),
+            ...decodedHeaders,
             ...(status === 204 ? {} : { [bytesMember]: new Uint8Array(buffer) }),
           },
           body: undefined,
@@ -669,11 +737,13 @@ const decode = ({
     } else {
       body = mapKeys(outputAst, body, "decode");
     }
+    const decodedHeaders = yield* readJsonHeaders(outputAst, headers).pipe(Effect.catch(fail));
     const withHeaders =
       body !== null && typeof body === "object" && !Array.isArray(body)
         ? {
             ...(body as Record<string, unknown>),
             ...readStorageHeaders(outputAst, headers),
+            ...decodedHeaders,
           }
         : body;
     return yield* validateSuccess(

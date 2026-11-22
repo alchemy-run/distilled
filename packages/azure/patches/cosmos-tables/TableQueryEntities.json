@@ -1,0 +1,39 @@
+{
+  "description": "Attach the observed Table service errors to TableQueryEntities. Expose the x-ms-continuation-NextPartitionKey/NextRowKey response headers the spec documents but the converted model drops, so callers can page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableQueryEntities/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableEntityQueryResponse/members/xMsContinuationNextPartitionKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-continuation-NextPartitionKey",
+          "smithy.api#documentation": "Continuation token: pass it as `NextPartitionKey` to read the next page. Absent on the last page."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableEntityQueryResponse/members/xMsContinuationNextRowKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-continuation-NextRowKey",
+          "smithy.api#documentation": "Continuation token: pass it as `NextRowKey` to read the next page."
+        }
+      }
+    }
+  ]
+}
