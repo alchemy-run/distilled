@@ -34,9 +34,9 @@ import {
   DEFAULT_DOMAIN,
   ENVD_PORT,
   envdBaseUrlFor,
-  SandboxConnection,
+  resolveSandboxConnection,
+  type SandboxConnection,
   VolumeConnection,
-  type SandboxConnectionConfig,
   type VolumeConnectionConfig,
 } from "./credentials.ts";
 import { E2BParseError, UnknownE2BError, type E2BServiceError } from "./errors.ts";
@@ -84,21 +84,9 @@ export const E2BProtocol = /*@__PURE__*/ restProtocol({
   parseError,
 });
 
-const missingSandbox = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
-  }),
-);
-
-// The sandbox is read as an option, so the protocol's type requires nothing.
-const resolveSandbox: Effect.Effect<SandboxConnectionConfig, ConfigError> =
-  /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-    option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-  );
-
 export const EnvdProtocol = /*@__PURE__*/ restProtocol({
-  credentials: resolveSandbox,
+  // The sandbox is read as an option, so the protocol's type requires nothing.
+  credentials: resolveSandboxConnection,
   baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
   headers: (sandbox) => {
     const headers: Record<string, string> = {

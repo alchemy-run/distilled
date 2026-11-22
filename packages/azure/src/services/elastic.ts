@@ -198,6 +198,7 @@ export interface CreateMonitorRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
   /** Resource tags. */
   tags?: CreateMonitorRequestTagsMap | undefined;
@@ -1137,7 +1138,9 @@ export interface OpenAICreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
+  /** OpenAI Integration name */
   integrationName: string;
   /** Open AI Integration details. */
   properties?: OpenAIIntegrationPropertiesInput | undefined;
@@ -1203,7 +1206,9 @@ export interface TagRulesCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
+  /** Tag Rule Set resource name */
   ruleSetName: string;
   /** Properties of the monitoring tag rules. */
   properties?: MonitoringTagRulesProperties | undefined;
@@ -1243,6 +1248,7 @@ export interface UpdateMonitorRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
   /** elastic monitor resource tags. */
   tags?: UpdateMonitorRequestTagsMap | undefined;
@@ -1278,7 +1284,9 @@ export interface UpdateMonitoredSubscriptionRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
+  /** The configuration name. Only 'default' value is supported. */
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
   properties?: SubscriptionList | undefined;
@@ -1304,7 +1312,9 @@ export interface UpdateMonitoredSubscriptionsCreateorRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** Monitor resource name */
   monitorName: string;
+  /** The configuration name. Only 'default' value is supported. */
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
   properties?: SubscriptionList | undefined;
